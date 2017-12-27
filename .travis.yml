@@ -1,3 +1,4 @@
+sudo: required
 script:
 - curl https://raw.githubusercontent.com/kubernetes/helm/master/scripts/get | bash -
 before_deploy:
