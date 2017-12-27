@@ -1,0 +1,49 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: {{ template "daemon-name" . }}
+data:
+  init.sh: |
+    #!/usr/bin/env bash
+    set -e
+    ulimit -S -H -l unlimited
+    ulimit -a -S
+    ulimit -a -H
+    echo 3000 > /proc/sys/vm/nr_hugepages
+
+  default.json: |
+    {
+      "num_workers": {{ default 1 .Values.V3IOD.Config.NumOfWorkers }},
+      "max_channel_inactivity_period_seconds": {{ .Values.V3IOD.Config.MaxChannelInactivitySeconds }},
+      "max_inflight_requests": {{ .Values.V3IOD.Config.MaxInFlightRequests }},
+      "cdi": {
+        "listen_addr": "0.0.0.0:{{ default 1967 .Values.V3IOD.Resources.UDPPort }}"
+      },
+      "job_block_allocator": {
+        "mode": "per-worker",
+        "heaps": [
+{{ .Values.V3IOD.Config.Heaps | indent 10 }}
+{{- if .Values.V3IOD.Config.BoostSizeInBytes -}}
+          ,{
+            "kind": "boost",
+            "size_bytes": {{ printf "%.0f" .Values.V3IOD.Config.BoostSizeInBytes }}
+          }
+{{- end }}
+        ]
+      },
+      "logger": {
+        "mode": "direct",
+        "severity": "{{ .Values.Logger.Severity }}",
+        "path": "/var/log/iguazio"
+      },
+      "paths": {
+        "fifo": "/tmp/dayman",
+        "uds": "/tmp/dayman",
+        "pidfile": "/tmp/dayman.pid"
+      },
+      "cluster": {
+        "uri": "tcp://{{ .Values.Node.IP }}:{{ default 1234 .Values.Node.Port }}"
+      }
+    }
+
+---

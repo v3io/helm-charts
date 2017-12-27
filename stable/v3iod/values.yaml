@@ -1,0 +1,47 @@
+
+Logger:
+  Severity: "info"
+
+V3IOD:
+  Name: daemon
+  Image: iguaziodocker/v3io_dayman
+  Version: b2610_20171127104604
+  PullPolicy: Always
+  Resources:
+    Memory: "4Gi"
+    UDPPort: 1967
+  Config:
+    NumOfWorkers: 1
+    MaxInFlightRequests: 1024
+    MaxChannelInactivitySeconds: 180
+    BoostSizeInBytes: 10000000
+    Heaps: |
+      {
+        "kind": "mempool",
+        "block_size_bytes": 4096,
+        "num_blocks": 10000
+      },
+      {
+        "kind": "mempool",
+        "block_size_bytes": 9296,
+        "num_blocks": 10000
+      },
+      {
+        "kind": "mempool",
+        "block_size_bytes": 16384,
+        "num_blocks": 10000
+      },
+      {
+        "kind": "mempool",
+        "block_size_bytes": 1228800,
+        "num_blocks": 500
+      },
+      {
+        "kind": "mempool",
+        "block_size_bytes": 2228800,
+        "num_blocks": 200
+      }
+
+Node:
+  IP: "localhost"
+  Port: 1234
