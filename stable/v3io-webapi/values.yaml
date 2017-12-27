@@ -1,0 +1,21 @@
+
+Logger:
+  Severity: "info"
+  EnableAccessLog: false
+
+V3IO:
+  WebApi:
+    Name: webapi
+    Image: iguaziodocker/webapi
+    Version: b2610_20171127104604
+    PullPolicy: Always
+  Resources:
+    Memory: "4Gi"
+    HostPort: 8081
+    SSLHostPort: 8443
+
+Node:
+  IP: "localhost"
+  Port: 1234
+  Username: "iguazio"
+  Password: "iguazio"
