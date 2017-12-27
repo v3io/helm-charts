@@ -1,0 +1,117 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: {{ template "webapi-name" . }}
+data:
+  init.sh: |
+    #!/usr/bin/env bash
+    set -e
+    ulimit -S -H -l unlimited
+    ulimit -a -S
+    ulimit -a -H
+    echo 3000 > /proc/sys/vm/nr_hugepages
+    mkdir -p /home/iguazio/igz/clients/nginx/lib/logs
+
+  nginx.conf: |
+    worker_processes auto;
+    load_module ngx_http_v3io_module.so;
+    error_log /home/iguazio/igz/clients/nginx/lib/logs/error.log info;
+    events {
+        use epoll;
+        worker_connections  1024;
+        multi_accept on;
+    }
+    http {
+        include       /home/iguazio/igz/clients/nginx/conf/mime.types;
+        default_type  application/octet-stream;
+        sendfile            on;
+        tcp_nopush          on;
+        tcp_nodelay         on;
+        keepalive_timeout   65;
+        server {
+            listen       {{ default 8443 .Values.V3IO.Resources.SSLHostPort }} ssl;
+            ssl    on;
+            ssl_certificate        /home/iguazio/igz/clients/nginx/crt/iguazio-nginx.crt;
+            ssl_certificate_key    /home/iguazio/igz/clients/nginx/crt/iguazio-nginx.key;
+            client_body_buffer_size   10M;
+            client_max_body_size      5G;
+{{- if .Values.Logger.EnableAccessLog -}}
+      access_log on;
+{{- else -}}
+      access_log off;
+{{- end -}}  
+      location / {
+                set $cors "1";
+                if ($request_method = 'OPTIONS') {
+                    set $cors "${cors}o";
+                }
+                if ($cors = "1") {
+                    add_header    'Access-Control-Allow-Origin' '$http_origin';
+                    add_header    'Access-Control-Allow-Credentials' 'true';
+                    root            /root/ctnr;
+                    set $v3io_key   "$uri?$args";
+                    v3io_pass       tcp://{{ .Values.Node.IP }}:{{ default 1234 .Values.Node.Port }}; #bridge url
+                    v3io_md5_mode   disable;
+{{- if and .Values.Node.Username .Values.Node.Password }}
+                    v3io_user_name       {{ .Values.Node.Username }};
+                    v3io_password        {{ .Values.Node.Password }};
+{{- end }}
+                }
+                if ($cors = "1o") {
+                    add_header 'Access-Control-Allow-Origin' '$http_origin';
+                    add_header 'Access-Control-Allow-Methods' 'GET, POST, OPTIONS, PUT, DELETE';
+                    add_header 'Access-Control-Allow-Credentials' 'true';
+                    add_header 'Access-Control-Allow-Headers' 'Origin,Content-Type,Content-Disposition,Accept,Cache-Control,X-v3io-function,X-v3io-session-key,Access-Control-Allow-Origin';
+                    add_header 'Content-Length' '0';
+                    add_header 'Content-Type' 'text/plain';
+                    return 204;
+                }
+          }
+        }
+        server {
+            listen       {{ default 8081 .Values.V3IO.Resources.HostPort }};
+            server_name  localhost;
+            client_body_buffer_size   10M;
+            client_max_body_size      5G;
+{{- if .Values.Logger.EnableAccessLog -}}
+      access_log on;
+{{- else -}}
+      access_log off;
+{{- end -}}  
+      location / {
+                set $cors "1";
+                # OPTIONS indicates a CORS pre-flight request
+                if ($request_method = 'OPTIONS') {
+                    set $cors "${cors}o";
+                }
+                # Append CORS headers to any request from
+                # allowed CORS domain, except OPTIONS
+                if ($cors = "1") {
+                    add_header    'Access-Control-Allow-Origin' '$http_origin';
+                    add_header    'Access-Control-Allow-Credentials' 'true';
+                    root            /root/ctnr;
+                    set $v3io_key   "$uri?$args";
+                    v3io_pass       tcp://{{ .Values.Node.IP }}:{{ default 1234 .Values.Node.Port }}; #bridge url
+                    v3io_md5_mode   disable;
+{{- if and .Values.Node.Username .Values.Node.Password }}
+                    v3io_user_name       {{ .Values.Node.Username }};
+                    v3io_password        {{ .Values.Node.Password }};
+{{- end }}
+                }
+                # OPTIONS (pre-flight) request from allowed
+                # CORS domain. return response directly
+                if ($cors = "1o") {
+                    add_header 'Access-Control-Allow-Origin' '$http_origin';
+                    add_header 'Access-Control-Allow-Methods' 'GET, POST, OPTIONS, PUT, DELETE';
+                    add_header 'Access-Control-Allow-Credentials' 'true';
+                    add_header 'Access-Control-Allow-Headers' 'Origin,Content-Type,Content-Disposition,Accept,Cache-Control,X-v3io-function,X-v3io-session-key,Access-Control-Allow-Origin';
+                    add_header 'Content-Length' '0';
+                    add_header 'Content-Type' 'text/plain';
+                    return 204;
+                }
+            }
+        }
+    }
+
+
+---
