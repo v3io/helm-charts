@@ -1,0 +1,17 @@
+apiVersion: rbac.authorization.k8s.io/v1beta1
+kind: RoleBinding
+metadata:
+  labels:
+    app: {{ template "cache-name" . }}
+    chart: {{ .Chart.Name }}-{{ .Chart.Version }}
+    heritage: {{ .Release.Service }}
+    release: {{ .Release.Name }}
+  name: {{ template "cache-name" . }}
+roleRef:
+  apiGroup: rbac.authorization.k8s.io
+  kind: Role
+  name: {{ template "cache-name" . }}
+subjects:
+  - kind: ServiceAccount
+    name: {{ template "cache-name" . }}
+    namespace: {{ .Release.Namespace }}
