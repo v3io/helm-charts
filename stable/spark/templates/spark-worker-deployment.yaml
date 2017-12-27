@@ -1,0 +1,70 @@
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+  name: {{ template "worker-fullname" . }}
+  labels:
+    heritage: {{.Release.Service | quote }}
+    release: {{.Release.Name | quote }}
+    chart: "{{.Chart.Name}}-{{.Chart.Version}}"
+    component: "{{.Release.Name}}-{{.Values.Worker.Component}}"
+spec:
+  replicas: {{default 1 .Values.Worker.Replicas}}
+  strategy:
+    type: RollingUpdate
+  selector:
+    matchLabels:
+      component: "{{.Release.Name}}-{{.Values.Worker.Component}}"
+  template:
+    metadata:
+      labels:
+        heritage: {{.Release.Service | quote }}
+        release: {{.Release.Name | quote }}
+        chart: "{{.Chart.Name}}-{{.Chart.Version}}"
+        component: "{{.Release.Name}}-{{.Values.Worker.Component}}"
+    spec:
+      containers:
+        - name: {{ template "worker-fullname" . }}
+          image: "{{.Values.Worker.Image}}:{{.Values.Worker.ImageTag}}"
+          imagePullPolicy: {{ default "Always" .Values.Master.ImagePullPolicy }}
+          volumeMounts:
+            - mountPath: "/dev/shm"
+              name: "shm"
+            - mountPath: /tmp/dayman
+              name: daemon-comm
+            - mountPath: /etc/config
+              name: config-volume
+          command: ["/bin/bash"]
+          args:
+            - -x
+            - /spark-worker
+            - --config=/etc/config
+            - --master-hostname={{ template "master-fullname" . }}
+            - --master-port={{.Values.Master.ServicePort}}
+            - --webui-port={{.Values.Worker.ContainerPort}}
+            - --run-as-user={{.Values.Worker.RunAsUser}}
+            - "--host-ip=$(curl --silent {{ template "spark.registry" . }}/$CURRENT_NODE_IP)"
+          ports:
+            - containerPort: {{.Values.Worker.ContainerPort}}
+          resources:
+            requests:
+              cpu: "{{.Values.Worker.Cpu}}"
+              memory: "{{.Values.Worker.Memory}}"
+          env:
+          - name: SPARK_WORKER_MEMORY
+            value: {{ default "1g" .Values.Worker.ExecutorMemory | quote }}
+          - name: IGZ_DATA_CONFIG_FILE
+            value: /tmp/v3io.conf
+          - name: CURRENT_NODE_IP
+            valueFrom:
+              fieldRef:
+                fieldPath: status.hostIP
+      volumes:
+        - name: "shm"
+          hostPath:
+            path: "/dev/shm"
+        - name: daemon-comm
+          hostPath:
+            path: /tmp/dayman
+        - name: config-volume
+          configMap:
+            name: "{{ .Release.Name }}-spark"

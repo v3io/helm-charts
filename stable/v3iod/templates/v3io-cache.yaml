@@ -1,0 +1,41 @@
+kind: Deployment
+apiVersion: extensions/v1beta1
+metadata:
+  name: {{ template "cache-name" . }}
+spec:
+  template:
+    metadata:
+      labels:
+        app: v3io
+        usage: {{ template "cache-name" . }}
+    spec:
+      serviceAccountName: {{ template "cache-name" . }}
+      containers:
+        - name: rest-cache
+          image: iguaziodocker/simple-registry-watch
+          imagePullPolicy: Always
+          command: ["/bin/bash", "-c"]
+          args:
+            - "registryctl --namespace=$CURRENT_NAMESPACE"
+          ports:
+            - containerPort: 8080
+          resources:
+            requests:
+              memory: "100Mi"
+          env:
+            - name: CURRENT_NAMESPACE
+              valueFrom:
+                fieldRef:
+                  fieldPath: metadata.namespace
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: {{ template "cache-name" . }}
+spec:
+  ports:
+    - port: 8080
+      targetPort: 8080
+  selector:
+    app: v3io
+    usage: {{ template "cache-name" . }}
