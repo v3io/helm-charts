@@ -10,6 +10,7 @@ grafana:
   server:
     adminUser: "iguazio"
     adminPassword: "nothing"
+    image: "grafana/grafana:4.6.2"
     persistentVolume:
       enabled: false
     service:
@@ -18,9 +19,10 @@ grafana:
       enabled: true
       image: appropriate/curl:latest
       datasource:
-        name: prometheus
-        url: "http://{{ .Release.Name }}-prometheus-server"
+        name: Prometheus
+        url: "http://igz-prometheus-server"
         type: prometheus
+        access: proxy
         isDefault: true
       restartPolicy: OnFailure
 
