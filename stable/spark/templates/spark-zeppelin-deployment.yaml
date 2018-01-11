@@ -44,14 +44,9 @@ spec:
         - name: {{ template "zeppelin-fullname" . }}
           image: "{{ .Values.Zeppelin.Image }}:{{ .Values.Zeppelin.ImageTag }}"
           imagePullPolicy: {{ default "Always" .Values.Master.ImagePullPolicy }}
-          command: ["/bin/bash"]
+          command: ["/bin/bash", "-x"]
           args:
-            - -x
-            - /docker-zeppelin.sh
-            - --config=/etc/config
-            - --master-hostname={{ template "master-fullname" . }}
-            - --master-port={{.Values.Master.ServicePort}}
-            - "--host-ip=$(curl --silent {{ template "spark.registry" . }}/$CURRENT_NODE_IP)"
+            - /etc/run/init.sh
           ports:
             - containerPort: {{ .Values.Zeppelin.ContainerPort }}
           resources:
@@ -69,17 +64,55 @@ spec:
           volumeMounts:
             - mountPath: /etc/config
               name: config-volume
+            - mountPath: /etc/run
+              name: init-volume
             - mountPath: "/dev/shm"
               name: "shm"
             - mountPath: /tmp/dayman
               name: daemon-comm
+{{- if .Values.Zeppelin.PreloadNotebooks.Enabled }}
+            - mountPath: /tmp/notebooks
+              name: notebook-volume
+{{- end }}        
       volumes:
           - name: config-volume
             configMap:
               name: "{{ .Release.Name }}-spark"
+          - name: init-volume
+            configMap:
+              name: {{ template "zeppelin-fullname" . }}
           - name: "shm"
             hostPath:
               path: "/dev/shm"
           - name: daemon-comm
             hostPath:
               path: /tmp/dayman
+{{- if .Values.Zeppelin.PreloadNotebooks.Enabled }}
+          - name: notebook-volume
+            configMap:
+              name: {{ template "zeppelin-fullname" . }}-notebooks
+{{- end }}              
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: "{{ template "zeppelin-fullname" . }}"
+  labels:
+    heritage: {{.Release.Service | quote }}
+    release: {{.Release.Name | quote }}
+    chart: "{{.Chart.Name}}-{{.Chart.Version}}"
+    component: "{{ .Release.Name }}-{{ .Values.Zeppelin.Component }}"
+data:
+  init.sh : |
+    #!/bin/bash
+{{- if .Values.Zeppelin.PreloadNotebooks.Enabled }}
+    for notebook in $(ls /tmp/notebooks); do 
+      mkdir -p ${ZEPPELIN_HOME}/notebook/$notebook; 
+      cp /tmp/notebooks/$notebook ${ZEPPELIN_HOME}/notebook/$notebook/note.json; 
+    done
+{{- end }}
+    /docker-zeppelin.sh --config=/etc/config \
+            --master-hostname={{ template "master-fullname" . }} \
+            --master-port={{.Values.Master.ServicePort}} \
+            --host-ip=$(curl --silent {{ template "spark.registry" . }}/$CURRENT_NODE_IP)
+    
