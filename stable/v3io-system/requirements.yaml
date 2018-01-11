@@ -3,21 +3,13 @@ dependencies:
   version: "4.6.13"
   repository: https://kubernetes-charts.storage.googleapis.com/
 - name: grafana
-<<<<<<< HEAD
   version: "0.5.4"
-=======
-  version: "0.5.0"
->>>>>>> 3060be13e40f1cefdf4d9e414bfe50ae024d11b9
   repository: https://kubernetes-charts.storage.googleapis.com/
 - name: spark
   version: "0.2.3"
   repository: https://v3io.github.io/helm-charts/stable
 - name: nuclio
-<<<<<<< HEAD
   version: "0.1.4"
-=======
-  version: "0.1.1"
->>>>>>> 3060be13e40f1cefdf4d9e414bfe50ae024d11b9
   repository: https://nuclio.github.io/nuclio/charts
 - name: v3iod
   version: "0.2"
