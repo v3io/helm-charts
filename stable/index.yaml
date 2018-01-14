@@ -17,7 +17,7 @@ entries:
     - https://github.com/kubernetes/kubernetes/tree/master/examples/spark
     - https://github.com/apache/spark
     urls:
-    - https://v3io.github.io/helm-charts/spark-0.2.4.tgz
+    - https://v3io.github.io/helm-charts/stable/spark-0.2.4.tgz
     version: 0.2.4
   - appVersion: 2.1.2
     created: 2018-01-11T21:55:50.627725+02:00
@@ -35,7 +35,7 @@ entries:
     - https://github.com/kubernetes/kubernetes/tree/master/examples/spark
     - https://github.com/apache/spark
     urls:
-    - https://v3io.github.io/helm-charts/spark-0.2.3.tgz
+    - https://v3io.github.io/helm-charts/stable/spark-0.2.3.tgz
     version: 0.2.3
   v3io-system:
   - created: 2018-01-11T21:55:50.631644+02:00
@@ -52,7 +52,7 @@ entries:
     - https://github.com/iguazio
     - https://github.com/nuclio
     urls:
-    - https://v3io.github.io/helm-charts/v3io-system-0.1.tgz
+    - https://v3io.github.io/helm-charts/stable/v3io-system-0.1.tgz
     version: "0.1"
   v3io-webapi:
   - created: 2018-01-11T21:55:50.632047+02:00
@@ -67,7 +67,7 @@ entries:
     sources:
     - https://github.com/iguazio/zeek/
     urls:
-    - https://v3io.github.io/helm-charts/v3io-webapi-0.1.tgz
+    - https://v3io.github.io/helm-charts/stable/v3io-webapi-0.1.tgz
     version: "0.1"
   v3iod:
   - created: 2018-01-11T21:55:50.63241+02:00
@@ -82,6 +82,6 @@ entries:
     sources:
     - https://github.com/v3io/v3iod
     urls:
-    - https://v3io.github.io/helm-charts/v3iod-0.2.tgz
+    - https://v3io.github.io/helm-charts/stable/v3iod-0.2.tgz
     version: "0.2"
 generated: 2018-01-11T21:55:50.627064+02:00
