@@ -1,14 +1,17 @@
 dependencies:
 - name: prometheus
   version: "4.6.13"
+  condition: prometheus.enabled
   repository: https://kubernetes-charts.storage.googleapis.com/
 - name: grafana
   version: "0.5.4"
+  condition: grafana.enabled
   repository: https://kubernetes-charts.storage.googleapis.com/
 - name: spark
   version: "0.2.3"
   repository: https://v3io.github.io/helm-charts/stable
 - name: nuclio
+  condition: nuclio.enabled
   version: "0.1.4"
   repository: https://nuclio.github.io/nuclio/charts
 - name: v3iod
