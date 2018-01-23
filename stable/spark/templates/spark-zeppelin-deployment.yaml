@@ -52,6 +52,16 @@ spec:
           resources:
             requests:
               cpu: "{{ .Values.Zeppelin.Cpu }}"
+          readinessProbe:
+            httpGet:
+              path: /
+              port: {{ .Values.Zeppelin.ContainerPort }}
+            initialDelaySeconds: 5
+          livenessProbe:
+            httpGet:
+              path: /
+              port: {{ .Values.Zeppelin.ContainerPort }}
+            initialDelaySeconds: 90
           env:
             - name: MASTER
               value: "spark://{{ template "master-fullname" . }}:{{ .Values.Master.ServicePort }}"

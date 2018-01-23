@@ -1,5 +1,5 @@
 HELM=helm
-HELM_REPO_ROOT=https://v3io.github.io/helm-charts/
+HELM_REPO_ROOT=https://v3io.github.io/helm-charts
 WORKDIR=stable
 
 cd-stable:
