@@ -2,6 +2,7 @@ apiVersion: v1
 entries:
   spark:
   - appVersion: 2.1.2
+<<<<<<< HEAD
     created: 2018-01-11T21:55:50.628202+02:00
     description: Fast and general-purpose cluster computing system.
     digest: a654aa93060f60336067c34a9f746ddfbfc95f539a0af8c2b2eab7759dad782e
@@ -21,6 +22,9 @@ entries:
     version: 0.2.4
   - appVersion: 2.1.2
     created: 2018-01-11T21:55:50.627725+02:00
+=======
+    created: 2017-12-27T16:15:07.86081+02:00
+>>>>>>> upstream/development
     description: Fast and general-purpose cluster computing system.
     digest: 847ebfbc17d9fa9d63b5eb274187bf52e3a836148af4b3e242a1f197a24ac050
     home: http://spark.apache.org
@@ -38,7 +42,11 @@ entries:
     - https://v3io.github.io/helm-charts/stable/spark-0.2.3.tgz
     version: 0.2.3
   v3io-system:
+<<<<<<< HEAD
   - created: 2018-01-11T21:55:50.631644+02:00
+=======
+  - created: 2017-12-27T16:15:07.863328+02:00
+>>>>>>> upstream/development
     description: V3IO Complete System
     digest: 006bbc9e0680f1739a57eef035d9d53c869f8c9059026e8c8e32bd632808a3d9
     home: https://iguazio.com
@@ -55,7 +63,11 @@ entries:
     - https://v3io.github.io/helm-charts/stable/v3io-system-0.1.tgz
     version: "0.1"
   v3io-webapi:
+<<<<<<< HEAD
   - created: 2018-01-11T21:55:50.632047+02:00
+=======
+  - created: 2017-12-27T16:15:07.86364+02:00
+>>>>>>> upstream/development
     description: V3IO WebAPI
     digest: 10456be6b1c0888c33260ac144826d0caab7ad20809ea05afccdc0c42358b79a
     home: https://iguazio.com
@@ -70,7 +82,11 @@ entries:
     - https://v3io.github.io/helm-charts/stable/v3io-webapi-0.1.tgz
     version: "0.1"
   v3iod:
+<<<<<<< HEAD
   - created: 2018-01-11T21:55:50.63241+02:00
+=======
+  - created: 2017-12-27T16:15:07.863969+02:00
+>>>>>>> upstream/development
     description: V3IO Daemon
     digest: e291f0ac3ac9f18633220b1d605593fbe9e3dc5e1ae1b394d2a055abd0f22d1e
     home: https://iguazio.com
@@ -84,4 +100,8 @@ entries:
     urls:
     - https://v3io.github.io/helm-charts/stable/v3iod-0.2.tgz
     version: "0.2"
+<<<<<<< HEAD
 generated: 2018-01-11T21:55:50.627064+02:00
+=======
+generated: 2017-12-27T16:15:07.860193+02:00
+>>>>>>> upstream/development

@@ -52,6 +52,19 @@ spec:
           resources:
             requests:
               cpu: "{{ .Values.Zeppelin.Cpu }}"
+<<<<<<< HEAD
+=======
+          readinessProbe:
+            httpGet:
+              path: /
+              port: {{ .Values.Zeppelin.ContainerPort }}
+            initialDelaySeconds: 5
+          livenessProbe:
+            httpGet:
+              path: /
+              port: {{ .Values.Zeppelin.ContainerPort }}
+            initialDelaySeconds: 90
+>>>>>>> upstream/development
           env:
             - name: MASTER
               value: "spark://{{ template "master-fullname" . }}:{{ .Values.Master.ServicePort }}"
@@ -115,4 +128,8 @@ data:
             --master-hostname={{ template "master-fullname" . }} \
             --master-port={{.Values.Master.ServicePort}} \
             --host-ip=$(curl --silent {{ template "spark.registry" . }}/$CURRENT_NODE_IP)
+<<<<<<< HEAD
     
+=======
+    
+>>>>>>> upstream/development
