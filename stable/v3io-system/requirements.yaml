@@ -8,7 +8,8 @@ dependencies:
   condition: grafana.enabled
   repository: https://kubernetes-charts.storage.googleapis.com/
 - name: spark
-  version: "0.2.3"
+  condition: spark.enabled
+  version: "0.2.5"
   repository: https://v3io.github.io/helm-charts/stable
 - name: nuclio
   condition: nuclio.enabled
