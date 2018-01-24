@@ -125,4 +125,8 @@ data:
             --master-hostname={{ template "master-fullname" . }} \
             --master-port={{.Values.Master.ServicePort}} \
             --host-ip=$(curl --silent {{ template "spark.registry" . }}/$CURRENT_NODE_IP)
+<<<<<<< HEAD
     
+=======
+    
+>>>>>>> upstream/development

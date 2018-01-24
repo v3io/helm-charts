@@ -1,5 +1,9 @@
 HELM=helm
+<<<<<<< HEAD
 HELM_REPO_ROOT=https://v3io.github.io/helm-charts
+=======
+HELM_REPO_ROOT=https://v3io.github.io/helm-charts/
+>>>>>>> upstream/development
 WORKDIR=stable
 
 cd-stable:

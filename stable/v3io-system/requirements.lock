@@ -7,7 +7,11 @@ dependencies:
   version: 0.5.4
 - name: spark
   repository: https://v3io.github.io/helm-charts/stable
+<<<<<<< HEAD
   version: 0.2.3
+=======
+  version: 0.2.5
+>>>>>>> upstream/development
 - name: nuclio
   repository: https://nuclio.github.io/nuclio/charts
   version: 0.1.4
@@ -17,5 +21,10 @@ dependencies:
 - name: v3io-webapi
   repository: https://v3io.github.io/helm-charts/stable
   version: "0.1"
+<<<<<<< HEAD
 digest: sha256:91afe1a400d17000f5da715bd6ec4ad759023f04867aa60f985d4e48e7a10ad5
 generated: 2018-01-17T16:40:55.878804+02:00
+=======
+digest: sha256:8b72f456990804d16bb75f62415c4a974c1cc5f752895244ea72efe3c030a515
+generated: 2018-01-24T16:58:49.076098+02:00
+>>>>>>> upstream/development
