@@ -1,21 +1,6 @@
 dependencies:
-- name: prometheus
-  repository: https://kubernetes-charts.storage.googleapis.com/
-  version: 4.6.13
-- name: grafana
-  repository: https://kubernetes-charts.storage.googleapis.com/
-  version: 0.5.4
 - name: spark
   repository: https://v3io.github.io/helm-charts/stable
   version: 0.2.5
-- name: nuclio
-  repository: https://nuclio.github.io/nuclio/charts
-  version: 0.1.4
-- name: v3iod
-  repository: https://v3io.github.io/helm-charts/stable
-  version: "0.2"
-- name: v3io-webapi
-  repository: https://v3io.github.io/helm-charts/stable
-  version: "0.1"
-digest: sha256:8b72f456990804d16bb75f62415c4a974c1cc5f752895244ea72efe3c030a515
-generated: 2018-01-24T16:58:49.076098+02:00
+digest: sha256:109342a0351839a7d62773d78ff9250ab86d3f87f9ea185a2f8edcdd4166df54
+generated: 2018-01-30T17:09:05.898319+02:00
