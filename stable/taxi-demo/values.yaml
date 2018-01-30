@@ -1,0 +1,23 @@
+V3IO:
+  WebApiHost: localhost
+  WebApiPort: 8081
+
+Demo:
+  Image: iguaziodocker/demo
+  ImageTag: latest
+  Container: bigdata
+  Collection: taxi_example/cells
+  Refresh: 2000
+  Service:
+    NodePort: 30555
+  Center:
+    Lat: 0
+    Lng: 0
+    Zoom: 8
+  Shift:
+    Lat: 0
+    Lng: 0
+  Heatmap:
+    R: 10
+    Blur: 15
+    Max: 5.0

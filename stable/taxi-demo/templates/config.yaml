@@ -1,0 +1,38 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: {{ template "demo-fullname" . }}
+  labels:
+    heritage: {{.Release.Service | quote }}
+    release: {{.Release.Name | quote }}
+    chart: "{{.Chart.Name}}-{{.Chart.Version}}"
+data:
+  config.json: |
+    {
+      "baseUrl": "http://{{ .Values.V3IO.WebApiHost }}:{{ .Values.V3IO.WebApiPort }}/{{ .Values.Demo.Container }}",
+      "dataTable": "{{ .Values.Demo.Collection }}",
+      "map": {
+        "center": {
+          "lat": {{ .Values.Demo.Center.Lat }},
+          "lng": {{ .Values.Demo.Center.Lng }},
+          "zoom": {{ .Values.Demo.Center.Zoom }}
+        },
+        "shift": {
+          "lat": {{ .Values.Demo.Shift.Lat }},
+          "lng": {{ .Values.Demo.Shift.Lng }}
+        },
+        "heatmap": {
+          "radius": {{ .Values.Demo.Heatmap.R }},
+          "blur": {{ .Values.Demo.Heatmap.Blur }},
+          "max": {{ .Values.Demo.Heatmap.Max }}
+        }
+      },
+      "refreshDelay": {{ .Values.Demo.Refresh }}
+    }
+  
+  startup.sh: |
+    cp /etc/iguazio/demo/config/config.json /visualization/config.json
+    cd /visualization
+    forever gulp
+
+---
