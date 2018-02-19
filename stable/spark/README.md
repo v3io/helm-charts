@@ -10,9 +10,9 @@ Inspired from Helm Classic chart https://github.com/helm/charts
 ## Chart Details
 This chart will do the following:
 
-* 1 x Spark Master with port 8080 exposed on an external LoadBalancer
-* 3 x Spark Workers with HorizontalPodAutoscaler to scale to max 10 pods when CPU hits 50% of 100m
-* 1 x Zeppelin with port 8080 exposed on an external LoadBalancer
+* 1 x Spark Master with port 8080 exposed
+* 3 x Spark Workers with 
+* 1 x Zeppelin with port 8080 exposed
 * All using Kubernetes Deployments
 
 ## Prerequisites
