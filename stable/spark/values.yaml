@@ -11,7 +11,7 @@ Master:
   Replicas: 1
   Component: "spark-master"
   Cpu: "100m"
-  Memory: "9096Mi"
+  Memory: "3Gi"
   ServicePort: 7077
   ContainerPort: 7077
   RunAsUser: "iguazio"
@@ -31,7 +31,7 @@ Worker:
   Replicas: 1
   Component: "spark-worker"
   Cpu: "100m"
-  Memory: "4096Mi"
+  Memory: "4Gi"
   ContainerPort: 8081
   RunAsUser: "iguazio"
 

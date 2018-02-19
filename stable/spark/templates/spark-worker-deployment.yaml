@@ -6,21 +6,22 @@ metadata:
     heritage: {{.Release.Service | quote }}
     release: {{.Release.Name | quote }}
     chart: "{{.Chart.Name}}-{{.Chart.Version}}"
-    component: "{{.Release.Name}}-{{.Values.Worker.Component}}"
+    component: spark-worker
 spec:
   replicas: {{default 1 .Values.Worker.Replicas}}
   strategy:
     type: RollingUpdate
   selector:
     matchLabels:
-      component: "{{.Release.Name}}-{{.Values.Worker.Component}}"
+      chart: "{{.Chart.Name}}-{{.Chart.Version}}"
+      component: spark-worker
   template:
     metadata:
       labels:
         heritage: {{.Release.Service | quote }}
         release: {{.Release.Name | quote }}
         chart: "{{.Chart.Name}}-{{.Chart.Version}}"
-        component: "{{.Release.Name}}-{{.Values.Worker.Component}}"
+        component: spark-worker
     spec:
       containers:
         - name: {{ template "worker-fullname" . }}

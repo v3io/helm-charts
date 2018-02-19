@@ -6,7 +6,7 @@ metadata:
     heritage: {{ .Release.Service | quote }}
     release: {{ .Release.Name | quote }}
     chart: "{{ .Chart.Name }}-{{ .Chart.Version }}"
-    component: "{{ .Release.Name }}-{{ .Values.Zeppelin.Component }}"
+    component: zeppelin
 spec:
   type: NodePort
   ports:
@@ -14,7 +14,8 @@ spec:
       targetPort: {{ .Values.Zeppelin.ContainerPort }}
       nodePort: {{ .Values.Zeppelin.NodePort }}
   selector:
-    component: "{{ .Release.Name }}-{{ .Values.Zeppelin.Component }}"
+    release: {{ .Release.Name | quote }}
+    component: zeppelin
 ---
 apiVersion: extensions/v1beta1
 kind: Deployment
@@ -24,7 +25,7 @@ metadata:
     heritage: {{ .Release.Service | quote }}
     release: {{ .Release.Name | quote }}
     chart: "{{ .Chart.Name }}-{{ .Chart.Version }}"
-    component: "{{ .Release.Name }}-{{ .Values.Zeppelin.Component }}"
+    component: zeppelin
 spec:
   replicas: {{ default 1 .Values.Zeppelin.Replicas }}
   strategy:
@@ -111,7 +112,7 @@ metadata:
     heritage: {{.Release.Service | quote }}
     release: {{.Release.Name | quote }}
     chart: "{{.Chart.Name}}-{{.Chart.Version}}"
-    component: "{{ .Release.Name }}-{{ .Values.Zeppelin.Component }}"
+    component: zeppelin
 data:
   init.sh : |
     #!/bin/bash
