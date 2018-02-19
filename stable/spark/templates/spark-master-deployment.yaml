@@ -6,13 +6,14 @@ metadata:
     heritage: {{.Release.Service | quote }}
     release: {{.Release.Name | quote }}
     chart: "{{.Chart.Name}}-{{.Chart.Version}}"
-    component: "{{.Release.Name}}-{{.Values.Master.Component}}"
+    component: spark-master
 spec:
   ports:
     - port: {{.Values.Master.ServicePort}}
       targetPort: {{.Values.Master.ContainerPort}}
   selector:
-    component: "{{.Release.Name}}-{{.Values.Master.Component}}"
+    chart: "{{.Chart.Name}}-{{.Chart.Version}}"
+    component: spark-master
 ---
 apiVersion: v1
 kind: Service
@@ -22,14 +23,15 @@ metadata:
     heritage: {{.Release.Service | quote }}
     release: {{.Release.Name | quote }}
     chart: "{{.Chart.Name}}-{{.Chart.Version}}"
-    component: "{{.Release.Name}}-{{.Values.Master.Component}}"
+    component: spark-master
 spec:
   type: NodePort
   ports:
     - port: {{.Values.WebUi.ServicePort}}
       targetPort: {{.Values.WebUi.ContainerPort}}
   selector:
-    component: "{{.Release.Name}}-{{.Values.Master.Component}}"
+    chart: "{{.Chart.Name}}-{{.Chart.Version}}"
+    component: spark-master
 ---
 
 apiVersion: extensions/v1beta1
@@ -40,21 +42,22 @@ metadata:
     heritage: {{.Release.Service | quote }}
     release: {{.Release.Name | quote }}
     chart: "{{.Chart.Name}}-{{.Chart.Version}}"
-    component: "{{.Release.Name}}-{{.Values.Master.Component}}"
+    component: spark-master
 spec:
   replicas: {{default 1 .Values.Master.Replicas}}
   strategy:
     type: RollingUpdate
   selector:
     matchLabels:
-      component: "{{.Release.Name}}-{{.Values.Master.Component}}"
+      chart: "{{.Chart.Name}}-{{.Chart.Version}}"
+      component: spark-master
   template:
     metadata:
       labels:
         heritage: {{.Release.Service | quote }}
         release: {{.Release.Name | quote }}
         chart: "{{.Chart.Name}}-{{.Chart.Version}}"
-        component: "{{.Release.Name}}-{{.Values.Master.Component}}"
+        component: spark-master
     spec:
       containers:
         - name: {{ template "master-fullname" . }}

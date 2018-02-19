@@ -5,10 +5,10 @@ Logger:
 V3IOD:
   Name: daemon
   Image: iguaziodocker/v3io_dayman
-  Version: b2610_20171127104604
+  Version: 1.5.1_b1
   PullPolicy: Always
   Resources:
-    Memory: "4Gi"
+    Memory: "3Gi"
     UDPPort: 1967
   Config:
     NumOfWorkers: 1

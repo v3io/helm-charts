@@ -16,7 +16,6 @@ spec:
         # a failure.  This annotation works in tandem with the toleration below.
         scheduler.alpha.kubernetes.io/critical-pod: ''
     spec:
-      hostPID: true
       tolerations:
       - key: node-role.kubernetes.io/master
         effect: NoSchedule
@@ -25,6 +24,7 @@ spec:
       - key: CriticalAddonsOnly
         operator: Exists
       securityContext:
+        privileged: true
         runAsUser: 0
         fsGroup: 0
       containers:
@@ -32,9 +32,7 @@ spec:
           image: {{ .Values.V3IOD.Image }}:{{ .Values.V3IOD.Version }}
           command: ["/bin/bash","-c"]
           args:
-            - "/bin/bash -x /etc/iguazio/dayman/init.sh && /usr/local/bin/v3io_dayman --config-path /etc/iguazio/dayman/default.json"
-          securityContext:
-            privileged: true
+            - "/etc/iguazio/dayman/init.sh"
           resources:
             requests:
               memory: {{ .Values.V3IOD.Resources.Memory }}
