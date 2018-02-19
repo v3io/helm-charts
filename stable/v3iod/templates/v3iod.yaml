@@ -56,6 +56,8 @@ spec:
               name: daemon-config
             - mountPath: /var/crash
               name: core-dump
+          securityContext:
+            privileged: true
       volumes:
         - name: daemon-shm
           hostPath:
