@@ -24,7 +24,6 @@ spec:
       - key: CriticalAddonsOnly
         operator: Exists
       securityContext:
-        privileged: true
         runAsUser: 0
         fsGroup: 0
       containers:
@@ -56,6 +55,8 @@ spec:
               name: daemon-config
             - mountPath: /var/crash
               name: core-dump
+          securityContext:
+            privileged: true
       volumes:
         - name: daemon-shm
           hostPath:
