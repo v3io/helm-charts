@@ -27,15 +27,3 @@ spec:
               valueFrom:
                 fieldRef:
                   fieldPath: metadata.namespace
----
-apiVersion: v1
-kind: Service
-metadata:
-  name: {{ template "cache-name" . }}
-spec:
-  ports:
-    - port: 8080
-      targetPort: 8080
-  selector:
-    app: v3io
-    usage: {{ template "cache-name" . }}

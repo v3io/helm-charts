@@ -10,6 +10,7 @@ data:
     ulimit -a -S
     ulimit -a -H
     echo 3000 > /proc/sys/vm/nr_hugepages
+    /usr/local/bin/v3io_dayman --config-path /etc/iguazio/dayman/default.json
 
   default.json: |
     {
@@ -42,7 +43,9 @@ data:
         "pidfile": "/tmp/dayman.pid"
       },
       "cluster": {
-        "uri": "tcp://{{ .Values.Node.IP }}:{{ default 1234 .Values.Node.Port }}"
+        "uris": [
+          {"uri": "tcp://{{ .Values.Node.IP }}:{{ default 1234 .Values.Node.Port }}"}
+        ]
       }
     }
 
