@@ -5,7 +5,7 @@ metadata:
   labels:
     app: {{ template "zeppelin-fullname" . }}
     chart: "{{ .Chart.Name }}-{{ .Chart.Version }}"
-    component: "{{ .Release.Name }}-{{ .Values.Zeppelin.Component }}"
+    component: zeppelin
     heritage: "{{ .Release.Service }}"
     release: "{{ .Release.Name }}"
   name: {{ template "zeppelin-fullname" . }}-notebooks
