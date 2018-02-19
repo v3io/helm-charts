@@ -2,7 +2,7 @@ apiVersion: v1
 entries:
   spark:
   - appVersion: 2.1.2
-    created: 2018-02-19T14:29:45.967105+02:00
+    created: 2018-02-19T15:45:22.811876+02:00
     description: Fast and general-purpose cluster computing system.
     digest: 88570d4735600a8edc52c3585fa2cdc84a1f84d442b6f62018745438b543a18e
     home: http://spark.apache.org
@@ -20,7 +20,7 @@ entries:
     - https://v3io.github.io/helm-charts/stable/spark-0.2.6.tgz
     version: 0.2.6
   - appVersion: 2.1.2
-    created: 2018-02-19T14:29:45.966629+02:00
+    created: 2018-02-19T15:45:22.811386+02:00
     description: Fast and general-purpose cluster computing system.
     digest: e5e6cac642ffcf5bdec30b16177d8309f5aedee3e13092a895ae2f13efbb1436
     home: http://spark.apache.org
@@ -38,7 +38,7 @@ entries:
     - https://v3io.github.io/helm-charts/stable/spark-0.2.5.tgz
     version: 0.2.5
   - appVersion: 2.1.2
-    created: 2018-02-19T14:29:45.966216+02:00
+    created: 2018-02-19T15:45:22.810939+02:00
     description: Fast and general-purpose cluster computing system.
     digest: a654aa93060f60336067c34a9f746ddfbfc95f539a0af8c2b2eab7759dad782e
     home: http://spark.apache.org
@@ -56,7 +56,7 @@ entries:
     - https://v3io.github.io/helm-charts/stable/spark-0.2.4.tgz
     version: 0.2.4
   - appVersion: 2.1.2
-    created: 2018-02-19T14:29:45.965764+02:00
+    created: 2018-02-19T15:45:22.810545+02:00
     description: Fast and general-purpose cluster computing system.
     digest: 847ebfbc17d9fa9d63b5eb274187bf52e3a836148af4b3e242a1f197a24ac050
     home: http://spark.apache.org
@@ -74,7 +74,7 @@ entries:
     - https://v3io.github.io/helm-charts/stable/spark-0.2.3.tgz
     version: 0.2.3
   taxi-demo:
-  - created: 2018-02-19T14:29:45.967407+02:00
+  - created: 2018-02-19T15:45:22.812406+02:00
     description: V3IO Taxi Demo
     digest: b1a155cd2eb2ce544ce503ad8a3a613726224db44346989296dc7a01bb8f3785
     home: https://iguazio.com
@@ -89,7 +89,7 @@ entries:
     - https://v3io.github.io/helm-charts/stable/taxi-demo-0.1.tgz
     version: "0.1"
   v3io-app:
-  - created: 2018-02-19T14:29:45.968033+02:00
+  - created: 2018-02-19T15:45:22.813743+02:00
     description: V3IO App System
     digest: 8602c3a45312ecc3e32abc2dc635e91dd3534102701ee4378c78a09637008ef9
     home: https://iguazio.com
@@ -106,9 +106,9 @@ entries:
     - https://v3io.github.io/helm-charts/stable/v3io-app-0.1.1.tgz
     version: 0.1.1
   v3io-base-system:
-  - created: 2018-02-19T14:29:45.969825+02:00
+  - created: 2018-02-19T15:45:22.816075+02:00
     description: V3IO Base System
-    digest: e234ee8376bd96df9f3e833bd39f703d44b4a54b6413026dc81802a502441b80
+    digest: cc0d1543186ac0446c148647f0e70c9649d83bc6de8194667358c49296a3ed2b
     home: https://iguazio.com
     icon: https://www.iguazio.com/wp-content/uploads/2017/09/iguazio_logo_2017_w_c.png
     maintainers:
@@ -122,7 +122,7 @@ entries:
     urls:
     - https://v3io.github.io/helm-charts/stable/v3io-base-system-0.1.2.tgz
     version: 0.1.2
-  - created: 2018-02-19T14:29:45.968925+02:00
+  - created: 2018-02-19T15:45:22.81489+02:00
     description: V3IO Base System
     digest: 6f0c0aa406d047e9ab0470f6637b2e3353fd4cbb5cb0c40e15b023ea31f15507
     home: https://iguazio.com
@@ -139,9 +139,9 @@ entries:
     - https://v3io.github.io/helm-charts/stable/v3io-base-system-0.1.1.tgz
     version: 0.1.1
   v3io-system:
-  - created: 2018-02-19T14:29:45.976941+02:00
+  - created: 2018-02-19T15:45:22.823406+02:00
     description: V3IO Complete System
-    digest: cc78db764073d7496742fb5cbb594dbdce1ccc23306076fba19e340cddde568e
+    digest: e7b33b11e6066059f2a6be065e1d22f9a2be01b6706c8dc28ed14047ce927968
     home: https://iguazio.com
     icon: https://www.iguazio.com/wp-content/uploads/2017/09/iguazio_logo_2017_w_c.png
     maintainers:
@@ -155,7 +155,7 @@ entries:
     urls:
     - https://v3io.github.io/helm-charts/stable/v3io-system-0.1.2.tgz
     version: 0.1.2
-  - created: 2018-02-19T14:29:45.97247+02:00
+  - created: 2018-02-19T15:45:22.819045+02:00
     description: V3IO Complete System
     digest: 4b19b2d62c42d89eca8155673c4b4141589170fc566e4885f8df8f4ebe0ea6f9
     home: https://iguazio.com
@@ -171,7 +171,7 @@ entries:
     urls:
     - https://v3io.github.io/helm-charts/stable/v3io-system-0.1.1.tgz
     version: 0.1.1
-  - created: 2018-02-19T14:29:45.979265+02:00
+  - created: 2018-02-19T15:45:22.825537+02:00
     description: V3IO Complete System
     digest: 006bbc9e0680f1739a57eef035d9d53c869f8c9059026e8c8e32bd632808a3d9
     home: https://iguazio.com
@@ -188,7 +188,7 @@ entries:
     - https://v3io.github.io/helm-charts/stable/v3io-system-0.1.tgz
     version: "0.1"
   v3io-webapi:
-  - created: 2018-02-19T14:29:45.979563+02:00
+  - created: 2018-02-19T15:45:22.825844+02:00
     description: V3IO WebAPI
     digest: 10456be6b1c0888c33260ac144826d0caab7ad20809ea05afccdc0c42358b79a
     home: https://iguazio.com
@@ -204,7 +204,22 @@ entries:
     version: "0.1"
   v3iod:
   - appVersion: 1.5.1_b1
-    created: 2018-02-19T14:29:45.980278+02:00
+    created: 2018-02-19T15:45:22.826422+02:00
+    description: V3IO Daemon
+    digest: eeab686c44f76b9ebba3049ad02d513a56c9e78bcceda2dc7f7c4e3587a249ab
+    home: https://iguazio.com
+    icon: https://www.iguazio.com/wp-content/uploads/2017/09/iguazio_logo_2017_w_c.png
+    maintainers:
+    - email: eliranb@iguazio.com
+      name: bivas
+    name: v3iod
+    sources:
+    - https://github.com/v3io/v3iod
+    urls:
+    - https://v3io.github.io/helm-charts/stable/v3iod-0.3.1.tgz
+    version: 0.3.1
+  - appVersion: 1.5.1_b1
+    created: 2018-02-19T15:45:22.826729+02:00
     description: V3IO Daemon
     digest: 9dd62e67778e20f6808675020c2785b4ea5174d4309f99c0947d95a07421b4a9
     home: https://iguazio.com
@@ -218,7 +233,7 @@ entries:
     urls:
     - https://v3io.github.io/helm-charts/stable/v3iod-0.3.tgz
     version: "0.3"
-  - created: 2018-02-19T14:29:45.979923+02:00
+  - created: 2018-02-19T15:45:22.826133+02:00
     description: V3IO Daemon
     digest: e291f0ac3ac9f18633220b1d605593fbe9e3dc5e1ae1b394d2a055abd0f22d1e
     home: https://iguazio.com
@@ -232,4 +247,4 @@ entries:
     urls:
     - https://v3io.github.io/helm-charts/stable/v3iod-0.2.tgz
     version: "0.2"
-generated: 2018-02-19T14:29:45.965161+02:00
+generated: 2018-02-19T15:45:22.809948+02:00
