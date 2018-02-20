@@ -32,20 +32,21 @@ spec:
     type: RollingUpdate
   selector:
     matchLabels:
-      component: "{{ .Release.Name }}-{{ .Values.Zeppelin.Component }}"
+      chart: "{{ .Chart.Name }}-{{ .Chart.Version }}"
+      component: zeppelin
   template:
     metadata:
       labels:
         heritage: {{ .Release.Service | quote }}
         release: {{ .Release.Name | quote }}
         chart: "{{ .Chart.Name }}-{{ .Chart.Version }}"
-        component: "{{ .Release.Name }}-{{ .Values.Zeppelin.Component }}"
+        component: zeppelin
     spec:
       containers:
         - name: {{ template "zeppelin-fullname" . }}
           image: "{{ .Values.Zeppelin.Image }}:{{ .Values.Zeppelin.ImageTag }}"
           imagePullPolicy: {{ default "Always" .Values.Master.ImagePullPolicy }}
-          command: ["/bin/bash", "-x"]
+          command: ["/bin/bash"]
           args:
             - /etc/run/init.sh
           ports:
