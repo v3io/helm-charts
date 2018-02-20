@@ -24,7 +24,6 @@ spec:
       - key: CriticalAddonsOnly
         operator: Exists
       securityContext:
-        privileged: true
         runAsUser: 0
         fsGroup: 0
       containers:
