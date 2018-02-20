@@ -29,7 +29,7 @@ spec:
       containers:
         - name: v3iod
           image: {{ .Values.V3IOD.Image }}:{{ .Values.V3IOD.Version }}
-          command: ["/bin/bash","-c"]
+          command: ["/bin/bash"]
           args:
             - "/etc/iguazio/dayman/init.sh"
           resources:
