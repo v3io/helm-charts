@@ -1,0 +1,80 @@
+apiVersion: apps/v1beta2
+kind: Deployment
+metadata:
+  name: {{ template "presto.fullname" . }}
+  labels:
+    app: {{ template "presto.name" . }}
+    chart: {{ template "presto.chart" . }}
+    release: {{ .Release.Name }}
+    heritage: {{ .Release.Service }}
+spec:
+  replicas: {{ .Values.replicaCount }}
+  selector:
+    matchLabels:
+      app: {{ template "presto.name" . }}
+      release: {{ .Release.Name }}
+  template:
+    metadata:
+      labels:
+        app: {{ template "presto.name" . }}
+        release: {{ .Release.Name }}
+    spec:
+      volumes:
+        - name: "shm"
+          hostPath:
+            path: "/dev/shm"
+        - name: daemon-comm
+          hostPath:
+            path: /tmp/dayman
+        - name: config-volume
+          configMap:
+            name: {{ template "presto.fullname" . }}
+      containers:
+        - name: {{ .Chart.Name }}
+          image: "{{ .Values.image.repository }}:{{ .Values.image.tag }}"
+          imagePullPolicy: {{ .Values.image.pullPolicy }}
+          command: ["/bin/bash", "-x"]
+          args:
+            - /docker-presto.sh
+            - --config=/etc/config
+            - --host-ip=$(curl --silent {{ template "presto.v3io.registry" . }}/$CURRENT_NODE_IP)
+          env:
+          - name: IGZ_DATA_CONFIG_FILE
+            value: {{ .Values.server.config.path }}/v3io.conf
+          - name: CURRENT_NODE_IP
+            valueFrom:
+              fieldRef:
+                fieldPath: status.hostIP
+          volumeMounts:
+            - mountPath: "/dev/shm"
+              name: "shm"
+            - mountPath: /etc/config
+              name: config-volume
+            - mountPath: /tmp/dayman
+              name: daemon-comm
+          ports:
+            - name: http
+              containerPort: {{ .Values.server.config.http.port }}
+              protocol: TCP
+          livenessProbe:
+            httpGet:
+              path: /
+              port: http
+          readinessProbe:
+            httpGet:
+              path: /
+              port: http
+          resources:
+{{ toYaml .Values.resources | indent 12 }}
+    {{- with .Values.nodeSelector }}
+      nodeSelector:
+{{ toYaml . | indent 8 }}
+    {{- end }}
+    {{- with .Values.affinity }}
+      affinity:
+{{ toYaml . | indent 8 }}
+    {{- end }}
+    {{- with .Values.tolerations }}
+      tolerations:
+{{ toYaml . | indent 8 }}
+    {{- end }}
