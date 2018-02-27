@@ -1,23 +1,25 @@
 apiVersion: apps/v1beta2
 kind: Deployment
 metadata:
-  name: {{ template "presto.fullname" . }}
+  name: {{ template "presto.coordinator" . }}
   labels:
     app: {{ template "presto.name" . }}
     chart: {{ template "presto.chart" . }}
     release: {{ .Release.Name }}
     heritage: {{ .Release.Service }}
+    component: coordinator
 spec:
-  replicas: {{ .Values.replicaCount }}
   selector:
     matchLabels:
       app: {{ template "presto.name" . }}
       release: {{ .Release.Name }}
+      component: coordinator
   template:
     metadata:
       labels:
         app: {{ template "presto.name" . }}
         release: {{ .Release.Name }}
+        component: coordinator
     spec:
       volumes:
         - name: "shm"
@@ -28,9 +30,9 @@ spec:
             path: /tmp/dayman
         - name: config-volume
           configMap:
-            name: {{ template "presto.fullname" . }}
+            name: {{ template "presto.coordinator" . }}
       containers:
-        - name: {{ .Chart.Name }}
+        - name: {{ .Chart.Name }}-coordinator
           image: "{{ .Values.image.repository }}:{{ .Values.image.tag }}"
           imagePullPolicy: {{ .Values.image.pullPolicy }}
           command: ["/bin/bash", "-x"]
@@ -53,17 +55,17 @@ spec:
             - mountPath: /tmp/dayman
               name: daemon-comm
           ports:
-            - name: http
+            - name: http-coord
               containerPort: {{ .Values.server.config.http.port }}
               protocol: TCP
           livenessProbe:
             httpGet:
               path: /
-              port: http
+              port: http-coord
           readinessProbe:
             httpGet:
               path: /
-              port: http
+              port: http-coord
           resources:
 {{ toYaml .Values.resources | indent 12 }}
     {{- with .Values.nodeSelector }}
