@@ -8,6 +8,9 @@ dependencies:
 - name: spark
   repository: https://v3io.github.io/helm-charts/stable
   version: 0.2.7
+- name: presto
+  repository: https://v3io.github.io/helm-charts/stable
+  version: 0.1.0
 - name: nuclio
   repository: https://nuclio.github.io/nuclio/charts
   version: 0.1.4
@@ -17,5 +20,5 @@ dependencies:
 - name: v3io-webapi
   repository: https://v3io.github.io/helm-charts/stable
   version: "0.1"
-digest: sha256:33b7f6790d1b406f3ab9fe308fa3682f30d16e2966b769ee8855090226bbdbc1
-generated: 2018-02-20T12:18:00.935076+02:00
+digest: sha256:5b41c103d92bedce31ab9fde7cca43388ff54ea93c8cb01e418e7d2c37ce6181
+generated: 2018-02-28T11:55:28.488905+02:00
