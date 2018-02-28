@@ -65,5 +65,9 @@ data:
       </property>
     </configuration>
 
+  health_check.sh: |
+    #!/bin/bash 
+    curl --silent {{ template "presto.fullname" . }}:{{ .Values.server.config.http.port }}/v1/node | tr "," "\n" | grep --silent $(hostname -i)
+
 ---
 {{- end }}

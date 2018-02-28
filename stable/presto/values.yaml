@@ -1,8 +1,7 @@
 server:
-  workers: 0
+  workers: 2
   node:
     environment: production
-    id: ffffffff-ffff-ffff-ffff-ffffffffffff
     dataDir: /presto/etc/data
   log:
     presto:
@@ -16,10 +15,10 @@ server:
     http:
       port: 8080
     query:
-      maxMemory: "5GB"
+      maxMemory: "4GB"
       maxMemoryPerNode: "1GB"
   jvm:
-    maxHeapSize: "16G"
+    maxHeapSize: "8G"
     gcMethod: 
       type: "UseG1GC"
       g1:

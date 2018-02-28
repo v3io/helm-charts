@@ -56,18 +56,20 @@ spec:
               name: config-volume
             - mountPath: /tmp/dayman
               name: daemon-comm
-          ports:
-            - name: http-worker
-              containerPort: {{ .Values.server.config.http.port }}
-              protocol: TCP
           livenessProbe:
-            httpGet:
-              path: /
-              port: http-worker
+            exec:
+              command:
+              - /bin/bash
+              - /etc/config/health_check.sh
+              initialDelaySeconds: 10
+              periodSeconds: 25
           readinessProbe:
-            httpGet:
-              path: /
-              port: http-worker
+            exec:
+              command:
+              - /bin/bash
+              - /etc/config/health_check.sh
+              initialDelaySeconds: 5
+              periodSeconds: 10
           resources:
 {{ toYaml .Values.resources | indent 12 }}
     {{- with .Values.nodeSelector }}

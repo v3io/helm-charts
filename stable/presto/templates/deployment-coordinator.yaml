@@ -60,11 +60,11 @@ spec:
               protocol: TCP
           livenessProbe:
             httpGet:
-              path: /
+              path: /v1/cluster
               port: http-coord
           readinessProbe:
             httpGet:
-              path: /
+              path: /v1/cluster
               port: http-coord
           resources:
 {{ toYaml .Values.resources | indent 12 }}
