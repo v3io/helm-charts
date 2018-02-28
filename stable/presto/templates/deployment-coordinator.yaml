@@ -1,0 +1,82 @@
+apiVersion: apps/v1beta2
+kind: Deployment
+metadata:
+  name: {{ template "presto.coordinator" . }}
+  labels:
+    app: {{ template "presto.name" . }}
+    chart: {{ template "presto.chart" . }}
+    release: {{ .Release.Name }}
+    heritage: {{ .Release.Service }}
+    component: coordinator
+spec:
+  selector:
+    matchLabels:
+      app: {{ template "presto.name" . }}
+      release: {{ .Release.Name }}
+      component: coordinator
+  template:
+    metadata:
+      labels:
+        app: {{ template "presto.name" . }}
+        release: {{ .Release.Name }}
+        component: coordinator
+    spec:
+      volumes:
+        - name: "shm"
+          hostPath:
+            path: "/dev/shm"
+        - name: daemon-comm
+          hostPath:
+            path: /tmp/dayman
+        - name: config-volume
+          configMap:
+            name: {{ template "presto.coordinator" . }}
+      containers:
+        - name: {{ .Chart.Name }}-coordinator
+          image: "{{ .Values.image.repository }}:{{ .Values.image.tag }}"
+          imagePullPolicy: {{ .Values.image.pullPolicy }}
+          command: ["/bin/bash", "-x"]
+          args:
+            - /docker-presto.sh
+            - --config=/etc/config
+            - --host-ip=$(curl --silent {{ template "presto.v3io.registry" . }}/$CURRENT_NODE_IP)
+          env:
+          - name: IGZ_DATA_CONFIG_FILE
+            value: {{ .Values.server.config.path }}/v3io.conf
+          - name: CURRENT_NODE_IP
+            valueFrom:
+              fieldRef:
+                fieldPath: status.hostIP
+          volumeMounts:
+            - mountPath: "/dev/shm"
+              name: "shm"
+            - mountPath: /etc/config
+              name: config-volume
+            - mountPath: /tmp/dayman
+              name: daemon-comm
+          ports:
+            - name: http-coord
+              containerPort: {{ .Values.server.config.http.port }}
+              protocol: TCP
+          livenessProbe:
+            httpGet:
+              path: /v1/cluster
+              port: http-coord
+          readinessProbe:
+            httpGet:
+              path: /v1/cluster
+              port: http-coord
+          resources:
+{{ toYaml .Values.resources | indent 12 }}
+    {{- with .Values.nodeSelector }}
+      nodeSelector:
+{{ toYaml . | indent 8 }}
+    {{- end }}
+    {{- with .Values.affinity }}
+      affinity:
+{{ toYaml . | indent 8 }}
+    {{- end }}
+    {{- with .Values.tolerations }}
+      tolerations:
+{{ toYaml . | indent 8 }}
+    {{- end }}
