@@ -9,7 +9,7 @@ dependencies:
   repository: https://kubernetes-charts.storage.googleapis.com/
 - name: spark
   condition: spark.enabled
-  version: "0.2.7"
+  version: "0.2.8"
   repository: https://v3io.github.io/helm-charts/stable
 - name: presto
   condition: presto.enabled
