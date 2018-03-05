@@ -78,7 +78,6 @@ spec:
             - --service-port={{.Values.Master.ServicePort}}
             - --webui-port={{.Values.WebUi.ServicePort}}
             - --master-hostname={{ template "master-fullname" . }}
-            - --run-as-user={{.Values.Master.RunAsUser}}
             - "--host-ip=$(curl --silent {{ template "spark.registry" . }}/$CURRENT_NODE_IP)"
           ports:
             - containerPort: {{.Values.Master.ContainerPort}}

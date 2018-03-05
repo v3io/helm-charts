@@ -14,7 +14,6 @@ Master:
   Memory: "3Gi"
   ServicePort: 7077
   ContainerPort: 7077
-  RunAsUser: "iguazio"
 
 WebUi:
   Name: spark-webui
@@ -33,7 +32,6 @@ Worker:
   Cpu: "100m"
   Memory: "4Gi"
   ContainerPort: 8081
-  RunAsUser: "iguazio"
 
 Zeppelin:
   Name: zeppelin
