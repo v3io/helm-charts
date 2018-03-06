@@ -5,8 +5,8 @@ Logger:
 V3IOD:
   Name: daemon
   Image: iguaziodocker/v3io_dayman
-  Version: 1.5.1_b1
-  PullPolicy: Always
+  Version: 1.5.2
+  PullPolicy: IfNotPresent
   Resources:
     Memory: "3Gi"
     UDPPort: 1967
