@@ -6,7 +6,7 @@
 Master:
   Name: spark-master
   Image: "iguaziodocker/spark"
-  ImageTag: "2.1.2"
+  ImageTag: "2.1.2-1.5.2"
   ImagePullPolicy: "IfNotPresent"
   Replicas: 1
   Component: "spark-master"
@@ -25,7 +25,7 @@ WebUi:
 Worker:
   Name: spark-worker
   Image: "iguaziodocker/spark"
-  ImageTag: "2.1.2"
+  ImageTag: "2.1.2-1.5.2"
   ImagePullPolicy: "IfNotPresent"
   Replicas: 1
   Component: "spark-worker"
@@ -36,7 +36,7 @@ Worker:
 Zeppelin:
   Name: zeppelin
   Image: "iguaziodocker/zeppelin"
-  ImageTag: "2.1.2"
+  ImageTag: "2.1.2-1.5.2"
   ImagePullPolicy: "IfNotPresent"
   Replicas: 1
   Component: "zeppelin"
