@@ -1,0 +1,67 @@
+apiVersion: apps/v1beta2
+kind: Deployment
+metadata:
+  name: {{ template "shell.name" . }}
+  labels:
+    app: {{ template "shell.name" . }}
+    chart: {{ template "shell.chart" . }}
+    release: {{ .Release.Name }}
+    heritage: {{ .Release.Service }}
+spec:
+  selector:
+    matchLabels:
+      app: {{ template "shell.name" . }}
+      release: {{ .Release.Name }}
+  template:
+    metadata:
+      labels:
+        app: {{ template "shell.name" . }}
+        release: {{ .Release.Name }}
+    spec:
+      volumes:
+        - name: "shm"
+          hostPath:
+            path: "/dev/shm"
+        - name: daemon-comm
+          hostPath:
+            path: /tmp/dayman
+        - name: config-volume
+          configMap:
+            name: {{ template "shell.name" . }}
+      containers:
+        - name: {{ .Chart.Name }}-shell
+          image: "{{ .Values.image.repository }}:{{ .Values.image.tag }}"
+          imagePullPolicy: {{ .Values.image.pullPolicy }}
+          command: ["/bin/bash", "-x"]
+          args:
+            - /run.sh
+            - --config=/etc/config
+            - --host-ip=$(curl --silent {{ template "shell.v3io.registry" . }}/$CURRENT_NODE_IP)
+          env:
+          - name: IGZ_DATA_CONFIG_FILE
+            value: {{ .Values.config.path }}/v3io.conf
+          - name: CURRENT_NODE_IP
+            valueFrom:
+              fieldRef:
+                fieldPath: status.hostIP
+          volumeMounts:
+            - mountPath: "/dev/shm"
+              name: "shm"
+            - mountPath: /etc/config
+              name: config-volume
+            - mountPath: /tmp/dayman
+              name: daemon-comm
+          resources:
+{{ toYaml .Values.resources | indent 12 }}
+    {{- with .Values.nodeSelector }}
+      nodeSelector:
+{{ toYaml . | indent 8 }}
+    {{- end }}
+    {{- with .Values.affinity }}
+      affinity:
+{{ toYaml . | indent 8 }}
+    {{- end }}
+    {{- with .Values.tolerations }}
+      tolerations:
+{{ toYaml . | indent 8 }}
+    {{- end }}
