@@ -6,6 +6,15 @@ v3io-webapi:
   Node:
     IP: localhost
 
+spark:
+  enabled: true
+
+presto:
+  enabled: true
+
+shell:
+  enabled: true
+
 grafana:
   server:
     adminUser: "iguazio"
