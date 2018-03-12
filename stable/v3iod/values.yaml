@@ -3,7 +3,7 @@ Logger:
   Severity: "info"
 
 V3IOD:
-  Name: daemon
+  User: iguazio
   Image: iguaziodocker/v3io_dayman
   Version: 1.5.2
   PullPolicy: IfNotPresent
