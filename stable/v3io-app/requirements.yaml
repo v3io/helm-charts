@@ -1,5 +1,9 @@
 dependencies:
 - name: spark
   condition: spark.enabled
-  version: "0.2.5"
+  version: "0.2.9"
+  repository: https://v3io.github.io/helm-charts/stable
+- name: presto
+  condition: presto.enabled
+  version: "0.1.1"
   repository: https://v3io.github.io/helm-charts/stable
