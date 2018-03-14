@@ -6,11 +6,12 @@ data:
   init.sh: |
     #!/usr/bin/env bash
     set -e
+    chown -R {{ .Values.V3IOD.User }}:{{ .Values.V3IOD.User }} /tmp
     ulimit -S -H -l unlimited
-    ulimit -a -S
-    ulimit -a -H
     echo 3000 > /proc/sys/vm/nr_hugepages
-    /usr/local/bin/v3io_dayman --config-path /etc/iguazio/dayman/default.json
+    su --preserve-environment \
+      --login {{ .Values.V3IOD.User }} \
+      --command "/usr/local/bin/v3io_dayman --config-path /etc/iguazio/dayman/default.json"
 
   default.json: |
     {
@@ -27,7 +28,7 @@ data:
 {{- if .Values.V3IOD.Config.BoostSizeInBytes -}}
           ,{
             "kind": "boost",
-            "size_bytes": {{ printf "%.0f" .Values.V3IOD.Config.BoostSizeInBytes }}
+            "size_bytes": {{ printf "%d" (int .Values.V3IOD.Config.BoostSizeInBytes) }}
           }
 {{- end }}
         ]
