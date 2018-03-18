@@ -1,7 +1,7 @@
 apiVersion: v1
 kind: ConfigMap
 metadata:
-  name: {{ template "shell.name" . }}
+  name: {{ template "shell.fullname" . }}
   labels:
     app: {{ template "shell.name" . }}
     chart: {{ template "shell.chart" . }}

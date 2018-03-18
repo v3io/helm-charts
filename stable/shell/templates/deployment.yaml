@@ -1,7 +1,7 @@
 apiVersion: apps/v1beta2
 kind: Deployment
 metadata:
-  name: {{ template "shell.name" . }}
+  name: {{ template "shell.fullname" . }}
   labels:
     app: {{ template "shell.name" . }}
     chart: {{ template "shell.chart" . }}
@@ -27,7 +27,7 @@ spec:
             path: /tmp/dayman
         - name: config-volume
           configMap:
-            name: {{ template "shell.name" . }}
+            name: {{ template "shell.fullname" . }}
       containers:
         - name: {{ .Chart.Name }}-shell
           image: "{{ .Values.image.repository }}:{{ .Values.image.tag }}"
