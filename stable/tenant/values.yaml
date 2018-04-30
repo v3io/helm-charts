@@ -1,0 +1,71 @@
+# Default values for tenant.
+# This is a YAML-formatted file.
+# Declare variables to be passed into your templates.
+
+name: iguazio
+
+compute:
+  requests:
+    cpu: 32
+    memory: 80Gi
+  limits:
+    cpu: 32
+    memory: 90Gi
+  container:
+    cpu:
+      default: 0.5
+      defaultRequest: 0.5
+      min: 0.5
+      max: 16
+    memory:
+      default: 16Mi
+      defaultRequest: 16Mi
+      min: 16Mi
+      max: 16Gi
+
+network:
+  ingress:
+    allowedNamespaces:
+      - iguazio-system
+      - kube-system
+  egress:
+    limited: false
+
+services:
+  nodePorts: 0
+  loadBalancers: 0
+
+security:
+  enabled: false
+  privileged: false
+  hostIPC: false
+  hostPID: false
+  hostNetwork: false
+  allowPrivilegeEscalation: false
+  allowedHostPaths:
+    - /tmp
+  dropCapabilities:
+    - ALL
+    - CAP_AUDIT_WRITE
+    - CAP_IPC_OWNER
+    - CAP_KILL
+    - CAP_MAC_ADMIN
+    - CAP_MAC_OVERRIDE
+    - CAP_NET_ADMIN
+    - CAP_NET_BIND_SERVICE
+    - CAP_SYS_ADMIN
+    - CAP_SYS_CHROOT
+    - CAP_SYS_MODULE
+    - CAP_SYS_NICE
+    - CAP_SYS_TIME
+  volumes:
+    - configMap
+    - emptyDir
+    - secret
+    - flexVolume
+
+nodeSelector: {}
+
+tolerations: []
+
+affinity: {}

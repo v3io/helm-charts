@@ -1,0 +1,39 @@
+apiVersion: networking.k8s.io/v1
+kind: NetworkPolicy
+metadata:
+  name: {{ template "tenant.name" . }}-network-policy
+  namespace: {{ template "tenant.name" . }}
+  labels:
+    owner: {{ template "tenant.name" . }}
+    chart: {{ template "tenant.chart" . }}
+    release: {{ .Release.Name }}
+spec:
+  podSelector: {}
+  policyTypes:
+    - Ingress
+    - Egress
+  ingress:
+    - from:
+      - namespaceSelector:
+          matchLabels:
+            name: {{ template "tenant.name" . }}
+{{- range $i, $allow := .Values.network.ingress.allowedNamespaces }}
+    - from:
+      - namespaceSelector:
+          matchLabels:
+            name: {{ $allow }}
+{{- end }}
+  egress:
+{{- if .Values.network.egress.limited }}
+    - ports:
+        - port: 53
+          protocol: UDP
+        - port: 53
+          protocol: TCP
+    - to:
+        - namespaceSelector:
+            matchLabels:
+              name: {{ template "tenant.name" . }}
+{{- else }}
+    - {}
+{{- end -}}
