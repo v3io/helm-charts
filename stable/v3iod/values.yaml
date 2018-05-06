@@ -8,6 +8,7 @@ V3IOD:
   Version: 1.5.2
   PullPolicy: IfNotPresent
   Resources:
+    Cpu: "1"
     Memory: "3Gi"
     UDPPort: 1967
   Config:
