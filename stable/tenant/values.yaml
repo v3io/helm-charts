@@ -26,9 +26,9 @@ compute:
 
 network:
   ingress:
-    allowedNamespaces:
-      - iguazio-system
-      - kube-system
+    allowedNamespaces: {}
+    # Namespaced allowed to access your tenant network
+    #  - kube-system
   egress:
     limited: false
 
@@ -45,24 +45,26 @@ security:
   allowPrivilegeEscalation: false
   allowedHostPaths:
     - /tmp
-  dropCapabilities:
-    - CAP_AUDIT_WRITE
-    - CAP_IPC_OWNER
-    - CAP_KILL
-    - CAP_MAC_ADMIN
-    - CAP_MAC_OVERRIDE
-    - CAP_NET_ADMIN
-    - CAP_NET_BIND_SERVICE
-    - CAP_SYS_ADMIN
-    - CAP_SYS_CHROOT
-    - CAP_SYS_MODULE
-    - CAP_SYS_NICE
-    - CAP_SYS_TIME
-  volumes:
-    - configMap
-    - emptyDir
-    - secret
-    - flexVolume
+  dropCapabilities: {}
+  # We should limit the capabilities with the following list (ALL is always dropped)
+  #  - CAP_AUDIT_WRITE
+  #  - CAP_IPC_OWNER
+  #  - CAP_KILL
+  #  - CAP_MAC_ADMIN
+  #  - CAP_MAC_OVERRIDE
+  #  - CAP_NET_ADMIN
+  #  - CAP_NET_BIND_SERVICE
+  #  - CAP_SYS_ADMIN
+  #  - CAP_SYS_CHROOT
+  #  - CAP_SYS_MODULE
+  #  - CAP_SYS_NICE
+  #  - CAP_SYS_TIME
+  volumes: {}
+  # Less is better: e.g. :
+  #  - configMap
+  #  - emptyDir
+  #  - secret
+  #  - flexVolume
   allowedFlexVolumes: {}
 
 nodeSelector: {}
