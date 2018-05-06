@@ -58,6 +58,7 @@ spec:
           resources:
             requests:
               cpu: "{{ .Values.Zeppelin.Cpu }}"
+              memory: "{{ .Values.Zeppelin.Memory }}"
           readinessProbe:
             httpGet:
               path: /
