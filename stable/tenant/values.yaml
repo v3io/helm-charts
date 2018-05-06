@@ -9,16 +9,17 @@ compute:
     cpu: 32
     memory: 80Gi
   limits:
-    cpu: 32
+    cpu: 128
     memory: 90Gi
   container:
     cpu:
-      default: 0.5
+      default: 4
       defaultRequest: 0.5
-      min: 0.5
+      min: 0.1
       max: 16
     memory:
-      default: 16Mi
+      # This is the default limit; setting a low bar will require adding limit to all containers
+      default: 4Gi
       defaultRequest: 16Mi
       min: 16Mi
       max: 16Gi
@@ -45,7 +46,6 @@ security:
   allowedHostPaths:
     - /tmp
   dropCapabilities:
-    - ALL
     - CAP_AUDIT_WRITE
     - CAP_IPC_OWNER
     - CAP_KILL
@@ -63,6 +63,7 @@ security:
     - emptyDir
     - secret
     - flexVolume
+  allowedFlexVolumes: {}
 
 nodeSelector: {}
 

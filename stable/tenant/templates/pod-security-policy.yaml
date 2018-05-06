@@ -1,5 +1,5 @@
 {{- if .Values.security.enabled -}}
-apiVersion: policy/v1beta1
+apiVersion: extensions/v1beta1
 kind: PodSecurityPolicy
 metadata:
   name: {{ template "tenant.name" . }}-default-policy
@@ -12,8 +12,12 @@ spec:
   privileged: {{ .Values.security.privileged }}
   hostPID: {{ .Values.security.hostPID }}
   hostNetwork: {{ .Values.security.hostNetwork }}
+{{- if .Values.security.allowedHostPaths }}
   allowedHostPaths:
-    - pathPrefix: "/tmp"
+{{- range $i, $val := .Values.security.allowedHostPaths }}
+    - pathPrefix: {{ $val }}
+{{- end }}
+{{- end }}
   allowPrivilegeEscalation: {{ .Values.security.allowPrivilegeEscalation }}
   defaultAllowPrivilegeEscalation: false
   requiredDropCapabilities:
@@ -21,14 +25,18 @@ spec:
 {{- range $i, $val := .Values.security.dropCapabilities }}
     - {{ $val }}
 {{- end }}
-{{- if .Values.security.volumes -}}
+{{- if .Values.security.volumes }}
   volumes:
 {{- range $i, $val := .Values.security.volumes }}
     - {{ $val }}
 {{- end }}
 {{- end }}
+{{- if .Values.security.allowedFlexVolumes }}
   allowedFlexVolumes:
-    - driver: v3io
+{{- range $i, $val := .Values.security.allowedFlexVolumes }}
+    - driver: {{ $val }}
+{{- end }}
+{{- end }}
   runAsUser:
     rule: MustRunAsNonRoot
   supplementalGroups:
