@@ -8,11 +8,15 @@ metadata:
     chart: "{{ .Chart.Name }}-{{ .Chart.Version }}"
     component: zeppelin
 spec:
+{{- if gt (int .Values.Zeppelin.NodePort) 0 }}
   type: NodePort
+{{- end }}
   ports:
     - port: {{ .Values.Zeppelin.ServicePort }}
       targetPort: {{ .Values.Zeppelin.ContainerPort }}
+{{- if gt (int .Values.Zeppelin.NodePort) 0 }}
       nodePort: {{ .Values.Zeppelin.NodePort }}
+{{- end }}
   selector:
     release: {{ .Release.Name | quote }}
     component: zeppelin
