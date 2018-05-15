@@ -1,0 +1,25 @@
+apiVersion: v1
+kind: LimitRange
+metadata:
+  name: {{ template "tenant.name" . }}-limit-range
+  namespace: {{ template "tenant.name" . }}
+  labels:
+    owner: {{ template "tenant.name" . }}
+    chart: {{ template "tenant.chart" . }}
+    release: {{ .Release.Name }}
+spec:
+  limits:
+  - default:
+      cpu: "{{ .Values.compute.container.cpu.default }}"
+      memory: "{{ .Values.compute.container.memory.default }}"
+    defaultRequest:
+      cpu: "{{ .Values.compute.container.cpu.defaultRequest }}"
+      memory: "{{ .Values.compute.container.memory.defaultRequest }}"
+    max:
+      cpu: "{{ .Values.compute.container.cpu.max }}"
+      memory: "{{ .Values.compute.container.memory.max }}"
+    min:
+      cpu: "{{ .Values.compute.container.cpu.min }}"
+      memory: "{{ .Values.compute.container.memory.min }}"
+    type: Container
+

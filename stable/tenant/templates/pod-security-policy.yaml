@@ -1,0 +1,46 @@
+{{- if .Values.security.enabled -}}
+apiVersion: extensions/v1beta1
+kind: PodSecurityPolicy
+metadata:
+  name: {{ template "tenant.name" . }}-default-policy
+  namespace: {{ template "tenant.name" . }}
+  labels:
+    owner: {{ template "tenant.name" . }}
+    chart: {{ template "tenant.chart" . }}
+    release: {{ .Release.Name }}
+spec:
+  privileged: {{ .Values.security.privileged }}
+  hostPID: {{ .Values.security.hostPID }}
+  hostNetwork: {{ .Values.security.hostNetwork }}
+{{- if .Values.security.allowedHostPaths }}
+  allowedHostPaths:
+{{- range $i, $val := .Values.security.allowedHostPaths }}
+    - pathPrefix: {{ $val }}
+{{- end }}
+{{- end }}
+  allowPrivilegeEscalation: {{ .Values.security.allowPrivilegeEscalation }}
+  defaultAllowPrivilegeEscalation: false
+  requiredDropCapabilities:
+    - ALL
+{{- range $i, $val := .Values.security.dropCapabilities }}
+    - {{ $val }}
+{{- end }}
+{{- if .Values.security.volumes }}
+  volumes:
+{{- range $i, $val := .Values.security.volumes }}
+    - {{ $val }}
+{{- end }}
+{{- end }}
+{{- if .Values.security.allowedFlexVolumes }}
+  allowedFlexVolumes:
+{{- range $i, $val := .Values.security.allowedFlexVolumes }}
+    - driver: {{ $val }}
+{{- end }}
+{{- end }}
+  runAsUser:
+    rule: MustRunAsNonRoot
+  supplementalGroups:
+    rule: MustRunAsNonRoot
+  fsGroup:
+    rule: MustRunAsNonRoot
+{{- end -}}

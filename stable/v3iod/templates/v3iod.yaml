@@ -34,8 +34,10 @@ spec:
             - "/etc/iguazio/dayman/init.sh"
           resources:
             requests:
+              cpu: {{ .Values.V3IOD.Resources.Cpu }}
               memory: {{ .Values.V3IOD.Resources.Memory }}
             limits:
+              cpu: {{ .Values.V3IOD.Resources.Cpu }}
               memory: {{ .Values.V3IOD.Resources.Memory }}
           ports:
             - containerPort: {{ .Values.V3IOD.Resources.UDPPort }}
