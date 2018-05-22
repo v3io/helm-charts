@@ -1,4 +1,4 @@
-{{- if gt .Values.server.workers 0.0 }}
+{{- if gt (int .Values.server.workers) 0 }}
 apiVersion: apps/v1beta2
 kind: Deployment
 metadata:
@@ -23,39 +23,38 @@ spec:
         release: {{ .Release.Name }}
         component: worker
     spec:
+{{- if .Values.volumes }}
       volumes:
-        - name: "shm"
-          hostPath:
-            path: "/dev/shm"
-        - name: daemon-comm
-          hostPath:
-            path: /tmp/dayman
-        - name: config-volume
-          configMap:
-            name: {{ template "presto.worker" . }}
+{{- range $i, $vol := .Values.volumes.worker }}
+        - name: {{ $vol.name }}
+{{ toYaml $vol.path | trim | indent 10 }}
+{{- end }}
+{{- end }}
       containers:
         - name: {{ .Chart.Name }}-worker
           image: "{{ .Values.image.repository }}:{{ .Values.image.tag }}"
           imagePullPolicy: {{ .Values.image.pullPolicy }}
-          command: ["/bin/bash", "-x"]
-          args:
-            - /docker-presto.sh
-            - --config=/etc/config
-            - --host-ip=$(curl --silent {{ template "presto.v3io.registry" . }}/$CURRENT_NODE_IP)
+          command: ["/bin/bash", "-x", "/etc/config/start.sh"]
+{{- if .Values.environment }}
           env:
-          - name: IGZ_DATA_CONFIG_FILE
-            value: {{ .Values.server.config.path }}/v3io.conf
-          - name: CURRENT_NODE_IP
-            valueFrom:
-              fieldRef:
-                fieldPath: status.hostIP
+{{- range $i, $env := .Values.environment }}
+            - name: {{ $env.name }}
+{{- with $env.value }}
+              value: {{ . }}
+{{- end }}
+{{- with $env.valueFrom }}
+              valueFrom:
+{{ toYaml . | trim | indent 16 }}
+{{- end }}
+{{- end }}
+{{- end }}
+{{- if .Values.volumes }}
           volumeMounts:
-            - mountPath: "/dev/shm"
-              name: "shm"
-            - mountPath: /etc/config
-              name: config-volume
-            - mountPath: /tmp/dayman
-              name: daemon-comm
+{{- range $i, $vol := .Values.volumes.worker }}
+            - name: {{ $vol.name }}
+              mountPath: {{ $vol.mount }}
+{{- end }}
+{{- end }}
           livenessProbe:
             exec:
               command:
