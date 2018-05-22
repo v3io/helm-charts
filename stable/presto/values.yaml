@@ -4,12 +4,9 @@ server:
     environment: production
     dataDir: /presto/etc/data
   log:
-    presto:
-      level: INFO
-    v3io:
-      level: DEBUG
-    v3iod:
-      level: INFO
+    com.facebook.presto: INFO
+    io.iguaz.v3io: DEBUG
+    io.iguaz.v3io.daemon: INFO
   config:
     path: /presto/etc
     http:
@@ -17,6 +14,35 @@ server:
     query:
       maxMemory: "4GB"
       maxMemoryPerNode: "1GB"
+    extra:
+      v3io.conf: |
+        v3io.client {
+          socket.host=CURRENT_NODE_IP
+          session.use-system-user=false
+        }
+        new-daemon=true
+      core-site.xml: |
+        <?xml version="1.0" encoding="UTF-8"?>
+        <?xml-stylesheet type="text/xsl" href="configuration.xsl"?>
+        <configuration>
+          <property>
+            <name>fs.defaultFS</name>
+            <value>v3io:////</value>
+          </property>
+          <property>
+            <name>fs.v3io.impl</name>
+            <value>io.iguaz.v3io.hcfs.V3IOFileSystem</value>
+          </property>
+          <property>
+            <name>fs.AbstractFileSystem.v3io.impl</name>
+            <value>io.iguaz.v3io.hcfs.V3IOAbstractFileSystem</value>
+          </property>
+          <property>
+            <name>new-daemon</name>
+            <value>true</value>
+          </property>
+        </configuration>
+
   jvm:
     maxHeapSize: "8G"
     gcMethod: 
@@ -28,6 +54,7 @@ image:
   repository: iguaziodocker/presto
   tag: 0.189-1.5.2
   pullPolicy: IfNotPresent
+  commandOverride: {}
 
 service:
   type: ClusterIP
@@ -37,6 +64,49 @@ V3IO:
   DaemonLookupServiceName: "registry"
   DaemonLookupServicePort: 8080
   DaemonLookupServicePath: "registry/daemon"
+
+
+environment:
+  - name: IGZ_DATA_CONFIG_FILE
+    value: /presto/etc/v3io.conf
+  - name: CURRENT_NODE_IP
+    valueFrom:
+      fieldRef:
+        fieldPath: status.hostIP
+
+volumes:
+  coordinator:
+    - name: shm
+      path:
+        hostPath:
+          path: /dev/shm
+      mount: /dev/shm
+    - name: daemon-comm
+      path:
+        hostPath:
+          path: /tmp/dayman
+      mount: /tmp/dayman
+    - name: config-volume
+      path:
+        configMap:
+          name: presto-coordinator
+      mount: /etc/config
+  worker:
+    - name: shm
+      path:
+        hostPath:
+          path: /dev/shm
+      mount: /dev/shm
+    - name: daemon-comm
+      path:
+        hostPath:
+          path: /tmp/dayman
+      mount: /tmp/dayman
+    - name: config-volume
+      path:
+        configMap:
+          name: presto-worker
+      mount: /etc/config
 
 resources: {}
   # We usually recommend not to specify default resources and to leave this as a conscious
