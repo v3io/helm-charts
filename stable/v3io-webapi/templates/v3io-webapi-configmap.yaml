@@ -13,12 +13,11 @@ data:
     mkdir -p /home/iguazio/igz/clients/nginx/lib/logs
 
   nginx.conf: |
-    worker_processes auto;
+    worker_processes {{ default "auto" .Values.resources.workerProcesses }};
     load_module ngx_http_v3io_module.so;
     error_log /home/iguazio/igz/clients/nginx/lib/logs/error.log info;
     events {
         use epoll;
-        worker_processes {{ default "auto" .Values.resources.workerProcesses }};
         worker_connections  {{ default 1024 .Values.resources.workerConnections }};
         multi_accept on;
     }
