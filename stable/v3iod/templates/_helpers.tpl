@@ -4,7 +4,7 @@
 Create fully qualified names.
 */}}
 {{- define "daemon-name" -}}
-{{- $name := default .Chart.Name .Values.V3IOD.Name -}}
+{{- $name := default .Chart.Name .Values.name -}}
 {{- printf "%s-%s" .Release.Name $name | trunc 24 -}}
 {{- end -}}
 

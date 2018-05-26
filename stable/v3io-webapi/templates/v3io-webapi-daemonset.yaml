@@ -1,21 +1,23 @@
 kind: DaemonSet
 apiVersion: extensions/v1beta1
 metadata:
-  name: {{ template "daemon-name" . }}
+  name: {{ template "webapi-name" . }}
 spec:
   selector:
     matchLabels:
-      v3io-app: daemon
+      v3io-app: webapi
   template:
     metadata:
       labels:
-        v3io-app: daemon
+        v3io-app: webapi
       annotations:
         # Mark this pod as a critical add-on; when enabled, the critical add-on scheduler
         # reserves resources for critical add-on pods so that they can be rescheduled after
         # a failure.  This annotation works in tandem with the toleration below.
         scheduler.alpha.kubernetes.io/critical-pod: ''
     spec:
+      hostPID: true
+      hostNetwork: true
       tolerations:
       - key: node-role.kubernetes.io/master
         effect: NoSchedule
@@ -27,49 +29,41 @@ spec:
         runAsUser: 0
         fsGroup: 0
       containers:
-        - name: v3iod
-          image: {{ .Values.V3IOD.Image }}:{{ .Values.V3IOD.Version }}
-          command: ["/bin/bash"]
-          args:
-            - "/etc/iguazio/dayman/init.sh"
+        - name: v3io-webapi
+          image: {{ .Values.image.repository }}:{{ .Values.image.tag }}
+          imagePullPolicy: {{ .Values.image.pullPolicy }}
+          command: ["/bin/bash","-c"]
+          args: 
+            - > 
+              "/bin/bash -x /etc/iguazio/nginx/init.sh && 
+              /home/iguazio/igz/clients/nginx/bin/nginx -p /home/iguazio/igz/clients/nginx/lib -c /etc/iguazio/nginx/nginx.conf && 
+              tail -f /home/iguazio/igz/clients/nginx/lib/logs/*"
+          securityContext:
+            privileged: true
           resources:
             requests:
-              cpu: {{ .Values.V3IOD.Resources.Cpu }}
-              memory: {{ .Values.V3IOD.Resources.Memory }}
+              memory: {{ .Values.resources.memory }}
             limits:
-              cpu: {{ .Values.V3IOD.Resources.Cpu }}
-              memory: {{ .Values.V3IOD.Resources.Memory }}
+              memory: {{ .Values.resources.memory }}
           ports:
-            - containerPort: {{ .Values.V3IOD.Resources.UDPPort }}
-              protocol: UDP
-              name: v3iod-port
+            - containerPort: {{ .Values.hostPort }}
+              name: v3io-webapi
+            - containerPort: {{ .Values.sslHostPort }}
+              name: v3io-webapi-ssl
           env:
             - name: CURRENT_NODE_IP
               valueFrom:
                 fieldRef:
                   fieldPath: status.hostIP
           volumeMounts:
-            - mountPath: /dev/shm
-              name: daemon-shm
-            - mountPath: /tmp/dayman
-              name: daemon-comm
-            - mountPath: /etc/iguazio/dayman
-              name: daemon-config
+            - mountPath: /etc/iguazio/nginx
+              name: webapi-config
             - mountPath: /var/crash
               name: core-dump
-          securityContext:
-            privileged: true
       volumes:
-        - name: daemon-shm
-          hostPath:
-            path: /dev/shm
-        - name: daemon-comm
-          hostPath:
-            path: /tmp/dayman
-        - name: daemon-config
+        - name: webapi-config
           configMap:
-            name: {{ template "daemon-name" . }}
+            name: {{ template "webapi-name" . }}
         - name: core-dump
           hostPath:
             path: /tmp/crash
----
