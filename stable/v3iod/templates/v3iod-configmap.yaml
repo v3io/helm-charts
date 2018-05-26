@@ -44,6 +44,6 @@ data:
         "pidfile": "/tmp/dayman.pid"
       },
       "cluster": {
-        "uris": [{{ join ", " .Values.datanode.urls }}]
+        "uri": {{ .Values.datanode.uri | quote }}
       }
     }

@@ -41,7 +41,7 @@ spec:
               cpu: {{ .Values.resources.cpu }}
               memory: {{ .Values.resources.memory }}
           ports:
-            - containerPort: {{ .Values.resources.cdiPort }}
+            - containerPort: {{ .Values.cdiPort }}
               protocol: UDP
               name: cdi-port
           env:

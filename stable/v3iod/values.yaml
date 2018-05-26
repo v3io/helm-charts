@@ -4,7 +4,6 @@ logger:
 
 image:
   repository: iguaziodocker/v3io_dayman
-  tag: 1.5.2
   pullPolicy: IfNotPresent
 
 user: iguazio
@@ -46,5 +45,4 @@ maxInFlightRequests: 1024
 maxChannelInactivitySeconds: 180
 
 datanode:
-  urls: 
-  - '"tcp://localhost:1234"'
+  uri: "tcp://localhost:1234"
