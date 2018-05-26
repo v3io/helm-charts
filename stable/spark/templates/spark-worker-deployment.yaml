@@ -3,57 +3,60 @@ kind: Deployment
 metadata:
   name: {{ template "worker-fullname" . }}
   labels:
-    heritage: {{.Release.Service | quote }}
-    release: {{.Release.Name | quote }}
-    chart: "{{.Chart.Name}}-{{.Chart.Version}}"
-    component: spark-worker
+    heritage: {{ .Release.Service | quote }}
+    release: {{ .Release.Name | quote }}
+    chart: "{{ .Chart.Name }}-{{ .Chart.Version }}"
+    component: "spark-worker"
 spec:
-  replicas: {{default 1 .Values.Worker.Replicas}}
+  replicas: {{ .Values.worker.replicas }}
   strategy:
-    type: RollingUpdate
+    type: "RollingUpdate"
   selector:
     matchLabels:
-      chart: "{{.Chart.Name}}-{{.Chart.Version}}"
-      component: spark-worker
+      chart: "{{ .Chart.Name }}-{{ .Chart.Version }}"
+      component: "spark-worker"
   template:
     metadata:
       labels:
-        heritage: {{.Release.Service | quote }}
-        release: {{.Release.Name | quote }}
-        chart: "{{.Chart.Name}}-{{.Chart.Version}}"
-        component: spark-worker
+        heritage: {{ .Release.Service | quote }}
+        release: {{ .Release.Name | quote }}
+        chart: "{{ .Chart.Name }}-{{ .Chart.Version }}"
+        component: "spark-worker"
     spec:
       containers:
         - name: {{ template "worker-fullname" . }}
-          image: "{{.Values.Worker.Image}}:{{.Values.Worker.ImageTag}}"
-          imagePullPolicy: {{ default "Always" .Values.Master.ImagePullPolicy }}
+          image: "{{ .Values.worker.image.repository }}:{{ .Values.worker.image.tag }}"
+          imagePullPolicy: {{ .Values.master.image.pullPolicy | quote }}
           volumeMounts:
             - mountPath: "/dev/shm"
               name: "shm"
-            - mountPath: /tmp/dayman
-              name: daemon-comm
-            - mountPath: /etc/config
-              name: config-volume
+            - mountPath: "/tmp/dayman"
+              name: "daemon-comm"
+            - mountPath: "/etc/config"
+              name: "config-volume"
           command: ["/bin/bash"]
           args:
             - -x
             - /spark-worker
             - --config=/etc/config
             - --master-hostname={{ template "master-fullname" . }}
-            - --master-port={{.Values.Master.ServicePort}}
-            - --webui-port={{.Values.Worker.ContainerPort}}
+            - --master-port={{ .Values.master.servicePort }}
+            - --webui-port={{ .Values.worker.containerPort }}
             - "--host-ip=$(curl --silent {{ template "spark.registry" . }}/$CURRENT_NODE_IP)"
           ports:
-            - containerPort: {{.Values.Worker.ContainerPort}}
+            - containerPort: {{ .Values.worker.containerPort }}
           resources:
             requests:
-              cpu: "{{.Values.Worker.Cpu}}"
-              memory: "{{.Values.Worker.Memory}}"
+              cpu: {{ .Values.worker.resources.cpu }}
+              memory: {{ .Values.worker.resources.memory | quote }}
+            limits:
+              cpu: {{ .Values.worker.resources.cpu }}
+              memory: {{ .Values.worker.resources.memory | quote }}
           env:
           - name: SPARK_WORKER_MEMORY
-            value: {{ default "1g" .Values.Worker.ExecutorMemory | quote }}
+            value: {{ .Values.worker.resources.executorMemory | quote }}
           - name: IGZ_DATA_CONFIG_FILE
-            value: /tmp/v3io.conf
+            value: "/tmp/v3io.conf"
           - name: CURRENT_NODE_IP
             valueFrom:
               fieldRef:
@@ -62,9 +65,9 @@ spec:
         - name: "shm"
           hostPath:
             path: "/dev/shm"
-        - name: daemon-comm
+        - name: "daemon-comm"
           hostPath:
-            path: /tmp/dayman
-        - name: config-volume
+            path: "/tmp/dayman"
+        - name: "config-volume"
           configMap:
             name: "{{ .Release.Name }}-spark"

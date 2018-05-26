@@ -1,93 +1,61 @@
-apiVersion: v1
-kind: Service
-metadata:
-  name: {{ template "master-fullname" . }}
-  labels:
-    heritage: {{.Release.Service | quote }}
-    release: {{.Release.Name | quote }}
-    chart: "{{.Chart.Name}}-{{.Chart.Version}}"
-    component: spark-master
-spec:
-  ports:
-    - port: {{.Values.Master.ServicePort}}
-      targetPort: {{.Values.Master.ContainerPort}}
-  selector:
-    chart: "{{.Chart.Name}}-{{.Chart.Version}}"
-    component: spark-master
----
-apiVersion: v1
-kind: Service
-metadata:
-  name: {{ template "webui-fullname" . }}
-  labels:
-    heritage: {{.Release.Service | quote }}
-    release: {{.Release.Name | quote }}
-    chart: "{{.Chart.Name}}-{{.Chart.Version}}"
-    component: spark-master
-spec:
-  ports:
-    - port: {{.Values.WebUi.ServicePort}}
-      targetPort: {{.Values.WebUi.ContainerPort}}
-  selector:
-    chart: "{{.Chart.Name}}-{{.Chart.Version}}"
-    component: spark-master
----
-
 apiVersion: extensions/v1beta1
 kind: Deployment
 metadata:
   name: {{ template "master-fullname" . }}
   labels:
-    heritage: {{.Release.Service | quote }}
-    release: {{.Release.Name | quote }}
-    chart: "{{.Chart.Name}}-{{.Chart.Version}}"
-    component: spark-master
+    heritage: {{ .Release.Service | quote }}
+    release: {{ .Release.Name | quote }}
+    chart: "{{ .Chart.Name }}-{{ .Chart.Version }}"
+    component: "spark-master"
 spec:
-  replicas: {{default 1 .Values.Master.Replicas}}
+  replicas: {{ .Values.master.replicas }}
   strategy:
-    type: RollingUpdate
+    type: "RollingUpdate"
   selector:
     matchLabels:
-      chart: "{{.Chart.Name}}-{{.Chart.Version}}"
-      component: spark-master
+      chart: "{{ .Chart.Name }}-{{ .Chart.Version }}"
+      component: "spark-master"
   template:
     metadata:
       labels:
-        heritage: {{.Release.Service | quote }}
-        release: {{.Release.Name | quote }}
-        chart: "{{.Chart.Name}}-{{.Chart.Version}}"
-        component: spark-master
+        heritage: {{ .Release.Service | quote }}
+        release: {{ .Release.Name | quote }}
+        chart: "{{ .Chart.Name }}-{{ .Chart.Version }}"
+        component: "spark-master"
     spec:
       containers:
         - name: {{ template "master-fullname" . }}
-          image: "{{.Values.Master.Image}}:{{.Values.Master.ImageTag}}"
-          imagePullPolicy: {{ default "Always" .Values.Master.ImagePullPolicy }}
+          image: "{{ .Values.master.image.repository }}:{{ .Values.master.image.tag }}"
+          imagePullPolicy: {{ .Values.master.image.pullPolicy | quote }}
           volumeMounts:
             - mountPath: "/dev/shm"
               name: "shm"
-            - mountPath: /etc/config
-              name: config-volume
-            - mountPath: /tmp/dayman
-              name: daemon-comm
+            - mountPath: "/etc/config"
+              name: "config-volume"
+            - mountPath: "/tmp/dayman"
+              name: "daemon-comm"
           command: ["/bin/bash"]
           args:
             - -x
             - /spark-master
             - --config=/etc/config
-            - --service-port={{.Values.Master.ServicePort}}
-            - --webui-port={{.Values.WebUi.ServicePort}}
+            - --service-port={{ .Values.master.servicePort }}
+            - --webui-port={{ .Values.master.webAdmin.servicePort }}
             - --master-hostname={{ template "master-fullname" . }}
             - "--host-ip=$(curl --silent {{ template "spark.registry" . }}/$CURRENT_NODE_IP)"
           ports:
-            - containerPort: {{.Values.Master.ContainerPort}}
-            - containerPort: {{.Values.WebUi.ContainerPort}}
+            - containerPort: {{ .Values.master.containerPort }}
+            - containerPort: {{ .Values.master.webAdmin.containerPort }}
           resources:
             requests:
-              cpu: "{{.Values.Master.Cpu}}"
-              memory: "{{.Values.Master.Memory}}"
+              cpu: {{ .Values.master.resources.cpu }}
+              memory: {{ .Values.master.resources.memory | quote }}
+            limits:
+              cpu: {{ .Values.master.resources.cpu }}
+              memory: {{ .Values.master.resources.memory | quote }}
           env:
           - name: IGZ_DATA_CONFIG_FILE
-            value: /tmp/v3io.conf
+            value: "/tmp/v3io.conf"
           - name: CURRENT_NODE_IP
             valueFrom:
               fieldRef:
@@ -96,9 +64,9 @@ spec:
         - name: "shm"
           hostPath:
             path: "/dev/shm"
-        - name: daemon-comm
+        - name: "daemon-comm"
           hostPath:
-            path: /tmp/dayman
-        - name: config-volume
+            path: "/tmp/dayman"
+        - name: "config-volume"
           configMap:
             name: "{{ .Release.Name }}-spark"

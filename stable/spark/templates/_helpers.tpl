@@ -11,26 +11,26 @@ Create fully qualified names.
 We truncate at 24 chars because some Kubernetes name fields are limited to this (by the DNS naming spec).
 */}}
 {{- define "master-fullname" -}}
-{{- $name := default .Chart.Name .Values.Master.Name -}}
-{{- printf "%s-%s" .Release.Name $name | trunc 24 -}}
+{{- $name := default .Chart.Name -}}
+{{- printf "%s-master-%s" .Release.Name $name | trunc 32 -}}
 {{- end -}}
 
 {{- define "webui-fullname" -}}
-{{- $name := default .Chart.Name .Values.WebUi.Name -}}
-{{- printf "%s-%s" .Release.Name $name | trunc 24 -}}
+{{- $name := default .Chart.Name -}}
+{{- printf "%s-webui-%s" .Release.Name $name | trunc 32 -}}
 {{- end -}}
 
 {{- define "worker-fullname" -}}
-{{- $name := default .Chart.Name .Values.Worker.Name -}}
-{{- printf "%s-%s" .Release.Name $name | trunc 24 -}}
+{{- $name := default .Chart.Name -}}
+{{- printf "%s-worker-%s" .Release.Name $name | trunc 32 -}}
 {{- end -}}
 
 {{- define "zeppelin-fullname" -}}
-{{- $name := default .Chart.Name .Values.Zeppelin.Name -}}
-{{- printf "%s-%s" .Release.Name $name | trunc 24 -}}
+{{- $name := default .Chart.Name -}}
+{{- printf "%s-zeppelin-%s" .Release.Name $name | trunc 32 -}}
 {{- end -}}
 
 {{- define "spark.registry" }}
-{{- $host := default .Release.Name .Values.V3IO.DaemonLookupServiceHost }}
-{{- printf "http://%s-%s:%.0f/%s" $host .Values.V3IO.DaemonLookupServiceName .Values.V3IO.DaemonLookupServicePort .Values.V3IO.DaemonLookupServicePath}}
+{{- $service := default (list .Release.Name "-registry" | join "") .Values.v3io.daemonLookupService.name }}
+{{- printf "http://%s:%.0f/%s" $service .Values.v3io.daemonLookupService.servicePort .Values.v3io.daemonLookupService.path}}
 {{- end -}}}}
