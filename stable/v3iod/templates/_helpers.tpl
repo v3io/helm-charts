@@ -3,8 +3,8 @@
 {{/*
 Create fully qualified names.
 */}}
-{{- define "daemon-name" -}}
-{{- $name := default .Chart.Name .Values.name -}}
+{{- define "v3iod-name" -}}
+{{- $name := default .Chart.Name .Values.v3iod.name -}}
 {{- printf "%s-%s" .Release.Name $name | trunc 24 -}}
 {{- end -}}
 

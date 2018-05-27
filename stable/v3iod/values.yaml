@@ -1,16 +1,30 @@
+v3ioClient:
+  image:
+    repository: pavius/v3io_dayman_client
+    tag: latest
+    pullPolicy: IfNotPresent
 
-logger:
-  severity: info
+v3iod:
+  logger:
+    severity: info
 
-image:
-  repository: iguaziodocker/v3io_dayman
-  tag: b1372_20180513080600
-  pullPolicy: IfNotPresent
+  image:
+    repository: iguaziodocker/v3io_dayman
+    tag: latest
+    pullPolicy: IfNotPresent
 
-user: iguazio
-resources:
-  cpu: 1
-  memory: "3Gi"
+  user: iguazio
+  resources: {}
+    # limits:
+      # cpu: 1
+      # memory: "3Gi"
+    # requests:
+      # cpu: 1
+      # memory: "3Gi"
+    
+  cdiPort: 1967
+  maxInFlightRequests: 1024
+  maxChannelInactivitySeconds: 180
   numHugePages: 3000
   numOfWorkers: 1
   boostSizeInBytes: 10000000
@@ -41,9 +55,5 @@ resources:
       "num_blocks": 200
     }
 
-cdiPort: 1967
-maxInFlightRequests: 1024
-maxChannelInactivitySeconds: 180
-
-datanode:
-  uri: "tcp://localhost:1234"
+  datanode:
+    uri: "tcp://localhost:1234"

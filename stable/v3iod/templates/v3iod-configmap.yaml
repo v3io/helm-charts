@@ -1,41 +1,41 @@
 apiVersion: v1
 kind: ConfigMap
 metadata:
-  name: {{ template "daemon-name" . }}
+  name: {{ template "v3iod-name" . }}
 data:
   init.sh: |
     #!/usr/bin/env bash
     set -e
-    chown -R {{ .Values.user }}:{{ .Values.user }} /tmp
+    chown -R {{ .Values.v3iod.user }}:{{ .Values.v3iod.user }} /tmp
     ulimit -S -H -l unlimited
-    echo {{ .Values.resources.numHugePages }} > /proc/sys/vm/nr_hugepages
+    echo {{ .Values.v3iod.numHugePages }} > /proc/sys/vm/nr_hugepages
     su --preserve-environment \
-      --login {{ .Values.user }} \
+      --login {{ .Values.v3iod.user }} \
       --command "/usr/local/bin/v3io_dayman --config-path /etc/iguazio/dayman/default.json"
 
   default.json: |
     {
-      "num_workers": {{ default 1 .Values.resources.numOfWorkers }},
-      "max_channel_inactivity_period_seconds": {{ .Values.maxChannelInactivitySeconds }},
-      "max_inflight_requests": {{ .Values.maxInFlightRequests }},
+      "num_workers": {{ default 1 .Values.v3iod.numOfWorkers }},
+      "max_channel_inactivity_period_seconds": {{ .Values.v3iod.maxChannelInactivitySeconds }},
+      "max_inflight_requests": {{ .Values.v3iod.maxInFlightRequests }},
       "cdi": {
-        "listen_addr": "0.0.0.0:{{ .Values.cdiPort }}"
+        "listen_addr": "0.0.0.0:{{ .Values.v3iod.cdiPort }}"
       },
       "job_block_allocator": {
         "mode": "per-worker",
         "heaps": [
-{{ .Values.resources.heaps | indent 10 }}
-{{- if .Values.resources.boostSizeInBytes -}}
+{{ .Values.v3iod.heaps | indent 10 }}
+{{- if .Values.v3iod.boostSizeInBytes -}}
           ,{
             "kind": "boost",
-            "size_bytes": {{ printf "%d" (int .Values.resources.boostSizeInBytes) }}
+            "size_bytes": {{ printf "%d" (int .Values.v3iod.boostSizeInBytes) }}
           }
 {{- end }}
         ]
       },
       "logger": {
         "mode": "direct",
-        "severity": "{{ .Values.logger.severity }}",
+        "severity": "{{ .Values.v3iod.logger.severity }}",
         "path": "/var/log/iguazio"
       },
       "paths": {
@@ -44,6 +44,6 @@ data:
         "pidfile": "/tmp/dayman.pid"
       },
       "cluster": {
-        "uri": {{ .Values.datanode.uri | quote }}
+        "uri": {{ .Values.v3iod.datanode.uri | quote }}
       }
     }
