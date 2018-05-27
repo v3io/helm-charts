@@ -35,7 +35,7 @@ spec:
             - mountPath: "/etc/config"
               name: "hadoop-config"
             - mountPath: "/tmp/dayman"
-              name: "daemon-comm"
+              name: "v3iod-comm"
             - mountPath: "/igz/.igz"
               name: "v3io-auth"
             - mountPath: "/spark/conf"
@@ -65,7 +65,7 @@ spec:
         - name: "shm"
           hostPath:
             path: "/dev/shm"
-        - name: "daemon-comm"
+        - name: "v3iod-comm"
           hostPath:
             path: "/tmp/dayman"
         - name: "hadoop-config"

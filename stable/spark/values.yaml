@@ -62,7 +62,7 @@ v3io:
   auth:
     password: "password"
     tenant: "Default"
-  daemonLookupService:
+  lookupService:
     name: "v3iod-registry"
     servicePort: 8080
-    path: "registry/daemon"
+    path: "registry/v3iod"

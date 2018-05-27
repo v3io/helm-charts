@@ -4,14 +4,24 @@ logger:
 
 image: 
   repository: iguaziodocker/webapi
+  tag: latest
   pullPolicy: IfNotPresent
 
-resources:
-  memory: "2Gi"
-  numHugePages: 0
+resources: {}
+  # limits:
+    # cpu: 1
+    # memory: "2Gi"
+  # requests:
+    # cpu: 1
+    # memory: "2Gi"
 
+numHugePages: 0
 hostPort: 8081
 sslHostPort: 8443
+workerProcesses: auto
+workerConnections: 1024
 
 datanode:
   url: "tcp://localhost:1234"
+  # defaultUserName:  
+  # defaultPassword:

@@ -9,16 +9,16 @@ data:
     ulimit -S -H -l unlimited
     ulimit -a -S
     ulimit -a -H
-    echo {{ .Values.resources.numHugePages }} > /proc/sys/vm/nr_hugepages
+    echo {{ .Values.numHugePages }} > /proc/sys/vm/nr_hugepages
     mkdir -p /home/iguazio/igz/clients/nginx/lib/logs
 
   nginx.conf: |
-    worker_processes {{ default "auto" .Values.resources.workerProcesses }};
+    worker_processes {{ .Values.workerProcesses }};
     load_module ngx_http_v3io_module.so;
     error_log /home/iguazio/igz/clients/nginx/lib/logs/error.log info;
     events {
         use epoll;
-        worker_connections  {{ default 1024 .Values.resources.workerConnections }};
+        worker_connections  {{ .Values.workerConnections }};
         multi_accept on;
     }
     http {

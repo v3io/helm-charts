@@ -31,6 +31,6 @@ We truncate at 24 chars because some Kubernetes name fields are limited to this 
 {{- end -}}
 
 {{- define "spark.registry" }}
-{{- $service := default (list .Release.Name "-registry" | join "") .Values.v3io.daemonLookupService.name }}
-{{- printf "http://%s:%.0f/%s" $service .Values.v3io.daemonLookupService.servicePort .Values.v3io.daemonLookupService.path}}
+{{- $service := default (list .Release.Name "-registry" | join "") .Values.v3io.lookupService.name }}
+{{- printf "http://%s:%.0f/%s" $service .Values.v3io.lookupService.servicePort .Values.v3io.lookupService.path}}
 {{- end -}}}}
