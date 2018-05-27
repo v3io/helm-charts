@@ -1,0 +1,40 @@
+kind: DaemonSet
+apiVersion: extensions/v1beta1
+metadata:
+  name: {{ template "daemon-name" . }}-client
+spec:
+  selector:
+    matchLabels:
+      v3io-app: daemon-client
+  template:
+    metadata:
+      labels:
+        v3io-app: daemon-client
+    spec:
+      securityContext:
+        runAsUser: 0
+        fsGroup: 0
+      containers:
+        - name: v3iod-client
+          image: pavius/v3io_dayman_client
+          imagePullPolicy: Always
+          command: ["/bin/sleep", "30d"]
+          env:
+            - name: CURRENT_NODE_IP
+              valueFrom:
+                fieldRef:
+                  fieldPath: status.hostIP
+          volumeMounts:
+            - mountPath: /dev/shm
+              name: daemon-shm
+            - mountPath: "/tmp/dayman"
+              name: "daemon-comm"
+          securityContext:
+            privileged: true
+      volumes:
+        - name: daemon-shm
+          hostPath:
+            path: /dev/shm
+        - name: "daemon-comm"
+          hostPath:
+            path: "/tmp/dayman"

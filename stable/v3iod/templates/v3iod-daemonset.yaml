@@ -27,7 +27,7 @@ spec:
         runAsUser: 0
         fsGroup: 0
       containers:
-        - name: v3iod
+        - name: "v3iod"
           image: {{ .Values.image.repository }}:{{ .Values.image.tag }}
           imagePullPolicy: {{ .Values.image.pullPolicy }}
           command: ["/bin/bash"]
