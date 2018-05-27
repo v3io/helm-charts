@@ -63,7 +63,7 @@ spec:
             - mountPath: "/dev/shm"
               name: "shm"
             - mountPath: "/tmp/dayman"
-              name: "v3-comm"
+              name: "v3iod-comm"
             - mountPath: "/igz/.igz"
               name: "v3io-auth"
             - mountPath: "/spark/conf"
