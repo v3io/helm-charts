@@ -8,6 +8,8 @@ metadata:
     chart: "{{ .Chart.Name }}-{{ .Chart.Version }}"
     component: "spark-master"
 spec:
+  securityContext:
+    fsGroup: 1000
   replicas: {{ .Values.master.replicas }}
   strategy:
     type: "RollingUpdate"
@@ -31,9 +33,13 @@ spec:
             - mountPath: "/dev/shm"
               name: "shm"
             - mountPath: "/etc/config"
-              name: "config-volume"
+              name: "hadoop-config"
             - mountPath: "/tmp/dayman"
               name: "daemon-comm"
+            - mountPath: "/igz/.igz"
+              name: "v3io-auth"
+            - mountPath: "/spark/conf"
+              name: "spark-debug-config"
           command: ["/bin/bash"]
           args:
             - -x
@@ -47,12 +53,7 @@ spec:
             - containerPort: {{ .Values.master.containerPort }}
             - containerPort: {{ .Values.master.webAdmin.containerPort }}
           resources:
-            requests:
-              cpu: {{ .Values.master.resources.cpu }}
-              memory: {{ .Values.master.resources.memory | quote }}
-            limits:
-              cpu: {{ .Values.master.resources.cpu }}
-              memory: {{ .Values.master.resources.memory | quote }}
+{{ toYaml .Values.master.resources | indent 12 }}
           env:
           - name: IGZ_DATA_CONFIG_FILE
             value: "/tmp/v3io.conf"
@@ -67,6 +68,12 @@ spec:
         - name: "daemon-comm"
           hostPath:
             path: "/tmp/dayman"
-        - name: "config-volume"
+        - name: "hadoop-config"
           configMap:
-            name: "{{ .Release.Name }}-spark"
+            name: "{{ .Release.Name }}-hadoop-config"
+        - name: "v3io-auth"
+          secret:
+            secretName: "{{ .Release.Name }}-v3io-auth"
+        - name: "spark-debug-config"
+          configMap:
+            name: "{{ .Release.Name }}-spark-debug-config"

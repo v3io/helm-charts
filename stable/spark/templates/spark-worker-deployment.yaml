@@ -8,6 +8,8 @@ metadata:
     chart: "{{ .Chart.Name }}-{{ .Chart.Version }}"
     component: "spark-worker"
 spec:
+  securityContext:
+    fsGroup: 1000
   replicas: {{ .Values.worker.replicas }}
   strategy:
     type: "RollingUpdate"
@@ -33,7 +35,11 @@ spec:
             - mountPath: "/tmp/dayman"
               name: "daemon-comm"
             - mountPath: "/etc/config"
-              name: "config-volume"
+              name: "hadoop-config"
+            - mountPath: "/igz/.igz"
+              name: "v3io-auth"
+            - mountPath: "/spark/conf"
+              name: "spark-debug-config"
           command: ["/bin/bash"]
           args:
             - -x
@@ -46,15 +52,10 @@ spec:
           ports:
             - containerPort: {{ .Values.worker.containerPort }}
           resources:
-            requests:
-              cpu: {{ .Values.worker.resources.cpu }}
-              memory: {{ .Values.worker.resources.memory | quote }}
-            limits:
-              cpu: {{ .Values.worker.resources.cpu }}
-              memory: {{ .Values.worker.resources.memory | quote }}
+{{ toYaml .Values.worker.resources | indent 12 }}
           env:
           - name: SPARK_WORKER_MEMORY
-            value: {{ .Values.worker.resources.executorMemory | quote }}
+            value: {{ .Values.worker.executorMemory | quote }}
           - name: IGZ_DATA_CONFIG_FILE
             value: "/tmp/v3io.conf"
           - name: CURRENT_NODE_IP
@@ -68,6 +69,12 @@ spec:
         - name: "daemon-comm"
           hostPath:
             path: "/tmp/dayman"
-        - name: "config-volume"
+        - name: "hadoop-config"
           configMap:
-            name: "{{ .Release.Name }}-spark"
+            name: "{{ .Release.Name }}-hadoop-config"
+        - name: "v3io-auth"
+          secret:
+            secretName: "{{ .Release.Name }}-v3io-auth"
+        - name: "spark-debug-config"
+          configMap:
+            name: "{{ .Release.Name }}-spark-debug-config"

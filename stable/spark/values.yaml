@@ -7,9 +7,13 @@ master:
   servicePort: 7077
   containerPort: 7077
   
-  resources:
-    cpu: 1
-    memory: "3Gi"
+  resources: {}
+    # limits:
+      # cpu: 1
+      # memory: "3Gi"
+    # requests:
+      # cpu: 1
+      # memory: "3Gi"
   
   webAdmin:
     servicePort: 8080
@@ -22,11 +26,15 @@ worker:
     pullPolicy: "IfNotPresent"
   replicas: 1
   containerPort: 8081
+  executorMemory: "1g"
   
-  resources:
-    cpu: 1
-    memory: "4Gi"
-    executorMemory: "1g"
+  resources: {}
+    # limits:
+      # cpu: 1
+      # memory: "4Gi"
+    # requests:
+      # cpu: 1
+      # memory: "4Gi"
 
 zeppelin:
   image:
@@ -38,15 +46,22 @@ zeppelin:
   containerPort: 8080
   # nodePort: 32100
   
-  resources:
-    cpu: 1
-    memory: "2Gi"
+  resources: {}
+    # limits:
+      # cpu: 1
+      # memory: "2Gi"
+    # requests:
+      # cpu: 1
+      # memory: "2Gi"
 
   preloadNotebooks:
     enabled: true
     notebooks: {}
 
 v3io:
+  auth:
+    password: "password"
+    tenant: "Default"
   daemonLookupService:
     name: "v3iod-registry"
     servicePort: 8080

@@ -8,6 +8,8 @@ metadata:
     chart: "{{ .Chart.Name }}-{{ .Chart.Version }}"
     component: zeppelin
 spec:
+  securityContext:
+    fsGroup: 1000
   replicas: {{ .Values.zeppelin.replicas }}
   strategy:
     type: "RollingUpdate"
@@ -33,12 +35,7 @@ spec:
           ports:
             - containerPort: {{ .Values.zeppelin.containerPort }}
           resources:
-            requests:
-              cpu: {{ .Values.zeppelin.resources.cpu }}
-              memory: {{ .Values.zeppelin.resources.memory | quote }}
-            limits:
-              cpu: {{ .Values.zeppelin.resources.cpu }}
-              memory: {{ .Values.zeppelin.resources.memory | quote }}
+{{ toYaml .Values.zeppelin.resources | indent 12 }}
           readinessProbe:
             httpGet:
               path: /
@@ -60,21 +57,25 @@ spec:
                   fieldPath: status.hostIP
           volumeMounts:
             - mountPath: "/etc/config"
-              name: "config-volume"
+              name: "hadoop-config"
             - mountPath: "/etc/run"
               name: "init-volume"
             - mountPath: "/dev/shm"
               name: "shm"
             - mountPath: "/tmp/dayman"
               name: "daemon-comm"
+            - mountPath: "/igz/.igz"
+              name: "v3io-auth"
+            - mountPath: "/spark/conf"
+              name: "spark-debug-config"
 {{- if .Values.zeppelin.preloadNotebooks.enabled }}
             - mountPath: "/tmp/notebooks"
               name: "notebook-volume"
 {{- end }}        
       volumes:
-          - name: "config-volume"
+          - name: "hadoop-config"
             configMap:
-              name: "{{ .Release.Name }}-spark"
+              name: "{{ .Release.Name }}-hadoop-config"
           - name: "init-volume"
             configMap:
               name: {{ template "zeppelin-fullname" . }}
@@ -84,6 +85,12 @@ spec:
           - name: "daemon-comm"
             hostPath:
               path: "/tmp/dayman"
+          - name: "v3io-auth"
+            secret:
+              secretName: "{{ .Release.Name }}-v3io-auth"
+          - name: "spark-debug-config"
+            configMap:
+              name: "{{ .Release.Name }}-spark-debug-config"
 {{- if .Values.zeppelin.preloadNotebooks.enabled }}
           - name: "notebook-volume"
             configMap:
