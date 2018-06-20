@@ -1,11 +1,11 @@
-name: v3iod
-version: 0.3.6
-appVersion: 1.5.2
-description: V3IO Daemon
-home: https://iguazio.com
+apiVersion: v1
+appVersion: "1.0"
+description: V3IO configuration templates
+name: v3io-configs
+version: 0.1.0
 icon: https://www.iguazio.com/wp-content/uploads/2017/09/iguazio_logo_2017_w_c.png
 sources:
-  - https://github.com/v3io/v3iod
+  - https://github.com/iguazio/kubeops/
 maintainers:
   - name: bivas
     email: eliranb@iguazio.com

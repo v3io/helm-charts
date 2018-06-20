@@ -10,7 +10,7 @@ Master:
   ImagePullPolicy: "IfNotPresent"
   Replicas: 1
   Component: "spark-master"
-  Cpu: "100m"
+  Cpu: "1"
   Memory: "3Gi"
   ServicePort: 7077
   ContainerPort: 7077
@@ -20,7 +20,6 @@ WebUi:
   ServicePort: 8080
   ContainerPort: 8080
   NameSpace: "iguazio"
-  NodePort: 32750
 
 Worker:
   Name: spark-worker
@@ -29,21 +28,22 @@ Worker:
   ImagePullPolicy: "IfNotPresent"
   Replicas: 1
   Component: "spark-worker"
-  Cpu: "100m"
+  Cpu: "1"
   Memory: "4Gi"
   ContainerPort: 8081
 
 Zeppelin:
   Name: zeppelin
   Image: "iguaziodocker/zeppelin"
-  ImageTag: "2.1.2-1.5.2"
+  ImageTag: "0.7.3-1.5.2"
   ImagePullPolicy: "IfNotPresent"
   Replicas: 1
   Component: "zeppelin"
-  Cpu: "100m"
+  Cpu: "1"
+  Memory: "2Gi"
   ServicePort: 8080
   ContainerPort: 8080
-  NodePort: 30280
+  NodePort: 0
   PreloadNotebooks:
     Enabled: true
     Notebooks:

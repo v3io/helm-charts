@@ -1,0 +1,17 @@
+apiVersion: v1
+kind: ResourceQuota
+metadata:
+  name: {{ template "tenant.name" . }}-quota
+  namespace: {{ template "tenant.name" . }}
+  labels:
+    owner: {{ template "tenant.name" . }}
+    chart: {{ template "tenant.chart" . }}
+    release: {{ .Release.Name }}
+spec:
+  hard:
+    requests.cpu: "{{ .Values.compute.requests.cpu }}"
+    requests.memory: {{ .Values.compute.requests.memory }}
+    limits.cpu: "{{ .Values.compute.limits.cpu }}"
+    limits.memory: {{ .Values.compute.limits.memory }}
+    services.nodeports: "{{ .Values.services.nodePorts }}"
+    services.loadbalancers: "{{ .Values.services.loadBalancers }}"

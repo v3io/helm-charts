@@ -25,7 +25,6 @@ metadata:
     chart: "{{.Chart.Name}}-{{.Chart.Version}}"
     component: spark-master
 spec:
-  type: NodePort
   ports:
     - port: {{.Values.WebUi.ServicePort}}
       targetPort: {{.Values.WebUi.ContainerPort}}
