@@ -57,6 +57,25 @@ zeppelin:
   preloadNotebooks:
     enabled: true
     notebooks: {}
+    # - title: "iguazio/Demo Notebook"
+    #   documentation: |-
+    #     ## Title ##
+    #     This section actually supports Markdown syntax!
+    #   sections:
+    #   - language: scala
+    #     content: |-
+    #       import org.apache.spark.sql.types._
+    #       import org.apache.spark.sql.functions._
+    #       val schema = StructType(List(
+    #               StructField("__name", StringType),
+    #               StructField("count", LongType)
+    #           ))
+    #       val df = sqlContext.read
+    #                   .format("io.iguaz.v3io.spark.sql.kv")
+    #                   .schema(schema)
+    #                   .option("container-alias", "bigdata")
+    #                   .load("/data")
+    #       df.where($"count" > 10).orderBy(desc("count")).show()
 
 v3io:
   auth:
