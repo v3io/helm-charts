@@ -1,51 +1,51 @@
 apiVersion: extensions/v1beta1
 kind: Deployment
 metadata:
-  name: {{ template "worker-fullname" . }}
+  name: {{ template "worker-name" . }}
   labels:
     heritage: {{ .Release.Service | quote }}
     release: {{ .Release.Name | quote }}
-    chart: "{{ .Chart.Name }}-{{ .Chart.Version }}"
-    component: "spark-worker"
+    chart: {{ .Chart.Name }}-{{ .Chart.Version }}
+    component: spark-worker
 spec:
   securityContext:
     fsGroup: 1000
   replicas: {{ .Values.worker.replicas }}
   strategy:
-    type: "RollingUpdate"
+    type: RollingUpdate
   selector:
     matchLabels:
-      chart: "{{ .Chart.Name }}-{{ .Chart.Version }}"
-      component: "spark-worker"
+      chart: {{ .Chart.Name }}-{{ .Chart.Version }}
+      component: spark-worker
   template:
     metadata:
       labels:
         heritage: {{ .Release.Service | quote }}
         release: {{ .Release.Name | quote }}
-        chart: "{{ .Chart.Name }}-{{ .Chart.Version }}"
-        component: "spark-worker"
+        chart: {{ .Chart.Name }}-{{ .Chart.Version }}
+        component: spark-worker
     spec:
       containers:
-        - name: {{ template "worker-fullname" . }}
-          image: "{{ .Values.worker.image.repository }}:{{ .Values.worker.image.tag }}"
+        - name: {{ template "worker-name" . }}
+          image: {{ .Values.worker.image.repository }}:{{ .Values.worker.image.tag }}
           imagePullPolicy: {{ .Values.master.image.pullPolicy | quote }}
           volumeMounts:
-            - mountPath: "/dev/shm"
-              name: "shm"
-            - mountPath: "/tmp/dayman"
-              name: "v3iod-comm"
-            - mountPath: "/etc/config"
-              name: "hadoop-config"
-            - mountPath: "/igz/.igz"
-              name: "v3io-auth"
-            - mountPath: "/spark/conf"
-              name: "spark-debug-config"
+            - mountPath: /dev/shm
+              name: shm
+            - mountPath: /tmp/dayman
+              name: v3iod-comm
+            - mountPath: /etc/config
+              name: hadoop-config
+            - mountPath: /igz/.igz
+              name: v3io-auth
+            - mountPath: /spark/conf
+              name: spark-debug-config
           command: ["/bin/bash"]
           args:
             - -x
             - /spark-worker
             - --config=/etc/config
-            - --master-hostname={{ template "master-fullname" . }}
+            - --master-hostname={{ template "master-name" . }}
             - --master-port={{ .Values.master.servicePort }}
             - --webui-port={{ .Values.worker.containerPort }}
             - "--host-ip=$(curl --silent {{ template "spark.registry" . }}/$CURRENT_NODE_IP)"
@@ -57,24 +57,24 @@ spec:
           - name: SPARK_WORKER_MEMORY
             value: {{ .Values.worker.executorMemory | quote }}
           - name: IGZ_DATA_CONFIG_FILE
-            value: "/tmp/v3io.conf"
+            value: /tmp/v3io.conf
           - name: CURRENT_NODE_IP
             valueFrom:
               fieldRef:
                 fieldPath: status.hostIP
       volumes:
-        - name: "shm"
+        - name: shm
           hostPath:
-            path: "/dev/shm"
-        - name: "v3iod-comm"
+            path: /dev/shm
+        - name: v3iod-comm
           hostPath:
-            path: "/tmp/dayman"
-        - name: "hadoop-config"
+            path: /tmp/dayman
+        - name: hadoop-config
           configMap:
-            name: "{{ .Release.Name }}-hadoop-config"
-        - name: "v3io-auth"
+            name: {{ .Release.Name }}-hadoop-config
+        - name: v3io-auth
           secret:
-            secretName: "{{ .Release.Name }}-v3io-auth"
-        - name: "spark-debug-config"
+            secretName: {{ .Release.Name }}-v3io-auth
+        - name: spark-debug-config
           configMap:
-            name: "{{ .Release.Name }}-spark-debug-config"
+            name: {{ .Release.Name }}-spark-debug-config

@@ -3,11 +3,15 @@
 {{/*
 Create fully qualified names.
 */}}
+
 {{- define "v3iod-name" -}}
-{{- $name := default .Chart.Name .Values.v3iod.name -}}
-{{- printf "%s-%s" .Release.Name $name | trunc 24 -}}
+{{- printf "%s-v3iod" .Release.Name | trunc 63 -}}
+{{- end -}}
+
+{{- define "v3iod-client-name" -}}
+{{- printf "%s-v3iod-client" .Release.Name | trunc 63 -}}
 {{- end -}}
 
 {{- define "cache-name" -}}
-{{- printf "%s-registry" .Release.Name -}}
+{{- printf "%s-registry" .Release.Name | trunc 63 -}}
 {{- end -}}

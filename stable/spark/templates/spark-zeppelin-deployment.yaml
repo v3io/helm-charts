@@ -1,33 +1,33 @@
 apiVersion: extensions/v1beta1
 kind: Deployment
 metadata:
-  name: {{ template "zeppelin-fullname" . }}
+  name: {{ template "zeppelin-name" . }}
   labels:
     heritage: {{ .Release.Service | quote }}
     release: {{ .Release.Name | quote }}
-    chart: "{{ .Chart.Name }}-{{ .Chart.Version }}"
+    chart: {{ .Chart.Name }}-{{ .Chart.Version }}
     component: zeppelin
 spec:
   securityContext:
     fsGroup: 1000
   replicas: {{ .Values.zeppelin.replicas }}
   strategy:
-    type: "RollingUpdate"
+    type: RollingUpdate
   selector:
     matchLabels:
-      chart: "{{ .Chart.Name }}-{{ .Chart.Version }}"
-      component: "zeppelin"
+      chart: {{ .Chart.Name }}-{{ .Chart.Version }}
+      component: zeppelin
   template:
     metadata:
       labels:
         heritage: {{ .Release.Service | quote }}
         release: {{ .Release.Name | quote }}
-        chart: "{{ .Chart.Name }}-{{ .Chart.Version }}"
-        component: "zeppelin"
+        chart: {{ .Chart.Name }}-{{ .Chart.Version }}
+        component: zeppelin
     spec:
       containers:
-        - name: {{ template "zeppelin-fullname" . }}
-          image: "{{ .Values.zeppelin.image.repository }}:{{ .Values.zeppelin.image.tag }}"
+        - name: {{ template "zeppelin-name" . }}
+          image: {{ .Values.zeppelin.image.repository }}:{{ .Values.zeppelin.image.tag }}
           imagePullPolicy: {{ .Values.zeppelin.image.pullPolicy | quote }}
           command: ["/bin/bash"]
           args:
@@ -48,51 +48,51 @@ spec:
             initialDelaySeconds: 90
           env:
             - name: MASTER
-              value: "spark://{{ template "master-fullname" . }}:{{ .Values.master.servicePort }}"
+              value: spark://{{ template "master-name" . }}:{{ .Values.master.servicePort }}
             - name: IGZ_DATA_CONFIG_FILE
-              value: "/tmp/v3io.conf"
+              value: /tmp/v3io.conf
             - name: CURRENT_NODE_IP
               valueFrom:
                 fieldRef:
                   fieldPath: status.hostIP
           volumeMounts:
-            - mountPath: "/etc/config"
-              name: "hadoop-config"
-            - mountPath: "/etc/run"
-              name: "init-volume"
-            - mountPath: "/dev/shm"
-              name: "shm"
-            - mountPath: "/tmp/dayman"
-              name: "v3iod-comm"
-            - mountPath: "/igz/.igz"
-              name: "v3io-auth"
-            - mountPath: "/spark/conf"
-              name: "spark-debug-config"
+            - mountPath: /etc/config
+              name: hadoop-config
+            - mountPath: /etc/run
+              name: init-volume
+            - mountPath: /dev/shm
+              name: shm
+            - mountPath: /tmp/dayman
+              name: v3iod-comm
+            - mountPath: /igz/.igz
+              name: v3io-auth
+            - mountPath: /spark/conf
+              name: spark-debug-config
 {{- if .Values.zeppelin.preloadNotebooks.enabled }}
-            - mountPath: "/tmp/notebooks"
-              name: "notebook-volume"
+            - mountPath: /tmp/notebooks
+              name: notebook-volume
 {{- end }}        
       volumes:
-          - name: "hadoop-config"
+          - name: hadoop-config
             configMap:
-              name: "{{ .Release.Name }}-hadoop-config"
-          - name: "init-volume"
+              name: {{ .Release.Name }}-hadoop-config
+          - name: init-volume
             configMap:
-              name: {{ template "zeppelin-fullname" . }}
-          - name: "shm"
+              name: {{ template "zeppelin-name" . }}
+          - name: shm
             hostPath:
-              path: "/dev/shm"
-          - name: "v3iod-comm"
+              path: /dev/shm
+          - name: v3iod-comm
             hostPath:
-              path: "/tmp/dayman"
-          - name: "v3io-auth"
+              path: /tmp/dayman
+          - name: v3io-auth
             secret:
-              secretName: "{{ .Release.Name }}-v3io-auth"
-          - name: "spark-debug-config"
+              secretName: {{ .Release.Name }}-v3io-auth
+          - name: spark-debug-config
             configMap:
-              name: "{{ .Release.Name }}-spark-debug-config"
+              name: {{ .Release.Name }}-spark-debug-config
 {{- if .Values.zeppelin.preloadNotebooks.enabled }}
-          - name: "notebook-volume"
+          - name: notebook-volume
             configMap:
-              name: {{ template "zeppelin-fullname" . }}-notebooks
+              name: {{ template "zeppelin-name" . }}-notebooks
 {{- end }}              

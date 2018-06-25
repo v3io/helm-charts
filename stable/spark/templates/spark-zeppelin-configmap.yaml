@@ -1,12 +1,12 @@
 apiVersion: v1
 kind: ConfigMap
 metadata:
-  name: "{{ template "zeppelin-fullname" . }}"
+  name: {{ template "zeppelin-name" . }}
   labels:
     heritage: {{ .Release.Service | quote }}
     release: {{ .Release.Name | quote }}
-    chart: "{{ .Chart.Name }}-{{ .Chart.Version }}"
-    component: "zeppelin"
+    chart: {{ .Chart.Name }}-{{ .Chart.Version }}
+    component: zeppelin
 data:
   init.sh : |
     #!/bin/bash
@@ -17,6 +17,6 @@ data:
     done
 {{- end }}
     /docker-zeppelin.sh --config=/etc/config \
-            --master-hostname={{ template "master-fullname" . }} \
+            --master-hostname={{ template "master-name" . }} \
             --master-port={{ .Values.master.servicePort }} \
             --host-ip=$(curl --silent {{ template "spark.registry" . }}/$CURRENT_NODE_IP)

@@ -1,12 +1,12 @@
 apiVersion: v1
 kind: Service
 metadata:
-  name: {{ template "zeppelin-fullname" . }}
+  name: {{ template "zeppelin-name" . }}
   labels:
     heritage: {{ .Release.Service | quote }}
     release: {{ .Release.Name | quote }}
-    chart: "{{ .Chart.Name }}-{{ .Chart.Version }}"
-    component: "zeppelin"
+    chart: {{ .Chart.Name }}-{{ .Chart.Version }}
+    component: zeppelin
 spec:
 {{- if .Values.zeppelin.nodePort }}
   type: NodePort

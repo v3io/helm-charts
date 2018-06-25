@@ -1,7 +1,7 @@
 master:
   image:
     repository: "iguaziodocker/spark"
-    tag: "2.1.2-1.5.2"
+    tag: "2.1.2-1.7_b2_20180620143303"
     pullPolicy: "IfNotPresent"
   replicas: 1
   servicePort: 7077
@@ -22,7 +22,7 @@ master:
 worker:
   image:
     repository: "iguaziodocker/spark"
-    tag: "2.1.2-1.5.2"
+    tag: "2.1.2-1.7_b2_20180620143303"
     pullPolicy: "IfNotPresent"
   replicas: 1
   containerPort: 8081
@@ -39,7 +39,7 @@ worker:
 zeppelin:
   image:
     repository: "iguaziodocker/zeppelin"
-    tag: "0.7.3-1.5.2"
+    tag: "0.7.3-1.7_b2_20180620143303"
     pullPolicy: "IfNotPresent"
   replicas: 1
   servicePort: 8080

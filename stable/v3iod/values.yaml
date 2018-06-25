@@ -1,7 +1,7 @@
 v3ioClient:
   image:
     repository: pavius/v3io_dayman_client
-    tag: latest
+    tag: 1.7_b2_20180620143303
     pullPolicy: IfNotPresent
 
 v3iod:
@@ -10,7 +10,7 @@ v3iod:
 
   image:
     repository: iguaziodocker/v3io_dayman
-    tag: latest
+    tag: 1.7_b2_20180620143303
     pullPolicy: IfNotPresent
 
   user: iguazio

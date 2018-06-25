@@ -1,7 +1,7 @@
 apiVersion: v1
 kind: ConfigMap
 metadata:
-  name: {{ template "webapi-name" . }}
+  name: {{ template "v3io-webapi-name" . }}
 data:
   init.sh: |
     #!/usr/bin/env bash
