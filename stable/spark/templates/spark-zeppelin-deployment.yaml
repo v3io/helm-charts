@@ -96,30 +96,3 @@ spec:
             configMap:
               name: {{ template "zeppelin-name" . }}-notebooks
 {{- end }}              
-<<<<<<< HEAD
----
-apiVersion: v1
-kind: ConfigMap
-metadata:
-  name: "{{ template "zeppelin-fullname" . }}"
-  labels:
-    heritage: {{.Release.Service | quote }}
-    release: {{.Release.Name | quote }}
-    chart: "{{.Chart.Name}}-{{.Chart.Version}}"
-    component: zeppelin
-data:
-  init.sh : |
-    #!/bin/bash
-{{- if .Values.Zeppelin.PreloadNotebooks.Enabled }}
-    for notebook in $(ls /tmp/notebooks); do 
-      mkdir -p ${ZEPPELIN_HOME}/notebook/$notebook; 
-      cp /tmp/notebooks/$notebook ${ZEPPELIN_HOME}/notebook/$notebook/note.json; 
-    done
-{{- end }}
-    /docker-zeppelin.sh --config=/etc/config \
-            --master-hostname={{ template "master-fullname" . }} \
-            --master-port={{.Values.Master.ServicePort}} \
-            --host-ip=$(curl --silent {{ template "spark.registry" . }}/$CURRENT_NODE_IP)
-    
-=======
->>>>>>> development
