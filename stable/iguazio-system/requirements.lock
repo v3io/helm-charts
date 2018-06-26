@@ -1,0 +1,12 @@
+dependencies:
+- name: prometheus
+  repository: https://kubernetes-charts.storage.googleapis.com/
+  version: 4.6.13
+- name: grafana
+  repository: https://kubernetes-charts.storage.googleapis.com/
+  version: 0.5.4
+- name: tenant
+  repository: https://v3io.github.io/helm-charts/stable
+  version: 0.1.0
+digest: sha256:8bcd28fd682fe1e3930763814eeab2c13d4f2351564e117866677cd639e3b7c5
+generated: 2018-06-26T16:00:38.650613265+03:00
