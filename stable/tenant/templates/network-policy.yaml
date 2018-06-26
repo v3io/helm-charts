@@ -16,12 +16,12 @@ spec:
     - from:
       - namespaceSelector:
           matchLabels:
-            name: {{ template "tenant.name" . }}
+            owner: {{ template "tenant.name" . }}
 {{- range $i, $allow := .Values.network.ingress.allowedNamespaces }}
     - from:
       - namespaceSelector:
           matchLabels:
-            name: {{ $allow }}
+            owner: {{ $allow }}
 {{- end }}
   egress:
 {{- if .Values.network.egress.limited }}
@@ -33,7 +33,7 @@ spec:
     - to:
         - namespaceSelector:
             matchLabels:
-              name: {{ template "tenant.name" . }}
+              owner: {{ template "tenant.name" . }}
 {{- else }}
     - {}
 {{- end -}}

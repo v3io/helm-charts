@@ -1,0 +1,27 @@
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: {{ template "iguazio-system.name" . }}-tag-job
+  namespace: kube-system
+  labels:
+    owner: {{ template "iguazio-system.name" . }}
+    chart: {{ template "iguazio-system.chart" . }}
+    release: {{ .Release.Name }}
+  annotations:
+    "helm.sh/hook": pre-install
+    "helm.sh/hook-weight": "0"
+    "helm.sh/hook-delete-policy": before-hook-creation
+spec:
+  template:
+    spec:
+      serviceAccountName: {{ .Values.job.namespaceTag.runAsServiceAccount }}
+      containers:
+      - name: tag-job
+        image: {{ .Values.job.namespaceTag.image.repository }}:{{ .Values.job.namespaceTag.image.tag }}
+        command: ["/bin/sh", "-c"]
+        args:
+{{- range $i, $val := .Values.job.namespaceTag.namespaces }}
+          - kubectl label namespace {{ $val }} owner={{ $val }} ;
+{{- end }}
+      restartPolicy: Never
+  backoffLimit: 1

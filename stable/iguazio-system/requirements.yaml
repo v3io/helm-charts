@@ -1,0 +1,12 @@
+dependencies:
+- name: prometheus
+  version: "4.6.13"
+  condition: prometheus.enabled
+  repository: https://kubernetes-charts.storage.googleapis.com/
+- name: grafana
+  version: "0.5.4"
+  condition: grafana.enabled
+  repository: https://kubernetes-charts.storage.googleapis.com/
+- name: tenant
+  version: "0.1.0"
+  repository: https://v3io.github.io/helm-charts/stable
