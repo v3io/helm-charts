@@ -16,7 +16,7 @@ spec:
           imagePullPolicy: Always
           command: ["/bin/bash", "-c"]
           args:
-            - "registryctl --namespace=$CURRENT_NAMESPACE"
+            - registryctl --namespace=$CURRENT_NAMESPACE
           ports:
             - containerPort: 8080
           resources:

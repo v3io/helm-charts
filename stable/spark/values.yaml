@@ -1,73 +1,87 @@
-# Default values for spark.
-# This is a YAML-formatted file.
-# Declare name/value pairs to be passed into your templates.
-# name: value
+master:
+  image:
+    repository: "iguaziodocker/spark"
+    tag: "2.1.2-1.7_b2_20180620143303"
+    pullPolicy: "IfNotPresent"
+  replicas: 1
+  servicePort: 7077
+  containerPort: 7077
+  
+  resources: {}
+    # limits:
+      # cpu: 1
+      # memory: "3Gi"
+    # requests:
+      # cpu: 1
+      # memory: "3Gi"
+  
+  webAdmin:
+    servicePort: 8080
+    containerPort: 8080
 
-Master:
-  Name: spark-master
-  Image: "iguaziodocker/spark"
-  ImageTag: "2.1.2-1.5.2"
-  ImagePullPolicy: "IfNotPresent"
-  Replicas: 1
-  Component: "spark-master"
-  Cpu: "1"
-  Memory: "3Gi"
-  ServicePort: 7077
-  ContainerPort: 7077
+worker:
+  image:
+    repository: "iguaziodocker/spark"
+    tag: "2.1.2-1.7_b2_20180620143303"
+    pullPolicy: "IfNotPresent"
+  replicas: 1
+  containerPort: 8081
+  executorMemory: "1g"
+  
+  resources: {}
+    # limits:
+      # cpu: 1
+      # memory: "4Gi"
+    # requests:
+      # cpu: 1
+      # memory: "4Gi"
 
-WebUi:
-  Name: spark-webui
-  ServicePort: 8080
-  ContainerPort: 8080
-  NameSpace: "iguazio"
+zeppelin:
+  image:
+    repository: "iguaziodocker/zeppelin"
+    tag: "0.7.3-1.7_b2_20180620143303"
+    pullPolicy: "IfNotPresent"
+  replicas: 1
+  servicePort: 8080
+  containerPort: 8080
+  # nodePort: 32100
+  
+  resources: {}
+    # limits:
+      # cpu: 1
+      # memory: "2Gi"
+    # requests:
+      # cpu: 1
+      # memory: "2Gi"
 
-Worker:
-  Name: spark-worker
-  Image: "iguaziodocker/spark"
-  ImageTag: "2.1.2-1.5.2"
-  ImagePullPolicy: "IfNotPresent"
-  Replicas: 1
-  Component: "spark-worker"
-  Cpu: "1"
-  Memory: "4Gi"
-  ContainerPort: 8081
+  preloadNotebooks:
+    enabled: true
+    notebooks: {}
+    # - title: "iguazio/Demo Notebook"
+    #   documentation: |-
+    #     ## Title ##
+    #     This section actually supports Markdown syntax!
+    #   sections:
+    #   - language: scala
+    #     content: |-
+    #       import org.apache.spark.sql.types._
+    #       import org.apache.spark.sql.functions._
+    #       val schema = StructType(List(
+    #               StructField("__name", StringType),
+    #               StructField("count", LongType)
+    #           ))
+    #       val df = sqlContext.read
+    #                   .format("io.iguaz.v3io.spark.sql.kv")
+    #                   .schema(schema)
+    #                   .option("container-alias", "bigdata")
+    #                   .load("/data")
+    #       df.where($"count" > 10).orderBy(desc("count")).show()
 
-Zeppelin:
-  Name: zeppelin
-  Image: "iguaziodocker/zeppelin"
-  ImageTag: "0.7.3-1.5.2"
-  ImagePullPolicy: "IfNotPresent"
-  Replicas: 1
-  Component: "zeppelin"
-  Cpu: "1"
-  Memory: "2Gi"
-  ServicePort: 8080
-  ContainerPort: 8080
-  NodePort: 0
-  PreloadNotebooks:
-    Enabled: true
-    Notebooks:
-      - Title: "iguazio/Demo Notebook"
-        Documentation: |-
-          ## Title ##
-          This section actually supports Markdown syntax!
-        Sections:
-        - Language: scala
-          Content: |-
-            import org.apache.spark.sql.types._
-            import org.apache.spark.sql.functions._
-            val schema = StructType(List(
-                    StructField("__name", StringType),
-                    StructField("count", LongType)
-                ))
-            val df = sqlContext.read
-                        .format("io.iguaz.v3io.spark.sql.kv")
-                        .schema(schema)
-                        .option("container-alias", "bigdata")
-                        .load("/data")
-            df.where($"count" > 10).orderBy(desc("count")).show()
-
-V3IO:
-  DaemonLookupServiceName: "registry"
-  DaemonLookupServicePort: 8080
-  DaemonLookupServicePath: "registry/daemon"
+v3io:
+  auth:
+    password: "password"
+    tenant: "Default"
+  lookupService:
+    name: "v3iod-registry"
+    servicePort: 8080
+    path: "registry/v3iod"
