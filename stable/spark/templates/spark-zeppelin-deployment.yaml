@@ -1,77 +1,54 @@
-apiVersion: v1
-kind: Service
-metadata:
-  name: {{ template "zeppelin-fullname" . }}
-  labels:
-    heritage: {{ .Release.Service | quote }}
-    release: {{ .Release.Name | quote }}
-    chart: "{{ .Chart.Name }}-{{ .Chart.Version }}"
-    component: zeppelin
-spec:
-{{- if gt (int .Values.Zeppelin.NodePort) 0 }}
-  type: NodePort
-{{- end }}
-  ports:
-    - port: {{ .Values.Zeppelin.ServicePort }}
-      targetPort: {{ .Values.Zeppelin.ContainerPort }}
-{{- if gt (int .Values.Zeppelin.NodePort) 0 }}
-      nodePort: {{ .Values.Zeppelin.NodePort }}
-{{- end }}
-  selector:
-    release: {{ .Release.Name | quote }}
-    component: zeppelin
----
 apiVersion: extensions/v1beta1
 kind: Deployment
 metadata:
-  name: {{ template "zeppelin-fullname" . }}
+  name: {{ template "zeppelin-name" . }}
   labels:
     heritage: {{ .Release.Service | quote }}
     release: {{ .Release.Name | quote }}
-    chart: "{{ .Chart.Name }}-{{ .Chart.Version }}"
+    chart: {{ .Chart.Name }}-{{ .Chart.Version }}
     component: zeppelin
 spec:
-  replicas: {{ default 1 .Values.Zeppelin.Replicas }}
+  securityContext:
+    fsGroup: 1000
+  replicas: {{ .Values.zeppelin.replicas }}
   strategy:
     type: RollingUpdate
   selector:
     matchLabels:
-      chart: "{{ .Chart.Name }}-{{ .Chart.Version }}"
+      chart: {{ .Chart.Name }}-{{ .Chart.Version }}
       component: zeppelin
   template:
     metadata:
       labels:
         heritage: {{ .Release.Service | quote }}
         release: {{ .Release.Name | quote }}
-        chart: "{{ .Chart.Name }}-{{ .Chart.Version }}"
+        chart: {{ .Chart.Name }}-{{ .Chart.Version }}
         component: zeppelin
     spec:
       containers:
-        - name: {{ template "zeppelin-fullname" . }}
-          image: "{{ .Values.Zeppelin.Image }}:{{ .Values.Zeppelin.ImageTag }}"
-          imagePullPolicy: {{ default "Always" .Values.Master.ImagePullPolicy }}
+        - name: {{ template "zeppelin-name" . }}
+          image: {{ .Values.zeppelin.image.repository }}:{{ .Values.zeppelin.image.tag }}
+          imagePullPolicy: {{ .Values.zeppelin.image.pullPolicy | quote }}
           command: ["/bin/bash"]
           args:
             - /etc/run/init.sh
           ports:
-            - containerPort: {{ .Values.Zeppelin.ContainerPort }}
+            - containerPort: {{ .Values.zeppelin.containerPort }}
           resources:
-            requests:
-              cpu: "{{ .Values.Zeppelin.Cpu }}"
-              memory: "{{ .Values.Zeppelin.Memory }}"
+{{ toYaml .Values.zeppelin.resources | indent 12 }}
           readinessProbe:
             httpGet:
               path: /
-              port: {{ .Values.Zeppelin.ContainerPort }}
+              port: {{ .Values.zeppelin.containerPort }}
             initialDelaySeconds: 5
           livenessProbe:
             httpGet:
               path: /
-              port: {{ .Values.Zeppelin.ContainerPort }}
+              port: {{ .Values.zeppelin.containerPort }}
             initialDelaySeconds: 90
           env:
             - name: MASTER
-              value: "spark://{{ template "master-fullname" . }}:{{ .Values.Master.ServicePort }}"
+              value: spark://{{ template "master-name" . }}:{{ .Values.master.servicePort }}
             - name: IGZ_DATA_CONFIG_FILE
               value: /tmp/v3io.conf
             - name: CURRENT_NODE_IP
@@ -80,35 +57,46 @@ spec:
                   fieldPath: status.hostIP
           volumeMounts:
             - mountPath: /etc/config
-              name: config-volume
+              name: hadoop-config
             - mountPath: /etc/run
               name: init-volume
-            - mountPath: "/dev/shm"
-              name: "shm"
+            - mountPath: /dev/shm
+              name: shm
             - mountPath: /tmp/dayman
-              name: daemon-comm
-{{- if .Values.Zeppelin.PreloadNotebooks.Enabled }}
+              name: v3iod-comm
+            - mountPath: /igz/.igz
+              name: v3io-auth
+            - mountPath: /spark/conf
+              name: spark-debug-config
+{{- if .Values.zeppelin.preloadNotebooks.enabled }}
             - mountPath: /tmp/notebooks
               name: notebook-volume
 {{- end }}        
       volumes:
-          - name: config-volume
+          - name: hadoop-config
             configMap:
-              name: "{{ .Release.Name }}-spark"
+              name: {{ .Release.Name }}-hadoop-config
           - name: init-volume
             configMap:
-              name: {{ template "zeppelin-fullname" . }}
-          - name: "shm"
+              name: {{ template "zeppelin-name" . }}
+          - name: shm
             hostPath:
-              path: "/dev/shm"
-          - name: daemon-comm
+              path: /dev/shm
+          - name: v3iod-comm
             hostPath:
               path: /tmp/dayman
-{{- if .Values.Zeppelin.PreloadNotebooks.Enabled }}
+          - name: v3io-auth
+            secret:
+              secretName: {{ .Release.Name }}-v3io-auth
+          - name: spark-debug-config
+            configMap:
+              name: {{ .Release.Name }}-spark-debug-config
+{{- if .Values.zeppelin.preloadNotebooks.enabled }}
           - name: notebook-volume
             configMap:
-              name: {{ template "zeppelin-fullname" . }}-notebooks
+              name: {{ template "zeppelin-name" . }}-notebooks
 {{- end }}              
+<<<<<<< HEAD
 ---
 apiVersion: v1
 kind: ConfigMap
@@ -133,3 +121,5 @@ data:
             --master-port={{.Values.Master.ServicePort}} \
             --host-ip=$(curl --silent {{ template "spark.registry" . }}/$CURRENT_NODE_IP)
     
+=======
+>>>>>>> development

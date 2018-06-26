@@ -1,0 +1,74 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: {{ .Release.Name }}-hadoop-config
+  labels:
+    heritage: {{ .Release.Service | quote }}
+    release: {{ .Release.Name | quote }}
+    chart: {{ .Chart.Name }}-{{ .Chart.Version }}
+data:
+  v3io.conf: |
+    v3io.client {
+      socket.host=CURRENT_NODE_IP
+      session.use-system-user=false
+    }
+
+  core-site.xml: |
+    <?xml version="1.0" encoding="UTF-8"?>
+    <?xml-stylesheet type="text/xsl" href="configuration.xsl"?>
+    <configuration>
+      <property>
+        <name>fs.defaultFS</name>
+        <value>v3io:////</value>
+      </property>
+      <property>
+        <name>fs.v3io.impl</name>
+        <value>io.iguaz.v3io.hcfs.V3IOFileSystem</value>
+      </property>
+      <property>
+        <name>fs.AbstractFileSystem.v3io.impl</name>
+        <value>io.iguaz.v3io.hcfs.V3IOAbstractFileSystem</value>
+      </property>
+      <property>
+        <name>new-daemon</name>
+        <value>true</value>
+      </property>
+    </configuration>
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: {{ .Release.Name }}-spark-debug-config
+  labels:
+    heritage: {{ .Release.Service | quote }}
+    release: {{ .Release.Name | quote }}
+    chart: {{ .Chart.Name }}-{{ .Chart.Version }}
+data:
+  log4j.properties: |
+    # Root logger option
+    log4j.rootLogger=DEBUG, file, stdout
+    # Direct log messages to a log file
+    log4j.appender.file=org.apache.log4j.RollingFileAppender
+    log4j.appender.file.File=/tmp/v3io/spark-streaming-it.log
+    log4j.appender.file.MaxFileSize=1MB
+    log4j.appender.file.MaxBackupIndex=10
+    log4j.appender.file.layout=org.apache.log4j.PatternLayout
+    log4j.appender.file.layout.ConversionPattern=%d{yyyy-MM-dd HH:mm:ss,SSS} [%-20t] [%-5p] [%-40c:%-4L] - %m%n
+    # Direct log messages to stdout
+    log4j.appender.stdout=org.apache.log4j.ConsoleAppender
+    log4j.appender.stdout.Target=System.out
+    log4j.appender.stdout.layout=org.apache.log4j.PatternLayout
+    log4j.appender.stdout.layout.ConversionPattern=%d{yyyy-MM-dd HH:mm:ss,SSS} [%-20t] [%-5p] [%-40c{3}:%-4L] - %m%n
+    # Configure logging levels for specific packages
+    log4j.logger.io.iguaz=DEBUG
+    log4j.logger.org.apache.spark=DEBUG
+    log4j.logger.org.mortbay.jetty=DEBUG
+    log4j.logger.io.iguaz.v3io=DEBUG
+    log4j.logger.io.iguaz.v3io.fs.client=DEBUG
+    log4j.logger.io.iguaz.v3io.fs.client.SimulatorFSClient=DEBUG
+    log4j.logger.io.iguaz.v3io.spark.streaming=DEBUG
+    log4j.logger.io.iguaz.v3io.spark.streaming.api=DEBUG
+    log4j.logger.org.apache.spark.streaming.v3io=DEBUG
+    log4j.logger.org.apache.spark.streaming.scheduler=DEBUG
+    log4j.logger.io.iguaz.v3io.streaming.utils=DEBUG
+    log4j.logger.io.iguaz.v3io.streaming.client.api=DEBUG

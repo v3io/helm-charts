@@ -1,21 +1,27 @@
+logger:
+  severity: info
+  enableAccessLog: false
 
-Logger:
-  Severity: "info"
-  EnableAccessLog: false
+image: 
+  repository: iguaziodocker/webapi
+  tag: 1.7_b2_20180620143303
+  pullPolicy: IfNotPresent
 
-V3IO:
-  WebApi:
-    Name: webapi
-    Image: iguaziodocker/webapi
-    Version: 1.5.2
-    PullPolicy: IfNotPresent
-  Resources:
-    Memory: "2Gi"
-    HostPort: 8081
-    SSLHostPort: 8443
+resources: {}
+  # limits:
+    # cpu: 1
+    # memory: "2Gi"
+  # requests:
+    # cpu: 1
+    # memory: "2Gi"
 
-Node:
-  IP: "localhost"
-  Port: 1234
-  Username: "iguazio"
-  Password: "iguazio"
+numHugePages: 0
+hostPort: 8081
+sslHostPort: 8443
+workerProcesses: auto
+workerConnections: 1024
+
+datanode:
+  url: "tcp://localhost:1234"
+  # defaultUserName:  
+  # defaultPassword:

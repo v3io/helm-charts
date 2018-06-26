@@ -1,48 +1,59 @@
+v3ioClient:
+  image:
+    repository: pavius/v3io_dayman_client
+    tag: 1.7_b2_20180620143303
+    pullPolicy: IfNotPresent
 
-Logger:
-  Severity: "info"
+v3iod:
+  logger:
+    severity: info
 
-V3IOD:
-  User: iguazio
-  Image: iguaziodocker/v3io_dayman
-  Version: 1.5.2
-  PullPolicy: IfNotPresent
-  Resources:
-    Cpu: "1"
-    Memory: "3Gi"
-    UDPPort: 1967
-  Config:
-    NumOfWorkers: 1
-    MaxInFlightRequests: 1024
-    MaxChannelInactivitySeconds: 180
-    BoostSizeInBytes: 10000000
-    Heaps: |
-      {
-        "kind": "mempool",
-        "block_size_bytes": 4096,
-        "num_blocks": 10000
-      },
-      {
-        "kind": "mempool",
-        "block_size_bytes": 9296,
-        "num_blocks": 10000
-      },
-      {
-        "kind": "mempool",
-        "block_size_bytes": 16384,
-        "num_blocks": 10000
-      },
-      {
-        "kind": "mempool",
-        "block_size_bytes": 1228800,
-        "num_blocks": 500
-      },
-      {
-        "kind": "mempool",
-        "block_size_bytes": 2228800,
-        "num_blocks": 200
-      }
+  image:
+    repository: iguaziodocker/v3io_dayman
+    tag: 1.7_b2_20180620143303
+    pullPolicy: IfNotPresent
 
-Node:
-  IP: "localhost"
-  Port: 1234
+  user: iguazio
+  resources: {}
+    # limits:
+      # cpu: 1
+      # memory: "3Gi"
+    # requests:
+      # cpu: 1
+      # memory: "3Gi"
+    
+  cdiPort: 1967
+  maxInFlightRequests: 1024
+  maxChannelInactivitySeconds: 180
+  numHugePages: 3000
+  numOfWorkers: 1
+  boostSizeInBytes: 10000000
+  heaps: |
+    {
+      "kind": "mempool",
+      "block_size_bytes": 4096,
+      "num_blocks": 10000
+    },
+    {
+      "kind": "mempool",
+      "block_size_bytes": 9296,
+      "num_blocks": 10000
+    },
+    {
+      "kind": "mempool",
+      "block_size_bytes": 16384,
+      "num_blocks": 10000
+    },
+    {
+      "kind": "mempool",
+      "block_size_bytes": 1228800,
+      "num_blocks": 500
+    },
+    {
+      "kind": "mempool",
+      "block_size_bytes": 2228800,
+      "num_blocks": 200
+    }
+
+  datanode:
+    uri: "tcp://localhost:1234"
