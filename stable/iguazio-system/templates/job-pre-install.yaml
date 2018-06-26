@@ -8,20 +8,20 @@ metadata:
     chart: {{ template "iguazio-system.chart" . }}
     release: {{ .Release.Name }}
   annotations:
-    "helm.sh/hook": pre-install
+    "helm.sh/hook": "pre-install"
     "helm.sh/hook-weight": "0"
-    "helm.sh/hook-delete-policy": before-hook-creation
+    "helm.sh/hook-delete-policy": "before-hook-creation"
 spec:
   template:
     spec:
       serviceAccountName: {{ .Values.job.namespaceTag.runAsServiceAccount }}
       containers:
-      - name: tag-job
+      - name: "tag-job"
         image: {{ .Values.job.namespaceTag.image.repository }}:{{ .Values.job.namespaceTag.image.tag }}
         command: ["/bin/sh", "-c"]
         args:
 {{- range $i, $val := .Values.job.namespaceTag.namespaces }}
           - kubectl label namespace {{ $val }} owner={{ $val }} ;
 {{- end }}
-      restartPolicy: Never
+      restartPolicy: "Never"
   backoffLimit: 1
