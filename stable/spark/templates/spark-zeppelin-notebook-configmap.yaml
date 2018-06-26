@@ -46,16 +46,16 @@ data:
 {{- end -}}
 {{- range $j, $section := $notebook.sections }}
         {
-        "text": {{ $section.Content | quote }},
+        "text": {{ $section.content | quote }},
         "user": "anonymous",
         "config": {
             "colWidth": 12,
             "enabled": true,
             "results": {},
             "editorSetting": {
-            "language": "{{ $section.Language }}"
+            "language": "{{ $section.language }}"
             },
-            "editorMode": "ace/mode/{{ $section.Language }}"
+            "editorMode": "ace/mode/{{ $section.language }}"
         },
         "settings": {
             "params": {},
