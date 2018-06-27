@@ -19,7 +19,7 @@
 - name: v3iod-comm
   mountPath: "/tmp/dayman"
 - name: v3io-config
-  mountPath: {{ default "/igz/java/conf" .Values.global.v3io.configPath }}
+  mountPath: {{ default "/etc/config/v3io" .Values.global.v3io.configMountPath }}
 - name: v3io-auth
   mountPath: {{ default "/igz/java/auth" .Values.global.v3io.authPath }}
 {{- end -}}

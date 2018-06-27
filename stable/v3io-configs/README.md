@@ -24,7 +24,8 @@ Configurable values are using `default` direcrive and stored in `global`, due to
 
 |       Key                               |      default                      |
 |-----------------------------------------|-----------------------------------|
-| `global.v3io.configPath`                |  `"/igz/java/conf"`               |
+| `global.v3io.configPath`                | `"/igz/java/conf"`                |
+| `global.v3io.configMountPath`           | `"/etc/config/v3io"`              |
 | `global.v3io.configFileName`            | `"v3io.conf"`                     |
 | `global.v3io.authPath`                  | `"/igz/java/auth"`                |
 | `global.v3io.authFileName`              | `".java"`                         |
