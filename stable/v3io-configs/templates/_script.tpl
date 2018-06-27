@@ -15,8 +15,9 @@ LOOKUP_URL="http://${LOOKUP_SERVICE}/{{ $lookupPath }}"
 LOOKUP_SERVICE={{ printf "%s:%d" $service $port}}
 LOOKUP_URL="http://${LOOKUP_SERVICE}/{{ $lookupPath }}"
 {{- end }}
-
 LOCAL_V3IOD=$(curl --silent $LOOKUP_URL/$CURRENT_NODE_IP)
+
+mkdir -p {{ default "/igz/java/conf" .Values.global.v3io.configPath }}
 cp {{ default "/etc/config/v3io" .Values.global.v3io.configMountPath }}/* {{ default "/igz/java/conf" .Values.global.v3io.configPath }}
 sed -i "s/CURRENT_NODE_IP/$LOCAL_V3IOD/g" $IGZ_DATA_CONFIG_FILE
 {{- end -}}
