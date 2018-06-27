@@ -17,9 +17,10 @@ LOOKUP_URL="http://${LOOKUP_SERVICE}/{{ $lookupPath }}"
 {{- end }}
 
 LOCAL_V3IOD=$(curl --silent $LOOKUP_URL/$CURRENT_NODE_IP)
+cp {{ default "/etc/config/v3io" .Values.global.v3io.configMountPath }}/* {{ default "/igz/java/conf" .Values.global.v3io.configPath }}
 sed -i "s/CURRENT_NODE_IP/$LOCAL_V3IOD/g" $IGZ_DATA_CONFIG_FILE
 {{- end -}}
 
 {{- define "v3io-configs.script.hadoop" -}}
-cp {{ default "/igz/java/conf" .Values.global.v3io.configPath }}/core-site.xml $HADOOP_CONF_DIR/core-site.xml
+cp {{ default "/etc/config/v3io" .Values.global.v3io.configMountPath }}/core-site.xml $HADOOP_CONF_DIR/core-site.xml
 {{- end -}}
