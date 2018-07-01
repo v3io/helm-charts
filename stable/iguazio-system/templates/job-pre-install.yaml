@@ -2,7 +2,7 @@ apiVersion: batch/v1
 kind: Job
 metadata:
   name: {{ template "iguazio-system.name" . }}-tag-job
-  namespace: kube-system
+  namespace: {{ .Values.job.namespaceTag.runInNamespace }}
   labels:
     owner: {{ template "iguazio-system.name" . }}
     chart: {{ template "iguazio-system.chart" . }}
@@ -21,7 +21,7 @@ spec:
         command: ["/bin/sh", "-c"]
         args:
 {{- range $i, $val := .Values.job.namespaceTag.namespaces }}
-          - kubectl label namespace {{ $val }} owner={{ $val }} ;
+          - kubectl label namespace --overwrite {{ $val }} owner={{ $val }} ;
 {{- end }}
       restartPolicy: "Never"
   backoffLimit: 1
