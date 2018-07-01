@@ -16,6 +16,7 @@ job:
       tag: v1.9.8
       pullPolicy: IfNotPresent
     runAsServiceAccount: tiller
+    runInNamespace: kube-system
     namespaces:
       - kube-system
 
