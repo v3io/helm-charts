@@ -1,7 +1,12 @@
 apiVersion: v1
 kind: ConfigMap
 metadata:
-  name: {{ template "v3io-webapi-name" . }}
+  name: {{ template "v3io-webapi.name" . }}
+  labels:
+    app: {{ template "v3io-webapi.name" . }}
+    chart: {{ template "v3io-webapi.chart" . }}
+    release: {{ .Release.Name }}
+    heritage: {{ .Release.Service }}
 data:
   init.sh: |
     #!/usr/bin/env bash
