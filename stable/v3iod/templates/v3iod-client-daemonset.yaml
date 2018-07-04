@@ -1,3 +1,4 @@
+{{- if .Values.benchmark.enabled }}
 kind: DaemonSet
 apiVersion: extensions/v1beta1
 metadata:
@@ -16,8 +17,8 @@ spec:
         fsGroup: 0
       containers:
         - name: v3iod-client
-          image: pavius/v3io_dayman_client
-          imagePullPolicy: {{ .Values.v3ioClient.image.pullPolicy | quote }}
+          image: {{ .Values.benchmark.v3ioClient.image.repository }}:{{ .Values.benchmark.v3ioClient.image.tag }}
+          imagePullPolicy: {{ .Values.benchmark.v3ioClient.image.pullPolicy | quote }}
           command: [/bin/sleep, 30d]
           env:
             - name: CURRENT_NODE_IP
@@ -38,3 +39,4 @@ spec:
         - name: v3iod-comm
           hostPath:
             path: /tmp/dayman
+{{- end }}
