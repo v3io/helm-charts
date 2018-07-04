@@ -6,11 +6,20 @@ data:
   init.sh: |
     #!/usr/bin/env bash
     set -e
-    chown -R {{ .Values.v3iod.user }}:{{ .Values.v3iod.user }} /tmp
+    chown -R {{ .Values.v3iod.user.name }}:{{ .Values.v3iod.user.name }} /tmp
     ulimit -S -H -l unlimited
     echo {{ .Values.v3iod.numHugePages }} > /proc/sys/vm/nr_hugepages
+    {{- if .Values.v3iod.user.create }}
+      {{- if or (not .Values.v3iod.user.uid) (le (int .Values.v3iod.user.uid) 1000) }}
+      {{- $uid := add 3000 (randNumeric 4) }}
+    useradd --no-create-home --uid {{ $uid }} {{ .Values.v3iod.user.name }}
+      {{- else }}
+      {{- $uid := int .Values.v3iod.user.uid }}
+    useradd --no-create-home --uid {{ $uid }} {{ .Values.v3iod.user.name }}
+      {{- end }}
+    {{- end }}
     su --preserve-environment \
-      --login {{ .Values.v3iod.user }} \
+      --login {{ .Values.v3iod.user.name }} \
       --command "/usr/local/bin/v3io_dayman --config-path /etc/iguazio/dayman/default.json"
 
   default.json: |

@@ -7,6 +7,10 @@ dependencies:
   version: "0.5.4"
   condition: grafana.enabled
   repository: https://kubernetes-charts.storage.googleapis.com/
+- name: fluent-bit
+  version: "0.6.0"
+  condition: fluent.enabled
+  repository: https://kubernetes-charts.storage.googleapis.com/
 - name: tenant
   version: "0.1.0"
   repository: https://v3io.github.io/helm-charts/stable

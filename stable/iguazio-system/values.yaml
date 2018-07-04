@@ -26,6 +26,9 @@ prometheus:
 grafana:
   enabled: false
 
+fluent:
+  enabled: false
+
 nodeSelector: {}
 
 tolerations: []
