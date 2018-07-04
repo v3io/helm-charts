@@ -1,19 +1,19 @@
-v3ioClient:
-  image:
-    repository: pavius/v3io_dayman_client
-    tag: 1.7_b2_20180620143303
-    pullPolicy: IfNotPresent
-
 v3iod:
   logger:
     severity: info
 
   image:
     repository: iguaziodocker/v3io_dayman
-    tag: 1.7_b2_20180620143303
+    tag: 1.7.0-b80
     pullPolicy: IfNotPresent
 
-  user: iguazio
+  user:
+    # create new user when running (new username must not match iguazio and must have UID gt 1000)
+    create: false
+    # run as this default container user
+    name: iguazio
+    # run as this default user id, this value must be greater than 1000 or random value will be assigned
+    uid: 1000
   resources: {}
     # limits:
       # cpu: 1
@@ -57,3 +57,11 @@ v3iod:
 
   datanode:
     uri: "tcp://localhost:1234"
+
+benchmark:
+  enabled: false
+  v3ioClient:
+    image:
+      repository: pavius/v3io_dayman_client
+      tag: 1.7.0-b80
+      pullPolicy: IfNotPresent
