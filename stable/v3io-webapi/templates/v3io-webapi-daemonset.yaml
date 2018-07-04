@@ -65,7 +65,7 @@ spec:
       volumes:
         - name: webapi-config
           configMap:
-            name: {{ template "v3io-webapi-name" . }}
+            name: {{ template "v3io-webapi.name" . }}
         - name: core-dump
           hostPath:
             path: /tmp/crash
