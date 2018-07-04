@@ -5,8 +5,11 @@ dependencies:
 - name: grafana
   repository: https://kubernetes-charts.storage.googleapis.com/
   version: 0.5.4
+- name: fluent-bit
+  repository: https://kubernetes-charts.storage.googleapis.com/
+  version: 0.6.0
 - name: tenant
   repository: https://v3io.github.io/helm-charts/stable
   version: 0.1.0
-digest: sha256:8bcd28fd682fe1e3930763814eeab2c13d4f2351564e117866677cd639e3b7c5
-generated: 2018-06-26T16:00:38.650613265+03:00
+digest: sha256:4ca3d6752e7bc3fa63abcf9b88de7549affee361dd012bc26059cc9fc46d40f5
+generated: 2018-07-04T10:00:42.559408045+03:00
