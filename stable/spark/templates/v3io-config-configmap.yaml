@@ -25,5 +25,3 @@ data:
 {{ include "v3io-configs.script.lookupService" . | indent 4 }}
 
     /bin/bash -x /etc/config/zeppelin/run.sh
-
----

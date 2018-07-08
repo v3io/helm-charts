@@ -17,5 +17,3 @@ data:
 {{ include "v3io-configs.script.lookupService" . | indent 4 }}
 
     /bin/bash -x {{ .Values.server.config.mapPath }}/docker-presto.sh
-
----
