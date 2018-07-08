@@ -34,17 +34,17 @@ Create chart name and version as used by the chart label.
 {{- end -}}
 
 {{- define "spark.master-name" -}}
-{{- printf "%s-master" .Release.Name | trunc 63 -}}
+{{- printf "%s-master" .Release.Name | trunc 63 | trimSuffix "-" -}}
 {{- end -}}
 
 {{- define "spark.webui-name" -}}
-{{- printf "%s-webui" .Release.Name | trunc 63 -}}
+{{- printf "%s-webui" .Release.Name | trunc 63 | trimSuffix "-" -}}
 {{- end -}}
 
 {{- define "spark.worker-name" -}}
-{{- printf "%s-worker" .Release.Name | trunc 63 -}}
+{{- printf "%s-worker" .Release.Name | trunc 63 | trimSuffix "-" -}}
 {{- end -}}
 
 {{- define "spark.zeppelin-name" -}}
-{{- printf "%s-zeppelin" .Release.Name | trunc 63 -}}
+{{- printf "%s-zeppelin" .Release.Name | trunc 63 | trimSuffix "-" -}}
 {{- end -}}

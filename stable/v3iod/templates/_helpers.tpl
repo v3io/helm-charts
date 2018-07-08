@@ -34,9 +34,9 @@ Create chart name and version as used by the chart label.
 
 
 {{- define "v3iod.client.name" -}}
-{{- printf "%s-v3iod-client" .Release.Name | trunc 63 -}}
+{{- printf "%s-v3iod-client" .Release.Name | trunc 63 | trimSuffix "-" -}}
 {{- end -}}
 
 {{- define "v3iod.cache.name" -}}
-{{- printf "%s-registry" .Release.Name | trunc 63 -}}
+{{- printf "%s-registry" .Release.Name | trunc 63 | trimSuffix "-" -}}
 {{- end -}}
