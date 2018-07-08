@@ -18,39 +18,23 @@ spec:
         app: {{ template "shell.name" . }}
         release: {{ .Release.Name }}
     spec:
+{{- if .Values.volumes }}
       volumes:
-        - name: "shm"
-          hostPath:
-            path: "/dev/shm"
-        - name: daemon-comm
-          hostPath:
-            path: /tmp/dayman
-        - name: config-volume
-          configMap:
-            name: {{ template "shell.fullname" . }}
+{{ include .Values.volumes.volumesTemplate . | indent 8 }}
+{{- end }}
       containers:
         - name: {{ .Chart.Name }}-shell
           image: "{{ .Values.image.repository }}:{{ .Values.image.tag }}"
           imagePullPolicy: {{ .Values.image.pullPolicy }}
-          command: ["/bin/bash", "-x"]
-          args:
-            - /run.sh
-            - --config=/etc/config
-            - --host-ip=$(curl --silent {{ template "shell.v3io.registry" . }}/$CURRENT_NODE_IP)
+          command: ["/bin/bash", "-x", "{{ .Values.image.command }}"]
+{{- if .Values.environment }}
           env:
-          - name: IGZ_DATA_CONFIG_FILE
-            value: {{ .Values.config.path }}/v3io.conf
-          - name: CURRENT_NODE_IP
-            valueFrom:
-              fieldRef:
-                fieldPath: status.hostIP
+{{ include .Values.environment.template . | indent 12 }}
+{{- end }}
+{{- if .Values.volumes }}
           volumeMounts:
-            - mountPath: "/dev/shm"
-              name: "shm"
-            - mountPath: /etc/config
-              name: config-volume
-            - mountPath: /tmp/dayman
-              name: daemon-comm
+{{ include .Values.volumes.volumeMountsTemplate . | indent 12 }}
+{{- end }}
           resources:
 {{ toYaml .Values.resources | indent 12 }}
     {{- with .Values.nodeSelector }}

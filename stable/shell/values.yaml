@@ -1,16 +1,11 @@
 image:
-  repository: iguaziodocker/clients
-  tag: 1.5.2
+  repository: iguaziodocker/shell
+  tag: 1.7.0-b80
   pullPolicy: IfNotPresent
+  command: /etc/config/v3io/run.sh
 
 config:
     path: /hadoop/etc
-
-V3IO:
-  # DaemonLookupServiceHost: localhost
-  DaemonLookupServiceName: "registry"
-  DaemonLookupServicePort: 8080
-  DaemonLookupServicePath: "registry/daemon"
 
 resources: {}
   # We usually recommend not to specify default resources and to leave this as a conscious
@@ -29,3 +24,19 @@ nodeSelector: {}
 tolerations: []
 
 affinity: {}
+
+environment:
+  template: v3io-configs.deployment.env
+
+volumes:
+  volumesTemplate: v3io-configs.deployment.mount
+  volumeMountsTemplate: v3io-configs.deployment.volumeMounts
+
+global:
+  v3io:
+    configMountPath: /etc/config/v3io
+
+v3io:
+  username: iguazio
+  tenant: iguazio
+  password: iguazio
