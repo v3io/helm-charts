@@ -5,14 +5,20 @@ kind: Function
 metadata:
   name: {{ $val.name }}
 spec:
-  alias: latest
   handler: {{ $val.handler }}
   image: {{ $val.image.repository }}:{{ $val.image.tag }}
   maxReplicas: 1
   minReplicas: 1
-  platform: {}
-  resources: {}
   runtime: {{ $val.runtime }}
+  env:
+    - name: WEBAPI_URL
+      value: {{ .Values.v3io.webApi }}
+{{- if $val.env }}
+{{- range $key, $val := $val.env }}
+    - name: {{ $val.name }}
+      value: {{ $val.value }}
+{{- end }}
+{{- end }}
 status:
   state: waitingForResourceConfiguration
 ---

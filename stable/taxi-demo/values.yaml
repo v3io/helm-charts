@@ -7,18 +7,19 @@ v3io:
       url: generateData:8080
       handler: "main:Handler"
       runtime: "golang"
+      env:
+        - name: INGEST_URL
+          value: "http://ingest:8080"
       image:
         repository: iguaziodocker/fn_generatedata
-        tag: "v1"
-        pullPolicy: "IfNotPresent"
+        tag: "0.0.1"
     - name: ingest
       url: ingest:8080
       handler: "main:Handler"
       runtime: "golang"
       image:
         repository: iguaziodocker/fn_ingest
-        tag: "v1"
-        pullPolicy: "IfNotPresent"
+        tag: "0.0.1"
 
 image:
   repository: "iguaziodocker/cloud_demo"

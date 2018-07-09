@@ -53,26 +53,6 @@ data:
         }
 {{ end }}
 {{- end }}
-        location /push {
-          proxy_pass http://127.0.0.1:4002;
-          proxy_set_header X-Real-IP $remote_addr;
-          proxy_set_header Host $host;
-          proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
-
-          # Pass the csrf token (see https://de.wikipedia.org/wiki/Cross-Site-Request-Forgery)
-          # Default in Spring Boot
-          proxy_pass_header X-XSRF-TOKEN;
-
-          # WebSocket support (nginx 1.4)
-          proxy_http_version 1.1;
-        }
-
-        # redirect server error pages to the static page /50x.html
-        #
-        error_page   500 502 503 504  /50x.html;
-        location = /50x.html {
-          root   /usr/share/nginx/html;
-        }
     }
 
   startup.sh: |
