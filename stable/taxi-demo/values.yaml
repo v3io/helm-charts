@@ -1,23 +1,26 @@
-V3IO:
-  WebApiHost: localhost
-  WebApiPort: 8081
+v3io:
+  webApi: localhost:8081
 
-Demo:
-  Image: iguaziodocker/demo
-  ImageTag: latest
-  Container: bigdata
-  Collection: taxi_example/cells
-  Refresh: 2000
-  Service:
-    NodePort: 30555
-  Center:
-    Lat: 0
-    Lng: 0
-    Zoom: 8
-  Shift:
-    Lat: 0
-    Lng: 0
-  Heatmap:
-    R: 10
-    Blur: 15
-    Max: 5.0
+image:
+  repository: "iguaziodocker/demo"
+  tag: "v2"
+  pullPolicy: "IfNotPresent"
+
+demo:
+  container: bigdata
+  collection: taxi_example/cells
+  refresh: 2000
+  center:
+    lat: 0
+    lng: 0
+    zoom: 8
+  shift:
+    lat: 0
+    lng: 0
+  heatMap:
+    r: 10
+    blur: 15
+    max: 5.0
+
+service:
+  nodePort: 30555
