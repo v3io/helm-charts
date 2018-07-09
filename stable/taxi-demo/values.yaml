@@ -1,23 +1,47 @@
-V3IO:
-  WebApiHost: localhost
-  WebApiPort: 8081
+v3io:
+  webApi: localhost:8081
+  functions:
+    create: true
+    items:
+    - name: generateData
+      url: generateData:8080
+      handler: "main:Handler"
+      runtime: "golang"
+      env:
+        - name: INGEST_URL
+          value: "http://ingest:8080"
+      image:
+        repository: iguaziodocker/fn_generatedata
+        tag: "0.0.1"
+    - name: ingest
+      url: ingest:8080
+      handler: "main:Handler"
+      runtime: "golang"
+      image:
+        repository: iguaziodocker/fn_ingest
+        tag: "0.0.1"
 
-Demo:
-  Image: iguaziodocker/demo
-  ImageTag: latest
-  Container: bigdata
-  Collection: taxi_example/cells
-  Refresh: 2000
-  Service:
-    NodePort: 30555
-  Center:
-    Lat: 0
-    Lng: 0
-    Zoom: 8
-  Shift:
-    Lat: 0
-    Lng: 0
-  Heatmap:
-    R: 10
-    Blur: 15
-    Max: 5.0
+image:
+  repository: "iguaziodocker/cloud_demo"
+  tag: "v4"
+  pullPolicy: "IfNotPresent"
+
+demo:
+  root: /visualization
+  container: bigdata
+  collection: taxi_example/cells
+  refresh: 2000
+  center:
+    lat: 0
+    lng: 0
+    zoom: 8
+  shift:
+    lat: 0
+    lng: 0
+  heatMap:
+    r: 10
+    blur: 15
+    max: 5.0
+
+service:
+  nodePort: 30555
