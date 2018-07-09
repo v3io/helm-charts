@@ -1,12 +1,32 @@
 v3io:
   webApi: localhost:8081
+  functions:
+    create: true
+    items:
+    - name: generateData
+      url: generateData:8080
+      handler: "main:Handler"
+      runtime: "golang"
+      image:
+        repository: iguaziodocker/fn_generatedata
+        tag: "v1"
+        pullPolicy: "IfNotPresent"
+    - name: ingest
+      url: ingest:8080
+      handler: "main:Handler"
+      runtime: "golang"
+      image:
+        repository: iguaziodocker/fn_ingest
+        tag: "v1"
+        pullPolicy: "IfNotPresent"
 
 image:
-  repository: "iguaziodocker/demo"
-  tag: "v2"
+  repository: "iguaziodocker/cloud_demo"
+  tag: "v4"
   pullPolicy: "IfNotPresent"
 
 demo:
+  root: /visualization
   container: bigdata
   collection: taxi_example/cells
   refresh: 2000

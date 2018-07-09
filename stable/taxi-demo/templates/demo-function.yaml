@@ -1,0 +1,20 @@
+{{- if .Values.v3io.functions.create }}
+{{- range $key, $val := .Values.v3io.functions.items }}
+apiVersion: nuclio.io/v1beta1
+kind: Function
+metadata:
+  name: {{ $val.name }}
+spec:
+  alias: latest
+  handler: {{ $val.handler }}
+  image: {{ $val.image.repository }}:{{ $val.image.tag }}
+  maxReplicas: 1
+  minReplicas: 1
+  platform: {}
+  resources: {}
+  runtime: {{ $val.runtime }}
+status:
+  state: waitingForResourceConfiguration
+---
+{{- end }}
+{{- end }}

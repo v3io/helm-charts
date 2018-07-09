@@ -30,10 +30,55 @@ data:
       },
       "refreshDelay": {{ .Values.demo.refresh }}
     }
-  
-  startup.sh: |
-    cp /etc/iguazio/demo/config/config.json /visualization/config.json
-    cd /visualization
-    forever gulp
 
----
+  nginx.conf: |
+    server {
+        listen       5555;
+        server_name  localhost;
+
+        location / {
+          root {{ .Values.demo.root }}/;
+          try_files $uri /index.html;
+          index index.html index.html;
+        }
+
+        location /api {
+          proxy_pass http://{{ .Values.v3io.webApi }};
+        }
+{{- if .Values.v3io.functions.create }}
+{{ range $key, $val := .Values.v3io.functions.items }}
+        
+        location /functions/{{ $val.name }} {
+          proxy_pass http://{{ $val.url }};
+        }
+{{ end }}
+{{- end }}
+        location /push {
+          proxy_pass http://127.0.0.1:4002;
+          proxy_set_header X-Real-IP $remote_addr;
+          proxy_set_header Host $host;
+          proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+
+          # Pass the csrf token (see https://de.wikipedia.org/wiki/Cross-Site-Request-Forgery)
+          # Default in Spring Boot
+          proxy_pass_header X-XSRF-TOKEN;
+
+          # WebSocket support (nginx 1.4)
+          proxy_http_version 1.1;
+        }
+
+        # redirect server error pages to the static page /50x.html
+        #
+        error_page   500 502 503 504  /50x.html;
+        location = /50x.html {
+          root   /usr/share/nginx/html;
+        }
+    }
+
+  startup.sh: |
+    #!/usr/bin/env bash
+    set -e 
+
+    cp /etc/iguazio/demo/config/config.json {{ .Values.demo.root }}/config.json
+    cp /etc/iguazio/demo/config/nginx.conf /etc/nginx/conf.d/default.conf
+    nginx -g "daemon off;"
