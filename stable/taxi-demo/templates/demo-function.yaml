@@ -1,4 +1,5 @@
 {{- if .Values.v3io.functions.create }}
+{{- $webapi := .Values.v3io.webApi }}
 {{- range $key, $val := .Values.v3io.functions.items }}
 apiVersion: nuclio.io/v1beta1
 kind: Function
@@ -12,7 +13,7 @@ spec:
   runtime: {{ $val.runtime }}
   env:
     - name: WEBAPI_URL
-      value: {{ .Values.v3io.webApi }}
+      value: "http://{{ $webapi }}"
 {{- if $val.env }}
 {{- range $key, $val := $val.env }}
     - name: {{ $val.name }}
