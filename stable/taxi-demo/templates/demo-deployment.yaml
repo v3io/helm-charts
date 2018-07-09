@@ -1,0 +1,38 @@
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+  name: {{ template "demo.fullname" . }}
+  labels:
+    app: {{ template "demo.name" . }}
+    chart: {{ template "demo.chart" . }}
+    release: {{ .Release.Name }}
+    heritage: {{ .Release.Service }}
+spec:
+  replicas: 1
+  strategy:
+    type: RollingUpdate
+  template:
+    metadata:
+      labels:
+        app: {{ template "demo.name" . }}
+        chart: {{ template "demo.chart" . }}
+        release: {{ .Release.Name }}
+        heritage: {{ .Release.Service }}
+    spec:
+      containers:
+        - name: {{ template "demo.fullname" . }}
+          image: "{{ .Values.image.repository }}:{{ .Values.image.tag }}"
+          imagePullPolicy: {{ .Values.image.pullPolicy }}
+          volumeMounts:
+            - mountPath: /etc/iguazio/demo/config
+              name: config-volume
+          command: ["/bin/bash"]
+          args:
+            - -x
+            - /etc/iguazio/demo/config/startup.sh
+          ports:
+            - containerPort: 5555
+      volumes:
+        - name: config-volume
+          configMap:
+            name: {{ template "demo.fullname" . }}
