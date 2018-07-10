@@ -3,10 +3,10 @@ v3io:
   functions:
     create: true
     items:
-    - name: generateData
-      url: generateData:8080
-      handler: "main:Handler"
-      runtime: "golang"
+    - name: generate-data
+      url: generate-data:8080
+      handler: "generate_data:handler"
+      runtime: "python:3.6"
       env:
         - name: INGEST_URL
           value: "http://ingest:8080"
@@ -15,8 +15,17 @@ v3io:
         tag: "0.0.1"
     - name: ingest
       url: ingest:8080
-      handler: "main:Handler"
-      runtime: "golang"
+      handler: "ingest:Handler"
+      runtime: "python:3.6"
+      env:
+        - name: CONTAINER_NAME
+          value: bigdata
+        - name: DRIVERS_TABLE
+          value: /taxi_example/drivers/
+        - name: PASSENGERS_TABLE
+          value: /taxi_example/passengers/
+        - name: CELLS_TABLE
+          value: /taxi_example/cells/
       image:
         repository: iguaziodocker/fn_ingest
         tag: "0.0.1"
