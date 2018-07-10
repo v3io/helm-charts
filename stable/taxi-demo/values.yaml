@@ -18,7 +18,7 @@ v3io:
         tag: "0.0.1"
     - name: ingest
       url: ingest:8080
-      handler: "ingest:Handler"
+      handler: "ingest:handler"
       runtime: "python:3.6"
       env:
         - name: CONTAINER_NAME
