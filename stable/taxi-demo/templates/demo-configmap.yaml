@@ -42,14 +42,14 @@ data:
           index index.html index.html;
         }
 
-        location /api {
-          proxy_pass http://{{ .Values.v3io.webApi }};
+        location /api/ {
+          proxy_pass http://{{ .Values.v3io.webApi }}/;
         }
 {{- if .Values.v3io.functions.create }}
 {{ range $key, $val := .Values.v3io.functions.items }}
         
-        location /functions/{{ $val.name }} {
-          proxy_pass http://{{ $val.url }};
+        location /functions/{{ $val.name }}/ {
+          proxy_pass http://{{ $val.url }}/;
         }
 {{ end }}
 {{- end }}
