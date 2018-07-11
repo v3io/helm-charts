@@ -48,8 +48,8 @@ data:
 {{- if .Values.v3io.functions.create }}
 {{ range $key, $val := .Values.v3io.functions.items }}
         
-        location /functions/{{ $val.name }}/ {
-          proxy_pass http://{{ $val.url }}/;
+        location /functions/{{ $val.name }} {
+          proxy_pass http://{{ $val.url }};
         }
 {{ end }}
 {{- end }}
