@@ -27,6 +27,10 @@ spec:
           image: "{{ .Values.image.repository }}:{{ .Values.image.tag }}"
           imagePullPolicy: {{ .Values.image.pullPolicy }}
           command: ["/bin/bash", "-x", "{{ .Values.image.command }}"]
+          ports:
+            - name: ttyd
+              containerPort: 7681
+              protocol: TCP
 {{- if .Values.environment }}
           env:
 {{ include .Values.environment.template . | indent 12 }}
