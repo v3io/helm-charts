@@ -1,11 +1,12 @@
 apiVersion: extensions/v1beta1
 kind: Deployment
 metadata:
-  name: {{ template "master-name" . }}
+  name: {{ template "spark.master-name" . }}
   labels:
-    heritage: {{ .Release.Service | quote }}
-    release: {{ .Release.Name | quote }}
-    chart: {{ .Chart.Name }}-{{ .Chart.Version }}
+    app: {{ template "spark.name" . }}
+    chart: {{ template "spark.chart" . }}
+    release: {{ .Release.Name }}
+    heritage: {{ .Release.Service }}
     component: spark-master
 spec:
   securityContext:
@@ -15,65 +16,50 @@ spec:
     type: RollingUpdate
   selector:
     matchLabels:
-      chart: {{ .Chart.Name }}-{{ .Chart.Version }}
+      chart: {{ template "spark.chart" . }}
       component: spark-master
   template:
     metadata:
       labels:
-        heritage: {{ .Release.Service | quote }}
-        release: {{ .Release.Name | quote }}
-        chart: {{ .Chart.Name }}-{{ .Chart.Version }}
+        app: {{ template "spark.name" . }}
+        chart: {{ template "spark.chart" . }}
+        release: {{ .Release.Name }}
+        heritage: {{ .Release.Service }}
         component: spark-master
     spec:
       containers:
-        - name: {{ template "master-name" . }}
+        - name: {{ template "spark.master-name" . }}
           image: {{ .Values.master.image.repository }}:{{ .Values.master.image.tag }}
           imagePullPolicy: {{ .Values.master.image.pullPolicy | quote }}
           volumeMounts:
-            - mountPath: /dev/shm
-              name: shm
-            - mountPath: /etc/config
-              name: hadoop-config
-            - mountPath: /tmp/dayman
-              name: v3iod-comm
-            - mountPath: /igz/.igz
-              name: v3io-auth
+            - mountPath: /etc/config/spark
+              name: spark-master-config
+{{- if .Values.debug.enabled }}
             - mountPath: /spark/conf
               name: spark-debug-config
-          command: ["/bin/bash"]
-          args:
-            - -x
-            - /spark-master
-            - --config=/etc/config
-            - --service-port={{ .Values.master.servicePort }}
-            - --webui-port={{ .Values.master.webAdmin.servicePort }}
-            - --master-hostname={{ template "master-name" . }}
-            - "--host-ip=$(curl --silent {{ template "spark.registry" . }}/$CURRENT_NODE_IP)"
+{{- end }}
+{{- if .Values.volumes }}
+{{ include .Values.volumes.master.volumeMountsTemplate . | indent 12 }}
+{{- end }}
+          command: ["/bin/bash", "-x", "{{ .Values.master.image.command }}"]
           ports:
             - containerPort: {{ .Values.master.containerPort }}
             - containerPort: {{ .Values.master.webAdmin.containerPort }}
           resources:
 {{ toYaml .Values.master.resources | indent 12 }}
+{{- if .Values.environment }}
           env:
-          - name: IGZ_DATA_CONFIG_FILE
-            value: /tmp/v3io.conf
-          - name: CURRENT_NODE_IP
-            valueFrom:
-              fieldRef:
-                fieldPath: status.hostIP
+{{ include .Values.environment.template . | indent 12 }}
+{{- end }}
       volumes:
-        - name: shm
-          hostPath:
-            path: /dev/shm
-        - name: v3iod-comm
-          hostPath:
-            path: /tmp/dayman
-        - name: hadoop-config
+{{- if .Values.volumes }}
+{{ include .Values.volumes.master.volumesTemplate . | indent 8 }}
+{{- end }}
+        - name: spark-master-config
           configMap:
-            name: {{ .Release.Name }}-hadoop-config
-        - name: v3io-auth
-          secret:
-            secretName: {{ .Release.Name }}-v3io-auth
+            name: {{ template "spark.master-name" . }}
+{{- if .Values.debug.enabled }}
         - name: spark-debug-config
           configMap:
             name: {{ .Release.Name }}-spark-debug-config
+{{- end }}

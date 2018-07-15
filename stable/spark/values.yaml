@@ -1,8 +1,9 @@
 master:
   image:
     repository: "iguaziodocker/spark"
-    tag: "2.1.2-1.7_b2_20180620143303"
+    tag: "2.1.2-1.7.0-b80"
     pullPolicy: "IfNotPresent"
+    command: /etc/config/v3io/v3io-spark.sh
   replicas: 1
   servicePort: 7077
   containerPort: 7077
@@ -22,8 +23,9 @@ master:
 worker:
   image:
     repository: "iguaziodocker/spark"
-    tag: "2.1.2-1.7_b2_20180620143303"
+    tag: "2.1.2-1.7.0-b80"
     pullPolicy: "IfNotPresent"
+    command: /etc/config/v3io/v3io-spark.sh
   replicas: 1
   containerPort: 8081
   executorMemory: "1g"
@@ -39,8 +41,9 @@ worker:
 zeppelin:
   image:
     repository: "iguaziodocker/zeppelin"
-    tag: "0.7.3-1.7_b2_20180620143303"
+    tag: "0.7.3-1.7.0-b80"
     pullPolicy: "IfNotPresent"
+    command: /etc/config/v3io/v3io-zeppelin.sh
   replicas: 1
   servicePort: 8080
   containerPort: 8080
@@ -57,7 +60,7 @@ zeppelin:
   preloadNotebooks:
     enabled: true
     notebooks: {}
-    # - title: "iguazio/Demo Notebook"
+    # - title: "Demo Notebook"
     #   documentation: |-
     #     ## Title ##
     #     This section actually supports Markdown syntax!
@@ -71,17 +74,34 @@ zeppelin:
     #               StructField("count", LongType)
     #           ))
     #       val df = sqlContext.read
-    #                   .format("io.iguaz.v3io.spark.sql.kv")
     #                   .schema(schema)
-    #                   .option("container-alias", "bigdata")
     #                   .load("/data")
     #       df.where($"count" > 10).orderBy(desc("count")).show()
 
+environment:
+  template: v3io-configs.deployment.env
+
+volumes:
+  master:
+    volumesTemplate: v3io-configs.deployment.mount
+    volumeMountsTemplate: v3io-configs.deployment.volumeMounts
+  worker:
+    volumesTemplate: v3io-configs.deployment.mount
+    volumeMountsTemplate: v3io-configs.deployment.volumeMounts
+  zeppelin:
+    volumesTemplate: v3io-configs.deployment.mount
+    volumeMountsTemplate: v3io-configs.deployment.volumeMounts
+
+debug:
+  enabled: false
+  log: {}
+  # com.acme.path: DEBUG
+
+global:
+  v3io:
+    configMountPath: /etc/config/v3io
+
 v3io:
-  auth:
-    password: "password"
-    tenant: "Default"
-  lookupService:
-    name: "v3iod-registry"
-    servicePort: 8080
-    path: "registry/v3iod"
+  username: iguazio
+  tenant: iguazio
+  password: iguazio

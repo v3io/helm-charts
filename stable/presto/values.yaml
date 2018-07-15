@@ -4,19 +4,19 @@ server:
     environment: production
     dataDir: /presto/etc/data
   log:
-    presto:
-      level: INFO
-    v3io:
-      level: DEBUG
-    v3iod:
-      level: INFO
+    com.facebook.presto: INFO
+    io.iguaz.v3io: DEBUG
+    io.iguaz.v3io.daemon: INFO
   config:
+    mapPath: /etc/config/presto
     path: /presto/etc
     http:
       port: 8080
     query:
       maxMemory: "4GB"
       maxMemoryPerNode: "1GB"
+    extra: {}
+
   jvm:
     maxHeapSize: "8G"
     gcMethod: 
@@ -24,19 +24,34 @@ server:
       g1:
         heapRegionSize: "32M"
 
+environment:
+  template: v3io-configs.deployment.env
+
+volumes:
+  coordinator:
+    volumesTemplate: v3io-configs.deployment.mount
+    volumeMountsTemplate: v3io-configs.deployment.volumeMounts
+  worker:
+    volumesTemplate: v3io-configs.deployment.mount
+    volumeMountsTemplate: v3io-configs.deployment.volumeMounts
+
 image:
   repository: iguaziodocker/presto
-  tag: 0.189-1.5.2
+  tag: 0.189-1.7.0-b80
   pullPolicy: IfNotPresent
+  command: /etc/config/v3io/v3io-presto.sh
 
 service:
   type: ClusterIP
 
-V3IO:
-  # DaemonLookupServiceHost: localhost
-  DaemonLookupServiceName: "registry"
-  DaemonLookupServicePort: 8080
-  DaemonLookupServicePath: "registry/daemon"
+global:
+  v3io:
+    configMountPath: /etc/config/v3io
+
+v3io:
+  username: iguazio
+  tenant: iguazio
+  password: iguazio
 
 resources: {}
   # We usually recommend not to specify default resources and to leave this as a conscious

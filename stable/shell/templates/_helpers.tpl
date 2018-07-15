@@ -30,8 +30,3 @@ Create chart name and version as used by the chart label.
 {{- define "shell.chart" -}}
 {{- printf "%s-%s" .Chart.Name .Chart.Version | replace "+" "_" | trunc 63 | trimSuffix "-" -}}
 {{- end -}}
-
-{{- define "shell.v3io.registry" }}
-{{- $host := default .Release.Name .Values.V3IO.DaemonLookupServiceHost }}
-{{- printf "http://%s-%s:%.0f/%s" $host .Values.V3IO.DaemonLookupServiceName .Values.V3IO.DaemonLookupServicePort .Values.V3IO.DaemonLookupServicePath}}
-{{- end -}}}}
