@@ -1,0 +1,31 @@
+{{- if .Values.v3io.functions.create }}
+{{- $webapi := .Values.v3io.webApi }}
+{{- $username := .Values.v3io.auth.username }}
+{{- $password := .Values.v3io.auth.password }}
+{{- range $key, $val := .Values.v3io.functions.items }}
+apiVersion: nuclio.io/v1beta1
+kind: Function
+metadata:
+  name: {{ $val.name }}
+spec:
+  handler: {{ $val.handler }}
+  image: {{ $val.image.repository }}:{{ $val.image.tag }}
+  maxReplicas: 1
+  minReplicas: 1
+  runtime: {{ $val.runtime }}
+  env:
+    - name: WEBAPI_URL
+      value: "http://{{ $webapi }}"
+    - name: WEBAPI_CRED
+      value: "Basic {{ printf "%s:%s" $username $password | b64enc }}"
+{{- if $val.env }}
+{{- range $key, $val := $val.env }}
+    - name: {{ $val.name }}
+      value: {{ $val.value }}
+{{- end }}
+{{- end }}
+status:
+  state: waitingForResourceConfiguration
+---
+{{- end }}
+{{- end }}

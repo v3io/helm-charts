@@ -1,23 +1,59 @@
-V3IO:
-  WebApiHost: localhost
-  WebApiPort: 8081
+v3io:
+  webApi: localhost:8081
+  auth:
+    username: iguazio
+    password: iguazio
+  functions:
+    create: true
+    items:
+    - name: generate-data
+      url: generate-data:8080
+      handler: "functions.generate_data.generate_data:handler"
+      runtime: "python:3.6"
+      env:
+        - name: INGEST_URL
+          value: "http://ingest:8080"
+      image:
+        repository: iguaziodocker/cloud_demo_functions
+        tag: "0.0.1"
+    - name: ingest
+      url: ingest:8080
+      handler: "functions.ingest.ingest:handler"
+      runtime: "python:3.6"
+      env:
+        - name: CONTAINER_NAME
+          value: bigdata
+        - name: DRIVERS_TABLE
+          value: /taxi_example/drivers/
+        - name: PASSENGERS_TABLE
+          value: /taxi_example/passengers/
+        - name: CELLS_TABLE
+          value: /taxi_example/cells/
+      image:
+        repository: iguaziodocker/cloud_demo_functions
+        tag: "0.0.1"
 
-Demo:
-  Image: iguaziodocker/demo
-  ImageTag: latest
-  Container: bigdata
-  Collection: taxi_example/cells
-  Refresh: 2000
-  Service:
-    NodePort: 30555
-  Center:
-    Lat: 0
-    Lng: 0
-    Zoom: 8
-  Shift:
-    Lat: 0
-    Lng: 0
-  Heatmap:
-    R: 10
-    Blur: 15
-    Max: 5.0
+image:
+  repository: "iguaziodocker/cloud_demo"
+  tag: "v6"
+  pullPolicy: "IfNotPresent"
+
+demo:
+  root: /visualization
+  container: bigdata
+  collection: taxi_example/cells
+  refresh: 2000
+  center:
+    lat: 0
+    lng: 0
+    zoom: 8
+  shift:
+    lat: 0
+    lng: 0
+  heatMap:
+    r: 10
+    blur: 15
+    max: 5.0
+
+service:
+  nodePort: 30555

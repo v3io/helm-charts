@@ -59,6 +59,11 @@ data:
         "pidfile": "/tmp/dayman.pid"
       },
       "cluster": {
-        "uri": {{ .Values.v3iod.datanode.uri | quote }}
+        "uris": [
+{{- range $index, $datanode := .Values.v3iod.datanodes }}
+          {{- if gt $index 0 }},{{- end }}
+          {"uri": "{{ $datanode.uri }}"}
+{{- end }}
+        ]
       }
     }
