@@ -7,12 +7,16 @@ apiVersion: nuclio.io/v1beta1
 kind: Function
 metadata:
   name: {{ $val.name }}
+  labels:
+    nuclio.io/project-name: taxi-demo
 spec:
   handler: {{ $val.handler }}
   image: {{ $val.image.repository }}:{{ $val.image.tag }}
   maxReplicas: 1
   minReplicas: 1
   runtime: {{ $val.runtime }}
+  build:
+    functionSourceCode: {{ $val.functionSourceCode }}
   env:
     - name: WEBAPI_URL
       value: "http://{{ $webapi }}"
