@@ -22,7 +22,7 @@ v3io:
           value: "http://ingest:8080"
       image:
         repository: iguaziodocker/cloud_demo_functions
-        tag: "0.0.1"
+        tag: "0.0.2"
     - name: ingest
       url: ingest:8080
       handler: "functions.ingest.ingest:handler"
@@ -40,11 +40,11 @@ v3io:
           value: /taxi_example/cells/
       image:
         repository: iguaziodocker/cloud_demo_functions
-        tag: "0.0.1"
+        tag: "0.0.2"
 
 image:
   repository: "iguaziodocker/cloud_demo"
-  tag: "v6"
+  tag: "0.0.2"
   pullPolicy: "IfNotPresent"
 
 demo:
