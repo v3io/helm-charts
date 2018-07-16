@@ -16,6 +16,10 @@ spec:
   minReplicas: 1
   runtime: {{ $val.runtime }}
   build:
+    commands: 
+    {{- range $key, $val := $val.commands }}
+    - {{ $val.name }} {{ $val.value }}
+    {{- end }}
     functionSourceCode: {{ $val.functionSourceCode }}
   env:
     - name: WEBAPI_URL
