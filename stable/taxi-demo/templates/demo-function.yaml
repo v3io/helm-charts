@@ -8,7 +8,7 @@ kind: Function
 metadata:
   name: {{ $val.name }}
   labels:
-    nuclio.io/project-name: taxi-demo
+    nuclio.io/project-name: {{ $val.projectName }}
 spec:
   handler: {{ $val.handler }}
   image: {{ $val.image.repository }}:{{ $val.image.tag }}

@@ -1,6 +1,10 @@
+{{- if .Values.v3io.projects.create }}
+{{- range $key, $val := .Values.v3io.projects.items }}
 apiVersion: nuclio.io/v1beta1
 kind: Project
 metadata:
-  name: taxi-demo
+  name: {{ $val.name }} 
 spec:
-  displayName: Taxi Demo
+  displayName: {{ $val.displayName }}
+{{- end }}
+{{- end }}
