@@ -44,6 +44,16 @@ spec:
           command: ["/bin/bash", "-x", "{{ .Values.worker.image.command }}"]
           ports:
             - containerPort: {{ .Values.worker.containerPort }}
+          readinessProbe:
+            httpGet:
+              path: /
+              port: {{ .Values.master.webAdmin.containerPort }}
+            initialDelaySeconds: 5
+          livenessProbe:
+            httpGet:
+              path: /
+              port: {{ .Values.master.webAdmin.containerPort }}
+            initialDelaySeconds: 90
           resources:
 {{ toYaml .Values.worker.resources | indent 12 }}
 {{- if .Values.environment }}
