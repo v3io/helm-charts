@@ -15,7 +15,7 @@ LOOKUP_URL="http://${LOOKUP_SERVICE}/{{ $lookupPath }}"
 LOOKUP_SERVICE={{ printf "%s:%d" $service $port}}
 LOOKUP_URL="http://${LOOKUP_SERVICE}/{{ $lookupPath }}"
 {{- end }}
-LOCAL_V3IOD=$(curl --silent --connect-timeout 10 $LOOKUP_URL/$CURRENT_NODE_IP)
+LOCAL_V3IOD=$(curl --silent --fail --connect-timeout 10 $LOOKUP_URL/$CURRENT_NODE_IP)
 
 if [ "${LOCAL_V3IOD}" == "" ]; then
     echo "v3iod address is empty"
