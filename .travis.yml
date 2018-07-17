@@ -10,6 +10,8 @@ install:
   - tar xzvf ${HELM_BIN}
   - PATH=$(pwd)/linux-amd64/:$PATH
   - helm init --client-only
+  - helm repo add nuclio https://nuclio.github.io/nuclio/charts
+  - helm repo add v3io-stable https://v3io.github.io/helm-charts/stable
 
 script:
   - make stable
