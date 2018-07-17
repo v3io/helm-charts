@@ -17,8 +17,8 @@ spec:
   runtime: {{ $val.runtime }}
   build:
     commands: 
-    {{- range $key, $val := $val.commands }}
-    - {{ $val.name }} {{ $val.value }}
+    {{- range $val := $val.commands }}
+       - {{ $val }} 
     {{- end }}
     functionSourceCode: {{ $val.functionSourceCode }}
   env:
