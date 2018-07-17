@@ -14,6 +14,10 @@ update-req:
 		if [ -e "$$chart/requirements.yaml" ]; then \
 			echo "Updating '$$chart' requirements" ; \
 			$(HELM) dependency build $$chart ; \
+			if [ "$$?" != "0" ]; then \
+				echo "Chart $$chart failed dependency build" ; \
+				exit 103 ; \
+			fi ; \
 		fi ; \
 	done
 
@@ -23,13 +27,22 @@ package-all:
 		$(HELM) lint $$chart ; \
 		if [ "$$?" != "0" ]; then \
 			echo "Chart $$chart failed lint" ; \
+			exit 101 ; \
 		fi ; \
 		$(HELM) package $$chart ; \
+		if [ "$$?" != "0" ]; then \
+			echo "Chart $$chart failed package" ; \
+			exit 102 ; \
+		fi ; \
 	done
 
 index:
 	@echo "Generating index.yaml"
 	$(HELM) repo index --merge $(WORKDIR)/index.yaml --url $(HELM_REPO) $(WORKDIR)
+	if [ "$$?" != "0" ]; then \
+		echo "Failed repo index" ; \
+		exit 111 ; \
+	fi ; \
 
 stable-repo-helm: check-helm
 HELM_REPO := $(HELM_REPO_ROOT)/stable
