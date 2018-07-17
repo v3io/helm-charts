@@ -7,11 +7,11 @@ metadata:
     chart: {{ template "v3iod.chart" . }}
     release: {{ .Release.Name }}
     heritage: {{ .Release.Service }}
-    component: cache
+    component: locator
 spec:
   ports:
     - port: 8080
       targetPort: 8080
   selector:
     chart: {{ template "v3iod.chart" . }}
-    component: cache
+    component: locator
