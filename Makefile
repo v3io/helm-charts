@@ -50,7 +50,7 @@ $(debug $(shell $(HELM) repo add v3io-stable $(HELM_REPO)))
 
 check-helm:
 	@echo "Checking if helm command exists"
-	@$(HELM) --help &> /dev/null
+	@$(HELM) home &> /dev/null
 	@if [ "$$?" != "0" ]; then \
 		echo "Missing helm command" ; \
 		exit 2 ; \
