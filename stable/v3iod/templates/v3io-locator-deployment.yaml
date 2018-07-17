@@ -21,7 +21,7 @@ spec:
       serviceAccountName: {{ template "v3iod.cache.name" . }}
       containers:
         - name: rest-locator
-          image: image: {{ .Values.locator.image.repository }}:{{ .Values.locator.image.tag }}
+          image: {{ .Values.locator.image.repository }}:{{ .Values.locator.image.tag }}
           imagePullPolicy: {{ .Values.locator.image.pullPolicy | quote }}
           command: ["/bin/bash", "-c"]
           args:
