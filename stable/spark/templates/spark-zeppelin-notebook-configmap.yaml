@@ -3,12 +3,12 @@ apiVersion: v1
 kind: ConfigMap
 metadata:
   labels:
-    app: {{ template "zeppelin-name" . }}
+    app: {{ template "spark.zeppelin-name" . }}
     chart: {{ .Chart.Name }}-{{ .Chart.Version }}
     component: zeppelin
     heritage: {{ .Release.Service }}
     release: {{ .Release.Name }}
-  name: {{ template "zeppelin-name" . }}-notebooks
+  name: {{ template "spark.zeppelin-name" . }}-notebooks
 data:
 {{- range $i, $notebook := .Values.zeppelin.preloadNotebooks.notebooks }}
 {{- with randAlphaNum 9 }}

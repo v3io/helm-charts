@@ -1,15 +1,24 @@
 kind: Deployment
 apiVersion: extensions/v1beta1
 metadata:
-  name: {{ template "cache-name" . }}
+  name: {{ template "v3iod.cache.name" . }}
+  labels:
+    app: {{ template "v3iod.name" . }}
+    chart: {{ template "v3iod.chart" . }}
+    release: {{ .Release.Name }}
+    heritage: {{ .Release.Service }}
+    component: cache
 spec:
   template:
     metadata:
       labels:
-        app: v3io
-        usage: {{ template "cache-name" . }}
+        app: {{ template "v3iod.name" . }}
+        chart: {{ template "v3iod.chart" . }}
+        release: {{ .Release.Name }}
+        heritage: {{ .Release.Service }}
+        component: cache
     spec:
-      serviceAccountName: {{ template "cache-name" . }}
+      serviceAccountName: {{ template "v3iod.cache.name" . }}
       containers:
         - name: rest-cache
           image: iguaziodocker/simple-registry-watch

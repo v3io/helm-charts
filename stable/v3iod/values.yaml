@@ -55,8 +55,8 @@ v3iod:
       "num_blocks": 200
     }
 
-  datanode:
-    uri: "tcp://localhost:1234"
+  datanodes:
+  - uri: "tcp://localhost:1234"
 
 benchmark:
   enabled: false
