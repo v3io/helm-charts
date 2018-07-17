@@ -1,11 +1,12 @@
 image:
   repository: iguaziodocker/shell
-  tag: 1.7.0-b80
+  tag: 1.7.0
   pullPolicy: IfNotPresent
   command: /etc/config/v3io/v3io-shell.sh
 
 config:
-    path: /hadoop/etc
+  path: /hadoop/etc
+  hostname: shell
 
 resources: {}
   # We usually recommend not to specify default resources and to leave this as a conscious

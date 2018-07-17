@@ -1,7 +1,7 @@
 master:
   image:
     repository: "iguaziodocker/spark"
-    tag: "2.1.2-1.7.0-b80"
+    tag: "2.1.2-1.7.0"
     pullPolicy: "IfNotPresent"
     command: /etc/config/v3io/v3io-spark.sh
   replicas: 1
@@ -23,7 +23,7 @@ master:
 worker:
   image:
     repository: "iguaziodocker/spark"
-    tag: "2.1.2-1.7.0-b80"
+    tag: "2.1.2-1.7.0"
     pullPolicy: "IfNotPresent"
     command: /etc/config/v3io/v3io-spark.sh
   replicas: 1
@@ -41,7 +41,7 @@ worker:
 zeppelin:
   image:
     repository: "iguaziodocker/zeppelin"
-    tag: "0.7.3-1.7.0-b80"
+    tag: "0.7.3-1.7.0"
     pullPolicy: "IfNotPresent"
     command: /etc/config/v3io/v3io-zeppelin.sh
   replicas: 1

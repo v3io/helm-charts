@@ -1,0 +1,18 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: {{ template "v3io-webapi.name" . }}
+  labels:
+    app: {{ template "v3io-webapi.name" . }}
+    chart: {{ template "v3io-webapi.chart" . }}
+    release: {{ .Release.Name }}
+    heritage: {{ .Release.Service }}
+spec:
+  ports:
+    - port: {{ .Values.hostPort }}
+      targetPort: {{ .Values.hostPort }}
+    - port: {{ .Values.sslHostPort }}
+      targetPort: {{ .Values.sslHostPort }}
+  selector:
+    app: {{ template "v3io-webapi.name" . }}
+    chart: {{ template "v3io-webapi.chart" . }}

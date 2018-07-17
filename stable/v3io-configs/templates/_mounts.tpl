@@ -1,10 +1,10 @@
 {{- define "v3io-configs.deployment.mount" -}}
 - name: shm
   hostPath:
-    path: "/dev/shm"
+    path: "/dev/shm/{{ .Release.Namespace }}"
 - name: v3iod-comm
   hostPath:
-    path: "/tmp/dayman"
+    path: "/tmp/dayman/{{ .Release.Namespace }}"
 - name: v3io-config
   configMap:
     name: {{ .Release.Name }}-v3io-config
