@@ -29,9 +29,9 @@ Configurable values are using `default` direcrive and stored in `global`, due to
 | `global.v3io.configFileName`            | `"v3io.conf"`                     |
 | `global.v3io.authPath`                  | `"/igz/java/auth"`                |
 | `global.v3io.authFileName`              | `".java"`                         |
-| `global.v3io.lookupService.name`        | `"{{ .Release.Name }}-registry"`  |
+| `global.v3io.lookupService.name`        | `"{{ .Release.Name }}-locator"`   |
 | `global.v3io.lookupService.servicePort` | 8080                              |
-| `global.v3io.lookupService.path`        | `"registry/daemon"`               |
+| `global.v3io.lookupService.path`        | `"locate/v3iod"`                  |
 
 ## Defined Template
 
