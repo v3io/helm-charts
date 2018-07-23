@@ -45,6 +45,16 @@ spec:
           ports:
             - containerPort: {{ .Values.master.containerPort }}
             - containerPort: {{ .Values.master.webAdmin.containerPort }}
+          readinessProbe:
+            httpGet:
+              path: /
+              port: {{ .Values.master.webAdmin.containerPort }}
+            initialDelaySeconds: 5
+          livenessProbe:
+            httpGet:
+              path: /
+              port: {{ .Values.master.webAdmin.containerPort }}
+            initialDelaySeconds: 90
           resources:
 {{ toYaml .Values.master.resources | indent 12 }}
 {{- if .Values.environment }}

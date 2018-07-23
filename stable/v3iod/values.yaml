@@ -58,6 +58,12 @@ v3iod:
   datanodes:
   - uri: "tcp://localhost:1234"
 
+locator:
+  image:
+    repository: iguaziodocker/locator
+    tag: 2.0.0
+    pullPolicy: IfNotPresent
+
 benchmark:
   enabled: false
   v3ioClient:

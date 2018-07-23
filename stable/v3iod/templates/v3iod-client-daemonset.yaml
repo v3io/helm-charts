@@ -4,7 +4,7 @@ apiVersion: extensions/v1beta1
 metadata:
   name: {{ template "v3iod.client.name" . }}
   labels:
-    app: {{ template "v3iod.name" . }}
+    app: {{ template "v3iod.client.name" . }}
     chart: {{ template "v3iod.chart" . }}
     release: {{ .Release.Name }}
     heritage: {{ .Release.Service }}
@@ -16,7 +16,7 @@ spec:
       component: client
     metadata:
       labels:
-        app: {{ template "v3iod.name" . }}
+        app: {{ template "v3iod.client.name" . }}
         chart: {{ template "v3iod.chart" . }}
         release: {{ .Release.Name }}
         heritage: {{ .Release.Service }}

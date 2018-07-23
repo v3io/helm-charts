@@ -22,11 +22,18 @@ spec:
       volumes:
 {{ include .Values.volumes.volumesTemplate . | indent 8 }}
 {{- end }}
+{{- if .Values.config.hostname }}
+      hostname: {{ .Values.config.hostname }}
+{{- end }}
       containers:
         - name: {{ .Chart.Name }}-shell
           image: "{{ .Values.image.repository }}:{{ .Values.image.tag }}"
           imagePullPolicy: {{ .Values.image.pullPolicy }}
           command: ["/bin/bash", "-x", "{{ .Values.image.command }}"]
+          ports:
+            - name: ttyd
+              containerPort: 7681
+              protocol: TCP
 {{- if .Values.environment }}
           env:
 {{ include .Values.environment.template . | indent 12 }}
