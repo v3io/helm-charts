@@ -3,26 +3,26 @@ apiVersion: extensions/v1beta1
 metadata:
   name: {{ template "v3iod.cache.name" . }}
   labels:
-    app: {{ template "v3iod.name" . }}
+    app: {{ template "v3iod.cache.name" . }}
     chart: {{ template "v3iod.chart" . }}
     release: {{ .Release.Name }}
     heritage: {{ .Release.Service }}
-    component: cache
+    component: locator
 spec:
   template:
     metadata:
       labels:
-        app: {{ template "v3iod.name" . }}
+        app: {{ template "v3iod.cache.name" . }}
         chart: {{ template "v3iod.chart" . }}
         release: {{ .Release.Name }}
         heritage: {{ .Release.Service }}
-        component: cache
+        component: locator
     spec:
       serviceAccountName: {{ template "v3iod.cache.name" . }}
       containers:
-        - name: rest-cache
-          image: iguaziodocker/simple-registry-watch
-          imagePullPolicy: Always
+        - name: rest-locator
+          image: {{ .Values.locator.image.repository }}:{{ .Values.locator.image.tag }}
+          imagePullPolicy: {{ .Values.locator.image.pullPolicy | quote }}
           command: ["/bin/bash", "-c"]
           args:
             - registryctl --namespace=$CURRENT_NAMESPACE

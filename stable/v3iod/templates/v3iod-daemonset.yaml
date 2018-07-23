@@ -69,13 +69,13 @@ spec:
       volumes:
         - name: v3iod-shm
           hostPath:
-            path: /dev/shm
+            path: /dev/shm/{{ .Release.Namespace }}
         - name: v3iod-comm
           hostPath:
-            path: /tmp/dayman
+            path: /tmp/dayman/{{ .Release.Namespace }}
         - name: v3iod-config
           configMap:
             name: {{ template "v3iod.name" . }}
         - name: core-dump
           hostPath:
-            path: /tmp/crash
+            path: /tmp/crash/{{ .Release.Namespace }}

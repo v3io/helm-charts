@@ -9,7 +9,7 @@ metadata:
     heritage: {{ .Release.Service }}
 spec:
   ports:
-    - port: 7681
+    - port: 8080
       targetPort: ttyd
       protocol: TCP
       name: ttyd

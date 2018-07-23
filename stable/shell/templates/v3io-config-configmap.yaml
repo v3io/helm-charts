@@ -10,7 +10,7 @@ metadata:
 data:
 {{ include "v3io-configs.java.configMap" . | indent 2 }}
 
-  v3io-presto.sh: |
+  v3io-shell.sh: |
     #!/usr/bin/env bash
     set -e
 
