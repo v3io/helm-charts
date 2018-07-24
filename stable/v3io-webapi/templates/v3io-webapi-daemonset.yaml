@@ -40,9 +40,7 @@ spec:
         - name: v3io-webapi
           image: {{ .Values.image.repository }}:{{ .Values.image.tag }}
           imagePullPolicy: {{ .Values.image.pullPolicy | quote }}
-          command: ["/bin/bash","-c"]
-          args: 
-            - "/bin/bash -x /etc/iguazio/nginx/init.sh && /home/iguazio/igz/clients/nginx/bin/nginx -p /home/iguazio/igz/clients/nginx/lib -c /etc/iguazio/nginx/nginx.conf && tail -f /home/iguazio/igz/clients/nginx/lib/logs/*"
+          command: ["/bin/bash", "{{ .Values.image.command }}"]
           securityContext:
             privileged: true
           resources:
