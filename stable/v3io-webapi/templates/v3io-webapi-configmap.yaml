@@ -16,11 +16,13 @@ data:
     ulimit -a -H
     echo {{ .Values.numHugePages }} > /proc/sys/vm/nr_hugepages
     mkdir -p /home/iguazio/igz/clients/nginx/lib/logs
+    /home/iguazio/igz/clients/nginx/bin/nginx -p /home/iguazio/igz/clients/nginx/lib -c /etc/iguazio/nginx/nginx.conf
+    tail -f /home/iguazio/igz/clients/nginx/lib/logs/v3io.log
 
   nginx.conf: |
     worker_processes {{ .Values.workerProcesses }};
     load_module ngx_http_v3io_module.so;
-    error_log /home/iguazio/igz/clients/nginx/lib/logs/error.log info;
+    error_log /dev/stderr info;
     events {
         use epoll;
         worker_connections  {{ .Values.workerConnections }};
@@ -55,12 +57,10 @@ data:
                     add_header      'Access-Control-Allow-Credentials' 'true';
                     root            /root/ctnr;
                     set $v3io_key   "$uri?$args";
-                    v3io_pass       {{ .Values.datanode.url | quote }}; #bridge url
-                    v3io_md5_mode   disable;
-{{- if and .Values.datanode.defaultUsername .Values.datanode.defaultPassword }}
-                    v3io_user_name       {{ .Values.datanode.defaultUsername | quote }};
-                    v3io_password        {{ .Values.datanode.defaultPassword | quote }};
+{{- range $index, $datanode := .Values.datanodes }}
+                    v3io_pass       {{ $datanode.uri | quote }};
 {{- end }}
+                    v3io_md5_mode   disable;
                 }
                 if ($cors = "1o") {
                     add_header 'Access-Control-Allow-Origin' '$http_origin';
@@ -96,12 +96,10 @@ data:
                     add_header     'Access-Control-Allow-Credentials' 'true';
                     root            /root/ctnr;
                     set $v3io_key   "$uri?$args";
-                    v3io_pass       {{ .Values.datanode.url | quote }}; #bridge url
-                    v3io_md5_mode   disable;
-{{- if and .Values.datanode.defaultUsername .Values.datanode.defaultPassword }}
-                    v3io_user_name  {{ .Values.datanode.defaultUsername | quote }};
-                    v3io_password   {{ .Values.datanode.defaultPassword | quote }};
+{{- range $index, $datanode := .Values.datanodes }}
+                    v3io_pass       {{ $datanode.uri | quote }};
 {{- end }}
+                    v3io_md5_mode   disable;
                 }
                 # OPTIONS (pre-flight) request from allowed
                 # CORS domain. return response directly

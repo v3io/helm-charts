@@ -6,6 +6,7 @@ image:
   repository: iguaziodocker/webapi
   tag: 1.7.0
   pullPolicy: IfNotPresent
+  command: /etc/iguazio/nginx/init.sh
 
 resources: {}
   # limits:
@@ -21,7 +22,5 @@ sslHostPort: 8443
 workerProcesses: auto
 workerConnections: 1024
 
-datanode:
-  url: "tcp://localhost:1234"
-  # defaultUserName:  
-  # defaultPassword:
+datanodes:
+  - uri: "tcp://localhost:1234"
