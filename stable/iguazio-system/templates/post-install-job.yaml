@@ -2,19 +2,20 @@ apiVersion: batch/v1
 kind: Job
 metadata:
   name: {{ template "iguazio-system.name" . }}-tag-job
-  namespace: {{ .Values.job.namespaceTag.runInNamespace }}
+  namespace: {{ .Values.tenant.name }}
   labels:
-    owner: {{ template "iguazio-system.name" . }}
+    app: {{ template "iguazio-system.name" . }}
     chart: {{ template "iguazio-system.chart" . }}
     release: {{ .Release.Name }}
+    heritage: {{ .Release.Service }}
   annotations:
-    "helm.sh/hook": "pre-install"
+    "helm.sh/hook": "post-install"
     "helm.sh/hook-weight": "0"
     "helm.sh/hook-delete-policy": "before-hook-creation"
 spec:
   template:
     spec:
-      serviceAccountName: {{ .Values.job.namespaceTag.runAsServiceAccount }}
+      serviceAccountName: {{ template "iguazio-system.namespace-admin.name" . }}
       containers:
       - name: "tag-job"
         image: {{ .Values.job.namespaceTag.image.repository }}:{{ .Values.job.namespaceTag.image.tag }}
