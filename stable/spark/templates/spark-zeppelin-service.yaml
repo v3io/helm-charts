@@ -19,5 +19,6 @@ spec:
       nodePort: {{ .Values.zeppelin.nodePort }}
 {{- end }}
   selector:
-    chart: {{ template "spark.chart" . }}
+    app: {{ template "spark.name" . }}
+    release: {{ .Release.Name }}
     component: zeppelin
