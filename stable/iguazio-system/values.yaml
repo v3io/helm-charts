@@ -9,14 +9,39 @@ tenant:
       allowedNamespaces:
         - kube-system
 
+  compute:
+    requests:
+      cpu: 8
+      memory: 10Gi
+    limits:
+      cpu: 8
+      memory: 10Gi
+    container:
+      cpu:
+        default: 1
+        defaultRequest: 0.5
+        min: 0.1
+        max: 4
+      memory:
+        # This is the default limit; setting a low bar will require adding limit to all containers
+        default: 2Gi
+        defaultRequest: 16Mi
+        min: 16Mi
+        max: 8Gi
+
 job:
+  deployerCleanup:
+    schedule: "*/30 * * * *"
+    image:
+      repository: lachlanevenson/k8s-kubectl
+      tag: v1.9.8
+      pullPolicy: IfNotPresent
+    selector: deployer_stage
   namespaceTag:
     image:
       repository: lachlanevenson/k8s-kubectl
       tag: v1.9.8
       pullPolicy: IfNotPresent
-    runAsServiceAccount: tiller
-    runInNamespace: kube-system
     namespaces:
       - kube-system
 
