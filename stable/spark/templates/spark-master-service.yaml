@@ -13,5 +13,6 @@ spec:
     - port: {{ .Values.master.servicePort }}
       targetPort: {{ .Values.master.containerPort }}
   selector:
-    chart: {{ template "spark.chart" . }}
+    app: {{ template "spark.name" . }}
+    release: {{ .Release.Name }}
     component: spark-master

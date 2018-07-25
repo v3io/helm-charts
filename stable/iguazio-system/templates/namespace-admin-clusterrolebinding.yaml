@@ -1,0 +1,17 @@
+apiVersion: rbac.authorization.k8s.io/v1beta1
+kind: ClusterRoleBinding
+metadata:
+  labels:
+    app: {{ template "iguazio-system.name" . }}
+    chart: {{ template "iguazio-system.chart" . }}
+    release: {{ .Release.Name }}
+    heritage: {{ .Release.Service }}
+  name: {{ template "iguazio-system.namespace-admin.name" . }}
+roleRef:
+  apiGroup: rbac.authorization.k8s.io
+  kind: ClusterRole
+  name: {{ template "iguazio-system.namespace-admin.name" . }}
+subjects:
+  - kind: ServiceAccount
+    name: {{ template "iguazio-system.namespace-admin.name" . }}
+    namespace: {{ .Values.tenant.name }}

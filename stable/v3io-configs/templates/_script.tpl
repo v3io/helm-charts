@@ -12,7 +12,7 @@ LOOKUP_URL="http://${LOOKUP_SERVICE}/{{ $lookupPath }}"
 {{- $service := (list .Release.Name "-locator" | join "") }}
 {{- $port := 8080 }}
 {{- $lookupPath := "locate/v3iod" }}
-LOOKUP_SERVICE={{ printf "%s:%d" $service $port}}
+LOOKUP_SERVICE={{ printf "%s.%s.svc:%d" $service .Release.Namespace $port}}
 LOOKUP_URL="http://${LOOKUP_SERVICE}/{{ $lookupPath }}"
 {{- end }}
 LOCAL_V3IOD=$(curl --silent --fail --connect-timeout 10 $LOOKUP_URL/$CURRENT_NODE_IP)
