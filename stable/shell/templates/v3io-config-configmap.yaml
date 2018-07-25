@@ -16,4 +16,15 @@ data:
 
 {{ include "v3io-configs.script.lookupService" . | indent 4 }}
 
+    echo "" >> ~/.bashrc
+{{- if .Values.config.logo }}
+    echo "echo {{ .Values.config.logo }} | base64 --decode" >> ~/.bashrc
+    echo "" >> ~/.bashrc
+{{- end }}
+{{- if .Values.config.welcome }}
+    echo "toilet --font smmono9 --termwidth --filter metal {{ .Values.config.welcome }}" >> ~/.bashrc
+    echo "" >> ~/.bashrc
+{{- end }}
+    echo "" >> ~/.bashrc
+
     ttyd bash
