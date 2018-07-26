@@ -16,15 +16,18 @@ data:
 
 {{ include "v3io-configs.script.lookupService" . | indent 4 }}
 
-    echo "" >> ~/.bashrc
+    echo alias prestow="presto --server ${CURRENT_NAMESPACE}-presto.${CURRENT_NAMESPACE}.svc:8080 $@" >> ~/.bashrc
+    echo alias v3iopresto="prestow --catalog=v3io $@" >> ~/.bashrc
+
+    echo "echo ''" >> ~/.bashrc
 {{- if .Values.config.logo }}
     echo "echo {{ .Values.config.logo }} | base64 --decode" >> ~/.bashrc
-    echo "" >> ~/.bashrc
+    echo "echo ''" >> ~/.bashrc
 {{- end }}
 {{- if .Values.config.welcome }}
     echo "toilet --font smmono9 --termwidth --filter metal {{ .Values.config.welcome }}" >> ~/.bashrc
-    echo "" >> ~/.bashrc
+    echo "echo ''" >> ~/.bashrc
 {{- end }}
-    echo "" >> ~/.bashrc
+    echo "echo ''" >> ~/.bashrc
 
     ttyd bash
