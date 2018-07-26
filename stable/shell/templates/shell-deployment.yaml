@@ -34,8 +34,12 @@ spec:
             - name: ttyd
               containerPort: 7681
               protocol: TCP
-{{- if .Values.environment }}
           env:
+            - name: CURRENT_NAMESPACE
+              valueFrom:
+                fieldRef:
+                  fieldPath: metadata.namespace
+{{- if .Values.environment }}
 {{ include .Values.environment.template . | indent 12 }}
 {{- end }}
 {{- if .Values.volumes }}
