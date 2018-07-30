@@ -1,3 +1,4 @@
+{{- if .Values.job.namespaceTag.enabled -}}
 apiVersion: batch/v1
 kind: Job
 metadata:
@@ -26,3 +27,4 @@ spec:
 {{- end }}
       restartPolicy: "Never"
   backoffLimit: 1
+{{- end -}}
