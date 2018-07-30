@@ -31,6 +31,7 @@ tenant:
 
 job:
   deployerCleanup:
+    enabled: true
     schedule: "*/30 * * * *"
     image:
       repository: lachlanevenson/k8s-kubectl
@@ -38,6 +39,7 @@ job:
       pullPolicy: IfNotPresent
     selector: deployer_stage
   namespaceTag:
+    enabled: true
     image:
       repository: lachlanevenson/k8s-kubectl
       tag: v1.9.8

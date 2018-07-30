@@ -1,3 +1,4 @@
+{{- if .Values.job.deployerCleanup.enabled -}}
 apiVersion: batch/v1beta1
 kind: CronJob
 metadata:
@@ -32,3 +33,4 @@ spec:
                   kubectl label namespace --overwrite $ns {{ .Values.job.deployerCleanup.selector }}=marked
                 done;
           restartPolicy: OnFailure
+{{- end -}}
