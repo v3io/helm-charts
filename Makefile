@@ -5,7 +5,13 @@ WORKDIR=stable
 cd-stable:
 WORKDIR := stable
 
-stable: stable-repo-helm cd-stable update-req package-all index
+stable: cd-stable repo-helm update-req package-all index
+	@echo "Done"
+
+cd-demo:
+WORKDIR := demo
+
+demo: cd-demo repo-helm update-req package-all index
 	@echo "Done"
 
 update-req:
@@ -44,9 +50,9 @@ index:
 		exit 111 ; \
 	fi ; \
 
-stable-repo-helm: check-helm
-HELM_REPO := $(HELM_REPO_ROOT)/stable
-$(debug $(shell $(HELM) repo add v3io-stable $(HELM_REPO)))
+repo-helm: check-helm
+HELM_REPO := $(HELM_REPO_ROOT)/$(WORKDIR)
+$(debug $(shell $(HELM) repo add v3io-$(WORKDIR) $(HELM_REPO)))
 
 check-helm:
 	@echo "Checking if helm command exists"
