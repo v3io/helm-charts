@@ -1,17 +1,17 @@
 HELM=helm
 HELM_REPO_ROOT=https://v3io.github.io/helm-charts
-WORKDIR=stable
-
-cd-stable:
 WORKDIR := stable
 
-stable: cd-stable repo-helm update-req package-all index
+.PHONY: stable
+stable: WORKDIR = stable
+
+stable: repo-helm update-req package-all index
 	@echo "Done"
 
-cd-demo:
-WORKDIR := demo
+.PHONY: demo
+demo: WORKDIR = demo
 
-demo: cd-demo repo-helm update-req package-all index
+demo: repo-helm update-req package-all index
 	@echo "Done"
 
 update-req:
