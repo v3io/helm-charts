@@ -16,8 +16,8 @@ data:
 
 {{ include "v3io-configs.script.lookupService" . | indent 4 }}
 
-    echo alias prestow="presto --server ${CURRENT_NAMESPACE}-presto.${CURRENT_NAMESPACE}.svc:8080 $@" >> ~/.bashrc
-    echo alias v3iopresto="prestow --catalog=v3io $@" >> ~/.bashrc
+    echo alias prestow=\"presto --server {{ .Release.Namespace }}-presto.{{ .Release.Namespace }}.svc:8080 $@\" >> ~/.bashrc
+    echo alias v3iopresto=\"prestow --catalog=v3io $@\" >> ~/.bashrc
 
     echo "echo ''" >> ~/.bashrc
 {{- if .Values.config.logo }}
