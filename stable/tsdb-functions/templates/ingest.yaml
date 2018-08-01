@@ -4,6 +4,10 @@ metadata:
   name: {{ .Values.functions.ingest.name }}
   labels:
     nuclio.io/project-name: {{ .Values.project.name }} 
+    app: {{ template "tsdb-functions.name" . }}
+    chart: {{ template "tsdb-functions.chart" . }}
+    release: {{ .Release.Name }}
+    heritage: {{ .Release.Service }}
 spec:
   build:
     codeEntryType: image
