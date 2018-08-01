@@ -5,6 +5,7 @@ webapi:
     password: iguazio
 project:
   name: nuclio-tsdb
+  displayName: TSDB
 functions:
     ingest:
       name: "ingest"

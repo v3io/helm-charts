@@ -1,6 +1,6 @@
 apiVersion: nuclio.io/v1beta1
 kind: Project
 metadata:
-  name: nuclio-tsdb
+  name: {{ .Values.project.name }} 
 spec:
-  displayName: TSDB
+  displayName: {{ .Values.project.displayName }}
