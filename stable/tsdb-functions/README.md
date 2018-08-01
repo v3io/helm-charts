@@ -1,6 +1,6 @@
 # TSDB functions Chart
 
-TSDB functions is a set of functions demonstrating working with Iguazio's time sereis database
+TSDB functions is a set of functions demonstrating working with Iguazio's time series database
 
 ## Chart Details
 
