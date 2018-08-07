@@ -15,6 +15,7 @@ v3io:
       url: generate-data:8080
       handler: "functions.generate_data.generate_data:handler"
       runtime: "python:3.6"
+      readinessTimeoutSeconds: 180
       projectName: "taxi-demo"
       commands:
         - pip install requests==2.19.1
@@ -29,6 +30,7 @@ v3io:
       url: ingest:8080
       handler: "functions.ingest.ingest:handler"
       runtime: "python:3.6"
+      readinessTimeoutSeconds: 180
       projectName: "taxi-demo"
       commands:
         - pip install requests==2.19.1
