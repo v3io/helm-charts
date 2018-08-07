@@ -44,7 +44,7 @@ package-all:
 
 index:
 	@echo "Generating index.yaml"
-	$(HELM) repo index --merge $(WORKDIR)/index.yaml --url $(HELM_REPO) $(WORKDIR)
+	$(HELM) repo index --merge $(WORKDIR)/index.yaml --url $(HELM_REPO_ROOT)/$(WORKDIR) $(WORKDIR)
 	@if [ "$$?" != "0" ]; then \
 		echo "Failed repo index" ; \
 		exit 111 ; \
