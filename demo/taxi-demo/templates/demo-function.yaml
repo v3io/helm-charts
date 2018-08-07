@@ -15,6 +15,7 @@ spec:
   maxReplicas: 1
   minReplicas: 1
   runtime: {{ $val.runtime }}
+  readinessTimeoutSeconds: {{ $val.readinessTimeoutSeconds }}
   build:
     commands: 
     {{- range $val := $val.commands }}
