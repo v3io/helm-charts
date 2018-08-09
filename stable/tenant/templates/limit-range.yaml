@@ -4,9 +4,10 @@ metadata:
   name: {{ template "tenant.name" . }}-limit-range
   namespace: {{ template "tenant.name" . }}
   labels:
-    owner: {{ template "tenant.name" . }}
+    app: {{ template "tenant.name" . }}
     chart: {{ template "tenant.chart" . }}
     release: {{ .Release.Name }}
+    heritage: {{ .Release.Service }}
 spec:
   limits:
   - default:

@@ -1,0 +1,24 @@
+{{- if .Values.namespace.tagJob.run -}}
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: {{ template "tenant.name" . }}-tag-job
+  namespace: {{ template "tenant.name" . }}
+  labels:
+    app: {{ template "tenant.name" . }}
+    chart: {{ template "tenant.chart" . }}
+    release: {{ .Release.Name }}
+    heritage: {{ .Release.Service }}
+spec:
+  template:
+    spec:
+      serviceAccountName: {{ template "tenant.name" . }}-tagger
+      containers:
+      - name: "tag-job"
+        image: {{ .Values.namespace.tagJob.image.repository }}:{{ .Values.namespace.tagJob.image.tag }}
+        command: ["/bin/sh", "-c"]
+        args:
+          - kubectl label namespace --overwrite {{ template "tenant.name" . }} {{ .Values.namespace.tagJob.tag }}={{ template "tenant.name" . }} ;
+      restartPolicy: "Never"
+  backoffLimit: 1
+{{- end -}}

@@ -1,3 +1,4 @@
+{{- if .Values.namespace.create -}}
 apiVersion: v1
 kind: Namespace
 metadata:
@@ -6,3 +7,4 @@ metadata:
     owner: {{ template "tenant.name" . }}
     chart: {{ template "tenant.chart" . }}
     release: {{ .Release.Name }}
+{{- end -}}
