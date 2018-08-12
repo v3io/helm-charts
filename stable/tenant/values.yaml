@@ -4,6 +4,16 @@
 
 name: iguazio
 
+namespace:
+  create: true
+  tagJob:
+    run: false
+    image:
+      repository: lachlanevenson/k8s-kubectl
+      tag: v1.9.8
+      pullPolicy: IfNotPresent
+    tag: owner
+
 compute:
   requests:
     cpu: 32

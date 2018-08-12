@@ -1,0 +1,14 @@
+apiVersion: rbac.authorization.k8s.io/v1beta1
+kind: Role
+metadata:
+  labels:
+    app: {{ template "tenant-creator.name" . }}
+    chart: {{ template "tenant-creator.chart" . }}
+    release: {{ .Release.Name }}
+    heritage: {{ .Release.Service }}
+  name: {{ template "tenant-creator.name" . }}-{{ .Values.tiller.serviceAccountSuffix }}
+  namespace: {{ template "tenant-creator.name" . }}
+rules:
+- apiGroups: ["", "batch", "extensions", "apps"]
+  resources: ["*"]
+  verbs: ["*"]

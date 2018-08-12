@@ -1,0 +1,19 @@
+{{- if .Values.namespace.tagJob.run -}}
+apiVersion: rbac.authorization.k8s.io/v1beta1
+kind: Role
+metadata:
+  labels:
+    app: {{ template "tenant.name" . }}
+    chart: {{ template "tenant.chart" . }}
+    release: {{ .Release.Name }}
+    heritage: {{ .Release.Service }}
+  name: {{ template "tenant.name" . }}-tagger
+  namespace: {{ template "tenant.name" . }}
+rules:
+  - apiGroups:
+      - ""
+    resources:
+      - namespaces
+    verbs:
+      - "*"
+{{- end -}}

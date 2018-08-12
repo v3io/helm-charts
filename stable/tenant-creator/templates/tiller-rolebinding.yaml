@@ -1,0 +1,18 @@
+apiVersion: rbac.authorization.k8s.io/v1beta1
+kind: RoleBinding
+metadata:
+  labels:
+    app: {{ template "tenant-creator.name" . }}
+    chart: {{ template "tenant-creator.chart" . }}
+    release: {{ .Release.Name }}
+    heritage: {{ .Release.Service }}
+  name: {{ template "tenant-creator.name" . }}-{{ .Values.tiller.serviceAccountSuffix }}
+  namespace: {{ template "tenant-creator.name" . }}
+roleRef:
+  apiGroup: rbac.authorization.k8s.io
+  kind: Role
+  name: {{ template "tenant-creator.name" . }}-{{ .Values.tiller.serviceAccountSuffix }}
+subjects:
+  - kind: ServiceAccount
+    name: {{ template "tenant-creator.name" . }}-{{ .Values.tiller.serviceAccountSuffix }}
+    namespace: {{ template "tenant-creator.name" . }}
