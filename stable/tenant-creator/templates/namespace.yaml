@@ -1,0 +1,8 @@
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: {{ template "tenant-creator.name" . }}
+  labels:
+    owner: {{ template "tenant-creator.name" . }}
+    chart: {{ template "tenant-creator.chart" . }}
+    release: {{ .Release.Name }}
