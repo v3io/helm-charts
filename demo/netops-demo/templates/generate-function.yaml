@@ -1,9 +1,13 @@
 apiVersion: nuclio.io/v1beta1
 kind: Function
 metadata:
-  name: {{ template "generateName" . }}
+  name: {{ template "netopsDemo.generateName" . }}
   labels:
-    nuclio.io/project-name: {{ .Values.project.name }}
+    app: {{ template "netopsDemo.name" . }}
+    chart: {{ template "netopsDemo.chart" . }}
+    release: {{ .Release.Name }}
+    heritage: {{ .Release.Service }}
+    nuclio.io/project-name: {{ template "netopsDemo.projectName" . }}
 spec:
   build:
     codeEntryType: image
@@ -11,7 +15,7 @@ spec:
   - name: GENERATOR_CONFIGURATION
     valueFrom:
       configMapKeyRef:
-        name: {{ template "generateName" . }}-config
+        name: {{ template "netopsDemo.generateName" . }}-config
         key: configuration.json
   handler: functions.generate.generate:generate
   image: {{ .Values.generate.image.repository }}:{{ .Values.generate.image.tag }}

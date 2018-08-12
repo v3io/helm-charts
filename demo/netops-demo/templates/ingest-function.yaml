@@ -1,9 +1,13 @@
 apiVersion: nuclio.io/v1beta1
 kind: Function
 metadata:
-  name: {{ template "ingestName" . }}
+  name: {{ template "netopsDemo.ingestName" . }}
   labels:
-    nuclio.io/project-name: {{ .Values.project.name }}
+    app: {{ template "netopsDemo.name" . }}
+    chart: {{ template "netopsDemo.chart" . }}
+    release: {{ .Release.Name }}
+    heritage: {{ .Release.Service }}
+    nuclio.io/project-name: {{ template "netopsDemo.projectName" . }}
 spec:
   build:
     codeEntryType: image
