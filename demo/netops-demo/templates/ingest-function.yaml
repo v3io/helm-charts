@@ -1,13 +1,13 @@
 apiVersion: nuclio.io/v1beta1
 kind: Function
 metadata:
-  name: {{ template "netopsDemo.ingestName" . }}
+  name: {{ template "netops-demo.ingestName" . }}
   labels:
-    app: {{ template "netopsDemo.name" . }}
-    chart: {{ template "netopsDemo.chart" . }}
+    app: {{ template "netops-demo.name" . }}
+    chart: {{ template "netops-demo.chart" . }}
     release: {{ .Release.Name }}
     heritage: {{ .Release.Service }}
-    nuclio.io/project-name: {{ template "netopsDemo.projectName" . }}
+    nuclio.io/project-name: {{ template "netops-demo.projectName" . }}
 spec:
   build:
     codeEntryType: image

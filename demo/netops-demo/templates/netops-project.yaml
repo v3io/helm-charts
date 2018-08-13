@@ -1,10 +1,10 @@
 apiVersion: nuclio.io/v1beta1
 kind: Project
 metadata:
-  name: {{ template "netopsDemo.projectName" . }}
+  name: {{ template "netops-demo.projectName" . }}
   labels:
-    app: {{ template "netopsDemo.name" . }}
-    chart: {{ template "netopsDemo.chart" . }}
+    app: {{ template "netops-demo.name" . }}
+    chart: {{ template "netops-demo.chart" . }}
     release: {{ .Release.Name }}
     heritage: {{ .Release.Service }}
 spec:
