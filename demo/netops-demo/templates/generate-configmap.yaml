@@ -1,0 +1,12 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: {{ template "netops-demo.generateName" . }}-config
+  labels:
+    app: {{ template "netops-demo.name" . }}
+    chart: {{ template "netops-demo.chart" . }}
+    release: {{ .Release.Name }}
+    heritage: {{ .Release.Service }}
+data:
+  configuration.json: |
+{{ toJson .Values.generate.configuration | indent 4 }}
