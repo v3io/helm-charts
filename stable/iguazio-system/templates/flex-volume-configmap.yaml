@@ -1,0 +1,28 @@
+{{- if .Values.job.flexVolume.enabled -}}
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: {{ template "iguazio-system.flex-volume.name" . }}
+  labels:
+    app: {{ template "iguazio-system.name" . }}
+    chart: {{ template "iguazio-system.chart" . }}
+    release: {{ .Release.Name }}
+    heritage: {{ .Release.Service }}
+    component: flex-volume-plugin
+data:
+  v3io.conf: |
+    {
+      "fuse_path": "{{ .Values.job.flexVolume.executablePath }}",
+      "type": "{{ .Values.job.flexVolume.mountType }}",
+      "clusters": [
+{{- range $index, $cluster := .Values.job.flexVolume.clusters }}
+          {{- if gt $index 0 }},{{- end }}
+          {
+                "name": "{{ $cluster.name }}",
+                "data_url": "{{ $cluster.dataUrl }}",
+                "api_url": "{{ $cluster.apiUrl }}"
+          }
+{{- end }}
+      ]
+    }
+{{- end -}}

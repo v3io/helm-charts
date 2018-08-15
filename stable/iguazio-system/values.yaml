@@ -30,14 +30,18 @@ tenant:
         max: 8Gi
 
 job:
-  deployerCleanup:
+  flexVolume:
     enabled: true
-    schedule: "*/30 * * * *"
     image:
-      repository: lachlanevenson/k8s-kubectl
-      tag: v1.9.8
+      repository: iguaziodocker/flex-fuse
+      tag: 1.7.1-0.3.1
       pullPolicy: IfNotPresent
-    selector: deployer_stage
+    executablePath: /home/iguazio/igz/clients/fuse/bin/v3io_adapters_fuse
+    mountType: os
+    clusters:
+      - name: default
+        dataUrl: tcp://1.1.1.1:1234
+        apiUrl: http://1.1.1.1:8001
   namespaceTag:
     enabled: true
     image:
