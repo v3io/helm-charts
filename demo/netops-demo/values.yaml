@@ -44,9 +44,9 @@ generate:
     errors: []
     error_rate: 0.001
     deployment:
-      num_companies: 1
-      num_sites_per_company: 3
-      num_devices_per_site: 3
+      num_companies: 3
+      num_sites_per_company: 5
+      num_devices_per_site: 10
       site_locations_bounding_box:
         nw: "(51.520249, -0.071591)"
         se: "(51.490988, -0.188702)"
