@@ -1,11 +1,11 @@
 generate:
   image:
     repository: pavius/netops-demo-py
-    tag: 0.0.1
+    tag: 0.0.3
     pullPolicy: Always
-  configuration: 
+  configuration:
     interval: 1
-    target: function:ingest
+    target: function:netops-demo-ingest
     max_samples_per_batch: 720
     metrics:
       cpu_utilization:
@@ -43,11 +43,18 @@ generate:
       length: 80
     errors: []
     error_rate: 0.001
+    deployment:
+      num_companies: 1
+      num_sites_per_company: 3
+      num_devices_per_site: 3
+      site_locations_bounding_box:
+        nw: "(51.520249, -0.071591)"
+        se: "(51.490988, -0.188702)"
 
 ingest:
   image:
     repository: pavius/netops-demo-golang
-    tag: 0.0.1
+    tag: 0.0.3
     pullPolicy: Always
   tsdb:
     enabled: true
@@ -61,4 +68,4 @@ ingest:
     token: some-token
 
 project:
-  displayName: Network operation demo
+  displayName: NetOps Demo
