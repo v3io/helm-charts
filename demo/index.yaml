@@ -2,8 +2,22 @@ apiVersion: v1
 entries:
   netops-demo:
   - apiVersion: v1
+    appVersion: 0.0.3
+    created: 2018-08-17T08:27:06.981515732+03:00
+    description: V3IO NetOps demo
+    digest: 200f215561b1a733fcb9f989cbc2cecb0fcaadc47c7514fef25a251515ef4383
+    home: https://iguazio.com
+    icon: https://github.com/nuclio/nuclio/raw/master/docs/assets/images/logo.png
+    maintainers:
+    - email: erand@iguazio.com
+      name: Eran Duchan
+    name: netops-demo
+    urls:
+    - https://v3io.github.io/helm-charts/demo/netops-demo-0.0.2.tgz
+    version: 0.0.2
+  - apiVersion: v1
     appVersion: 0.0.1
-    created: 2018-08-13T11:17:44.710699321+03:00
+    created: 2018-08-17T08:27:06.981270813+03:00
     description: V3IO NetOps demo
     digest: be2cd979af003684ec4015f850eb0a02bce29a7a8f92b5d183084f6ae509ecf9
     home: https://iguazio.com
@@ -16,7 +30,7 @@ entries:
     - https://v3io.github.io/helm-charts/demo/netops-demo-0.0.1.tgz
     version: 0.0.1
   taxi-demo:
-  - created: 2018-08-13T11:17:44.712219822+03:00
+  - created: 2018-08-17T08:27:06.982713341+03:00
     description: V3IO Taxi Demo
     digest: e3b1ace40091fbb9d08c3aed4c81aa7d56a8bbc9ef3defb2f309365f3b7a32f9
     home: https://iguazio.com
@@ -30,7 +44,7 @@ entries:
     urls:
     - https://v3io.github.io/helm-charts/demo/taxi-demo-0.2.8.tgz
     version: 0.2.8
-  - created: 2018-08-13T11:17:44.71174843+03:00
+  - created: 2018-08-17T08:27:06.981968252+03:00
     description: V3IO Taxi Demo
     digest: b5563f1ac84096cbdb6636a2ef1ee951e453783fb1b2d372c8649376084c7073
     home: https://iguazio.com
@@ -44,4 +58,4 @@ entries:
     urls:
     - https://v3io.github.io/helm-charts/demo/taxi-demo-0.2.7.tgz
     version: 0.2.7
-generated: 2018-08-13T11:17:44.710168649+03:00
+generated: 2018-08-17T08:27:06.980732027+03:00
