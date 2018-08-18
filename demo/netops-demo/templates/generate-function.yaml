@@ -22,9 +22,14 @@ spec:
   replicas: 1
   runtime: python:3.6
   triggers:
+    web:
+      kind: http
+      workerAllocatorName: httpCronAllocator
+      attributes:
+        port: {{ .Values.generate.port }}
     periodic:
       kind: cron
-      workerAllocatorName: defaultHTTPWorkerAllocator
+      workerAllocatorName: httpCronAllocator
       attributes:
         interval: 1s
 status:
