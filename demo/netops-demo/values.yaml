@@ -1,8 +1,8 @@
 generate:
   port: 32010
   image:
-    repository: pavius/netops-demo-py
-    tag: 0.0.3
+    repository: iguaziodocker/netops-demo-py
+    tag: 0.0.4
     pullPolicy: Always
   configuration:
     interval: 1
@@ -54,8 +54,8 @@ generate:
 
 ingest:
   image:
-    repository: pavius/netops-demo-golang
-    tag: 0.0.3
+    repository: iguaziodocker/netops-demo-golang
+    tag: 0.0.4
     pullPolicy: Always
   tsdb:
     enabled: true
