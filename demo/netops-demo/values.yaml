@@ -1,8 +1,9 @@
 generate:
   port: 32010
+  readinessTimeoutSeconds: 180
   image:
     repository: iguaziodocker/netops-demo-py
-    tag: 0.0.4
+    tag: 0.0.5
     pullPolicy: Always
   configuration:
     interval: 1
@@ -53,9 +54,10 @@ generate:
         se: "(51.490988, -0.188702)"
 
 ingest:
+  readinessTimeoutSeconds: 180
   image:
     repository: iguaziodocker/netops-demo-golang
-    tag: 0.0.4
+    tag: 0.0.5
     pullPolicy: Always
   tsdb:
     enabled: true

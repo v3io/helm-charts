@@ -21,6 +21,7 @@ spec:
   image: {{ .Values.generate.image.repository }}:{{ .Values.generate.image.tag }}
   replicas: 1
   runtime: python:3.6
+  readinessTimeoutSeconds: {{ .Values.generate.readinessTimeoutSeconds }}
   triggers:
     web:
       kind: http
