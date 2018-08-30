@@ -34,3 +34,7 @@ Create chart name and version as used by the chart label.
 {{- define "iguazio-system.namespace-admin.name" -}}
 {{- printf "%s-ns-admin" .Chart.Name | replace "+" "_" | trunc 63 | trimSuffix "-" -}}
 {{- end -}}
+
+{{- define "iguazio-system.flex-volume.name" -}}
+{{- printf "%s-flex-plugin" .Chart.Name | replace "+" "_" | trunc 63 | trimSuffix "-" -}}
+{{- end -}}
