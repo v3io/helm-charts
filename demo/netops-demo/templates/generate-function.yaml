@@ -21,10 +21,16 @@ spec:
   image: {{ .Values.generate.image.repository }}:{{ .Values.generate.image.tag }}
   replicas: 1
   runtime: python:3.6
+  readinessTimeoutSeconds: {{ .Values.generate.readinessTimeoutSeconds }}
   triggers:
+    web:
+      kind: http
+      workerAllocatorName: httpCronAllocator
+      attributes:
+        port: {{ .Values.generate.port }}
     periodic:
       kind: cron
-      workerAllocatorName: defaultHTTPWorkerAllocator
+      workerAllocatorName: httpCronAllocator
       attributes:
         interval: 1s
 status:
