@@ -28,6 +28,10 @@ spec:
     value: {{ .Values.ingest.anodot.token }}
 {{- end }}
 {{- if .Values.ingest.tsdb.enabled }}
+  triggers:
+    web:
+      kind: http
+      maxWorkers: {{ .Values.ingest.tsdb.numWorkers }}
   dataBindings:
     db0:
       class: v3io
