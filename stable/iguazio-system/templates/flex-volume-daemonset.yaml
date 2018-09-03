@@ -3,6 +3,7 @@ kind: DaemonSet
 apiVersion: apps/v1
 metadata:
   name: {{ template "iguazio-system.flex-volume.name" . }}
+  namespace: {{ .Values.tenant.name }}
   labels:
     app: {{ template "iguazio-system.name" . }}
     chart: {{ template "iguazio-system.chart" . }}
