@@ -65,7 +65,8 @@ zeppelin:
     #     ## Title ##
     #     This section actually supports Markdown syntax!
     #   sections:
-    #   - language: scala
+    #   - language: scala (python, sh, sql, etc.)
+    #     title: my section title
     #     content: |-
     #       import org.apache.spark.sql.types._
     #       import org.apache.spark.sql.functions._

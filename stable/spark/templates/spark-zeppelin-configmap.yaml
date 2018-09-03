@@ -16,6 +16,7 @@ data:
       cp /etc/config/zeppelin/notebooks/$notebook ${ZEPPELIN_HOME}/notebook/$notebook/note.json; 
     done
 {{- end }}
+    echo spark.driver.host=$(hostname -i) >> ${SPARK_HOME}/conf/spark-defaults.conf
     /docker-zeppelin.sh \
             --master-hostname={{ template "spark.master-name" . }} \
             --master-port={{ .Values.master.servicePort }}
