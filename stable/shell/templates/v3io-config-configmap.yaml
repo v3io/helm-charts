@@ -17,6 +17,8 @@ data:
 {{ include "v3io-configs.script.lookupService" . | indent 4 }}
 
     echo "spark.master=spark://{{ .Release.Namespace }}-spark-master:7077" >> ${SPARK_HOME}/conf/spark-defaults.conf
+    echo spark.driver.extraJavaOptions=\"-Dsun.zip.disableMemoryMapping=true\" >> ${SPARK_HOME}/conf/spark-defaults.conf
+    echo spark.driver.host=$(hostname -i) >> ${SPARK_HOME}/conf/spark-defaults.conf
 
     echo alias ll=\"ls -lah --color\" >> ~/.bashrc
     echo alias prestow=\"presto-cli --server {{ .Release.Namespace }}-presto.{{ .Release.Namespace }}.svc:8080 $@\" >> ~/.bashrc

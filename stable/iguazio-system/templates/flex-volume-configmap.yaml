@@ -3,6 +3,7 @@ apiVersion: v1
 kind: ConfigMap
 metadata:
   name: {{ template "iguazio-system.flex-volume.name" . }}
+  namespace: {{ .Values.tenant.name }}
   labels:
     app: {{ template "iguazio-system.name" . }}
     chart: {{ template "iguazio-system.chart" . }}
@@ -19,7 +20,7 @@ data:
           {{- if gt $index 0 }},{{- end }}
           {
                 "name": "{{ $cluster.name }}",
-                "data_url": "{{ $cluster.dataUrl }}",
+                "data_urls": ["{{ $cluster.dataUrl }}"],
                 "api_url": "{{ $cluster.apiUrl }}"
           }
 {{- end }}

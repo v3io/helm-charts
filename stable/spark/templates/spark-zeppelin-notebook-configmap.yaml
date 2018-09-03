@@ -46,12 +46,18 @@ data:
 {{- end -}}
 {{- range $j, $section := $notebook.sections }}
         {
+{{- if $section.title -}}
+        "title": {{ $section.title | quote }},
+{{- end -}}
         "text": {{ $section.content | quote }},
         "user": "anonymous",
         "config": {
             "colWidth": 12,
             "enabled": true,
             "results": {},
+{{- if $section.title -}}
+            "title": true,
+{{- end -}}
             "editorSetting": {
             "language": "{{ $section.language }}"
             },
