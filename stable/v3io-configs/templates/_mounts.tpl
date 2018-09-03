@@ -11,6 +11,11 @@
 - name: v3io-auth
   secret:
     secretName: {{ .Release.Name }}-v3io-auth
+- name: v3io-fuse
+  flexVolume:
+    driver: "v3io/fuse"
+    secretRef:
+      name: {{ .Release.Name }}-v3io-fuse
 {{- end -}}
 
 {{- define "v3io-configs.deployment.volumeMounts" -}}
@@ -22,4 +27,6 @@
   mountPath: {{ default "/etc/config/v3io" .Values.global.v3io.configMountPath }}
 - name: v3io-auth
   mountPath: {{ default "/igz/java/auth" .Values.global.v3io.authPath }}
+- name: v3io-fuse
+  mountPath: {{ default "/v3io" .Values.global.v3io.fusePath }}
 {{- end -}}
