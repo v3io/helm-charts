@@ -34,19 +34,19 @@ job:
     enabled: true
     image:
       repository: iguaziodocker/flex-fuse
-      tag: 1.7.1-0.3.1
+      tag: 1.9.0-0.5.0
       pullPolicy: IfNotPresent
     executablePath: /home/iguazio/igz/clients/fuse/bin/v3io_adapters_fuse
     mountType: os
-    clusters:
-      - name: default
-        dataUrl: tcp://1.1.1.1:1234
-        apiUrl: http://1.1.1.1:8001
+    clusters: {}
+      # - name: default
+      #   dataUrl: tcp://1.1.1.1:1234
+      #   apiUrl: http://1.1.1.1:8001
   namespaceTag:
     enabled: true
     image:
       repository: lachlanevenson/k8s-kubectl
-      tag: v1.9.8
+      tag: v1.10.5
       pullPolicy: IfNotPresent
     namespaces:
       - kube-system

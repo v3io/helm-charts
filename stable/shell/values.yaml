@@ -32,8 +32,8 @@ environment:
   template: v3io-configs.deployment.env
 
 volumes:
-  volumesTemplate: v3io-configs.deployment.mount
-  volumeMountsTemplate: v3io-configs.deployment.volumeMounts
+  volumesTemplate: v3io-configs.deployment.mount-with-fuse
+  volumeMountsTemplate: v3io-configs.deployment.volumeMounts-with-fuse
 
 global:
   v3io:
