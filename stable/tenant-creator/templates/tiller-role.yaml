@@ -9,6 +9,6 @@ metadata:
   name: {{ template "tenant-creator.name" . }}-{{ .Values.tiller.serviceAccountSuffix }}
   namespace: {{ template "tenant-creator.name" . }}
 rules:
-- apiGroups: ["", "batch", "extensions", "apps"]
+- apiGroups: ["", "batch", "extensions", "apps", "rbac.authorization.k8s.io", "networking.k8s.io", "nuclio.io"]
   resources: ["*"]
   verbs: ["*"]
