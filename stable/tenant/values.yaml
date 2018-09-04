@@ -15,6 +15,7 @@ namespace:
     tag: owner
 
 compute:
+  create: true
   requests:
     cpu: 32
     memory: 80Gi

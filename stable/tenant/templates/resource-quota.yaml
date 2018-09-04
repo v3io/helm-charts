@@ -1,3 +1,4 @@
+{{- if .Values.compute.create -}}
 apiVersion: v1
 kind: ResourceQuota
 metadata:
@@ -16,3 +17,4 @@ spec:
     limits.memory: {{ .Values.compute.limits.memory }}
     services.nodeports: "{{ .Values.services.nodePorts }}"
     services.loadbalancers: "{{ .Values.services.loadBalancers }}"
+{{- end -}}
