@@ -48,7 +48,9 @@ zeppelin:
   servicePort: 8080
   containerPort: 8080
   # nodePort: 32100
-  
+  storage:
+    path: /v3io/bigdata/.services/zeppelin/notebook
+
   resources: {}
     # limits:
       # cpu: 1
@@ -59,8 +61,6 @@ zeppelin:
 
   preloadNotebooks:
     enabled: false
-    storage:
-      path: /v3io/bigdata/.services/zeppelin/notebook
     notebooks: {}
     # - title: "Demo Notebook"
     #   documentation: |-

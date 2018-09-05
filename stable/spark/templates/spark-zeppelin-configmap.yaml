@@ -12,7 +12,7 @@ data:
     #!/bin/bash
 {{- if .Values.zeppelin.preloadNotebooks.enabled }}
     for notebook in $(ls /etc/config/zeppelin/notebooks); do
-      NOTEBOOKS_PATH={{ default "${ZEPPELIN_HOME}/notebook" .Values.zeppelin.preloadNotebooks.storage.path }}
+      NOTEBOOKS_PATH={{ default "${ZEPPELIN_HOME}/notebook" .Values.zeppelin.storage.path }}
       mkdir -p ${NOTEBOOKS_PATH}/$notebook; 
       cp /etc/config/zeppelin/notebooks/$notebook ${NOTEBOOKS_PATH}/$notebook/note.json; 
     done
