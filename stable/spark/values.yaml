@@ -58,7 +58,9 @@ zeppelin:
       # memory: "2Gi"
 
   preloadNotebooks:
-    enabled: true
+    enabled: false
+    storage:
+      path: /v3io/bigdata/.services/zeppelin/notebook
     notebooks: {}
     # - title: "Demo Notebook"
     #   documentation: |-

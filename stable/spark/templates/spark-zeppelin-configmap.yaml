@@ -11,9 +11,10 @@ data:
   run.sh : |
     #!/bin/bash
 {{- if .Values.zeppelin.preloadNotebooks.enabled }}
-    for notebook in $(ls /etc/config/zeppelin/notebooks); do 
-      mkdir -p ${ZEPPELIN_HOME}/notebook/$notebook; 
-      cp /etc/config/zeppelin/notebooks/$notebook ${ZEPPELIN_HOME}/notebook/$notebook/note.json; 
+    for notebook in $(ls /etc/config/zeppelin/notebooks); do
+      NOTEBOOKS_PATH={{ default "${ZEPPELIN_HOME}/notebook" .Values.zeppelin.preloadNotebooks.storage.path }}
+      mkdir -p ${NOTEBOOKS_PATH}/$notebook; 
+      cp /etc/config/zeppelin/notebooks/$notebook ${NOTEBOOKS_PATH}/$notebook/note.json; 
     done
 {{- end }}
     echo spark.driver.host=$(hostname -i) >> ${SPARK_HOME}/conf/spark-defaults.conf
