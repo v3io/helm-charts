@@ -3,7 +3,7 @@ generate:
   readinessTimeoutSeconds: 180
   image:
     repository: iguaziodocker/netops-demo-py
-    tag: 0.0.7
+    tag: 0.0.8
     pullPolicy: Always
   configuration:
     interval: 1
@@ -57,7 +57,7 @@ ingest:
   readinessTimeoutSeconds: 180
   image:
     repository: iguaziodocker/netops-demo-golang
-    tag: 0.0.7
+    tag: 0.0.8
     pullPolicy: Always
   tsdb:
     enabled: true
