@@ -1,3 +1,4 @@
+{{- if .Values.network.create -}}
 apiVersion: networking.k8s.io/v1
 kind: NetworkPolicy
 metadata:
@@ -37,4 +38,5 @@ spec:
               owner: {{ template "tenant.name" . }}
 {{- else }}
     - {}
+{{- end -}}
 {{- end -}}
