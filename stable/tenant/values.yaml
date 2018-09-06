@@ -36,6 +36,7 @@ compute:
       max: 16Gi
 
 network:
+  create: true
   ingress:
     allowedNamespaces: []
     # Namespaced allowed to access your tenant network
