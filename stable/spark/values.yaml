@@ -59,25 +59,173 @@ zeppelin:
 
   preloadNotebooks:
     enabled: true
-    notebooks: {}
-    # - title: "Demo Notebook"
-    #   documentation: |-
-    #     ## Title ##
-    #     This section actually supports Markdown syntax!
-    #   sections:
-    #   - language: scala (python, sh, sql, etc.)
-    #     title: my section title
-    #     content: |-
-    #       import org.apache.spark.sql.types._
-    #       import org.apache.spark.sql.functions._
-    #       val schema = StructType(List(
-    #               StructField("__name", StringType),
-    #               StructField("count", LongType)
-    #           ))
-    #       val df = sqlContext.read
-    #                   .schema(schema)
-    #                   .load("/data")
-    #       df.where($"count" > 10).orderBy(desc("count")).show()
+    notebooks: 
+       - title: Iguazio Getting Started Example
+         documentation: |-
+             This note contains code examples for performing common tasks to help you get started with the Iguazio Continous Data Platform ("the platform").
+             Follow the tutorial by running the note paragraphs in order of appearance.
+
+             > **Tip:** You can also browse the files and directories that you write to the "bigdata" container in this tutorial from the platform dashboard: in the side navigation menu, select **Data**, and then select the **bigdata** container from the table. On the container data page, select the **Browse** tab, and then use the side directory-navigation tree to browse the directories. Selecting a file or directory in the browse table displays its metadata.
+
+             For more information about the platform including tutorial, demos, and code examples &; read [the platform documentation](https://www.iguazio.com/docs/).
+             For technical questions and assistance, don't hestistate to contact support@iguazio.com.
+
+         sections:
+
+         - language: md
+           title: Step 1  Ingest a sample CSV file into the platform
+           content: |-
+             %md
+
+             Use `curl` to download the sample **bank.csv** file that is used in Zeppelin's getting-started tutorial from [the Amazon S3 website](https://s3.amazonaws.com/apache-zeppelin/tutorial/bank/bank.csv) to the **/tmp** directory in the local file system of your platform. Then, use `hadoop fs` to move the file from the local file system to a new **zeppelin_getting_started_example** directory in the platform's "bigdata" data container.  
+
+         - language: sh
+           content: |-
+             %sh 
+
+             # Download the sample bank.csv file that is used in the basic Zeppelin Tutorial from the AWS S3 web site to the local /tmp directory
+             curl "https://s3.amazonaws.com/apache-zeppelin/tutorial/bank/bank.csv" > /tmp/bank.csv
+
+             # Create a zeppelin_getting_started_example directory in the "bigdata" container of your platform cluster
+             hadoop fs -mkdir v3io://bigdata/zeppelin_getting_started_example
+
+             # Move the CSV file from the local file-system /tmp directory to the new zeppelin_getting_started_example directory in the "bigdata" container
+             hadoop fs -moveFromLocal /tmp/bank.csv v3io://bigdata/zeppelin_getting_started_example/
+
+             # Verify that the "bigdata" container now has a zeppelin_getting_started_example directory with the bank.csv file
+             hadoop fs -ls v3io://bigdata/zeppelin_getting_started_example/
+
+         - language: md
+           title: Step 2 Convert the sample CSV file to a NoSQL table
+           content: |-
+             %md
+
+             Read the sample **bank.csv** file that you downloaded in Step 1 into a Spark DataFrame, and write the data in NoSQL format to a new **bank_nosql** table in the **zeppelin_getting_started_example** directory that you created in the "bigdata" container.
+             Before writing the CSV file to the NoSQL table, add an `"id"` column with unique values to the DataFrame. This column will serve as the table's primary-key attribute, which uniquely identifies the table items.
+             > **Note:** To use the Iguazio Spark Connector to read and write data in the platform, set the data-source format in the call to the Spark DataFrame `format` method to the platform's custom NoSQL data source `"io.iguaz.v3io.spark.sql.kv"`.
+
+         - language: spark
+           content: |-
+             %spark
+
+             import org.apache.spark.sql.SparkSession
+
+             // Read the sample bank.csv file from the zeppelin_getting_started_example "bigdata" container into a Spark DataFrame, and let Spark infer the schema of the CSV file
+             val myDF = spark.read.option("header", "true").option("delimiter", ";").option("inferSchema", "true").csv("v3io://bigdata/zeppelin_getting_started_example/bank.csv")
+
+             // Add an "id" column with unique auto-generated sequential values
+             val nosqlDF = myDF.withColumn("id", monotonically_increasing_id+1)
+
+             // Show the DataFrame data
+             nosqlDF.show()
+
+             // Write the DataFrame data to a zeppelin_example/bank_nosql NoSQL table in the platform's "bigdata" container.
+             // The data source is set in the format call to "io.iguaz.v3io.spark.sql.kv" - the platform's custom NoSQL data source.
+             // The "id" column (attribute) is defined as the table's primary-key attribute, which uniquely identifies table items.
+             nosqlDF.write.format("io.iguaz.v3io.spark.sql.kv").mode("append").option("key", "id").save("v3io://bigdata/zeppelin_getting_started_example/bank_nosql/")
+
+             // Show the schema of of the DataFrame data
+             nosqlDF.printSchema()
+
+             // Create a temporay view named "bank" for quering the DataFrame data using Spark SQL
+             nosqlDF.createOrReplaceTempView("bank")
+
+
+         - language: md
+           title: Step 3 Query the data with the Scala Spark interpreter
+
+           content: |-
+             %md
+
+             Use the Scala Spark interpreter (`%spark`) to query the temporary `bank` view for the average bank balance for each age. 
+
+
+         - language: spark
+           content: |-
+             %spark
+
+             // Use Spark SQL to query the temporary "bank" view 
+             val sqlDF = spark.sql("select age, round(avg(balance)) from bank group by age order by age asc")
+
+             // Show the first 10 lines of the query result
+             sqlDF.show(10)
+
+         - language: md
+           title: Step 4 Query the data with the SQL interpreter
+
+           content: |-
+             %md
+
+             Use the SQL interpreter (`%sql`) to query the temporary `bank` view for the number customers in each age under 30 and visualize the results graphically.
+
+
+         - language: sql
+           content: |-
+             %sql
+
+             select age, count(1) value
+             from bank 
+             where age < 30 
+             group by age 
+             order by age
+
+         - language: md
+           title: Step 5 Convert the NoSQL table to a Parquet table
+
+           content: |-
+             %md
+
+             Read the **zeppelin_getting_started_example/bank_nosql** table from the "bigdata" container into a Spark DataFrame, and write the data in Parquet format to a new **zeppelin_getting_started_example/bank_prqt** table in the "bigdata" container.
+
+
+         - language: spark
+           content: |-
+             %spark
+
+             // Read the contents of the zeppelin_getting_started_example/bank_nosql NoSQL table in the platform's "bigdata" container into a Spark DataFrame
+             val prqtDF = spark.read.format("io.iguaz.v3io.spark.sql.kv").load("v3io://bigdata/zeppelin_getting_started_example/bank_nosql/")
+
+             // Write the DataFrame data in Parquet format to a zeppelin_getting_started_example/bank_prqt table in the "bigdata" container
+             prqtDF.write.format("parquet").mode("append").save("v3io://bigdata/zeppelin_getting_started_example/bank_prqt/")
+
+
+         - language: md
+           title: Step 6 Display the contents of the example container directory
+
+           content: |-
+             %md
+
+             Use `hadoop fs` to list the contents of the **zeppelin_getting_started_example** directory in the platform's "bigdata" container.
+             You should see in this directory the **bank.csv** file and the **bank_nosql** and **bank_prqt** table directories.
+
+
+         - language: sh
+           content: |-
+             %sh
+
+             # List the files and directories in the "zeppelin_getting_started_example" directory in the "bigdata" container
+             hadoop fs -ls v3io://bigdata/zeppelin_getting_started_example
+
+         - language: md
+           title: Step 7 Cleanup
+
+           content: |-
+             %md
+
+             When you are done, you can optionally delete the files and directories created in this tutorial.
+             The clean up is done with the `hadoop fs -rm -r` command.
+
+         - language: sh
+           content: |-
+             %spark
+             %sh
+
+             # Delete the zeppelin_getting_started_example directory in the "bigdata" container
+             hadoop fs -rm -r v3io://bigdata/zeppelin_getting_started_example/
+
+             # Verfiy that the "bigdata" container no longer has a zeppelin_getting_started_example directory
+             hadoop fs -ls v3io://bigdata/
+
 
 environment:
   template: v3io-configs.deployment.env
@@ -90,8 +238,8 @@ volumes:
     volumesTemplate: v3io-configs.deployment.mount
     volumeMountsTemplate: v3io-configs.deployment.volumeMounts
   zeppelin:
-    volumesTemplate: v3io-configs.deployment.mount-with-fuse
-    volumeMountsTemplate: v3io-configs.deployment.volumeMounts-with-fuse
+    volumesTemplate: v3io-configs.deployment.mount
+    volumeMountsTemplate: v3io-configs.deployment.volumeMounts
 
 debug:
   enabled: false
