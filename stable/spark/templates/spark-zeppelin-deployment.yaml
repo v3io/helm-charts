@@ -51,6 +51,10 @@ spec:
           env:
             - name: MASTER
               value: spark://{{ template "spark.master-name" . }}:{{ .Values.master.servicePort }}
+{{- if .Values.zeppelin.storage.path }}
+            - name: ZEPPELIN_NOTEBOOK_DIR
+              value: {{ .Values.zeppelin.storage.path }}
+{{- end }}
 {{- if .Values.environment }}
 {{ include .Values.environment.template . | indent 12 }}
 {{- end }}

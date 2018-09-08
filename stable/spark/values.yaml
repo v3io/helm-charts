@@ -48,7 +48,9 @@ zeppelin:
   servicePort: 8080
   containerPort: 8080
   # nodePort: 32100
-  
+  storage:
+    path: /v3io/bigdata/.services/zeppelin/notebook
+
   resources: {}
     # limits:
       # cpu: 1
@@ -257,7 +259,6 @@ zeppelin:
 
             # Verfiy that the "bigdata" container no longer has a zeppelin_getting_started_example directory
             hadoop fs -ls v3io://bigdata/
-
 
 environment:
   template: v3io-configs.deployment.env
