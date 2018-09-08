@@ -87,27 +87,21 @@ zeppelin:
           content: |-
             %md
 
-            Use `curl` to download the sample **bank.csv** file that is used in Zeppelin's getting-started tutorial from [the Amazon S3 website](https://s3.amazonaws.com/apache-zeppelin/tutorial/bank/bank.csv) to the **/tmp** directory in the local file system of your platform. Then, use `hadoop fs` to move the file from the local file system to a new **zeppelin_getting_started_example** directory in the platform's "bigdata" data container.  
+            Use `curl` to download the sample **bank.csv** file that is used in Zeppelin's getting-started tutorial from [the Amazon S3 website](https://s3.amazonaws.com/apache-zeppelin/tutorial/bank/bank.csv) to the **zeppelin_getting_started_example** directory in the platform's "bigdata" data container. 
           editorHide: true
           result:
             type: HTML
-            data: "<div class=\"markdown-body\">\n<p>Use <code>curl</code> to download the sample <strong>bank.csv</strong> file that is used in Zeppelin&rsquo;s getting-started tutorial from <a href=\"https://s3.amazonaws.com/apache-zeppelin/tutorial/bank/bank.csv\">the Amazon S3 website</a> to the <strong>/tmp</strong> directory in the local file system of your platform. Then, use <code>hadoop fs</code> to move the file from the local file system to a new <strong>zeppelin_getting_started_example</strong> directory in the platform&rsquo;s &ldquo;bigdata&rdquo; data container.</p>\n</div>"
+            data: "<div class=\"markdown-body\">\n<p>Use <code>curl</code> to download the sample <strong>bank.csv</strong> file that is used in Zeppelin&rsquo;s getting-started tutorial from <a href=\"https://s3.amazonaws.com/apache-zeppelin/tutorial/bank/bank.csv\">the Amazon S3 website</a> to the <strong>zeppelin_getting_started_example</strong> directory in the platform&rsquo;s &ldquo;bigdata&rdquo; data container.</p>\n</div>"
 
         - language: sh
           content: |-
             %sh 
 
-            # Download the sample bank.csv file that is used in the basic Zeppelin Tutorial from the AWS S3 web site to the local /tmp directory
-            curl "https://s3.amazonaws.com/apache-zeppelin/tutorial/bank/bank.csv" > /tmp/bank.csv
-
             # Create a zeppelin_getting_started_example directory in the "bigdata" container of your platform cluster
-            hadoop fs -mkdir v3io://bigdata/zeppelin_getting_started_example
+            mkdir -p /v3io/bigdata/zeppelin_getting_started_example
 
-            # Move the CSV file from the local file-system /tmp directory to the new zeppelin_getting_started_example directory in the "bigdata" container
-            hadoop fs -moveFromLocal /tmp/bank.csv v3io://bigdata/zeppelin_getting_started_example/
-
-            # Verify that the "bigdata" container now has a zeppelin_getting_started_example directory with the bank.csv file
-            hadoop fs -ls v3io://bigdata/zeppelin_getting_started_example/
+            # Download the sample bank.csv file that is used in the basic Zeppelin Tutorial from the AWS S3 web site to the local /tmp directory
+            curl -L "https://s3.amazonaws.com/apache-zeppelin/tutorial/bank/bank.csv" > /v3io/bigdata/zeppelin_getting_started_example/bank.csv
 
         - language: md
           title: "Step 2: Convert the sample CSV file to a NoSQL table"
