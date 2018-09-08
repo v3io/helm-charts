@@ -11,7 +11,7 @@ metadata:
   name: {{ template "spark.zeppelin-name" . }}-notebooks
 data:
 {{- range $i, $notebook := .Values.zeppelin.preloadNotebooks.notebooks }}
-{{- with randAlphaNum 7 }}
+{{- with randAlphaNum 9 }}
 {{ default . $notebook.id | indent 2 }}: |
     {
     "paragraphs": [
