@@ -225,11 +225,13 @@ zeppelin:
           content: |-
             %sh
 
+            # Note: Uncomment the code below for cleanup to take effect
+
             # Delete the zeppelin_getting_started_example directory in the "bigdata" container
-            hadoop fs -rm -r v3io://bigdata/zeppelin_getting_started_example/
+            # hadoop fs -rm -r v3io://bigdata/zeppelin_getting_started_example/
 
             # Verfiy that the "bigdata" container no longer has a zeppelin_getting_started_example directory
-            hadoop fs -ls v3io://bigdata/
+            # hadoop fs -ls v3io://bigdata/
 environment:
   template: v3io-configs.deployment.env
 
