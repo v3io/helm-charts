@@ -55,6 +55,10 @@ spec:
             - name: ZEPPELIN_NOTEBOOK_DIR
               value: {{ .Values.zeppelin.storage.path }}
 {{- end }}
+{{- if .Values.zeppelin.storage.kind }}
+            - name: ZEPPELIN_NOTEBOOK_STORAGE
+              value: {{ .Values.zeppelin.storage.kind }}
+{{- end }}
 {{- if .Values.environment }}
 {{ include .Values.environment.template . | indent 12 }}
 {{- end }}
