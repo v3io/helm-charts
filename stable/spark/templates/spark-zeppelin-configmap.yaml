@@ -10,11 +10,14 @@ metadata:
 data:
   run.sh : |
     #!/bin/bash
+{{- if and .Values.zeppelin.storage.path .Values.zeppelin.storage.initCmd }}
+      {{ .Values.zeppelin.storage.initCmd }} {{ .Values.zeppelin.storage.path }}
+{{- end }}
 {{- if .Values.zeppelin.preloadNotebooks.enabled }}
     for notebook in $(ls /etc/config/zeppelin/notebooks); do
       NOTEBOOKS_PATH={{ default "${ZEPPELIN_HOME}/notebook" .Values.zeppelin.storage.path }}
-      mkdir -p ${NOTEBOOKS_PATH}/$notebook; 
-      cp /etc/config/zeppelin/notebooks/$notebook ${NOTEBOOKS_PATH}/$notebook/note.json; 
+      hadoop fs -mkdir -p ${NOTEBOOKS_PATH}/$notebook;
+      hadoop fs -copyFromLocal /etc/config/zeppelin/notebooks/$notebook ${NOTEBOOKS_PATH}/$notebook/note.json;
     done
 {{- end }}
     echo spark.driver.host=$(hostname -i) >> ${SPARK_HOME}/conf/spark-defaults.conf
