@@ -48,8 +48,10 @@ zeppelin:
   servicePort: 8080
   containerPort: 8080
   # nodePort: 32100
-  storage: {}
-  #   path: /v3io/bigdata/.services/zeppelin/notebook
+  storage:
+    path: v3io://bigdata/.services/zeppelin/notebook
+    kind: org.apache.zeppelin.notebook.repo.FileSystemNotebookRepo
+    initCmd: hadoop fs -mkdir -p
 
   resources: {}
     # limits:
