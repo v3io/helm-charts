@@ -1,5 +1,6 @@
 HELM=helm
-HELM_REPO_ROOT=https://v3io.github.io/helm-charts
+HELM_REPO_DEFAULT := https://v3io.github.io/helm-charts
+HELM_REPO_ROOT := $(if $(HELM_REPO_OVERRIDE),$(HELM_REPO_OVERRIDE),$(HELM_REPO_DEFAULT))
 WORKDIR := stable
 
 .PHONY: stable
