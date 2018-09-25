@@ -1,21 +1,22 @@
+tsdb:
+  path: mytsdb
 webapi:
   url: localhost:8081
   auth:
     username: iguazio
     password: iguazio
 project:
-  name: nuclio-tsdb
-  displayName: TSDB
+  displayName: TSDB functions
 functions:
     ingest:
-      name: "ingest"
       replicas: 1
+      port: 32030
       image:
         repository: iguaziodocker/tsdb-ingest
         tag: "1.9.0"
     query:
-      name: "query"
       replicas: 1
+      port: 32031
       image:
         repository: iguaziodocker/tsdb-query
         tag: "1.9.0"

@@ -1,9 +1,9 @@
 apiVersion: nuclio.io/v1beta1
 kind: Function
 metadata:
-  name: {{ .Values.functions.query.name }}
+  name: {{ template "tsdb-functions.queryName" . }}
   labels:
-    nuclio.io/project-name: {{ .Values.project.name }} 
+    nuclio.io/project-name: {{ template "tsdb-functions.projectName" . }}
     app: {{ template "tsdb-functions.name" . }}
     chart: {{ template "tsdb-functions.chart" . }}
     release: {{ .Release.Name }}
@@ -11,10 +11,18 @@ metadata:
 spec:
   build:
     codeEntryType: image
-  handler: main:Handler
+  handler: main:Query
   image: {{ .Values.functions.query.image.repository }}:{{ .Values.functions.query.image.tag }}
   replicas: {{ .Values.functions.query.replicas }}
   runtime: golang
+  env:
+  - name: QUERY_V3IO_TSDB_PATH
+    value: {{ .Values.tsdb.path }}
+  triggers:
+    web:
+      kind: http
+      attributes:
+        port: {{ .Values.functions.query.port }}
   dataBindings:
     db0:
       kind: v3io

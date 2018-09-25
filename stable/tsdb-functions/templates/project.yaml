@@ -1,7 +1,7 @@
 apiVersion: nuclio.io/v1beta1
 kind: Project
 metadata:
-  name: {{ .Values.project.name }} 
+  name: {{ template "tsdb-functions.projectName" . }}
   labels:
     app: {{ template "tsdb-functions.name" . }}
     chart: {{ template "tsdb-functions.chart" . }}
