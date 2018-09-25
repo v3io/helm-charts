@@ -3,7 +3,7 @@ kind: Function
 metadata:
   name: {{ template "tsdb-functions.queryName" . }}
   labels:
-    nuclio.io/project-name: {{ .Values.project.name }} 
+    nuclio.io/project-name: {{ template "tsdb-functions.projectName" . }}
     app: {{ template "tsdb-functions.name" . }}
     chart: {{ template "tsdb-functions.chart" . }}
     release: {{ .Release.Name }}
