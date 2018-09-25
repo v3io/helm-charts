@@ -12,3 +12,15 @@ Create chart name and version as used by the chart label.
 {{- define "tsdb-functions.chart" -}}
 {{- printf "%s-%s" .Chart.Name .Chart.Version | replace "+" "_" | trunc 63 | trimSuffix "-" -}}
 {{- end -}}
+
+{{- define "tsdb-functions.queryName" -}}
+{{- printf "%s-%s" .Release.Name "query" | trunc 63 | trimSuffix "-" -}}
+{{- end -}}
+
+{{- define "tsdb-functions.ingestName" -}}
+{{- printf "%s-%s" .Release.Name "ingest" | trunc 63 | trimSuffix "-" -}}
+{{- end -}}
+
+{{- define "tsdb-functions.projectName" -}}
+{{- printf "%s-%s" .Release.Name "project" | trunc 63 | trimSuffix "-" -}}
+{{- end -}}
