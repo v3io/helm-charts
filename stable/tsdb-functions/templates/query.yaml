@@ -11,7 +11,7 @@ metadata:
 spec:
   build:
     codeEntryType: image
-  handler: main:Handler
+  handler: main:Query
   image: {{ .Values.functions.query.image.repository }}:{{ .Values.functions.query.image.tag }}
   replicas: {{ .Values.functions.query.replicas }}
   runtime: golang

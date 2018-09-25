@@ -11,7 +11,7 @@ metadata:
 spec:
   build:
     codeEntryType: image
-  handler: main:Handler
+  handler: main:Ingest
   image: {{ .Values.functions.ingest.image.repository }}:{{ .Values.functions.ingest.image.tag }}
   replicas: {{ .Values.functions.ingest.replicas }}
   runtime: golang
