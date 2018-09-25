@@ -1,3 +1,5 @@
+tsdb:
+  path: mytsdb
 webapi:
   url: localhost:8081
   auth:
@@ -8,14 +10,16 @@ project:
   displayName: TSDB
 functions:
     ingest:
-      name: "ingest"
+      name: ingest
       replicas: 1
+      port: 32030
       image:
         repository: iguaziodocker/tsdb-ingest
         tag: "1.9.0"
     query:
-      name: "query"
+      name: query
       replicas: 1
+      port: 32031
       image:
         repository: iguaziodocker/tsdb-query
         tag: "1.9.0"

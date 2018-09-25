@@ -15,6 +15,14 @@ spec:
   image: {{ .Values.functions.query.image.repository }}:{{ .Values.functions.query.image.tag }}
   replicas: {{ .Values.functions.query.replicas }}
   runtime: golang
+  env:
+  - name: QUERY_V3IO_TSDB_PATH
+    value: {{ .Values.tsdb.path }}
+  triggers:
+    web:
+      kind: http
+      attributes:
+        port: {{ .Values.functions.query.port }}
   dataBindings:
     db0:
       kind: v3io
