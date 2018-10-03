@@ -13,10 +13,10 @@ functions:
       port: 32030
       image:
         repository: iguaziodocker/tsdb-ingest
-        tag: "1.9.0"
+        tag: 0.0.1
     query:
       replicas: 1
       port: 32031
       image:
         repository: iguaziodocker/tsdb-query
-        tag: "1.9.0"
+        tag: 0.0.1
