@@ -28,6 +28,13 @@ spec:
       workerAllocatorName: httpCronAllocator
       attributes:
         port: {{ .Values.generate.port }}
+        {{- if .Values.generate.ingress }}
+        ingresses:
+          http:
+            host: {{ .Values.generate.ingress.host }}
+            paths:
+            - {{ default "/generate" .Values.generate.ingress.path }}
+        {{- end }}
     periodic:
       kind: cron
       workerAllocatorName: httpCronAllocator
