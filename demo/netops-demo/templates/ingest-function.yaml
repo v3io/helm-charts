@@ -32,6 +32,16 @@ spec:
     web:
       kind: http
       maxWorkers: {{ .Values.ingest.tsdb.numWorkers }}
+      annotations:
+        nginx.ingress.kubernetes.io/rewrite-target: /
+      {{- if .Values.ingest.ingress }}
+      attributes:
+        ingresses:
+          http:
+            host: {{ .Values.ingest.ingress.host }}
+            paths:
+            - {{ default "/ingest" .Values.ingest.ingress.path }}
+      {{- end }}
   dataBindings:
     db0:
       class: v3io

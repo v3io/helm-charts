@@ -11,12 +11,14 @@ functions:
     ingest:
       replicas: 1
       port: 32030
+      ingress: {}
       image:
         repository: iguaziodocker/tsdb-ingest
         tag: 0.0.1
     query:
       replicas: 1
       port: 32031
+      ingress: {}
       image:
         repository: iguaziodocker/tsdb-query
         tag: 0.0.1

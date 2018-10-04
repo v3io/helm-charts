@@ -5,6 +5,7 @@ generate:
     repository: iguaziodocker/netops-demo-py
     tag: 0.0.9
     pullPolicy: Always
+  ingress: {}
   configuration:
     interval: 1
     target: function:netops-demo-ingest
@@ -59,6 +60,7 @@ ingest:
     repository: iguaziodocker/netops-demo-golang
     tag: 0.0.9
     pullPolicy: Always
+  ingress: {}
   tsdb:
     enabled: true
     url: http://10.0.0.1:8081/bigdata
