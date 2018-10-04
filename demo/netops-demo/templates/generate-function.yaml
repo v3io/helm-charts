@@ -26,6 +26,8 @@ spec:
     web:
       kind: http
       workerAllocatorName: httpCronAllocator
+      annotations:
+        nginx.ingress.kubernetes.io/rewrite-target: /
       attributes:
         port: {{ .Values.generate.port }}
         {{- if .Values.generate.ingress }}

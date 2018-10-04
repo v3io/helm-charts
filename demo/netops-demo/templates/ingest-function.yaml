@@ -32,6 +32,8 @@ spec:
     web:
       kind: http
       maxWorkers: {{ .Values.ingest.tsdb.numWorkers }}
+      annotations:
+        nginx.ingress.kubernetes.io/rewrite-target: /
       {{- if .Values.ingest.ingress }}
       attributes:
         ingresses:
