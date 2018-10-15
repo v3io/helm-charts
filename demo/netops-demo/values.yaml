@@ -3,7 +3,7 @@ generate:
   readinessTimeoutSeconds: 180
   image:
     repository: iguaziodocker/netops-demo-py
-    tag: 0.0.10
+    tag: 0.0.11
     pullPolicy: IfNotPresent
   ingress: {}
   configuration:
@@ -58,7 +58,7 @@ ingest:
   readinessTimeoutSeconds: 180
   image:
     repository: iguaziodocker/netops-demo-golang
-    tag: 0.0.10
+    tag: 0.0.11
     pullPolicy: IfNotPresent
   ingress: {}
   tsdb:
