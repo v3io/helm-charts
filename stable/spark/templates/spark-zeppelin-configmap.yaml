@@ -1,3 +1,4 @@
+{{- if .Values.zeppelin.enabled -}}
 apiVersion: v1
 kind: ConfigMap
 metadata:
@@ -24,3 +25,4 @@ data:
     /docker-zeppelin.sh \
             --master-hostname={{ template "spark.master-name" . }} \
             --master-port={{ .Values.master.servicePort }}
+{{- end -}}
