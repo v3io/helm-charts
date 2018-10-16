@@ -2,5 +2,8 @@ dependencies:
 - name: v3io-configs
   repository: https://v3io.github.io/helm-charts/stable
   version: 0.4.0
-digest: sha256:903d0d622c0ff4bf698a88fefbc2c37ebb20e7a57f4e356006d505c368d9a2b3
-generated: 2018-09-04T17:32:17.072387847+03:00
+- name: jupyterhub
+  repository: file://../jupyterhub
+  version: 0.7.1
+digest: sha256:10329e9516381437c72f7bbada1e36f557cfc09f38e9e4c903ed520bdaa83dc2
+generated: 2018-10-16T15:21:26.169703599+03:00

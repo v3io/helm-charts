@@ -2,7 +2,3 @@ dependencies:
 - name: v3io-configs
   version: "0.4.0"
   repository: https://v3io.github.io/helm-charts/stable
-- name: jupyterhub
-  condition: jupyterhub.enabled
-  version: "0.7.1"
-  repository: "file://../jupyterhub"
