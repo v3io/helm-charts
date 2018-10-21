@@ -4,7 +4,7 @@ hub:
     ports:
       nodePort:
   baseUrl: /
-  cookieSecret:
+  cookieSecret: 620e09adb599a7bc82c589fdac01a1b43a8498e79bbfa40824cb9fb39f208e04
   publicURL:
   uid: 1000
   fsGid: 1000
@@ -44,7 +44,7 @@ hub:
   extraVolumeMounts: []
   extraVolumeMountsTemplate:
   image:
-    name: jupyterhub/k8s-hub
+    name: iguaziodocker/jupyter-hub
     tag: '0.7.0'
   resources:
     requests:
@@ -68,7 +68,7 @@ rbac:
 
 
 proxy:
-  secretToken: ''
+  secretToken: 620e09adb599a7bc82c589fdac01a1b43a8498e79bbfa40824cb9fb39f208e04
   service:
     type: ClusterIP
     labels: {}
@@ -183,7 +183,7 @@ singleuser:
       pvcName:
       subPath: '{username}'
     capacity: 10Gi
-    homeMountPath: /igz
+    homeMountPath: /opt
     dynamic:
       storageClass:
       pvcNameTemplate: claim-{username}{servername}
@@ -209,7 +209,7 @@ singleuser:
   extraResource:
     limits: {}
     guarantees: {}
-  cmd: jupyterhub-singleuser
+  cmd: echo
   defaultUrl: "/lab"
 
 

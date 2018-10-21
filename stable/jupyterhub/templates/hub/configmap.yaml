@@ -156,12 +156,14 @@ data:
   singleuser.storage.type: {{ .Values.singleuser.storage.type | quote }}
   singleuser.storage.home_mount_path: {{ .Values.singleuser.storage.homeMountPath | quote }}
   {{- if .Values.singleuser.storage.extraVolumesTemplate }}
-  singleuser.storage.extra-volumes: {{ include .Values.singleuser.storage.extraVolumesTemplate . | toJson | quote }}
+  singleuser.storage.extra-volumes: |
+{{ include .Values.singleuser.storage.extraVolumesTemplate . | indent 4 }}
   {{- else }}
   singleuser.storage.extra-volumes: {{ toJson .Values.singleuser.storage.extraVolumes | quote }}
   {{- end }}
   {{- if .Values.singleuser.storage.extraVolumeMountsTemplate }}
-  singleuser.storage.extra-volume-mounts: {{ include .Values.singleuser.storage.extraVolumeMountsTemplate . | toJson | quote }}
+  singleuser.storage.extra-volume-mounts: |
+{{ include .Values.singleuser.storage.extraVolumeMountsTemplate . | indent 4 }}
   {{- else }}
   singleuser.storage.extra-volume-mounts: {{ toJson .Values.singleuser.storage.extraVolumeMounts | quote }}
   {{- end }}
