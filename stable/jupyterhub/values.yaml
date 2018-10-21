@@ -34,7 +34,18 @@ hub:
     prometheus.io/scrape: 'true'
     prometheus.io/path: /hub/metrics
   extraConfig: |-
-    c.Spawner.cmd = ['jupyter-labhub']
+    c.Spawner.debug = True
+    c.LocalProcessSpawner.debug = True
+    c.Spawner.cmd = ['/bin/bash', '-x', '/etc/config/v3io/v3io-hub.sh']
+    from z2jh import get_config
+    home_dir = get_config('singleuser.storage.homeMountPath', None)
+    if home_dir is not None:
+      c.Spawner.notebook_dir = home_dir
+    c.Spawner.default_url = '/lab'
+    c.LocalProcessSpawner.default_url = '/lab'
+    c.Spawner.disable_user_config = True
+    c.LocalProcessSpawner.disable_user_config = True
+    c.LocalProcessSpawner.shell_cmd = '/bin/bash'
   extraConfigMap: {}
   extraEnv: {}
   extraEnvTemplate:
@@ -174,7 +185,7 @@ singleuser:
   serviceAccountName:
   schedulerStrategy:
   storage:
-    type: dynamic
+    type: none
     extraVolumes: []
     extraVolumesTemplate:
     extraVolumeMounts: []
@@ -183,7 +194,7 @@ singleuser:
       pvcName:
       subPath: '{username}'
     capacity: 10Gi
-    homeMountPath: /opt
+    homeMountPath:
     dynamic:
       storageClass:
       pvcNameTemplate: claim-{username}{servername}

@@ -1,0 +1,17 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: {{ .Release.Name }}-v3io-config
+  labels:
+    {{- include "jupyterhub.labels" . | nindent 4 }}
+data:
+{{ include "v3io-configs.java.configMap" . | indent 2 }}
+
+  v3io-hub.sh: |
+    #!/usr/bin/env bash
+    set -e
+
+{{ include "v3io-configs.script.lookupService" . | indent 4 }}
+
+    mkdir -p {{ .Values.singleuser.storage.homeMountPath }}/$JUPYTERHUB_USER/notebooks
+    jupyter-labhub $@
