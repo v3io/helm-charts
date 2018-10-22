@@ -3,8 +3,9 @@ generate:
   readinessTimeoutSeconds: 180
   image:
     repository: iguaziodocker/netops-demo-py
-    tag: 0.0.8
-    pullPolicy: Always
+    tag: 0.0.12
+    pullPolicy: IfNotPresent
+  ingress: {}
   configuration:
     interval: 1
     target: function:netops-demo-ingest
@@ -57,8 +58,9 @@ ingest:
   readinessTimeoutSeconds: 180
   image:
     repository: iguaziodocker/netops-demo-golang
-    tag: 0.0.8
-    pullPolicy: Always
+    tag: 0.0.12
+    pullPolicy: IfNotPresent
+  ingress: {}
   tsdb:
     enabled: true
     url: http://10.0.0.1:8081/bigdata

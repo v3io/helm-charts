@@ -21,8 +21,17 @@ spec:
   triggers:
     web:
       kind: http
+      annotations:
+        nginx.ingress.kubernetes.io/rewrite-target: /
       attributes:
         port: {{ .Values.functions.query.port }}
+        {{- if .Values.functions.query.ingress }}
+        ingresses:
+          http:
+            host: {{ .Values.functions.query.ingress.host }}
+            paths:
+            - {{ default "/query" .Values.functions.query.ingress.path }}
+        {{- end }}
   dataBindings:
     db0:
       kind: v3io
