@@ -52,7 +52,7 @@ hub:
   extraVolumeMounts: []
   extraVolumeMountsTemplate:
   image:
-    name: iguaziodocker/jupyter-hub
+    name: iguaziodocker/jupyterhub
     tag: '0.7.1'
   resources:
     requests:

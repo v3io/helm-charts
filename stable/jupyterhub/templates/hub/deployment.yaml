@@ -75,7 +75,7 @@ spec:
           command:
             - jupyterhub
             - --config
-            - /srv/jupyterhub_config.py
+            - /jupyterhub/jupyterhub_config.py
             {{- if .Values.debug.enabled }}
             - --debug
             {{- end }}
@@ -108,7 +108,7 @@ spec:
             {{- .Values.hub.extraVolumeMounts | toYaml | trimSuffix "\n" | nindent 12 }}
             {{- end }}
             {{- if eq .Values.hub.db.type "sqlite-pvc" }}
-            - mountPath: /srv/jupyterhub
+            - mountPath: /jupyterhub/jupyterhub
               name: hub-db-dir
               {{- if .Values.hub.db.pvc.subPath }}
               subPath: {{ .Values.hub.db.pvc.subPath | quote }}
