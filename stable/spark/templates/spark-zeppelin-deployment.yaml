@@ -1,4 +1,5 @@
-apiVersion: extensions/v1beta1
+{{- if .Values.zeppelin.enabled -}}
+apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: {{ template "spark.zeppelin-name" . }}
@@ -93,3 +94,4 @@ spec:
           configMap:
             name: {{ template "spark.zeppelin-name" . }}-notebooks
 {{- end }}              
+{{- end -}}
