@@ -1,0 +1,270 @@
+hub:
+  service:
+    type: ClusterIP
+    ports:
+      nodePort:
+  baseUrl: /
+  cookieSecret: 620e09adb599a7bc82c589fdac01a1b43a8498e79bbfa40824cb9fb39f208e04
+  publicURL:
+  uid: 1000
+  fsGid: 1000
+  nodeSelector: {}
+  concurrentSpawnLimit: 64
+  consecutiveFailureLimit: 5
+  activeServerLimit:
+  deploymentStrategy:
+    # sqlite-pvc backed hub requires Recreate strategy to work
+    type: Recreate
+    # This is required for upgrading to work
+    rollingUpdate:
+  db:
+    type: sqlite-memory
+    upgrade:
+    pvc:
+      annotations: {}
+      selector: {}
+      accessModes:
+        - ReadWriteOnce
+      storage: 1Gi
+      subPath:
+      storageClassName:
+    url:
+  labels: {}
+  annotations:
+    prometheus.io/scrape: 'true'
+    prometheus.io/path: /hub/metrics
+  extraConfig: |-
+    from z2jh import get_config
+    home_dir = get_config('singleuser.storage.home_mount_path')
+    c.Spawner.notebook_dir = home_dir + '/{username}/notebooks'
+    c.KubeSpawner.working_dir = home_dir + '/{username}'
+    c.LocalAuthenticator.add_user_cmd = ['adduser', '--quiet', '--force-badname', '--gecos', '""', '--home', home_dir + '/USERNAME', '--disabled-password', '--shell', '/bin/bash']
+
+    c.Spawner.cmd = ['/bin/bash', '-x', '/etc/config/v3io/v3io-hub.sh']
+    c.Spawner.default_url = '/lab'
+    c.Spawner.disable_user_config = True
+  extraConfigMap: {}
+  extraEnv: {}
+  extraEnvTemplate:
+  extraContainers: []
+  extraVolumes: []
+  extraVolumesTemplate:
+  extraVolumeMounts: []
+  extraVolumeMountsTemplate:
+  image:
+    name: iguaziodocker/jupyterhub
+    tag: '0.7.1'
+  resources:
+    requests:
+      cpu: 200m
+      memory: 512Mi
+  services: {}
+  imagePullPolicy: IfNotPresent
+  pdb:
+    enabled: false
+  networkPolicy:
+    enabled: false
+    egress:
+      - to:
+          - ipBlock:
+              cidr: 0.0.0.0/0
+  allowNamedServers: false
+
+
+rbac:
+  enabled: true
+
+
+proxy:
+  secretToken: 620e09adb599a7bc82c589fdac01a1b43a8498e79bbfa40824cb9fb39f208e04
+  service:
+    type: ClusterIP
+    labels: {}
+    annotations: {}
+    nodePorts:
+      http:
+      https:
+  chp:
+    image:
+      name: jupyterhub/configurable-http-proxy
+      tag: 3.0.0
+      pullPolicy: IfNotPresent
+    resources:
+      requests:
+        cpu: 200m
+        memory: 512Mi
+  nginx:
+    image:
+      name: quay.io/kubernetes-ingress-controller/nginx-ingress-controller
+      tag: 0.15.0
+      pullPolicy: IfNotPresent
+    proxyBodySize: 64m
+    resources: {}
+  lego:
+    image:
+      name: jetstack/kube-lego
+      tag: 0.1.6
+      pullPolicy: IfNotPresent
+    resources: {}
+  labels: {}
+  nodeSelector: {}
+  pdb:
+    enabled: false
+  https:
+    enabled: true
+    type: letsencrypt
+    #type: letsencrypt, manual, secret
+    letsencrypt:
+      contactEmail: ''
+    manual:
+      key:
+      cert:
+    secret:
+      name: ''
+      key: ''
+      crt: ''
+    hosts: []
+  networkPolicy:
+    enabled: false
+    egress:
+      - to:
+          - ipBlock:
+              cidr: 0.0.0.0/0
+
+
+auth:
+  type: dummy
+  whitelist:
+    users:
+  admin:
+    access: true
+    users:
+  dummy:
+    password:
+  ldap:
+    dn:
+      search: {}
+      user: {}
+    user: {}
+  state:
+    enabled: false
+    cryptoKey:
+
+
+singleuser:
+  networkTools:
+    image:
+      name: jupyterhub/k8s-network-tools
+      tag: '0.7.0'
+  cloudMetadata:
+    enabled: false
+    ip: 169.254.169.254
+  networkPolicy:
+    enabled: false
+    egress:
+    # Required egress is handled by other rules so it's safe to modify this
+      - to:
+          - ipBlock:
+              cidr: 0.0.0.0/0
+              except:
+                - 169.254.169.254/32
+  events: true
+  extraAnnotations: {}
+  extraLabels: {}
+  extraLabelsTemplate:
+  extraEnv: {}
+  extraEnvTemplate:
+  lifecycleHooks:
+  initContainers:
+  nodeSelector: {}
+  uid: 1000
+  fsGid: 100
+  serviceAccountName:
+  schedulerStrategy:
+  storage:
+    type: none
+    extraVolumes: []
+    extraVolumesTemplate: v3io-configs.deployment.mount-with-fuse
+    extraVolumeMounts: []
+    extraVolumeMountsTemplate: v3io-configs.deployment.volumeMounts-with-fuse
+    static:
+      pvcName:
+      subPath: '{username}'
+    capacity: 10Gi
+    homeMountPath:
+    dynamic:
+      storageClass:
+      pvcNameTemplate: claim-{username}{servername}
+      volumeNameTemplate: volume-{username}{servername}
+      storageAccessModes: [ReadWriteOnce]
+  image:
+    name: iguaziodocker/jupyter-ml
+    tag: 0.9.2-2.3.1-2.9.0-1.9_cloud_b14_20180913153233
+    pullPolicy: IfNotPresent
+  imagePullSecret:
+    enabled: false
+    registry:
+    username:
+    email:
+    password:
+  startTimeout: 300
+  cpu:
+    limit:
+    guarantee:
+  memory:
+    limit:
+    guarantee: 1G
+  extraResource:
+    limits: {}
+    guarantees: {}
+  cmd: echo
+  defaultUrl: "/lab"
+
+
+prePuller:
+  hook:
+    enabled: true
+    extraEnv: {}
+    image:
+      name: jupyterhub/k8s-image-awaiter
+      tag: '0.7.0'
+  continuous:
+    enabled: false
+  extraImages: []
+  pause:
+    image:
+      name: gcr.io/google_containers/pause
+      tag: '3.0'
+
+
+ingress:
+  enabled: false
+  annotations: {}
+  hosts: []
+  tls:
+
+
+cull:
+  enabled: true
+  users: false
+  timeout: 3600
+  every: 600
+  concurrency: 10
+  maxAge: 0
+  podCuller:
+    image:
+      name: jupyterhub/k8s-pod-culler
+      tag: '0.7.0'
+
+
+debug:
+  enabled: false
+
+global:
+  v3io:
+    configMountPath: /etc/config/v3io
+
+v3io:
+  username: iguazio
+  tenant: iguazio
+  password: iguazio
