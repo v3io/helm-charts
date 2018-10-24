@@ -36,7 +36,11 @@ hub:
   extraConfig: |-
     from z2jh import get_config
     home_dir = get_config('singleuser.storage.home_mount_path')
-    c.Spawner.notebook_dir = home_dir + '/{username}/notebooks'
+    notebook_dir = get_config('singleuser.storage.notebook_path', None)
+    if notebook_dir is not None:
+      c.Spawner.notebook_dir = notebook_dir
+    else:
+      c.Spawner.notebook_dir = home_dir + '/{username}/notebooks'
     c.KubeSpawner.working_dir = home_dir + '/{username}'
     c.LocalAuthenticator.add_user_cmd = ['adduser', '--quiet', '--force-badname', '--gecos', '""', '--home', home_dir + '/USERNAME', '--disabled-password', '--shell', '/bin/bash']
 
@@ -192,6 +196,7 @@ singleuser:
       subPath: '{username}'
     capacity: 10Gi
     homeMountPath:
+    notebookPath:
     dynamic:
       storageClass:
       pvcNameTemplate: claim-{username}{servername}
