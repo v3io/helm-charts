@@ -14,4 +14,13 @@ data:
 {{ include "v3io-configs.script.lookupService" . | indent 4 }}
 
     mkdir -p {{ .Values.singleuser.storage.homeMountPath }}/$JUPYTERHUB_USER/notebooks
+    {{- if .Values.singleuser.storage.notebookPath }}
+    mkdir -p {{ .Values.singleuser.storage.notebookPath }}
+    ln -s {{ .Values.singleuser.storage.homeMountPath }}/$JUPYTERHUB_USER {{ .Values.singleuser.storage.notebookPath }}/home
+    ln -s {{ .Values.singleuser.storage.homeMountPath }}/$JUPYTERHUB_USER/notebooks {{ .Values.singleuser.storage.notebookPath }}/notebooks
+    {{- if .Values.singleuser.storage.dataPath }}
+    ln -s {{ .Values.singleuser.storage.dataPath }} {{ .Values.singleuser.storage.notebookPath }}/v3io
+    {{- end }}
+    echo "ephemeral folder - data will not be persisted" > {{ .Values.singleuser.storage.notebookPath }}/NOTICE.txt
+    {{- end }}
     jupyter-labhub $@
