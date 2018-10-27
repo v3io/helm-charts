@@ -9,16 +9,18 @@ project:
   displayName: TSDB functions
 functions:
     ingest:
+      readinessTimeoutSeconds: 180
       replicas: 1
       port: 32030
       ingress: {}
       image:
         repository: iguaziodocker/tsdb-ingest
-        tag: 0.0.4
+        tag: 0.0.5
     query:
+      readinessTimeoutSeconds: 180
       replicas: 1
       port: 32031
       ingress: {}
       image:
         repository: iguaziodocker/tsdb-query
-        tag: 0.0.4
+        tag: 0.0.5
