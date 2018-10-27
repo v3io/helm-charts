@@ -15,6 +15,7 @@ spec:
   image: {{ .Values.functions.ingest.image.repository }}:{{ .Values.functions.ingest.image.tag }}
   replicas: {{ .Values.functions.ingest.replicas }}
   runtime: golang
+  readinessTimeoutSeconds: {{ .Values.functions.ingest.readinessTimeoutSeconds }}
   env:
   - name: INGEST_V3IO_TSDB_PATH
     value: {{ .Values.tsdb.path }}
