@@ -158,6 +158,9 @@ data:
   {{- if .Values.singleuser.storage.notebookPath }}
   singleuser.storage.notebook_path: {{ .Values.singleuser.storage.notebookPath | quote }}
   {{- end }}
+  {{- if .Values.singleuser.storage.workPath }}
+  singleuser.storage.working_path: {{ .Values.singleuser.storage.workPath | quote }}
+  {{- end }}
   {{- if .Values.singleuser.storage.extraVolumesTemplate }}
   singleuser.storage.extra-volumes: |
 {{ include .Values.singleuser.storage.extraVolumesTemplate . | indent 4 }}
