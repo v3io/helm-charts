@@ -41,7 +41,11 @@ hub:
       c.Spawner.notebook_dir = notebook_dir
     else:
       c.Spawner.notebook_dir = home_dir + '/{username}/notebooks'
-    c.KubeSpawner.working_dir = home_dir + '/{username}'
+    working_dir = get_config('singleuser.storage.working_dir', None)
+    if working_dir is not None:
+      c.KubeSpawner.working_dir = working_dir
+    else:
+      c.KubeSpawner.working_dir = home_dir + '/{username}'
     c.LocalAuthenticator.add_user_cmd = ['adduser', '--quiet', '--force-badname', '--gecos', '""', '--home', home_dir + '/USERNAME', '--disabled-password', '--shell', '/bin/bash']
 
     c.Spawner.cmd = ['/bin/bash', '-x', '/etc/config/v3io/v3io-hub.sh']
@@ -197,6 +201,7 @@ singleuser:
     capacity: 10Gi
     homeMountPath:
     notebookPath:
+    workPath:
     dataPath:
     dynamic:
       storageClass:
