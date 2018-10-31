@@ -1,0 +1,22 @@
+{{- if .Values.dashboard.enable }}
+apiVersion: extensions/v1beta1
+kind: Ingress
+metadata:
+  name: {{ template "dashboard.name" . }}
+  labels:
+    app: {{ template "dashboard.name" . }}
+    chart: {{ template "chart" . }}
+    release: {{ .Release.Name }}
+    heritage: {{ .Release.Service }}
+  annotations:
+    nginx.ingress.kubernetes.io/whitelist-source-range: {{ .Values.dashboard.internalNetworkCIDR }}
+spec:
+  rules:
+  - host: {{ .Values.dashboard.host | quote }}
+    http:
+      paths:
+      - backend:
+          serviceName: {{ template "dashboard.name" . }}
+          servicePort: 8060
+        path: /
+{{- end }}
