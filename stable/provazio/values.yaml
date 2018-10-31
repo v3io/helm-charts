@@ -25,9 +25,9 @@ dashboard:
   expirationCheckIntervalSeconds: 300
 
 controller:
-  enabled: true
+  enabled: false
   crd:
-    create: false
+    create: true
     kinds:
     - Tenant
     - TenantAppServiceSet

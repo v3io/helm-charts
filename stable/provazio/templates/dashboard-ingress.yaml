@@ -1,11 +1,12 @@
 {{- if .Values.dashboard.enable }}
+
 apiVersion: extensions/v1beta1
 kind: Ingress
 metadata:
-  name: {{ template "dashboard.name" . }}
+  name: {{ template "provazio.dashboard.name" . }}
   labels:
-    app: {{ template "dashboard.name" . }}
-    chart: {{ template "chart" . }}
+    app: {{ template "provazio.dashboard.name" . }}
+    chart: {{ template "provazio.chart" . }}
     release: {{ .Release.Name }}
     heritage: {{ .Release.Service }}
   annotations:
@@ -16,7 +17,8 @@ spec:
     http:
       paths:
       - backend:
-          serviceName: {{ template "dashboard.name" . }}
+          serviceName: {{ template "provazio.dashboard.name" . }}
           servicePort: 8060
         path: /
+
 {{- end }}

@@ -12,14 +12,14 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-{{- define "chart" -}}
+{{- define "provazio.chart" -}}
 {{- printf "%s-%s" .Chart.Name .Chart.Version | replace "+" "_" | trunc 63 | trimSuffix "-" -}}
 {{- end -}}
 
-{{- define "dashboard.name" -}}
+{{- define "provazio.dashboard.name" -}}
 {{- printf "%s-dashboard" .Release.Name | trunc 63 | trimSuffix "-" -}}
 {{- end -}}
 
-{{- define "controller.name" -}}
+{{- define "provazio.controller.name" -}}
 {{- printf "%s-controller" .Release.Name | trunc 63 | trimSuffix "-" -}}
 {{- end -}}

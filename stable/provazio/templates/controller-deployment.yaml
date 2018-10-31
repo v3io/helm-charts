@@ -1,29 +1,31 @@
 {{- if .Values.controller.enabled }}
+
 apiVersion: extensions/v1beta1
 kind: Deployment
 metadata:
-  name: {{ template "controller.name" . }}
+  name: {{ template "provazio.controller.name" . }}
   labels:
-    app: {{ template "controller.name" . }}
-    chart: {{ template "chart" . }}
+    app: {{ template "provazio.controller.name" . }}
+    chart: {{ template "provazio.chart" . }}
     release: {{ .Release.Name }}
     heritage: {{ .Release.Service }}
 spec:
   replicas: 1
   selector:
     matchLabels:
-      provazio/service: {{ template "controller.name" . }}
+      provazio/service: {{ template "provazio.controller.name" . }}
   template:
     metadata:
       labels:
-        provazio/service: {{ template "controller.name" . }}
+        provazio/service: {{ template "provazio.controller.name" . }}
     spec:
-      serviceAccountName: {{ template "controller.name" . }}
+      serviceAccountName: {{ template "provazio.controller.name" . }}
       containers:
       - env:
         - name: PROVAZIO_CONTROLLER_RESOURCES
           value: {{ join "," .Values.controller.crd.kinds | quote }}
         image: {{ .Values.controller.image.repository }}:{{ .Values.controller.image.tag }}
         imagePullPolicy: {{ .Values.controller.image.pullPolicy | quote }}
-        name: {{ template "controller.name" . }}
+        name: {{ template "provazio.controller.name" . }}
+
 {{- end }}

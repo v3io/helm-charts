@@ -1,22 +1,23 @@
 {{- if .Values.dashboard.enable }}
+
 apiVersion: extensions/v1beta1
 kind: Deployment
 metadata:
-  name: {{ template "dashboard.name" . }}
+  name: {{ template "provazio.dashboard.name" . }}
   labels:
-    app: {{ template "dashboard.name" . }}
-    chart: {{ template "chart" . }}
+    app: {{ template "provazio.dashboard.name" . }}
+    chart: {{ template "provazio.chart" . }}
     release: {{ .Release.Name }}
     heritage: {{ .Release.Service }}
 spec:
   replicas: {{ .Values.dashboard.replicas }}
   selector:
     matchLabels:
-      provazio/service: {{ template "dashboard.name" . }}
+      provazio/service: {{ template "provazio.dashboard.name" . }}
   template:
     metadata:
       labels:
-        provazio/service: {{ template "dashboard.name" . }}
+        provazio/service: {{ template "provazio.dashboard.name" . }}
     spec:
       containers:
       - env:
@@ -130,8 +131,9 @@ spec:
               key: slack_token
         image: {{ .Values.dashboard.image.repository }}:{{ .Values.dashboard.image.tag }}
         imagePullPolicy: {{ .Values.dashboard.image.pullPolicy | quote }}
-        name: {{ template "dashboard.name" . }}
+        name: {{ template "provazio.dashboard.name" . }}
         ports:
         - containerPort: 8060
           protocol: TCP
+
 {{- end }}
