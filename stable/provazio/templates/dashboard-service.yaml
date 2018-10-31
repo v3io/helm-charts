@@ -1,18 +1,19 @@
-{{- if .Values.dashboard.enable }}
+{{- if .Values.dashboard.enabled }}
 
 apiVersion: v1
 kind: Service
 metadata:
   name: {{ template "provazio.dashboard.name" . }}
   labels:
-    app: {{ template "provazio.dashboard.name" . }}
+    app: {{ template "provazio.name" . }}
     chart: {{ template "provazio.chart" . }}
     release: {{ .Release.Name }}
     heritage: {{ .Release.Service }}
+    component: dashboard
 spec:
   ports:
   - name: admin
-    port: 8060
+    port: {{ .Values.dashboard.port }}
     protocol: TCP
     targetPort: 8060
   selector:

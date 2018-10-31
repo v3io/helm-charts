@@ -8,10 +8,11 @@ apiVersion: rbac.authorization.k8s.io/v1
 metadata:
   name: {{ template "provazio.controller.name" . }}-tenantappserviceset-cluserrole
   labels:
-    app: {{ template "provazio.controller.name" . }}
+    app: {{ template "provazio.name" . }}
     chart: {{ template "provazio.chart" . }}
     release: {{ .Release.Name }}
     heritage: {{ .Release.Service }}
+    component: controller
 subjects:
 - kind: ServiceAccount
   name: {{ template "provazio.controller.name" . }}

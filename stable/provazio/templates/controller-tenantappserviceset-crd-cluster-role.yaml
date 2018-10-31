@@ -8,10 +8,11 @@ kind: ClusterRole
 metadata:
   name: provazio-controller-crd-tenantappserviceset
   labels:
-    app: {{ template "provazio.controller.name" . }}
+    app: {{ template "provazio.name" . }}
     chart: {{ template "provazio.chart" . }}
     release: {{ .Release.Name }}
     heritage: {{ .Release.Service }}
+    component: controller
 rules:
 - apiGroups: ["iguazio.com"]
   resources: ["tenantappservicesets"]

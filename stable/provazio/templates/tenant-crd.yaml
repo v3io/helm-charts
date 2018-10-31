@@ -6,9 +6,11 @@ kind: CustomResourceDefinition
 metadata:
   name: tenants.iguazio.com
   labels:
+    app: {{ template "provazio.name" . }}
     chart: {{ template "provazio.chart" . }}
     release: {{ .Release.Name }}
     heritage: {{ .Release.Service }}
+    component: crd
 spec:
   group: iguazio.com
   names:

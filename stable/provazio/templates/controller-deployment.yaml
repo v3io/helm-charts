@@ -1,23 +1,29 @@
 {{- if .Values.controller.enabled }}
 
-apiVersion: extensions/v1beta1
+apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: {{ template "provazio.controller.name" . }}
   labels:
-    app: {{ template "provazio.controller.name" . }}
+    app: {{ template "provazio.name" . }}
     chart: {{ template "provazio.chart" . }}
     release: {{ .Release.Name }}
     heritage: {{ .Release.Service }}
+    component: controller
 spec:
   replicas: 1
   selector:
     matchLabels:
-      provazio/service: {{ template "provazio.controller.name" . }}
+      chart: {{ template "provazio.chart" . }}
+      component: controller
   template:
     metadata:
       labels:
-        provazio/service: {{ template "provazio.controller.name" . }}
+        app: {{ template "provazio.name" . }}
+        chart: {{ template "provazio.chart" . }}
+        release: {{ .Release.Name }}
+        heritage: {{ .Release.Service }}
+        component: controller
     spec:
       serviceAccountName: {{ template "provazio.controller.name" . }}
       containers:

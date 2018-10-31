@@ -1,23 +1,29 @@
-{{- if .Values.dashboard.enable }}
+{{- if .Values.dashboard.enabled }}
 
-apiVersion: extensions/v1beta1
+apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: {{ template "provazio.dashboard.name" . }}
   labels:
-    app: {{ template "provazio.dashboard.name" . }}
+    app: {{ template "provazio.name" . }}
     chart: {{ template "provazio.chart" . }}
     release: {{ .Release.Name }}
     heritage: {{ .Release.Service }}
+    component: dashboard
 spec:
   replicas: {{ .Values.dashboard.replicas }}
   selector:
     matchLabels:
-      provazio/service: {{ template "provazio.dashboard.name" . }}
+      chart: {{ template "provazio.chart" . }}
+      component: dashboard
   template:
     metadata:
       labels:
-        provazio/service: {{ template "provazio.dashboard.name" . }}
+        app: {{ template "provazio.name" . }}
+        chart: {{ template "provazio.chart" . }}
+        release: {{ .Release.Name }}
+        heritage: {{ .Release.Service }}
+        component: dashboard
     spec:
       containers:
       - env:
