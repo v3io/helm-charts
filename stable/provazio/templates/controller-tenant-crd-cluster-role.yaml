@@ -14,7 +14,7 @@ metadata:
     heritage: {{ .Release.Service }}
 rules:
 - apiGroups: ["iguazio.com"]
-  resources: ["tenant"]
+  resources: ["tenants"]
   verbs: ["*"]
 
 {{- end }}
