@@ -6,7 +6,7 @@
 apiVersion: rbac.authorization.k8s.io/v1beta1
 kind: ClusterRole
 metadata:
-  name: {{ template "provazio.controller.name" . }}-tenant
+  name: provazio-controller-crd-tenant
   labels:
     app: {{ template "provazio.controller.name" . }}
     chart: {{ template "provazio.chart" . }}

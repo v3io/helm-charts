@@ -8,7 +8,7 @@
 kind: Role
 apiVersion: rbac.authorization.k8s.io/v1
 metadata:
-  name: {{ template "provazio.controller.name" . }}-tenantappserviceset
+  name: provazio-controller-crd-tenantappserviceset
   labels:
     app: {{ template "provazio.controller.name" . }}
     chart: {{ template "provazio.chart" . }}

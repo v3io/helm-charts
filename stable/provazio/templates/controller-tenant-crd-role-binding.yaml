@@ -17,7 +17,7 @@ subjects:
   name: {{ template "provazio.controller.name" . }}
 roleRef:
   kind: ClusterRole
-  name: {{ template "provazio.controller.name" . }}-tenant
+  name: provazio-controller-crd-tenant
   apiGroup: rbac.authorization.k8s.io
 
 {{- end }}
