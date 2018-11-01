@@ -8,7 +8,7 @@
 kind: RoleBinding
 apiVersion: rbac.authorization.k8s.io/v1
 metadata:
-  name: {{ template "provazio.controller.name" . }}-tenantappserviceset-role
+  name: {{ template "provazio.controller.name" . }}-namespace-admin
   labels:
     app: {{ template "provazio.name" . }}
     chart: {{ template "provazio.chart" . }}
@@ -20,7 +20,7 @@ subjects:
   name: {{ template "provazio.controller.name" . }}
 roleRef:
   kind: Role
-  name: {{ template "provazio.controller.name" . }}-tenantappserviceset
+  name: {{ template "provazio.controller.name" . }}-namespace-admin
   apiGroup: rbac.authorization.k8s.io
 
 {{- end }}
