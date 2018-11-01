@@ -16,6 +16,7 @@ metadata:
 subjects:
 - kind: ServiceAccount
   name: {{ template "provazio.controller.name" . }}
+  namespace: {{ .Release.Namespace }}
 roleRef:
   kind: ClusterRole
   name: cluster-admin
