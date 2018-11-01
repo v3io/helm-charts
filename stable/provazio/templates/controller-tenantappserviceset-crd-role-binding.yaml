@@ -18,7 +18,7 @@ subjects:
   name: {{ template "provazio.controller.name" . }}
 roleRef:
   kind: ClusterRole
-  name: provazio-controller-crd-tenantappserviceset
+  name: tenantappserviceset-crd-admin
   apiGroup: rbac.authorization.k8s.io
 
 {{- end }}

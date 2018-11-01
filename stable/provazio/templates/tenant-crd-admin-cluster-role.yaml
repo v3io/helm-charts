@@ -6,13 +6,13 @@
 apiVersion: rbac.authorization.k8s.io/v1beta1
 kind: ClusterRole
 metadata:
-  name: provazio-controller-crd-tenant
+  name: tenant-crd-admin
   labels:
     app: {{ template "provazio.name" . }}
     chart: {{ template "provazio.chart" . }}
     release: {{ .Release.Name }}
     heritage: {{ .Release.Service }}
-    component: controller
+    component: crd
 rules:
 - apiGroups: ["iguazio.com"]
   resources: ["tenants"]
