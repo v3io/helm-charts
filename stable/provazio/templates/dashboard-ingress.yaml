@@ -1,0 +1,25 @@
+{{- if .Values.dashboard.enabled }}
+
+apiVersion: extensions/v1beta1
+kind: Ingress
+metadata:
+  name: {{ template "provazio.dashboard.name" . }}
+  labels:
+    app: {{ template "provazio.name" . }}
+    chart: {{ template "provazio.chart" . }}
+    release: {{ .Release.Name }}
+    heritage: {{ .Release.Service }}
+    component: dashboard
+  annotations:
+    nginx.ingress.kubernetes.io/whitelist-source-range: {{ .Values.dashboard.internalNetworkCIDR }}
+spec:
+  rules:
+  - host: {{ .Values.dashboard.host | quote }}
+    http:
+      paths:
+      - backend:
+          serviceName: {{ template "provazio.dashboard.name" . }}
+          servicePort: 8060
+        path: /
+
+{{- end }}

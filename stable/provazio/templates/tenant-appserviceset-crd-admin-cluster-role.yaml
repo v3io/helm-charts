@@ -1,0 +1,21 @@
+{{- if .Values.controller.crd.create }}
+
+# Allows access to the TenantAppServiceSet CRD.
+# This should be used by the platform-level controller
+
+apiVersion: rbac.authorization.k8s.io/v1beta1
+kind: ClusterRole
+metadata:
+  name: tenantappserviceset-crd-admin
+  labels:
+    app: {{ template "provazio.name" . }}
+    chart: {{ template "provazio.chart" . }}
+    release: {{ .Release.Name }}
+    heritage: {{ .Release.Service }}
+    component: crd
+rules:
+- apiGroups: ["iguazio.com"]
+  resources: ["tenantappservicesets"]
+  verbs: ["*"]
+
+{{- end }}
