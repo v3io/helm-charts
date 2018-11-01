@@ -1,0 +1,37 @@
+{{- if .Values.controller.enabled }}
+
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ template "provazio.controller.name" . }}
+  labels:
+    app: {{ template "provazio.name" . }}
+    chart: {{ template "provazio.chart" . }}
+    release: {{ .Release.Name }}
+    heritage: {{ .Release.Service }}
+    component: controller
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      chart: {{ template "provazio.chart" . }}
+      component: controller
+  template:
+    metadata:
+      labels:
+        app: {{ template "provazio.name" . }}
+        chart: {{ template "provazio.chart" . }}
+        release: {{ .Release.Name }}
+        heritage: {{ .Release.Service }}
+        component: controller
+    spec:
+      serviceAccountName: {{ template "provazio.controller.name" . }}
+      containers:
+      - env:
+        - name: PROVAZIO_CONTROLLER_RESOURCES
+          value: {{ join "," .Values.controller.crd.kinds | quote }}
+        image: {{ .Values.controller.image.repository }}:{{ .Values.controller.image.tag }}
+        imagePullPolicy: {{ .Values.controller.image.pullPolicy | quote }}
+        name: {{ template "provazio.controller.name" . }}
+
+{{- end }}
