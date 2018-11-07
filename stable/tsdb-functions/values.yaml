@@ -15,7 +15,7 @@ functions:
       ingress: {}
       image:
         repository: iguaziodocker/tsdb-ingest
-        tag: 0.0.5
+        tag: 0.0.6
     query:
       readinessTimeoutSeconds: 180
       replicas: 1
@@ -23,4 +23,4 @@ functions:
       ingress: {}
       image:
         repository: iguaziodocker/tsdb-query
-        tag: 0.0.5
+        tag: 0.0.6
