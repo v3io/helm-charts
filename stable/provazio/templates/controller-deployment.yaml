@@ -30,8 +30,23 @@ spec:
       - env:
         - name: PROVAZIO_CONTROLLER_RESOURCES
           value: {{ join "," .Values.controller.crd.kinds | quote }}
+{{- if .Values.controller.artifactVersionManifestContents }}
+        - name: PROVAZIO_CONTROLLER_ARTIFACT_VERSION_RESOLVER_MANIFEST_PATH
+          value: {{ .Values.controller.artifactVersionManifestPath | quote }}
+{{- end }}
         image: {{ .Values.controller.image.repository }}:{{ .Values.controller.image.tag }}
         imagePullPolicy: {{ .Values.controller.image.pullPolicy | quote }}
         name: {{ template "provazio.controller.name" . }}
+{{- if .Values.controller.artifactVersionManifestContents }}
+        volumeMounts:
+          - mountPath: {{ .Values.controller.artifactVersionManifestPath | quote }}
+            name: artifact-version-manifest
+{{- end }}
+{{- if .Values.controller.artifactVersionManifestContents }}
+      volumes:
+        - name: artifact-version-manifest
+          configMap:
+            name: {{ template "provazio.controller.name" . }}-artifact-version-manifest
+{{- end }}
 
 {{- end }}
