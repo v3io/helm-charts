@@ -11,7 +11,7 @@ metadata:
     heritage: {{ .Release.Service }}
     component: controller
 data:
-  artifactVersionManifest.json: |
-    {{ .Values.controller.artifactVersionManifestContents | quote }}
+  artifact-version-manifest.json: |
+    {{ .Values.controller.artifactVersionManifestContents | b64dec }}
 
 {{- end }}
