@@ -31,7 +31,7 @@ controller:
   # if artifactVersionManifestContents is set, a configuration file will be created and passed
   # to the controller so that it won't try to resolve artifact versions through the standard github
   # mechanism. Instead, it will take all the artifact versions from this manifest
-  artifactVersionManifestPath: "/etc/provazio/controller/artifact-version-manifest.json"
+  artifactVersionManifestDir: "/etc/provazio/controller"
   artifactVersionManifestContents: ""
 
   crd:
