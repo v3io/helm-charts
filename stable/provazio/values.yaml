@@ -10,7 +10,7 @@ dashboard:
       source_cidr_block: "1.1.1.1/32"
   image:
     repository: iguaziodocker/provazio-dashboard
-    tag: 0.0.1
+    tag: 0.0.2
     pullPolicy: IfNotPresent
 
   # holds cloud credentials
@@ -27,6 +27,13 @@ dashboard:
 
 controller:
   enabled: false
+
+  # if artifactVersionManifestContents is set, a configuration file will be created and passed
+  # to the controller so that it won't try to resolve artifact versions through the standard github
+  # mechanism. Instead, it will take all the artifact versions from this manifest
+  artifactVersionManifestPath: "/etc/provazio/controller/artifact-version-manifest.json"
+  artifactVersionManifestContents: ""
+
   crd:
     create: true
     kinds:
@@ -34,5 +41,5 @@ controller:
     - TenantAppServiceSet
   image:
     repository: iguaziodocker/provazio-controller
-    tag: 0.0.1
+    tag: 0.0.2
     pullPolicy: IfNotPresent
