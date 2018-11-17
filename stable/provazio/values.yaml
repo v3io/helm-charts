@@ -10,7 +10,7 @@ dashboard:
       source_cidr_block: "1.1.1.1/32"
   image:
     repository: iguaziodocker/provazio-dashboard
-    tag: 0.0.3
+    tag: 0.0.4
     pullPolicy: IfNotPresent
 
   # holds cloud credentials
@@ -41,5 +41,5 @@ controller:
     - TenantAppServiceSet
   image:
     repository: iguaziodocker/provazio-controller
-    tag: 0.0.3
+    tag: 0.0.4
     pullPolicy: IfNotPresent
