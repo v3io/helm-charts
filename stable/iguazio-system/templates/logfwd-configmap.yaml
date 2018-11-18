@@ -1,0 +1,71 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: {{ .Release.Name }}-logfwd
+  labels:
+    app: {{ template "iguazio-system.name" . }}
+    chart: {{ template "iguazio-system.chart" . }}
+    release: {{ .Release.Name }}
+    heritage: {{ .Release.Service }}
+    component: logfwd
+data:
+  rules.yaml: |
+    admin:
+      dead-letters: {{ .Values.logfwd.config.admin.deadLetters }}
+      error-on-dead-letters: {{ .Values.logfwd.config.admin.errorOnDeadLetters }}
+{{- if .Values.logfwd.config.admin.namespaces }}
+        {{- range $index, $val := .Values.logfwd.config.admin.namespaces }}
+          - {{ $val }}
+        {{- end }}
+{{- end }}
+{{- if .Values.logfwd.config.admin.output }}
+      output:
+        http:
+          method: {{ .Values.logfwd.config.admin.output.http.method }}
+          endpoint: {{ .Values.logfwd.config.admin.output.http.endpoint }}
+{{- if .Values.logfwd.config.admin.output.http.headers }}
+          headers:
+          {{- range $key, $val := .Values.logfwd.config.admin.output.http.headers }}
+            {{ $key }}: {{ $val }}  
+          {{ end -}}
+{{- end  }}
+{{- if .Values.logfwd.config.admin.output.http.params }}
+          params:
+          {{- range $key, $val := .Values.logfwd.config.admin.output.http.parmas }}
+            {{ $key }}: {{ $val }}  
+          {{ end -}}
+{{- end  }}
+{{- if .Values.logfwd.config.admin.output.http.authentication.header }}
+          authentication:
+          {{- range $key, $val := .Values.logfwd.config.admin.output.http.authentication.header }}
+            {{ $key }}: {{ $val }}  
+          {{ end -}}
+{{- end  }}
+{{- end }}
+{{- if .Values.logfwd.config.outputs }}
+    output:
+{{- range $i, $val := .Values.logfwd.config.outputs }}
+      - namespace: {{ $val.namespace }}
+        http:
+          method: {{ $val.http.method }}
+          endpoint: {{ $val.http.endpoint }}
+{{- if $val.http.headers }}
+          headers:
+          {{- range $key, $val := $val.http.headers }}
+            {{ $key }}: {{ $val }}  
+          {{ end -}}
+{{- end  }}
+{{- if $val.http.params }}
+          params:
+          {{- range $key, $val := $val.http.parmas }}
+            {{ $key }}: {{ $val }}  
+          {{ end -}}
+{{- end  }}
+{{- if $val.http.authentication.header }}
+          authentication:
+          {{- range $key, $val := $val.http.authentication.header }}
+            {{ $key }}: {{ $val }}  
+          {{ end -}}
+{{- end  }}
+{{ end }}
+{{- end }}
