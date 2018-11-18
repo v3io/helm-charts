@@ -1,0 +1,20 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: logfwd
+  labels:
+    app: {{ template "iguazio-system.name" . }}
+    chart: {{ template "iguazio-system.chart" . }}
+    release: {{ .Release.Name }}
+    heritage: {{ .Release.Service }}
+    component: logfwd
+spec:
+  ports:
+    - port: 8080
+      targetPort: logfwd
+      protocol: TCP
+      name: logfwd
+  selector:
+    app: {{ template "iguazio-system.name" . }}
+    release: {{ .Release.Name }}
+    component: logfwd

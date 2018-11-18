@@ -9,7 +9,7 @@ dependencies:
   repository: https://kubernetes-charts.storage.googleapis.com/
 - name: fluent-bit
   alias: fluent
-  version: "0.6.0"
+  version: "0.16.1"
   condition: fluent.enabled
   repository: https://kubernetes-charts.storage.googleapis.com/
 - name: tenant
