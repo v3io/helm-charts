@@ -1,0 +1,17 @@
+{{- if and .Values.controller.enabled .Values.controller.artifactVersionManifestContents }}
+
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: {{ template "provazio.controller.name" . }}-artifact-version-manifest
+  labels:
+    app: {{ template "provazio.name" . }}
+    chart: {{ template "provazio.chart" . }}
+    release: {{ .Release.Name }}
+    heritage: {{ .Release.Service }}
+    component: controller
+data:
+  artifact-version-manifest.json: |
+    {{ .Values.controller.artifactVersionManifestContents | b64dec }}
+
+{{- end }}
