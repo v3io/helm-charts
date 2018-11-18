@@ -3,6 +3,9 @@
 # Declare variables to be passed into your templates.
 tenant:
   name: iguazio-system
+  namespace:
+    tagJob:
+      run: true
 
   network:
     ingress:
@@ -51,6 +54,34 @@ job:
     namespaces:
       - kube-system
 
+logfwd:
+  image:
+    repository: iguaziodocker/logfwd
+    tag: 0.1.0
+    pullPolicy: IfNotPresent
+  config:
+    admin:
+      deadLetters: false
+      errorOnDeadLetters: false
+    #   namespaces: []
+    #   output:
+    #     http:
+    #       method: POST
+    #       endpoint: example.com
+    #       headers: {}
+    #       params: {}
+    #       authentication:
+    #         header: {}
+    # outputs:
+    #   - namespace: example
+    #     http:
+    #       method: POST
+    #       endpoint: example.com
+    #       headers: {}
+    #       params: {}
+    #       authentication:
+    #         header: {}
+
 prometheus:
   enabled: false
 
@@ -59,6 +90,12 @@ grafana:
 
 fluent:
   enabled: false
+  backend:
+    type: http
+    http:
+      host: logfwd
+      port: 8080
+      format: json
 
 nodeSelector: {}
 

@@ -1,0 +1,62 @@
+apiVersion: apps/v1beta2
+kind: Deployment
+metadata:
+  name: {{ .Release.Name }}-logfwd
+  labels:
+    app: {{ template "iguazio-system.name" . }}
+    chart: {{ template "iguazio-system.chart" . }}
+    release: {{ .Release.Name }}
+    heritage: {{ .Release.Service }}
+    component: logfwd
+spec:
+  selector:
+    matchLabels:
+      app: {{ template "iguazio-system.name" . }}
+      release: {{ .Release.Name }}
+      component: logfwd
+  template:
+    metadata:
+      labels:
+        app: {{ template "iguazio-system.name" . }}
+        chart: {{ template "iguazio-system.chart" . }}
+        release: {{ .Release.Name }}
+        heritage: {{ .Release.Service }}
+        component: logfwd
+      annotations:
+        # This lets us autorestart when the config changes!
+        checksum/config: {{ include (print .Template.BasePath "/logfwd-configmap.yaml") . | sha256sum }}
+    spec:
+      volumes:
+        - name: rules
+          configMap:
+            name: {{ .Release.Name }}-logfwd
+      containers:
+        - name: {{ .Chart.Name }}-logfwd
+          image: "{{ .Values.logfwd.image.repository }}:{{ .Values.logfwd.image.tag }}"
+          imagePullPolicy: {{ .Values.logfwd.image.pullPolicy }}
+          command: ["logfwd", "server", "/etc/config/v3io/logfwd/rules.yaml"]
+          ports:
+            - name: logfwd
+              containerPort: 8080
+              protocol: TCP
+{{- if .Values.environment }}
+          env:
+{{ include .Values.environment.template . | indent 12 }}
+{{- end }}
+          volumeMounts:
+            - name: rules
+              mountPath: /etc/config/v3io/logfwd
+          resources:
+{{ toYaml .Values.resources | indent 12 }}
+    {{- with .Values.nodeSelector }}
+      nodeSelector:
+{{ toYaml . | indent 8 }}
+    {{- end }}
+    {{- with .Values.affinity }}
+      affinity:
+{{ toYaml . | indent 8 }}
+    {{- end }}
+    {{- with .Values.tolerations }}
+      tolerations:
+{{ toYaml . | indent 8 }}
+    {{- end }}
