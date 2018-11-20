@@ -37,14 +37,15 @@ job:
     enabled: true
     image:
       repository: iguaziodocker/flex-fuse
-      tag: 1.9.0-0.5.0
+      tag: 2.0.0-0.6.0
       pullPolicy: IfNotPresent
     executablePath: /home/iguazio/igz/clients/fuse/bin/v3io_adapters_fuse
     mountType: os
     clusters: {}
       # - name: default
-      #   dataUrl: tcp://1.1.1.1:1234
-      #   apiUrl: http://1.1.1.1:8001
+      #   dataUrls: 
+      #     - tcp://1.1.1.1:1234
+      #     - tcp://2.2.2.2:1234
   namespaceTag:
     enabled: true
     image:
