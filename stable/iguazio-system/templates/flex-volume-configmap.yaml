@@ -20,8 +20,15 @@ data:
           {{- if gt $index 0 }},{{- end }}
           {
                 "name": "{{ $cluster.name }}",
-                "data_urls": ["{{ $cluster.dataUrl }}"],
-                "api_url": "{{ $cluster.apiUrl }}"
+                "data_urls": [
+{{- if $cluster.dataUrl  }}
+                  "{{ $cluster.dataUrl }}"
+{{- end  }}
+{{- range $di, $dataUrl := $cluster.dataUrls }}
+          {{- if gt $di 0 }},{{- end }}
+                  "{{ $dataUrl }}"
+{{- end  }}
+                  ],
           }
 {{- end }}
       ]
