@@ -44,7 +44,12 @@ v3io {
     session {
       user = {{ .Values.v3io.username | quote }}
       tenant = {{ .Values.v3io.tenant | quote }}
+{{- if .Values.v3io.password }}
       password = {{ .Values.v3io.password | b64enc | quote }}
+{{- end }}
+{{- if .Values.v3io.accessKey }}
+      access-key = {{ .Values.v3io.accessKey | quote }}
+{{- end }}
     }
   }
 }
