@@ -35,9 +35,7 @@ data:
       "num_workers": {{ default 1 .Values.v3iod.numOfWorkers }},
       "max_channel_inactivity_period_seconds": {{ .Values.v3iod.maxChannelInactivitySeconds }},
       "max_inflight_requests": {{ .Values.v3iod.maxInFlightRequests }},
-{{- if .Values.v3iod.disableRDMA }}
-      "disable_rdma": true,
-{{- end }}
+      "disable_rdma": {{ .Values.v3iod.disableRDMA }},
       "cdi": {
         "listen_addr": "0.0.0.0:{{ .Values.v3iod.cdiPort }}"
       },
