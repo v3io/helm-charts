@@ -28,6 +28,7 @@ v3iod:
   numHugePages: 3000
   numOfWorkers: 1
   boostSizeInBytes: 10000000
+  disableRDMA: false
   heaps: |
     {
       "kind": "mempool",
