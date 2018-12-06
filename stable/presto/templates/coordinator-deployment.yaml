@@ -25,8 +25,24 @@ spec:
         - name: config-volume
           configMap:
             name: {{ template "presto.coordinator" . }}
+{{- if .Values.server.config.https }}
+        - name: java-cert
+          emptyDir: {}
+{{- end }}
 {{- if .Values.volumes }}
 {{ include .Values.volumes.coordinator.volumesTemplate . | indent 8 }}
+{{- end }}
+{{- if .Values.server.config.https }}
+      initContainers:
+        - name: {{ .Chart.Name }}-jks
+          image: "{{ .Values.server.config.https.image.repository }}:{{ .Values.server.config.https.image.tag }}"
+          imagePullPolicy: {{ .Values.server.config.https.image.pullPolicy }}
+          command: ["/bin/bash", "-x", "/opt/v3io/jks/create-cert.sh"]
+          volumeMounts:
+            - mountPath: /opt/v3io/jks
+              name: config-volume
+            - mountPath: /var/run/iguazio/java/cert
+              name: java-cert
 {{- end }}
       containers:
         - name: {{ .Chart.Name }}-coordinator
@@ -40,6 +56,10 @@ spec:
           volumeMounts:
             - mountPath: {{ .Values.server.config.mapPath }}
               name: config-volume
+{{- if .Values.server.config.https }}
+            - mountPath: /var/run/iguazio/java/cert
+              name: java-cert
+{{- end }}
 {{- if .Values.volumes }}
 {{ include .Values.volumes.coordinator.volumeMountsTemplate . | indent 12 }}
 {{- end }}
@@ -47,6 +67,11 @@ spec:
             - name: http-coord
               containerPort: {{ .Values.server.config.http.port }}
               protocol: TCP
+{{- if .Values.server.config.https }}
+            - name: https-coord
+              containerPort: {{ .Values.server.config.https.port }}
+              protocol: TCP
+{{- end }}
           livenessProbe:
             httpGet:
               path: /v1/cluster

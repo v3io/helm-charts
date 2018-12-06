@@ -31,6 +31,12 @@ data:
     node-scheduler.include-coordinator=true
 {{- end }}
     http-server.http.port={{ .Values.server.config.http.port }}
+{{- if .Values.server.config.https }}
+    http-server.https.enabled=true
+    http-server.https.port={{ .Values.server.config.https.port }}
+    http-server.https.keystore.path={{ .Values.server.config.https.keystore }}
+    http-server.https.keystore.key={{ .Values.server.config.https.passphrase }}
+{{- end }}
     query.max-memory={{ .Values.server.config.query.maxMemory }}
     query.max-memory-per-node={{ .Values.server.config.query.maxMemoryPerNode }}
     discovery-server.enabled=true
@@ -46,6 +52,15 @@ data:
 {{- range $key, $val := .Values.server.config.extra }}
 {{ printf "%s: |" $key | indent 2 }}
 {{ $val | indent 4 }}
+{{- end }}
+
+{{- if .Values.server.config.https }}
+  create-cert.sh: |
+    #!/bin/bash
+
+    set -e
+
+    echo -n "{{ .Values.server.config.https.keystoreBinary }}" | base64 --decode > {{ .Values.server.config.https.keystore }}
 {{- end }}
 
   docker-presto.sh: |
