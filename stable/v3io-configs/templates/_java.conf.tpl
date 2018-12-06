@@ -42,8 +42,12 @@ core-site.xml: |
 v3io {
   client {
     session {
+{{- if .Values.v3io.username }}
       user = {{ .Values.v3io.username | quote }}
+{{- end }}
+{{- if .Values.v3io.tenant }}
       tenant = {{ .Values.v3io.tenant | quote }}
+{{- end }}
 {{- if .Values.v3io.password }}
       password = {{ .Values.v3io.password | b64enc | quote }}
 {{- end }}
