@@ -1,0 +1,23 @@
+{{- if .Values.controller.crd.create }}
+
+apiVersion: apiextensions.k8s.io/v1beta1
+description: AppnodeCluster resource
+kind: CustomResourceDefinition
+metadata:
+  name: appnodeclusters.iguazio.com
+  labels:
+    app: {{ template "provazio.name" . }}
+    chart: {{ template "provazio.chart" . }}
+    release: {{ .Release.Name }}
+    heritage: {{ .Release.Service }}
+    component: crd
+spec:
+  group: iguazio.com
+  names:
+    kind: AppnodeCluster
+    plural: appnodeclusters
+    singular: appnodecluster
+  scope: Namespaced
+  version: v1beta1
+
+{{- end }}
