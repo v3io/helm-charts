@@ -36,11 +36,17 @@ data:
     http-server.https.port={{ .Values.server.config.https.port }}
     http-server.https.keystore.path={{ .Values.server.config.https.keystore }}
     http-server.https.keystore.key={{ .Values.server.config.https.passphrase }}
+    http-server.authentication.type=PASSWORD
 {{- end }}
     query.max-memory={{ .Values.server.config.query.maxMemory }}
     query.max-memory-per-node={{ .Values.server.config.query.maxMemoryPerNode }}
     discovery-server.enabled=true
     discovery.uri=http://{{ template "presto.fullname" . }}.{{ .Release.Namespace }}.svc:{{ .Values.server.config.http.port }}
+
+{{- if .Values.server.config.https }}
+  password-authenticator.properties: |
+    password-authenticator.name=v3io
+{{- end }}
 
 {{ if .Values.server.log }}
   log.properties: |
