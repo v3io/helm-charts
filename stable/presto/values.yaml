@@ -48,10 +48,7 @@ global:
   v3io:
     configMountPath: /etc/config/v3io
 
-v3io:
-  username: iguazio
-  tenant: iguazio
-  password: iguazio
+v3io: {}
 
 resources: {}
   # We usually recommend not to specify default resources and to leave this as a conscious
