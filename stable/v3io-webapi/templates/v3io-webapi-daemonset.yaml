@@ -66,4 +66,4 @@ spec:
             name: {{ template "v3io-webapi.name" . }}
         - name: core-dump
           hostPath:
-            path: /tmp/crash
+            path: /tmp/crash/{{ .Release.Namespace }}
