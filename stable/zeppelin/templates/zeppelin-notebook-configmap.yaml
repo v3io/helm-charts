@@ -1,17 +1,15 @@
-{{- if .Values.zeppelin.enabled -}}
-{{- if .Values.zeppelin.preloadNotebooks.enabled -}}
+{{- if .Values.preloadNotebooks.enabled -}}
 apiVersion: v1
 kind: ConfigMap
 metadata:
   labels:
-    app: {{ template "spark.zeppelin-name" . }}
-    chart: {{ .Chart.Name }}-{{ .Chart.Version }}
-    component: zeppelin
-    heritage: {{ .Release.Service }}
+    app: {{ template "zeppelin.name" . }}
+    chart: {{ template "zeppelin.chart" . }}
     release: {{ .Release.Name }}
-  name: {{ template "spark.zeppelin-name" . }}-notebooks
+    heritage: {{ .Release.Service }}
+  name: {{ template "zeppelin.fullname" . }}-notebooks
 data:
-{{- range $i, $notebook := .Values.zeppelin.preloadNotebooks.notebooks }}
+{{- range $i, $notebook := .Values.preloadNotebooks.notebooks }}
 {{- with randAlphaNum 9 }}
 {{ default . $notebook.id | indent 2 }}: |
     {
@@ -74,5 +72,4 @@ data:
     }
 {{ end -}}
 {{ end -}}
-{{- end -}}
 {{- end -}}
