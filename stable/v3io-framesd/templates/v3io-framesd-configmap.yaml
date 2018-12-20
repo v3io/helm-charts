@@ -1,0 +1,28 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: {{ .Release.Name }}-config
+  labels:
+    app: {{ template "v3io-framesd.name" . }}
+    chart: {{ template "v3io-framesd.chart" . }}
+    release: {{ .Release.Name }}
+    heritage: {{ .Release.Service }}
+data:
+  framesd.yaml: |
+    log:
+      level: {{ .Values.config.log.level }}
+    limit: {{ .Values.config.limit }}
+    webApiEndpoint: {{ .Values.v3io.api }}
+    container: {{ .Values.v3io.container }}
+    username: {{ .Values.v3io.username }}
+    backends:
+      rootdir: {{ .Values.config.rootDir }}
+{{- range $index, $backend := .Values.config.backends }}
+      - type: {{ $backend }}
+{{- end }}
+
+  v3io-framesd.sh: |
+    #!/usr/bin/env bash
+    set -e
+
+    framesd --config={{ .Values.config.path }}/framesd.yaml

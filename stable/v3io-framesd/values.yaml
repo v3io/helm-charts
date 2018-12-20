@@ -1,0 +1,47 @@
+image:
+  repository: v3io/frames
+  tag: 1.0.0
+  pullPolicy: IfNotPresent
+  command: /etc/config/v3io/v3io-framesd.sh
+
+config:
+  path: /etc/config/v3io
+  log:
+    level: debug
+  rootDir: ""
+  limit: 1000
+  backends:
+    - kv
+    - tsdb
+    - stream
+    - csv
+
+v3io:
+  api: v3io-webapi:8081
+  container: bigdata
+  username: iguazio
+
+
+service:
+  http: 8080
+  httpNodePort: 30050
+  grpc: 8081
+  grpcNodePort: 30051
+
+resources: {}
+  # We usually recommend not to specify default resources and to leave this as a conscious
+  # choice for the user. This also increases chances charts run on environments with little
+  # resources, such as Minikube. If you do want to specify resources, uncomment the following
+  # lines, adjust them as necessary, and remove the curly braces after 'resources:'.
+  # limits:
+  #  cpu: 100m
+  #  memory: 128Mi
+  # requests:
+  #  cpu: 100m
+  #  memory: 128Mi
+
+nodeSelector: {}
+
+tolerations: []
+
+affinity: {}
