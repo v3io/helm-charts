@@ -1,0 +1,24 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: {{ template "v3io-framesd.fullname" . }}-http
+  labels:
+    app: {{ template "v3io-framesd.name" . }}
+    chart: {{ template "v3io-framesd.chart" . }}
+    release: {{ .Release.Name }}
+    heritage: {{ .Release.Service }}
+spec:
+{{- if .Values.service.httpNodePort }}
+  type: NodePort
+{{- end }}
+  ports:
+    - port: {{ .Values.service.http }}
+      targetPort: http
+      protocol: TCP
+      name: http
+{{- if .Values.service.httpNodePort }}
+      nodePort: {{ .Values.service.httpNodePort }}
+{{- end }}
+  selector:
+    app: {{ template "v3io-framesd.name" . }}
+    release: {{ .Release.Name }}
