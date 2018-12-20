@@ -1,0 +1,26 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: {{ template "zeppelin.fullname" . }}
+  labels:
+    app: {{ template "zeppelin.name" . }}
+    chart: {{ template "zeppelin.chart" . }}
+    release: {{ .Release.Name }}
+    heritage: {{ .Release.Service }}
+data:
+  run.sh : |
+    #!/bin/bash
+{{- if and .Values.storage.path .Values.storage.initCmd }}
+      {{ .Values.storage.initCmd }} {{ .Values.storage.path }}
+{{- end }}
+{{- if .Values.preloadNotebooks.enabled }}
+    for notebook in $(ls /etc/config/zeppelin/notebooks); do
+      NOTEBOOKS_PATH={{ default "${ZEPPELIN_HOME}/notebook" .Values.storage.path }}
+      hadoop fs -mkdir -p ${NOTEBOOKS_PATH}/$notebook;
+      hadoop fs -copyFromLocal /etc/config/zeppelin/notebooks/$notebook ${NOTEBOOKS_PATH}/$notebook/note.json;
+    done
+{{- end }}
+    echo spark.driver.host=$(hostname -i) >> ${SPARK_HOME}/conf/spark-defaults.conf
+    /docker-zeppelin.sh \
+            --master-hostname={{ .Values.spark.hostname }} \
+            --master-port={{ .Values.spark.port }}
