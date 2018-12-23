@@ -1,0 +1,21 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: {{ template "jupyter.fullname" . }}
+  labels:
+    app: {{ template "jupyter.name" . }}
+    chart: {{ template "jupyter.chart" . }}
+    release: {{ .Release.Name }}
+    heritage: {{ .Release.Service }}
+data:
+  run.sh : |
+    #!/usr/bin/env bash
+    set -e
+{{- if and .Values.storage.path .Values.storage.initCmd }}
+      {{ .Values.storage.initCmd }} {{ .Values.storage.path }}
+{{- end }}
+
+    echo spark.driver.host=$(hostname -i) >> ${SPARK_HOME}/conf/spark-defaults.conf
+    /docker-jupyter.sh \
+            --master-hostname={{ .Values.spark.hostname }} \
+            --master-port={{ .Values.spark.port }}

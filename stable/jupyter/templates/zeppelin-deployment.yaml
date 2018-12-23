@@ -1,0 +1,79 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ template "jupyter.fullname" . }}
+  labels:
+    app: {{ template "jupyter.name" . }}
+    chart: {{ template "jupyter.chart" . }}
+    release: {{ .Release.Name }}
+    heritage: {{ .Release.Service }}
+spec:
+  securityContext:
+    fsGroup: 1000
+  replicas: 1
+  strategy:
+    type: RollingUpdate
+  selector:
+    matchLabels:
+      app: {{ template "jupyter.name" . }}
+      chart: {{ template "jupyter.chart" . }}
+      release: {{ .Release.Name }}
+      heritage: {{ .Release.Service }}
+  template:
+    metadata:
+      labels:
+        app: {{ template "jupyter.name" . }}
+        chart: {{ template "jupyter.chart" . }}
+        release: {{ .Release.Name }}
+        heritage: {{ .Release.Service }}
+    spec:
+      containers:
+        - name: jupyter
+          image: {{ .Values.image.repository }}:{{ .Values.image.tag }}
+          imagePullPolicy: {{ .Values.image.pullPolicy | quote }}
+          command: ["/bin/bash"]
+          args:
+            - {{ .Values.image.command }}
+          ports:
+            - containerPort: {{ .Values.containerPort }}
+              name: jupyter
+          resources:
+{{ toYaml .Values.resources | indent 12 }}
+          readinessProbe:
+            httpGet:
+              path: /
+              port: {{ .Values.containerPort }}
+            initialDelaySeconds: 5
+          livenessProbe:
+            httpGet:
+              path: /
+              port: {{ .Values.containerPort }}
+            initialDelaySeconds: 90
+          env:
+            - name: MASTER
+              value: spark://{{ .Values.spark.hostname }}:{{ .Values.spark.port }}
+{{- if .Values.environment }}
+{{ include .Values.environment.template . | indent 12 }}
+{{- end }}
+          volumeMounts:
+            - mountPath: /etc/config/jupyter
+              name: jupyter-config
+{{- if .Values.debug.enabled }}
+            - mountPath: /spark/conf
+              name: debug-config
+{{- end }}
+{{- if .Values.volumes }}
+{{ include .Values.volumes.volumeMountsTemplate . | indent 12 }}
+{{- end }}
+      volumes:
+{{- if .Values.volumes }}
+{{ include .Values.volumes.volumesTemplate . | indent 8 }}
+{{- end }}
+        - name: jupyter-config
+          configMap:
+            name: {{ template "jupyter.fullname" . }}
+{{- if .Values.debug.enabled }}
+        - name: debug-config
+          configMap:
+            name: {{ .Release.Name }}-jupyter-debug-config
+{{- end }}
