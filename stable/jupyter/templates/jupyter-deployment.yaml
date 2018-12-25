@@ -31,37 +31,46 @@ spec:
         - name: jupyter
           image: {{ .Values.image.repository }}:{{ .Values.image.tag }}
           imagePullPolicy: {{ .Values.image.pullPolicy | quote }}
-          command: ["/bin/bash"]
+          command: ["/bin/bash", "-x", "{{ .Values.image.command }}"]
           args:
-            - {{ .Values.image.command }}
+            - --ip="0.0.0.0"
+            - --port=8080
+            - --notebook-dir="/v3io/{{ .Values.config.home.container }}{{ .Values.config.home.pathPrefix }}/{{ .Values.config.username }}"
+            - --NotebookApp.default_url="/lab"
+            - --disable-user-config
+{{- if .Values.debug.enabled }}
+            - --debug
+{{- end }}
           ports:
-            - containerPort: {{ .Values.containerPort }}
+            - containerPort: 8080
               name: jupyter
           resources:
 {{ toYaml .Values.resources | indent 12 }}
           readinessProbe:
             httpGet:
-              path: /
-              port: {{ .Values.containerPort }}
+              path: /lab
+              port: 8080
             initialDelaySeconds: 5
           livenessProbe:
             httpGet:
-              path: /
-              port: {{ .Values.containerPort }}
+              path: /lab
+              port: 8080
             initialDelaySeconds: 90
           env:
-            - name: MASTER
-              value: spark://{{ .Values.spark.hostname }}:{{ .Values.spark.port }}
+            - name: V3IO_API
+              value: {{ .Values.v3ioApi.hostname }}.{{ .Release.Namespace }}.svc:{{ .Values.v3ioApi.port }}
+            - name: HOME
+              value: {{ .Values.config.home.pathPrefix }}/{{ .Values.config.username }}
+            - name: DATABASE_URL
+              value: presto://{{ .Values.presto.hostname }}.{{ .Release.Namespace }}.svc:{{ .Values.presto.port }}/{{ .Values.presto.catalog }}
 {{- if .Values.environment }}
 {{ include .Values.environment.template . | indent 12 }}
 {{- end }}
           volumeMounts:
             - mountPath: /etc/config/jupyter
               name: jupyter-config
-{{- if .Values.debug.enabled }}
-            - mountPath: /spark/conf
-              name: debug-config
-{{- end }}
+            - mountPath: {{ .Values.config.home.pathPrefix }}/{{ .Values.config.username }}
+              name: home
 {{- if .Values.volumes }}
 {{ include .Values.volumes.volumeMountsTemplate . | indent 12 }}
 {{- end }}
@@ -72,8 +81,11 @@ spec:
         - name: jupyter-config
           configMap:
             name: {{ template "jupyter.fullname" . }}
-{{- if .Values.debug.enabled }}
-        - name: debug-config
-          configMap:
-            name: {{ .Release.Name }}-jupyter-debug-config
-{{- end }}
+        - name: home
+          flexVolume:
+            driver: "v3io/fuse"
+            secretRef:
+              name: {{ .Release.Name }}-v3io-fuse
+            options:
+              container: {{ .Values.config.home.container }}
+              subPath: {{ .Values.config.home.pathPrefix }}/{{ .Values.config.username }}

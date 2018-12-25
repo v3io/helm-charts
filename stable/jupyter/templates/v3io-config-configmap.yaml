@@ -9,11 +9,3 @@ metadata:
     heritage: {{ .Release.Service }}
 data:
 {{ include "v3io-configs.java.configMap" . | indent 2 }}
-
-  v3io-jupyter.sh: |
-    #!/usr/bin/env bash
-    set -e
-
-{{ include "v3io-configs.script.lookupService" . | indent 4 }}
-
-    /bin/bash -x /etc/config/jupyter/run.sh

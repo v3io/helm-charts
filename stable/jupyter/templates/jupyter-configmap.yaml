@@ -8,14 +8,15 @@ metadata:
     release: {{ .Release.Name }}
     heritage: {{ .Release.Service }}
 data:
-  run.sh : |
+  v3io-hub.sh: |
     #!/usr/bin/env bash
     set -e
+
+{{ include "v3io-configs.script.lookupService" . | indent 4 }}
+
 {{- if and .Values.storage.path .Values.storage.initCmd }}
-      {{ .Values.storage.initCmd }} {{ .Values.storage.path }}
+      {{ .Values.storage.initCmd }} {{ .Values.storage.path }}/{{ .Values.config.username }}
 {{- end }}
 
-    echo spark.driver.host=$(hostname -i) >> ${SPARK_HOME}/conf/spark-defaults.conf
-    /docker-jupyter.sh \
-            --master-hostname={{ .Values.spark.hostname }} \
-            --master-port={{ .Values.spark.port }}
+    ln -s {{ .Values.config.home.pathPrefix }}/{{ .Values.config.username }}/v3io {{ .Values.storage.path }}/{{ .Values.config.username }}
+    jupyter-labhub $@
