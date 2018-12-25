@@ -28,7 +28,7 @@ data:
           {{- if gt $di 0 }},{{- end }}
                   "{{ $dataUrl }}"
 {{- end  }}
-                  ],
+                  ]
           }
 {{- end }}
       ]
