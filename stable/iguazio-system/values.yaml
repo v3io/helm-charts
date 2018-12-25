@@ -41,7 +41,7 @@ job:
       pullPolicy: IfNotPresent
     executablePath: /home/iguazio/igz/clients/fuse/bin/v3io_adapters_fuse
     mountType: os
-    clusters: {}
+    clusters: []
       # - name: default
       #   dataUrls: 
       #     - tcp://1.1.1.1:1234
@@ -97,6 +97,9 @@ fluent:
       host: logfwd
       port: 8080
       format: json
+  filter:
+    mergeJSONLog: true
+    enableExclude: true
 
 nodeSelector: {}
 
