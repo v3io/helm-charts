@@ -12,6 +12,15 @@ server:
     path: /presto/etc
     http:
       port: 8080
+    https:
+      port: 8443
+      keystoreBinary:
+      keystore: /var/run/iguazio/java/cert/iguazio.jks
+      passphrase:
+      image:
+        repository: iguaziodocker/base
+        tag: 3.0.0
+        pullPolicy: IfNotPresent
     query:
       maxMemory: "4GB"
       maxMemoryPerNode: "1GB"
