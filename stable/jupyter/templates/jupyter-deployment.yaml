@@ -34,27 +34,27 @@ spec:
           command: ["/bin/bash", "-x", "{{ .Values.image.command }}"]
           args:
             - --ip="0.0.0.0"
-            - --port=8080
-            - --notebook-dir="/v3io/{{ .Values.config.home.container }}{{ .Values.config.home.pathPrefix }}/{{ .Values.config.username }}"
+            - --port={{ .Values.servicePort }}
+            - --notebook-dir="{{ .Values.config.home.pathPrefix }}/{{ .Values.config.username }}"
             - --NotebookApp.default_url="/lab"
             - --disable-user-config
 {{- if .Values.debug.enabled }}
             - --debug
 {{- end }}
           ports:
-            - containerPort: 8080
+            - containerPort: {{ .Values.servicePort }}
               name: jupyter
           resources:
 {{ toYaml .Values.resources | indent 12 }}
           readinessProbe:
             httpGet:
               path: /lab
-              port: 8080
+              port: {{ .Values.servicePort }}
             initialDelaySeconds: 5
           livenessProbe:
             httpGet:
               path: /lab
-              port: 8080
+              port: {{ .Values.servicePort }}
             initialDelaySeconds: 90
           env:
             - name: V3IO_API

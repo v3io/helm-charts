@@ -15,7 +15,7 @@ data:
 {{ include "v3io-configs.script.lookupService" . | indent 4 }}
 
 {{- if and .Values.storage.path .Values.storage.initCmd }}
-      {{ .Values.storage.initCmd }} {{ .Values.storage.path }}/{{ .Values.config.username }}
+    {{ .Values.storage.initCmd }} {{ .Values.storage.path }}/{{ .Values.config.username }}
 {{- end }}
 
     ln -s {{ .Values.config.home.pathPrefix }}/{{ .Values.config.username }}/v3io {{ .Values.storage.path }}/{{ .Values.config.username }}
