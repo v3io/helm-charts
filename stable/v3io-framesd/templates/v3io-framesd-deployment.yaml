@@ -1,45 +1,52 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: {{ template "shell.fullname" . }}
+  name: {{ template "v3io-framesd.fullname" . }}
   labels:
-    app: {{ template "shell.name" . }}
-    chart: {{ template "shell.chart" . }}
+    app: {{ template "v3io-framesd.name" . }}
+    chart: {{ template "v3io-framesd.chart" . }}
     release: {{ .Release.Name }}
     heritage: {{ .Release.Service }}
 spec:
   selector:
     matchLabels:
-      app: {{ template "shell.name" . }}
+      app: {{ template "v3io-framesd.name" . }}
       release: {{ .Release.Name }}
   template:
     metadata:
       labels:
-        app: {{ template "shell.name" . }}
+        app: {{ template "v3io-framesd.name" . }}
         release: {{ .Release.Name }}
     spec:
-{{- if .Values.volumes }}
       volumes:
+        - name: framesd-config
+          configMap: {{ .Release.Name }}-config
+{{- if .Values.volumes }}
 {{ include .Values.volumes.volumesTemplate . | indent 8 }}
 {{- end }}
 {{- if .Values.config.hostname }}
       hostname: {{ .Values.config.hostname }}
 {{- end }}
       containers:
-        - name: {{ .Chart.Name }}-shell
+        - name: {{ .Chart.Name }}-framesd
           image: "{{ .Values.image.repository }}:{{ .Values.image.tag }}"
           imagePullPolicy: {{ .Values.image.pullPolicy }}
           command: ["/bin/bash", "-x", "{{ .Values.image.command }}"]
           ports:
-            - name: ttyd
-              containerPort: 7681
+            - name: http
+              containerPort: {{ .Values.service.http }}
+              protocol: TCP
+            - name: grpc
+              containerPort: {{ .Values.service.grpc }}
               protocol: TCP
 {{- if .Values.environment }}
           env:
 {{ include .Values.environment.template . | indent 12 }}
 {{- end }}
-{{- if .Values.volumes }}
           volumeMounts:
+            - name: framesd-config
+              mountPath: {{ .Values.config.path }}
+{{- if .Values.volumes }}
 {{ include .Values.volumes.volumeMountsTemplate . | indent 12 }}
 {{- end }}
           resources:
