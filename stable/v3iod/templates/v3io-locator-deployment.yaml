@@ -25,7 +25,7 @@ spec:
           imagePullPolicy: {{ .Values.locator.image.pullPolicy | quote }}
           command: ["/bin/bash", "-c"]
           args:
-            - registryctl --namespace=$CURRENT_NAMESPACE
+            - locatorctl --namespace=$CURRENT_NAMESPACE
           ports:
             - containerPort: 8080
           resources:
