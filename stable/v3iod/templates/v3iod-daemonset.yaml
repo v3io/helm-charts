@@ -66,6 +66,21 @@ spec:
               name: core-dump
           securityContext:
             privileged: true
+          livenessProbe:
+            exec:
+              command:
+              - python
+              - /usr/local/bin/dayman_monitor.py
+            initialDelaySeconds: 5
+            periodSeconds: 5
+          readinessProbe:
+            exec:
+              command:
+              - python
+              - /usr/local/bin/dayman_monitor.py
+            initialDelaySeconds: 2
+            periodSeconds: 1
+            failureThreshold: 10
       volumes:
         - name: v3iod-shm
           hostPath:
