@@ -1,12 +1,51 @@
-{{- define "v3io-configs.configPath" -}}
-{{ default "/igz/java/conf" .Values.global.v3io.configPath }}/{{ default "v3io.conf" .Values.global.v3io.configFileName }}
+{{- define "v3io-configs.auth-only.secret" -}}
+{{- if .Values.v3io.username }}
+username: {{ .Values.v3io.username | b64enc | quote }}
+{{- end  }}
+{{- if .Values.v3io.tenant }}
+tenant: {{ .Values.v3io.tenant | b64enc | quote }}
+{{- end  }}
+{{- if .Values.v3io.password }}
+password: {{ .Values.v3io.password | b64enc | quote }}
+{{- end  }}
+{{- if .Values.v3io.accessKey }}
+accessKey: {{ .Values.v3io.accessKey | b64enc | quote }}
+{{- end  }}
+{{- end -}}
+
+{{- define "v3io-configs.auth.secret" -}}
+{{ include "v3io-configs.java.secret" . }}
+{{ include "v3io-configs.auth-only.secret" . }}
+{{- end -}}
+
+{{- define "v3io-configs.auth.env" -}}
+{{- if .Values.v3io.username }}
+- name: V3IO_USERNAME
+  valueFrom:
+    secretKeyRef: {{ .Release.Name }}-v3io-auth
+    key: username
+{{- end }}
+{{- if .Values.v3io.password }}
+- name: V3IO_PASSWORD
+  valueFrom:
+    secretKeyRef: {{ .Release.Name }}-v3io-auth
+    key: password
+{{- end }}
+{{- if .Values.v3io.tenant }}
+- name: V3IO_TENANT
+  valueFrom:
+    secretKeyRef: {{ .Release.Name }}-v3io-auth
+    key: tenant
+{{- end }}
+{{- if .Values.v3io.accessKey }}
+- name: V3IO_ACCESS_KEY
+  valueFrom:
+    secretKeyRef: {{ .Release.Name }}-v3io-auth
+    key: accessKey
+{{- end }}
 {{- end -}}
 
 {{- define "v3io-configs.deployment.env" -}}
-- name: IGZ_DATA_CONFIG_FILE
-  value: {{ include "v3io-configs.configPath" . }}
-- name: CURRENT_NODE_IP
-  valueFrom:
-    fieldRef:
-      fieldPath: status.hostIP
+{{ include "v3io-configs.java.env" . }}
+{{ include "v3io-configs.auth.env" . }}
 {{- end -}}
