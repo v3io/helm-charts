@@ -67,20 +67,14 @@ spec:
 {{ include .Values.environment.template . | indent 12 }}
 {{- end }}
           volumeMounts:
-            - mountPath: /etc/config/jupyter
-              name: jupyter-config
             - mountPath: {{ .Values.config.home.pathPrefix }}/{{ .Values.config.username }}
               name: home
+            - mountPath: /etc/config/jupyter
+              name: jupyter-config
 {{- if .Values.volumes }}
 {{ include .Values.volumes.volumeMountsTemplate . | indent 12 }}
 {{- end }}
       volumes:
-{{- if .Values.volumes }}
-{{ include .Values.volumes.volumesTemplate . | indent 8 }}
-{{- end }}
-        - name: jupyter-config
-          configMap:
-            name: {{ template "jupyter.fullname" . }}
         - name: home
           flexVolume:
             driver: "v3io/fuse"
@@ -89,3 +83,9 @@ spec:
             options:
               container: {{ .Values.config.home.container }}
               subPath: {{ .Values.config.home.pathPrefix }}/{{ .Values.config.username }}
+{{- if .Values.volumes }}
+{{ include .Values.volumes.volumesTemplate . | indent 8 }}
+{{- end }}
+        - name: jupyter-config
+          configMap:
+            name: {{ template "jupyter.fullname" . }}

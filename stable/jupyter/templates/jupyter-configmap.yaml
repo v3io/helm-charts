@@ -18,5 +18,5 @@ data:
     {{ .Values.storage.initCmd }} {{ .Values.storage.path }}/{{ .Values.config.username }}
 {{- end }}
 
-    ln -s {{ .Values.config.home.pathPrefix }}/{{ .Values.config.username }}/v3io {{ .Values.storage.path }}/{{ .Values.config.username }}
+    #ln -s {{ .Values.config.home.pathPrefix }}/{{ .Values.config.username }}/v3io {{ .Values.storage.path }}/{{ .Values.config.username }}
     jupyter-labhub $@
