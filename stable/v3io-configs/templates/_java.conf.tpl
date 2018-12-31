@@ -62,3 +62,16 @@ v3io {
 {{- define "v3io-configs.java.secret" -}}
 {{ default ".java" .Values.global.v3io.authFileName }}: {{ include "v3io-configs.java.v3io.secret.conf" . | b64enc | quote }}
 {{- end -}}
+
+{{- define "v3io-configs.configPath" -}}
+{{ default "/igz/java/conf" .Values.global.v3io.configPath }}/{{ default "v3io.conf" .Values.global.v3io.configFileName }}
+{{- end -}}
+
+{{- define "v3io-configs.java.env" -}}
+- name: IGZ_DATA_CONFIG_FILE
+  value: {{ include "v3io-configs.configPath" . }}
+- name: CURRENT_NODE_IP
+  valueFrom:
+    fieldRef:
+      fieldPath: status.hostIP
+{{- end -}}
