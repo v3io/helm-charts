@@ -1,26 +1,25 @@
 dashboard:
   port: 8060
   enabled: false
-  host: my.host.name
+  url: provazio.dev.cloud.iguazio.com # Used only for Slack notifications
   replicas: 1
   databaseName: mydatabase
   collectionName: mycollection
-  permittedIngresses:
-    - protocol: "*"
-      source_cidr_block: "1.1.1.1/32"
+  defaultCertKind: staging
+  certEnsurerURL: http://ensure-cert:8080
+  domainSelectorURL: http://select-domain:8080
   image:
-    repository: iguaziodocker/provazio-dashboard
-    tag: 0.0.4
+    repository: quay.io/iguazio/provazio-dashboard
+    tag: 0.2.11
     pullPolicy: IfNotPresent
 
   # holds cloud credentials
-  secretName: zandbox-creds
+  secretName: provazio-creds
 
   provisioner:
     env: dev
     type: aws
     region: us-east-1
-    domain: my.domain.com
 
   internalNetworkCIDR: 1.1.1.1/32
   expirationCheckIntervalSeconds: 300
@@ -40,6 +39,6 @@ controller:
     - Tenant
     - TenantAppServiceSet
   image:
-    repository: iguaziodocker/provazio-controller
-    tag: 0.0.4
+    repository: quay.io/iguazio/provazio-dashboard
+    tag: 0.2.11
     pullPolicy: IfNotPresent
