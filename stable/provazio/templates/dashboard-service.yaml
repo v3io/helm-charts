@@ -17,6 +17,8 @@ spec:
     protocol: TCP
     targetPort: 8060
   selector:
-    provazio/service: {{ template "provazio.dashboard.name" . }}
+    app: provazio
+    component: dashboard
+    release: {{ .Release.Name }}
 
 {{- end }}

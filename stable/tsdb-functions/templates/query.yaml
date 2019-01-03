@@ -19,6 +19,14 @@ spec:
   env:
   - name: QUERY_V3IO_TSDB_PATH
     value: {{ .Values.tsdb.path }}
+  - name: QUERY_V3IO_URL
+    value: {{ .Values.webapi.url | quote }}
+  - name: QUERY_V3IO_USERNAME
+    value: {{ .Values.webapi.auth.username }}
+  - name: QUERY_V3IO_PASSWORD
+    value: {{ .Values.webapi.auth.password }}
+  - name: QUERY_V3IO_CONTAINER
+    value: {{ .Values.tsdb.container }}
   triggers:
     web:
       kind: http
@@ -33,10 +41,5 @@ spec:
             paths:
             - {{ default "/query" .Values.functions.query.ingress.path }}
         {{- end }}
-  dataBindings:
-    db0:
-      kind: v3io
-      url: {{ .Values.webapi.url | quote }}
-      secret: {{ .Values.webapi.auth.username }}:{{ .Values.webapi.auth.password }}
 status:
   state: waitingForResourceConfiguration
