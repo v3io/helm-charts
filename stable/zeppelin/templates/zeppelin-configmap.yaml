@@ -20,6 +20,9 @@ data:
       hadoop fs -copyFromLocal /etc/config/zeppelin/notebooks/$notebook ${NOTEBOOKS_PATH}/$notebook/note.json;
     done
 {{- end }}
+    unset ZEPPELIN_PORT
+    unset ZEPPELIN_SSL_PORT
+    
     echo spark.driver.host=$(hostname -i) >> ${SPARK_HOME}/conf/spark-defaults.conf
     /docker-zeppelin.sh \
             --master-hostname={{ .Values.spark.hostname }} \
