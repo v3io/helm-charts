@@ -14,38 +14,42 @@ accessKey: {{ .Values.v3io.accessKey | b64enc | quote }}
 {{- end -}}
 
 {{- define "v3io-configs.auth.secret" -}}
-{{ include "v3io-configs.java.secret" . }}
-{{ include "v3io-configs.auth-only.secret" . }}
+{{- include "v3io-configs.java.secret" . }}
+{{- include "v3io-configs.auth-only.secret" . }}
 {{- end -}}
 
 {{- define "v3io-configs.auth.env" -}}
 {{- if .Values.v3io.username }}
 - name: V3IO_USERNAME
   valueFrom:
-    secretKeyRef: {{ .Release.Name }}-v3io-auth
-    key: username
+    secretKeyRef:
+      name: {{ .Release.Name }}-v3io-auth
+      key: username
 {{- end }}
 {{- if .Values.v3io.password }}
 - name: V3IO_PASSWORD
   valueFrom:
-    secretKeyRef: {{ .Release.Name }}-v3io-auth
-    key: password
+    secretKeyRef:
+      name: {{ .Release.Name }}-v3io-auth
+      key: password
 {{- end }}
 {{- if .Values.v3io.tenant }}
 - name: V3IO_TENANT
   valueFrom:
-    secretKeyRef: {{ .Release.Name }}-v3io-auth
-    key: tenant
+    secretKeyRef:
+      name: {{ .Release.Name }}-v3io-auth
+      key: tenant
 {{- end }}
 {{- if .Values.v3io.accessKey }}
 - name: V3IO_ACCESS_KEY
   valueFrom:
-    secretKeyRef: {{ .Release.Name }}-v3io-auth
-    key: accessKey
+    secretKeyRef:
+      name: {{ .Release.Name }}-v3io-auth
+      key: accessKey
 {{- end }}
 {{- end -}}
 
 {{- define "v3io-configs.deployment.env" -}}
-{{ include "v3io-configs.java.env" . }}
-{{ include "v3io-configs.auth.env" . }}
+{{- include "v3io-configs.java.env" . }}
+{{- include "v3io-configs.auth.env" . }}
 {{- end -}}

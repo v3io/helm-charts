@@ -8,15 +8,19 @@ metadata:
     release: {{ .Release.Name }}
     heritage: {{ .Release.Service }}
 data:
-  v3io-hub.sh: |
+  v3io-jupyter.sh: |
     #!/usr/bin/env bash
     set -e
 
 {{ include "v3io-configs.script.lookupService" . | indent 4 }}
 
 {{- if and .Values.storage.path .Values.storage.initCmd }}
-    {{ .Values.storage.initCmd }} {{ .Values.storage.path }}/{{ .Values.config.username }}
+    test -e {{ .Values.storage.path }}/{{ .Values.config.username }} || {{ .Values.storage.initCmd }} {{ .Values.storage.path }}/{{ .Values.config.username }}
+{{- end }}
+
+{{- if .Values.preloadNotebooks.enabled }}
+    test -e {{ .Values.storage.path }}/{{ .Values.config.username }}/{{ .Values.preloadNotebooks.name }} || git clone {{ .Values.preloadNotebooks.git }} {{ .Values.storage.path }}/{{ .Values.config.username }}/{{ .Values.preloadNotebooks.name }}
 {{- end }}
 
     #ln -s {{ .Values.config.home.pathPrefix }}/{{ .Values.config.username }}/v3io {{ .Values.storage.path }}/{{ .Values.config.username }}
-    jupyter-labhub $@
+    jupyter-notebook $@

@@ -32,12 +32,18 @@ spec:
           image: {{ .Values.image.repository }}:{{ .Values.image.tag }}
           imagePullPolicy: {{ .Values.image.pullPolicy | quote }}
           command: ["/bin/bash", "-x", "{{ .Values.image.command }}"]
+{{- if .Values.storage.path }}
+          workingDir: "{{ .Values.storage.path }}/{{ .Values.config.username }}"
+{{- end }}
           args:
             - --ip="0.0.0.0"
             - --port={{ .Values.servicePort }}
-            - --notebook-dir="{{ .Values.config.home.pathPrefix }}/{{ .Values.config.username }}"
+            - --NotebookApp.token=''
+            - --NotebookApp.password=''
+{{- if .Values.storage.path }}
+            - --notebook-dir="{{ .Values.storage.path }}/{{ .Values.config.username }}"
+{{- end }}
             - --NotebookApp.default_url="/lab"
-            - --disable-user-config
 {{- if .Values.debug.enabled }}
             - --debug
 {{- end }}
@@ -57,12 +63,22 @@ spec:
               port: {{ .Values.servicePort }}
             initialDelaySeconds: 90
           env:
-            - name: V3IO_API
-              value: {{ .Values.v3ioApi.hostname }}.{{ .Release.Namespace }}.svc:{{ .Values.v3ioApi.port }}
+            - name: SHELL
+              value: /bin/bash
             - name: HOME
               value: {{ .Values.config.home.pathPrefix }}/{{ .Values.config.username }}
+{{- if .Values.v3io.api }}
+            - name: V3IO_API
+              value: {{ .Values.v3io.api.hostname }}.{{ .Release.Namespace }}.svc:{{ .Values.v3io.api.port }}
+{{- end }}
+{{- if .Values.v3io.presto }}
             - name: DATABASE_URL
               value: presto://{{ .Values.presto.hostname }}.{{ .Release.Namespace }}.svc:{{ .Values.presto.port }}/{{ .Values.presto.catalog }}
+{{- end }}
+{{- if .Values.v3io.framesd }}
+            - name: V3IO_FRAMESD
+              value: {{ .Values.v3io.framesd.hostname }}.{{ .Release.Namespace }}.svc:{{ .Values.v3io.framesd.port }}
+{{- end }}
 {{- if .Values.environment }}
 {{ include .Values.environment.template . | indent 12 }}
 {{- end }}
