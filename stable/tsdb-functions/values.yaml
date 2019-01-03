@@ -1,7 +1,8 @@
 tsdb:
+  container: bigdata
   path: mytsdb
 webapi:
-  url: localhost:8081
+  url: v3io-webapi:8081
   auth:
     username: iguazio
     password: iguazio
@@ -14,13 +15,13 @@ functions:
       port: 32030
       ingress: {}
       image:
-        repository: iguaziodocker/tsdb-ingest
-        tag: 0.0.6
+        repository: quay.io/iguazio/tsdb-ingest
+        tag: 0.0.12
     query:
       readinessTimeoutSeconds: 180
       replicas: 1
       port: 32031
       ingress: {}
       image:
-        repository: iguaziodocker/tsdb-query
-        tag: 0.0.6
+        repository: quay.io/iguazio/tsdb-query
+        tag: 0.0.12
