@@ -14,13 +14,38 @@ data:
 
 {{ include "v3io-configs.script.lookupService" . | indent 4 }}
 
-{{- if and .Values.storage.path .Values.storage.initCmd }}
-    test -e {{ .Values.storage.path }}/{{ .Values.config.username }} || {{ .Values.storage.initCmd }} {{ .Values.storage.path }}/{{ .Values.config.username }}
-{{- end }}
+    test -e ${HOME}/.bashrc || touch ${HOME}/.bashrc
 
 {{- if .Values.preloadNotebooks.enabled }}
-    test -e {{ .Values.storage.path }}/{{ .Values.config.username }}/{{ .Values.preloadNotebooks.name }} || git clone {{ .Values.preloadNotebooks.git }} {{ .Values.storage.path }}/{{ .Values.config.username }}/{{ .Values.preloadNotebooks.name }}
+    test -e ${HOME}/{{ .Values.preloadNotebooks.name }} || git clone {{ .Values.preloadNotebooks.git }} ${HOME}/{{ .Values.preloadNotebooks.name }}
 {{- end }}
 
-    #ln -s {{ .Values.config.home.pathPrefix }}/{{ .Values.config.username }}/v3io {{ .Values.storage.path }}/{{ .Values.config.username }}
+{{- if .Values.spark }}
+    echo spark.driver.extraJavaOptions=\"-Dsun.zip.disableMemoryMapping=true\" >> ${SPARK_HOME}/conf/spark-defaults.conf
+    echo spark.executor.extraJavaOptions=\"-Dsun.zip.disableMemoryMapping=true\" >> ${SPARK_HOME}/conf/spark-defaults.conf
+    echo "spark.master=spark://{{ .Values.spark.hostname }}:{{ .Values.spark.port }}" >> ${SPARK_HOME}/conf/spark-defaults.conf
+    echo spark.driver.host=$(hostname -i) >> ${SPARK_HOME}/conf/spark-defaults.conf
+{{- end }}
+
+{{- if .Values.presto }}
+    echo alias prestow=\"presto-cli --server {{ .Values.presto.hostname }}.{{ .Release.Namespace }}.svc:{{ .Values.presto.port }} \$@\" >> ${HOME}/.presto_alias
+    echo alias presto=\"prestow --catalog=v3io \$@\" >> ${HOME}/.presto_alias
+    if [ "$(grep --count '.presto_config' ${HOME}/.bashrc)" == "0" ]; then
+      echo "source ${HOME}/.presto_alias" >> ${HOME}/.bashrc
+    fi
+{{- end }}
+
+{{- if .Values.config.logo }}
+    if [ "$(grep --count 'LOGO CONFIG' ${HOME}/.bashrc)" == "0" ]; then
+      echo "# ----- LOGO CONFIG -----" >> ${HOME}/.bashrc
+      echo alias ll=\"ls -lah --color\" >> ${HOME}/.bashrc
+      echo "echo {{ .Values.config.logo }} | base64 --decode" >> ${HOME}/.bashrc
+      echo "echo ''" >> ${HOME}/.bashrc
+      echo "# --- END LOGO CONFIG ---" >> ${HOME}/.bashrc
+    fi
+{{- end }}
+
+    mkdir -p ${HOME}/.pythonlibs
+    export PYTHONPATH="${HOME}/.pythonlibs:${PYTHONPATH}"
+
     jupyter-notebook $@
