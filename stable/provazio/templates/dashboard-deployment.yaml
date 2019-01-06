@@ -43,12 +43,16 @@ spec:
           value: {{ .Values.dashboard.url | quote }}
         - name: PROVAZIO_PERMITTED_INGRESSES
           value: {{ toJson .Values.dashboard.permittedIngresses | quote }}
-        - name: PROVAZIO_DEFAULT_CERT_KIND
-          value: {{ .Values.dashboard.defaultCertKind | quote }}
         - name: PROVAZIO_CERT_ENSURER_URL
           value: {{ .Values.dashboard.certEnsurerURL | quote }}
         - name: PROVAZIO_DOMAIN_SELECTOR_URL
           value: {{ .Values.dashboard.domainSelectorURL | quote }}
+        - name: PROVAZIO_FRONTEND_SPEC
+          value: {{ toJson .Values.dashboard.frontendSpec | quote }}
+{{- if .Values.dashboard.artifactVersionManifestContents }}
+        - name: PROVAZIO_ARTIFACT_VERSION_RESOLVER_MANIFEST_PATH
+          value: /etc/provazio/dashboard/artifact-version-manifest.json
+{{- end }}
         - name: PROVAZIO_SSH_USERNAME
           valueFrom:
             secretKeyRef:
@@ -150,5 +154,14 @@ spec:
         ports:
         - containerPort: 8060
           protocol: TCP
-
+{{- if .Values.dashboard.artifactVersionManifestContents }}
+        volumeMounts:
+        - mountPath: /etc/provazio/dashboard
+          name: {{ template "provazio.dashboard.name" . }}-artifact-version-manifest
+      volumes:
+      - configMap:
+          defaultMode: 420
+          name: {{ template "provazio.dashboard.name" . }}-artifact-version-manifest
+        name: {{ template "provazio.dashboard.name" . }}-artifact-version-manifest
+{{- end }}
 {{- end }}
