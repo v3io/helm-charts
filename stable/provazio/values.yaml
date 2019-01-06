@@ -14,7 +14,7 @@ dashboard:
 
   image:
     repository: quay.io/iguazio/provazio-dashboard
-    tag: 0.2.11
+    tag: 0.2.18
     pullPolicy: IfNotPresent
 
   # holds cloud credentials
@@ -70,5 +70,5 @@ controller:
     - TenantAppServiceSet
   image:
     repository: quay.io/iguazio/provazio-dashboard
-    tag: 0.2.11
+    tag: 0.2.18
     pullPolicy: IfNotPresent
