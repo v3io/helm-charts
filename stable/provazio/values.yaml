@@ -5,9 +5,13 @@ dashboard:
   replicas: 1
   databaseName: mydatabase
   collectionName: mycollection
-  defaultCertKind: staging
   certEnsurerURL: http://ensure-cert:8080
   domainSelectorURL: http://select-domain:8080
+  permittedIngresses: ~
+  internalNetworkCIDR: 1.1.1.1/32
+  expirationCheckIntervalSeconds: 300
+  artifactVersionManifestContents:
+
   image:
     repository: quay.io/iguazio/provazio-dashboard
     tag: 0.2.11
@@ -21,8 +25,34 @@ dashboard:
     type: aws
     region: us-east-1
 
-  internalNetworkCIDR: 1.1.1.1/32
-  expirationCheckIntervalSeconds: 300
+  frontendSpec:
+    environment: dev
+    allow_provisioning: true
+    # default_system_settings_source: spec
+    # system_settings:
+    #   version: 1.9_cloud_b57_20181225181152
+    #   num_datanodes: 1
+    #   datanode_placement_kind: spread
+    #   datanode_instance_kind: i3.xlarge
+    #   num_appnodes: 1
+    #   appnode_provisioner_kind: dedicated
+    #   appnode_instance_kind: m5.xlarge
+    #   lifetime_in_hours: 24
+    #   cert_kind: prod
+    #   cidr_ip: 172.38.0.0/16
+    #   subnets: 172.38.0.0/24,172.38.1.0/24,172.38.2.0/24
+    #   network_kind: shared
+    #   termination_protection_kind: prompt
+    #   services:
+    #   - grafana
+    #   - nuclio_metrics
+    #   - v3iod
+    #   - spark
+    #   - shell
+    #   - presto
+    #   - zeppelin
+    #   - elastic
+
 
 controller:
   enabled: false
