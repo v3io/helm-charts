@@ -27,22 +27,19 @@ spec:
         release: {{ .Release.Name }}
         heritage: {{ .Release.Service }}
     spec:
+      hostname: {{ .Values.config.username }}
       containers:
         - name: jupyter
           image: {{ .Values.image.repository }}:{{ .Values.image.tag }}
           imagePullPolicy: {{ .Values.image.pullPolicy | quote }}
           command: ["/bin/bash", "-x", "{{ .Values.image.command }}"]
-{{- if .Values.storage.path }}
-          workingDir: "{{ .Values.storage.path }}/{{ .Values.config.username }}"
-{{- end }}
+          workingDir: "{{ .Values.config.home.pathMount }}"
           args:
             - --ip="0.0.0.0"
             - --port={{ .Values.servicePort }}
             - --NotebookApp.token=''
             - --NotebookApp.password=''
-{{- if .Values.storage.path }}
-            - --notebook-dir="{{ .Values.storage.path }}/{{ .Values.config.username }}"
-{{- end }}
+            - --notebook-dir="{{ .Values.config.home.pathMount }}"
             - --NotebookApp.default_url="/lab"
 {{- if .Values.debug.enabled }}
             - --debug
@@ -66,7 +63,7 @@ spec:
             - name: SHELL
               value: /bin/bash
             - name: HOME
-              value: {{ .Values.config.home.pathPrefix }}/{{ .Values.config.username }}
+              value: {{ .Values.config.home.pathMount }}
 {{- if .Values.v3io.api }}
             - name: V3IO_API
               value: {{ .Values.v3io.api.hostname }}.{{ .Release.Namespace }}.svc:{{ .Values.v3io.api.port }}
@@ -83,7 +80,7 @@ spec:
 {{ include .Values.environment.template . | indent 12 }}
 {{- end }}
           volumeMounts:
-            - mountPath: {{ .Values.config.home.pathPrefix }}/{{ .Values.config.username }}
+            - mountPath: {{ .Values.config.home.pathMount }}
               name: home
             - mountPath: /etc/config/jupyter
               name: jupyter-config
