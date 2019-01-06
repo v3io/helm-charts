@@ -33,8 +33,6 @@ spec:
           value: {{ .Values.dashboard.provisioner.type | quote }}
         - name: PROVAZIO_AWS_REGION
           value: {{ .Values.dashboard.provisioner.region | quote }}
-        - name: PROVAZIO_DOMAIN
-          value: {{ .Values.dashboard.provisioner.domain | quote }}
         - name: PROVAZIO_STORE_AZURE_COSMOSDB_DATABASE_NAME
           value: {{ .Values.dashboard.databaseName | quote }}
         - name: PROVAZIO_STORE_AZURE_COSMOSDB_COLLECTION_NAME
@@ -42,9 +40,15 @@ spec:
         - name: PROVAZIO_EXPIRATION_CHECK_INTERVAL_SECONDS
           value: {{ .Values.dashboard.expirationCheckIntervalSeconds | quote }}
         - name: PROVAZIO_URL
-          value: {{ .Values.dashboard.host | quote }}
+          value: {{ .Values.dashboard.url | quote }}
         - name: PROVAZIO_PERMITTED_INGRESSES
           value: {{ toJson .Values.dashboard.permittedIngresses | quote }}
+        - name: PROVAZIO_DEFAULT_CERT_KIND
+          value: {{ .Values.dashboard.defaultCertKind | quote }}
+        - name: PROVAZIO_CERT_ENSURER_URL
+          value: {{ .Values.dashboard.certEnsurerURL | quote }}
+        - name: PROVAZIO_DOMAIN_SELECTOR_URL
+          value: {{ .Values.dashboard.domainSelectorURL | quote }}
         - name: PROVAZIO_SSH_USERNAME
           valueFrom:
             secretKeyRef:
@@ -135,6 +139,11 @@ spec:
             secretKeyRef:
               name: {{ .Values.dashboard.secretName | quote }}
               key: slack_token
+        - name: PROVAZIO_ARTIFACT_VERSION_RESOLVER_GITHUB_ACCESS_TOKEN
+          valueFrom:
+            secretKeyRef:
+              name: {{ .Values.dashboard.secretName | quote }}
+              key: artifact_version_resolver_github_access_token
         image: {{ .Values.dashboard.image.repository }}:{{ .Values.dashboard.image.tag }}
         imagePullPolicy: {{ .Values.dashboard.image.pullPolicy | quote }}
         name: {{ template "provazio.dashboard.name" . }}
