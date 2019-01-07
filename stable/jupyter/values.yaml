@@ -28,7 +28,7 @@ config:
   home:
     container: users
     pathPrefix: /Users
-    pathMount: /UserHome
+    pathMount: /User
 
 resources: {}
   # limits:
@@ -38,10 +38,11 @@ resources: {}
     # cpu: 1
     # memory: "2Gi"
 
-preloadNotebooks:
-  enabled: true
-  name: getting-started
-  git: https://github.com/v3io/jupyter-notebooks
+initCommands:
+  - name: getting-started
+    command: |
+      git clone https://github.com/v3io/tutorials /tmp/tutorials
+      cp -r /tmp/tutorials/* ${HOME}
 
 environment:
   template: v3io-configs.deployment.env
@@ -56,4 +57,3 @@ debug:
 global:
   v3io:
     configMountPath: /etc/config/v3io
-    fusePath: /UserHome/v3io

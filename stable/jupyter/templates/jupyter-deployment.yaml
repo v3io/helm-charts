@@ -82,6 +82,8 @@ spec:
           volumeMounts:
             - mountPath: {{ .Values.config.home.pathMount }}
               name: home
+            - mountPath: {{ .Values.config.home.pathMount }}/shared
+              name: shared
             - mountPath: /etc/config/jupyter
               name: jupyter-config
 {{- if .Values.volumes }}
@@ -96,6 +98,11 @@ spec:
             options:
               container: {{ .Values.config.home.container }}
               subPath: {{ .Values.config.home.pathPrefix }}/{{ .Values.config.username }}
+        - name: shared
+          flexVolume:
+            driver: "v3io/fuse"
+            secretRef:
+              name: {{ .Release.Name }}-v3io-fuse
 {{- if .Values.volumes }}
 {{ include .Values.volumes.volumesTemplate . | indent 8 }}
 {{- end }}
