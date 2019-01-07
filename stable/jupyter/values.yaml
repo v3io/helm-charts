@@ -14,6 +14,8 @@ v3io:
   framesd:
     hostname: v3io-framesd
     port: 8080
+  tsdbctl:
+    download:
 
 image:
   repository: "iguaziodocker/jupyter-ml"
@@ -43,6 +45,7 @@ initCommands:
     command: |
       git clone https://github.com/v3io/tutorials /tmp/tutorials
       cp -r /tmp/tutorials/* ${HOME}
+      rm -rf /tmp/tutorials
 
 environment:
   template: v3io-configs.deployment.env

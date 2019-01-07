@@ -82,7 +82,7 @@ spec:
           volumeMounts:
             - mountPath: {{ .Values.config.home.pathMount }}
               name: home
-            - mountPath: {{ .Values.config.home.pathMount }}/shared
+            - mountPath: {{ .Values.config.home.pathMount }}/v3io
               name: shared
             - mountPath: /etc/config/jupyter
               name: jupyter-config

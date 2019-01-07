@@ -34,11 +34,18 @@ data:
 {{- if .Values.presto }}
     echo alias prestow=\"presto-cli --server {{ .Values.presto.hostname }}.{{ .Release.Namespace }}.svc:{{ .Values.presto.port }} \$@\" >> ${HOME}/.presto_alias
     echo alias presto=\"prestow --catalog=v3io \$@\" >> ${HOME}/.presto_alias
-    if [ "$(grep --count '.presto_config' ${HOME}/.bashrc)" == "0" ]; then
+    if [ "$(grep --count 'PRESTO CONFIG' ${HOME}/.bashrc)" == "0" ]; then
       echo "# ----- PRESTO CONFIG -----" >> ${HOME}/.bashrc
       echo "source ${HOME}/.presto_alias" >> ${HOME}/.bashrc
       echo "# --- END PRESTO CONFIG ---" >> ${HOME}/.bashrc
     fi
+{{- end }}
+
+{{- if and .Values.v3io.tsdbctl .Values.v3io.tsdbctl.download }}
+    mkdir -p ${HOME}/bin
+    curl -o ${HOME}/bin/tsdbctl {{ .Values.v3io.tsdbctl.download }}
+    chmod +x ${HOME}/bin/tsdbctl
+    export PATH="$PATH:${HOME}/bin"
 {{- end }}
 
 {{- if .Values.config.logo }}
