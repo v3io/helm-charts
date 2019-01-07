@@ -42,6 +42,7 @@ data:
 {{- end }}
 
 {{- if and .Values.v3io.tsdbctl .Values.v3io.tsdbctl.download }}
+    mkdir -p ${IGUAZIO_HOME}/bin
     curl -o ${IGUAZIO_HOME}/bin/tsdbctl {{ .Values.v3io.tsdbctl.download }}
     chmod +x ${IGUAZIO_HOME}/bin/tsdbctl
 {{- end }}
