@@ -14,6 +14,8 @@ v3io:
   framesd:
     hostname: v3io-framesd
     port: 8080
+  tsdbctl:
+    download:
 
 image:
   repository: "iguaziodocker/jupyter-ml"
@@ -28,7 +30,7 @@ config:
   home:
     container: users
     pathPrefix: /Users
-    pathMount: /UserHome
+    pathMount: /User
 
 resources: {}
   # limits:
@@ -38,10 +40,12 @@ resources: {}
     # cpu: 1
     # memory: "2Gi"
 
-preloadNotebooks:
-  enabled: true
-  name: getting-started
-  git: https://github.com/v3io/jupyter-notebooks
+initCommands:
+  - name: getting-started
+    command: |
+      git clone https://github.com/v3io/tutorials /tmp/tutorials
+      cp -r /tmp/tutorials/* ${HOME}
+      rm -rf /tmp/tutorials
 
 environment:
   template: v3io-configs.deployment.env
@@ -56,4 +60,3 @@ debug:
 global:
   v3io:
     configMountPath: /etc/config/v3io
-    fusePath: /UserHome/v3io
