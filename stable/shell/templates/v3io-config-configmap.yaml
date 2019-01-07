@@ -16,10 +16,13 @@ data:
 
 {{ include "v3io-configs.script.lookupService" . | indent 4 }}
 
+{{- if and .Values.v3io.tsdbctl .Values.v3io.tsdbctl.download }}
+    curl -o ${IGUAZIO_HOME}/bin/tsdbctl {{ .Values.v3io.tsdbctl.download }}
+    chmod +x ${IGUAZIO_HOME}/bin/tsdbctl
+{{- end }}
+
 {{- if .Values.spark }}
     echo "spark.master=spark://{{ .Values.spark.hostname }}:{{ .Values.spark.port }}" >> ${SPARK_HOME}/conf/spark-defaults.conf
-    echo spark.driver.extraJavaOptions=\"-Dsun.zip.disableMemoryMapping=true\" >> ${SPARK_HOME}/conf/spark-defaults.conf
-    echo spark.executor.extraJavaOptions=\"-Dsun.zip.disableMemoryMapping=true\" >> ${SPARK_HOME}/conf/spark-defaults.conf
     echo spark.driver.host=$(hostname -i) >> ${SPARK_HOME}/conf/spark-defaults.conf
 {{- end }}
 
@@ -28,7 +31,6 @@ data:
     echo alias presto=\"prestow --catalog=v3io $@\" >> ~/.bashrc
 {{- end }}
 
-    echo alias ll=\"ls -lah --color\" >> ~/.bashrc
     echo "echo ''" >> ~/.bashrc
 {{- if .Values.config.logo }}
     echo "echo {{ .Values.config.logo }} | base64 --decode" >> ~/.bashrc
