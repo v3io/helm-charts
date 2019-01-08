@@ -49,11 +49,13 @@ environment:
   template: v3io-configs.deployment.env
 
 volumes:
-  volumesTemplate: v3io-configs.deployment.mount-with-fuse
-  volumeMountsTemplate: v3io-configs.deployment.volumeMounts-with-fuse
+  volumesTemplate: v3io-configs.deployment.mount
+  volumeMountsTemplate: v3io-configs.deployment.volumeMounts
 
 global:
   v3io:
     configMountPath: /etc/config/v3io
+    lookupService:
+      name: v3iod-locator
 
 v3io: {}

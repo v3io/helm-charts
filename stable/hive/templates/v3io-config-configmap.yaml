@@ -19,4 +19,5 @@ data:
     echo alias ll=\"ls -lah --color\" >> ~/.bashrc
     echo "echo ''" >> ~/.bashrc
 
-    ./startup.sh
+    #./startup.sh
+    /usr/local/bin/startup.sh
