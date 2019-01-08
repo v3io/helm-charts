@@ -34,8 +34,8 @@ spec:
             - name: server
               containerPort: {{ .Values.server.containerPort }}
               protocol: TCP
-            - name: webUI
-              containerPort: {{ .Values.webUI.containerPort }}
+            - name: ui
+              containerPort: {{ .Values.ui.containerPort }}
               protocol: TCP
 {{- if .Values.environment }}
           env:

@@ -1,6 +1,6 @@
 image:
-  repository: iguaziodocker/hive
-  tag: 1.9.0
+  repository: imakhlin/hive
+  tag: 0.0.1
   pullPolicy: IfNotPresent
   command: /etc/config/v3io/v3io-hive.sh
 
@@ -10,7 +10,7 @@ server:
   servicePort: 10000
   containerPort: 10000
 
-webUI:
+ui:
   servicePort: 10002
   containerPort: 10002
 

@@ -13,10 +13,10 @@ spec:
       targetPort: {{ .Values.server.containerPort }}
       protocol: TCP
       name: server
-    - port: {{ .Values.webUI.servicePort }}
-      targetPort: {{ .Values.webUI.containerPort }}
+    - port: {{ .Values.ui.servicePort }}
+      targetPort: {{ .Values.ui.containerPort }}
       protocol: TCP
-      name: webUI
+      name: ui
   selector:
     app: {{ template "hive.name" . }}
     release: {{ .Release.Name }}
