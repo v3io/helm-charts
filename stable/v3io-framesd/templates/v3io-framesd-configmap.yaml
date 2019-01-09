@@ -12,13 +12,15 @@ data:
     log:
       level: {{ .Values.config.log.level }}
     limit: {{ .Values.config.limit }}
-    webApiEndpoint: {{ .Values.v3io.api }}
+    webApiEndpoint: {{ .Values.v3io.api.hostname }}:{{ .Values.v3io.api.port }}
     container: {{ .Values.v3io.container }}
     username: {{ .Values.v3io.username }}
     backends:
-      rootdir: {{ .Values.config.rootDir }}
 {{- range $index, $backend := .Values.config.backends }}
       - type: {{ $backend }}
+{{- if eq $backend "csv" }}
+        rootdir: ""
+{{- end }}
 {{- end }}
 
   v3io-framesd.sh: |

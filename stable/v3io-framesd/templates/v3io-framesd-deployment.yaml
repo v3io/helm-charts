@@ -19,8 +19,9 @@ spec:
         release: {{ .Release.Name }}
     spec:
       volumes:
-        - name: framesd-config
-          configMap: {{ .Release.Name }}-config
+        - name: framesd-conf
+          configMap:
+            name: {{ .Release.Name }}-config
 {{- if .Values.volumes }}
 {{ include .Values.volumes.volumesTemplate . | indent 8 }}
 {{- end }}
@@ -28,7 +29,7 @@ spec:
       hostname: {{ .Values.config.hostname }}
 {{- end }}
       containers:
-        - name: {{ .Chart.Name }}-framesd
+        - name: framesd
           image: "{{ .Values.image.repository }}:{{ .Values.image.tag }}"
           imagePullPolicy: {{ .Values.image.pullPolicy }}
           command: ["/bin/bash", "-x", "{{ .Values.image.command }}"]
@@ -44,7 +45,7 @@ spec:
 {{ include .Values.environment.template . | indent 12 }}
 {{- end }}
           volumeMounts:
-            - name: framesd-config
+            - name: framesd-conf
               mountPath: {{ .Values.config.path }}
 {{- if .Values.volumes }}
 {{ include .Values.volumes.volumeMountsTemplate . | indent 12 }}
