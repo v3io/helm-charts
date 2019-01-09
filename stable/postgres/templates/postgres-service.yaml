@@ -1,0 +1,18 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: {{ template "postgres.fullname" . }}
+  labels:
+    app: {{ template "postgres.name" . }}
+    chart: {{ template "postgres.chart" . }}
+    release: {{ .Release.Name }}
+    heritage: {{ .Release.Service }}
+spec:
+  ports:
+    - port: {{ .Values.server.servicePort }}
+      targetPort: {{ .Values.server.containerPort }}
+      protocol: TCP
+      name: server
+  selector:
+    app: {{ template "postgres.name" . }}
+    release: {{ .Release.Name }}

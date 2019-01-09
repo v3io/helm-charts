@@ -1,0 +1,58 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ template "postgres.fullname" . }}
+  labels:
+    app: {{ template "postgres.name" . }}
+    chart: {{ template "postgres.chart" . }}
+    release: {{ .Release.Name }}
+    heritage: {{ .Release.Service }}
+spec:
+  selector:
+    matchLabels:
+      app: {{ template "postgres.name" . }}
+      release: {{ .Release.Name }}
+  template:
+    metadata:
+      labels:
+        app: {{ template "postgres.name" . }}
+        release: {{ .Release.Name }}
+    spec:
+{{- if .Values.volumes }}
+      volumes:
+{{ include .Values.volumes.volumesTemplate . | indent 8 }}
+{{- end }}
+{{- if .Values.config.hostname }}
+      hostname: {{ .Values.config.hostname }}
+{{- end }}
+      containers:
+        - name: {{ .Chart.Name }}-postgres
+          image: "{{ .Values.image.repository }}:{{ .Values.image.tag }}"
+          imagePullPolicy: {{ .Values.image.pullPolicy }}
+          command: ["/bin/bash", "-x", "{{ .Values.image.command }}"]
+          ports:
+            - name: server
+              containerPort: {{ .Values.server.containerPort }}
+              protocol: TCP
+{{- if .Values.environment }}
+          env:
+{{ include .Values.environment.template . | indent 12 }}
+{{- end }}
+{{- if .Values.volumes }}
+          volumeMounts:
+{{ include .Values.volumes.volumeMountsTemplate . | indent 12 }}
+{{- end }}
+          resources:
+{{ toYaml .Values.resources | indent 12 }}
+    {{- with .Values.nodeSelector }}
+      nodeSelector:
+{{ toYaml . | indent 8 }}
+    {{- end }}
+    {{- with .Values.affinity }}
+      affinity:
+{{ toYaml . | indent 8 }}
+    {{- end }}
+    {{- with .Values.tolerations }}
+      tolerations:
+{{ toYaml . | indent 8 }}
+    {{- end }}
