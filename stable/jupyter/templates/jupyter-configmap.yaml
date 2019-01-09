@@ -64,6 +64,8 @@ data:
     fi
 
     mkdir -p ${HOME}/.pythonlibs
-    export PYTHONPATH="${HOME}/.pythonlibs:${PYTHONPATH}"
+    export PIP_PREFIX="${HOME}/.pythonlibs"
+    export PYTHONPATH="${HOME}/.pythonlibs/lib/python3.6/site-packages:${PYTHONPATH}"
+    export PATH="${PATH}:${HOME}/.pythonlibs/bin"
 
     jupyter-notebook $@
