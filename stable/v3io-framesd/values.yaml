@@ -17,16 +17,17 @@ config:
     - csv
 
 v3io:
-  api: v3io-webapi:8081
+  api:
+    hostname: v3io-webapi
+    port: 8081
   container: bigdata
   username: iguazio
 
-
 service:
   http: 8080
-  httpNodePort: 30050
+  httpNodePort:
   grpc: 8081
-  grpcNodePort: 30051
+  grpcNodePort:
 
 resources: {}
   # We usually recommend not to specify default resources and to leave this as a conscious
