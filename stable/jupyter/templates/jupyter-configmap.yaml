@@ -14,13 +14,58 @@ data:
 
 {{ include "v3io-configs.script.lookupService" . | indent 4 }}
 
-{{- if and .Values.storage.path .Values.storage.initCmd }}
-    test -e {{ .Values.storage.path }}/{{ .Values.config.username }} || {{ .Values.storage.initCmd }} {{ .Values.storage.path }}/{{ .Values.config.username }}
+    test -e ${HOME}/.bashrc || touch ${HOME}/.bashrc
+
+{{- if .Values.initCommands }}
+    mkdir -p ${HOME}/.igz
+{{- range $index, $initCmd := .Values.initCommands }}
+    if [ ! -e "${HOME}/.igz/.{{ $initCmd.name }}" ]; then
+{{ $initCmd.command | indent 6 }}
+      touch ${HOME}/.igz/.{{ $initCmd.name }}
+    fi
+{{ end -}}
 {{- end }}
 
-{{- if .Values.preloadNotebooks.enabled }}
-    test -e {{ .Values.storage.path }}/{{ .Values.config.username }}/{{ .Values.preloadNotebooks.name }} || git clone {{ .Values.preloadNotebooks.git }} {{ .Values.storage.path }}/{{ .Values.config.username }}/{{ .Values.preloadNotebooks.name }}
+{{- if .Values.spark }}
+    echo "spark.master=spark://{{ .Values.spark.hostname }}:{{ .Values.spark.port }}" >> ${SPARK_HOME}/conf/spark-defaults.conf
+    echo spark.driver.host=$(hostname -i) >> ${SPARK_HOME}/conf/spark-defaults.conf
 {{- end }}
 
-    #ln -s {{ .Values.config.home.pathPrefix }}/{{ .Values.config.username }}/v3io {{ .Values.storage.path }}/{{ .Values.config.username }}
+{{- if .Values.presto }}
+    echo alias prestow=\"presto-cli --server {{ .Values.presto.hostname }}.{{ .Release.Namespace }}.svc:{{ .Values.presto.port }} \$@\" >> ${HOME}/.presto_alias
+    echo alias presto=\"prestow --catalog=v3io \$@\" >> ${HOME}/.presto_alias
+    if [ "$(grep --count 'PRESTO CONFIG' ${HOME}/.bashrc)" == "0" ]; then
+      echo "# ----- PRESTO CONFIG -----" >> ${HOME}/.bashrc
+      echo "source ${HOME}/.presto_alias" >> ${HOME}/.bashrc
+      echo "# --- END PRESTO CONFIG ---" >> ${HOME}/.bashrc
+    fi
+{{- end }}
+
+{{- if and .Values.v3io.tsdbctl .Values.v3io.tsdbctl.download }}
+    curl -sSL -o ${IGUAZIO_HOME}/bin/tsdbctl {{ .Values.v3io.tsdbctl.download }}
+    chmod +x ${IGUAZIO_HOME}/bin/tsdbctl
+{{- end }}
+
+{{- if .Values.config.logo }}
+    if [ "$(grep --count 'LOGO CONFIG' ${HOME}/.bashrc)" == "0" ]; then
+      echo "# ----- LOGO CONFIG -----" >> ${HOME}/.bashrc
+      echo "echo ''" >> ${HOME}/.bashrc
+      echo "echo {{ .Values.config.logo }} | base64 --decode" >> ${HOME}/.bashrc
+      echo "echo ''" >> ${HOME}/.bashrc
+      echo "# --- END LOGO CONFIG ---" >> ${HOME}/.bashrc
+    fi
+{{- end }}
+
+    if [ "$(grep --count 'IGUAZIO CONFIG' ${HOME}/.bashrc)" == "0" ]; then
+      echo "# ----- IGUAZIO CONFIG -----" >> ${HOME}/.bashrc
+      echo alias ll=\"ls -lah --color\" >> ${HOME}/.bashrc
+      echo "source ${IGUAZIO_HOME}/bash-it.sh" >> ${HOME}/.bashrc
+      echo "# --- END IGUAZIO CONFIG ---" >> ${HOME}/.bashrc
+    fi
+
+    mkdir -p ${HOME}/.pythonlibs
+    export PIP_PREFIX="${HOME}/.pythonlibs"
+    export PYTHONPATH="${HOME}/.pythonlibs/lib/python3.6/site-packages:${PYTHONPATH}"
+    export PATH="${PATH}:${HOME}/.pythonlibs/bin"
+
     jupyter-notebook $@
