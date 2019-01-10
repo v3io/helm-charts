@@ -18,7 +18,10 @@ spec:
         app: {{ template "postgres.name" . }}
         release: {{ .Release.Name }}
     spec:
-{{- if .Values.volumes }}
+{{- if .Values.postgres.volumes }}
+      volumes:
+{{ include .Values.postgres.volumes.volumesTemplate . | indent 8 }}
+{{- else }}
       volumes:
 {{ include .Values.volumes.volumesTemplate . | indent 8 }}
 {{- end }}
@@ -31,14 +34,17 @@ spec:
           imagePullPolicy: {{ .Values.image.pullPolicy }}
           command: ["/bin/bash", "-x", "{{ .Values.image.command }}"]
           ports:
-            - name: server
-              containerPort: {{ .Values.server.containerPort }}
+            - name: postgres
+              containerPort: {{ .Values.postgres.containerPort }}
               protocol: TCP
-{{- if .Values.environment }}
+{{- if .Values.postgres.environment }}
           env:
-{{ include .Values.environment.template . | indent 12 }}
+{{ include .Values.postgres.environment.template . | indent 12 }}
 {{- end }}
-{{- if .Values.volumes }}
+{{- if .Values.postgres.volumes }}
+          volumeMounts:
+{{ include .Values.postgres.volumes.volumeMountsTemplate . | indent 12 }}
+{{- else }}
           volumeMounts:
 {{ include .Values.volumes.volumeMountsTemplate . | indent 12 }}
 {{- end }}

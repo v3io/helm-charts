@@ -8,15 +8,17 @@ metadata:
     release: {{ .Release.Name }}
     heritage: {{ .Release.Service }}
 data:
-{{ include "v3io-configs.java.configMap" . | indent 2 }}
-
   v3io-postgres.sh: |
     #!/usr/bin/env bash
-    set -e
+    set -ex
 
-{{ include "v3io-configs.script.lookupService" . | indent 4 }}
+    echo "Current User:"
+    whoami
 
     echo alias ll=\"ls -lah --color\" >> ~/.bashrc
     echo "echo ''" >> ~/.bashrc
 
-    /usr/local/bin/startup.sh
+    /usr/lib/postgresql/11/bin/init_script.sh
+
+    # Debug
+    # sleep 30d

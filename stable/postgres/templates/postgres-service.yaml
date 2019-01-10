@@ -9,10 +9,10 @@ metadata:
     heritage: {{ .Release.Service }}
 spec:
   ports:
-    - port: {{ .Values.server.servicePort }}
-      targetPort: {{ .Values.server.containerPort }}
+    - port: {{ .Values.postgres.servicePort }}
+      targetPort: {{ .Values.postgres.containerPort }}
       protocol: TCP
-      name: server
+      name: postgres
   selector:
     app: {{ template "postgres.name" . }}
     release: {{ .Release.Name }}
