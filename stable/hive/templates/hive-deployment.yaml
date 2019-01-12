@@ -32,10 +32,10 @@ spec:
           command: ["/bin/bash", "-x", "{{ .Values.image.command }}"]
           ports:
             - name: server
-              containerPort: {{ .Values.server.containerPort }}
+              containerPort: {{ .Values.hive.server.containerPort }}
               protocol: TCP
             - name: ui
-              containerPort: {{ .Values.ui.containerPort }}
+              containerPort: {{ .Values.hive.ui.containerPort }}
               protocol: TCP
 {{- if .Values.environment }}
           env:

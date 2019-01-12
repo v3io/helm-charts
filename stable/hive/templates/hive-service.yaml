@@ -9,12 +9,12 @@ metadata:
     heritage: {{ .Release.Service }}
 spec:
   ports:
-    - port: {{ .Values.server.servicePort }}
-      targetPort: {{ .Values.server.containerPort }}
+    - port: {{ .Values.hive.server.servicePort }}
+      targetPort: {{ .Values.hive.server.containerPort }}
       protocol: TCP
       name: server
-    - port: {{ .Values.ui.servicePort }}
-      targetPort: {{ .Values.ui.containerPort }}
+    - port: {{ .Values.hive.ui.servicePort }}
+      targetPort: {{ .Values.hive.ui.containerPort }}
       protocol: TCP
       name: ui
   selector:

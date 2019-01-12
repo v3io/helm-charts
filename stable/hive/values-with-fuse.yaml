@@ -20,17 +20,10 @@ hive:
 mysql:
   hostname: mysql-server
   port: 3306
-  database: metastore
-  username: hiveuser
-  password: hivepassword
 
 postgres:
-  hostname: psql-server
+  hostname: postgres-server
   port: 5432
-  database: metastore
-  username: hiveuser
-  password: hivepassword
-
 
 config:
   hostname: iguazio-cloud
@@ -57,13 +50,11 @@ environment:
   template: v3io-configs.deployment.env
 
 volumes:
-  volumesTemplate: v3io-configs.deployment.mount
-  volumeMountsTemplate: v3io-configs.deployment.volumeMounts
+  volumesTemplate: v3io-configs.deployment.mount-with-fuse
+  volumeMountsTemplate: v3io-configs.deployment.volumeMounts-with-fuse
 
 global:
   v3io:
     configMountPath: /etc/config/v3io
-    lookupService:
-      name: v3iod-locator
 
 v3io: {}
