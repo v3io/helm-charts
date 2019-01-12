@@ -97,6 +97,11 @@ spec:
 {{- if .Values.volumes }}
 {{ include .Values.volumes.volumeMountsTemplate . | indent 12 }}
 {{- end }}
+        - name: sidecar-proxy
+          image: {{ .Values.proxy.image.repository }}:{{ .Values.proxy.image.tag }}
+          args: 
+            - --listen-addr=":{{ Values.proxy.image.servicePort }}"
+            - --forward-addr="http://127.0.0.1:{{ Values.image.servicePort }}"
       volumes:
         - name: home
           flexVolume:
