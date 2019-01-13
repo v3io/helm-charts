@@ -1,14 +1,23 @@
 image:
   repository: imakhlin/postgres
-  tag: 0.0.1
+  tag: 0.0.2
   pullPolicy: IfNotPresent
   command: /etc/config/v3io/v3io-postgres.sh
 
 replicas: 1
 
-server:
+postgres:
+  hostname: postgres-server
   servicePort: 5432
   containerPort: 5432
+  dataMountPath: /var/lib/postgresql/mount
+
+  environment:
+    template: postgres-configs.deployment.env
+
+#  volumes:
+#    volumesTemplate: postgres-configs.deployment.mount
+#    volumeMountsTemplate: postgres-configs.deployment.volumeMounts
 
 config:
   hostname: iguazio-cloud
