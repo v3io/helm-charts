@@ -103,6 +103,9 @@ spec:
           args: 
           - --listen-addr=:{{ .Values.proxy.servicePort }}
           - --forward-addr=http://127.0.0.1:{{ .Values.servicePort }}
+          ports:
+            - containerPort: {{ .Values.proxy.servicePort }}
+              name: sidecar-proxy
       volumes:
         - name: home
           flexVolume:
