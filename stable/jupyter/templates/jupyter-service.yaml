@@ -9,7 +9,7 @@ metadata:
     heritage: {{ .Release.Service }}
 spec:
   ports:
-    - port: {{ .Values.servicePort }}
+    - port: {{ .Values.proxy.servicePort }}
       targetPort: jupyter
   selector:
     app: {{ template "jupyter.name" . }}

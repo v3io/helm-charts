@@ -99,9 +99,10 @@ spec:
 {{- end }}
         - name: sidecar-proxy
           image: {{ .Values.proxy.image.repository }}:{{ .Values.proxy.image.tag }}
+          command: ["proxy_server"]
           args: 
-            - --listen-addr=":{{ Values.proxy.image.servicePort }}"
-            - --forward-addr="http://127.0.0.1:{{ Values.image.servicePort }}"
+          - --listen-addr=:{{ .Values.proxy.servicePort }}
+          - --forward-addr=http://127.0.0.1:{{ .Values.servicePort }}
       volumes:
         - name: home
           flexVolume:
