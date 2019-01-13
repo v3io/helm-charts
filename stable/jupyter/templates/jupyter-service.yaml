@@ -10,7 +10,7 @@ metadata:
 spec:
   ports:
     - port: {{ .Values.proxy.servicePort }}
-      targetPort: jupyter
+      targetPort: {{ .Values.proxy.servicePort }}
   selector:
     app: {{ template "jupyter.name" . }}
     chart: {{ template "jupyter.chart" . }}
