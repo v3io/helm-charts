@@ -102,7 +102,7 @@ spec:
           command: ["proxy_server"]
           args: 
           - --listen-addr=:{{ .Values.proxy.servicePort }}
-          - --forward-addr=http://127.0.0.1:{{ .Values.servicePort }}
+          - --forward-addr=127.0.0.1:{{ .Values.servicePort }}
           ports:
             - containerPort: {{ .Values.proxy.servicePort }}
               name: sidecar-proxy
