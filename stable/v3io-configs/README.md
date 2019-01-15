@@ -1,24 +1,22 @@
 # V3IO Configuration Chart
 
 Provide helpful template for definging v3io specific configuration files
-
 **This chart should not be used as stangalone! Only as requirement for other charts**
 
 ## Configuration
 
-# Mandatory Values
+### Mandatory Values
 
- * `v3io.username`
- * `v3io.tenant`
- * `v3io.password`
+  * `v3io.username`
+  * `v3io.tenant`
+  * `v3io.password`
 
-# Optional Configuration
+### Optional Configuration
 
 |       Key                        |                   default         |
 |----------------------------------|-----------------------------------|
 
-
-# Optional Global Configuration
+### Optional Global Configuration
 
 Configurable values are using `default` direcrive and stored in `global`, due to the chart render mechanism. 
 
@@ -35,7 +33,6 @@ Configurable values are using `default` direcrive and stored in `global`, due to
 
 ## Defined Template
 
- * `v3io-configs.java.configMap` - render `ConfigMap` entries with `v3io.conf` and `core-site.xml`
- * `v3io-configs.java.secret` - render `Secret` with java-client configuration
- * `v3io-configs.script.lookupService` - render script snippet for finding local v3iod and update `$IGZ_DATA_CONFIG_FILE`
- * `v3io-configs.script.hadoop` - render script snippet for copying `core-site.xml` to `$HADOOP_CONF_DIR`
+  * `v3io-configs.java.configMap` - render `ConfigMap` entries with `v3io.conf`
+  * `v3io-configs.java.secret` - render `Secret` with java-client configuration
+  * `v3io-configs.script.lookupService` - render script snippet for finding local v3iod and update `$IGZ_DATA_CONFIG_FILE`
