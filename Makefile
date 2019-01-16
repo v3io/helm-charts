@@ -15,6 +15,26 @@ demo: WORKDIR = demo
 demo: repo-helm update-req package-all index
 	@echo "Done"
 
+helm-publish:
+	@echo "Preparing to release a new index"
+	@rm -rf /tmp/v3io-helm-charts
+	@git clone git@github.com:v3io/helm-charts /tmp/v3io-helm-charts
+	@cd /tmp/v3io-helm-charts && \
+		git checkout gh-pages && \
+		git merge development --message "Merge development into gh-pages" && \
+		REF_SHA=$$(git log development -1 | head -1) && \
+		make stable && \
+		git add --force stable/*tgz && \
+		git add stable/* && \
+		git commit --message "Merging stable $$REF_SHA" && \
+		make demo && \
+		git add --force demo/*tgz && \
+		git add demo/* && \
+		git commit --message "Merging demo $$REF_SHA" && \
+		git push
+	@rm -rf /tmp/v3io-helm-charts
+	@echo "New index released!"
+
 update-req:
 	@echo "Updating chart requirements"
 	@cd $(WORKDIR) && for chart in $$(ls); do \
