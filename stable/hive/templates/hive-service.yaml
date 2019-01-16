@@ -17,6 +17,10 @@ spec:
       targetPort: {{ .Values.hive.ui.containerPort }}
       protocol: TCP
       name: ui
+    - port: {{ .Values.hive.metastore.servicePort }}
+      targetPort: {{ .Values.hive.metastore.containerPort }}
+      protocol: TCP
+      name: metastore
   selector:
     app: {{ template "hive.name" . }}
     release: {{ .Release.Name }}

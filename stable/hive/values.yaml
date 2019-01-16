@@ -7,6 +7,8 @@ image:
 replicas: 1
 
 hive:
+  configPath: /igz/hive/conf-updated
+
   server:
     servicePort: 10000
     containerPort: 10000
@@ -15,22 +17,28 @@ hive:
     servicePort: 10002
     containerPort: 10002
 
-  databaseType: mysql
+  metastore:
+    servicePort: 9083
+    containerPort: 9083
+
+  databaseType: postgres
+
+  environment:
+    template: hive-config.deployment.env
 
 mysql:
-  hostname: mysql-server
+  hostname: mysql-hive
   port: 3306
   database: metastore
-  username: hiveuser
-  password: hivepassword
+  username: hive
+  password: hive
 
 postgres:
-  hostname: psql-server
+  hostname: postgres-hive
   port: 5432
   database: metastore
-  username: hiveuser
-  password: hivepassword
-
+  username: hive
+  password: hive
 
 config:
   hostname: iguazio-cloud

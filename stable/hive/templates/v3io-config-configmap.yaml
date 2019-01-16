@@ -14,14 +14,14 @@ data:
     #!/usr/bin/env bash
     set -e
 
-{{ include "v3io-configs.script.lookupService" . | indent 4 }}
-{{ include "hive.script.config" . | indent 4 }}
-
     echo alias ll=\"ls -lah --color\" >> ~/.bashrc
     echo "echo ''" >> ~/.bashrc
 
-    #./startup.sh
-    /usr/local/bin/startup.sh
+{{ include "v3io-configs.script.lookupService" . | indent 4 }}
+{{ include "hive.script.config" . | indent 4 }}
+
+    # Start Hive metastore service
+    $HIVE_HOME/bin/hive --service metastore
 
   hive-site.xml: |
     <?xml version="1.0" encoding="UTF-8" standalone="no"?>
@@ -49,7 +49,7 @@ data:
 
       <property>
         <name>hive.metastore.uris</name>
-        <value>thrift://CURRENT_NODE_IP:9083</value>
+        <value>thrift://HIVE_SERVICE_HOST:9083</value>
         <description>IP address (or fully-qualified domain name) and port of the metastore host</description>
       </property>
 

@@ -37,9 +37,13 @@ spec:
             - name: ui
               containerPort: {{ .Values.hive.ui.containerPort }}
               protocol: TCP
-{{- if .Values.environment }}
+            - name: metastore
+              containerPort: {{ .Values.hive.metastore.containerPort }}
+              protocol: TCP
+{{- if or .Values.environment .Values.hive.environment }}
           env:
 {{ include .Values.environment.template . | indent 12 }}
+{{ include .Values.hive.environment.template . | indent 12 }}
 {{- end }}
 {{- if .Values.volumes }}
           volumeMounts:
