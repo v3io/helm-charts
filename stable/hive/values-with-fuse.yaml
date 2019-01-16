@@ -1,0 +1,60 @@
+image:
+  repository: imakhlin/hive
+  tag: 0.0.1
+  pullPolicy: IfNotPresent
+  command: /etc/config/v3io/v3io-hive.sh
+
+replicas: 1
+
+hive:
+  server:
+    servicePort: 10000
+    containerPort: 10000
+
+  ui:
+    servicePort: 10002
+    containerPort: 10002
+
+  databaseType: mysql
+
+mysql:
+  hostname: mysql-server
+  port: 3306
+
+postgres:
+  hostname: postgres-server
+  port: 5432
+
+config:
+  hostname: iguazio-cloud
+
+resources: {}
+  # We usually recommend not to specify default resources and to leave this as a conscious
+  # choice for the user. This also increases chances charts run on environments with little
+  # resources, such as Minikube. If you do want to specify resources, uncomment the following
+  # lines, adjust them as necessary, and remove the curly braces after 'resources:'.
+  # limits:
+  #  cpu: 100m
+  #  memory: 128Mi
+  # requests:
+  #  cpu: 100m
+  #  memory: 128Mi
+
+nodeSelector: {}
+
+tolerations: []
+
+affinity: {}
+
+environment:
+  template: v3io-configs.deployment.env
+
+volumes:
+  volumesTemplate: v3io-configs.deployment.mount-with-fuse
+  volumeMountsTemplate: v3io-configs.deployment.volumeMounts-with-fuse
+
+global:
+  v3io:
+    configMountPath: /etc/config/v3io
+
+v3io: {}

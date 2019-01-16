@@ -1,0 +1,65 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ template "hive.fullname" . }}
+  labels:
+    app: {{ template "hive.name" . }}
+    chart: {{ template "hive.chart" . }}
+    release: {{ .Release.Name }}
+    heritage: {{ .Release.Service }}
+spec:
+  selector:
+    matchLabels:
+      app: {{ template "hive.name" . }}
+      release: {{ .Release.Name }}
+  template:
+    metadata:
+      labels:
+        app: {{ template "hive.name" . }}
+        release: {{ .Release.Name }}
+    spec:
+{{- if .Values.volumes }}
+      volumes:
+{{ include .Values.volumes.volumesTemplate . | indent 8 }}
+{{- end }}
+{{- if .Values.config.hostname }}
+      hostname: {{ .Values.config.hostname }}
+{{- end }}
+      containers:
+        - name: {{ .Chart.Name }}
+          image: "{{ .Values.image.repository }}:{{ .Values.image.tag }}"
+          imagePullPolicy: {{ .Values.image.pullPolicy }}
+          command: ["/bin/bash", "-x", "{{ .Values.image.command }}"]
+          ports:
+            - name: server
+              containerPort: {{ .Values.hive.server.containerPort }}
+              protocol: TCP
+            - name: ui
+              containerPort: {{ .Values.hive.ui.containerPort }}
+              protocol: TCP
+            - name: metastore
+              containerPort: {{ .Values.hive.metastore.containerPort }}
+              protocol: TCP
+{{- if or .Values.environment .Values.hive.environment }}
+          env:
+{{ include .Values.environment.template . | indent 12 }}
+{{ include .Values.hive.environment.template . | indent 12 }}
+{{- end }}
+{{- if .Values.volumes }}
+          volumeMounts:
+{{ include .Values.volumes.volumeMountsTemplate . | indent 12 }}
+{{- end }}
+          resources:
+{{ toYaml .Values.resources | indent 12 }}
+    {{- with .Values.nodeSelector }}
+      nodeSelector:
+{{ toYaml . | indent 8 }}
+    {{- end }}
+    {{- with .Values.affinity }}
+      affinity:
+{{ toYaml . | indent 8 }}
+    {{- end }}
+    {{- with .Values.tolerations }}
+      tolerations:
+{{ toYaml . | indent 8 }}
+    {{- end }}
