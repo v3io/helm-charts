@@ -38,3 +38,25 @@
 - name: v3io-fuse
   mountPath: {{ default "/v3io" .Values.global.v3io.fusePath }}
 {{- end -}}
+
+{{- define "v3io-configs.deployment.mount-with-fuse-and-home" -}}
+{{- include "v3io-configs.deployment.mount-with-fuse" . }}
+{{- if .Values.v3io.username }}
+- name: v3io-home
+  flexVolume:
+    driver: "v3io/fuse"
+    secretRef:
+      name: {{ .Release.Name }}-v3io-fuse
+    options:
+      container: {{ default "users" .Values.global.v3io.home.container }}
+      subPath: {{ default "" .Values.global.v3io.home.pathPrefix }}/{{ .Values.v3io.username }}
+{{- end }}
+{{- end -}}
+
+{{- define "v3io-configs.deployment.volumeMounts-with-fuse-and-home" -}}
+{{- include "v3io-configs.deployment.volumeMounts-with-fuse" . }}
+{{- if .Values.v3io.username }}
+- name: v3io-home
+  mountPath: {{ default "/User" .Values.global.v3io.home.mount }}
+{{- end }}
+{{- end -}}
