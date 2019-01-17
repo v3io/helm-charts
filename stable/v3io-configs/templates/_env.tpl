@@ -53,3 +53,11 @@ accessKey: {{ .Values.v3io.accessKey | b64enc | quote }}
 {{- include "v3io-configs.java.env" . }}
 {{- include "v3io-configs.auth.env" . }}
 {{- end -}}
+
+{{- define "v3io-configs.deployment-with-home.env" -}}
+{{- include "v3io-configs.deployment.env" . }}
+- name: V3IO_HOME
+  value: {{ default "users" .Values.global.v3io.home.container }}{{ default "" .Values.global.v3io.home.pathPrefix }}/{{ .Values.v3io.username }}
+- name: V3IO_HOME_URL
+  value: v3io://{{ default "users" .Values.global.v3io.home.container }}{{ default "" .Values.global.v3io.home.pathPrefix }}/{{ .Values.v3io.username }}
+{{- end -}}
