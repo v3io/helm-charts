@@ -25,7 +25,7 @@ spec:
     value: {{ .Values.webapi.auth.username }}
   - name: QUERY_V3IO_PASSWORD
     value: {{ .Values.webapi.auth.password }}
-  - name: INGEST_V3IO_ACCESS_KEY
+  - name: QUERY_V3IO_ACCESS_KEY
     value: {{ .Values.webapi.auth.accessKey }}
   - name: QUERY_V3IO_CONTAINER
     value: {{ .Values.tsdb.container }}
