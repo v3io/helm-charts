@@ -7,9 +7,6 @@ metadata:
     chart: {{ template "jupyter.chart" . }}
     release: {{ .Release.Name }}
     heritage: {{ .Release.Service }}
-  annotation:
-    iguazio.com/prometheus-pull: true
-    iguazio.com/prometheus-pull-port: {{ .Values.proxy.servicePort }}
 spec:
   securityContext:
     fsGroup: 1000
@@ -29,6 +26,9 @@ spec:
         chart: {{ template "jupyter.chart" . }}
         release: {{ .Release.Name }}
         heritage: {{ .Release.Service }}
+      annotations:
+        iguazio.com/prometheus-pull: "true"
+        iguazio.com/prometheus-pull-port: "{{ .Values.proxy.servicePort }}"
     spec:
       hostname: {{ .Values.config.username }}
       containers:
