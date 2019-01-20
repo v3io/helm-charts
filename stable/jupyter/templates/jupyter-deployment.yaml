@@ -106,6 +106,8 @@ spec:
           args: 
           - --listen-addr=:{{ .Values.proxy.servicePort }}
           - --forward-addr=127.0.0.1:{{ .Values.servicePort }}
+          - --namespace={{ .Release.Namespace }}
+          - --service-name={{ .Release.Name }}
           ports:
             - containerPort: {{ .Values.proxy.servicePort }}
               name: sidecar-proxy
