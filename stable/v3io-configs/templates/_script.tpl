@@ -60,7 +60,7 @@ esac
 done
 
 curl -X${HTTP_METHOD} "http://127.0.0.1:${PORT}/${URI_PATH}"
-{{- end-}}
+{{- end -}}
 
 {{- define "v3io-configs.script.javaHealthCheck" -}}
 #!/usr/bin/env bash
