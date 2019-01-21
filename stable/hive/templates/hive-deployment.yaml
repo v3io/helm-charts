@@ -32,18 +32,21 @@ spec:
           command: ["/bin/bash", "-x", "{{ .Values.image.command }}"]
           ports:
             - name: server
-              containerPort: {{ .Values.hive.server.containerPort }}
+              containerPort: {{ .Values.server.containerPort }}
               protocol: TCP
             - name: ui
-              containerPort: {{ .Values.hive.ui.containerPort }}
+              containerPort: {{ .Values.ui.containerPort }}
               protocol: TCP
             - name: metastore
-              containerPort: {{ .Values.hive.metastore.containerPort }}
+              containerPort: {{ .Values.metastore.containerPort }}
               protocol: TCP
-{{- if or .Values.environment .Values.hive.environment }}
           env:
+            - name: HIVE_CONF_DIR
+              value: {{ .Values.configPath }}
+            - name: HIVE_DB_TYPE
+              value: {{ .Values.databaseType }}
+{{- if .Values.environment}}
 {{ include .Values.environment.template . | indent 12 }}
-{{ include .Values.hive.environment.template . | indent 12 }}
 {{- end }}
 {{- if .Values.volumes }}
           volumeMounts:

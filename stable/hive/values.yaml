@@ -1,30 +1,26 @@
 image:
   repository: imakhlin/hive
-  tag: 0.0.1
+  tag: 2.3.3-2.9.0-ops
   pullPolicy: IfNotPresent
   command: /etc/config/v3io/v3io-hive.sh
 
 replicas: 1
 
-hive:
-  configPath: /igz/hive/conf-updated
+configPath: /igz/hive/conf-updated
 
-  server:
-    servicePort: 10000
-    containerPort: 10000
+server:
+  servicePort: 10000
+  containerPort: 10000
 
-  ui:
-    servicePort: 10002
-    containerPort: 10002
+ui:
+  servicePort: 10002
+  containerPort: 10002
 
-  metastore:
-    servicePort: 9083
-    containerPort: 9083
+metastore:
+  servicePort: 9083
+  containerPort: 9083
 
-  databaseType: postgres
-
-  environment:
-    template: hive-config.deployment.env
+databaseType: postgres
 
 mysql:
   hostname: mysql-hive
