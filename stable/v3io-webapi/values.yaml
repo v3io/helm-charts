@@ -22,8 +22,5 @@ sslHostPort: 8443
 workerProcesses: auto
 workerConnections: 1024
 
-health:
-  port: 8088
-
 datanodes:
   - uri: "tcp://localhost:1234"
