@@ -56,7 +56,10 @@ data:
 {{- end }}
 
   health_check.sh: |
-    #!/bin/bash 
+    #!/usr/bin/env bash
+
+    set -e
+{{ include "v3io-configs.script.javaHealthCheckTest" . | indent 4 }}
     curl --silent {{ template "presto.fullname" . }}.{{ .Release.Namespace }}.svc:{{ .Values.server.config.http.port }}/v1/node | tr "," "\n" | grep --silent $(hostname -i)
 
 {{- if .Values.server.config.https }}
@@ -67,6 +70,7 @@ data:
     
     echo -n "{{ .Values.server.config.https.keystoreBinary }}" | base64 --decode > {{ .Values.server.config.https.keystore }}
 {{- end }}
+
 
   docker-presto.sh: |
     #!/bin/bash 

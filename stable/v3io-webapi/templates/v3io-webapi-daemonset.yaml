@@ -55,6 +55,8 @@ spec:
               command:
               - /bin/bash
               - /etc/iguazio/nginx/health_check.sh
+              - --port={{ .Values.hostPort }}
+              - --http-method=OPTIONS
               initialDelaySeconds: 5
               periodSeconds: 1
           readinessProbe:
@@ -62,6 +64,8 @@ spec:
               command:
               - /bin/bash
               - /etc/iguazio/nginx/health_check.sh
+              - --port={{ .Values.hostPort }}
+              - --http-method=OPTIONS
               initialDelaySeconds: 1
               periodSeconds: 1
           env:
