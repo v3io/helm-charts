@@ -50,20 +50,20 @@ spec:
               name: v3io-webapi
             - containerPort: {{ .Values.sslHostPort }}
               name: v3io-webapi-ssl
-            - containerPort: {{ .Values.health.port }}
-              name: webapi-health
           livenessProbe:
-            httpGet:
-              path: /
-              port: webapi-health
-            initialDelaySeconds: 5
-            periodSeconds: 1
+            exec:
+              command:
+              - /bin/bash
+              - /etc/iguazio/nginx/health_check.sh
+              initialDelaySeconds: 5
+              periodSeconds: 1
           readinessProbe:
-            httpGet:
-              path: /
-              port: webapi-health
-            initialDelaySeconds: 1
-            periodSeconds: 1
+            exec:
+              command:
+              - /bin/bash
+              - /etc/iguazio/nginx/health_check.sh
+              initialDelaySeconds: 1
+              periodSeconds: 1
           env:
             - name: CURRENT_NODE_IP
               valueFrom:
