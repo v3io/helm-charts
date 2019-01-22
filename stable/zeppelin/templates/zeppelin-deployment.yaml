@@ -39,16 +39,22 @@ spec:
               name: zeppelin
           resources:
 {{ toYaml .Values.resources | indent 12 }}
-          readinessProbe:
-            httpGet:
-              path: /
-              port: {{ .Values.containerPort }}
-            initialDelaySeconds: 5
           livenessProbe:
-            httpGet:
-              path: /
-              port: {{ .Values.containerPort }}
-            initialDelaySeconds: 90
+            exec:
+              command:
+              - /bin/bash
+              - /etc/config/zeppelin/health_check.sh
+              - --port={{ .Values.containerPort }}
+              initialDelaySeconds: 90
+              periodSeconds: 1
+          readinessProbe:
+            exec:
+              command:
+              - /bin/bash
+              - /etc/config/zeppelin/health_check.sh
+              - --port={{ .Values.containerPort }}
+              initialDelaySeconds: 5
+              periodSeconds: 1
           env:
             - name: MASTER
               value: spark://{{ .Values.spark.hostname }}:{{ .Values.spark.port }}

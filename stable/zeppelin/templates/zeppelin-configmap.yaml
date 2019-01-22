@@ -8,6 +8,9 @@ metadata:
     release: {{ .Release.Name }}
     heritage: {{ .Release.Service }}
 data:
+  health_check.sh: |
+{{ include "v3io-configs.script.httpHealthCheckWithJava" . | indent 4 }}
+
   run.sh : |
     #!/bin/bash
 {{- if and .Values.storage.path .Values.storage.initCmd }}

@@ -73,13 +73,23 @@ spec:
               protocol: TCP
 {{- end }}
           livenessProbe:
-            httpGet:
-              path: /v1/cluster
-              port: http-coord
+            exec:
+              command:
+              - /bin/bash
+              - {{ .Values.server.config.mapPath }}/health_check.sh
+              - --uri-path=/v1/cluster
+              - --port={{ .Values.server.config.http.port }}
+              initialDelaySeconds: 90
+              periodSeconds: 1
           readinessProbe:
-            httpGet:
-              path: /v1/cluster
-              port: http-coord
+            exec:
+              command:
+              - /bin/bash
+              - {{ .Values.server.config.mapPath }}/health_check.sh
+              - --uri-path=/v1/cluster
+              - --port={{ .Values.server.config.http.port }}
+              initialDelaySeconds: 5
+              periodSeconds: 1
           resources:
 {{ toYaml .Values.resources | indent 12 }}
     {{- with .Values.nodeSelector }}

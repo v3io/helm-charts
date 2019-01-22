@@ -8,6 +8,9 @@ metadata:
     chart: {{ .Chart.Name }}-{{ .Chart.Version }}
     component: spark-worker
 data:
+  health_check.sh: |
+{{ include "v3io-configs.script.httpHealthCheckWithJava" . | indent 4 }}
+
   run.sh: |
     #!/usr/bin/env bash
     set -e
