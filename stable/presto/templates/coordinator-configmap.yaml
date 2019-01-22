@@ -69,6 +69,9 @@ data:
     echo -n "{{ .Values.server.config.https.keystoreBinary }}" | base64 --decode > {{ .Values.server.config.https.keystore }}
 {{- end }}
 
+  health_check.sh: |
+{{ include "v3io-configs.script.httpHealthCheckWithJava" . | indent 4 }}
+
   docker-presto.sh: |
     #!/bin/bash
     cp {{ .Values.server.config.mapPath }}/*.properties $PRESTO_CONF_DIR

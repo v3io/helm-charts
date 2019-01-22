@@ -19,6 +19,9 @@ data:
     /home/iguazio/igz/clients/nginx/bin/nginx -p /home/iguazio/igz/clients/nginx/lib -c /etc/iguazio/nginx/nginx.conf
     tail -f /home/iguazio/igz/clients/nginx/lib/logs/v3io.log
 
+  health_check.sh: |
+{{ include "v3io-configs.script.httpHealthCheck" . | indent 4 }}
+
   nginx.conf: |
     worker_processes {{ .Values.workerProcesses }};
     load_module ngx_http_v3io_module.so;
@@ -36,18 +39,18 @@ data:
         tcp_nodelay         on;
         keepalive_timeout   65;
         server {
-            listen       {{ default 8443 .Values.sslHostPort }} ssl;
+            listen       {{ .Values.sslHostPort }} ssl;
             ssl    on;
             ssl_certificate        /home/iguazio/igz/clients/nginx/crt/iguazio-nginx.crt;
             ssl_certificate_key    /home/iguazio/igz/clients/nginx/crt/iguazio-nginx.key;
             client_body_buffer_size   10M;
             client_max_body_size      5G;
-{{- if .Values.logger.enableAccessLog -}}
-      access_log on;
-{{- else -}}
-      access_log off;
-{{- end -}}  
-      location / {
+{{- if .Values.logger.enableAccessLog }}
+            access_log on;
+{{- else }}
+            access_log off;
+{{- end }}  
+            location / {
                 set $cors "1";
                 if ($request_method = 'OPTIONS') {
                     set $cors "${cors}o";
@@ -71,19 +74,19 @@ data:
                     add_header 'Content-Type' 'text/plain';
                     return 204;
                 }
-          }
+            }
         }
         server {
-            listen                    {{ default 8081 .Values.hostPort }};
+            listen                    {{ .Values.hostPort }};
             server_name               localhost;
             client_body_buffer_size   10M;
             client_max_body_size      5G;
-{{- if .Values.logger.enableAccessLog -}}
-      access_log on;
-{{- else -}}
-      access_log off;
-{{- end -}}
-      location / {
+{{- if .Values.logger.enableAccessLog }}
+            access_log on;
+{{- else }}
+            access_log off;
+{{- end }}
+            location / {
                 set $cors "1";
                 # OPTIONS indicates a CORS pre-flight request
                 if ($request_method = 'OPTIONS') {

@@ -1,7 +1,12 @@
+{{- define "v3io-configs.java.crashPath" -}}
+{{ default "/igz/java/crash" .Values.global.v3io.crashPath }}/{{ default ".crash" .Values.global.v3io.crashFileName }}
+{{- end -}}
+
 {{- define "v3io-configs.java.v3io.conf" -}}
 v3io.client {
     socket.host=CURRENT_NODE_IP
     session.use-system-user=false
+    on-failure.state.path={{ include "v3io-configs.java.crashPath" . }}
 }
 v3io.config.auth.file={{ default "/igz/java/auth" .Values.global.v3io.authPath }}/{{ default ".java" .Values.global.v3io.authFileName }}
 new-daemon=true

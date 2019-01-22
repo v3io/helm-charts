@@ -50,6 +50,24 @@ spec:
               name: v3io-webapi
             - containerPort: {{ .Values.sslHostPort }}
               name: v3io-webapi-ssl
+          livenessProbe:
+            exec:
+              command:
+              - /bin/bash
+              - /etc/iguazio/nginx/health_check.sh
+              - --port={{ .Values.hostPort }}
+              - --http-method=OPTIONS
+              initialDelaySeconds: 5
+              periodSeconds: 1
+          readinessProbe:
+            exec:
+              command:
+              - /bin/bash
+              - /etc/iguazio/nginx/health_check.sh
+              - --port={{ .Values.hostPort }}
+              - --http-method=OPTIONS
+              initialDelaySeconds: 1
+              periodSeconds: 1
           env:
             - name: CURRENT_NODE_IP
               valueFrom:
@@ -66,4 +84,4 @@ spec:
             name: {{ template "v3io-webapi.name" . }}
         - name: core-dump
           hostPath:
-            path: /tmp/crash/{{ .Release.Namespace }}
+            path: /var/crash/{{ .Release.Namespace }}

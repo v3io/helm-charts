@@ -25,6 +25,11 @@ spec:
     value: {{ .Values.webapi.auth.username }}
   - name: INGEST_V3IO_PASSWORD
     value: {{ .Values.webapi.auth.password }}
+  - name: INGEST_V3IO_ACCESS_KEY
+    valueFrom:
+      secretKeyRef:
+        name: {{ .Values.webapi.auth.accessKeySecretName }}
+        key: accessKey
   - name: INGEST_V3IO_CONTAINER
     value: {{ .Values.tsdb.container }}
   triggers:
