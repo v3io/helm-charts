@@ -44,16 +44,22 @@ spec:
           command: ["/bin/bash", "-x", "{{ .Values.worker.image.command }}"]
           ports:
             - containerPort: {{ .Values.worker.containerPort }}
-          readinessProbe:
-            httpGet:
-              path: /
-              port: {{ .Values.master.webAdmin.containerPort }}
-            initialDelaySeconds: 5
           livenessProbe:
-            httpGet:
-              path: /
-              port: {{ .Values.master.webAdmin.containerPort }}
-            initialDelaySeconds: 90
+            exec:
+              command:
+              - /bin/bash
+              - /etc/config/spark/health_check.sh
+              - --port={{ .Values.master.webAdmin.containerPort }}
+              initialDelaySeconds: 90
+              periodSeconds: 1
+          readinessProbe:
+            exec:
+              command:
+              - /bin/bash
+              - /etc/config/spark/health_check.sh
+              - --port={{ .Values.master.webAdmin.containerPort }}
+              initialDelaySeconds: 5
+              periodSeconds: 1
           resources:
 {{ toYaml .Values.worker.resources | indent 12 }}
 {{- if .Values.environment }}

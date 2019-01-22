@@ -20,9 +20,7 @@ data:
     tail -f /home/iguazio/igz/clients/nginx/lib/logs/v3io.log
 
   health_check.sh: |
-    #!/usr/bin/env bash
-
-    curl -XOPTIONS "http://localhost:{{ .Values.hostPort }}"
+{{ include "v3io-configs.script.httpHealthCheck" . | indent 4 }}
 
   nginx.conf: |
     worker_processes {{ .Values.workerProcesses }};

@@ -49,16 +49,24 @@ spec:
               name: jupyter
           resources:
 {{ toYaml .Values.resources | indent 12 }}
-          readinessProbe:
-            httpGet:
-              path: /lab
-              port: {{ .Values.servicePort }}
-            initialDelaySeconds: 5
           livenessProbe:
-            httpGet:
-              path: /lab
-              port: {{ .Values.servicePort }}
-            initialDelaySeconds: 90
+            exec:
+              command:
+              - /bin/bash
+              - /etc/config/jupyter/health_check.sh
+              - --uri-path=/lab
+              - --port={{ .Values.servicePort }}
+              initialDelaySeconds: 90
+              periodSeconds: 1
+          readinessProbe:
+            exec:
+              command:
+              - /bin/bash
+              - /etc/config/jupyter/health_check.sh
+              - --uri-path=/lab
+              - --port={{ .Values.servicePort }}
+              initialDelaySeconds: 5
+              periodSeconds: 1
           env:
             - name: SHELL
               value: /bin/bash

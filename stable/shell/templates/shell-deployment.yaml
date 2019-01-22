@@ -34,6 +34,20 @@ spec:
             - name: ttyd
               containerPort: 7681
               protocol: TCP
+          livenessProbe:
+            exec:
+              command:
+              - /bin/bash
+              - {{ .Values.global.v3io.configMountPath }}/health_check.sh
+              initialDelaySeconds: 5
+              periodSeconds: 1
+          readinessProbe:
+            exec:
+              command:
+              - /bin/bash
+              - {{ .Values.global.v3io.configMountPath }}/health_check.sh
+              initialDelaySeconds: 5
+              periodSeconds: 1
 {{- if .Values.environment }}
           env:
 {{ include .Values.environment.template . | indent 12 }}
