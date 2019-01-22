@@ -45,16 +45,22 @@ spec:
           ports:
             - containerPort: {{ .Values.master.containerPort }}
             - containerPort: {{ .Values.master.webAdmin.containerPort }}
-          readinessProbe:
-            httpGet:
-              path: /
-              port: {{ .Values.master.webAdmin.containerPort }}
-            initialDelaySeconds: 5
           livenessProbe:
-            httpGet:
-              path: /
-              port: {{ .Values.master.webAdmin.containerPort }}
-            initialDelaySeconds: 90
+            exec:
+              command:
+              - /bin/bash
+              - /etc/config/spark/health_check.sh
+              - --port={{ .Values.master.webAdmin.containerPort }}
+              initialDelaySeconds: 90
+              periodSeconds: 1
+          readinessProbe:
+            exec:
+              command:
+              - /bin/bash
+              - /etc/config/spark/health_check.sh
+              - --port={{ .Values.master.webAdmin.containerPort }}
+              initialDelaySeconds: 5
+              periodSeconds: 1
           resources:
 {{ toYaml .Values.master.resources | indent 12 }}
 {{- if .Values.environment }}

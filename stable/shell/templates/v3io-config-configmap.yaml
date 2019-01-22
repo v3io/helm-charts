@@ -10,6 +10,9 @@ metadata:
 data:
 {{ include "v3io-configs.java.configMap" . | indent 2 }}
 
+  health_check:
+{{ include "v3io-configs.script.javaHealthCheck" . | indent 4 }}
+
   v3io-shell.sh: |
     #!/usr/bin/env bash
     set -e
