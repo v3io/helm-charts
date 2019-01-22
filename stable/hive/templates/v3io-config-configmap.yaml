@@ -27,10 +27,19 @@ data:
     sed -i "s/HIVE_SERVICE_HOST/$HIVE_SERVICE_HOST/g" $V3IO_HIVE_CONFIG/hive-site.xml
 
     # Initialize Hive metastore database
-    # 1. Check if schema does not exists or invalid, then try to initialize Hive metastore database schema
+    # Check if schema does not exists or invalid, then try to initialize Hive metastore database schema
+    set +e
     $HIVE_HOME/bin/schematool -dbType $HIVE_DB_TYPE -validate
-    if [ $? != 0 ]; then
+    set -e
+    RC=$?
+    
+    if [ $RC != 0 ]; then
+      echo "Hive schema didn't pass validation. RC=$RC"
+      echo "Initializing Hive metastore schema..."
       $HIVE_HOME/bin/schematool -initSchema -dbType $HIVE_DB_TYPE
+    else
+      echo "Hive metastore schema already exists. Details:"
+      $HIVE_HOME/bin/schematool -dbType $HIVE_DB_TYPE -info
     fi
 
     echo Starting hive metastore service....
