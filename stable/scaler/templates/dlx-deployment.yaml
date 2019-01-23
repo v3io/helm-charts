@@ -1,7 +1,7 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: {{- define "scaler.dlx.name" -}}
+  name: {{ template "scaler.dlx.name" . }}
   labels:
     app: {{ template "scaler.name" . }}
     chart: {{ template "scaler.chart" . }}
