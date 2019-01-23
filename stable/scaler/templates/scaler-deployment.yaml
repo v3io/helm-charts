@@ -1,0 +1,35 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ template "scaler.scaler.name" . }}
+  labels:
+    app: {{ template "scaler.name" . }}
+    chart: {{ template "scaler.chart" . }}
+    release: {{ .Release.Name }}
+    heritage: {{ .Release.Service }}
+    component: scaler
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: {{ template "scaler.name" . }}
+      chart: {{ template "scaler.chart" . }}
+      release: {{ .Release.Name }}
+      heritage: {{ .Release.Service }}
+      component: scaler
+  template:
+    metadata:
+      labels:
+        app: {{ template "scaler.name" . }}
+        chart: {{ template "scaler.chart" . }}
+        release: {{ .Release.Name }}
+        heritage: {{ .Release.Service }}
+        component: scaler
+    spec:
+      containers:
+      - name: scaler
+        image: {{ .Values.scaler.image.repository }}:{{ .Values.scaler.image.tag }}
+        imagePullPolicy: {{ .Values.scaler.image.pullPolicy }}
+        env:
+        - name: SCALER_NAMESPACE
+          value: {{ .Release.Namespace }}

@@ -1,0 +1,21 @@
+# Default values for tenant.
+# This is a YAML-formatted file.
+# Declare variables to be passed into your templates.
+
+scaler:
+  image:
+    repository: iguaziodocker/scaler
+    tag: 1.0.0
+    pullPolicy: IfNotPresent
+
+dlx:
+  image:
+    repository: iguaziodocker/dlx
+    tag: 1.0.0
+    pullPolicy: IfNotPresent
+
+nodeSelector: {}
+
+tolerations: []
+
+affinity: {}
