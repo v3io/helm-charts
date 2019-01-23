@@ -1,0 +1,35 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{- define "scaler.dlx.name" -}}
+  labels:
+    app: {{ template "scaler.name" . }}
+    chart: {{ template "scaler.chart" . }}
+    release: {{ .Release.Name }}
+    heritage: {{ .Release.Service }}
+    component: dlx
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: {{ template "scaler.name" . }}
+      chart: {{ template "scaler.chart" . }}
+      release: {{ .Release.Name }}
+      heritage: {{ .Release.Service }}
+      component: dlx
+  template:
+    metadata:
+      labels:
+        app: {{ template "scaler.name" . }}
+        chart: {{ template "scaler.chart" . }}
+        release: {{ .Release.Name }}
+        heritage: {{ .Release.Service }}
+        component: dlx
+    spec:
+      containers:
+      - name: dlx
+        image: {{ .Values.dlx.image.repository }}:{{ .Values.dlx.image.tag }}
+        imagePullPolicy: {{ .Values.dlx.image.pullPolicy }}
+        env:
+        - name: SCALER_NAMESPACE
+          value: {{ .Release.Namespace }}
