@@ -30,9 +30,8 @@ data:
     # Check if schema does not exists or invalid, then try to initialize Hive metastore database schema
     set +e
     $HIVE_HOME/bin/schematool -dbType $HIVE_DB_TYPE -validate
-    set -e
     RC=$?
-    
+    set -e
     if [ $RC != 0 ]; then
       echo "Hive schema didn't pass validation. RC=$RC"
       echo "Initializing Hive metastore schema..."

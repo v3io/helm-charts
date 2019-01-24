@@ -22,9 +22,6 @@ spec:
       volumes:
 {{ include .Values.volumes.volumesTemplate . | indent 8 }}
 {{- end }}
-{{- if .Values.config.hostname }}
-      hostname: {{ .Values.config.hostname }}
-{{- end }}
       containers:
         - name: {{ .Chart.Name }}
           image: "{{ .Values.image.repository }}:{{ .Values.image.tag }}"
