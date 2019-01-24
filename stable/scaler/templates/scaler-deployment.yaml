@@ -33,3 +33,12 @@ spec:
         env:
         - name: SCALER_NAMESPACE
           value: {{ .Release.Namespace }}
+        - name: KUBECONFIG
+          value: {{ .Values.kubeconfig }}
+        args:
+        - --namespace={{ .Release.Namespace }}
+        - --scale-interval={{ .Values.scaler.scale_interval }}
+        - --scale-window={{ .Values.scaler.scale_window }}
+        - --metrics-poll-interval={{ .Values.scaler.metrics_poll_interval }}
+        - --metric-name={{ .Values.scaler.metric_name }}
+        - --scale-threshold={{ .Values.scaler.scale_threshold }}

@@ -4,13 +4,13 @@
 
 scaler:
   image:
-    repository: iguaziodocker/scaler
+    repository: pavelrigz/scaler
     tag: 1.0.0
     pullPolicy: IfNotPresent
 
 dlx:
   image:
-    repository: iguaziodocker/dlx
+    repository: pavelrigz/dlx
     tag: 1.0.0
     pullPolicy: IfNotPresent
 
