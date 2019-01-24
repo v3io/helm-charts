@@ -1,6 +1,6 @@
 image:
-  repository: imakhlin/hive
-  tag: 2.3.3-2.9.0-ops
+  repository: iguaziodocker/hive
+  tag: 2.9.0-2.3.2
   pullPolicy: IfNotPresent
   command: /etc/config/v3io/v3io-hive.sh
 
