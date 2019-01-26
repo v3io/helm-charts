@@ -77,18 +77,22 @@ data:
     cp {{ .Values.server.config.mapPath }}/*.properties $PRESTO_CONF_DIR
     cp {{ .Values.server.config.mapPath }}/*.config $PRESTO_CONF_DIR
 
+{{- if .Values.hive.metastore }}
     # Hive configuration
     mv $PRESTO_CONF_DIR/hive.properties $PRESTO_CONF_DIR/catalog/hive.properties
 
     # Hive dependencies
     ln -s /presto/plugin/v3io/v3io-hcfs_2.11.jar /presto/plugin/hive-hadoop2/v3io-hcfs_2.11.jar
     ln -s /presto/plugin/v3io/scala-library-2.11.12.jar /presto/plugin/hive-hadoop2/scala-library-2.11.12.jar
+{{- end }}
 
     launcher run
 
+{{- if .Values.hive.metastore }}
   hive.properties: |
     connector.name=hive-hadoop2
     hive.metastore.uri=thrift://{{ default "hive" .Values.hive.metastore.hostname }}:{{ default 9083 .Values.hive.metastore.port }}
     hive.config.resources=/hadoop/etc/hadoop/core-site.xml,/hadoop/etc/hadoop/hdfs-site.xml
+{{- end }}
 
 ---
