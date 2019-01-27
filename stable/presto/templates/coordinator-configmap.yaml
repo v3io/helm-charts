@@ -91,7 +91,7 @@ data:
 {{- if .Values.hive.metastore }}
   hive.properties: |
     connector.name=hive-hadoop2
-    hive.metastore.uri=thrift://{{ default "hive" .Values.hive.metastore.hostname }}:{{ default 9083 .Values.hive.metastore.port }}
+    hive.metastore.uri=thrift://{{ .Values.hive.metastore.hostname }}:{{ .Values.hive.metastore.port }}
     hive.config.resources=/hadoop/etc/hadoop/core-site.xml,/hadoop/etc/hadoop/hdfs-site.xml
 {{- end }}
 

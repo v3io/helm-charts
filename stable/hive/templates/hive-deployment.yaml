@@ -37,6 +37,20 @@ spec:
             - name: metastore
               containerPort: {{ .Values.metastore.containerPort }}
               protocol: TCP
+          livenessProbe:
+            exec:
+              command:
+              - /bin/bash
+              - {{ .Values.global.v3io.configMountPath }}/health_check.sh
+              initialDelaySeconds: 5
+              periodSeconds: 1
+          readinessProbe:
+            exec:
+              command:
+              - /bin/bash
+              - {{ .Values.global.v3io.configMountPath }}/health_check.sh
+              initialDelaySeconds: 5
+              periodSeconds: 1
           env:
             - name: HIVE_CONF_DIR
               value: {{ .Values.configPath }}

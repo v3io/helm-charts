@@ -10,6 +10,9 @@ metadata:
 data:
 {{ include "v3io-configs.java.configMap" . | indent 2 }}
 
+  health_check.sh: |
+{{ include "v3io-configs.script.javaHealthCheck" . | indent 4 }}
+
   v3io-hive.sh: |
     #!/usr/bin/env bash
     set -e
@@ -24,8 +27,6 @@ data:
     cp -r $HIVE_HOME/conf/* $V3IO_HIVE_CONFIG/
     cp {{ .Values.global.v3io.configMountPath }}/hive-site.xml $V3IO_HIVE_CONFIG/
 
-    sed -i "s/HIVE_SERVICE_HOST/$HIVE_SERVICE_HOST/g" $V3IO_HIVE_CONFIG/hive-site.xml
-
     # Initialize Hive metastore database
     # Check if schema does not exists or invalid, then try to initialize Hive metastore database schema
     set +e
@@ -36,6 +37,13 @@ data:
       echo "Hive schema didn't pass validation. RC=$RC"
       echo "Initializing Hive metastore schema..."
       $HIVE_HOME/bin/schematool -initSchema -dbType $HIVE_DB_TYPE
+      RC=$?
+      if [ $RC != 0 ]; then
+        echo "Failed to initialize Hive metastore database schema. RC=$RC"
+        exit $RC
+      else
+        echo "Hive metastore schema initialized successfully."
+      fi
     else
       echo "Hive metastore schema already exists. Details:"
       $HIVE_HOME/bin/schematool -dbType $HIVE_DB_TYPE -info
@@ -70,7 +78,7 @@ data:
 
       <property>
         <name>hive.metastore.uris</name>
-        <value>thrift://HIVE_SERVICE_HOST:9083</value>
+        <value>thrift://{{ template "hive.fullname" . }}:{{ .Values.metastore.containerPort }}</value>
         <description>IP address (or fully-qualified domain name) and port of the metastore host</description>
       </property>
 
