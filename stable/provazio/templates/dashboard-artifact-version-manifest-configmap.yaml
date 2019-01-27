@@ -1,0 +1,15 @@
+{{- if and .Values.dashboard.enabled .Values.dashboard.artifactVersionManifestContents }}
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: {{ template "provazio.dashboard.name" . }}-artifact-version-manifest
+  labels:
+    app: {{ template "provazio.name" . }}
+    chart: {{ template "provazio.chart" . }}
+    release: {{ .Release.Name }}
+    heritage: {{ .Release.Service }}
+    component: dashboard
+data:
+  artifact-version-manifest.json: |
+    {{ .Values.dashboard.artifactVersionManifestContents | b64dec }}
+{{- end }}
