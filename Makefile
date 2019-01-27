@@ -35,6 +35,16 @@ helm-publish:
 	@rm -rf /tmp/v3io-helm-charts
 	@echo "New index released!"
 
+print-versions:
+	@cd $(WORKDIR) && for chart in $$(ls -d */); do \
+		CHART_VERSION=$$(grep version $$chart/Chart.yaml | cut -f2 -d:) ;\
+		echo "# $$chart -->$$CHART_VERSION" ;\
+		if [ -e "$$chart/requirements.yaml" ]; then \
+			echo "depends on:" ;\
+			echo "$$(grep -v alias $$chart/requirements.yaml | grep -A 1 name | grep -ve '^--')" ; \
+		fi \
+	done
+
 update-req:
 	@echo "Updating chart requirements"
 	@cd $(WORKDIR) && for chart in $$(ls); do \
