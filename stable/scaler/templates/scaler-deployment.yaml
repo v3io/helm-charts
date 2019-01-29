@@ -27,18 +27,20 @@ spec:
         component: scaler
     spec:
       containers:
-      - name: scaler
-        image: {{ .Values.scaler.image.repository }}:{{ .Values.scaler.image.tag }}
-        imagePullPolicy: {{ .Values.scaler.image.pullPolicy }}
-        env:
-        - name: SCALER_NAMESPACE
-          value: {{ .Release.Namespace }}
-        - name: KUBECONFIG
-          value: {{ .Values.kubeconfig }}
-        args:
-        # - --namespace={{ .Release.Namespace }}
-        - --scale-interval={{ .Values.scaler.scale_interval }}
-        - --scale-window={{ .Values.scaler.scale_window }}
-        - --metrics-poll-interval={{ .Values.scaler.metrics_poll_interval }}
-        - --metric-name={{ .Values.scaler.metric_name }}
-        - --scale-threshold={{ .Values.scaler.scale_threshold }}
+        - name: scaler
+          image: {{ .Values.scaler.image.repository }}:{{ .Values.scaler.image.tag }}
+          imagePullPolicy: {{ .Values.scaler.image.pullPolicy }}
+          workingDir: "{{ .Values.config.pathMount }}"
+          command: ["{{ .Values.config.command }}"]
+          env:
+            - name: SCALER_NAMESPACE
+              value: {{ .Release.Namespace }}
+            - name: KUBECONFIG
+              value: ""
+          args:
+            - --namespace={{ .Release.Namespace }}
+            - --scale-interval={{ .Values.scaler.scaleInterval }}
+            - --scale-window={{ .Values.scaler.scaleWindow }}
+            - --metrics-poll-interval={{ .Values.scaler.metricsPollInterval }}
+            - --metric-name={{ .Values.scaler.metricName }}
+            - --scale-threshold={{ .Values.scaler.scaleThreshold }}
