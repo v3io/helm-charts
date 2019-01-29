@@ -27,6 +27,9 @@ data:
     cp -r $HIVE_HOME/conf/* $V3IO_HIVE_CONFIG/
     cp {{ .Values.global.v3io.configMountPath }}/hive-site.xml $V3IO_HIVE_CONFIG/
 
+    # Not working with 1.9.x, please uncomment for 2.0 once it ready.
+    #cp {{ .Values.global.v3io.configMountPath }}/core-site.xml $V3IO_HIVE_CONFIG/
+
     # Initialize Hive metastore database
     # Check if schema does not exists or invalid, then try to initialize Hive metastore database schema
     set +e
@@ -85,5 +88,45 @@ data:
       <property>
         <name>hive.metastore.schema.verification</name>
         <value>true</value>
+      </property>
+    </configuration>
+
+  core-site.xml: |
+    <?xml version="1.0" encoding="UTF-8"?>
+    <?xml-stylesheet type="text/xsl" href="configuration.xsl"?>
+    <!--
+      Licensed under the Apache License, Version 2.0 (the "License");
+      you may not use this file except in compliance with the License.
+      You may obtain a copy of the License at
+
+        http://www.apache.org/licenses/LICENSE-2.0
+
+      Unless required by applicable law or agreed to in writing, software
+      distributed under the License is distributed on an "AS IS" BASIS,
+      WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+      See the License for the specific language governing permissions and
+      limitations under the License. See accompanying LICENSE file.
+    -->
+
+    <!-- Put site-specific property overrides in this file. -->
+
+    <configuration>
+      <property>
+        <name>fs.defaultFS</name>
+        <value>v3io:////</value>
+        <description>The name of the default file system. A URI whose
+          scheme and authority determine the FileSystem implementation. The
+          uri's scheme determines the config property (fs.SCHEME.impl) naming
+          the FileSystem implementation class. The uri's authority is used to
+          determine the host, port, etc. for a filesystem.
+        </description>
+      </property>
+      <property>
+        <name>fs.v3io.impl</name>
+        <value>io.iguaz.v3io.hcfs.V3IOHiveFileSystem</value>
+      </property>
+      <property>
+        <name>fs.AbstractFileSystem.v3io.impl</name>
+        <value>io.iguaz.v3io.hcfs.V3IOHiveAbstractFileSystem</value>
       </property>
     </configuration>
