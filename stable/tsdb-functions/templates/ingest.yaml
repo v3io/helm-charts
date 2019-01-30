@@ -30,6 +30,7 @@ spec:
       secretKeyRef:
         name: {{ .Values.webapi.auth.accessKeySecretName }}
         key: accessKey
+        optional: true
   - name: INGEST_V3IO_CONTAINER
     value: {{ .Values.tsdb.container }}
   triggers:
