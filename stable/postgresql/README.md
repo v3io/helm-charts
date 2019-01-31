@@ -85,7 +85,7 @@ The following tables lists the configurable parameters of the PostgreSQL chart a
 | `service.loadBalancerIP`                      | loadBalancerIP if service type is `LoadBalancer`                                                                       | `nil`                                                    |
 | `persistence.enabled`                         | Enable persistence using PVC                                                                                           | `true`                                                   |
 | `persistence.existingClaim`                   | Provide an existing `PersistentVolumeClaim`                                                                            | `nil`                                                    |
-| `persistence.mountPath`                       | Path to mount the volume at                                                                                            | `/bitnami/postgresql`                                    |
+| `persistence.mountPath`                       | Path to mount the volume at                                                                                            | `/postgresql`                                    |
 | `persistence.storageClass`                    | PVC Storage Class for PostgreSQL volume                                                                                | `nil`                                                    |
 | `persistence.accessMode`                      | PVC Access Mode for PostgreSQL volume                                                                                  | `ReadWriteOnce`                                          |
 | `persistence.size`                            | PVC Storage Request for PostgreSQL volume                                                                              | `8Gi`                                                    |
@@ -186,7 +186,7 @@ $ kubectl scale statefulset my-postgresql-slave --replicas=3
 
 ## Persistence
 
-The [Bitnami PostgreSQL](https://github.com/bitnami/bitnami-docker-postgresql) image stores the PostgreSQL data and configurations at the `/bitnami/postgresql` path of the container.
+The [Bitnami PostgreSQL](https://github.com/bitnami/bitnami-docker-postgresql) image stores the PostgreSQL data and configurations at the `/postgresql` path of the container.
 
 Persistent Volume Claims are used to keep the data across deployments. This is known to work in GCE, AWS, and minikube.
 See the [Configuration](#configuration) section to configure the PVC or to disable persistence.

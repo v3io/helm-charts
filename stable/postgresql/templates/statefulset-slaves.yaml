@@ -63,15 +63,15 @@ spec:
           - sh
           - -c
           - |
-            chown -R {{ .Values.securityContext.runAsUser }}:{{ .Values.securityContext.fsGroup }} /bitnami
-            if [ -d /bitnami/postgresql/data ]; then
-              chmod  0700 /bitnami/postgresql/data;
+            chown -R {{ .Values.securityContext.runAsUser }}:{{ .Values.securityContext.fsGroup }} /postgresql
+            if [ -d /postgresql/data ]; then
+              chmod  0700 /postgresql/data;
             fi
         securityContext:
           runAsUser: {{ .Values.volumePermissions.securityContext.runAsUser }}
         volumeMounts:
         - name: data
-          mountPath: /bitnami/postgresql
+          mountPath: /postgresql
       {{- end }}
       containers:
       - name: {{ template "postgresql.fullname" . }}

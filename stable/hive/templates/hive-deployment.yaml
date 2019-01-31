@@ -37,7 +37,6 @@ spec:
             - name: metastore
               containerPort: {{ .Values.metastore.containerPort }}
               protocol: TCP
-          {{- if .Values.livenessProbe.enabled }}
           livenessProbe:
             tcpSocket:
               port: {{ .Values.metastore.containerPort }}
@@ -46,8 +45,6 @@ spec:
             timeoutSeconds: {{ .Values.livenessProbe.timeoutSeconds }}
             successThreshold: {{ .Values.livenessProbe.successThreshold }}
             failureThreshold: {{ .Values.livenessProbe.failureThreshold }}
-          {{- end }}
-          {{- if .Values.readinessProbe.enabled }}
           readinessProbe:
             tcpSocket:
               port: {{ .Values.metastore.containerPort }}
@@ -56,13 +53,12 @@ spec:
             timeoutSeconds: {{ .Values.readinessProbe.timeoutSeconds }}
             successThreshold: {{ .Values.readinessProbe.successThreshold }}
             failureThreshold: {{ .Values.readinessProbe.failureThreshold }}
-          {{- end }}
           env:
             - name: HIVE_CONF_DIR
               value: {{ .Values.configPath }}
             - name: HIVE_DB_TYPE
               value: {{ .Values.databaseType }}
-{{- if .Values.environment}}
+{{- if .Values.environment }}
 {{ include .Values.environment.template . | indent 12 }}
 {{- end }}
 {{- if .Values.volumes }}

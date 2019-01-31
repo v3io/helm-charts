@@ -164,7 +164,7 @@ persistence:
   ## A manually managed Persistent Volume and Claim
   ## If defined, PVC must be created manually before volume will be bound
   # existingClaim:
-  mountPath: /bitnami/postgresql
+  mountPath: /postgresql
   # storageClass: "-"
   accessModes:
     - ReadWriteOnce
