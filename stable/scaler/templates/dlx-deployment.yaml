@@ -27,9 +27,19 @@ spec:
         component: dlx
     spec:
       containers:
-      - name: dlx
-        image: {{ .Values.dlx.image.repository }}:{{ .Values.dlx.image.tag }}
-        imagePullPolicy: {{ .Values.dlx.image.pullPolicy }}
-        env:
-        - name: SCALER_NAMESPACE
-          value: {{ .Release.Namespace }}
+        - name: dlx
+          image: {{ .Values.dlx.image.repository }}:{{ .Values.dlx.image.tag }}
+          imagePullPolicy: {{ .Values.dlx.image.pullPolicy }}
+          workingDir: "{{ .Values.general.config.pathMount }}"
+          command: ["{{ .Values.dlx.config.command }}"]
+          env:
+            - name: SCALER_NAMESPACE
+              value: {{ .Release.Namespace }}
+            - name: KUBECONFIG
+              value: ""
+          args:
+            - --namespace={{ .Release.Namespace }}
+            - --target-name-header={{ .Values.dlx.args.targetNameHeader }}
+            - --target-path-header={{ .Values.dlx.args.targetPathHeader }}
+            - --target-port={{ .Values.dlx.args.targetPort }}
+            - --listen-address={{ .Values.dlx.args.listenAddress }}

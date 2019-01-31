@@ -30,8 +30,8 @@ spec:
         - name: scaler
           image: {{ .Values.scaler.image.repository }}:{{ .Values.scaler.image.tag }}
           imagePullPolicy: {{ .Values.scaler.image.pullPolicy }}
-          workingDir: "{{ .Values.config.pathMount }}"
-          command: ["{{ .Values.config.command }}"]
+          workingDir: "{{ .Values.general.config.pathMount }}"
+          command: ["{{ .Values.scaler.config.command }}"]
           env:
             - name: SCALER_NAMESPACE
               value: {{ .Release.Namespace }}
@@ -39,8 +39,9 @@ spec:
               value: ""
           args:
             - --namespace={{ .Release.Namespace }}
-            - --scale-interval={{ .Values.scaler.scaleInterval }}
-            - --scale-window={{ .Values.scaler.scaleWindow }}
-            - --metrics-poll-interval={{ .Values.scaler.metricsPollInterval }}
-            - --metric-name={{ .Values.scaler.metricName }}
-            - --scale-threshold={{ .Values.scaler.scaleThreshold }}
+            - --scale-interval={{ .Values.scaler.args.scaleInterval }}
+            - --scale-window={{ .Values.scaler.args.scaleWindow }}
+            - --metrics-poll-interval={{ .Values.scaler.args.metricsPollInterval }}
+            - --metric-name={{ .Values.scaler.args.metricName }}
+            - --metrics-group-kind={{ .Values.scaler.args.metricsGroupKind }}
+            - --scale-threshold={{ .Values.scaler.args.scaleThreshold }}
