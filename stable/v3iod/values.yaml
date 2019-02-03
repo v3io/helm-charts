@@ -26,7 +26,7 @@ v3iod:
   maxInFlightRequests: 4096
   maxChannelInactivitySeconds: 180
   numHugePages: 3000
-  numOfWorkers: 2
+  numOfWorkers: 1
   boostSizeInBytes: 536870912
   disableRDMA: false
   heaps: |
