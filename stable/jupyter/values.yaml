@@ -47,8 +47,8 @@ environment:
   template: v3io-configs.deployment.env
 
 volumes:
-  volumesTemplate: v3io-configs.deployment.mount-with-fuse-with-home
-  volumeMountsTemplate: v3io-configs.deployment.volumeMounts-with-fuse-with-home
+  volumesTemplate: v3io-configs.deployment.mount-with-fuse-and-home
+  volumeMountsTemplate: v3io-configs.deployment.volumeMounts-with-fuse-and-home
 
 debug:
   enabled: false
