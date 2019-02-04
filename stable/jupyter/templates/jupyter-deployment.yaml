@@ -27,7 +27,7 @@ spec:
         release: {{ .Release.Name }}
         heritage: {{ .Release.Service }}
     spec:
-      hostname: {{ .Values.config.username }}
+      hostname: {{ .Values.v3io.username }}
       containers:
         - name: jupyter
           image: {{ .Values.image.repository }}:{{ .Values.image.tag }}
@@ -71,7 +71,7 @@ spec:
             - name: SHELL
               value: /bin/bash
             - name: HOME
-              value: {{ .Values.config.home.pathMount }}
+              value: /User
 {{- if .Values.presto }}
             - name: DATABASE_URL
               value: presto://{{ .Values.presto.hostname }}.{{ .Release.Namespace }}.svc:{{ .Values.presto.port }}/{{ .Values.presto.catalog }}
