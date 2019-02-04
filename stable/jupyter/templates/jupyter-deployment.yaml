@@ -33,13 +33,13 @@ spec:
           image: {{ .Values.image.repository }}:{{ .Values.image.tag }}
           imagePullPolicy: {{ .Values.image.pullPolicy | quote }}
           command: ["/bin/bash", "-x", "{{ .Values.image.command }}"]
-          workingDir: "{{ .Values.config.home.pathMount }}"
+          workingDir: "/User"
           args:
             - --ip="0.0.0.0"
             - --port={{ .Values.servicePort }}
             - --NotebookApp.token=''
             - --NotebookApp.password=''
-            - --notebook-dir="{{ .Values.config.home.pathMount }}"
+            - --notebook-dir="/User"
             - --NotebookApp.default_url="/lab"
 {{- if .Values.debug.enabled }}
             - --debug
