@@ -11,6 +11,7 @@ metadata:
 spec:
   build:
     codeEntryType: image
+  imagePullPolicy: Never
   handler: main:Ingest
   image: {{ .Values.functions.ingest.image.repository }}:{{ .Values.functions.ingest.image.tag }}
   replicas: {{ .Values.functions.ingest.replicas }}
