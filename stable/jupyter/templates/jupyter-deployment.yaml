@@ -27,19 +27,19 @@ spec:
         release: {{ .Release.Name }}
         heritage: {{ .Release.Service }}
     spec:
-      hostname: {{ .Values.config.username }}
+      hostname: {{ .Values.v3io.username }}
       containers:
         - name: jupyter
           image: {{ .Values.image.repository }}:{{ .Values.image.tag }}
           imagePullPolicy: {{ .Values.image.pullPolicy | quote }}
           command: ["/bin/bash", "-x", "{{ .Values.image.command }}"]
-          workingDir: "{{ .Values.config.home.pathMount }}"
+          workingDir: "/User"
           args:
             - --ip="0.0.0.0"
             - --port={{ .Values.servicePort }}
             - --NotebookApp.token=''
             - --NotebookApp.password=''
-            - --notebook-dir="{{ .Values.config.home.pathMount }}"
+            - --notebook-dir="/User"
             - --NotebookApp.default_url="/lab"
 {{- if .Values.debug.enabled }}
             - --debug
@@ -70,8 +70,6 @@ spec:
           env:
             - name: SHELL
               value: /bin/bash
-            - name: HOME
-              value: {{ .Values.config.home.pathMount }}
 {{- if .Values.presto }}
             - name: DATABASE_URL
               value: presto://{{ .Values.presto.hostname }}.{{ .Release.Namespace }}.svc:{{ .Values.presto.port }}/{{ .Values.presto.catalog }}
@@ -88,9 +86,7 @@ spec:
 {{ include .Values.environment.template . | indent 12 }}
 {{- end }}
           volumeMounts:
-            - mountPath: {{ .Values.config.home.pathMount }}
-              name: home
-            - mountPath: {{ .Values.config.home.pathMount }}/v3io
+            - mountPath: /User/v3io
               name: shared
             - mountPath: /etc/config/jupyter
               name: jupyter-config
@@ -98,14 +94,6 @@ spec:
 {{ include .Values.volumes.volumeMountsTemplate . | indent 12 }}
 {{- end }}
       volumes:
-        - name: home
-          flexVolume:
-            driver: "v3io/fuse"
-            secretRef:
-              name: {{ .Release.Name }}-v3io-fuse
-            options:
-              container: {{ .Values.config.home.container }}
-              subPath: {{ .Values.config.home.pathPrefix }}/{{ .Values.config.username }}
         - name: shared
           flexVolume:
             driver: "v3io/fuse"
