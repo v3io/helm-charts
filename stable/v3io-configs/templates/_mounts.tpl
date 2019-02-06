@@ -48,8 +48,8 @@
     secretRef:
       name: {{ .Release.Name }}-v3io-fuse
     options:
-      container: {{ default "users" .Values.global.v3io.home.container }}
-      subPath: {{ default "" .Values.global.v3io.home.pathPrefix }}/{{ .Values.v3io.username }}
+      container: {{ default "users" .Values.global.v3io.homeContainer }}
+      subPath: {{ default "" .Values.global.v3io.homePrefix }}/{{ .Values.v3io.username }}
 {{- end }}
 {{- end -}}
 
@@ -57,6 +57,6 @@
 {{- include "v3io-configs.deployment.volumeMounts-with-fuse" . }}
 {{- if .Values.v3io.username }}
 - name: v3io-home
-  mountPath: {{ default "/User" .Values.global.v3io.home.mount }}
+  mountPath: {{ default "/User" .Values.global.v3io.homeMount }}
 {{- end }}
 {{- end -}}
