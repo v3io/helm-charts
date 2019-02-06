@@ -57,9 +57,9 @@ accessKey: {{ .Values.v3io.accessKey | b64enc | quote }}
 {{- define "v3io-configs.deployment-with-home.env" -}}
 {{- include "v3io-configs.deployment.env" . }}
 - name: HOME
-  value: {{ default "/User" .Values.global.v3io.home.mount }}
+  value: {{ default "/User" .Values.global.v3io.homeMount }}
 - name: V3IO_HOME
-  value: {{ default "users" .Values.global.v3io.home.container }}{{ default "" .Values.global.v3io.home.pathPrefix }}/{{ .Values.v3io.username }}
+  value: {{ default "users" .Values.global.v3io.homeContainer }}{{ default "" .Values.global.v3io.homePrefix }}/{{ .Values.v3io.username }}
 - name: V3IO_HOME_URL
-  value: v3io://{{ default "users" .Values.global.v3io.home.container }}{{ default "" .Values.global.v3io.home.pathPrefix }}/{{ .Values.v3io.username }}
+  value: v3io://{{ default "users" .Values.global.v3io.homeContainer }}{{ default "" .Values.global.v3io.homePrefix }}/{{ .Values.v3io.username }}
 {{- end -}}
