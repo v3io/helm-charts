@@ -28,26 +28,26 @@ spec:
           imagePullPolicy: {{ .Values.image.pullPolicy }}
           command: ["/bin/bash", "-x", "{{ .Values.image.command }}"]
           ports:
-            - name: server
-              containerPort: {{ .Values.server.containerPort }}
-              protocol: TCP
-            - name: ui
-              containerPort: {{ .Values.ui.containerPort }}
-              protocol: TCP
             - name: metastore
               containerPort: {{ .Values.metastore.containerPort }}
               protocol: TCP
           livenessProbe:
-            tcpSocket:
-              port: {{ .Values.metastore.containerPort }}
+            exec:
+              command:
+              - /bin/bash
+              - {{ .Values.global.v3io.configMountPath }}/health_check.sh
+              - --port={{ .Values.metastore.containerPort }}
             initialDelaySeconds: {{ .Values.livenessProbe.initialDelaySeconds }}
             periodSeconds: {{ .Values.livenessProbe.periodSeconds }}
             timeoutSeconds: {{ .Values.livenessProbe.timeoutSeconds }}
             successThreshold: {{ .Values.livenessProbe.successThreshold }}
             failureThreshold: {{ .Values.livenessProbe.failureThreshold }}
           readinessProbe:
-            tcpSocket:
-              port: {{ .Values.metastore.containerPort }}
+            exec:
+              command:
+              - /bin/bash
+              - {{ .Values.global.v3io.configMountPath }}/health_check.sh
+              - --port={{ .Values.metastore.containerPort }}
             initialDelaySeconds: {{ .Values.readinessProbe.initialDelaySeconds }}
             periodSeconds: {{ .Values.readinessProbe.periodSeconds }}
             timeoutSeconds: {{ .Values.readinessProbe.timeoutSeconds }}

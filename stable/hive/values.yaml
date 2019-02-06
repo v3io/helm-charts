@@ -8,14 +8,6 @@ replicas: 1
 
 configPath: /igz/hive/conf-updated
 
-server:
-  servicePort: 10000
-  containerPort: 10000
-
-ui:
-  servicePort: 10002
-  containerPort: 10002
-
 metastore:
   servicePort: 9083
   containerPort: 9083

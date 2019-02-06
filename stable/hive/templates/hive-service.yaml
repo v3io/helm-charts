@@ -9,14 +9,6 @@ metadata:
     heritage: {{ .Release.Service }}
 spec:
   ports:
-    - port: {{ .Values.server.servicePort }}
-      targetPort: {{ .Values.server.containerPort }}
-      protocol: TCP
-      name: server
-    - port: {{ .Values.ui.servicePort }}
-      targetPort: {{ .Values.ui.containerPort }}
-      protocol: TCP
-      name: ui
     - port: {{ .Values.metastore.servicePort }}
       targetPort: {{ .Values.metastore.containerPort }}
       protocol: TCP

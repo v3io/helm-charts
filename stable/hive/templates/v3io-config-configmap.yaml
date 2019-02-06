@@ -12,6 +12,31 @@ data:
 
   health_check.sh: |
 {{ include "v3io-configs.script.javaHealthCheck" . | indent 4 }}
+    # Check if service is listening on the specified protocol and port
+    PROTOCOL="tcp"
+    HOST="127.0.0.1"
+    PORT={{ .Values.metastore.containerPort }}
+
+    for i in "$@"
+    do
+    case $i in
+        -t=*|--type=*)
+        PROTOCOL="${i#*=}"
+        ;;
+        -h=*|--host=*)
+        HOST="${i#*=}"
+        ;;
+        -p=*|--port=*)
+        PORT="${i#*=}"
+        ;;
+    esac
+    done
+
+    RC=echo < /dev/$PROTOCOL/$HOST/$PORT
+    if [ "$RC" -ne "0" ]; then
+      echo 'Unable to communicate with "$HOST:$PORT" over "$PROTOCOL".'
+      exit $RC
+    fi
 
   v3io-hive.sh: |
     #!/usr/bin/env bash
