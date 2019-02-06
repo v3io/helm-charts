@@ -70,8 +70,6 @@ spec:
           env:
             - name: SHELL
               value: /bin/bash
-            - name: HOME
-              value: /User
 {{- if .Values.presto }}
             - name: DATABASE_URL
               value: presto://{{ .Values.presto.hostname }}.{{ .Release.Namespace }}.svc:{{ .Values.presto.port }}/{{ .Values.presto.catalog }}

@@ -51,4 +51,9 @@ data:
 {{- end }}
     echo "echo ''" >> ~/.bashrc
 
+    mkdir -p ${HOME}/.pythonlibs
+    export PIP_PREFIX="${HOME}/.pythonlibs"
+    export PYTHONPATH="${HOME}/.pythonlibs/lib/python3.6/site-packages:${PYTHONPATH}"
+    export PATH="${PATH}:${HOME}/.pythonlibs/bin"
+
     ttyd bash
