@@ -26,12 +26,14 @@ spec:
     value: {{ .Values.webapi.auth.username }}
   - name: QUERY_V3IO_PASSWORD
     value: {{ .Values.webapi.auth.password }}
+  {{- if .Values.webapi.auth.accessKeySecretName }}
   - name: QUERY_V3IO_ACCESS_KEY
     valueFrom:
       secretKeyRef:
         name: {{ .Values.webapi.auth.accessKeySecretName }}
         key: accessKey
         optional: true
+  {{- end }}
   - name: QUERY_V3IO_CONTAINER
     value: {{ .Values.tsdb.container }}
   triggers:
