@@ -25,8 +25,14 @@ data:
 {{- end }}
     unset ZEPPELIN_PORT
     unset ZEPPELIN_SSL_PORT
-    
+
     echo spark.driver.host=$(hostname -i) >> ${SPARK_HOME}/conf/spark-defaults.conf
+
+    mkdir -p ${HOME}/.pythonlibs
+    export PIP_PREFIX="${HOME}/.pythonlibs"
+    export PYTHONPATH="${HOME}/.pythonlibs/lib/python3.6/site-packages:${PYTHONPATH}"
+    export PATH="${PATH}:${HOME}/.pythonlibs/bin"
+
     /docker-zeppelin.sh \
             --master-hostname={{ .Values.spark.hostname }} \
             --master-port={{ .Values.spark.port }}

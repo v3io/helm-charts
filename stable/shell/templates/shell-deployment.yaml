@@ -48,8 +48,10 @@ spec:
               - {{ .Values.global.v3io.configMountPath }}/health_check.sh
               initialDelaySeconds: 5
               periodSeconds: 1
-{{- if .Values.environment }}
           env:
+            - name: HOME
+              value: /User
+{{- if .Values.environment }}
 {{ include .Values.environment.template . | indent 12 }}
 {{- end }}
 {{- if .Values.volumes }}
