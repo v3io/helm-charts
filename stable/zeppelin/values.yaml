@@ -197,7 +197,7 @@ preloadNotebooks:
           # hadoop fs -ls v3io://bigdata/
 
 environment:
-  template: v3io-configs.deployment.env
+  template: v3io-configs.deployment-with-home.env
 
 volumes:
   volumesTemplate: v3io-configs.deployment.mount-with-fuse-and-home
