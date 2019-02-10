@@ -1,12 +1,12 @@
 {{- if .Values.controller.crd.create }}
 
-# Allows access to the Tenant CRD.
+# Allows access to the IguazioTenant CRD.
 # This should be used by the platform-level controller
 
 apiVersion: rbac.authorization.k8s.io/v1beta1
 kind: ClusterRole
 metadata:
-  name: tenant-crd-admin
+  name: iguaziotenant-crd-admin
   labels:
     app: {{ template "provazio.name" . }}
     chart: {{ template "provazio.chart" . }}
@@ -15,7 +15,7 @@ metadata:
     component: crd
 rules:
 - apiGroups: ["iguazio.com"]
-  resources: ["tenants"]
+  resources: ["iguaziotenants"]
   verbs: ["*"]
 
 {{- end }}
