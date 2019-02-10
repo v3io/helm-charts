@@ -1,6 +1,6 @@
-{{- if and (.Values.controller.enabled) (has "TenantAppServiceSet" .Values.controller.crd.kinds) }}
+{{- if and (.Values.controller.enabled) (has "IguazioTenantAppServiceSet" .Values.controller.crd.kinds) }}
 
-# If the controller is enabled and responsible for TenantAppServiceSet, it will need the ability
+# If the controller is enabled and responsible for IguazioTenantAppServiceSet, it will need the ability
 # to create resources like ingressess, secrets, etc. Things that are not created by the service
 # helm charts which are under the namespace's tiller service account. This creates a role
 # granting namespaced permission to these resources

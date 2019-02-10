@@ -1,12 +1,12 @@
-{{- if and (.Values.controller.enabled) (has "Tenant" .Values.controller.crd.kinds) }}
+{{- if and (.Values.controller.enabled) (has "IguazioTenant" .Values.controller.crd.kinds) }}
 
-# If the controller is enabled and responsible for Tenant, bind to the cluster-admin role 
+# If the controller is enabled and responsible for IguazioTenant, bind to the cluster-admin role 
 # allowing it to do anything on the cluster
 
 kind: ClusterRoleBinding
 apiVersion: rbac.authorization.k8s.io/v1
 metadata:
-  name: {{ template "provazio.controller.name" . }}-tenant
+  name: {{ template "provazio.controller.name" . }}-iguaziotenant
   labels:
     app: {{ template "provazio.name" . }}
     chart: {{ template "provazio.chart" . }}
