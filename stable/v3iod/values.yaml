@@ -21,39 +21,49 @@ v3iod:
     # requests:
       # cpu: 1
       # memory: "3Gi"
-    
+
   cdiPort: 1967
-  maxInFlightRequests: 1024
+  maxInFlightRequests: 4096
   maxChannelInactivitySeconds: 180
   numHugePages: 3000
   numOfWorkers: 1
-  boostSizeInBytes: 10000000
+  boostSizeInBytes: 536870912
   disableRDMA: false
   heaps: |
     {
       "kind": "mempool",
-      "block_size_bytes": 4096,
-      "num_blocks": 10000
+      "block_size_bytes": 5120,
+      "num_blocks": 5000
     },
     {
       "kind": "mempool",
-      "block_size_bytes": 9296,
-      "num_blocks": 10000
+      "block_size_bytes": 20480,
+      "num_blocks": 2000
     },
     {
       "kind": "mempool",
-      "block_size_bytes": 16384,
-      "num_blocks": 10000
+      "block_size_bytes": 73728,
+      "num_blocks": 5000
     },
     {
       "kind": "mempool",
-      "block_size_bytes": 1228800,
+      "block_size_bytes": 286720,
       "num_blocks": 500
     },
     {
       "kind": "mempool",
-      "block_size_bytes": 2228800,
-      "num_blocks": 200
+      "block_size_bytes": 563200,
+      "num_blocks": 500
+    },
+    {
+      "kind": "mempool",
+      "block_size_bytes": 1126400,
+      "num_blocks": 500
+    },
+    {
+      "kind": "mempool",
+      "block_size_bytes": 2150400,
+      "num_blocks": 500
     }
 
   datanodes:

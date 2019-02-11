@@ -14,7 +14,7 @@ dashboard:
 
   image:
     repository: quay.io/iguazio/provazio-dashboard
-    tag: 0.2.18
+    tag: 0.3.0
     pullPolicy: IfNotPresent
 
   # holds cloud credentials
@@ -32,11 +32,11 @@ dashboard:
     # system_settings:
     #   version: 1.9_cloud_b57_20181225181152
     #   num_datanodes: 1
-    #   datanode_placement_kind: spread
-    #   datanode_instance_kind: i3.xlarge
+    #   data_cluster_placement_kind: spread
+    #   data_cluster_instance_size: i3.xlarge
     #   num_appnodes: 1
-    #   appnode_provisioner_kind: dedicated
-    #   appnode_instance_kind: m5.xlarge
+    #   app_cluster_provisioner_kind: dedicated
+    #   app_cluster_instance_size: m5.xlarge
     #   lifetime_in_hours: 24
     #   cert_kind: prod
     #   cidr_ip: 172.38.0.0/16
@@ -66,9 +66,9 @@ controller:
   crd:
     create: true
     kinds:
-    - Tenant
-    - TenantAppServiceSet
+    - IguazioTenant
+    - IguazioTenantAppServiceSet
   image:
     repository: quay.io/iguazio/provazio-dashboard
-    tag: 0.2.18
+    tag: 0.3.0
     pullPolicy: IfNotPresent
