@@ -63,6 +63,6 @@ global:
 
 proxy:
   image:
-    repository: "pavelrigz/sidecar-proxy"
-    tag: latest
+    repository: "iguaziodocker/sidecar-proxy"
+    tag: 0.1.0
   servicePort: 8080

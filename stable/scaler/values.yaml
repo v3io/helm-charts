@@ -6,17 +6,17 @@
 
 scaler:
   image:
-    repository: pavelrigz/scaler
-    tag: 1.0.0
-    pullPolicy: Always
+    repository: iguaziodocker/autoscaler
+    tag: 0.1.0
+    pullPolicy: IfNotPresent
   
   config:
     command: ./autoscaler
   
   args:
-    scaleInterval: 2m
-    scaleWindow: 1m
-    metricsPollInterval: 10s
+    scaleInterval: 30m
+    scaleWindow: 5m
+    metricsPollInterval: 1m
     metricName: num_of_requests
     metricsGroupKind: Deployment
     scaleThreshold: 0
@@ -27,9 +27,9 @@ general:
 
 dlx:
   image:
-    repository: pavelrigz/dlx
-    tag: 1.0.0
-    pullPolicy: Always
+    repository: iguaziodocker/dlx
+    tag: 0.1.0
+    pullPolicy: IfNotPresent
   
   config:
     command: ./dlx
