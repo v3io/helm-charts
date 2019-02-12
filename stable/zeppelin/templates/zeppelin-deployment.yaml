@@ -32,6 +32,7 @@ spec:
           image: {{ .Values.image.repository }}:{{ .Values.image.tag }}
           imagePullPolicy: {{ .Values.image.pullPolicy | quote }}
           command: ["/bin/bash"]
+          workingDir: "/User"
           args:
             - {{ .Values.image.command }}
           ports:
