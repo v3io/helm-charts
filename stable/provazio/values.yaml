@@ -66,8 +66,8 @@ controller:
   crd:
     create: true
     kinds:
-    - Tenant
-    - TenantAppServiceSet
+    - IguazioTenant
+    - IguazioTenantAppServiceSet
   image:
     repository: quay.io/iguazio/provazio-dashboard
     tag: 0.3.0
