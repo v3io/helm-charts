@@ -58,8 +58,10 @@ data:
 {{- end }}
 {{- if .Values.config.welcome }}
     if [ "$(grep --count 'WELCOME CONFIG' ${HOME}/.bashrc)" == "0" ]; then
+      echo "# ----- WELCOME CONFIG -----" >> ${HOME}/.bashrc
       echo "toilet --font smmono9 --termwidth --filter metal {{ .Values.config.welcome }}" >> ${HOME}/.bashrc
       echo "echo ''" >> ${HOME}/.bashrc
+      echo "# ----- WELCOME CONFIG -----" >> ${HOME}/.bashrc
     fi
 {{- end }}
 
