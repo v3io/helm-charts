@@ -1,12 +1,12 @@
-{{- if and (.Values.controller.enabled) (has "TenantAppServiceSet" .Values.controller.crd.kinds) }}
+{{- if and (.Values.controller.enabled) (has "IguazioTenantAppServiceSet" .Values.controller.crd.kinds) }}
 
-# If the controller is enabled and responsible for TenantAppServiceSet, bind to the cluster role 
-# allowing access to TenantAppServiceSet CRD to the controller's service account
+# If the controller is enabled and responsible for IguazioTenantAppServiceSet, bind to the cluster role 
+# allowing access to IguazioTenantAppServiceSet CRD to the controller's service account
 
 kind: RoleBinding
 apiVersion: rbac.authorization.k8s.io/v1
 metadata:
-  name: {{ template "provazio.controller.name" . }}-tenantappserviceset-crd-admin
+  name: {{ template "provazio.controller.name" . }}-iguaziotenantappserviceset-crd-admin
   labels:
     app: {{ template "provazio.name" . }}
     chart: {{ template "provazio.chart" . }}
@@ -18,7 +18,7 @@ subjects:
   name: {{ template "provazio.controller.name" . }}
 roleRef:
   kind: ClusterRole
-  name: tenantappserviceset-crd-admin
+  name: iguaziotenantappserviceset-crd-admin
   apiGroup: rbac.authorization.k8s.io
 
 {{- end }}
