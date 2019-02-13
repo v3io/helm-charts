@@ -9,6 +9,13 @@ metadata:
     heritage: {{ .Release.Service }}
     component: locator
 spec:
+  selector:
+    matchLabels:
+      app: {{ template "v3iod.cache.name" . }}
+      chart: {{ template "v3iod.chart" . }}
+      release: {{ .Release.Name }}
+      heritage: {{ .Release.Service }}
+      component: locator
   template:
     metadata:
       labels:
