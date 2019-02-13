@@ -27,9 +27,17 @@ spec:
         component: dlx
     spec:
       containers:
-      - name: dlx
-        image: {{ .Values.dlx.image.repository }}:{{ .Values.dlx.image.tag }}
-        imagePullPolicy: {{ .Values.dlx.image.pullPolicy }}
-        env:
-        - name: SCALER_NAMESPACE
-          value: {{ .Release.Namespace }}
+        - name: dlx
+          image: {{ .Values.dlx.image.repository }}:{{ .Values.dlx.image.tag }}
+          imagePullPolicy: {{ .Values.dlx.image.pullPolicy }}
+          workingDir: "{{ .Values.general.image.pathMount }}"
+          command: ["{{ .Values.dlx.image.command }}"]
+          env:
+            - name: SCALER_NAMESPACE
+              value: {{ .Release.Namespace }}
+          args:
+            - --namespace={{ .Release.Namespace }}
+            - --target-name-header={{ .Values.dlx.image.targetNameHeader }}
+            - --target-path-header={{ .Values.dlx.image.targetPathHeader }}
+            - --target-port={{ .Values.dlx.image.targetPort }}
+            - --listen-address={{ .Values.dlx.image.listenAddress }}
