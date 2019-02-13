@@ -1,0 +1,34 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: {{ .Release.Name }}-v3io-config
+  labels:
+    app: {{ template "mariadb.name" . }}
+    chart: {{ template "mariadb.chart" . }}
+    release: {{ .Release.Name }}
+    heritage: {{ .Release.Service }}
+data:
+{{ include "v3io-configs.java.configMap" . | indent 2 }}
+
+  health_check.sh: |
+{{ include "v3io-configs.script.javaHealthCheck" . | indent 4 }}
+    # TODO: Implement life livenessProbe/readinessProbe
+    # command: ["sh", "-c", "exec mysqladmin status -uroot -p$MARIADB_ROOT_PASSWORD"]
+
+  v3io-mariadb.sh: |
+    #!/usr/bin/env bash
+    set -e
+
+{{ include "v3io-configs.script.lookupService" . | indent 4 }}
+
+    echo "echo ''" >> ~/.bashrc
+{{- if .Values.config.logo }}
+    echo "echo {{ .Values.config.logo }} | base64 --decode" >> ~/.bashrc
+    echo "echo ''" >> ~/.bashrc
+{{- end }}
+{{- if .Values.config.welcome }}
+    echo "toilet --font smmono9 --termwidth --filter metal {{ .Values.config.welcome }}" >> ~/.bashrc
+    echo "echo ''" >> ~/.bashrc
+{{- end }}
+    echo "echo ''" >> ~/.bashrc
+# TODO: Start MariaDB

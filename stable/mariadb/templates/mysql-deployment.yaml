@@ -1,0 +1,69 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ template "mariadb.fullname" . }}
+  labels:
+    app: {{ template "mariadb.name" . }}
+    chart: {{ template "mariadb.chart" . }}
+    release: {{ .Release.Name }}
+    heritage: {{ .Release.Service }}
+spec:
+  selector:
+    matchLabels:
+      app: {{ template "mariadb.name" . }}
+      release: {{ .Release.Name }}
+  template:
+    metadata:
+      labels:
+        app: {{ template "mariadb.name" . }}
+        release: {{ .Release.Name }}
+    spec:
+{{- if .Values.volumes }}
+      volumes:
+{{ include .Values.volumes.volumesTemplate . | indent 8 }}
+{{- end }}
+      containers:
+        - name: {{ .Chart.Name }}-mariadb
+          image: "{{ .Values.image.repository }}:{{ .Values.image.tag }}"
+          imagePullPolicy: {{ .Values.image.pullPolicy }}
+          command: ["/bin/bash", "-x", "{{ .Values.image.command }}"]
+          ports:
+            - name: MySQL
+              containerPort: 3306
+              protocol: TCP
+          livenessProbe:
+            exec:
+              command:
+              - /bin/bash
+              - {{ .Values.global.v3io.configMountPath }}/health_check.sh
+              initialDelaySeconds: {{ .Values.server.readinessProbe.initialDelaySeconds }}
+              periodSeconds: {{ .Values.server.readinessProbe.periodSeconds }}
+          readinessProbe:
+            exec:
+              command:
+              - /bin/bash
+              - {{ .Values.global.v3io.configMountPath }}/health_check.sh
+              initialDelaySeconds: 5
+              periodSeconds: 1
+{{- if .Values.environment }}
+          env:
+{{ include .Values.environment.template . | indent 12 }}
+{{- end }}
+{{- if .Values.volumes }}
+          volumeMounts:
+{{ include .Values.volumes.volumeMountsTemplate . | indent 12 }}
+{{- end }}
+          resources:
+{{ toYaml .Values.resources | indent 12 }}
+    {{- with .Values.nodeSelector }}
+      nodeSelector:
+{{ toYaml . | indent 8 }}
+    {{- end }}
+    {{- with .Values.affinity }}
+      affinity:
+{{ toYaml . | indent 8 }}
+    {{- end }}
+    {{- with .Values.tolerations }}
+      tolerations:
+{{ toYaml . | indent 8 }}
+    {{- end }}
