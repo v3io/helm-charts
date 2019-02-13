@@ -27,9 +27,19 @@ spec:
         component: scaler
     spec:
       containers:
-      - name: scaler
-        image: {{ .Values.scaler.image.repository }}:{{ .Values.scaler.image.tag }}
-        imagePullPolicy: {{ .Values.scaler.image.pullPolicy }}
-        env:
-        - name: SCALER_NAMESPACE
-          value: {{ .Release.Namespace }}
+        - name: scaler
+          image: {{ .Values.scaler.image.repository }}:{{ .Values.scaler.image.tag }}
+          imagePullPolicy: {{ .Values.scaler.image.pullPolicy }}
+          workingDir: "{{ .Values.general.image.pathMount }}"
+          command: ["{{ .Values.scaler.image.command }}"]
+          env:
+            - name: SCALER_NAMESPACE
+              value: {{ .Release.Namespace }}
+          args:
+            - --namespace={{ .Release.Namespace }}
+            - --scale-interval={{ .Values.scaler.image.scaleInterval }}
+            - --scale-window={{ .Values.scaler.image.scaleWindow }}
+            - --metrics-poll-interval={{ .Values.scaler.image.metricsPollInterval }}
+            - --metric-name={{ .Values.scaler.image.metricName }}
+            - --metrics-group-kind={{ .Values.scaler.image.metricsGroupKind }}
+            - --scale-threshold={{ .Values.scaler.image.scaleThreshold }}

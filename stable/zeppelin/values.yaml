@@ -1,6 +1,7 @@
 spark:
   hostname: spark-master
   port: 7077
+  executorCores: 2
 
 image:
   repository: "iguaziodocker/zeppelin"
@@ -197,11 +198,11 @@ preloadNotebooks:
           # hadoop fs -ls v3io://bigdata/
 
 environment:
-  template: v3io-configs.deployment.env
+  template: v3io-configs.deployment-with-home.env
 
 volumes:
-  volumesTemplate: v3io-configs.deployment.mount-with-fuse
-  volumeMountsTemplate: v3io-configs.deployment.volumeMounts-with-fuse
+  volumesTemplate: v3io-configs.deployment.mount-with-fuse-and-home
+  volumeMountsTemplate: v3io-configs.deployment.volumeMounts-with-fuse-and-home
 
 debug:
   enabled: false
