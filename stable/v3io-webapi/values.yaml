@@ -22,5 +22,15 @@ sslHostPort: 8443
 workerProcesses: auto
 workerConnections: 1024
 
+installationPath: /home/iguazio/igz/clients/nginx
+
+user:
+  # create new user when running (new username must not match iguazio and must have UID gt 1000)
+  create: false
+  # run as this default container user
+  name: iguazio
+  # run as this default user id, this value must be greater than 1000 or random value will be assigned
+  uid: 1000
+
 datanodes:
   - uri: "tcp://localhost:1234"
