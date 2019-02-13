@@ -30,16 +30,14 @@ spec:
         - name: dlx
           image: {{ .Values.dlx.image.repository }}:{{ .Values.dlx.image.tag }}
           imagePullPolicy: {{ .Values.dlx.image.pullPolicy }}
-          workingDir: "{{ .Values.general.config.pathMount }}"
-          command: ["{{ .Values.dlx.config.command }}"]
+          workingDir: "{{ .Values.general.image.pathMount }}"
+          command: ["{{ .Values.dlx.image.command }}"]
           env:
             - name: SCALER_NAMESPACE
               value: {{ .Release.Namespace }}
-            - name: KUBECONFIG
-              value: ""
           args:
             - --namespace={{ .Release.Namespace }}
-            - --target-name-header={{ .Values.dlx.args.targetNameHeader }}
-            - --target-path-header={{ .Values.dlx.args.targetPathHeader }}
-            - --target-port={{ .Values.dlx.args.targetPort }}
-            - --listen-address={{ .Values.dlx.args.listenAddress }}
+            - --target-name-header={{ .Values.dlx.image.targetNameHeader }}
+            - --target-path-header={{ .Values.dlx.image.targetPathHeader }}
+            - --target-port={{ .Values.dlx.image.targetPort }}
+            - --listen-address={{ .Values.dlx.image.listenAddress }}

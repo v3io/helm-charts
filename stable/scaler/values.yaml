@@ -2,18 +2,14 @@
 # This is a YAML-formatted file.
 # Declare variables to be passed into your templates.
 
-# kubeconfig: /home/iguazio/.kube/config
-
 scaler:
   image:
     repository: iguaziodocker/autoscaler
-    tag: 0.1.0
+    tag: 0.1.1
     pullPolicy: IfNotPresent
-  
-  config:
-    command: ./autoscaler
-  
-  args:
+    command: autoscaler
+
+    # args
     scaleInterval: 30m
     scaleWindow: 5m
     metricsPollInterval: 1m
@@ -22,19 +18,17 @@ scaler:
     scaleThreshold: 0
 
 general:
-  config:
+  image:
     pathMount: /home/app_resourcescaler
 
 dlx:
   image:
     repository: iguaziodocker/dlx
-    tag: 0.1.0
+    tag: 0.1.1
     pullPolicy: IfNotPresent
-  
-  config:
-    command: ./dlx
+    command: dlx
 
-  args:
+    # args
     targetNameHeader: X-App-Target
     targetPathHeader: ""
     targetPort: 8080

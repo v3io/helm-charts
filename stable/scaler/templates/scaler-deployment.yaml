@@ -30,18 +30,16 @@ spec:
         - name: scaler
           image: {{ .Values.scaler.image.repository }}:{{ .Values.scaler.image.tag }}
           imagePullPolicy: {{ .Values.scaler.image.pullPolicy }}
-          workingDir: "{{ .Values.general.config.pathMount }}"
-          command: ["{{ .Values.scaler.config.command }}"]
+          workingDir: "{{ .Values.general.image.pathMount }}"
+          command: ["{{ .Values.scaler.image.command }}"]
           env:
             - name: SCALER_NAMESPACE
               value: {{ .Release.Namespace }}
-            - name: KUBECONFIG
-              value: ""
           args:
             - --namespace={{ .Release.Namespace }}
-            - --scale-interval={{ .Values.scaler.args.scaleInterval }}
-            - --scale-window={{ .Values.scaler.args.scaleWindow }}
-            - --metrics-poll-interval={{ .Values.scaler.args.metricsPollInterval }}
-            - --metric-name={{ .Values.scaler.args.metricName }}
-            - --metrics-group-kind={{ .Values.scaler.args.metricsGroupKind }}
-            - --scale-threshold={{ .Values.scaler.args.scaleThreshold }}
+            - --scale-interval={{ .Values.scaler.image.scaleInterval }}
+            - --scale-window={{ .Values.scaler.image.scaleWindow }}
+            - --metrics-poll-interval={{ .Values.scaler.image.metricsPollInterval }}
+            - --metric-name={{ .Values.scaler.image.metricName }}
+            - --metrics-group-kind={{ .Values.scaler.image.metricsGroupKind }}
+            - --scale-threshold={{ .Values.scaler.image.scaleThreshold }}
