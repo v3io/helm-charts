@@ -12,12 +12,29 @@ data:
     #!/usr/bin/env bash
     set -e
     ulimit -S -H -l unlimited
+    ulimit -S -H -c unlimited
     ulimit -a -S
     ulimit -a -H
     echo {{ .Values.numHugePages }} > /proc/sys/vm/nr_hugepages
-    mkdir -p /home/iguazio/igz/clients/nginx/lib/logs
-    /home/iguazio/igz/clients/nginx/bin/nginx -p /home/iguazio/igz/clients/nginx/lib -c /etc/iguazio/nginx/nginx.conf
-    tail -f /home/iguazio/igz/clients/nginx/lib/logs/v3io.log
+    {{- if .Values.user.create }}
+      {{- if or (not .Values.user.uid) (le (int .Values.user.uid) 1000) }}
+      {{- $uid := add 3000 (randNumeric 4) }}
+    useradd --no-create-home --uid {{ $uid }} {{ .Values.user.name }}
+      {{- else }}
+      {{- $uid := int .Values.user.uid }}
+    useradd --no-create-home --uid {{ $uid }} {{ .Values.user.name }}
+      {{- end }}
+    {{- end }}
+    mkdir -p {{ .Values.installationPath }}/lib/logs
+    
+    chown -R {{ .Values.user.name }}:{{ .Values.user.name }} /dev/shm
+    chown -R {{ .Values.user.name }}:{{ .Values.user.name }} {{ .Values.installationPath }}/lib/logs
+    chown -R {{ .Values.user.name }}:{{ .Values.user.name }} /tmp
+    chown -R {{ .Values.user.name }}:{{ .Values.user.name }} /var/crash
+
+    su --preserve-environment \
+      --login {{ .Values.user.name }} \
+      --command "ulimit -c unlimited && {{ .Values.installationPath }}/bin/nginx -p {{ .Values.installationPath }}/lib -c /etc/iguazio/nginx/nginx.conf && tail -f {{ .Values.installationPath }}/lib/logs/v3io.log"
 
   health_check.sh: |
 {{ include "v3io-configs.script.httpHealthCheck" . | indent 4 }}
@@ -25,14 +42,14 @@ data:
   nginx.conf: |
     worker_processes {{ .Values.workerProcesses }};
     load_module ngx_http_v3io_module.so;
-    error_log /dev/stderr info;
+    error_log {{ .Values.installationPath }}/lib/logs/v3io.log info;
     events {
         use epoll;
         worker_connections  {{ .Values.workerConnections }};
         multi_accept on;
     }
     http {
-        include       /home/iguazio/igz/clients/nginx/conf/mime.types;
+        include       {{ .Values.installationPath }}/conf/mime.types;
         default_type  application/octet-stream;
         sendfile            on;
         tcp_nopush          on;
@@ -41,8 +58,8 @@ data:
         server {
             listen       {{ .Values.sslHostPort }} ssl;
             ssl    on;
-            ssl_certificate        /home/iguazio/igz/clients/nginx/crt/iguazio-nginx.crt;
-            ssl_certificate_key    /home/iguazio/igz/clients/nginx/crt/iguazio-nginx.key;
+            ssl_certificate        {{ .Values.installationPath }}/crt/iguazio-nginx.crt;
+            ssl_certificate_key    {{ .Values.installationPath }}/crt/iguazio-nginx.key;
             client_body_buffer_size   10M;
             client_max_body_size      5G;
 {{- if .Values.logger.enableAccessLog }}
