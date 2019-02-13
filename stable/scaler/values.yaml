@@ -4,15 +4,35 @@
 
 scaler:
   image:
-    repository: iguaziodocker/scaler
-    tag: 1.0.0
+    repository: iguaziodocker/autoscaler
+    tag: 0.1.1
     pullPolicy: IfNotPresent
+    command: autoscaler
+
+    # args
+    scaleInterval: 30m
+    scaleWindow: 5m
+    metricsPollInterval: 1m
+    metricName: num_of_requests
+    metricsGroupKind: Deployment
+    scaleThreshold: 0
+
+general:
+  image:
+    pathMount: /home/app_resourcescaler
 
 dlx:
   image:
     repository: iguaziodocker/dlx
-    tag: 1.0.0
+    tag: 0.1.1
     pullPolicy: IfNotPresent
+    command: dlx
+
+    # args
+    targetNameHeader: X-App-Target
+    targetPathHeader: ""
+    targetPort: 8080
+    listenAddress: :8080
 
 nodeSelector: {}
 
