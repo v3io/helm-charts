@@ -11,6 +11,15 @@ data:
   health_check.sh: |
 {{ include "v3io-configs.script.httpHealthCheckWithJava" . | indent 4 }}
 
+{{- if .Values.presto.keystoreBinary }}
+  create-cert.sh: |
+    #!/bin/bash
+
+    set -e
+
+    echo -n "{{ .Values.presto.keystoreBinary }}" | base64 --decode > {{ .Values.presto.keystoreMountPath }}/{{ .Values.presto.keystore }}
+{{- end }}
+
   v3io-jupyter.sh: |
     #!/usr/bin/env bash
     set -e
@@ -41,8 +50,14 @@ data:
 {{- end }}
 
 {{- if .Values.presto }}
-    echo alias prestow=\"presto-cli --server {{ .Values.presto.hostname }}.{{ .Release.Namespace }}.svc:{{ .Values.presto.port }} \$@\" >> ${HOME}/.presto_alias
-    echo alias presto=\"prestow --catalog=v3io \$@\" >> ${HOME}/.presto_alias
+    rm ${HOME}/.presto_alias
+{{- if .Values.presto.keystoreBinary }}
+    echo alias prestojks=\"PRESTO_PASSWORD=$V3IO_ACCESS_KEY presto-cli --truststore-path {{ .Values.presto.keystoreMountPath }}/{{ .Values.presto.keystore }} --truststore-password {{ .Values.presto.passphrase }} --user $V3IO_USERNAME --password \$@\" >> ${HOME}/.presto_alias
+    echo alias prestow=\"prestojks --server https://{{ .Values.presto.hostname }}:{{ .Values.presto.port }} \$@\" >> ${HOME}/.presto_alias
+{{- else  }}
+    echo alias prestow=\"presto-cli --server http://{{ .Values.presto.hostname }}.{{ .Release.Namespace }}.svc:{{ .Values.presto.port }} \$@\" >> ${HOME}/.presto_alias
+{{- end }}
+    echo alias presto=\"prestow --catalog={{ .Values.presto.catalog }} \$@\" >> ${HOME}/.presto_alias
     if [ "$(grep --count 'PRESTO CONFIG' ${HOME}/.bashrc)" == "0" ]; then
       echo "# ----- PRESTO CONFIG -----" >> ${HOME}/.bashrc
       echo "source ${HOME}/.presto_alias" >> ${HOME}/.bashrc
