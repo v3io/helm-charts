@@ -5,8 +5,16 @@ spark:
 
 presto:
   hostname: presto
-  port: 8080
+  port: 8443
   catalog: v3io
+  keystoreBinary:
+  keystoreMountPath: /var/run/iguazio/java/cert
+  keystore: iguazio.jks
+  passphrase:
+  image:
+    repository: iguaziodocker/base
+    tag: 3.0.0
+    pullPolicy: IfNotPresent
 
 v3io:
   api:
