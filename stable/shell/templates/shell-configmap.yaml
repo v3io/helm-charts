@@ -8,6 +8,7 @@ metadata:
     release: {{ .Release.Name }}
     heritage: {{ .Release.Service }}
 data:
+{{- if .Values.presto }}
 {{- if .Values.presto.keystoreBinary }}
   create-cert.sh: |
     #!/bin/bash
@@ -15,6 +16,7 @@ data:
     set -e
 
     echo -n "{{ .Values.presto.keystoreBinary }}" | base64 --decode > {{ .Values.presto.keystoreMountPath }}/{{ .Values.presto.keystore }}
+{{- end }}
 {{- end }}
 
   v3io-shell.sh: |
