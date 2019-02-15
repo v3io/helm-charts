@@ -22,9 +22,11 @@ spec:
         - name: config-volume
           configMap:
             name: {{ template "shell.fullname" . }}
+{{- if .Values.presto }}
 {{- if .Values.presto.keystoreBinary }}
         - name: java-cert
           emptyDir: {}
+{{- end }}
 {{- end }}
 {{- if .Values.volumes }}
 {{ include .Values.volumes.volumesTemplate . | indent 8 }}
@@ -32,6 +34,7 @@ spec:
 {{- if .Values.config.hostname }}
       hostname: {{ .Values.config.hostname }}
 {{- end }}
+{{- if .Values.presto }}
 {{- if .Values.presto.keystoreBinary }}
       initContainers:
         - name: jks
@@ -43,6 +46,7 @@ spec:
               name: config-volume
             - mountPath: {{ .Values.presto.keystoreMountPath }}
               name: java-cert
+{{- end }}
 {{- end }}
       containers:
         - name: shell
@@ -75,9 +79,11 @@ spec:
           volumeMounts:
             - name: config-volume
               mountPath: /etc/config/shell
+{{- if .Values.presto }}
 {{- if .Values.presto.keystoreBinary }}
             - mountPath: {{ .Values.presto.keystoreMountPath }}
               name: java-cert
+{{- end }}
 {{- end }}
 {{- if .Values.volumes }}
 {{ include .Values.volumes.volumeMountsTemplate . | indent 12 }}
