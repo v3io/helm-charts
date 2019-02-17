@@ -40,7 +40,7 @@ spec:
         - name: jks
           image: "{{ .Values.presto.image.repository }}:{{ .Values.presto.image.tag }}"
           imagePullPolicy: {{ .Values.presto.image.pullPolicy }}
-          command: ["/bin/bash", "-x", "/etc/config/jks/create-cert.sh"]
+          command: ["/bin/bash", "/etc/config/jks/create-cert.sh"]
           volumeMounts:
             - mountPath: /etc/config/jks
               name: config-volume
@@ -52,7 +52,7 @@ spec:
         - name: shell
           image: "{{ .Values.image.repository }}:{{ .Values.image.tag }}"
           imagePullPolicy: {{ .Values.image.pullPolicy }}
-          command: ["/bin/bash", "-x", "{{ .Values.image.command }}"]
+          command: ["/bin/bash", "{{ .Values.image.command }}"]
           workingDir: "/User"
           ports:
             - name: ttyd

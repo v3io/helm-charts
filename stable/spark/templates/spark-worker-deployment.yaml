@@ -41,7 +41,7 @@ spec:
 {{- if .Values.volumes }}
 {{ include .Values.volumes.worker.volumeMountsTemplate . | indent 12 }}
 {{- end }}
-          command: ["/bin/bash", "-x", "{{ .Values.worker.image.command }}"]
+          command: ["/bin/bash", "{{ .Values.worker.image.command }}"]
           ports:
             - containerPort: {{ .Values.worker.containerPort }}
           livenessProbe:
