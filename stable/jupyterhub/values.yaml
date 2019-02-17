@@ -48,7 +48,7 @@ hub:
       c.KubeSpawner.working_dir = home_dir + '/{username}'
     c.LocalAuthenticator.add_user_cmd = ['adduser', '--quiet', '--force-badname', '--gecos', '""', '--home', home_dir + '/USERNAME', '--disabled-password', '--shell', '/bin/bash']
 
-    c.Spawner.cmd = ['/bin/bash', '-x', '/etc/config/v3io/v3io-hub.sh']
+    c.Spawner.cmd = ['/bin/bash', /etc/config/v3io/v3io-hub.sh']
     c.Spawner.default_url = '/lab'
     c.Spawner.disable_user_config = True
   extraConfigMap: {}
