@@ -39,7 +39,7 @@ spec:
         - name: {{ .Chart.Name }}-jks
           image: "{{ .Values.server.config.https.image.repository }}:{{ .Values.server.config.https.image.tag }}"
           imagePullPolicy: {{ .Values.server.config.https.image.pullPolicy }}
-          command: ["/bin/bash", "-x", "/opt/v3io/jks/create-cert.sh"]
+          command: ["/bin/bash", "/opt/v3io/jks/create-cert.sh"]
           securityContext:
             runAsUser: 0
           volumeMounts:
@@ -52,7 +52,7 @@ spec:
         - name: {{ .Chart.Name }}-worker
           image: "{{ .Values.image.repository }}:{{ .Values.image.tag }}"
           imagePullPolicy: {{ .Values.image.pullPolicy }}
-          command: ["/bin/bash", "-x", "{{ .Values.image.command }}"]
+          command: ["/bin/bash", "{{ .Values.image.command }}"]
 {{- if .Values.environment }}
           env:
 {{ include .Values.environment.template . | indent 12 }}
