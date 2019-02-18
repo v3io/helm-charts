@@ -1,7 +1,9 @@
 spark:
   hostname: spark-master
   port: 7077
-  executorCores: 2
+  executorCores: 1
+  coresMax: 4
+  executorMemory: 2G
 
 presto:
   hostname: presto
