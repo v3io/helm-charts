@@ -18,7 +18,7 @@ functions:
       image:
         repository: quay.io/iguazio/tsdb-ingest
         tag: 0.0.12
-        pullPolicy: Never
+        pullPolicy: IfNotPresent
     query:
       readinessTimeoutSeconds: 180
       replicas: 1
@@ -27,4 +27,4 @@ functions:
       image:
         repository: quay.io/iguazio/tsdb-query
         tag: 0.0.12
-        pullPolicy: Never
+        pullPolicy: IfNotPresent
