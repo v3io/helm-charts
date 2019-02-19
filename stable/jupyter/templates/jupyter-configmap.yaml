@@ -55,17 +55,17 @@ data:
 {{- end }}
 
 {{- if .Values.presto }}
-    rm ${HOME}/.presto_alias || true
+    rm -rf ${IGUAZIO_HOME}/.presto_alias
 {{- if .Values.presto.keystoreBinary }}
-    echo alias prestojks=\"PRESTO_PASSWORD=$V3IO_ACCESS_KEY presto-cli --truststore-path {{ .Values.presto.keystoreMountPath }}/{{ .Values.presto.keystore }} --truststore-password {{ .Values.presto.passphrase }} --user $V3IO_USERNAME --password \$@\" >> ${HOME}/.presto_alias
-    echo alias prestow=\"prestojks --server https://{{ .Values.presto.hostname }}:{{ .Values.presto.port }} \$@\" >> ${HOME}/.presto_alias
+    echo alias prestojks=\"PRESTO_PASSWORD=$V3IO_ACCESS_KEY presto-cli --truststore-path {{ .Values.presto.keystoreMountPath }}/{{ .Values.presto.keystore }} --truststore-password {{ .Values.presto.passphrase }} --user $V3IO_USERNAME --password \$@\" >> ${IGUAZIO_HOME}/.presto_alias
+    echo alias prestow=\"prestojks --server https://{{ .Values.presto.hostname }}:{{ .Values.presto.port }} \$@\" >> ${IGUAZIO_HOME}/.presto_alias
 {{- else  }}
-    echo alias prestow=\"presto-cli --server http://{{ .Values.presto.hostname }}.{{ .Release.Namespace }}.svc:{{ .Values.presto.port }} \$@\" >> ${HOME}/.presto_alias
+    echo alias prestow=\"presto-cli --server http://{{ .Values.presto.hostname }}.{{ .Release.Namespace }}.svc:{{ .Values.presto.port }} \$@\" >> ${IGUAZIO_HOME}/.presto_alias
 {{- end }}
-    echo alias presto=\"prestow --catalog={{ .Values.presto.catalog }} \$@\" >> ${HOME}/.presto_alias
+    echo alias presto=\"prestow --catalog={{ .Values.presto.catalog }} \$@\" >> ${IGUAZIO_HOME}/.presto_alias
     if [ "$(grep --count 'PRESTO CONFIG' ${HOME}/.bashrc)" == "0" ]; then
       echo "# ----- PRESTO CONFIG -----" >> ${HOME}/.bashrc
-      echo "source ${HOME}/.presto_alias" >> ${HOME}/.bashrc
+      echo "source ${IGUAZIO_HOME}/.presto_alias" >> ${HOME}/.bashrc
       echo "# --- END PRESTO CONFIG ---" >> ${HOME}/.bashrc
     fi
 {{- end }}
