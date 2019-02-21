@@ -44,7 +44,7 @@ spec:
           volumeMounts:
             - mountPath: /etc/config/jks
               name: config-volume
-            - mountPath: {{ .Values.presto.keystoreMountPath }}
+            - mountPath: {{ .Values.presto.secretsMountPath }}
               name: java-cert
 {{- end }}
 {{- end }}
@@ -81,7 +81,7 @@ spec:
               mountPath: /etc/config/shell
 {{- if .Values.presto }}
 {{- if .Values.presto.keystoreBinary }}
-            - mountPath: {{ .Values.presto.keystoreMountPath }}
+            - mountPath: {{ .Values.presto.secretsMountPath }}
               name: java-cert
 {{- end }}
 {{- end }}

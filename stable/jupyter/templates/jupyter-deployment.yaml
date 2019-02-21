@@ -41,7 +41,7 @@ spec:
           volumeMounts:
             - mountPath: /etc/config/jks
               name: config-volume
-            - mountPath: {{ .Values.presto.keystoreMountPath }}
+            - mountPath: {{ .Values.presto.secretsMountPath }}
               name: java-cert
 {{- end }}
 {{- end }}
@@ -88,8 +88,13 @@ spec:
             - name: SHELL
               value: /bin/bash
 {{- if .Values.presto }}
+{{- if and .Values.presto.keyBinary .Values.presto.certBinary }}
+            - name: DATABASE_URL
+              value: presto://{{ .Values.presto.hostname }}:443/{{ .Values.presto.catalog }}?protocol=https&requests_kwargs={{ printf "{\"verify\": \"%[1]s/tls.crt\", \"cert\": [\"%[1]s/tls.crt\", \"%[1]s/tls.key\"]}" .Values.presto.secretsMountPath | urlquery }}
+{{- else }}
             - name: DATABASE_URL
               value: presto://{{ .Values.presto.hostname }}.{{ .Release.Namespace }}.svc:{{ .Values.presto.port }}/{{ .Values.presto.catalog }}
+{{- end }}
 {{- end }}
 {{- if .Values.v3io.api }}
             - name: V3IO_API
@@ -109,7 +114,7 @@ spec:
               name: config-volume
 {{- if .Values.presto }}
 {{- if .Values.presto.keystoreBinary }}
-            - mountPath: {{ .Values.presto.keystoreMountPath }}
+            - mountPath: {{ .Values.presto.secretsMountPath }}
               name: java-cert
 {{- end }}
 {{- end }}
