@@ -1,5 +1,5 @@
 apiVersion: nuclio.io/v1beta1
-kind: Function
+kind: NuclioFunction
 metadata:
   name: {{ template "tsdb-functions.ingestName" . }}
   labels:
