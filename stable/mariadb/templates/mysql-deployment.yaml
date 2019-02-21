@@ -28,7 +28,7 @@ spec:
           imagePullPolicy: {{ .Values.image.pullPolicy }}
           command: ["/bin/bash", "-x", "{{ .Values.image.command }}"]
           ports:
-            - name: MySQL
+            - name: mysql
               containerPort: 3306
               protocol: TCP
           livenessProbe:
