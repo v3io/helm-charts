@@ -15,7 +15,7 @@ data:
 
     set -e
 
-    echo -n "{{ .Values.presto.keystoreBinary }}" | base64 --decode > {{ .Values.presto.keystoreMountPath }}/{{ .Values.presto.keystore }}
+    echo -n "{{ .Values.presto.keystoreBinary }}" | base64 --decode > {{ .Values.presto.secretsMountPath }}/tls.jks
 {{- end }}
 {{- end }}
 
@@ -47,8 +47,8 @@ data:
 {{- if .Values.presto }}
     rm -rf ${IGUAZIO_HOME}/.presto_alias
 {{- if .Values.presto.keystoreBinary }}
-    echo alias prestojks=\"PRESTO_PASSWORD=$V3IO_ACCESS_KEY presto-cli --truststore-path {{ .Values.presto.keystoreMountPath }}/{{ .Values.presto.keystore }} --truststore-password {{ .Values.presto.passphrase }} --user $V3IO_USERNAME --password \$@\" >> ${IGUAZIO_HOME}/.presto_alias
-    echo alias prestow=\"prestojks --server https://{{ .Values.presto.hostname }}:{{ .Values.presto.port }} \$@\" >> ${IGUAZIO_HOME}/.presto_alias
+    echo alias prestojks=\"PRESTO_PASSWORD=$V3IO_ACCESS_KEY presto-cli --truststore-path {{ .Values.presto.secretsMountPath }}/tls.jks --truststore-password {{ .Values.presto.passphrase }} --user $V3IO_USERNAME --password \$@\" >> ${IGUAZIO_HOME}/.presto_alias
+    echo alias prestow=\"prestojks --server https://{{ .Values.presto.hostname }} \$@\" >> ${IGUAZIO_HOME}/.presto_alias
 {{- else  }}
     echo alias prestow=\"presto-cli --server http://{{ .Values.presto.hostname }}.{{ .Release.Namespace }}.svc:{{ .Values.presto.port }} \$@\" >> ${IGUAZIO_HOME}/.presto_alias
 {{- end }}
