@@ -18,18 +18,42 @@ spec:
         app: {{ template "shell.name" . }}
         release: {{ .Release.Name }}
     spec:
-{{- if .Values.volumes }}
       volumes:
+        - name: config-volume
+          configMap:
+            name: {{ template "shell.fullname" . }}
+{{- if .Values.presto }}
+{{- if .Values.presto.keystoreBinary }}
+        - name: java-cert
+          emptyDir: {}
+{{- end }}
+{{- end }}
+{{- if .Values.volumes }}
 {{ include .Values.volumes.volumesTemplate . | indent 8 }}
 {{- end }}
 {{- if .Values.config.hostname }}
       hostname: {{ .Values.config.hostname }}
 {{- end }}
+{{- if .Values.presto }}
+{{- if .Values.presto.keystoreBinary }}
+      initContainers:
+        - name: jks
+          image: "{{ .Values.presto.image.repository }}:{{ .Values.presto.image.tag }}"
+          imagePullPolicy: {{ .Values.presto.image.pullPolicy }}
+          command: ["/bin/bash", "/etc/config/jks/create-cert.sh"]
+          volumeMounts:
+            - mountPath: /etc/config/jks
+              name: config-volume
+            - mountPath: {{ .Values.presto.keystoreMountPath }}
+              name: java-cert
+{{- end }}
+{{- end }}
       containers:
-        - name: {{ .Chart.Name }}-shell
+        - name: shell
           image: "{{ .Values.image.repository }}:{{ .Values.image.tag }}"
           imagePullPolicy: {{ .Values.image.pullPolicy }}
-          command: ["/bin/bash", "-x", "{{ .Values.image.command }}"]
+          command: ["/bin/bash", "{{ .Values.image.command }}"]
+          workingDir: "/User"
           ports:
             - name: ttyd
               containerPort: 7681
@@ -52,8 +76,16 @@ spec:
           env:
 {{ include .Values.environment.template . | indent 12 }}
 {{- end }}
-{{- if .Values.volumes }}
           volumeMounts:
+            - name: config-volume
+              mountPath: /etc/config/shell
+{{- if .Values.presto }}
+{{- if .Values.presto.keystoreBinary }}
+            - mountPath: {{ .Values.presto.keystoreMountPath }}
+              name: java-cert
+{{- end }}
+{{- end }}
+{{- if .Values.volumes }}
 {{ include .Values.volumes.volumeMountsTemplate . | indent 12 }}
 {{- end }}
           resources:

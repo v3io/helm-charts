@@ -32,7 +32,7 @@ spec:
         - name: framesd
           image: "{{ .Values.image.repository }}:{{ .Values.image.tag }}"
           imagePullPolicy: {{ .Values.image.pullPolicy }}
-          command: ["/bin/bash", "-x", "{{ .Values.image.command }}"]
+          command: ["/bin/bash", "{{ .Values.image.command }}"]
           ports:
             - name: http
               containerPort: {{ .Values.service.http }}

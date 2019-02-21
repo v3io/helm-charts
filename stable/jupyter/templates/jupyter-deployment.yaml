@@ -26,13 +26,30 @@ spec:
         chart: {{ template "jupyter.chart" . }}
         release: {{ .Release.Name }}
         heritage: {{ .Release.Service }}
+      annotations:
+        iguazio.com/prometheus-pull: "true"
+        iguazio.com/prometheus-pull-port: "{{ .Values.proxy.servicePort }}"
     spec:
       hostname: {{ .Values.v3io.username }}
+{{- if .Values.presto }}
+{{- if .Values.presto.keystoreBinary }}
+      initContainers:
+        - name: jks
+          image: "{{ .Values.presto.image.repository }}:{{ .Values.presto.image.tag }}"
+          imagePullPolicy: {{ .Values.presto.image.pullPolicy }}
+          command: ["/bin/bash", "/etc/config/jks/create-cert.sh"]
+          volumeMounts:
+            - mountPath: /etc/config/jks
+              name: config-volume
+            - mountPath: {{ .Values.presto.keystoreMountPath }}
+              name: java-cert
+{{- end }}
+{{- end }}
       containers:
         - name: jupyter
           image: {{ .Values.image.repository }}:{{ .Values.image.tag }}
           imagePullPolicy: {{ .Values.image.pullPolicy | quote }}
-          command: ["/bin/bash", "-x", "{{ .Values.image.command }}"]
+          command: ["/bin/bash", "{{ .Values.image.command }}"]
           workingDir: "/User"
           args:
             - --ip="0.0.0.0"
@@ -89,19 +106,43 @@ spec:
             - mountPath: /User/v3io
               name: shared
             - mountPath: /etc/config/jupyter
-              name: jupyter-config
+              name: config-volume
+{{- if .Values.presto }}
+{{- if .Values.presto.keystoreBinary }}
+            - mountPath: {{ .Values.presto.keystoreMountPath }}
+              name: java-cert
+{{- end }}
+{{- end }}
 {{- if .Values.volumes }}
 {{ include .Values.volumes.volumeMountsTemplate . | indent 12 }}
 {{- end }}
+        - name: sidecar-proxy
+          image: {{ .Values.proxy.image.repository }}:{{ .Values.proxy.image.tag }}
+          command: ["proxy_server"]
+          args: 
+          - --listen-addr=:{{ .Values.proxy.servicePort }}
+          - --forward-addr=127.0.0.1:{{ .Values.servicePort }}
+          - --namespace={{ .Release.Namespace }}
+          - --service-name={{ .Release.Name }}
+          - --instance-name={{ template "jupyter.fullname" . }}
+          ports:
+            - containerPort: {{ .Values.proxy.servicePort }}
+              name: sidecar-proxy
       volumes:
+        - name: config-volume
+          configMap:
+            name: {{ template "jupyter.fullname" . }}
         - name: shared
           flexVolume:
             driver: "v3io/fuse"
             secretRef:
               name: {{ .Release.Name }}-v3io-fuse
+{{- if .Values.presto }}
+{{- if .Values.presto.keystoreBinary }}
+        - name: java-cert
+          emptyDir: {}
+{{- end }}
+{{- end }}
 {{- if .Values.volumes }}
 {{ include .Values.volumes.volumesTemplate . | indent 8 }}
 {{- end }}
-        - name: jupyter-config
-          configMap:
-            name: {{ template "jupyter.fullname" . }}

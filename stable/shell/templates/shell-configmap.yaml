@@ -1,16 +1,13 @@
 apiVersion: v1
 kind: ConfigMap
 metadata:
-  name: {{ template "jupyter.fullname" . }}
+  name: {{ template "shell.fullname" . }}
   labels:
-    app: {{ template "jupyter.name" . }}
-    chart: {{ template "jupyter.chart" . }}
+    app: {{ template "shell.name" . }}
+    chart: {{ template "shell.chart" . }}
     release: {{ .Release.Name }}
     heritage: {{ .Release.Service }}
 data:
-  health_check.sh: |
-{{ include "v3io-configs.script.httpHealthCheckWithJava" . | indent 4 }}
-
 {{- if .Values.presto }}
 {{- if .Values.presto.keystoreBinary }}
   create-cert.sh: |
@@ -22,22 +19,15 @@ data:
 {{- end }}
 {{- end }}
 
-  v3io-jupyter.sh: |
+  v3io-shell.sh: |
     #!/usr/bin/env bash
     set -e
 
 {{ include "v3io-configs.script.lookupService" . | indent 4 }}
 
-    test -e ${HOME}/.bashrc || touch ${HOME}/.bashrc
-
-{{- if .Values.initCommands }}
-    mkdir -p ${HOME}/.igz
-{{- range $index, $initCmd := .Values.initCommands }}
-    if [ ! -e "${HOME}/.igz/.{{ $initCmd.name }}" ]; then
-{{ $initCmd.command | indent 6 }}
-      touch ${HOME}/.igz/.{{ $initCmd.name }}
-    fi
-{{ end -}}
+{{- if and .Values.v3io.tsdbctl .Values.v3io.tsdbctl.download }}
+    curl -sSL -o ${IGUAZIO_HOME}/bin/tsdbctl {{ .Values.v3io.tsdbctl.download }}
+    chmod +x ${IGUAZIO_HOME}/bin/tsdbctl
 {{- end }}
 
 {{- if .Values.spark }}
@@ -70,20 +60,30 @@ data:
     fi
 {{- end }}
 
-{{- if and .Values.v3io.tsdbctl .Values.v3io.tsdbctl.download }}
-    curl -sSL -o ${IGUAZIO_HOME}/bin/tsdbctl {{ .Values.v3io.tsdbctl.download }}
-    chmod +x ${IGUAZIO_HOME}/bin/tsdbctl
-{{- end }}
-
+    echo "echo ''" >> ~/.bashrc
 {{- if .Values.config.logo }}
     if [ "$(grep --count 'LOGO CONFIG' ${HOME}/.bashrc)" == "0" ]; then
       echo "# ----- LOGO CONFIG -----" >> ${HOME}/.bashrc
       echo "echo ''" >> ${HOME}/.bashrc
       echo "echo {{ .Values.config.logo }} | base64 --decode" >> ${HOME}/.bashrc
       echo "echo ''" >> ${HOME}/.bashrc
+      echo "echo ''" >> ${HOME}/.bashrc
       echo "# --- END LOGO CONFIG ---" >> ${HOME}/.bashrc
     fi
 {{- end }}
+{{- if .Values.config.welcome }}
+    if [ "$(grep --count 'WELCOME CONFIG' ${HOME}/.bashrc)" == "0" ]; then
+      echo "# ----- WELCOME CONFIG -----" >> ${HOME}/.bashrc
+      echo "toilet --font smmono9 --termwidth --filter metal {{ .Values.config.welcome }}" >> ${HOME}/.bashrc
+      echo "echo ''" >> ${HOME}/.bashrc
+      echo "# ----- WELCOME CONFIG -----" >> ${HOME}/.bashrc
+    fi
+{{- end }}
+
+    mkdir -p ${HOME}/.pythonlibs
+    export PIP_PREFIX="${HOME}/.pythonlibs"
+    export PYTHONPATH="${HOME}/.pythonlibs/lib/python3.6/site-packages:${PYTHONPATH}"
+    export PATH="${PATH}:${HOME}/.pythonlibs/bin"
 
     if [ "$(grep --count 'IGUAZIO CONFIG' ${HOME}/.bashrc)" == "0" ]; then
       echo "# ----- IGUAZIO CONFIG -----" >> ${HOME}/.bashrc
@@ -92,9 +92,4 @@ data:
       echo "# --- END IGUAZIO CONFIG ---" >> ${HOME}/.bashrc
     fi
 
-    mkdir -p ${HOME}/.pythonlibs
-    export PIP_PREFIX="${HOME}/.pythonlibs"
-    export PYTHONPATH="${HOME}/.pythonlibs/lib/python3.6/site-packages:${PYTHONPATH}"
-    export PATH="${PATH}:${HOME}/.pythonlibs/bin"
-
-    jupyter-notebook $@
+    ttyd bash

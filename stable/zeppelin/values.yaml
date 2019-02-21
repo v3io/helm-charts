@@ -1,6 +1,9 @@
 spark:
   hostname: spark-master
   port: 7077
+  executorCores: 1
+  executorMemory: 2G
+  maxApplicationCores: 4
 
 image:
   repository: "iguaziodocker/zeppelin"
