@@ -1,5 +1,5 @@
 apiVersion: nuclio.io/v1beta1
-kind: Project
+kind: NuclioProject
 metadata:
   name: {{ template "tsdb-functions.projectName" . }}
   labels:
