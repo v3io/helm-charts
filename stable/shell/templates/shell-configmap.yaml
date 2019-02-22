@@ -30,7 +30,7 @@ data:
     curl -sSL -o ${IGUAZIO_HOME}/bin/tsdbctl {{ .Values.v3io.tsdbctl.download }}
     chmod +x ${IGUAZIO_HOME}/bin/tsdbctl
 {{- end }}
-    test -e ${HOME}/.bashrc || touch ${HOME}/.bashrc
+
 {{- if .Values.spark }}
     echo "spark.master=spark://{{ .Values.spark.hostname }}:{{ .Values.spark.port }}" >> ${SPARK_HOME}/conf/spark-defaults.conf
     echo spark.driver.host=$(hostname -i) >> ${SPARK_HOME}/conf/spark-defaults.conf
