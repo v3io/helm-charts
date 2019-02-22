@@ -25,6 +25,7 @@ data:
 
 {{ include "v3io-configs.script.lookupService" . | indent 4 }}
 
+    test -e ${HOME}/.bashrc || touch ${HOME}/.bashrc
 {{- if and .Values.v3io.tsdbctl .Values.v3io.tsdbctl.download }}
     curl -sSL -o ${IGUAZIO_HOME}/bin/tsdbctl {{ .Values.v3io.tsdbctl.download }}
     chmod +x ${IGUAZIO_HOME}/bin/tsdbctl
@@ -46,6 +47,7 @@ data:
 
 {{- if .Values.presto }}
     rm -rf ${IGUAZIO_HOME}/.presto_alias
+    touch ${IGUAZIO_HOME}/.presto_history
 {{- if .Values.presto.keystoreBinary }}
     echo alias prestojks=\"PRESTO_PASSWORD=$V3IO_ACCESS_KEY presto-cli --truststore-path {{ .Values.presto.secretsMountPath }}/tls.jks --truststore-password {{ .Values.presto.passphrase }} --user $V3IO_USERNAME --password \$@\" >> ${IGUAZIO_HOME}/.presto_alias
     echo alias prestow=\"prestojks --server https://{{ .Values.presto.hostname }} \$@\" >> ${IGUAZIO_HOME}/.presto_alias
@@ -60,7 +62,7 @@ data:
     fi
 {{- end }}
 
-    echo "echo ''" >> ~/.bashrc
+    echo "echo ''" >> ${HOME}/.bashrc
 {{- if .Values.config.logo }}
     if [ "$(grep --count 'LOGO CONFIG' ${HOME}/.bashrc)" == "0" ]; then
       echo "# ----- LOGO CONFIG -----" >> ${HOME}/.bashrc
