@@ -63,7 +63,7 @@ global:
 
 livenessProbe:
   initialDelaySeconds: 5
-  periodSeconds: 10
+  periodSeconds: 5
 readinessProbe:
   initialDelaySeconds: 5
-  periodSeconds: 10
+  periodSeconds: 5
