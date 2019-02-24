@@ -10,9 +10,10 @@ presto:
   port: 8443
   catalog: v3io
   keystoreBinary:
-  keystoreMountPath: /var/run/iguazio/java/cert
-  keystore: iguazio.jks
+  secretsMountPath: /var/run/iguazio/secrets
   passphrase:
+  keyBinary:
+  certBinary:
   image:
     repository: iguaziodocker/base
     tag: 3.0.0
