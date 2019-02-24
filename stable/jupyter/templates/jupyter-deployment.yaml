@@ -90,7 +90,7 @@ spec:
 {{- if .Values.presto }}
 {{- if and .Values.presto.keyBinary .Values.presto.certBinary }}
             - name: DATABASE_URL
-              value: presto://{{ .Values.presto.hostname }}:443/{{ .Values.presto.catalog }}?protocol=https&requests_kwargs={{ printf "{\"verify\": \"%[1]s/tls.crt\", \"cert\": [\"%[1]s/tls.crt\", \"%[1]s/tls.key\"]}" .Values.presto.secretsMountPath | urlquery }}
+              value: presto://{{ .Values.v3io.username }}:{{ .Values.v3io.accessKey }}@{{ .Values.presto.hostname }}:443/{{ .Values.presto.catalog }}?protocol=https&requests_kwargs={{ printf "{\"verify\": \"%[1]s/tls.crt\", \"cert\": [\"%[1]s/tls.crt\", \"%[1]s/tls.key\"]}" .Values.presto.secretsMountPath | urlquery }}
 {{- else }}
             - name: DATABASE_URL
               value: presto://{{ .Values.presto.hostname }}.{{ .Release.Namespace }}.svc:{{ .Values.presto.port }}/{{ .Values.presto.catalog }}
