@@ -7,7 +7,7 @@ master:
   replicas: 1
   servicePort: 7077
   containerPort: 7077
-  
+
   resources: {}
     # limits:
       # cpu: 1
@@ -15,7 +15,7 @@ master:
     # requests:
       # cpu: 1
       # memory: "3Gi"
-  
+
   webAdmin:
     servicePort: 8080
     containerPort: 8080
@@ -29,7 +29,7 @@ worker:
   replicas: 1
   containerPort: 8081
   executorMemory: "1g"
-  
+
   resources: {}
     # limits:
       # cpu: 1
@@ -59,3 +59,11 @@ global:
     configMountPath: /etc/config/v3io
 
 v3io: {}
+
+livenessProbe:
+  initialDelaySeconds: 90
+  periodSeconds: 10
+
+readinessProbe:
+  initialDelaySeconds: 5
+  periodSeconds: 10

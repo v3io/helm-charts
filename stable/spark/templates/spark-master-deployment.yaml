@@ -51,16 +51,16 @@ spec:
               - /bin/bash
               - /etc/config/spark/health_check.sh
               - --port={{ .Values.master.webAdmin.containerPort }}
-              initialDelaySeconds: 90
-              periodSeconds: 1
+              initialDelaySeconds: {{ .Values.livenessProbe.initialDelaySeconds }}
+              periodSeconds: {{ .Values.livenessProbe.periodSeconds }}
           readinessProbe:
             exec:
               command:
               - /bin/bash
               - /etc/config/spark/health_check.sh
               - --port={{ .Values.master.webAdmin.containerPort }}
-              initialDelaySeconds: 5
-              periodSeconds: 1
+              initialDelaySeconds: {{ .Values.readinessProbe.initialDelaySeconds }}
+              periodSeconds: {{ .Values.readinessProbe.periodSeconds }}
           resources:
 {{ toYaml .Values.master.resources | indent 12 }}
 {{- if .Values.environment }}

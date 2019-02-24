@@ -60,3 +60,10 @@ volumes:
 global:
   v3io:
     configMountPath: /etc/config/v3io
+
+livenessProbe:
+  initialDelaySeconds: 5
+  periodSeconds: 10
+readinessProbe:
+  initialDelaySeconds: 5
+  periodSeconds: 10
