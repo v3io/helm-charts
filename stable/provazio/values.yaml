@@ -63,6 +63,10 @@ controller:
   artifactVersionManifestDir: "/etc/provazio/controller"
   artifactVersionManifestContents: ""
 
+  # same goes for system config (used to retrieve cluster nodes urls)
+  systemConfigDir: "/etc/provazio/controller"
+  systemConfigContents: ""
+
   crd:
     create: true
     kinds:

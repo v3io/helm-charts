@@ -1,0 +1,17 @@
+{{- if and .Values.controller.enabled .Values.controller.systemConfigContents }}
+
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: {{ template "provazio.controller.name" . }}-system-config
+  labels:
+    app: {{ template "provazio.name" . }}
+    chart: {{ template "provazio.chart" . }}
+    release: {{ .Release.Name }}
+    heritage: {{ .Release.Service }}
+    component: controller
+data:
+  system-config.json: |
+    {{ .Values.controller.systemConfigContents | b64dec }}
+
+{{- end }}
