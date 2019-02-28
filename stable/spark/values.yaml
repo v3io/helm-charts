@@ -62,8 +62,8 @@ v3io: {}
 
 livenessProbe:
   initialDelaySeconds: 90
-  periodSeconds: 5
+  periodSeconds: 30
 
 readinessProbe:
   initialDelaySeconds: 5
-  periodSeconds: 5
+  periodSeconds: 30
