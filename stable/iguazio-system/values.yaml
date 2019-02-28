@@ -5,7 +5,7 @@ tenant:
   name: iguazio-system
   namespace:
     tagJob:
-      run: true
+      run: false
 
   network:
     ingress:
@@ -56,6 +56,7 @@ job:
       - kube-system
 
 logfwd:
+  enabled : false
   image:
     repository: iguaziodocker/logfwd
     tag: 0.1.0
