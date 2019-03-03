@@ -15,6 +15,12 @@ demo: WORKDIR = demo
 demo: repo-helm update-req package-all index
 	@echo "Done"
 
+.PHONY: incubator
+incubator: WORKDIR = incubator
+
+incubator: repo-helm update-req package-all index
+	@echo "Done"
+
 helm-publish:
 	@echo "Preparing to release a new index"
 	@rm -rf /tmp/v3io-helm-charts
@@ -31,6 +37,10 @@ helm-publish:
 		git add --force demo/*tgz && \
 		git add demo/* && \
 		git commit --message "Merging demo $$REF_SHA" && \
+		make incubator && \
+		git add --force incubator/*tgz && \
+		git add incubator/* && \
+		git commit --message "Merging incubator $$REF_SHA" && \
 		git push
 	@rm -rf /tmp/v3io-helm-charts
 	@echo "New index released!"
