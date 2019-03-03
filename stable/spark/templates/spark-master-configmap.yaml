@@ -11,7 +11,7 @@ data:
   health_check.sh: |
 {{ include "v3io-configs.script.httpHealthCheckWithJava" . | indent 4 }}
     # Test that dayman is alive and accessible
-    hadoop fs -test -e /
+    hadoop fs -test -e v3io://users/
 
   run.sh: |
     #!/usr/bin/env bash
