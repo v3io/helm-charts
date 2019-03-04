@@ -57,8 +57,8 @@ spec:
               - /etc/iguazio/nginx/health_check.sh
               - --port={{ .Values.hostPort }}
               - --http-method=OPTIONS
-              initialDelaySeconds: 5
-              periodSeconds: 1
+            initialDelaySeconds: 5
+            periodSeconds: 1
           readinessProbe:
             exec:
               command:
@@ -66,8 +66,8 @@ spec:
               - /etc/iguazio/nginx/health_check.sh
               - --port={{ .Values.hostPort }}
               - --http-method=OPTIONS
-              initialDelaySeconds: 1
-              periodSeconds: 1
+            initialDelaySeconds: 1
+            periodSeconds: 1
           env:
             - name: CURRENT_NODE_IP
               valueFrom:

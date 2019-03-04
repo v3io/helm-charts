@@ -73,8 +73,8 @@ spec:
               - /etc/config/jupyter/health_check.sh
               - --uri-path=/lab
               - --port={{ .Values.servicePort }}
-              initialDelaySeconds: 90
-              periodSeconds: 1
+            initialDelaySeconds: 90
+            periodSeconds: 1
           readinessProbe:
             exec:
               command:
@@ -82,8 +82,8 @@ spec:
               - /etc/config/jupyter/health_check.sh
               - --uri-path=/lab
               - --port={{ .Values.servicePort }}
-              initialDelaySeconds: 5
-              periodSeconds: 1
+            initialDelaySeconds: 5
+            periodSeconds: 1
           env:
             - name: SHELL
               value: /bin/bash
