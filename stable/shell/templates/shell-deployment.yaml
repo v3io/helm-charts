@@ -63,15 +63,15 @@ spec:
               command:
               - /bin/bash
               - {{ .Values.global.v3io.configMountPath }}/health_check.sh
-              initialDelaySeconds: {{ .Values.livenessProbe.initialDelaySeconds }}
-              periodSeconds: {{ .Values.livenessProbe.periodSeconds }}
+            initialDelaySeconds: {{ .Values.livenessProbe.initialDelaySeconds }}
+            periodSeconds: {{ .Values.livenessProbe.periodSeconds }}
           readinessProbe:
             exec:
               command:
               - /bin/bash
               - {{ .Values.global.v3io.configMountPath }}/health_check.sh
-              initialDelaySeconds: {{ .Values.readinessProbe.initialDelaySeconds }}
-              periodSeconds: {{ .Values.readinessProbe.periodSeconds }}
+            initialDelaySeconds: {{ .Values.readinessProbe.initialDelaySeconds }}
+            periodSeconds: {{ .Values.readinessProbe.periodSeconds }}
 {{- if .Values.environment }}
           env:
 {{ include .Values.environment.template . | indent 12 }}
