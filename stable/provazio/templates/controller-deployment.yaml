@@ -34,19 +34,38 @@ spec:
         - name: PROVAZIO_CONTROLLER_ARTIFACT_VERSION_RESOLVER_MANIFEST_PATH
           value: {{ .Values.controller.artifactVersionManifestDir }}/artifact-version-manifest.json
 {{- end }}
+{{- if .Values.controller.systemConfigContents }}
+        - name: PROVAZIO_CONTROLLER_SYSTEM_CONFIG_PATH
+          value: {{ .Values.controller.systemConfigDir }}/system-config.json
+{{- end }}
         image: {{ .Values.controller.image.repository }}:{{ .Values.controller.image.tag }}
         imagePullPolicy: {{ .Values.controller.image.pullPolicy | quote }}
         name: {{ template "provazio.controller.name" . }}
-{{- if .Values.controller.artifactVersionManifestContents }}
+
+{{- if or .Values.controller.artifactVersionManifestContents .Values.controller.systemConfigContents }}
         volumeMounts:
+{{- if .Values.controller.artifactVersionManifestContents }}
           - mountPath: {{ .Values.controller.artifactVersionManifestDir | quote }}
             name: artifact-version-manifest
 {{- end }}
-{{- if .Values.controller.artifactVersionManifestContents }}
+{{- if .Values.controller.systemConfigContents }}
+          - mountPath: {{ .Values.controller.systemConfigDir | quote }}
+            name: system-config
+{{- end }}
+{{- end }}
+
+{{- if or .Values.controller.artifactVersionManifestContents .Values.controller.systemConfigContents }}
       volumes:
+{{- if .Values.controller.artifactVersionManifestContents }}
         - name: artifact-version-manifest
           configMap:
             name: {{ template "provazio.controller.name" . }}-artifact-version-manifest
+{{- end }}
+{{- if .Values.controller.systemConfigContents }}
+        - name: system-config
+          configMap:
+            name: {{ template "provazio.controller.name" . }}-system-config
+{{- end }}
 {{- end }}
 
 {{- end }}
