@@ -27,7 +27,7 @@ tenant:
         max: 4
       memory:
         # This is the default limit; setting a low bar will require adding limit to all containers
-        default: 16Mi
+        default: 128Mi
         defaultRequest: 16Mi
         min: 16Mi
         max: 8Gi
