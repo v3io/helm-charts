@@ -44,7 +44,7 @@ spec:
           volumeMounts:
             - mountPath: /etc/config/jks
               name: config-volume
-            - mountPath: {{ .Values.presto.keystoreMountPath }}
+            - mountPath: {{ .Values.presto.secretsMountPath }}
               name: java-cert
 {{- end }}
 {{- end }}
@@ -63,15 +63,15 @@ spec:
               command:
               - /bin/bash
               - {{ .Values.global.v3io.configMountPath }}/health_check.sh
-              initialDelaySeconds: 5
-              periodSeconds: 1
+            initialDelaySeconds: {{ .Values.livenessProbe.initialDelaySeconds }}
+            periodSeconds: {{ .Values.livenessProbe.periodSeconds }}
           readinessProbe:
             exec:
               command:
               - /bin/bash
               - {{ .Values.global.v3io.configMountPath }}/health_check.sh
-              initialDelaySeconds: 5
-              periodSeconds: 1
+            initialDelaySeconds: {{ .Values.readinessProbe.initialDelaySeconds }}
+            periodSeconds: {{ .Values.readinessProbe.periodSeconds }}
 {{- if .Values.environment }}
           env:
 {{ include .Values.environment.template . | indent 12 }}
@@ -81,7 +81,7 @@ spec:
               mountPath: /etc/config/shell
 {{- if .Values.presto }}
 {{- if .Values.presto.keystoreBinary }}
-            - mountPath: {{ .Values.presto.keystoreMountPath }}
+            - mountPath: {{ .Values.presto.secretsMountPath }}
               name: java-cert
 {{- end }}
 {{- end }}

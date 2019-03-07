@@ -16,8 +16,7 @@ presto:
   port: 8443
   catalog: v3io
   keystoreBinary:
-  keystoreMountPath: /var/run/iguazio/java/cert
-  keystore: iguazio.jks
+  secretsMountPath: /var/run/iguazio/secrets
   passphrase:
   image:
     repository: iguaziodocker/base
@@ -61,3 +60,10 @@ volumes:
 global:
   v3io:
     configMountPath: /etc/config/v3io
+
+livenessProbe:
+  initialDelaySeconds: 5
+  periodSeconds: 30
+readinessProbe:
+  initialDelaySeconds: 5
+  periodSeconds: 30

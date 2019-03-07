@@ -60,8 +60,12 @@ controller:
   # if artifactVersionManifestContents is set, a configuration file will be created and passed
   # to the controller so that it won't try to resolve artifact versions through the standard github
   # mechanism. Instead, it will take all the artifact versions from this manifest
-  artifactVersionManifestDir: "/etc/provazio/controller"
+  artifactVersionManifestDir: "/etc/provazio/controller/artifact_version_manifest"
   artifactVersionManifestContents: ""
+
+  # same goes for system config (used to retrieve cluster nodes urls)
+  systemConfigDir: "/etc/provazio/controller/system_config"
+  systemConfigContents: ""
 
   crd:
     create: true

@@ -79,8 +79,8 @@ spec:
               - {{ .Values.server.config.mapPath }}/health_check.sh
               - --uri-path=/v1/cluster
               - --port={{ .Values.server.config.http.port }}
-              initialDelaySeconds: 90
-              periodSeconds: 1
+            initialDelaySeconds: 90
+            periodSeconds: 1
           readinessProbe:
             exec:
               command:
@@ -88,8 +88,8 @@ spec:
               - {{ .Values.server.config.mapPath }}/health_check.sh
               - --uri-path=/v1/cluster
               - --port={{ .Values.server.config.http.port }}
-              initialDelaySeconds: 5
-              periodSeconds: 1
+            initialDelaySeconds: 5
+            periodSeconds: 1
           resources:
 {{ toYaml .Values.resources | indent 12 }}
     {{- with .Values.nodeSelector }}

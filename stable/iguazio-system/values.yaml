@@ -5,7 +5,7 @@ tenant:
   name: iguazio-system
   namespace:
     tagJob:
-      run: true
+      run: false
 
   network:
     ingress:
@@ -21,13 +21,13 @@ tenant:
       memory: 10Gi
     container:
       cpu:
-        default: 1
+        default: 0.5
         defaultRequest: 0.5
         min: 0.1
         max: 4
       memory:
         # This is the default limit; setting a low bar will require adding limit to all containers
-        default: 2Gi
+        default: 16Mi
         defaultRequest: 16Mi
         min: 16Mi
         max: 8Gi
@@ -56,6 +56,7 @@ job:
       - kube-system
 
 logfwd:
+  enabled : false
   image:
     repository: iguaziodocker/logfwd
     tag: 0.1.0
