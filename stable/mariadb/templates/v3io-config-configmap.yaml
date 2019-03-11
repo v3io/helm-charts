@@ -11,24 +11,34 @@ data:
 {{ include "v3io-configs.java.configMap" . | indent 2 }}
 
   health_check.sh: |
-{{ include "v3io-configs.script.javaHealthCheck" . | indent 4 }}
     # TODO: Implement life livenessProbe/readinessProbe
     # command: ["sh", "-c", "exec mysqladmin status -uroot -p$MARIADB_ROOT_PASSWORD"]
+    echo "No checks implemented yet."
+    exit 0
 
   v3io-mariadb.sh: |
     #!/usr/bin/env bash
-    set -e
+    set -ex
 
 {{ include "v3io-configs.script.lookupService" . | indent 4 }}
-
+    touch ~/.bashrc
     echo "echo ''" >> ~/.bashrc
 {{- if .Values.config.logo }}
     echo "echo {{ .Values.config.logo }} | base64 --decode" >> ~/.bashrc
     echo "echo ''" >> ~/.bashrc
 {{- end }}
 {{- if .Values.config.welcome }}
-    echo "toilet --font smmono9 --termwidth --filter metal {{ .Values.config.welcome }}" >> ~/.bashrc
+    #echo "toilet --font smmono9 --termwidth --filter metal {{ .Values.config.welcome }}" >> ~/.bashrc
     echo "echo ''" >> ~/.bashrc
 {{- end }}
-    echo "echo ''" >> ~/.bashrc
-# TODO: Start MariaDB
+    echo "alias ll='ls -la'" >> ~/.bashrc
+    . ~/.bashrc
+
+    echo "Current user -> $(whoami)"
+    echo "Starting MariaDB..."
+    # Init database in a temporary directory (workaround for the access issue on Fuse)
+    mysql_install_db --user=mysql --basedir=/usr --datadir=/tmp/mysql
+    # and then copy the init files into real working directory (on Fuse mount)
+    cp -R /tmp/mysql /var/lib/
+    # start the database server daemon
+    mysqld

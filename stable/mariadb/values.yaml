@@ -1,23 +1,38 @@
+
+## Init containers parameters:
+## volumePermissions: Change the owner of the persist volume mountpoint to RunAsUser:fsGroup
+##
+volumePermissions:
+  image:
+    registry: docker.io
+    repository: bitnami/minideb
+    tag: latest
+    ## Specify a imagePullPolicy
+    ## Defaults to 'Always' if image tag is 'latest', else set to 'IfNotPresent'
+    ## ref: http://kubernetes.io/docs/user-guide/images/#pre-pulling-images
+    ##
+    pullPolicy: Always
+  ## Init container Security Context
+  securityContext:
+    runAsUser: 0
+
 image:
-  repository: imakhlin/mariadb
+  repository: iguaziodocker/mariadb
   tag: 10.4
   pullPolicy: IfNotPresent
   command: /etc/config/v3io/v3io-mariadb.sh
 
 server:
-  hostname: mariadb
+  hostname: mysql
   port: 3306
 
   livenessProbe:
-    ##
     ## Initializing the database could take some time
     initialDelaySeconds: 120
-    ##
     ## Default Kubernetes values
     periodSeconds: 10
   readinessProbe:
     initialDelaySeconds: 30
-    ##
     ## Default Kubernetes values
     periodSeconds: 10
 
@@ -31,7 +46,7 @@ securityContext:
 
 config:
   welcome:
-    Welcome to Iguazio MariaDB server
+    Welcome to Iguazio MySQL (MariaDB) server
 
 resources: {}
   # We usually recommend not to specify default resources and to leave this as a conscious

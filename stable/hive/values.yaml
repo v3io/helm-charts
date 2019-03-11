@@ -1,6 +1,6 @@
 image:
   repository: iguaziodocker/hive
-  tag: 2.9.0-2.3.2
+  tag: 2.3.2-2.9.0
   pullPolicy: IfNotPresent
   command: /etc/config/v3io/v3io-hive.sh
 
@@ -12,7 +12,7 @@ metastore:
   servicePort: 9083
   containerPort: 9083
 
-databaseType: postgres
+databaseType: mysql
 
 mysql:
   hostname: mysql-hive

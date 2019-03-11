@@ -21,6 +21,15 @@ spec:
 {{- if .Values.volumes }}
       volumes:
 {{ include .Values.volumes.volumesTemplate . | indent 8 }}
+        # Add mysql data fuse mount
+        - name: mysql-fuse
+          flexVolume:
+            driver: "v3io/fuse"
+            secretRef:
+              name: {{ .Release.Name }}-v3io-fuse
+            options:
+              container: bigdata
+              subPath: /mysql
 {{- end }}
       containers:
         - name: {{ .Chart.Name }}-mariadb
@@ -29,7 +38,7 @@ spec:
           command: ["/bin/bash", "-x", "{{ .Values.image.command }}"]
           ports:
             - name: mysql
-              containerPort: 3306
+              containerPort: {{ .Values.server.port }}
               protocol: TCP
           livenessProbe:
             exec:
@@ -52,6 +61,8 @@ spec:
 {{- if .Values.volumes }}
           volumeMounts:
 {{ include .Values.volumes.volumeMountsTemplate . | indent 12 }}
+            - name: mysql-fuse
+              mountPath: "/var/lib/mysql"
 {{- end }}
           resources:
 {{ toYaml .Values.resources | indent 12 }}

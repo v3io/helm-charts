@@ -9,10 +9,10 @@ metadata:
     heritage: {{ .Release.Service }}
 spec:
   ports:
-    - port: 3306
+    - name: mysql
+      port: {{ .Values.server.port }}
       targetPort: mysql
       protocol: TCP
-      name: mysql
   selector:
     app: {{ template "mariadb.name" . }}
     release: {{ .Release.Name }}

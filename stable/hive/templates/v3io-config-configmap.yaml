@@ -84,6 +84,7 @@ data:
     <?xml version="1.0" encoding="UTF-8" standalone="no"?>
     <?xml-stylesheet type="text/xsl" href="configuration.xsl"?>
     <configuration>
+{{ if eq .Values.databaseType "postgresql" }}
       <property>
         <name>javax.jdo.option.ConnectionURL</name>
         <value>jdbc:postgresql://{{ .Values.postgres.hostname }}:{{ .Values.postgres.port }}/{{ .Values.postgres.database }}</value>
@@ -103,6 +104,27 @@ data:
         <name>javax.jdo.option.ConnectionPassword</name>
         <value>{{ .Values.postgres.password }}</value>
       </property>
+{{ else }}
+      <property>
+        <name>javax.jdo.option.ConnectionURL</name>
+        <value>jdbc:mysql://{{ .Values.mysql.hostname }}:{{ .Values.mysql.port }}/{{ .Values.mysql.database }}</value>
+      </property>
+
+      <property>
+        <name>javax.jdo.option.ConnectionDriverName</name>
+        <value>org.mariadb.jdbc.Driver</value>
+      </property>
+
+      <property>
+        <name>javax.jdo.option.ConnectionUserName</name>
+        <value>{{ .Values.mysql.username }}</value>
+      </property>
+
+      <property>
+        <name>javax.jdo.option.ConnectionPassword</name>
+        <value>{{ .Values.mysql.password }}</value>
+      </property>
+{{ end }}
 
       <property>
         <name>hive.metastore.uris</name>
