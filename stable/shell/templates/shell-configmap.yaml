@@ -29,7 +29,9 @@ data:
 {{- if and .Values.v3io.tsdbctl .Values.v3io.tsdbctl.download }}
     curl -sSL -o ${IGUAZIO_HOME}/bin/tsdbctl {{ .Values.v3io.tsdbctl.download }}
     chmod +x ${IGUAZIO_HOME}/bin/tsdbctl
-    echo alias tsdbctl=\"tsdbctl -s {{ .Values.webapi.url }} -k {{ .Values.v3io.accessKey }}\"
+    if [ "${V3IO_API}" -a "${V3IO_ACCESS_KEY}" ]; then
+      echo alias tsdbctl=\"tsdbctl --server ${V3IO_API} --access-key ${V3IO_ACCESS_KEY}\"
+    fi
 {{- end }}
 
 {{- if .Values.spark }}
