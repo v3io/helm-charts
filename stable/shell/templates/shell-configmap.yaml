@@ -32,9 +32,11 @@ data:
     rm -f ${IGUAZIO_HOME}/.tsdb_alias
     if [ "${V3IO_API}" -a "${V3IO_ACCESS_KEY}" ]; then
       echo alias tsdbctl=\"tsdbctl --server ${V3IO_API} --access-key ${V3IO_ACCESS_KEY}\" >> ${IGUAZIO_HOME}/.tsdb_alias
-      echo "# ----- TSDB CONFIG -----" >> ${HOME}/.bashrc
-      echo "source ${IGUAZIO_HOME}/.tsdb_alias" >> ${HOME}/.bashrc
-      echo "# --- END TSDB CONFIG ---" >> ${HOME}/.bashrc
+      if [ "$(grep --count 'TSDB CONFIG' ${HOME}/.bashrc)" == "0" ]; then
+        echo "# ----- TSDB CONFIG -----" >> ${HOME}/.bashrc
+        echo "source ${IGUAZIO_HOME}/.tsdb_alias" >> ${HOME}/.bashrc
+        echo "# --- END TSDB CONFIG ---" >> ${HOME}/.bashrc
+      fi
     fi
 {{- end }}
 
