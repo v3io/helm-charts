@@ -78,8 +78,12 @@ data:
 {{- if and .Values.v3io.tsdbctl .Values.v3io.tsdbctl.download }}
     curl -sSL -o ${IGUAZIO_HOME}/bin/tsdbctl {{ .Values.v3io.tsdbctl.download }}
     chmod +x ${IGUAZIO_HOME}/bin/tsdbctl
+    rm -f ${IGUAZIO_HOME}/.tsdb_alias
     if [ "${V3IO_API}" -a "${V3IO_ACCESS_KEY}" ]; then
-      echo alias tsdbctl=\"tsdbctl --server ${V3IO_API} --access-key ${V3IO_ACCESS_KEY}\"
+      echo alias tsdbctl=\"tsdbctl --server ${V3IO_API} --access-key ${V3IO_ACCESS_KEY}\" >> ${IGUAZIO_HOME}/.tsdb_alias
+      echo "# ----- TSDB CONFIG -----" >> ${HOME}/.bashrc
+      echo "source ${IGUAZIO_HOME}/.tsdb_alias" >> ${HOME}/.bashrc
+      echo "# --- END TSDB CONFIG ---" >> ${HOME}/.bashrc
     fi
 {{- end }}
 
