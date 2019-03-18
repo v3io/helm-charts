@@ -18,8 +18,11 @@ spec:
         app: {{ template "hive.name" . }}
         release: {{ .Release.Name }}
     spec:
-{{- if .Values.volumes }}
       volumes:
+        - name: hive-metastore-auth
+          secret:
+            secretName: {{ template "hive.fullname" . }}-metastore-auth
+{{- if .Values.volumes }}
 {{ include .Values.volumes.volumesTemplate . | indent 8 }}
 {{- end }}
       containers:
@@ -57,12 +60,29 @@ spec:
             - name: HIVE_CONF_DIR
               value: {{ .Values.configPath }}
             - name: HIVE_DB_TYPE
+              value: {{ .Values.metastore.database.type }}
+            - name: HIVE_METASTORE_SERVICE
               value: {{ .Values.databaseType }}
+            - name: HIVE_METASTORE_USER
+              value: {{ .Values.metastore.database.username }}
+            - name: HIVE_METASTORE_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                {{- if .Values.metastore.database.existingSecret }}
+                  name: {{ .Values.existingSecret }}
+                {{- else }}
+                  name: {{ template "hive.fullname" . }}-metastore-auth
+                {{- end }}
+                  key: metastorePassword
+            - name: HIVE_METASTORE_DATABASE
+              value: "{{ .Values.metastore.database.name }}"
 {{- if .Values.environment }}
 {{ include .Values.environment.template . | indent 12 }}
 {{- end }}
-{{- if .Values.volumes }}
           volumeMounts:
+            - name: hive-metastore-auth
+              mountPath: {{ .Values.metastore.authPath }}
+{{- if .Values.volumes }}
 {{ include .Values.volumes.volumeMountsTemplate . | indent 12 }}
 {{- end }}
           resources:

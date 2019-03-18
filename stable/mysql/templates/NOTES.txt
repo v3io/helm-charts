@@ -1,3 +1,0 @@
-Access the CLI tools
-  export POD_NAME=$(kubectl get pods --namespace {{ .Release.Namespace }} -l "app={{ template "mysql.name" . }},release={{ .Release.Name }}" -o jsonpath="{.items[0].metadata.name}")
-  kubectl exec -it $POD_NAME -- /bin/bash

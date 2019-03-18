@@ -84,47 +84,37 @@ data:
     <?xml version="1.0" encoding="UTF-8" standalone="no"?>
     <?xml-stylesheet type="text/xsl" href="configuration.xsl"?>
     <configuration>
-{{ if eq .Values.databaseType "postgresql" }}
+{{ if eq .Values.metastore.database.type "postgresql" }}
       <property>
         <name>javax.jdo.option.ConnectionURL</name>
-        <value>jdbc:postgresql://{{ .Values.postgres.hostname }}:{{ .Values.postgres.port }}/{{ .Values.postgres.database }}</value>
+        <value>jdbc:postgresql://{{ .Values.metastore.database.hostname }}:{{ .Values.metastore.database.port }}/{{ .Values.metastore.database.name }}</value>
       </property>
 
       <property>
         <name>javax.jdo.option.ConnectionDriverName</name>
         <value>org.postgresql.Driver</value>
       </property>
-
-      <property>
-        <name>javax.jdo.option.ConnectionUserName</name>
-        <value>{{ .Values.postgres.username }}</value>
-      </property>
-
-      <property>
-        <name>javax.jdo.option.ConnectionPassword</name>
-        <value>{{ .Values.postgres.password }}</value>
-      </property>
 {{ else }}
       <property>
         <name>javax.jdo.option.ConnectionURL</name>
-        <value>jdbc:mysql://{{ .Values.mysql.hostname }}:{{ .Values.mysql.port }}/{{ .Values.mysql.database }}</value>
+        <value>jdbc:mysql://{{ .Values.metastore.database.hostname }}:{{ .Values.metastore.database.port }}/{{ .Values.metastore.database.name }}</value>
       </property>
 
       <property>
         <name>javax.jdo.option.ConnectionDriverName</name>
         <value>org.mariadb.jdbc.Driver</value>
       </property>
+{{ end }}
 
       <property>
         <name>javax.jdo.option.ConnectionUserName</name>
-        <value>{{ .Values.mysql.username }}</value>
+        <value>{{ .Values.metastore.database.username }}</value>
       </property>
 
       <property>
         <name>javax.jdo.option.ConnectionPassword</name>
-        <value>{{ .Values.mysql.password }}</value>
+        <value>{{ .Values.metastore.database.password }}</value>
       </property>
-{{ end }}
 
       <property>
         <name>hive.metastore.uris</name>

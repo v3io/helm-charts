@@ -11,34 +11,33 @@ configPath: /igz/hive/conf-updated
 metastore:
   servicePort: 9083
   containerPort: 9083
-
-databaseType: mysql
-
-mysql:
-  hostname: mysql-hive
-  port: 3306
-  database: metastore
-  username: hive
-  password: hive
-
-postgres:
-  hostname: postgres-hive
-  port: 5432
-  database: metastore
-  username: hive
-  password: hive
+  authPath: /igz/metastore/auth
+  database:
+    ## Valid values: "mysql" or "postgres"
+    type: mysql
+    ## Service name of an existing database service (mysql or postgres)
+    hostname: hive-metastore-db
+    ## Database service port. Default port for mysql is "3306", for postgres is "5432"
+    port: 3306
+    ## Database name
+    name: metastore
+    ## Database user anme and password
+    username: hive
+    password: hive
+    ## Metastore username and password using existing secret
+    ## existingSecret: hive-metastore-secret
 
 ## Configure extra options for liveness and readiness probes
 ## ref: https://kubernetes.io/docs/tasks/configure-pod-container/configure-liveness-readiness-probes/#configure-probes)
 livenessProbe:
-  initialDelaySeconds: 30
+  initialDelaySeconds: 60
   periodSeconds: 10
   timeoutSeconds: 5
   failureThreshold: 3
   successThreshold: 1
 
 readinessProbe:
-  initialDelaySeconds: 5
+  initialDelaySeconds: 60
   periodSeconds: 10
   timeoutSeconds: 5
   failureThreshold: 3

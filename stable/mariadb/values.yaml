@@ -36,6 +36,42 @@ server:
     ## Default Kubernetes values
     periodSeconds: 10
 
+rootUser:
+  ## MariaDB admin password
+  password:
+  ##
+  ## Option to force users to specify a password. That is required for 'helm upgrade' to work properly.
+  ## If it is not force, a random password will be generated.
+  forcePassword: true
+
+db:
+  ## MariaDB username and password
+  user:
+  ## Password is ignored if existingSecret is specified.
+  password:
+  ## Database to create
+  name: metastore
+  ## Allow access from remote hosts. '%' is a wild card that allows unlimited remote access
+  remoteAccessHost: "%"
+  ## Option to force users to specify a password. That is required for 'helm upgrade' to work properly.
+  ## If it is not force, a random password will be generated.
+  forcePassword: true
+  ## Delay execution of initialization script till server starts (in seconds)
+  initDelay: 30
+
+## initdb scripts
+## Specify dictionnary of scripts to be run at first boot
+## Alternatively, you can put your scripts under the files/docker-entrypoint-initdb.d directory
+##
+# initdbScripts:
+#   my_init_script.sh: |
+#      #!/bin/sh
+#      echo "Do something."
+#
+## ConfigMap with scripts to be run at first boot
+## Note: This will override initdbScripts
+# initdbScriptsConfigMap:
+
 ## Pod Security Context
 ## ref: https://kubernetes.io/docs/tasks/configure-pod-container/security-context/
 ##
