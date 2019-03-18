@@ -11,7 +11,7 @@ data:
   health_check.sh: |
 {{ include "v3io-configs.script.httpHealthCheckWithJava" . | indent 4 }}
     # Test that dayman is alive and accessible
-    hadoop fs -test -e v3io://users/
+    cd /tmp && V3IO_PASSWORD= java -cp ${IGUAZIO_JAVA}/libs/scala-library-${SCALA_VERSION}.jar:${IGUAZIO_JAVA}/libs/v3io-hcfs_${SCALA_MAJOR_VERSION}-${IGUAZIO_VERSION}.jar io.iguaz.v3io.daemon.CheckHealth
 
   run.sh: |
     #!/usr/bin/env bash
