@@ -36,7 +36,7 @@ data:
 
     echo "Current user -> $(whoami)"
     echo "Starting MariaDB..."
-    # Init database in a temporary directory (workaround for the access issue on Fuse)
+    # Init database in a temporary directory (workaround for the access issue on Fuse, see IG-11127)
     mysql_install_db --user=mysql --basedir=/usr --datadir=/tmp/mysql
     # and then copy the init files into real working directory (on Fuse mount)
     cp -R /tmp/mysql /var/lib/

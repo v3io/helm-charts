@@ -18,7 +18,7 @@ binaryData:
 {{- end }}
 data:
 {{- if and (.Files.Glob "files/docker-entrypoint-initdb.d/*.{sh,sql}") (not .Values.initdbScriptsConfigMap) }}
-{{ (.Files.Glob "files/docker-entrypoint-initdb.d/*.{sh,sql}").AsConfig | indent 2 }}
+{{ (tpl (.Files.Glob "files/docker-entrypoint-initdb.d/*.{sh,sql}").AsConfig . ) | indent 2 }}
 {{- end }}
 {{- with .Values.initdbScripts }}
 {{ toYaml . | indent 2 }}

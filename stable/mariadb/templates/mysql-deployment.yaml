@@ -34,7 +34,7 @@ spec:
               name: {{ .Release.Name }}-v3io-fuse
             options:
               container: bigdata
-              subPath: /mysql
+              subPath: /mysql/{{ template "mariadb.fullname" . }}
 {{- end }}
       containers:
         - name: {{ .Chart.Name }}-mariadb
