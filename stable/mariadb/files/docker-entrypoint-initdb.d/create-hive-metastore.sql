@@ -1,6 +1,6 @@
-CREATE DATABASE IF NOT EXISTS metastore;
-CREATE USER IF NOT EXISTS 'hive'@'%' IDENTIFIED BY 'hive';
+CREATE DATABASE IF NOT EXISTS {{ .Values.db.name }};
+CREATE USER IF NOT EXISTS '{{ .Values.db.user }}'@'{{ .Values.db.remoteAccessHost }}' IDENTIFIED BY '{{ .Values.db.password }}';
 
-REVOKE ALL PRIVILEGES, GRANT OPTION FROM 'hive'@'%';
-GRANT ALL PRIVILEGES ON metastore.* TO 'hive'@'%';
+REVOKE ALL PRIVILEGES, GRANT OPTION FROM '{{ .Values.db.user }}'@'{{ .Values.db.remoteAccessHost }}';
+GRANT ALL PRIVILEGES ON {{ .Values.db.name }}.* TO '{{ .Values.db.user }}'@'{{ .Values.db.remoteAccessHost }}';
 FLUSH PRIVILEGES;
