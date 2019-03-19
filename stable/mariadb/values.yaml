@@ -38,7 +38,7 @@ server:
 
 rootUser:
   ## MariaDB admin password
-  password:
+  password: ChangeMe!
   ##
   ## Option to force users to specify a password. That is required for 'helm upgrade' to work properly.
   ## If it is not force, a random password will be generated.
