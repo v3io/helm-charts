@@ -5,7 +5,7 @@ server:
     dataDir: /presto/etc/data
   log:
     com.facebook.presto: INFO
-    io.iguaz.v3io: DEBUG
+    io.iguaz.v3io: INFO
     io.iguaz.v3io.daemon: INFO
   config:
     mapPath: /etc/config/presto
