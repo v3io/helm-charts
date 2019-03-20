@@ -29,6 +29,9 @@ config:
   welcome:
 
 v3io:
+  api:
+    hostname: v3io-webapi
+    port: 8081
   tsdbctl:
     download:
 
