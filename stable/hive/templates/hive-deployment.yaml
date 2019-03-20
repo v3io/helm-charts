@@ -29,7 +29,7 @@ spec:
         - name: {{ .Chart.Name }}
           image: "{{ .Values.image.repository }}:{{ .Values.image.tag }}"
           imagePullPolicy: {{ .Values.image.pullPolicy }}
-          command: ["/bin/bash", "-x", "{{ .Values.image.command }}"]
+          command: ["/bin/bash", "{{ .Values.image.command }}"]
           ports:
             - name: metastore
               containerPort: {{ .Values.metastore.containerPort }}
@@ -38,8 +38,8 @@ spec:
             exec:
               command:
               - /bin/bash
-              - {{ .Values.global.v3io.configMountPath }}/health_check.sh
-              - --port={{ .Values.metastore.containerPort }}
+              - {{ .Values.global.v3io.configPath }}/health_check.sh
+              - --socket-port={{ .Values.metastore.containerPort }}
             initialDelaySeconds: {{ .Values.livenessProbe.initialDelaySeconds }}
             periodSeconds: {{ .Values.livenessProbe.periodSeconds }}
             timeoutSeconds: {{ .Values.livenessProbe.timeoutSeconds }}
@@ -49,16 +49,14 @@ spec:
             exec:
               command:
               - /bin/bash
-              - {{ .Values.global.v3io.configMountPath }}/health_check.sh
-              - --port={{ .Values.metastore.containerPort }}
+              - {{ .Values.global.v3io.configPath }}/health_check.sh
+              - --socket-port={{ .Values.metastore.containerPort }}
             initialDelaySeconds: {{ .Values.readinessProbe.initialDelaySeconds }}
             periodSeconds: {{ .Values.readinessProbe.periodSeconds }}
             timeoutSeconds: {{ .Values.readinessProbe.timeoutSeconds }}
             successThreshold: {{ .Values.readinessProbe.successThreshold }}
             failureThreshold: {{ .Values.readinessProbe.failureThreshold }}
           env:
-            - name: HIVE_CONF_DIR
-              value: {{ .Values.configPath }}
             - name: HIVE_DB_TYPE
               value: {{ .Values.metastore.database.type }}
             - name: HIVE_METASTORE_SERVICE

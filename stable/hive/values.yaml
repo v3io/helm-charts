@@ -6,8 +6,6 @@ image:
 
 replicas: 1
 
-configPath: /igz/hive/conf-updated
-
 metastore:
   servicePort: 9083
   containerPort: 9083
@@ -70,8 +68,6 @@ volumes:
 
 global:
   v3io:
-    configMountPath: /etc/config/v3io
-    lookupService:
-      name: v3iod-locator
+    configPath: /igz/java/conf
 
 v3io: {}
