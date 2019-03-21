@@ -47,7 +47,6 @@ data:
 {{ include "v3io-configs.script.lookupService" . | indent 4 }}
 
     cp {{ .Values.global.v3io.configPath }}/hive-site.xml $HIVE_CONF_DIR/
-    cp {{ .Values.global.v3io.configPath }}/core-site.xml $HIVE_CONF_DIR/
 
     # Initialize Hive metastore database
     # Check if schema does not exists or invalid, then try to initialize Hive metastore database schema
@@ -119,29 +118,5 @@ data:
       <property>
         <name>hive.metastore.schema.verification</name>
         <value>true</value>
-      </property>
-    </configuration>
-
-  core-site.xml: |
-    <?xml version="1.0" encoding="UTF-8"?>
-    <?xml-stylesheet type="text/xsl" href="configuration.xsl"?>
-    <configuration>
-      <property>
-        <name>fs.defaultFS</name>
-        <value>v3io:////</value>
-        <description>The name of the default file system. A URI whose
-          scheme and authority determine the FileSystem implementation. The
-          uri's scheme determines the config property (fs.SCHEME.impl) naming
-          the FileSystem implementation class. The uri's authority is used to
-          determine the host, port, etc. for a filesystem.
-        </description>
-      </property>
-      <property>
-        <name>fs.v3io.impl</name>
-        <value>io.iguaz.v3io.hcfs.V3IOHiveFileSystem</value>
-      </property>
-      <property>
-        <name>fs.AbstractFileSystem.v3io.impl</name>
-        <value>io.iguaz.v3io.hcfs.V3IOHiveAbstractFileSystem</value>
       </property>
     </configuration>
