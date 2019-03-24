@@ -69,5 +69,6 @@ volumes:
 global:
   v3io:
     configPath: /igz/java/conf
+    homeMount: /home/hive
 
 v3io: {}

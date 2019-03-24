@@ -50,15 +50,15 @@ spec:
               command:
               - /bin/bash
               - {{ .Values.global.v3io.configMountPath }}/health_check.sh
-              initialDelaySeconds: {{ .Values.server.readinessProbe.initialDelaySeconds }}
-              periodSeconds: {{ .Values.server.readinessProbe.periodSeconds }}
+            initialDelaySeconds: {{ .Values.server.livenessProbe.initialDelaySeconds }}
+            periodSeconds: {{ .Values.server.livenessProbe.periodSeconds }}
           readinessProbe:
             exec:
               command:
               - /bin/bash
               - {{ .Values.global.v3io.configMountPath }}/health_check.sh
-              initialDelaySeconds: 5
-              periodSeconds: 1
+            initialDelaySeconds: {{ .Values.server.readinessProbe.initialDelaySeconds }}
+            periodSeconds: {{ .Values.server.readinessProbe.periodSeconds }}
           env:
             - name: MYSQL_ROOT_PASSWORD
               valueFrom:

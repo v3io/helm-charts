@@ -32,7 +32,7 @@ server:
     ## Default Kubernetes values
     periodSeconds: 10
   readinessProbe:
-    initialDelaySeconds: 30
+    initialDelaySeconds: 120
     ## Default Kubernetes values
     periodSeconds: 10
 
@@ -112,5 +112,6 @@ volumes:
 global:
   v3io:
     configMountPath: /etc/config/v3io
+    homeMount: /home/mysql
 
 v3io: {}

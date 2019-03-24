@@ -11,9 +11,12 @@ data:
 {{ include "v3io-configs.java.configMap" . | indent 2 }}
 
   health_check.sh: |
-    # TODO: Implement life livenessProbe/readinessProbe
-    # command: ["sh", "-c", "exec mysqladmin status -uroot -p$MARIADB_ROOT_PASSWORD"]
-    echo "No checks implemented yet."
+    mysqladmin status
+    RC=$?
+    if [ "$RC" -ne "0" ]; then
+      echo "Unable to get status of MySQL database server. Exit with code: $RC"
+      exit $RC
+    fi
     exit 0
 
   v3io-mariadb.sh: |
@@ -21,18 +24,9 @@ data:
     set -ex
 
 {{ include "v3io-configs.script.lookupService" . | indent 4 }}
-    touch ~/.bashrc
-    echo "echo ''" >> ~/.bashrc
-{{- if .Values.config.logo }}
-    echo "echo {{ .Values.config.logo }} | base64 --decode" >> ~/.bashrc
-    echo "echo ''" >> ~/.bashrc
-{{- end }}
-{{- if .Values.config.welcome }}
-    #echo "toilet --font smmono9 --termwidth --filter metal {{ .Values.config.welcome }}" >> ~/.bashrc
-    echo "echo ''" >> ~/.bashrc
-{{- end }}
-    echo "alias ll='ls -la'" >> ~/.bashrc
-    . ~/.bashrc
+    touch $HOME/.bashrc
+    echo "alias ll='ls -la'" >> $HOME/.bashrc
+    . $HOME/.bashrc
 
     echo "Current user -> $(whoami)"
     echo "Starting MariaDB..."
