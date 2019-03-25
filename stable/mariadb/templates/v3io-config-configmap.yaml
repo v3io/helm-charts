@@ -19,40 +19,24 @@ data:
     fi
     exit 0
 
-
   init-v3io-mariadb.sh: |
     #!/usr/bin/env bash
     set -ex
 
     echo "Current user -> $(whoami)"
-    echo "Initializing MariaDB..."
+    LOCK_FILE=/var/lib/mysql/.init-complete
+    if [ -f $LOCK_FILE ]
+    then
+      echo "MariaDB has already been initialized. Skipping..."
+    else
+      echo "Initializing MariaDB..."
 
-    MYSQL_CONFIG=/etc/mysql/my.cnf
-    INIT_SCRIPT="/docker-entrypoint-initdb.d/create-hive-metastore.sql"
+      mysql_install_db --user=mysql --basedir=/usr --datadir=/tmp/mysql
+      # and then copy the init files into real working directory (on Fuse mount)
+      cp -R /tmp/mysql /var/lib/
 
-    # Init database in a temporary directory (workaround for the access issue on Fuse, see IG-11127)
-    sed -i "s/\/var\/lib\/mysql/\/tmp\/mysql/g" $MYSQL_CONFIG
-    # Call init script on startup
-    echo "" >> $MYSQL_CONFIG
-    echo "[mysqld]" >> $MYSQL_CONFIG
-    echo "init-file=$INIT_SCRIPT" >> $MYSQL_CONFIG
-
-    mysql_install_db --user=mysql --basedir=/usr --datadir=/tmp/mysql
-    # and then copy the init files into real working directory (on Fuse mount)
-    cp -R /tmp/mysql /var/lib/
-
-    # start the database server daemon
-    service mysql start
-
-    # run init script (should run after service has started)
-    #echo "About to run init script from $INIT_SCRIPT ..."
-    #mysql -uroot --protocol=tcp < $INIT_SCRIPT
-
-    # rever the data dir and restart the database server daemon
-    sed -i "s/\/tmp\/mysql/\/var\/lib\/mysql/g" /etc/mysql/my.cnf;
-
-    set +e; service mysql restart
-    exit 0
+      touch $LOCK_FILE
+    fi
 
   v3io-mariadb.sh: |
     #!/usr/bin/env bash
@@ -64,21 +48,21 @@ data:
     . $HOME/.bashrc
 
     echo "Current user -> $(whoami)"
-    echo "Starting MariaDB..."
-<<<<<<< Updated upstream
-    # Init database in a temporary directory (workaround for the access issue on Fuse, see IG-11127)
-    mysql_install_db --user=mysql --basedir=/usr --datadir=/tmp/mysql
-    # and then copy the init files into real working directory (on Fuse mount)
-    cp -R /tmp/mysql /var/lib/
-    # Configure to run the init script on startupo
-    MYSQL_CONFIG=/etc/mysql/my.cnf
-    INIT_SCRIPT=/docker-entrypoint-initdb.d/create-hive-metastore.sql
-    # Call init script on startup
-    echo "" >> $MYSQL_CONFIG
-    echo "[mysqld]" >> $MYSQL_CONFIG
-    echo "init-file=$INIT_SCRIPT" >> $MYSQL_CONFIG
 
-=======
->>>>>>> Stashed changes
+    LOCK_FILE=/var/lib/mysql/.allow-remote-access-complete
+    if [ ! -f $LOCK_FILE ]
+    then
+      MYSQL_CONFIG=/etc/mysql/my.cnf
+      INIT_SCRIPT="/docker-entrypoint-initdb.d/enable-root-remote-access.sql"
+
+      # Call init script on startup
+      echo "" >> $MYSQL_CONFIG
+      echo "[mysqld]" >> $MYSQL_CONFIG
+      echo "init-file=$INIT_SCRIPT" >> $MYSQL_CONFIG
+
+      touch $LOCK_FILE
+    fi
+
+    echo "Starting MariaDB..."
     # start the database server daemon
     mysqld

@@ -53,16 +53,9 @@ spec:
                 {{- end }}
                   key: mariadb-root-password
           command:
-            - sh
-            - -c
-            - |
-              sed -i "s/\/var\/lib\/mysql/\/tmp\/mysql/g" /etc/mysql/my.cnf;
-              echo "Current MySQL server configuration:";
-              cat /etc/mysql/my.cnf;
-              echo "";
-              echo "Executing {{ .Values.initializationImage.command }} as $(whoami)";
-              set -x;
-              . {{ .Values.initializationImage.command }}
+            - /bin/bash
+            - -x
+            - {{ .Values.initializationImage.command }}
           securityContext:
             runAsUser: {{ .Values.initializationImage.securityContext.runAsUser }}
 {{- if .Values.volumes }}
@@ -108,21 +101,6 @@ spec:
                   name: {{ template "mariadb.fullname" . }}
                 {{- end }}
                   key: mariadb-root-password
-            {{- if .Values.db.user }}
-            - name: MYSQL_USER
-              value: "{{ .Values.db.user }}"
-            - name: MYSQL_PASSWORD
-              valueFrom:
-                secretKeyRef:
-                {{- if .Values.existingSecret }}
-                  name: {{ .Values.existingSecret }}
-                {{- else }}
-                  name: {{ template "mariadb.fullname" . }}
-                {{- end }}
-                  key: mariadb-password
-            {{- end }}
-            - name: MYSQL_DATABASE
-              value: "{{ .Values.db.name }}"
 {{- if .Values.environment }}
 {{ include .Values.environment.template . | indent 12 }}
 {{- end }}

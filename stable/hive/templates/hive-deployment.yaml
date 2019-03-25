@@ -25,6 +25,37 @@ spec:
 {{- if .Values.volumes }}
 {{ include .Values.volumes.volumesTemplate . | indent 8 }}
 {{- end }}
+{{- if eq .Values.metastore.database.type "mysql" }}
+        # Add mysql data fuse mount
+        - name: mysql-fuse
+          flexVolume:
+            driver: "v3io/fuse"
+            secretRef:
+              name: {{ .Release.Name }}-v3io-fuse
+            options:
+              container: bigdata
+              subPath: /mysql/{{ .Values.metastore.database.hostname }}
+{{- end }}
+{{- if eq .Values.metastore.database.type "mysql" }}
+      initContainers:
+        - name: create-hive-user
+          image: "{{ .Values.createHiveUserMariaDbImage.repository }}:{{ .Values.createHiveUserMariaDbImage.tag }}"
+          imagePullPolicy: {{ .Values.createHiveUserMariaDbImage.pullPolicy }}
+          resources:
+  {{ toYaml .Values.resources | indent 10 }}
+          command:
+            - /bin/bash
+            - {{ .Values.createHiveUserMariaDbImage.command }}
+          securityContext:
+            runAsUser: {{ .Values.createHiveUserMariaDbImage.securityContext.runAsUser }}
+{{- if .Values.volumes }}
+          volumeMounts:
+{{ include .Values.volumes.volumeMountsTemplate . | indent 12 }}
+            - name: mysql-fuse
+              mountPath: "/var/lib/mysql"
+{{- end }}
+{{- end }}
+
       containers:
         - name: {{ .Chart.Name }}
           image: "{{ .Values.image.repository }}:{{ .Values.image.tag }}"
