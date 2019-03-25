@@ -19,6 +19,41 @@ data:
     fi
     exit 0
 
+
+  init-v3io-mariadb.sh: |
+    #!/usr/bin/env bash
+    set -ex
+
+    echo "Current user -> $(whoami)"
+    echo "Initializing MariaDB..."
+
+    MYSQL_CONFIG=/etc/mysql/my.cnf
+    INIT_SCRIPT="/docker-entrypoint-initdb.d/create-hive-metastore.sql"
+
+    # Init database in a temporary directory (workaround for the access issue on Fuse, see IG-11127)
+    sed -i "s/\/var\/lib\/mysql/\/tmp\/mysql/g" $MYSQL_CONFIG
+    # Call init script on startup
+    echo "" >> $MYSQL_CONFIG
+    echo "[mysqld]" >> $MYSQL_CONFIG
+    echo "init-file=$INIT_SCRIPT" >> $MYSQL_CONFIG
+
+    mysql_install_db --user=mysql --basedir=/usr --datadir=/tmp/mysql
+    # and then copy the init files into real working directory (on Fuse mount)
+    cp -R /tmp/mysql /var/lib/
+
+    # start the database server daemon
+    service mysql start
+
+    # run init script (should run after service has started)
+    #echo "About to run init script from $INIT_SCRIPT ..."
+    #mysql -uroot --protocol=tcp < $INIT_SCRIPT
+
+    # rever the data dir and restart the database server daemon
+    sed -i "s/\/tmp\/mysql/\/var\/lib\/mysql/g" /etc/mysql/my.cnf;
+
+    set +e; service mysql restart
+    exit 0
+
   v3io-mariadb.sh: |
     #!/usr/bin/env bash
     set -ex
@@ -30,6 +65,7 @@ data:
 
     echo "Current user -> $(whoami)"
     echo "Starting MariaDB..."
+<<<<<<< Updated upstream
     # Init database in a temporary directory (workaround for the access issue on Fuse, see IG-11127)
     mysql_install_db --user=mysql --basedir=/usr --datadir=/tmp/mysql
     # and then copy the init files into real working directory (on Fuse mount)
@@ -42,5 +78,7 @@ data:
     echo "[mysqld]" >> $MYSQL_CONFIG
     echo "init-file=$INIT_SCRIPT" >> $MYSQL_CONFIG
 
+=======
+>>>>>>> Stashed changes
     # start the database server daemon
     mysqld

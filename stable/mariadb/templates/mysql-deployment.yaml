@@ -36,6 +36,45 @@ spec:
               container: bigdata
               subPath: /mysql/{{ template "mariadb.fullname" . }}
 {{- end }}
+      initContainers:
+        - name: init-mariadb
+          image: "{{ .Values.initializationImage.repository }}:{{ .Values.initializationImage.tag }}"
+          imagePullPolicy: {{ .Values.initializationImage.pullPolicy }}
+          resources:
+  {{ toYaml .Values.resources | indent 10 }}
+          env:
+            - name: MYSQL_ROOT_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                {{- if .Values.existingSecret }}
+                  name: {{ .Values.existingSecret }}
+                {{- else }}
+                  name: {{ template "mariadb.fullname" . }}
+                {{- end }}
+                  key: mariadb-root-password
+          command:
+            - sh
+            - -c
+            - |
+              sed -i "s/\/var\/lib\/mysql/\/tmp\/mysql/g" /etc/mysql/my.cnf;
+              echo "Current MySQL server configuration:";
+              cat /etc/mysql/my.cnf;
+              echo "";
+              echo "Executing {{ .Values.initializationImage.command }} as $(whoami)";
+              set -x;
+              . {{ .Values.initializationImage.command }}
+          securityContext:
+            runAsUser: {{ .Values.initializationImage.securityContext.runAsUser }}
+{{- if .Values.volumes }}
+          volumeMounts:
+{{ include .Values.volumes.volumeMountsTemplate . | indent 12 }}
+            - name: mysql-fuse
+              mountPath: "/var/lib/mysql"
+{{- if or (.Files.Glob "files/docker-entrypoint-initdb.d/*.{sh,sql,sql.gz}") .Values.initdbScriptsConfigMap .Values.initdbScripts }}
+            - name: {{ .Release.Name }}-init-scripts
+              mountPath: /docker-entrypoint-initdb.d
+{{- end }}
+{{- end }}
       containers:
         - name: {{ .Chart.Name }}-mariadb
           image: "{{ .Values.image.repository }}:{{ .Values.image.tag }}"
