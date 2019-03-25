@@ -34,7 +34,13 @@ data:
     mysql_install_db --user=mysql --basedir=/usr --datadir=/tmp/mysql
     # and then copy the init files into real working directory (on Fuse mount)
     cp -R /tmp/mysql /var/lib/
-    # schedule init script (should run after service has started)
-    ( sleep {{ .Values.db.initDelay }} ; mysql -uroot --protocol=tcp < /docker-entrypoint-initdb.d/create-hive-metastore.sql ) &
+    # Configure to run the init script on startupo
+    MYSQL_CONFIG=/etc/mysql/my.cnf
+    INIT_SCRIPT=/docker-entrypoint-initdb.d/create-hive-metastore.sql
+    # Call init script on startup
+    echo "" >> $MYSQL_CONFIG
+    echo "[mysqld]" >> $MYSQL_CONFIG
+    echo "init-file=$INIT_SCRIPT" >> $MYSQL_CONFIG
+
     # start the database server daemon
     mysqld
