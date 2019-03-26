@@ -13,9 +13,15 @@ data:
   v3io-hive-initdb-mysql.sh: |
     #!/usr/bin/env bash
     set -e
-    echo "Running as $(whoami)"
+    echo "About to initialize hive metastore database. (Note, running as $(whoami))"
     mysql -u{{ .Values.createHiveUserMariaDbImage.user }} -p{{ .Values.createHiveUserMariaDbImage.password }} -h{{ .Values.metastore.database.hostname }} < /etc/config/v3io/create-hive-user.sql
-    echo "RC=$?"
+    RC=$?
+    if [ "$RC" -ne "0" ]; then
+      echo "Unable to initialize hive metastore database on {{ .Values.metastore.database.hostname }}. RC=$RC"
+      exit $RC
+    else
+      echo "Hive metastore database has been initialized."
+    fi
 
   create-hive-user.sql: |
     CREATE DATABASE IF NOT EXISTS {{ .Values.metastore.database.name }};
@@ -49,7 +55,7 @@ data:
 
     RC=echo < /dev/$PROTOCOL/$HOST/$SOCKET_PORT
     if [ "$RC" -ne "0" ]; then
-      echo "Unable to communicate with [$HOST:$SOCKET_PORT] over [$PROTOCOL]."
+      echo "Unable to communicate with [$HOST:$SOCKET_PORT] over [$PROTOCOL]. RC=$RC"
       exit $RC
     fi
 

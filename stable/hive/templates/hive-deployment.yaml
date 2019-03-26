@@ -91,7 +91,7 @@ spec:
             - name: HIVE_DB_TYPE
               value: {{ .Values.metastore.database.type }}
             - name: HIVE_METASTORE_SERVICE
-              value: {{ .Values.databaseType }}
+              value: {{ .Values.metastore.database.hostname }}
             - name: HIVE_METASTORE_USER
               value: {{ .Values.metastore.database.username }}
             - name: HIVE_METASTORE_PASSWORD
