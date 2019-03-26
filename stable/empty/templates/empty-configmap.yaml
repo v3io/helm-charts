@@ -1,7 +1,7 @@
 apiVersion: v1
 kind: ConfigMap
 metadata:
-  name: {{ template "empty.name" . }}
+  name: {{ .Release.Name }}
   labels:
     app: {{ template "empty.name" . }}
     chart: {{ template "empty.chart" . }}
