@@ -1,6 +1,6 @@
 # MariaDB (MySQL) Chart
 
-Provide MySQL database service
+Provide MariaDB (MySQL) database service
 
 ## Chart Details
 

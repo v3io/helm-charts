@@ -18,24 +18,27 @@ spec:
         app: {{ template "mariadb.name" . }}
         release: {{ .Release.Name }}
     spec:
-{{- if .Values.volumes }}
       volumes:
+{{- if .Values.volumes }}
 {{ include .Values.volumes.volumesTemplate . | indent 8 }}
+{{- end }}
         {{- if or (.Files.Glob "files/docker-entrypoint-initdb.d/*.{sh,sql,sql.gz}") .Values.initdbScriptsConfigMap .Values.initdbScripts }}
         - name: {{ .Release.Name }}-init-scripts
           configMap:
             name: {{ template "mariadb.initdbScriptsCM" . }}
         {{- end }}
-        # Add mysql data fuse mount
-        - name: mysql-fuse
+        - name: mariadb-config
+          configMap:
+            name: {{ template "mariadb.fullname" . }}
+        # Add MariaDB data mount (Fuse)
+        - name: mariadb-fuse
           flexVolume:
             driver: "v3io/fuse"
             secretRef:
               name: {{ .Release.Name }}-v3io-fuse
             options:
-              container: bigdata
-              subPath: /mysql/{{ template "mariadb.fullname" . }}
-{{- end }}
+              container: {{ .Values.dataDir.container }}
+              subPath: {{ .Values.dataDir.pathPrefix }}/{{ template "mariadb.fullname" . }}
       initContainers:
         - name: init-mariadb
           image: "{{ .Values.initializationImage.repository }}:{{ .Values.initializationImage.tag }}"
@@ -58,23 +61,21 @@ spec:
             - {{ .Values.initializationImage.command }}
           securityContext:
             runAsUser: {{ .Values.initializationImage.securityContext.runAsUser }}
-{{- if .Values.volumes }}
           volumeMounts:
+{{- if .Values.volumes }}
 {{ include .Values.volumes.volumeMountsTemplate . | indent 12 }}
-            - name: mysql-fuse
+{{- end }}
+            - name: mariadb-fuse
               mountPath: "/var/lib/mysql"
-{{- if or (.Files.Glob "files/docker-entrypoint-initdb.d/*.{sh,sql,sql.gz}") .Values.initdbScriptsConfigMap .Values.initdbScripts }}
-            - name: {{ .Release.Name }}-init-scripts
-              mountPath: /docker-entrypoint-initdb.d
-{{- end }}
-{{- end }}
+            - name: mariadb-config
+              mountPath: "/etc/config/v3io"
       containers:
         - name: {{ .Chart.Name }}-mariadb
           image: "{{ .Values.image.repository }}:{{ .Values.image.tag }}"
           imagePullPolicy: {{ .Values.image.pullPolicy }}
-          command: ["/bin/bash", "-x", "{{ .Values.image.command }}"]
+          command: ["/bin/bash", "{{ .Values.image.command }}"]
           ports:
-            - name: mysql
+            - name: mariadb
               containerPort: {{ .Values.server.port }}
               protocol: TCP
           livenessProbe:
@@ -104,15 +105,17 @@ spec:
 {{- if .Values.environment }}
 {{ include .Values.environment.template . | indent 12 }}
 {{- end }}
-{{- if .Values.volumes }}
           volumeMounts:
+{{- if .Values.volumes }}
 {{ include .Values.volumes.volumeMountsTemplate . | indent 12 }}
-            - name: mysql-fuse
+{{- end }}
+            - name: mariadb-fuse
               mountPath: "/var/lib/mysql"
+            - name: mariadb-config
+              mountPath: "/etc/config/v3io"
 {{- if or (.Files.Glob "files/docker-entrypoint-initdb.d/*.{sh,sql,sql.gz}") .Values.initdbScriptsConfigMap .Values.initdbScripts }}
             - name: {{ .Release.Name }}-init-scripts
               mountPath: /docker-entrypoint-initdb.d
-{{- end }}
 {{- end }}
           resources:
 {{ toYaml .Values.resources | indent 12 }}

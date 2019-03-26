@@ -13,7 +13,7 @@ image:
   command: /etc/config/v3io/v3io-mariadb.sh
 
 server:
-  hostname: mysql
+  hostname: mariadb
   port: 3306
 
   livenessProbe:
@@ -26,6 +26,10 @@ server:
     ## Default Kubernetes values
     periodSeconds: 10
 
+dataDir:
+  container: bigdata
+  pathPrefix: /mysql
+
 rootUser:
   ## MariaDB admin password
   password: ChangeMe!
@@ -34,19 +38,6 @@ rootUser:
   ## If it is not force, a random password will be generated.
   forcePassword: true
 
-## initdb scripts
-## Specify dictionnary of scripts to be run at first boot
-## Alternatively, you can put your scripts under the files/docker-entrypoint-initdb.d directory
-##
-# initdbScripts:
-#   my_init_script.sh: |
-#      #!/bin/sh
-#      echo "Do something."
-#
-## ConfigMap with scripts to be run at first boot
-## Note: This will override initdbScripts
-##initdbScriptsConfigMap:
-
 ## Pod Security Context
 ## ref: https://kubernetes.io/docs/tasks/configure-pod-container/security-context/
 ##
@@ -54,10 +45,6 @@ securityContext:
   enabled: true
   fsGroup: 1001
   runAsUser: 1001
-
-config:
-  welcome:
-    Welcome to Iguazio MySQL (MariaDB) server
 
 resources: {}
   # We usually recommend not to specify default resources and to leave this as a conscious
@@ -77,12 +64,9 @@ tolerations: []
 
 affinity: {}
 
-environment:
-  template: v3io-configs.deployment-with-home.env
+environment: {}
 
-volumes:
-  volumesTemplate: v3io-configs.deployment.mount-with-fuse-and-home
-  volumeMountsTemplate: v3io-configs.deployment.volumeMounts-with-fuse-and-home
+volumes: {}
 
 global:
   v3io:
