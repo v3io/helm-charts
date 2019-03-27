@@ -12,7 +12,8 @@ data:
     #!/usr/bin/env bash
     set -e
     echo "About to initialize hive metastore database. (Note, running as $(whoami))"
-    mysql -h{{ .Values.metastore.database.hostname }} -u{{ .Values.createHiveUserMariaDbImage.user }} -p${HIVE_METASTORE_ADMIN_PASSWORD} < {{ .Values.global.hive.configPath }}/create-hive-user.sql
+    mysql -h{{ .Values.metastore.database.hostname }} -u{{ .Values.createHiveUserMariaDbImage.user }} -p${HIVE_METASTORE_ADMIN_PASSWORD} < {{ .Values.hive.configPath }}/create-hive-user.sql
+    echo "Done."
 
   create-hive-user.sql: |
     CREATE DATABASE IF NOT EXISTS {{ .Values.metastore.database.name }};
@@ -21,6 +22,36 @@ data:
     REVOKE ALL PRIVILEGES, GRANT OPTION FROM '{{ .Values.metastore.database.username }}'@'{{ .Values.metastore.database.remoteAccessHost }}';
     GRANT ALL PRIVILEGES ON {{ .Values.metastore.database.name }}.* TO '{{ .Values.metastore.database.username }}'@'{{ .Values.metastore.database.remoteAccessHost }}';
     FLUSH PRIVILEGES;
+
+  create-hive-schema.sh: |
+    #!/usr/bin/env bash
+    set -e
+
+    cp {{ .Values.hive.configPath }}/hive-site.xml $HIVE_CONF_DIR/
+
+    echo "About to create hive metastore schema. (Note, running as $(whoami))"
+
+    # Initialize Hive metastore database
+    # Check if schema does not exists or invalid, then try to initialize Hive metastore database schema
+    set +e
+    schematool -dbType $HIVE_DB_TYPE -validate
+    RC=$?
+    set -e
+    if [ $RC != 0 ]; then
+      echo "Hive schema didn't pass validation. RC=$RC"
+      echo "Initializing Hive metastore schema..."
+      schematool -initSchema -dbType $HIVE_DB_TYPE
+      RC=$?
+      if [ $RC != 0 ]; then
+        echo "Failed to initialize Hive metastore database schema. RC=$RC"
+        exit $RC
+      else
+        echo "Hive metastore schema initialized successfully."
+      fi
+    else
+      echo "Hive metastore schema already exists. Details:"
+      schematool -dbType $HIVE_DB_TYPE -info
+    fi
 
   health_check.sh: |
 {{ include "v3io-configs.script.javaHealthCheck" . | indent 4 }}
@@ -55,31 +86,9 @@ data:
     #!/usr/bin/env bash
     set -e
 
-    {{ include "v3io-configs.script.lookupService" . | indent 4 }}
+{{ include "v3io-configs.script.lookupService" . | indent 4 }}
 
-    cp {{ .Values.global.hive.configPath }}/hive-site.xml $HIVE_CONF_DIR/
-
-    # Initialize Hive metastore database
-    # Check if schema does not exists or invalid, then try to initialize Hive metastore database schema
-    set +e
-    schematool -dbType $HIVE_DB_TYPE -validate
-    RC=$?
-    set -e
-    if [ $RC != 0 ]; then
-      echo "Hive schema didn't pass validation. RC=$RC"
-      echo "Initializing Hive metastore schema..."
-      schematool -initSchema -dbType $HIVE_DB_TYPE
-      RC=$?
-      if [ $RC != 0 ]; then
-        echo "Failed to initialize Hive metastore database schema. RC=$RC"
-        exit $RC
-      else
-        echo "Hive metastore schema initialized successfully."
-      fi
-    else
-      echo "Hive metastore schema already exists. Details:"
-      schematool -dbType $HIVE_DB_TYPE -info
-    fi
+    cp {{ .Values.hive.configPath }}/hive-site.xml $HIVE_CONF_DIR/
 
     echo Starting hive metastore service....
     hive --service metastore

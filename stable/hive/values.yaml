@@ -2,7 +2,7 @@ createHiveUserMariaDbImage:
   repository: iguaziodocker/mariadb
   tag: 10.4
   pullPolicy: Always
-  command: /etc/config/hive/v3io-hive-initdb-mysql.sh
+  command: v3io-hive-initdb-mysql.sh
   user: root
   password: ChangeMe!
   securityContext:
@@ -13,6 +13,7 @@ image:
   tag: 2.3.2-2.9.0
   pullPolicy: IfNotPresent
   command: /etc/config/hive/v3io-hive.sh
+  createHiveSchemaCommand: create-hive-schema.sh
 
 replicas: 1
 
@@ -82,9 +83,9 @@ volumes:
 
 global:
   v3io:
-    configPath: /igz/java/conf
-    homeMount: /home/hive
-  hive:
-    configPath: /etc/config/hive
+    configMountPath: /etc/config/v3io
+
+hive:
+  configPath: /etc/config/hive
 
 v3io: {}
