@@ -22,19 +22,11 @@ spec:
         - name: hive-metastore-auth
           secret:
             secretName: {{ template "hive.fullname" . }}-metastore-auth
+        - name: hive-config
+          configMap:
+            name: {{ template "hive.fullname" . }}-config
 {{- if .Values.volumes }}
 {{ include .Values.volumes.volumesTemplate . | indent 8 }}
-{{- end }}
-{{- if eq .Values.metastore.database.type "mysql" }}
-        # Add mysql data fuse mount
-        - name: mysql-fuse
-          flexVolume:
-            driver: "v3io/fuse"
-            secretRef:
-              name: {{ .Release.Name }}-v3io-fuse
-            options:
-              container: bigdata
-              subPath: /mysql/{{ .Values.metastore.database.hostname }}
 {{- end }}
 {{- if eq .Values.metastore.database.type "mysql" }}
       initContainers:
@@ -43,16 +35,24 @@ spec:
           imagePullPolicy: {{ .Values.createHiveUserMariaDbImage.pullPolicy }}
           resources:
   {{ toYaml .Values.resources | indent 10 }}
+          env:
+            - name: HIVE_METASTORE_ADMIN_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                {{- if .Values.metastore.database.existingSecret }}
+                  name: {{ .Values.existingSecret }}
+                {{- else }}
+                  name: {{ template "hive.fullname" . }}-metastore-auth
+                {{- end }}
+                  key: metastoreAdminPassword
           command:
             - /bin/bash
             - {{ .Values.createHiveUserMariaDbImage.command }}
-          securityContext:
-            runAsUser: {{ .Values.createHiveUserMariaDbImage.securityContext.runAsUser }}
-{{- if .Values.volumes }}
           volumeMounts:
+            - name: hive-config
+              mountPath: "{{ .Values.global.hive.configPath }}"
+{{- if .Values.volumes }}
 {{ include .Values.volumes.volumeMountsTemplate . | indent 12 }}
-            - name: mysql-fuse
-              mountPath: "/var/lib/mysql"
 {{- end }}
 {{- end }}
 
@@ -69,7 +69,7 @@ spec:
             exec:
               command:
               - /bin/bash
-              - {{ .Values.global.v3io.configPath }}/health_check.sh
+              - {{ .Values.global.hive.configPath }}/health_check.sh
               - --socket-port={{ .Values.metastore.containerPort }}
             initialDelaySeconds: {{ .Values.livenessProbe.initialDelaySeconds }}
             periodSeconds: {{ .Values.livenessProbe.periodSeconds }}
@@ -80,7 +80,7 @@ spec:
             exec:
               command:
               - /bin/bash
-              - {{ .Values.global.v3io.configPath }}/health_check.sh
+              - {{ .Values.global.hive.configPath }}/health_check.sh
               - --socket-port={{ .Values.metastore.containerPort }}
             initialDelaySeconds: {{ .Values.readinessProbe.initialDelaySeconds }}
             periodSeconds: {{ .Values.readinessProbe.periodSeconds }}
@@ -111,6 +111,8 @@ spec:
           volumeMounts:
             - name: hive-metastore-auth
               mountPath: {{ .Values.metastore.authPath }}
+            - name: hive-config
+              mountPath: "{{ .Values.global.hive.configPath }}"
 {{- if .Values.volumes }}
 {{ include .Values.volumes.volumeMountsTemplate . | indent 12 }}
 {{- end }}

@@ -2,7 +2,7 @@ createHiveUserMariaDbImage:
   repository: iguaziodocker/mariadb
   tag: 10.4
   pullPolicy: Always
-  command: /etc/config/v3io/v3io-hive-initdb-mysql.sh
+  command: /etc/config/hive/v3io-hive-initdb-mysql.sh
   user: root
   password: ChangeMe!
   securityContext:
@@ -12,7 +12,7 @@ image:
   repository: iguaziodocker/hive
   tag: 2.3.2-2.9.0
   pullPolicy: IfNotPresent
-  command: /etc/config/v3io/v3io-hive.sh
+  command: /etc/config/hive/v3io-hive.sh
 
 replicas: 1
 
@@ -35,6 +35,9 @@ metastore:
     remoteAccessHost: "%"
     ## Metastore username and password using existing secret
     ## existingSecret: hive-metastore-secret
+    dataDir:
+      container: bigdata
+      pathPrefix: /mysql
 
 ## Configure extra options for liveness and readiness probes
 ## ref: https://kubernetes.io/docs/tasks/configure-pod-container/configure-liveness-readiness-probes/#configure-probes)
@@ -81,5 +84,7 @@ global:
   v3io:
     configPath: /igz/java/conf
     homeMount: /home/hive
+  hive:
+    configPath: /etc/config/hive
 
 v3io: {}
