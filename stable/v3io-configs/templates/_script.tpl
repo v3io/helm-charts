@@ -15,7 +15,7 @@ LOOKUP_URL="http://${LOOKUP_SERVICE}/{{ $lookupPath }}"
 LOOKUP_SERVICE={{ printf "%s.%s.svc:%d" $service .Release.Namespace $port}}
 LOOKUP_URL="http://${LOOKUP_SERVICE}/{{ $lookupPath }}"
 {{- end }}
-LOCAL_V3IOD=$(curl --silent --fail --connect-timeout 10 $LOOKUP_URL/$CURRENT_NODE_IP)
+LOCAL_V3IOD=$(curl --disable --silent --fail --connect-timeout 10 $LOOKUP_URL/$CURRENT_NODE_IP)
 
 if [ "${LOCAL_V3IOD}" == "" ]; then
     echo "v3iod address is empty"
@@ -59,7 +59,13 @@ case $i in
 esac
 done
 
-curl -X${HTTP_METHOD} "http://127.0.0.1:${PORT}/${URI_PATH}"
+if [[ "${URI_PATH}" =~ ^/.* ]]; then
+    HEALTH_URL="http://127.0.0.1:${PORT}${URI_PATH}"
+else
+    HEALTH_URL="http://127.0.0.1:${PORT}/${URI_PATH}"
+fi
+
+curl --disable --silent --fail --connect-timeout 10 -X${HTTP_METHOD} "${HEALTH_URL}"
 {{- end -}}
 
 {{- define "v3io-configs.script.javaHealthCheck" -}}
