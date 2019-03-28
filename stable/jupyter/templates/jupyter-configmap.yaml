@@ -76,7 +76,7 @@ data:
 {{- end }}
 
 {{- if and .Values.v3io.tsdbctl .Values.v3io.tsdbctl.download }}
-    curl -sSL -o ${IGUAZIO_HOME}/bin/tsdbctl {{ .Values.v3io.tsdbctl.download }}
+    curl --disable -sSL -o ${IGUAZIO_HOME}/bin/tsdbctl {{ .Values.v3io.tsdbctl.download }}
     chmod +x ${IGUAZIO_HOME}/bin/tsdbctl
     rm -f ${IGUAZIO_HOME}/.tsdb_alias
     if [ "${V3IO_API}" -a "${V3IO_ACCESS_KEY}" ]; then
@@ -106,9 +106,16 @@ data:
       echo "# --- END IGUAZIO CONFIG ---" >> ${HOME}/.bashrc
     fi
 
-    mkdir -p ${HOME}/.pythonlibs
-    export PIP_PREFIX="${HOME}/.pythonlibs"
-    export PYTHONPATH="${HOME}/.pythonlibs/lib/python3.6/site-packages:${PYTHONPATH}"
-    export PATH="${PATH}:${HOME}/.pythonlibs/bin"
+    PIP_USER_PROFILE="{{ .Values.pip.profile }}"
+
+    if [ "${PIP_USER_PROFILE}" == "" ]; then
+      PIP_USER_PATH="${HOME}/.pythonlibs"
+    else
+      PIP_USER_PATH="${HOME}/.pythonlibs/${PIP_USER_PROFILE}"
+    fi
+    mkdir -p ${PIP_USER_PATH}
+    export PIP_PREFIX="${PIP_USER_PATH}"
+    export PYTHONPATH="${PIP_USER_PATH}/lib/python3.6/site-packages:${PYTHONPATH}"
+    export PATH="${PATH}:${PIP_USER_PATH}/bin"
 
     jupyter-notebook $@
