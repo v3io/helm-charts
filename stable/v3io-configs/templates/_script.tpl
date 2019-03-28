@@ -59,7 +59,13 @@ case $i in
 esac
 done
 
-curl --disable --silent --fail --connect-timeout 10 -X${HTTP_METHOD} "http://127.0.0.1:${PORT}/${URI_PATH}"
+if [[ "${URI_PATH}" =~ ^/.* ]]; then
+    HEALTH_URL="http://127.0.0.1:${PORT}${URI_PATH}"
+else
+    HEALTH_URL="http://127.0.0.1:${PORT}/${URI_PATH}"
+fi
+
+curl --disable --silent --fail --connect-timeout 10 -X${HTTP_METHOD} "${HEALTH_URL}"
 {{- end -}}
 
 {{- define "v3io-configs.script.javaHealthCheck" -}}
