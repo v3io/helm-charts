@@ -60,7 +60,7 @@ data:
 
     set -e
 {{ include "v3io-configs.script.javaHealthCheckTest" . | indent 4 }}
-    curl --silent {{ template "presto.fullname" . }}.{{ .Release.Namespace }}.svc:{{ .Values.server.config.http.port }}/v1/node | tr "," "\n" | grep --silent $(hostname -i)
+    curl --disable --silent --fail --connect-timeout 10 {{ template "presto.fullname" . }}.{{ .Release.Namespace }}.svc:{{ .Values.server.config.http.port }}/v1/node | tr "," "\n" | grep --silent $(hostname -i)
 
 {{- if .Values.server.config.https }}
   create-cert.sh: |
