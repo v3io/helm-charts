@@ -106,6 +106,9 @@ data:
       echo "# --- END IGUAZIO CONFIG ---" >> ${HOME}/.bashrc
     fi
 
+    touch ${HOME}/.viminfo
+    echo ":set term=builtin_ansi" > ${HOME}/.vimrc
+
     PIP_USER_PROFILE="{{ .Values.pip.profile }}"
 
     if [ "${PIP_USER_PROFILE}" == "" ]; then
