@@ -55,7 +55,6 @@ affinity: {}
 
 environment:
   template: v3io-configs.deployment-with-home.env
-  extra: {}
 
 volumes:
   volumesTemplate: v3io-configs.deployment.mount-with-fuse-and-home
