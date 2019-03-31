@@ -72,21 +72,13 @@ spec:
               - {{ .Values.global.v3io.configMountPath }}/health_check.sh
             initialDelaySeconds: {{ .Values.readinessProbe.initialDelaySeconds }}
             periodSeconds: {{ .Values.readinessProbe.periodSeconds }}
-{{- if or .Values.environment .Values.v3io.api }}
-          env:
 {{- if .Values.environment }}
-{{- range $name, $val := .Values.environment.extra }}
-            - name: {{ $name }}
-              value: {{ $val }}
-{{ end -}}
-{{- if .Values.environment.template }}
+          env:
 {{ include .Values.environment.template . | indent 12 }}
-{{- end }}
 {{- end }}
 {{- if .Values.v3io.api }}
             - name: V3IO_API
               value: {{ .Values.v3io.api.hostname }}.{{ .Release.Namespace }}.svc:{{ .Values.v3io.api.port }}
-{{- end }}
 {{- end }}
           volumeMounts:
             - name: config-volume

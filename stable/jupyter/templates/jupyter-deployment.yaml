@@ -105,13 +105,7 @@ spec:
               value: {{ .Values.v3io.framesd.hostname }}.{{ .Release.Namespace }}.svc:{{ .Values.v3io.framesd.port }}
 {{- end }}
 {{- if .Values.environment }}
-{{- range $name, $val := .Values.environment.extra }}
-            - name: {{ $name }}
-              value: {{ $val }}
-{{ end -}}
-{{- if .Values.environment.template }}
 {{ include .Values.environment.template . | indent 12 }}
-{{- end }}
 {{- end }}
           volumeMounts:
             - mountPath: /User/v3io
