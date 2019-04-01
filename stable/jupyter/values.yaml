@@ -54,8 +54,12 @@ initCommands:
       cp -r /tmp/tutorials/* ${HOME}
       rm -rf /tmp/tutorials
 
+pip:
+  profile:
+
 environment:
   template: v3io-configs.deployment-with-home.env
+  extra: {}
 
 volumes:
   volumesTemplate: v3io-configs.deployment.mount-with-fuse-and-home
