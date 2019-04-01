@@ -71,19 +71,19 @@ spec:
               command:
               - /bin/bash
               - /etc/config/jupyter/health_check.sh
-              - --uri-path=lab
+              - --uri-path=/lab
               - --port={{ .Values.servicePort }}
             initialDelaySeconds: 90
-            periodSeconds: 30
+            periodSeconds: 1
           readinessProbe:
             exec:
               command:
               - /bin/bash
               - /etc/config/jupyter/health_check.sh
-              - --uri-path=lab
+              - --uri-path=/lab
               - --port={{ .Values.servicePort }}
             initialDelaySeconds: 5
-            periodSeconds: 30
+            periodSeconds: 1
           env:
             - name: SHELL
               value: /bin/bash
@@ -105,7 +105,13 @@ spec:
               value: {{ .Values.v3io.framesd.hostname }}.{{ .Release.Namespace }}.svc:{{ .Values.v3io.framesd.port }}
 {{- end }}
 {{- if .Values.environment }}
+{{- range $name, $val := .Values.environment.extra }}
+            - name: {{ $name }}
+              value: {{ $val }}
+{{ end -}}
+{{- if .Values.environment.template }}
 {{ include .Values.environment.template . | indent 12 }}
+{{- end }}
 {{- end }}
           volumeMounts:
             - mountPath: /User/v3io
