@@ -75,6 +75,6 @@ global:
 proxy:
   image:
     repository: "iguaziodocker/sidecar-proxy"
-    tag: 0.1.0
+    tag: 0.1.1
   servicePort: 8080
   logLevel: info
