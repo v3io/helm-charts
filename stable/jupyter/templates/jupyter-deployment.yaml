@@ -133,6 +133,7 @@ spec:
           args: 
           - --listen-addr=:{{ .Values.proxy.servicePort }}
           - --forward-addr=127.0.0.1:{{ .Values.servicePort }}
+          - --log-level={{ .Values.proxy.logLevel }}
           - --namespace={{ .Release.Namespace }}
           - --service-name={{ .Release.Name }}
           - --instance-name={{ template "jupyter.fullname" . }}
