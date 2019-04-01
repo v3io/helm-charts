@@ -59,7 +59,6 @@ data:
             listen       {{ .Values.sslHostPort }} ssl;
             server_tokens off;
 
-            ssl    on;
             ssl_certificate        {{ .Values.installationPath }}/crt/iguazio-nginx.crt;
             ssl_certificate_key    {{ .Values.installationPath }}/crt/iguazio-nginx.key;
             ssl_protocols 		   TLSv1.1 TLSv1.2;
