@@ -105,7 +105,13 @@ spec:
               value: {{ .Values.v3io.framesd.hostname }}.{{ .Release.Namespace }}.svc:{{ .Values.v3io.framesd.port }}
 {{- end }}
 {{- if .Values.environment }}
+{{- range $name, $val := .Values.environment.extra }}
+            - name: {{ $name }}
+              value: {{ $val }}
+{{ end -}}
+{{- if .Values.environment.template }}
 {{ include .Values.environment.template . | indent 12 }}
+{{- end }}
 {{- end }}
           volumeMounts:
             - mountPath: /User/v3io
@@ -127,6 +133,7 @@ spec:
           args: 
           - --listen-addr=:{{ .Values.proxy.servicePort }}
           - --forward-addr=127.0.0.1:{{ .Values.servicePort }}
+          - --log-level={{ .Values.proxy.logLevel }}
           - --namespace={{ .Release.Namespace }}
           - --service-name={{ .Release.Name }}
           - --instance-name={{ template "jupyter.fullname" . }}

@@ -54,8 +54,12 @@ initCommands:
       cp -r /tmp/tutorials/* ${HOME}
       rm -rf /tmp/tutorials
 
+pip:
+  profile:
+
 environment:
   template: v3io-configs.deployment-with-home.env
+  extra: {}
 
 volumes:
   volumesTemplate: v3io-configs.deployment.mount-with-fuse-and-home
@@ -71,5 +75,6 @@ global:
 proxy:
   image:
     repository: "iguaziodocker/sidecar-proxy"
-    tag: 0.1.0
+    tag: 0.1.1
   servicePort: 8080
+  logLevel: info
