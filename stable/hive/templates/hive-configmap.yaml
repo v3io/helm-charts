@@ -90,6 +90,9 @@ data:
 
     cp {{ .Values.hive.configPath }}/hive-site.xml $HIVE_CONF_DIR/
 
+    sed -i "s/property.hive.log.level = INFO/property.hive.log.level = {{ .Values.hive.logLevel }}/g" $HIVE_CONF_DIR/hive-log4j2.properties
+    sed -i "s/property.hive.log.level = INFO/property.hive.log.level = {{ .Values.hive.logLevel }}/g" $HIVE_CONF_DIR/hive-exec-log4j2.properties
+
     echo Starting hive metastore service....
     hive --service metastore
 

@@ -86,6 +86,7 @@ global:
     configMountPath: /etc/config/v3io
 
 hive:
+  logLevel: INFO
   configPath: /etc/config/hive
 
 v3io: {}

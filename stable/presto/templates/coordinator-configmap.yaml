@@ -12,6 +12,7 @@ data:
   node.properties: |
     node.environment={{ .Values.server.node.environment }}
     node.data-dir={{ .Values.server.node.dataDir }}
+    log.output-file=/tmp/presto/server.log
 
   jvm.config: |
     -server
@@ -42,6 +43,7 @@ data:
     query.max-memory-per-node={{ .Values.server.config.query.maxMemoryPerNode }}
     discovery-server.enabled=true
     discovery.uri=http://{{ template "presto.fullname" . }}.{{ .Release.Namespace }}.svc:{{ .Values.server.config.http.port }}
+    node.internal-address={{ template "presto.fullname" . }}.{{ .Release.Namespace }}.svc
 
 {{- if .Values.server.config.https }}
   password-authenticator.properties: |
@@ -79,6 +81,7 @@ data:
 
 {{- if .Values.hive }}
     # Hive configuration
+    echo hive.config.resources=${HADOOP_CONF_DIR}/core-site.xml,${HADOOP_CONF_DIR}/hdfs-site.xml >> $PRESTO_CONF_DIR/hive.properties
     mv $PRESTO_CONF_DIR/hive.properties $PRESTO_CONF_DIR/catalog/hive.properties
 
     # Hive dependencies
@@ -92,7 +95,6 @@ data:
   hive.properties: |
     connector.name=hive-hadoop2
     hive.metastore.uri=thrift://{{ .Values.hive.hostname }}:{{ .Values.hive.port }}
-    hive.config.resources=${HADOOP_CONF_DIR}/core-site.xml,${HADOOP_CONF_DIR}/hdfs-site.xml
 {{- end }}
 
 ---

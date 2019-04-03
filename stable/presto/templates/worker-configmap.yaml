@@ -74,7 +74,6 @@ data:
   hive.properties: |
     connector.name=hive-hadoop2
     hive.metastore.uri=thrift://{{ .Values.hive.hostname }}:{{ .Values.hive.port }}
-    hive.config.resources=${HADOOP_CONF_DIR}/core-site.xml,${HADOOP_CONF_DIR}/hdfs-site.xml
 
   docker-presto.sh: |
     #!/bin/bash
@@ -82,6 +81,7 @@ data:
     cp {{ .Values.server.config.mapPath }}/*.config $PRESTO_CONF_DIR
 
     # Hive configuration
+    echo hive.config.resources=${HADOOP_CONF_DIR}/core-site.xml,${HADOOP_CONF_DIR}/hdfs-site.xml >> $PRESTO_CONF_DIR/hive.properties
     mv $PRESTO_CONF_DIR/hive.properties $PRESTO_CONF_DIR/catalog/hive.properties
 
     # Hive dependencies
