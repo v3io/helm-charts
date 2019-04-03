@@ -10,8 +10,8 @@ metadata:
     component: spark-master
 spec:
   ports:
-    - port: {{ .Values.master.webAdmin.servicePort }}
-      targetPort: {{ .Values.master.webAdmin.containerPort }}
+    - port: {{ .Values.master.uiProxy.servicePort }}
+      targetPort: {{ .Values.master.uiProxy.containerPort }}
   selector:
     chart: {{ template "spark.chart" . }}
     release: {{ .Release.Name }}
