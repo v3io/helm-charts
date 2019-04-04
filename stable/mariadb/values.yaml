@@ -1,7 +1,7 @@
 initializationImage:
   repository: iguaziodocker/mariadb
   tag: 10.4
-  pullPolicy: Always
+  pullPolicy: IfNotPresent
   command: /etc/config/v3io/init-v3io-mariadb.sh
   securityContext:
     runAsUser: 1001
