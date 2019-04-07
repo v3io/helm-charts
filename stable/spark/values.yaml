@@ -17,8 +17,23 @@ master:
       # memory: "3Gi"
 
   webAdmin:
-    servicePort: 8080
+    servicePort: 8088
+    containerPort: 8088
+
+  uiProxy:
     containerPort: 8080
+    servicePort: 8080
+    image:
+      repository: "iguaziodocker/spark-ui-proxy"
+      tag: "0.1.0"
+      pullPolicy: "IfNotPresent"
+    resources: {}
+      # limits:
+        # cpu: 1
+        # memory: "512Mi"
+      # limits
+        # cpu: 1
+        # memory: "128Mi"
 
 worker:
   image:
