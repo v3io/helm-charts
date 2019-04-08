@@ -1,0 +1,18 @@
+kind: RoleBinding
+apiVersion: rbac.authorization.k8s.io/v1
+metadata:
+  labels:
+    app: {{ template "shell.name" . }}
+    chart: {{ template "shell.chart" . }}
+    release: {{ .Release.Name }}
+    heritage: {{ .Release.Service }}
+  name: {{ template "shell.appadmin" . }}-{{ .Values.permissions.logReader.name }}
+subjects:
+- kind: ServiceAccount
+  name: {{ template "shell.appadmin" . }}
+  namespace: {{ .Release.Namespace | quote }}
+roleRef:
+  kind: Role
+  name: {{ template "shell.logreader" . }}
+  apiGroup: rbac.authorization.k8s.io
+

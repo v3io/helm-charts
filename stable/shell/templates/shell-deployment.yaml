@@ -18,6 +18,9 @@ spec:
         app: {{ template "shell.name" . }}
         release: {{ .Release.Name }}
     spec:
+{{- if .Values.permissions.serviceAccount }}
+      serviceAccountName: {{ .Values.permissions.serviceAccount }}
+{{- end }}
       volumes:
         - name: config-volume
           configMap:
