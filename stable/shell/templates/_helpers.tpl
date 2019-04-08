@@ -30,3 +30,15 @@ Create chart name and version as used by the chart label.
 {{- define "shell.chart" -}}
 {{- printf "%s-%s" .Chart.Name .Chart.Version | replace "+" "_" | trunc 63 | trimSuffix "-" -}}
 {{- end -}}
+
+{{- define "shell.logreader" -}}
+{{- printf "%s-%s" .Chart.Name .Values.permissions.logReader.name -}}
+{{- end -}}
+
+{{- define "shell.appadmin" -}}
+{{- printf "%s-%s" .Chart.Name .Values.permissions.appAdmin.name -}}
+{{- end -}}
+
+{{- define "shell.svcadmin" -}}
+{{- printf "%s-%s" .Chart.Name .Values.permissions.svcAdmin.name -}}
+{{- end -}}
