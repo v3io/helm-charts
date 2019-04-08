@@ -71,6 +71,16 @@ data:
     fi
 {{- end }}
 
+{{- if .Values.hive }}
+    echo alias hive=\"${HIVE_HOME}/bin/hive -hiveconf hive.metastore.uris=thrift://{{ .Values.hive.metastore.hostname }}:{{ .Values.hive.metastore.port }} \$@\" >> ${IGUAZIO_HOME}/.hive_alias
+
+    if [ "$(grep --count 'HIVE CONFIG' ${HOME}/.bashrc)" == "0" ]; then
+      echo "# ----- HIVE CONFIG -----" >> ${HOME}/.bashrc
+      echo "test -e ${IGUAZIO_HOME}/.hive_alias" && echo "source ${IGUAZIO_HOME}/.hive_alias" >> ${HOME}/.bashrc
+      echo "# --- END HIVE CONFIG ---" >> ${HOME}/.bashrc
+    fi
+{{- end }}
+
     echo "echo ''" >> ${HOME}/.bashrc
 {{- if .Values.config.logo }}
     if [ "$(grep --count 'LOGO CONFIG' ${HOME}/.bashrc)" == "0" ]; then
