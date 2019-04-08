@@ -27,6 +27,8 @@ v3io:
     hostname: v3io-framesd
     port: 8080
   downloadBinaries: {}
+  tsdbctl:
+    download:
 
 image:
   repository: "iguaziodocker/jupyter-ml"
