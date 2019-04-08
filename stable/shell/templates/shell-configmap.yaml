@@ -31,6 +31,7 @@ data:
     curl --disable -sSL -o ${IGUAZIO_HOME}/bin/{{ $binary }} {{ $url }}
     chmod +x ${IGUAZIO_HOME}/bin/{{ $binary }}
 {{ end -}}
+{{- end }}
 {{- if and .Values.v3io.tsdbctl .Values.v3io.tsdbctl.download }}
     curl --disable -sSL -o ${IGUAZIO_HOME}/bin/tsdbctl {{ .Values.v3io.tsdbctl.download }}
     chmod +x ${IGUAZIO_HOME}/bin/tsdbctl
