@@ -1,0 +1,128 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ template "mariadb.fullname" . }}
+  labels:
+    app: {{ template "mariadb.name" . }}
+    chart: {{ template "mariadb.chart" . }}
+    release: {{ .Release.Name }}
+    heritage: {{ .Release.Service }}
+spec:
+  selector:
+    matchLabels:
+      app: {{ template "mariadb.name" . }}
+      release: {{ .Release.Name }}
+  template:
+    metadata:
+      labels:
+        app: {{ template "mariadb.name" . }}
+        release: {{ .Release.Name }}
+    spec:
+      volumes:
+{{- if .Values.volumes }}
+{{ include .Values.volumes.volumesTemplate . | indent 8 }}
+{{- end }}
+        - name: {{ .Release.Name }}-init-scripts
+          configMap:
+            name: {{ .Release.Name }}-init-scripts
+        - name: mariadb-config
+          configMap:
+            name: {{ template "mariadb.fullname" . }}
+        # Add MariaDB data mount (Fuse)
+        - name: mariadb-fuse
+          flexVolume:
+            driver: "v3io/fuse"
+            secretRef:
+              name: {{ .Release.Name }}-v3io-fuse
+            options:
+              container: {{ .Values.dataDir.container }}
+              subPath: {{ .Values.dataDir.pathPrefix }}/{{ template "mariadb.fullname" . }}
+      initContainers:
+        - name: init-mariadb
+          image: "{{ .Values.initializationImage.repository }}:{{ .Values.initializationImage.tag }}"
+          imagePullPolicy: {{ .Values.initializationImage.pullPolicy }}
+          resources:
+  {{ toYaml .Values.resources | indent 10 }}
+          env:
+            - name: MYSQL_ROOT_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                {{- if .Values.existingSecret }}
+                  name: {{ .Values.existingSecret }}
+                {{- else }}
+                  name: {{ template "mariadb.fullname" . }}
+                {{- end }}
+                  key: mariadb-root-password
+          command:
+            - /bin/bash
+            - {{ .Values.initializationImage.command }}
+          securityContext:
+            runAsUser: {{ .Values.initializationImage.securityContext.runAsUser }}
+          volumeMounts:
+{{- if .Values.volumes }}
+{{ include .Values.volumes.volumeMountsTemplate . | indent 12 }}
+{{- end }}
+            - name: mariadb-fuse
+              mountPath: "/var/lib/mysql"
+            - name: mariadb-config
+              mountPath: {{ .Values.configMountPath }}
+      containers:
+        - name: {{ .Chart.Name }}-mariadb
+          image: "{{ .Values.image.repository }}:{{ .Values.image.tag }}"
+          imagePullPolicy: {{ .Values.image.pullPolicy }}
+          command: ["/bin/bash", "{{ .Values.image.command }}"]
+          ports:
+            - name: mariadb
+              containerPort: {{ .Values.server.port }}
+              protocol: TCP
+          livenessProbe:
+            exec:
+              command:
+              - /bin/bash
+              - {{ .Values.global.v3io.configMountPath }}/health_check.sh
+            initialDelaySeconds: {{ .Values.server.livenessProbe.initialDelaySeconds }}
+            periodSeconds: {{ .Values.server.livenessProbe.periodSeconds }}
+          readinessProbe:
+            exec:
+              command:
+              - /bin/bash
+              - {{ .Values.global.v3io.configMountPath }}/health_check.sh
+            initialDelaySeconds: {{ .Values.server.readinessProbe.initialDelaySeconds }}
+            periodSeconds: {{ .Values.server.readinessProbe.periodSeconds }}
+          env:
+            - name: MYSQL_ROOT_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                {{- if .Values.existingSecret }}
+                  name: {{ .Values.existingSecret }}
+                {{- else }}
+                  name: {{ template "mariadb.fullname" . }}
+                {{- end }}
+                  key: mariadb-root-password
+{{- if .Values.environment }}
+{{ include .Values.environment.template . | indent 12 }}
+{{- end }}
+          volumeMounts:
+{{- if .Values.volumes }}
+{{ include .Values.volumes.volumeMountsTemplate . | indent 12 }}
+{{- end }}
+            - name: mariadb-fuse
+              mountPath: "/var/lib/mysql"
+            - name: mariadb-config
+              mountPath: {{ .Values.configMountPath }}
+            - name: {{ .Release.Name }}-init-scripts
+              mountPath: {{ .Values.configMountPath }}/init-scripts
+          resources:
+{{ toYaml .Values.resources | indent 12 }}
+    {{- with .Values.nodeSelector }}
+      nodeSelector:
+{{ toYaml . | indent 8 }}
+    {{- end }}
+    {{- with .Values.affinity }}
+      affinity:
+{{ toYaml . | indent 8 }}
+    {{- end }}
+    {{- with .Values.tolerations }}
+      tolerations:
+{{ toYaml . | indent 8 }}
+    {{- end }}

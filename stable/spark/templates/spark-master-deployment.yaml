@@ -67,6 +67,28 @@ spec:
           env:
 {{ include .Values.environment.template . | indent 12 }}
 {{- end }}
+        - name: spark-ui-proxy
+          image: {{ .Values.master.uiProxy.image.repository }}:{{ .Values.master.uiProxy.image.tag }}
+          imagePullPolicy: {{ .Values.master.uiProxy.image.pullPolicy | quote }}
+          ports:
+            - containerPort: {{ .Values.master.uiProxy.containerPort }}
+          args:
+            - localhost:{{ .Values.master.webAdmin.servicePort }}
+            - "{{ .Values.master.uiProxy.containerPort }}"
+          resources:
+{{ toYaml .Values.master.uiProxy.resources | indent 12 }}
+          livenessProbe:
+              httpGet:
+                path: /healthz
+                port: {{ .Values.master.uiProxy.containerPort }}
+              initialDelaySeconds: 120
+              timeoutSeconds: 5
+          readinessProbe:
+              httpGet:
+                path: /healthz
+                port: {{ .Values.master.uiProxy.containerPort }}
+              initialDelaySeconds: 120
+              timeoutSeconds: 5
       volumes:
 {{- if .Values.volumes }}
 {{ include .Values.volumes.master.volumesTemplate . | indent 8 }}

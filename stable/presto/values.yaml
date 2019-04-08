@@ -28,10 +28,13 @@ server:
 
   jvm:
     maxHeapSize: "8G"
-    gcMethod: 
+    gcMethod:
       type: "UseG1GC"
       g1:
         heapRegionSize: "32M"
+hive:
+  hostname: hive
+  port: 9083
 
 environment:
   template: v3io-configs.deployment.env

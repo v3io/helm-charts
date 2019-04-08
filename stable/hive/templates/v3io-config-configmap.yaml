@@ -1,0 +1,11 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: {{ .Release.Name }}-v3io-config
+  labels:
+    app: {{ template "hive.name" . }}
+    chart: {{ template "hive.chart" . }}
+    release: {{ .Release.Name }}
+    heritage: {{ .Release.Service }}
+data:
+{{ include "v3io-configs.java.configMap" . | indent 2 }}

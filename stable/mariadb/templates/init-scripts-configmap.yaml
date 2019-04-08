@@ -1,0 +1,12 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: {{ .Release.Name }}-init-scripts
+  labels:
+    app: {{ template "mariadb.name" . }}
+    chart: {{ template "mariadb.chart" . }}
+    release: {{ .Release.Name }}
+    heritage: {{ .Release.Service }}
+data:
+  enable-root-remote-access.sql: |
+    GRANT ALL PRIVILEGES ON *.* TO 'root'@'%' IDENTIFIED BY '{{ .Values.rootUser.password }}' WITH GRANT OPTION;
