@@ -1,0 +1,10 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: {{ .Release.Name }}
+  labels:
+    app: {{ template "empty.name" . }}
+    chart: {{ template "empty.chart" . }}
+    release: {{ .Release.Name }}
+    heritage: {{ .Release.Service }}
+data: ~

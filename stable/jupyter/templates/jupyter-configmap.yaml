@@ -77,9 +77,21 @@ data:
 
 {{- if and .Values.v3io.downloadBinaries }}
 {{- range $binary, $url := .Values.v3io.downloadBinaries }}
-    curl -sSL -o ${IGUAZIO_HOME}/bin/{{ $binary }} {{ $url }}
+    curl --disable -sSL -o ${IGUAZIO_HOME}/bin/{{ $binary }} {{ $url }}
     chmod +x ${IGUAZIO_HOME}/bin/{{ $binary }}
 {{ end -}}
+{{- if and .Values.v3io.tsdbctl .Values.v3io.tsdbctl.download }}
+    curl --disable -sSL -o ${IGUAZIO_HOME}/bin/tsdbctl {{ .Values.v3io.tsdbctl.download }}
+    chmod +x ${IGUAZIO_HOME}/bin/tsdbctl
+    rm -f ${IGUAZIO_HOME}/.tsdb_alias
+    if [ "${V3IO_API}" -a "${V3IO_ACCESS_KEY}" ]; then
+      echo alias tsdbctl=\"tsdbctl --server ${V3IO_API} --access-key ${V3IO_ACCESS_KEY}\" >> ${IGUAZIO_HOME}/.tsdb_alias
+      if [ "$(grep --count 'TSDB CONFIG' ${HOME}/.bashrc)" == "0" ]; then
+        echo "# ----- TSDB CONFIG -----" >> ${HOME}/.bashrc
+        echo "test -e ${IGUAZIO_HOME}/.tsdb_alias && source ${IGUAZIO_HOME}/.tsdb_alias" >> ${HOME}/.bashrc
+        echo "# --- END TSDB CONFIG ---" >> ${HOME}/.bashrc
+      fi
+    fi
 {{- end }}
 
 {{- if .Values.config.logo }}
@@ -99,9 +111,19 @@ data:
       echo "# --- END IGUAZIO CONFIG ---" >> ${HOME}/.bashrc
     fi
 
-    mkdir -p ${HOME}/.pythonlibs
-    export PIP_PREFIX="${HOME}/.pythonlibs"
-    export PYTHONPATH="${HOME}/.pythonlibs/lib/python3.6/site-packages:${PYTHONPATH}"
-    export PATH="${PATH}:${HOME}/.pythonlibs/bin"
+    touch ${HOME}/.viminfo
+    echo ":set term=builtin_ansi" > ${HOME}/.vimrc
+
+    PIP_USER_PROFILE="{{ .Values.pip.profile }}"
+
+    if [ "${PIP_USER_PROFILE}" == "" ]; then
+      PIP_USER_PATH="${HOME}/.pythonlibs"
+    else
+      PIP_USER_PATH="${HOME}/.pythonlibs/${PIP_USER_PROFILE}"
+    fi
+    mkdir -p ${PIP_USER_PATH}
+    export PIP_PREFIX="${PIP_USER_PATH}"
+    export PYTHONPATH="${PIP_USER_PATH}/lib/python3.6/site-packages:${PYTHONPATH}"
+    export PATH="${PATH}:${PIP_USER_PATH}/bin"
 
     jupyter-notebook $@

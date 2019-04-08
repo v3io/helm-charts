@@ -57,9 +57,12 @@ data:
         keepalive_timeout   65;
         server {
             listen       {{ .Values.sslHostPort }} ssl;
-            ssl    on;
+            server_tokens off;
+
             ssl_certificate        {{ .Values.installationPath }}/crt/iguazio-nginx.crt;
             ssl_certificate_key    {{ .Values.installationPath }}/crt/iguazio-nginx.key;
+            ssl_protocols 		   TLSv1.1 TLSv1.2;
+
             client_body_buffer_size   10M;
             client_max_body_size      5G;
 {{- if .Values.logger.enableAccessLog }}
@@ -75,6 +78,8 @@ data:
                 if ($cors = "1") {
                     add_header      'Access-Control-Allow-Origin' '$http_origin';
                     add_header      'Access-Control-Allow-Credentials' 'true';
+                    add_header    'Strict-Transport-Security' 'max-age=31536000; includeSubDomains';
+
                     root            /root/ctnr;
                     set $v3io_key   "$uri?$args";
 {{- range $index, $datanode := .Values.datanodes }}
@@ -96,6 +101,8 @@ data:
         server {
             listen                    {{ .Values.hostPort }};
             server_name               localhost;
+            server_tokens off;
+
             client_body_buffer_size   10M;
             client_max_body_size      5G;
 {{- if .Values.logger.enableAccessLog }}

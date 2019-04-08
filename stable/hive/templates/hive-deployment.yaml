@@ -1,0 +1,164 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ template "hive.fullname" . }}
+  labels:
+    app: {{ template "hive.name" . }}
+    chart: {{ template "hive.chart" . }}
+    release: {{ .Release.Name }}
+    heritage: {{ .Release.Service }}
+spec:
+  selector:
+    matchLabels:
+      app: {{ template "hive.name" . }}
+      release: {{ .Release.Name }}
+  template:
+    metadata:
+      labels:
+        app: {{ template "hive.name" . }}
+        release: {{ .Release.Name }}
+    spec:
+      volumes:
+        - name: hive-metastore-auth
+          secret:
+            secretName: {{ template "hive.fullname" . }}-metastore-auth
+        - name: hive-config
+          configMap:
+            name: {{ template "hive.fullname" . }}-config
+{{- if .Values.volumes }}
+{{ include .Values.volumes.volumesTemplate . | indent 8 }}
+{{- end }}
+{{- if eq .Values.metastore.database.type "mysql" }}
+      initContainers:
+        - name: create-hive-user
+          image: "{{ .Values.createHiveUserMariaDbImage.repository }}:{{ .Values.createHiveUserMariaDbImage.tag }}"
+          imagePullPolicy: {{ .Values.createHiveUserMariaDbImage.pullPolicy }}
+          resources:
+  {{ toYaml .Values.resources | indent 10 }}
+          env:
+            - name: HIVE_METASTORE_ADMIN_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                {{- if .Values.metastore.database.existingSecret }}
+                  name: {{ .Values.existingSecret }}
+                {{- else }}
+                  name: {{ template "hive.fullname" . }}-metastore-auth
+                {{- end }}
+                  key: metastoreAdminPassword
+          command:
+            - /bin/bash
+            - {{ .Values.hive.configPath }}/{{ .Values.createHiveUserMariaDbImage.command }}
+          volumeMounts:
+            - name: hive-config
+              mountPath: "{{ .Values.hive.configPath }}"
+{{- if .Values.volumes }}
+{{ include .Values.volumes.volumeMountsTemplate . | indent 12 }}
+{{- end }}
+{{- end }}
+        - name: create-hive-schema
+          image: "{{ .Values.image.repository }}:{{ .Values.image.tag }}"
+          imagePullPolicy: {{ .Values.image.pullPolicy }}
+          resources:
+        {{ toYaml .Values.resources | indent 10 }}
+          env:
+            - name: HIVE_DB_TYPE
+              value: {{ .Values.metastore.database.type }}
+            - name: HIVE_METASTORE_SERVICE
+              value: {{ .Values.metastore.database.hostname }}
+            - name: HIVE_METASTORE_USER
+              value: {{ .Values.metastore.database.username }}
+            - name: HIVE_METASTORE_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                {{- if .Values.metastore.database.existingSecret }}
+                  name: {{ .Values.existingSecret }}
+                {{- else }}
+                  name: {{ template "hive.fullname" . }}-metastore-auth
+                {{- end }}
+                  key: metastorePassword
+            - name: HIVE_METASTORE_DATABASE
+              value: "{{ .Values.metastore.database.name }}"
+          command:
+            - /bin/bash
+            - {{ .Values.hive.configPath }}/{{ .Values.image.createHiveSchemaCommand }}
+          volumeMounts:
+            - name: hive-config
+              mountPath: "{{ .Values.hive.configPath }}"
+{{- if .Values.volumes }}
+{{ include .Values.volumes.volumeMountsTemplate . | indent 12 }}
+{{- end }}
+
+      containers:
+        - name: {{ .Chart.Name }}
+          image: "{{ .Values.image.repository }}:{{ .Values.image.tag }}"
+          imagePullPolicy: {{ .Values.image.pullPolicy }}
+          command: ["/bin/bash", "{{ .Values.image.command }}"]
+          ports:
+            - name: metastore
+              containerPort: {{ .Values.metastore.containerPort }}
+              protocol: TCP
+          livenessProbe:
+            exec:
+              command:
+              - /bin/bash
+              - {{ .Values.hive.configPath }}/health_check.sh
+              - --socket-port={{ .Values.metastore.containerPort }}
+            initialDelaySeconds: {{ .Values.livenessProbe.initialDelaySeconds }}
+            periodSeconds: {{ .Values.livenessProbe.periodSeconds }}
+            timeoutSeconds: {{ .Values.livenessProbe.timeoutSeconds }}
+            successThreshold: {{ .Values.livenessProbe.successThreshold }}
+            failureThreshold: {{ .Values.livenessProbe.failureThreshold }}
+          readinessProbe:
+            exec:
+              command:
+              - /bin/bash
+              - {{ .Values.hive.configPath }}/health_check.sh
+              - --socket-port={{ .Values.metastore.containerPort }}
+            initialDelaySeconds: {{ .Values.readinessProbe.initialDelaySeconds }}
+            periodSeconds: {{ .Values.readinessProbe.periodSeconds }}
+            timeoutSeconds: {{ .Values.readinessProbe.timeoutSeconds }}
+            successThreshold: {{ .Values.readinessProbe.successThreshold }}
+            failureThreshold: {{ .Values.readinessProbe.failureThreshold }}
+          env:
+            - name: HIVE_DB_TYPE
+              value: {{ .Values.metastore.database.type }}
+            - name: HIVE_METASTORE_SERVICE
+              value: {{ .Values.metastore.database.hostname }}
+            - name: HIVE_METASTORE_USER
+              value: {{ .Values.metastore.database.username }}
+            - name: HIVE_METASTORE_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                {{- if .Values.metastore.database.existingSecret }}
+                  name: {{ .Values.existingSecret }}
+                {{- else }}
+                  name: {{ template "hive.fullname" . }}-metastore-auth
+                {{- end }}
+                  key: metastorePassword
+            - name: HIVE_METASTORE_DATABASE
+              value: "{{ .Values.metastore.database.name }}"
+{{- if .Values.environment }}
+{{ include .Values.environment.template . | indent 12 }}
+{{- end }}
+          volumeMounts:
+            - name: hive-metastore-auth
+              mountPath: {{ .Values.metastore.authPath }}
+            - name: hive-config
+              mountPath: "{{ .Values.hive.configPath }}"
+{{- if .Values.volumes }}
+{{ include .Values.volumes.volumeMountsTemplate . | indent 12 }}
+{{- end }}
+          resources:
+{{ toYaml .Values.resources | indent 12 }}
+    {{- with .Values.nodeSelector }}
+      nodeSelector:
+{{ toYaml . | indent 8 }}
+    {{- end }}
+    {{- with .Values.affinity }}
+      affinity:
+{{ toYaml . | indent 8 }}
+    {{- end }}
+    {{- with .Values.tolerations }}
+      tolerations:
+{{ toYaml . | indent 8 }}
+    {{- end }}
