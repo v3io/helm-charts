@@ -76,7 +76,7 @@ data:
 
     if [ "$(grep --count 'HIVE CONFIG' ${HOME}/.bashrc)" == "0" ]; then
       echo "# ----- HIVE CONFIG -----" >> ${HOME}/.bashrc
-      echo "test -e ${IGUAZIO_HOME}/.hive_alias && echo "source ${IGUAZIO_HOME}/.hive_alias" >> ${HOME}/.bashrc
+      echo "test -e ${IGUAZIO_HOME}/.hive_alias" && echo "source ${IGUAZIO_HOME}/.hive_alias" >> ${HOME}/.bashrc
       echo "# --- END HIVE CONFIG ---" >> ${HOME}/.bashrc
     fi
 {{- end }}

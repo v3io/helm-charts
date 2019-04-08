@@ -2,7 +2,7 @@ initializationImage:
   repository: iguaziodocker/mariadb
   tag: 10.4
   pullPolicy: IfNotPresent
-  command: /etc/config/v3io/init-v3io-mariadb.sh
+  command: /etc/config/mariadb/init-v3io-mariadb.sh
   securityContext:
     runAsUser: 1001
 
@@ -10,7 +10,7 @@ image:
   repository: iguaziodocker/mariadb
   tag: 10.4
   pullPolicy: IfNotPresent
-  command: /etc/config/v3io/v3io-mariadb.sh
+  command: /etc/config/mariadb/v3io-mariadb.sh
 
 server:
   hostname: mariadb
@@ -29,6 +29,8 @@ server:
 dataDir:
   container: bigdata
   pathPrefix: /mysql
+
+configMountPath: /etc/config/mariadb
 
 rootUser:
   ## MariaDB admin password
@@ -70,7 +72,7 @@ volumes: {}
 
 global:
   v3io:
-    configMountPath: /etc/config/v3io
+    configMountPath: /etc/config/mariadb
     homeMount: /home/mysql
 
 v3io: {}

@@ -22,11 +22,9 @@ spec:
 {{- if .Values.volumes }}
 {{ include .Values.volumes.volumesTemplate . | indent 8 }}
 {{- end }}
-        {{- if or (.Files.Glob "files/docker-entrypoint-initdb.d/*.{sh,sql,sql.gz}") .Values.initdbScriptsConfigMap .Values.initdbScripts }}
         - name: {{ .Release.Name }}-init-scripts
           configMap:
-            name: {{ template "mariadb.initdbScriptsCM" . }}
-        {{- end }}
+            name: {{ .Release.Name }}-init-scripts
         - name: mariadb-config
           configMap:
             name: {{ template "mariadb.fullname" . }}
@@ -57,7 +55,6 @@ spec:
                   key: mariadb-root-password
           command:
             - /bin/bash
-            - -x
             - {{ .Values.initializationImage.command }}
           securityContext:
             runAsUser: {{ .Values.initializationImage.securityContext.runAsUser }}
@@ -68,7 +65,7 @@ spec:
             - name: mariadb-fuse
               mountPath: "/var/lib/mysql"
             - name: mariadb-config
-              mountPath: "/etc/config/v3io"
+              mountPath: {{ .Values.configMountPath }}
       containers:
         - name: {{ .Chart.Name }}-mariadb
           image: "{{ .Values.image.repository }}:{{ .Values.image.tag }}"
@@ -112,11 +109,9 @@ spec:
             - name: mariadb-fuse
               mountPath: "/var/lib/mysql"
             - name: mariadb-config
-              mountPath: "/etc/config/v3io"
-{{- if or (.Files.Glob "files/docker-entrypoint-initdb.d/*.{sh,sql,sql.gz}") .Values.initdbScriptsConfigMap .Values.initdbScripts }}
+              mountPath: {{ .Values.configMountPath }}
             - name: {{ .Release.Name }}-init-scripts
-              mountPath: /docker-entrypoint-initdb.d
-{{- end }}
+              mountPath: {{ .Values.configMountPath }}/init-scripts
           resources:
 {{ toYaml .Values.resources | indent 12 }}
     {{- with .Values.nodeSelector }}

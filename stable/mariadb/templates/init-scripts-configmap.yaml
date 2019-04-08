@@ -1,4 +1,3 @@
-{{- if and (or (.Files.Glob "files/docker-entrypoint-initdb.d/*.{sh,sql,sql.gz}") .Values.initdbScripts) (not .Values.initdbScriptsConfigMap) }}
 apiVersion: v1
 kind: ConfigMap
 metadata:
@@ -8,19 +7,6 @@ metadata:
     chart: {{ template "mariadb.chart" . }}
     release: {{ .Release.Name }}
     heritage: {{ .Release.Service }}
-
-{{- if and (.Files.Glob "files/docker-entrypoint-initdb.d/*.sql.gz") (not .Values.initdbScriptsConfigMap) }}
-binaryData:
-{{- $root := . }}
-{{- range $path, $bytes := .Files.Glob "files/docker-entrypoint-initdb.d/*.sql.gz" }}
-  {{ base $path }}: {{ $root.Files.Get $path | b64enc | quote }}
-{{- end }}
-{{- end }}
 data:
-{{- if and (.Files.Glob "files/docker-entrypoint-initdb.d/*.{sh,sql}") (not .Values.initdbScriptsConfigMap) }}
-{{ (tpl (.Files.Glob "files/docker-entrypoint-initdb.d/*.{sh,sql}").AsConfig . ) | indent 2 }}
-{{- end }}
-{{- with .Values.initdbScripts }}
-{{ toYaml . | indent 2 }}
-{{- end }}
-{{ end }}
+  enable-root-remote-access.sql: |
+    GRANT ALL PRIVILEGES ON *.* TO 'root'@'%' IDENTIFIED BY '{{ .Values.rootUser.password }}' WITH GRANT OPTION;

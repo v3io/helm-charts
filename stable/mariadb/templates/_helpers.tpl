@@ -30,15 +30,3 @@ Create chart name and version as used by the chart label.
 {{- define "mariadb.chart" -}}
 {{- printf "%s-%s" .Chart.Name .Chart.Version | replace "+" "_" | trunc 63 | trimSuffix "-" -}}
 {{- end -}}
-
-{{ template "mariadb.initdbScriptsCM" . }}
-{{/*
-Get the initialization scripts ConfigMap name.
-*/}}
-{{- define "mariadb.initdbScriptsCM" -}}
-{{- if .Values.initdbScriptsConfigMap -}}
-{{- printf "%s" .Values.initdbScriptsConfigMap -}}
-{{- else -}}
-{{- printf "%s-init-scripts" .Release.Name -}}
-{{- end -}}
-{{- end -}}
