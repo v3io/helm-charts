@@ -12,7 +12,6 @@ data:
   node.properties: |
     node.environment={{ .Values.server.node.environment }}
     node.data-dir={{ .Values.server.node.dataDir }}
-    log.output-file=/tmp/presto/server.log
 
   jvm.config: |
     -server
