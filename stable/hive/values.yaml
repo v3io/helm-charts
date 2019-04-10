@@ -1,7 +1,7 @@
 createHiveUserMariaDbImage:
   repository: iguaziodocker/mariadb
   tag: 10.4
-  pullPolicy: Always
+  pullPolicy: IfNotPresent
   command: v3io-hive-initdb-mysql.sh
   user: root
   password: ChangeMe!
