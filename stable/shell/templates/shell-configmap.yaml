@@ -26,8 +26,14 @@ data:
 {{ include "v3io-configs.script.lookupService" . | indent 4 }}
 
     test -e ${HOME}/.bashrc || touch ${HOME}/.bashrc
+{{- if and .Values.v3io.downloadBinaries }}
+{{- range $binary, $url := .Values.v3io.downloadBinaries }}
+    curl --disable -sSL -o ${IGUAZIO_HOME}/bin/{{ $binary }} {{ $url }}
+    chmod +x ${IGUAZIO_HOME}/bin/{{ $binary }}
+{{ end -}}
+{{- end }}
 {{- if and .Values.v3io.tsdbctl .Values.v3io.tsdbctl.download }}
-    curl -sSL -o ${IGUAZIO_HOME}/bin/tsdbctl {{ .Values.v3io.tsdbctl.download }}
+    curl --disable -sSL -o ${IGUAZIO_HOME}/bin/tsdbctl {{ .Values.v3io.tsdbctl.download }}
     chmod +x ${IGUAZIO_HOME}/bin/tsdbctl
     rm -f ${IGUAZIO_HOME}/.tsdb_alias
     if [ "${V3IO_API}" -a "${V3IO_ACCESS_KEY}" ]; then
