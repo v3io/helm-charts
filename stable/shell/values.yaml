@@ -11,6 +11,14 @@ spark:
   executorMemory: 2G
   maxApplicationCores: 4
 
+permissions:
+  logReader:
+    name: log-reader
+  appAdmin:
+    name: application-admin
+  svcAdmin:
+    name: service-admin
+
 presto:
   hostname: presto
   port: 8443
