@@ -47,8 +47,8 @@ data:
 {{- end }}
 
     # Create /tmp in default container if not exists and set premissions to 777 (See: IG-11583)
-    hadoop fs -test -e v3io://users/tmp || hadoop fs -mkdir v3io://users/tmp
-    hadoop fs -chmod 777 v3io://users/tmp
+    hadoop fs -test -e {{ .Values.hive.scratchDirPrefix }} || hadoop fs -mkdir {{ .Values.hive.scratchDirPrefix }}
+    hadoop fs -chmod 777 {{ .Values.hive.scratchDirPrefix }}
 
 {{- if .Values.spark }}
     echo "spark.master=spark://{{ .Values.spark.hostname }}:{{ .Values.spark.port }}" >> ${SPARK_HOME}/conf/spark-defaults.conf
@@ -82,7 +82,7 @@ data:
 {{- end }}
 
 {{- if .Values.hive }}
-    echo alias hive=\"${HIVE_HOME}/bin/hive -hiveconf hive.exec.scratchdir=v3io://users/tmp/${V3IO_USERNAME}/hive -hiveconf hive.metastore.uris=thrift://{{ .Values.hive.metastore.hostname }}:{{ .Values.hive.metastore.port }} \$@\" >> ${IGUAZIO_HOME}/.hive_alias
+    echo alias hive=\"${HIVE_HOME}/bin/hive -hiveconf hive.exec.scratchdir={{ .Values.hive.scratchDirPrefix }}/${V3IO_USERNAME}/hive -hiveconf hive.metastore.uris=thrift://{{ .Values.hive.metastore.hostname }}:{{ .Values.hive.metastore.port }} \$@\" >> ${IGUAZIO_HOME}/.hive_alias
 
     if [ "$(grep --count 'HIVE CONFIG' ${HOME}/.bashrc)" == "0" ]; then
       echo "# ----- HIVE CONFIG -----" >> ${HOME}/.bashrc
