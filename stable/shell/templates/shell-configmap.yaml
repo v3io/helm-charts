@@ -46,19 +46,9 @@ data:
     fi
 {{- end }}
 
-    # Create /tmp in default container if not exists and set premissions to 777
-    set +e
-    hadoop fs -test -e /tmp
-    if [ ! "$?" == "0" ]; then
-      echo "Creating /tmp ..."
-      hadoop fs -mkdir /tmp
-    else
-      echo "Folder /tmp already exists in default container."
-    fi
-    echo "Setting permission for /tmp to 777"
+    # Create /tmp in default container if not exists and set premissions to 777 (See: IG-11583)
+    hadoop fs -test -e /tmp || hadoop fs -mkdir /tmp
     hadoop fs -chmod 777 /tmp
-    echo "Done. RC=$?"
-    set -e
 
 {{- if .Values.spark }}
     echo "spark.master=spark://{{ .Values.spark.hostname }}:{{ .Values.spark.port }}" >> ${SPARK_HOME}/conf/spark-defaults.conf
