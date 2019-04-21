@@ -69,15 +69,15 @@ spec:
           livenessProbe:
             exec:
               command:
-              - python
-              - /usr/local/bin/dayman_monitor.py
+              - /usr/local/bin/healthz
+              - --host=localhost
             initialDelaySeconds: 5
             periodSeconds: 5
           readinessProbe:
             exec:
               command:
-              - python
-              - /usr/local/bin/dayman_monitor.py
+              - /usr/local/bin/healthz
+              - --host=localhost
             initialDelaySeconds: 2
             periodSeconds: 1
             failureThreshold: 10
