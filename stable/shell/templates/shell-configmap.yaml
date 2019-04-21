@@ -78,7 +78,7 @@ data:
 {{- end }}
 
 {{- if .Values.hive }}
-    echo alias hive=\"${HIVE_HOME}/bin/hive -hiveconf hive.metastore.uris=thrift://{{ .Values.hive.metastore.hostname }}:{{ .Values.hive.metastore.port }} \$@\" >> ${IGUAZIO_HOME}/.hive_alias
+    echo alias hive=\"${HIVE_HOME}/bin/hive -hiveconf hive.exec.scratchdir=/tmp/${V3IO_USERNAME}/hive -hiveconf hive.metastore.uris=thrift://{{ .Values.hive.metastore.hostname }}:{{ .Values.hive.metastore.port }} \$@\" >> ${IGUAZIO_HOME}/.hive_alias
 
     if [ "$(grep --count 'HIVE CONFIG' ${HOME}/.bashrc)" == "0" ]; then
       echo "# ----- HIVE CONFIG -----" >> ${HOME}/.bashrc
