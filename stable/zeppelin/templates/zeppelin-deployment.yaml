@@ -57,8 +57,10 @@ spec:
             initialDelaySeconds: 5
             periodSeconds: 1
           env:
+{{- if .Values.spark }}
             - name: MASTER
               value: spark://{{ .Values.spark.hostname }}:{{ .Values.spark.port }}
+{{- end }}
 {{- if .Values.storage.path }}
             - name: ZEPPELIN_NOTEBOOK_DIR
               value: {{ .Values.storage.path }}

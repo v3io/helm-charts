@@ -52,5 +52,7 @@ data:
     fi
 
     /docker-zeppelin.sh \
+{{- if .Values.spark }}
             --master-hostname={{ .Values.spark.hostname }} \
             --master-port={{ .Values.spark.port }}
+{{- end }}
