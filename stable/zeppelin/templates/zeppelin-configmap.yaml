@@ -10,9 +10,18 @@ metadata:
 data:
   health_check.sh: |
 {{ include "v3io-configs.script.httpHealthCheckWithJava" . | indent 4 }}
+    CONFIGURED_V3IOD=$(grep "socket.host" $IGZ_DATA_CONFIG_FILE | cut -f2 -d"=")
+    if [ "${CONFIGURED_V3IOD}" != "CURRENT_NODE_IP" ]; then
+      /var/run/iguazio/daemon/healthz --serviceHost ${CONFIGURED_V3IOD}
+    fi
+
+  daemon-health.sh: |
+    #!/usr/bin/env bash
+
+    cp /usr/local/bin/healthz /var/run/iguazio/daemon/healthz
 
   run.sh : |
-    #!/bin/bash
+    #!/usr/bin/env bash
 {{- if and .Values.storage.path .Values.storage.initCmd }}
       {{ .Values.storage.initCmd }} {{ .Values.storage.path }}
 {{- end }}

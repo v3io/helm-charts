@@ -27,6 +27,16 @@ spec:
         release: {{ .Release.Name }}
         heritage: {{ .Release.Service }}
     spec:
+      initContainers:
+        - name: daemon-health
+          image: "{{ .Values.daemon.image.repository }}:{{ .Values.daemon.image.tag }}"
+          imagePullPolicy: {{ .Values.daemon.image.pullPolicy }}
+          command: ["/bin/bash", "/etc/config/daemon/daemon-health.sh"]
+          volumeMounts:
+            - mountPath: /etc/config/daemon
+              name: zeppelin-config
+            - mountPath: /var/run/iguazio/daemon
+              name: daemon-health
       containers:
         - name: zeppelin
           image: {{ .Values.image.repository }}:{{ .Values.image.tag }}
@@ -71,6 +81,8 @@ spec:
 {{ include .Values.environment.template . | indent 12 }}
 {{- end }}
           volumeMounts:
+            - mountPath: /var/run/iguazio/daemon
+              name: daemon-health
             - mountPath: /etc/config/zeppelin
               name: zeppelin-config
 {{- if .Values.debug.enabled }}
@@ -88,6 +100,8 @@ spec:
 {{- if .Values.volumes }}
 {{ include .Values.volumes.volumesTemplate . | indent 8 }}
 {{- end }}
+        - name: daemon-health
+          emptyDir: {}
         - name: zeppelin-config
           configMap:
             name: {{ template "zeppelin.fullname" . }}
