@@ -32,6 +32,7 @@ presto:
     pullPolicy: IfNotPresent
 
 hive:
+  scratchDirPrefix: v3io://users/tmp
   metastore:
     hostname: hive-metastore
     port: 9083
