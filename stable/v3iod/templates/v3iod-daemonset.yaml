@@ -81,6 +81,12 @@ spec:
             initialDelaySeconds: 2
             periodSeconds: 1
             failureThreshold: 10
+          lifecycle:
+            preStop:
+              exec:
+                command:
+                - /bin/bash
+                - /usr/local/bin/sigterm_v3io_dayman.sh
       volumes:
         - name: v3iod-shm
           hostPath:
