@@ -19,6 +19,12 @@ presto:
     tag: 3.0.0
     pullPolicy: IfNotPresent
 
+hive:
+  scratchDirPrefix: v3io://users/tmp
+  metastore:
+    hostname: hive-metastore
+    port: 9083
+
 v3io:
   api:
     hostname: v3io-webapi
