@@ -2,9 +2,9 @@ apiVersion: v1
 entries:
   empty:
   - appVersion: '>=1.9.4'
-    created: 2019-04-28T14:57:41.637007+03:00
+    created: 2019-04-29T14:13:49.318609+03:00
     description: empty
-    digest: 36eadff6082cf99546a3b443d129bd36fc605ffe1c8ec5465c52de0856b3f37a
+    digest: 954ddc513d3ce53e13409804c7b423e2f0c43a22d47687eda8e058e1235e28d6
     home: https://iguazio.com
     icon: https://www.iguazio.com/wp-content/uploads/2017/09/iguazio_logo_2017_w_c.png
     maintainers:
@@ -17,7 +17,7 @@ entries:
     - https://v3io.github.io/helm-charts/stable/empty-0.1.1.tgz
     version: 0.1.1
   - appVersion: '>=1.9.4'
-    created: 2019-04-28T14:57:41.636761+03:00
+    created: 2019-04-29T14:13:49.317898+03:00
     description: empty
     digest: 309ea5351ae39f43f03d6cb9da0f61a1b8b131158a47f8cd0cb0a0e483e2e727
     home: https://iguazio.com
@@ -34,9 +34,9 @@ entries:
   hive:
   - apiVersion: v1
     appVersion: '>=2.0.0'
-    created: 2019-04-28T14:57:41.638535+03:00
+    created: 2019-04-29T14:13:49.320678+03:00
     description: Hive metastore service
-    digest: 38728da15f52818d2a022cb88273303c8c7988c5e8e0713faca2a1056132859d
+    digest: 70ef7b695a3775fe53925bab410133a1ad45e733775b180aeeb03b59c683b644
     home: https://iguazio.com
     icon: https://www.iguazio.com/wp-content/uploads/2017/09/iguazio_logo_2017_w_c.png
     maintainers:
@@ -50,7 +50,7 @@ entries:
     version: 0.1.1
   - apiVersion: v1
     appVersion: '>=2.0.0'
-    created: 2019-04-28T14:57:41.638033+03:00
+    created: 2019-04-29T14:13:49.319183+03:00
     description: Hive metastore service
     digest: 7cde6263bde3211440ad7e47f037803d47c6b0485e3c051b7436e92a18816e9b
     home: https://iguazio.com
@@ -66,9 +66,9 @@ entries:
     version: 0.1.0
   iguazio-system:
   - apiVersion: v1
-    created: 2019-04-28T14:57:41.66572+03:00
+    created: 2019-04-29T14:13:49.343509+03:00
     description: A Helm chart for creating iguazio-system services
-    digest: 035249548a43a701ffa179df574622711314f39a94cd316426455a0338defdd0
+    digest: f83abcb36d7d3e25f0776e867dacdab64960c7c8618344b1e0ec1ca899b52b13
     home: https://iguazio.com
     icon: https://www.iguazio.com/wp-content/uploads/2017/09/iguazio_logo_2017_w_c.png
     maintainers:
@@ -81,7 +81,7 @@ entries:
     - https://v3io.github.io/helm-charts/stable/iguazio-system-0.4.5.tgz
     version: 0.4.5
   - apiVersion: v1
-    created: 2019-04-28T14:57:41.664079+03:00
+    created: 2019-04-29T14:13:49.34064+03:00
     description: A Helm chart for creating iguazio-system services
     digest: 0fd00a98b4214c444f5099e288b6679df7755c14fd1a9287eb7dc73254db15e0
     home: https://iguazio.com
@@ -96,7 +96,7 @@ entries:
     - https://v3io.github.io/helm-charts/stable/iguazio-system-0.4.4.tgz
     version: 0.4.4
   - apiVersion: v1
-    created: 2019-04-28T14:57:41.662002+03:00
+    created: 2019-04-29T14:13:49.339016+03:00
     description: A Helm chart for creating iguazio-system services
     digest: 40b232f4c64d61bb709725538a55dcadb43fa0c74a9123136521c51ed681292f
     home: https://iguazio.com
@@ -111,7 +111,7 @@ entries:
     - https://v3io.github.io/helm-charts/stable/iguazio-system-0.4.3.tgz
     version: 0.4.3
   - apiVersion: v1
-    created: 2019-04-28T14:57:41.659741+03:00
+    created: 2019-04-29T14:13:49.337393+03:00
     description: A Helm chart for creating iguazio-system services
     digest: 1a7276d05273ca725115b1ce0e8135079a019b3d64e11675e8c934757a5aa51e
     home: https://iguazio.com
@@ -126,7 +126,7 @@ entries:
     - https://v3io.github.io/helm-charts/stable/iguazio-system-0.4.2.tgz
     version: 0.4.2
   - apiVersion: v1
-    created: 2019-04-28T14:57:41.657046+03:00
+    created: 2019-04-29T14:13:49.335778+03:00
     description: A Helm chart for creating iguazio-system services
     digest: e470ec59663fe42913ee9a47968e543e13fd43be8f47b61ebb674d751c4d3863
     home: https://iguazio.com
@@ -141,7 +141,7 @@ entries:
     - https://v3io.github.io/helm-charts/stable/iguazio-system-0.4.1.tgz
     version: 0.4.1
   - apiVersion: v1
-    created: 2019-04-28T14:57:41.654219+03:00
+    created: 2019-04-29T14:13:49.333267+03:00
     description: A Helm chart for creating iguazio-system services
     digest: 34469d37faeffcca0220ed77b9dda271150040c24823118c5d67204ea65dc485
     home: https://iguazio.com
@@ -156,7 +156,7 @@ entries:
     - https://v3io.github.io/helm-charts/stable/iguazio-system-0.4.0.tgz
     version: 0.4.0
   - apiVersion: v1
-    created: 2019-04-28T14:57:41.651542+03:00
+    created: 2019-04-29T14:13:49.331163+03:00
     description: A Helm chart for creating iguazio-system services
     digest: a19ea9fe728262b961ff29502d19c146e1d6082f733d4efc43b321471d22c278
     home: https://iguazio.com
@@ -171,7 +171,7 @@ entries:
     - https://v3io.github.io/helm-charts/stable/iguazio-system-0.3.0.tgz
     version: 0.3.0
   - apiVersion: v1
-    created: 2019-04-28T14:57:41.649042+03:00
+    created: 2019-04-29T14:13:49.329268+03:00
     description: A Helm chart for creating iguazio-system services
     digest: 19734f45353eb5ba366e94704f34c2c52d90f18dffa5f21f3d403469860a101e
     home: https://iguazio.com
@@ -186,7 +186,7 @@ entries:
     - https://v3io.github.io/helm-charts/stable/iguazio-system-0.2.1.tgz
     version: 0.2.1
   - apiVersion: v1
-    created: 2019-04-28T14:57:41.647114+03:00
+    created: 2019-04-29T14:13:49.327479+03:00
     description: A Helm chart for creating iguazio-system services
     digest: 79295c0a38d3e12025cc314e2cc4e99be7571bff2ba20ace248c0044290f36ad
     home: https://iguazio.com
@@ -201,7 +201,7 @@ entries:
     - https://v3io.github.io/helm-charts/stable/iguazio-system-0.2.0.tgz
     version: 0.2.0
   - apiVersion: v1
-    created: 2019-04-28T14:57:41.64527+03:00
+    created: 2019-04-29T14:13:49.325983+03:00
     description: A Helm chart for creating iguazio-system services
     digest: 758cf7b0b827442c515dbd2152029e076e2c7113f9c11e9d8ce91d8da1b656cf
     home: https://iguazio.com
@@ -216,7 +216,7 @@ entries:
     - https://v3io.github.io/helm-charts/stable/iguazio-system-0.1.2.tgz
     version: 0.1.2
   - apiVersion: v1
-    created: 2019-04-28T14:57:41.642667+03:00
+    created: 2019-04-29T14:13:49.323882+03:00
     description: A Helm chart for creating iguazio-system services
     digest: 97a44d9e52fefe1d306874a6dda0138d89913736aeffdf7b10036c395dd197f7
     home: https://iguazio.com
@@ -231,7 +231,7 @@ entries:
     - https://v3io.github.io/helm-charts/stable/iguazio-system-0.1.1.tgz
     version: 0.1.1
   - apiVersion: v1
-    created: 2019-04-28T14:57:41.640202+03:00
+    created: 2019-04-29T14:13:49.322085+03:00
     description: A Helm chart for creating iguazio-system services
     digest: a19001a02df6b7e5efce64c7042be88bd901b569c69948932164c85c7be829d5
     home: https://iguazio.com
@@ -247,9 +247,9 @@ entries:
     version: 0.1.0
   jupyter:
   - appVersion: '>=2.0.0'
-    created: 2019-04-28T14:57:41.691271+03:00
+    created: 2019-04-29T14:13:49.361434+03:00
     description: Jupyter
-    digest: 7e52a0fc82472e771c0c9a7752985d66c7f5ec56a4e13f712b4b1a6334573fae
+    digest: d78d47b1c049367de3fb1bcbca26c18d228ddf505e028331940c56b956da9b27
     home: https://jupyter.org/
     icon: https://jupyter.org/assets/nav_logo.svg
     maintainers:
@@ -262,7 +262,7 @@ entries:
     - https://v3io.github.io/helm-charts/stable/jupyter-0.5.0.tgz
     version: 0.5.0
   - appVersion: '>=2.0.0'
-    created: 2019-04-28T14:57:41.690776+03:00
+    created: 2019-04-29T14:13:49.360192+03:00
     description: Jupyter
     digest: 83d1526614f325ec3029538e604b488be38cc22a2dc8c1d7e6d54cadc294144b
     home: https://jupyter.org/
@@ -277,7 +277,7 @@ entries:
     - https://v3io.github.io/helm-charts/stable/jupyter-0.4.2.tgz
     version: 0.4.2
   - appVersion: '>=2.0.0'
-    created: 2019-04-28T14:57:41.690007+03:00
+    created: 2019-04-29T14:13:49.359701+03:00
     description: Jupyter
     digest: 568fc7b4bb743e6fd8c6b2b8e800a91208525afddbfdbed5f584af664a8779ee
     home: https://jupyter.org/
@@ -292,7 +292,7 @@ entries:
     - https://v3io.github.io/helm-charts/stable/jupyter-0.4.1.tgz
     version: 0.4.1
   - appVersion: '>=2.0.0'
-    created: 2019-04-28T14:57:41.684295+03:00
+    created: 2019-04-29T14:13:49.355481+03:00
     description: Jupyter
     digest: 38a0a860c228a64452561f8a537db7fc78d25f49ae116a93b7847df704308d99
     home: https://jupyter.org/
@@ -307,7 +307,7 @@ entries:
     - https://v3io.github.io/helm-charts/stable/jupyter-0.3.15.tgz
     version: 0.3.15
   - appVersion: '>=2.0.0'
-    created: 2019-04-28T14:57:41.683655+03:00
+    created: 2019-04-29T14:13:49.354947+03:00
     description: Jupyter
     digest: 56781d806cf6bc4e6f0ac3ecd65704d66a12d35c210c4fe5478fda36dbbb957f
     home: https://jupyter.org/
@@ -322,7 +322,7 @@ entries:
     - https://v3io.github.io/helm-charts/stable/jupyter-0.3.14.tgz
     version: 0.3.14
   - appVersion: '>=2.0.0'
-    created: 2019-04-28T14:57:41.682934+03:00
+    created: 2019-04-29T14:13:49.353362+03:00
     description: Jupyter
     digest: 574a19dd6e0fd2ed5b325cec65613a69c5d3fe5284d90e31a369b20000f49a0e
     home: https://jupyter.org/
@@ -337,7 +337,7 @@ entries:
     - https://v3io.github.io/helm-charts/stable/jupyter-0.3.13.tgz
     version: 0.3.13
   - appVersion: '>=2.0.0'
-    created: 2019-04-28T14:57:41.68204+03:00
+    created: 2019-04-29T14:13:49.352891+03:00
     description: Jupyter
     digest: e3fdbba9265504c0ddb8790d3251d42f5c49109fe8230c91c879ef64e323ae0f
     home: https://jupyter.org/
@@ -352,7 +352,7 @@ entries:
     - https://v3io.github.io/helm-charts/stable/jupyter-0.3.12.tgz
     version: 0.3.12
   - appVersion: '>=2.0.0'
-    created: 2019-04-28T14:57:41.681095+03:00
+    created: 2019-04-29T14:13:49.352408+03:00
     description: Jupyter
     digest: bb09e8d424cc5b17f5335573d7545d051d172a958a038099b3c0af2d24944147
     home: https://jupyter.org/
@@ -367,7 +367,7 @@ entries:
     - https://v3io.github.io/helm-charts/stable/jupyter-0.3.11.tgz
     version: 0.3.11
   - appVersion: '>=2.0.0'
-    created: 2019-04-28T14:57:41.680363+03:00
+    created: 2019-04-29T14:13:49.351933+03:00
     description: Jupyter
     digest: 8deef30fd305ffcec966ac5d36e2092a4ea330e3d15c99fb91a8fb97053fb329
     home: https://jupyter.org/
@@ -382,7 +382,7 @@ entries:
     - https://v3io.github.io/helm-charts/stable/jupyter-0.3.10.tgz
     version: 0.3.10
   - appVersion: '>=2.0.0'
-    created: 2019-04-28T14:57:41.689373+03:00
+    created: 2019-04-29T14:13:49.359225+03:00
     description: Jupyter
     digest: 742850d75f6676436ed8440cc9d261f50016dace08729dc48b2491cdcc178dea
     home: https://jupyter.org/
@@ -397,7 +397,7 @@ entries:
     - https://v3io.github.io/helm-charts/stable/jupyter-0.3.9.tgz
     version: 0.3.9
   - appVersion: '>=2.0.0'
-    created: 2019-04-28T14:57:41.688755+03:00
+    created: 2019-04-29T14:13:49.358758+03:00
     description: Jupyter
     digest: fc7c922d768a96cdf9c318f6c3b2027192038c9ef1a55568278e576d61678754
     home: https://jupyter.org/
@@ -412,7 +412,7 @@ entries:
     - https://v3io.github.io/helm-charts/stable/jupyter-0.3.8.tgz
     version: 0.3.8
   - appVersion: '>=2.0.0'
-    created: 2019-04-28T14:57:41.68811+03:00
+    created: 2019-04-29T14:13:49.358291+03:00
     description: Jupyter
     digest: 0cc3cb322139b0dfff023cded483adbb023d53ef29813ebc6635821b0e95933d
     home: https://jupyter.org/
@@ -427,7 +427,7 @@ entries:
     - https://v3io.github.io/helm-charts/stable/jupyter-0.3.7.tgz
     version: 0.3.7
   - appVersion: '>=2.0.0'
-    created: 2019-04-28T14:57:41.687476+03:00
+    created: 2019-04-29T14:13:49.357825+03:00
     description: Jupyter
     digest: 09655af384f0d8e99d98086f8c211c9969a14ce10de10e6d69a827de32eec746
     home: https://jupyter.org/
@@ -442,7 +442,7 @@ entries:
     - https://v3io.github.io/helm-charts/stable/jupyter-0.3.6.tgz
     version: 0.3.6
   - appVersion: '>=2.0.0'
-    created: 2019-04-28T14:57:41.686801+03:00
+    created: 2019-04-29T14:13:49.357365+03:00
     description: Jupyter
     digest: aaf6e04aa43c3ce8d1048eea9f346482c53a9a77ae39c938d5d1432ee23cb8fe
     home: https://jupyter.org/
@@ -457,7 +457,7 @@ entries:
     - https://v3io.github.io/helm-charts/stable/jupyter-0.3.5.tgz
     version: 0.3.5
   - appVersion: '>=2.0.0'
-    created: 2019-04-28T14:57:41.686177+03:00
+    created: 2019-04-29T14:13:49.356902+03:00
     description: Jupyter
     digest: fefbe18bee870dedef02cbe528cb4c3596b3046b2ae971ecc772bde7f6c57e09
     home: https://jupyter.org/
@@ -472,7 +472,7 @@ entries:
     - https://v3io.github.io/helm-charts/stable/jupyter-0.3.4.tgz
     version: 0.3.4
   - appVersion: '>=2.0.0'
-    created: 2019-04-28T14:57:41.685559+03:00
+    created: 2019-04-29T14:13:49.356429+03:00
     description: Jupyter
     digest: 2d613ccf4a4ceb80002995f4de4e1c7f441a383fa31f377a25e1fba9eff26d09
     home: https://jupyter.org/
@@ -487,7 +487,7 @@ entries:
     - https://v3io.github.io/helm-charts/stable/jupyter-0.3.3.tgz
     version: 0.3.3
   - appVersion: '>=2.0.0'
-    created: 2019-04-28T14:57:41.684932+03:00
+    created: 2019-04-29T14:13:49.355967+03:00
     description: Jupyter
     digest: e2af633c2ff517f354912084118a9f6849fed567723d43dd6f24e44382876d49
     home: https://jupyter.org/
@@ -502,7 +502,7 @@ entries:
     - https://v3io.github.io/helm-charts/stable/jupyter-0.3.2.tgz
     version: 0.3.2
   - appVersion: '>=2.0.0'
-    created: 2019-04-28T14:57:41.679409+03:00
+    created: 2019-04-29T14:13:49.35146+03:00
     description: Jupyter
     digest: 21b1648f9879d35403ab24b457481c10bdb7e1bf246d0e4442d389c2029ecfca
     home: https://jupyter.org/
@@ -517,7 +517,7 @@ entries:
     - https://v3io.github.io/helm-charts/stable/jupyter-0.3.1.tgz
     version: 0.3.1
   - appVersion: '>=2.0.0'
-    created: 2019-04-28T14:57:41.678691+03:00
+    created: 2019-04-29T14:13:49.350994+03:00
     description: Jupyter
     digest: c6daa220fe160154087abb4b7e90c595812f324819614a8c67ce5dab46b55974
     home: https://jupyter.org/
@@ -532,7 +532,7 @@ entries:
     - https://v3io.github.io/helm-charts/stable/jupyter-0.3.0.tgz
     version: 0.3.0
   - appVersion: '>=2.0.0'
-    created: 2019-04-28T14:57:41.677972+03:00
+    created: 2019-04-29T14:13:49.350539+03:00
     description: Jupyter
     digest: 476e8650fd5aee26f4cf59d5ba77a6798f8f4461debe754abbac337a1dee9b39
     home: https://jupyter.org/
@@ -547,7 +547,7 @@ entries:
     - https://v3io.github.io/helm-charts/stable/jupyter-0.2.1.tgz
     version: 0.2.1
   - appVersion: '>=2.0.0'
-    created: 2019-04-28T14:57:41.677043+03:00
+    created: 2019-04-29T14:13:49.350081+03:00
     description: Jupyter
     digest: 20d5ad17f26042d26035aa21816bbf6ce47b20f95f4aa3f6b38974e997d61fb5
     home: https://jupyter.org/
@@ -562,7 +562,7 @@ entries:
     - https://v3io.github.io/helm-charts/stable/jupyter-0.2.0.tgz
     version: 0.2.0
   - appVersion: '>=2.0.0'
-    created: 2019-04-28T14:57:41.669886+03:00
+    created: 2019-04-29T14:13:49.345828+03:00
     description: Jupyter
     digest: e052d5807f8e96285a0c2f22536587d3c1063d4e4cbabc0f6fae0ea34d4560ed
     home: https://jupyter.org/
@@ -577,7 +577,7 @@ entries:
     - https://v3io.github.io/helm-charts/stable/jupyter-0.1.11.tgz
     version: 0.1.11
   - appVersion: '>=2.0.0'
-    created: 2019-04-28T14:57:41.669109+03:00
+    created: 2019-04-29T14:13:49.345357+03:00
     description: Jupyter
     digest: f36f01451b3d510d86bb2ad4dc899353d182f9f144940e33ea04928a047c782d
     home: https://jupyter.org/
@@ -592,7 +592,7 @@ entries:
     - https://v3io.github.io/helm-charts/stable/jupyter-0.1.10.tgz
     version: 0.1.10
   - appVersion: '>=2.0.0'
-    created: 2019-04-28T14:57:41.675975+03:00
+    created: 2019-04-29T14:13:49.34963+03:00
     description: Jupyter
     digest: b41801b7e24876a9197b070e54b380ad7e17a8e8fbbb2615c5fcef1069a656fb
     home: https://jupyter.org/
@@ -607,7 +607,7 @@ entries:
     - https://v3io.github.io/helm-charts/stable/jupyter-0.1.9.tgz
     version: 0.1.9
   - appVersion: '>=2.0.0'
-    created: 2019-04-28T14:57:41.67529+03:00
+    created: 2019-04-29T14:13:49.349194+03:00
     description: Jupyter
     digest: d1bba18400fadc06875de595190e19601c5b3039755efe36fa7c36c050806fce
     home: https://jupyter.org/
@@ -622,7 +622,7 @@ entries:
     - https://v3io.github.io/helm-charts/stable/jupyter-0.1.8.tgz
     version: 0.1.8
   - appVersion: '>=2.0.0'
-    created: 2019-04-28T14:57:41.674527+03:00
+    created: 2019-04-29T14:13:49.348748+03:00
     description: Jupyter
     digest: 7b10859bbd6fb29c5abaef6e11fe0076e09d0e4c1e737032ba74beacfb198b25
     home: https://jupyter.org/
@@ -637,7 +637,7 @@ entries:
     - https://v3io.github.io/helm-charts/stable/jupyter-0.1.7.tgz
     version: 0.1.7
   - appVersion: '>=2.0.0'
-    created: 2019-04-28T14:57:41.673621+03:00
+    created: 2019-04-29T14:13:49.348304+03:00
     description: Jupyter
     digest: 5be6c76c3066b431fc88c978ed6ff6032f876b37e0b94ee1f83e6f727870cde5
     home: https://jupyter.org/
@@ -652,7 +652,7 @@ entries:
     - https://v3io.github.io/helm-charts/stable/jupyter-0.1.6.tgz
     version: 0.1.6
   - appVersion: '>=2.0.0'
-    created: 2019-04-28T14:57:41.672827+03:00
+    created: 2019-04-29T14:13:49.347852+03:00
     description: Jupyter
     digest: 0c06e4c1e7681dc77fa5742e9b1d109ed63f055f348dc33352eef0e6e3d1b295
     home: https://jupyter.org/
@@ -667,7 +667,7 @@ entries:
     - https://v3io.github.io/helm-charts/stable/jupyter-0.1.5.tgz
     version: 0.1.5
   - appVersion: '>=2.0.0'
-    created: 2019-04-28T14:57:41.67212+03:00
+    created: 2019-04-29T14:13:49.347401+03:00
     description: Jupyter
     digest: 23c7433909a6fd6eb4b23ae44c76df93ece372be81ec291c7b53fae12643e73c
     home: https://jupyter.org/
@@ -682,7 +682,7 @@ entries:
     - https://v3io.github.io/helm-charts/stable/jupyter-0.1.4.tgz
     version: 0.1.4
   - appVersion: '>=2.0.0'
-    created: 2019-04-28T14:57:41.671342+03:00
+    created: 2019-04-29T14:13:49.3468+03:00
     description: Jupyter
     digest: 3b87dc2f25660fbe3b81f91efef6625939e4b1e5b374d6c11f883fa9c1416216
     home: https://jupyter.org/
@@ -697,7 +697,7 @@ entries:
     - https://v3io.github.io/helm-charts/stable/jupyter-0.1.3.tgz
     version: 0.1.3
   - appVersion: '>=2.0.0'
-    created: 2019-04-28T14:57:41.670599+03:00
+    created: 2019-04-29T14:13:49.346278+03:00
     description: Jupyter
     digest: b0e99a011e602ccb1a9ae68b98ecb14ccfad316b2dff6d272132b7862c8ab9a1
     home: https://jupyter.org/
@@ -712,7 +712,7 @@ entries:
     - https://v3io.github.io/helm-charts/stable/jupyter-0.1.2.tgz
     version: 0.1.2
   - appVersion: '>=2.0.0'
-    created: 2019-04-28T14:57:41.66831+03:00
+    created: 2019-04-29T14:13:49.344491+03:00
     description: Jupyter
     digest: e4a1c82f1e6eb404068477c36ea805330eafc5ed98d8b0b728059b4c4c29273f
     home: https://jupyter.org/
@@ -727,7 +727,7 @@ entries:
     - https://v3io.github.io/helm-charts/stable/jupyter-0.1.1.tgz
     version: 0.1.1
   - appVersion: '>=2.0.0'
-    created: 2019-04-28T14:57:41.666945+03:00
+    created: 2019-04-29T14:13:49.343941+03:00
     description: Jupyter
     digest: 11cbf5058057dbdccf610c713be10d9b271780d7ee623cdbde2cc7d285123e73
     home: https://jupyter.org/
@@ -743,9 +743,9 @@ entries:
     version: 0.1.0
   jupyterhub:
   - appVersion: 0.9.2
-    created: 2019-04-28T14:57:41.701229+03:00
+    created: 2019-04-29T14:13:49.370374+03:00
     description: Multi-user Jupyter installation
-    digest: 30a7a96b39ab84064b8ea56f0f310360527b72fba57390df4d57f85fc0b8dcf2
+    digest: 54b8cfd9055e5887ff43c77197f767a594d061982e6aae2cbbeaa07cd831eab7
     home: https://z2jh.jupyter.org
     icon: https://jupyter.org/assets/hublogo.svg
     kubeVersion: '>=1.8.0-0'
@@ -757,7 +757,7 @@ entries:
     - https://v3io.github.io/helm-charts/stable/jupyterhub-0.7.7.tgz
     version: 0.7.7
   - appVersion: 0.9.2
-    created: 2019-04-28T14:57:41.700221+03:00
+    created: 2019-04-29T14:13:49.368255+03:00
     description: Multi-user Jupyter installation
     digest: 30c9fb0568a67f177cedf37f13b16f290030e558f5a8b86232ca08e48174ec00
     home: https://z2jh.jupyter.org
@@ -771,7 +771,7 @@ entries:
     - https://v3io.github.io/helm-charts/stable/jupyterhub-0.7.6.tgz
     version: 0.7.6
   - appVersion: 0.9.2
-    created: 2019-04-28T14:57:41.698942+03:00
+    created: 2019-04-29T14:13:49.36732+03:00
     description: Multi-user Jupyter installation
     digest: 0469f5e18106388cf77882ca60461ce07464762a45251a449611fd770322d7ed
     home: https://z2jh.jupyter.org
@@ -785,7 +785,7 @@ entries:
     - https://v3io.github.io/helm-charts/stable/jupyterhub-0.7.5.tgz
     version: 0.7.5
   - appVersion: 0.9.2
-    created: 2019-04-28T14:57:41.697687+03:00
+    created: 2019-04-29T14:13:49.366384+03:00
     description: Multi-user Jupyter installation
     digest: ed9ab2c3f1df3b547e1400bdf6388dcc4e4f35c693c82b07c0c9ee76661ddfcd
     home: https://z2jh.jupyter.org
@@ -799,7 +799,7 @@ entries:
     - https://v3io.github.io/helm-charts/stable/jupyterhub-0.7.4.tgz
     version: 0.7.4
   - appVersion: 0.9.2
-    created: 2019-04-28T14:57:41.696294+03:00
+    created: 2019-04-29T14:13:49.365449+03:00
     description: Multi-user Jupyter installation
     digest: 2b6dd061ee5d5f0b0af840e2b74d29fda545b4082fe3212d5d2f4df74a45919a
     home: https://z2jh.jupyter.org
@@ -813,7 +813,7 @@ entries:
     - https://v3io.github.io/helm-charts/stable/jupyterhub-0.7.3.tgz
     version: 0.7.3
   - appVersion: 0.9.2
-    created: 2019-04-28T14:57:41.695071+03:00
+    created: 2019-04-29T14:13:49.364119+03:00
     description: Multi-user Jupyter installation
     digest: 49b2159584273b3b63efee0f2fdee64d17af87098c9521602e281634790d0349
     home: https://z2jh.jupyter.org
@@ -827,7 +827,7 @@ entries:
     - https://v3io.github.io/helm-charts/stable/jupyterhub-0.7.2.tgz
     version: 0.7.2
   - appVersion: 0.9.2
-    created: 2019-04-28T14:57:41.692679+03:00
+    created: 2019-04-29T14:13:49.362405+03:00
     description: Multi-user Jupyter installation
     digest: 433a5ca6a38cc003f9da2de7e52d08fbbdfeaeff5a7f2f24f1fb11a092570895
     home: https://z2jh.jupyter.org
@@ -843,9 +843,9 @@ entries:
   mariadb:
   - apiVersion: v1
     appVersion: '>=2.0.0'
-    created: 2019-04-28T14:57:41.701698+03:00
+    created: 2019-04-29T14:13:49.371202+03:00
     description: MariaDB (MySQL) service
-    digest: 1754fbf86b60f7c3b2f947356da2ec38d016184d49de4c45740b58dcf2b7da38
+    digest: 0edb0121d5937cda74c12ae191f9e9a47fb7628cc1379e530e0eac00cf6762c9
     home: https://iguazio.com
     icon: https://www.iguazio.com/wp-content/uploads/2017/09/iguazio_logo_2017_w_c.png
     maintainers:
@@ -860,9 +860,9 @@ entries:
   presto:
   - apiVersion: v1
     appVersion: '>=2.0.0'
-    created: 2019-04-28T14:57:41.713374+03:00
+    created: 2019-04-29T14:13:49.379339+03:00
     description: Distributed SQL query engine for running interactive analytic queries
-    digest: f465078534370699fb7904043b4bc45334bd8866c1d5edbe5348e91ff65f9ce1
+    digest: 07d8e4129234cf09830d73c48118b32689217287cb33b003e76d35b3de9eb0d3
     home: https://prestodb.io
     icon: https://prestodb.io/static/presto.png
     maintainers:
@@ -876,7 +876,7 @@ entries:
     version: 0.5.1
   - apiVersion: v1
     appVersion: '>=2.0.0'
-    created: 2019-04-28T14:57:41.712851+03:00
+    created: 2019-04-29T14:13:49.378868+03:00
     description: Distributed SQL query engine for running interactive analytic queries
     digest: d7925606f540eb11fb73ab7cf43788463d1a114f4352ddfa503a2055666b5cd5
     home: https://prestodb.io
@@ -892,7 +892,7 @@ entries:
     version: 0.5.0
   - apiVersion: v1
     appVersion: '>=2.0.0'
-    created: 2019-04-28T14:57:41.712159+03:00
+    created: 2019-04-29T14:13:49.378401+03:00
     description: Distributed SQL query engine for running interactive analytic queries
     digest: 3c1bc5ed75d219ef53ed38e8181d98bf3b6c2a131653096fac0554f1768648ea
     home: https://prestodb.io
@@ -908,7 +908,7 @@ entries:
     version: 0.4.7
   - apiVersion: v1
     appVersion: '>=2.0.0'
-    created: 2019-04-28T14:57:41.711497+03:00
+    created: 2019-04-29T14:13:49.377945+03:00
     description: Distributed SQL query engine for running interactive analytic queries
     digest: f94f2c7039aa930ef65e10a85c4d841569b30370a49ee363116b18bb8fef2bd4
     home: https://prestodb.io
@@ -924,7 +924,7 @@ entries:
     version: 0.4.6
   - apiVersion: v1
     appVersion: '>=2.0.0'
-    created: 2019-04-28T14:57:41.710721+03:00
+    created: 2019-04-29T14:13:49.377494+03:00
     description: Distributed SQL query engine for running interactive analytic queries
     digest: 4f0d018998878d5b541c35bc5a0bcf08c864432babed3dd39088c66924b5b6fc
     home: https://prestodb.io
@@ -940,7 +940,7 @@ entries:
     version: 0.4.5
   - apiVersion: v1
     appVersion: '>=2.0.0'
-    created: 2019-04-28T14:57:41.709895+03:00
+    created: 2019-04-29T14:13:49.377041+03:00
     description: Distributed SQL query engine for running interactive analytic queries
     digest: eba87b973413836164fd6d5254630ea34334d769f07b7c5a01df243462103496
     home: https://prestodb.io
@@ -956,7 +956,7 @@ entries:
     version: 0.4.4
   - apiVersion: v1
     appVersion: '>=2.0.0'
-    created: 2019-04-28T14:57:41.708924+03:00
+    created: 2019-04-29T14:13:49.376584+03:00
     description: Distributed SQL query engine for running interactive analytic queries
     digest: 506e9a5ef63d8779b3c4d3ed5467ed2083611557e3477d807babba55751dd271
     home: https://prestodb.io
@@ -972,7 +972,7 @@ entries:
     version: 0.4.3
   - apiVersion: v1
     appVersion: '>=2.0.0'
-    created: 2019-04-28T14:57:41.708167+03:00
+    created: 2019-04-29T14:13:49.376117+03:00
     description: Distributed SQL query engine for running interactive analytic queries
     digest: 2fb33cfa9b2e8acc37c11ef8085c825ef45bcd8e50348b7b18d6af359c92520b
     home: https://prestodb.io
@@ -988,7 +988,7 @@ entries:
     version: 0.4.2
   - apiVersion: v1
     appVersion: '>=2.0.0'
-    created: 2019-04-28T14:57:41.706902+03:00
+    created: 2019-04-29T14:13:49.375292+03:00
     description: Distributed SQL query engine for running interactive analytic queries
     digest: c0b403e0e2ea51f8885fde0432d56f301c705f75fa4604d85e6a6927f9eb1c68
     home: https://prestodb.io
@@ -1004,7 +1004,7 @@ entries:
     version: 0.4.1
   - apiVersion: v1
     appVersion: '>=2.0.0'
-    created: 2019-04-28T14:57:41.70626+03:00
+    created: 2019-04-29T14:13:49.374324+03:00
     description: Distributed SQL query engine for running interactive analytic queries
     digest: 74e60cd1f5b98b91bb87fde9b7c47adaa66f9acbea728536e3f316dfbfd71ec1
     home: https://prestodb.io
@@ -1020,7 +1020,7 @@ entries:
     version: 0.4.0
   - apiVersion: v1
     appVersion: 0.189-1.7.0
-    created: 2019-04-28T14:57:41.704809+03:00
+    created: 2019-04-29T14:13:49.373459+03:00
     description: Distributed SQL query engine for running interactive analytic queries
     digest: 9349ec8d59cdec71d28e319ebc217bce5c73d2740c045e42636b6c6a4fd68589
     home: https://prestodb.io
@@ -1036,7 +1036,7 @@ entries:
     version: 0.3.2
   - apiVersion: v1
     appVersion: 0.189-1.7.0
-    created: 2019-04-28T14:57:41.704028+03:00
+    created: 2019-04-29T14:13:49.372839+03:00
     description: Distributed SQL query engine for running interactive analytic queries
     digest: b53284cc2bcb95473a90a65c3ea3fcc9f451e9591ccfd157a18d33650eb0e7a6
     home: https://prestodb.io
@@ -1052,7 +1052,7 @@ entries:
     version: 0.3.1
   - apiVersion: v1
     appVersion: 0.189-1.7.0
-    created: 2019-04-28T14:57:41.705632+03:00
+    created: 2019-04-29T14:13:49.373882+03:00
     description: Distributed SQL query engine for running interactive analytic queries
     digest: 14223296797d5bfacab7a76fc8c2bc26abcbd1f1e5daa7694a559c6a619df272
     home: https://prestodb.io
@@ -1068,7 +1068,7 @@ entries:
     version: "0.3"
   - apiVersion: v1
     appVersion: 0.189-1.7.0-b80
-    created: 2019-04-28T14:57:41.703388+03:00
+    created: 2019-04-29T14:13:49.372334+03:00
     description: Distributed SQL query engine for running interactive analytic queries
     digest: 55896d0060fc64eed752f50b8624ae1578ed1d607c4d0f9366ef50966411fd13
     home: https://prestodb.io
@@ -1084,7 +1084,7 @@ entries:
     version: "0.2"
   - apiVersion: v1
     appVersion: 0.189-1.5.2
-    created: 2019-04-28T14:57:41.702762+03:00
+    created: 2019-04-29T14:13:49.37191+03:00
     description: Distributed SQL query engine for running interactive analytic queries
     digest: 4fe7557e355a707771f5ac1033c704fce2943e5f455d337bc97d29cac9d42204
     home: https://prestodb.io
@@ -1100,7 +1100,7 @@ entries:
     version: 0.1.1
   - apiVersion: v1
     appVersion: "0.189"
-    created: 2019-04-28T14:57:41.702164+03:00
+    created: 2019-04-29T14:13:49.371502+03:00
     description: Distributed SQL query engine for running interactive analytic queries
     digest: 7bd808beb233c2fd37a4499c050eba9a246341bdb1d41e2375bc2f8ba4caeaa5
     home: https://prestodb.io
@@ -1117,9 +1117,9 @@ entries:
   provazio:
   - apiVersion: v1
     appVersion: 0.3.0
-    created: 2019-04-28T14:57:41.71752+03:00
+    created: 2019-04-29T14:13:49.382297+03:00
     description: Iguazio provisioner
-    digest: bd817999f3505f9e536f3bfd2cfdb9b5b0854357d5a91ad825a9e704898786bc
+    digest: b1956b0f6917dd8fe974a74bf3139093275e8293971f717cd42afc72aa2aae6e
     home: https://iguazio.com
     icon: https://github.com/nuclio/nuclio/raw/master/docs/assets/images/logo.png
     maintainers:
@@ -1131,7 +1131,7 @@ entries:
     version: 0.2.1
   - apiVersion: v1
     appVersion: 0.3.0
-    created: 2019-04-28T14:57:41.717173+03:00
+    created: 2019-04-29T14:13:49.381973+03:00
     description: Iguazio provisioner
     digest: a68b2446ba413582f0204f356bd5717ede1532e2f30a7c616b80af982b2b2c4e
     home: https://iguazio.com
@@ -1145,7 +1145,7 @@ entries:
     version: 0.2.0
   - apiVersion: v1
     appVersion: 0.3.0
-    created: 2019-04-28T14:57:41.716649+03:00
+    created: 2019-04-29T14:13:49.381661+03:00
     description: Iguazio provisioner
     digest: c34a7dcde42052122f8be46123163d65640aec67ce18bb9e13bafd97dadec3db
     home: https://iguazio.com
@@ -1159,7 +1159,7 @@ entries:
     version: 0.1.0
   - apiVersion: v1
     appVersion: 0.2.18
-    created: 2019-04-28T14:57:41.716166+03:00
+    created: 2019-04-29T14:13:49.381348+03:00
     description: Iguazio provisioner
     digest: f00904db3c7bb4e47502200a52c715754a842d36674e90498920c859861c087e
     home: https://iguazio.com
@@ -1173,7 +1173,7 @@ entries:
     version: 0.0.7
   - apiVersion: v1
     appVersion: 0.2.14
-    created: 2019-04-28T14:57:41.715685+03:00
+    created: 2019-04-29T14:13:49.381046+03:00
     description: Iguazio provisioner
     digest: 8c1283e9196fd4cbcc4e52ef73bcdd3ff4aa1a17316a661f6ab6c7b135757fc4
     home: https://iguazio.com
@@ -1187,7 +1187,7 @@ entries:
     version: 0.0.6
   - apiVersion: v1
     appVersion: 0.0.4
-    created: 2019-04-28T14:57:41.715275+03:00
+    created: 2019-04-29T14:13:49.380744+03:00
     description: Iguazio provisioner
     digest: 4f18953fb57a05adce2734ca2e2671ca088aa11e844a8ec343440f007ce5af6c
     home: https://iguazio.com
@@ -1201,7 +1201,7 @@ entries:
     version: 0.0.5
   - apiVersion: v1
     appVersion: 0.0.4
-    created: 2019-04-28T14:57:41.714885+03:00
+    created: 2019-04-29T14:13:49.380457+03:00
     description: Iguazio provisioner
     digest: 724801f4a5c976fc6ef4a5ee9e6e031c7c6223da0ab7d5296de5c16b577d471d
     home: https://iguazio.com
@@ -1215,7 +1215,7 @@ entries:
     version: 0.0.4
   - apiVersion: v1
     appVersion: 0.0.3
-    created: 2019-04-28T14:57:41.714502+03:00
+    created: 2019-04-29T14:13:49.380177+03:00
     description: Iguazio provisioner
     digest: 8ba747368bd294f136f2eb54a0450f0d2b2e5ff2815dd4ba3ff4bd2c94f697a2
     home: https://iguazio.com
@@ -1229,7 +1229,7 @@ entries:
     version: 0.0.3
   - apiVersion: v1
     appVersion: 0.0.2
-    created: 2019-04-28T14:57:41.71411+03:00
+    created: 2019-04-29T14:13:49.379896+03:00
     description: Iguazio provisioner
     digest: 099b24e1e6d8f8164853bf6632c4c5e3913293d5fc4357583c7d66032ff71421
     home: https://iguazio.com
@@ -1243,7 +1243,7 @@ entries:
     version: 0.0.2
   - apiVersion: v1
     appVersion: 0.0.1
-    created: 2019-04-28T14:57:41.713758+03:00
+    created: 2019-04-29T14:13:49.379611+03:00
     description: Iguazio provisioner
     digest: 8f7466af20c0448e66c98047a6c557e09ce3ebf5e725b2130560501875eb0d67
     home: https://iguazio.com
@@ -1257,9 +1257,9 @@ entries:
     version: 0.0.1
   scaler:
   - apiVersion: v1
-    created: 2019-04-28T14:57:41.717949+03:00
+    created: 2019-04-29T14:13:49.382695+03:00
     description: A Helm chart for creating scaler - dlx
-    digest: 7b7a51f1b118fdf36a99d0d5fc08d95cbc82e64af268a7b754c0402846fce15f
+    digest: 516eb2f8ee5bfa5f58e7608a4b60c56b3c6f43b964d0c67262f06aa866db6564
     home: https://iguazio.com
     icon: https://www.iguazio.com/wp-content/uploads/2017/09/iguazio_logo_2017_w_c.png
     maintainers:
@@ -1272,7 +1272,7 @@ entries:
     - https://v3io.github.io/helm-charts/stable/scaler-0.1.1.tgz
     version: 0.1.1
   - apiVersion: v1
-    created: 2019-04-28T14:57:41.717728+03:00
+    created: 2019-04-29T14:13:49.382488+03:00
     description: A Helm chart for creating scaler - dlx
     digest: b969393cfa9410223b9d5e13f761582931fd6f1033c1b711abd615ae188bb210
     home: https://iguazio.com
@@ -1289,9 +1289,9 @@ entries:
   shell:
   - apiVersion: v1
     appVersion: '>=2.0.0'
-    created: 2019-04-28T14:57:41.741443+03:00
+    created: 2019-04-29T14:13:49.404223+03:00
     description: Shell access to data services
-    digest: 9780c08e0a62f529d3c63b820b203770a34c611ebee0dd73351c59e2fdabdf46
+    digest: e8adbbf88504c08d51f2c35ac61a304234efff797c868d82ab4f7f4bfd65fbfa
     home: https://iguazio.com
     icon: https://www.iguazio.com/wp-content/uploads/2017/09/iguazio_logo_2017_w_c.png
     maintainers:
@@ -1305,7 +1305,7 @@ entries:
     version: 0.8.2
   - apiVersion: v1
     appVersion: '>=2.0.0'
-    created: 2019-04-28T14:57:41.740809+03:00
+    created: 2019-04-29T14:13:49.403673+03:00
     description: Shell access to data services
     digest: c5f02901a516637cd4dd0e7db9e22b7c26e66b598845a5ab40d8f3ee79b93ee6
     home: https://iguazio.com
@@ -1321,7 +1321,7 @@ entries:
     version: 0.8.1
   - apiVersion: v1
     appVersion: '>=2.0.0'
-    created: 2019-04-28T14:57:41.739667+03:00
+    created: 2019-04-29T14:13:49.403216+03:00
     description: Shell access to data services
     digest: 6db1971c5dac6082dd30a5587742d441d19bec986d6e7108c4a546bb5d442f08
     home: https://iguazio.com
@@ -1337,7 +1337,7 @@ entries:
     version: 0.8.00
   - apiVersion: v1
     appVersion: '>=2.0.0'
-    created: 2019-04-28T14:57:41.735357+03:00
+    created: 2019-04-29T14:13:49.398506+03:00
     description: Shell access to data services
     digest: 2fb8d7ceb9343e2a676a7180f70ead5b5663efaf494eca28eeb450bb0b816db3
     home: https://iguazio.com
@@ -1353,7 +1353,7 @@ entries:
     version: 0.7.18
   - apiVersion: v1
     appVersion: '>=2.0.0'
-    created: 2019-04-28T14:57:41.734899+03:00
+    created: 2019-04-29T14:13:49.398051+03:00
     description: Shell access to data services
     digest: ef9ca4493732fc5b2a431a603f60845df82cc7034a9ca2a4a52418215e4a4aa4
     home: https://iguazio.com
@@ -1369,7 +1369,7 @@ entries:
     version: 0.7.17
   - apiVersion: v1
     appVersion: '>=2.0.0'
-    created: 2019-04-28T14:57:41.734271+03:00
+    created: 2019-04-29T14:13:49.397603+03:00
     description: Shell access to data services
     digest: 034351cbb3b0809fe0e7b22614b34f11c54de3d8b64f70f1c711853f86f26108
     home: https://iguazio.com
@@ -1385,7 +1385,7 @@ entries:
     version: 0.7.16
   - apiVersion: v1
     appVersion: '>=2.0.0'
-    created: 2019-04-28T14:57:41.733789+03:00
+    created: 2019-04-29T14:13:49.397157+03:00
     description: Shell access to data services
     digest: fb4ae76076f4d5ab883f0f8781c7458d6bc7b51b252f43f8b972e0d1a9038b07
     home: https://iguazio.com
@@ -1401,7 +1401,7 @@ entries:
     version: 0.7.15
   - apiVersion: v1
     appVersion: '>=2.0.0'
-    created: 2019-04-28T14:57:41.733291+03:00
+    created: 2019-04-29T14:13:49.396607+03:00
     description: Shell access to data services
     digest: 1522b411286fe953e033e3af74c895fb079585300f3b37d96e87133140a10246
     home: https://iguazio.com
@@ -1417,7 +1417,7 @@ entries:
     version: 0.7.14
   - apiVersion: v1
     appVersion: '>=2.0.0'
-    created: 2019-04-28T14:57:41.732447+03:00
+    created: 2019-04-29T14:13:49.396094+03:00
     description: Shell access to data services
     digest: b1436e01b01c85c680b974676c7fedccd1cc6c4c2e34a0f430dd62f9b64340cb
     home: https://iguazio.com
@@ -1433,7 +1433,7 @@ entries:
     version: 0.7.13
   - apiVersion: v1
     appVersion: '>=2.0.0'
-    created: 2019-04-28T14:57:41.731992+03:00
+    created: 2019-04-29T14:13:49.395568+03:00
     description: Shell access to data services
     digest: 0d6c6f652b4dff4773a3810181b9634ba88fa630865dfd46a7d609ec616ff767
     home: https://iguazio.com
@@ -1449,7 +1449,7 @@ entries:
     version: 0.7.12
   - apiVersion: v1
     appVersion: '>=2.0.0'
-    created: 2019-04-28T14:57:41.73153+03:00
+    created: 2019-04-29T14:13:49.395045+03:00
     description: Shell access to data services
     digest: d0059bc67201e19e70346a15075a26bc917ca6d4d28dab2ff3624d4585c2af07
     home: https://iguazio.com
@@ -1465,7 +1465,7 @@ entries:
     version: 0.7.11
   - apiVersion: v1
     appVersion: '>=2.0.0'
-    created: 2019-04-28T14:57:41.730877+03:00
+    created: 2019-04-29T14:13:49.394597+03:00
     description: Shell access to data services
     digest: a8dded127b5f7bc932490280174a79389ac707846d8112c3994f0d116f72f728
     home: https://iguazio.com
@@ -1481,7 +1481,7 @@ entries:
     version: 0.7.10
   - apiVersion: v1
     appVersion: '>=2.0.0'
-    created: 2019-04-28T14:57:41.739167+03:00
+    created: 2019-04-29T14:13:49.402646+03:00
     description: Shell access to data services
     digest: 4086b514719be55a0e23f908bf2aaeca81da5d756afba1e5919daf260cc6564e
     home: https://iguazio.com
@@ -1497,7 +1497,7 @@ entries:
     version: 0.7.9
   - apiVersion: v1
     appVersion: '>=2.0.0'
-    created: 2019-04-28T14:57:41.73869+03:00
+    created: 2019-04-29T14:13:49.4016+03:00
     description: Shell access to data services
     digest: 1737734ed50d574df8e568aa0f9fa6bc48bb1af6fedc8f2cf7cc7c87f5db2b59
     home: https://iguazio.com
@@ -1513,7 +1513,7 @@ entries:
     version: 0.7.8
   - apiVersion: v1
     appVersion: '>=2.0.0'
-    created: 2019-04-28T14:57:41.738197+03:00
+    created: 2019-04-29T14:13:49.401156+03:00
     description: Shell access to data services
     digest: aeb3f465ff44d83f4b72e577c6bee3e81237537656d24a470482fe22378f68e8
     home: https://iguazio.com
@@ -1529,7 +1529,7 @@ entries:
     version: 0.7.7
   - apiVersion: v1
     appVersion: '>=2.0.0'
-    created: 2019-04-28T14:57:41.737703+03:00
+    created: 2019-04-29T14:13:49.400711+03:00
     description: Shell access to data services
     digest: 9b8d07e8b818cca0444aeb06ead17f4b7b0a5cf1eeb9c715f71531bfac49bd78
     home: https://iguazio.com
@@ -1545,7 +1545,7 @@ entries:
     version: 0.7.6
   - apiVersion: v1
     appVersion: '>=2.0.0'
-    created: 2019-04-28T14:57:41.737216+03:00
+    created: 2019-04-29T14:13:49.40027+03:00
     description: Shell access to data services
     digest: 1eb17749d010b7442ed45360c1b8cb9115bda7beb6a15942e29695237b73c964
     home: https://iguazio.com
@@ -1561,7 +1561,7 @@ entries:
     version: 0.7.5
   - apiVersion: v1
     appVersion: '>=2.0.0'
-    created: 2019-04-28T14:57:41.736715+03:00
+    created: 2019-04-29T14:13:49.399826+03:00
     description: Shell access to data services
     digest: 73a6680a114a460b062866244892c73fb660255da181bc7e46d47444e795b45c
     home: https://iguazio.com
@@ -1577,7 +1577,7 @@ entries:
     version: 0.7.4
   - apiVersion: v1
     appVersion: '>=2.0.0'
-    created: 2019-04-28T14:57:41.736248+03:00
+    created: 2019-04-29T14:13:49.399364+03:00
     description: Shell access to data services
     digest: 1403a795ba8549b42e1a5023bd78e5b895114229b025545959f6c9d8d808370c
     home: https://iguazio.com
@@ -1593,7 +1593,7 @@ entries:
     version: 0.7.3
   - apiVersion: v1
     appVersion: '>=2.0.0'
-    created: 2019-04-28T14:57:41.735787+03:00
+    created: 2019-04-29T14:13:49.398933+03:00
     description: Shell access to data services
     digest: 625f9f612104d8381251227ed3ba11eb2b61869f592c7043149f8f7a46773843
     home: https://iguazio.com
@@ -1609,7 +1609,7 @@ entries:
     version: 0.7.2
   - apiVersion: v1
     appVersion: '>=2.0.0'
-    created: 2019-04-28T14:57:41.729857+03:00
+    created: 2019-04-29T14:13:49.394143+03:00
     description: Shell access to data services
     digest: ba350460c36d19e0b05fac8b28d6481cef73c06786e9e150738c2617b0907141
     home: https://iguazio.com
@@ -1625,7 +1625,7 @@ entries:
     version: 0.7.1
   - apiVersion: v1
     appVersion: '>=2.0.0'
-    created: 2019-04-28T14:57:41.729408+03:00
+    created: 2019-04-29T14:13:49.393046+03:00
     description: Shell access to data services
     digest: a48ea46c94ce8b1df95255ffcfc857333fe38d455649d27e4a5b879d896022c9
     home: https://iguazio.com
@@ -1641,7 +1641,7 @@ entries:
     version: 0.7.0
   - apiVersion: v1
     appVersion: '>=2.0.0'
-    created: 2019-04-28T14:57:41.728961+03:00
+    created: 2019-04-29T14:13:49.392624+03:00
     description: Shell access to data services
     digest: 033321025f58e3ffbb13192e65710d7d00235975fc2d992e600b090eb06a32c8
     home: https://iguazio.com
@@ -1657,7 +1657,7 @@ entries:
     version: 0.6.9
   - apiVersion: v1
     appVersion: '>=2.0.0'
-    created: 2019-04-28T14:57:41.72849+03:00
+    created: 2019-04-29T14:13:49.392182+03:00
     description: Shell access to data services
     digest: 55ebbb9ac085fdbc1d41b2a536c6d180ff0bec097b9f8871db4e63fdb18dfa1d
     home: https://iguazio.com
@@ -1673,7 +1673,7 @@ entries:
     version: 0.6.8
   - apiVersion: v1
     appVersion: '>=2.0.0'
-    created: 2019-04-28T14:57:41.727877+03:00
+    created: 2019-04-29T14:13:49.391617+03:00
     description: Shell access to data services
     digest: c6cfe4fc18485adf1b10d53ed4e319d4bd8714541df9d0b57c18c2179fcf64db
     home: https://iguazio.com
@@ -1689,7 +1689,7 @@ entries:
     version: 0.6.7
   - apiVersion: v1
     appVersion: '>=2.0.0'
-    created: 2019-04-28T14:57:41.727146+03:00
+    created: 2019-04-29T14:13:49.391078+03:00
     description: Shell access to data services
     digest: aad7307ee1a6e9a82cde573007ea49c02fde5b2ed0a84bb65b1068660475a3c5
     home: https://iguazio.com
@@ -1705,7 +1705,7 @@ entries:
     version: 0.6.6
   - apiVersion: v1
     appVersion: '>=2.0.0'
-    created: 2019-04-28T14:57:41.72643+03:00
+    created: 2019-04-29T14:13:49.390595+03:00
     description: Shell access to data services
     digest: 4a591dcc88292d1c6b22c218584368a25a35e320fb771217f151f66514884876
     home: https://iguazio.com
@@ -1721,7 +1721,7 @@ entries:
     version: 0.6.5
   - apiVersion: v1
     appVersion: '>=2.0.0'
-    created: 2019-04-28T14:57:41.7257+03:00
+    created: 2019-04-29T14:13:49.390188+03:00
     description: Shell access to data services
     digest: a0f086b4c9b70314135ebe2688848f19d561adbd6747616fa85b034cd8f75c54
     home: https://iguazio.com
@@ -1737,7 +1737,7 @@ entries:
     version: 0.6.4
   - apiVersion: v1
     appVersion: 1.7.0
-    created: 2019-04-28T14:57:41.725089+03:00
+    created: 2019-04-29T14:13:49.389667+03:00
     description: Shell access to data services
     digest: d6d5bd20d24c1f02e174859c71779e21ab024e3f89ea54c2c2f31ef6b925593f
     home: https://iguazio.com
@@ -1753,7 +1753,7 @@ entries:
     version: 0.6.3
   - apiVersion: v1
     appVersion: 1.7.0
-    created: 2019-04-28T14:57:41.724553+03:00
+    created: 2019-04-29T14:13:49.389098+03:00
     description: Shell access to data services
     digest: 8a33fb4dc64f9d1cabee0a0b03a4efe191ab8e2af11a7b7c5106db288966c95b
     home: https://iguazio.com
@@ -1769,7 +1769,7 @@ entries:
     version: 0.6.2
   - apiVersion: v1
     appVersion: 1.7.0
-    created: 2019-04-28T14:57:41.72404+03:00
+    created: 2019-04-29T14:13:49.388685+03:00
     description: Shell access to data services
     digest: 0284e4ba8aa0268ac5f9f71b1f76b3bb5cec11e4734cc1d459ce29b60a8ad611
     home: https://iguazio.com
@@ -1785,7 +1785,7 @@ entries:
     version: 0.6.1
   - apiVersion: v1
     appVersion: 1.7.0
-    created: 2019-04-28T14:57:41.723597+03:00
+    created: 2019-04-29T14:13:49.388269+03:00
     description: Shell access to data services
     digest: 00b7d8d9a09516df4aead8d1afe8e957e7402c209e4ce20acbf33b01bf665efb
     home: https://iguazio.com
@@ -1801,7 +1801,7 @@ entries:
     version: 0.6.0
   - apiVersion: v1
     appVersion: 1.7.0
-    created: 2019-04-28T14:57:41.72316+03:00
+    created: 2019-04-29T14:13:49.387746+03:00
     description: Shell access to data services
     digest: 3684523a580af40609fdf7a7c38f8b30fcfb291fb91a7c591b1708c7ef000f60
     home: https://iguazio.com
@@ -1817,7 +1817,7 @@ entries:
     version: 0.5.2
   - apiVersion: v1
     appVersion: 1.7.0
-    created: 2019-04-28T14:57:41.722721+03:00
+    created: 2019-04-29T14:13:49.387336+03:00
     description: Shell access to data services
     digest: 5c8efe8a8ef5fdcd06cfb5d86d2d74151e3523871c45698d5046cfcf8f726ddd
     home: https://iguazio.com
@@ -1833,7 +1833,7 @@ entries:
     version: 0.5.1
   - apiVersion: v1
     appVersion: 1.7.0
-    created: 2019-04-28T14:57:41.722292+03:00
+    created: 2019-04-29T14:13:49.386926+03:00
     description: Shell access to data services
     digest: bf5fc55eeb6a875915d19f9590b8b7dc43c12b87943aa00910d5d99bd32e664c
     home: https://iguazio.com
@@ -1849,7 +1849,7 @@ entries:
     version: 0.5.0
   - apiVersion: v1
     appVersion: 1.7.0
-    created: 2019-04-28T14:57:41.721468+03:00
+    created: 2019-04-29T14:13:49.386144+03:00
     description: Shell access to data services
     digest: e28f14a72d1324313f2c6dc724c922b0fb82edf224e7b622d04569a9fc8c61c6
     home: https://iguazio.com
@@ -1865,7 +1865,7 @@ entries:
     version: 0.4.4
   - apiVersion: v1
     appVersion: 1.7.0
-    created: 2019-04-28T14:57:41.721037+03:00
+    created: 2019-04-29T14:13:49.385696+03:00
     description: Shell access to data services
     digest: 2dbef310a38e5e9466b26a6a3d9ba218afee765e0d4e3e50b1f6b16aecbcee06
     home: https://iguazio.com
@@ -1881,7 +1881,7 @@ entries:
     version: 0.4.3
   - apiVersion: v1
     appVersion: 1.7.0
-    created: 2019-04-28T14:57:41.720564+03:00
+    created: 2019-04-29T14:13:49.385283+03:00
     description: Shell access to data services
     digest: 1aca42f4b213a6c3f612b9211bdae2db16eb1f56b123c5d0fab718aa64d5d51f
     home: https://iguazio.com
@@ -1897,7 +1897,7 @@ entries:
     version: 0.4.2
   - apiVersion: v1
     appVersion: 1.7.0
-    created: 2019-04-28T14:57:41.720048+03:00
+    created: 2019-04-29T14:13:49.384768+03:00
     description: Shell access to data services
     digest: aac98070dd363c2da60136b6a992031660afce99dc8cbd035047456e1718d57e
     home: https://iguazio.com
@@ -1913,7 +1913,7 @@ entries:
     version: 0.4.1
   - apiVersion: v1
     appVersion: 1.7.0
-    created: 2019-04-28T14:57:41.721873+03:00
+    created: 2019-04-29T14:13:49.386516+03:00
     description: Shell access to data services
     digest: 69030d40140ab49c6ffe32db1d4d288e646537cbc4343a3b70c270d944d98a71
     home: https://iguazio.com
@@ -1929,7 +1929,7 @@ entries:
     version: "0.4"
   - apiVersion: v1
     appVersion: 1.7.0-b80
-    created: 2019-04-28T14:57:41.719268+03:00
+    created: 2019-04-29T14:13:49.384068+03:00
     description: Shell access to data services
     digest: e57383cdc943227f88112b837675c30f0cc8f8d3c122af65a467e2caee3241bd
     home: https://iguazio.com
@@ -1945,7 +1945,7 @@ entries:
     version: "0.3"
   - apiVersion: v1
     appVersion: 1.5.2
-    created: 2019-04-28T14:57:41.71857+03:00
+    created: 2019-04-29T14:13:49.383267+03:00
     description: Shell access to data services
     digest: fe2f3b37166b22003b86740ff575f85815808c03ea301f94170ab6f822babe05
     home: https://iguazio.com
@@ -1961,7 +1961,7 @@ entries:
     version: "0.2"
   - apiVersion: v1
     appVersion: 1.5.2
-    created: 2019-04-28T14:57:41.718198+03:00
+    created: 2019-04-29T14:13:49.382921+03:00
     description: Shell access to data services
     digest: 75514bc2c3400b3f811eea29bb93321379dc66d1f87c7f9ff895f2f1337f9dce
     home: https://iguazio.com
@@ -1977,9 +1977,9 @@ entries:
     version: "0.1"
   spark:
   - appVersion: '>=2.0.0'
-    created: 2019-04-28T14:57:41.762947+03:00
+    created: 2019-04-29T14:13:49.424294+03:00
     description: Fast and general-purpose cluster computing system.
-    digest: 0191084c6456a3d855cec54c1b08029ecae7039d3bf12da15e5c08f74abd7b53
+    digest: 4dddbce22b29bc0c773609193456bf11031e1d9975b403129bbf4c77bbec98aa
     home: http://spark.apache.org
     icon: http://spark.apache.org/images/spark-logo-trademark.png
     maintainers:
@@ -1995,7 +1995,7 @@ entries:
     - https://v3io.github.io/helm-charts/stable/spark-0.8.0.tgz
     version: 0.8.0
   - appVersion: '>=2.0.0'
-    created: 2019-04-28T14:57:41.762045+03:00
+    created: 2019-04-29T14:13:49.423787+03:00
     description: Fast and general-purpose cluster computing system.
     digest: 358f5d9c158abffb1e233bf76c1d83e73bd8ca45b299c4be83d2648f8c24c087
     home: http://spark.apache.org
@@ -2013,7 +2013,7 @@ entries:
     - https://v3io.github.io/helm-charts/stable/spark-0.7.7.tgz
     version: 0.7.7
   - appVersion: '>=2.0.0'
-    created: 2019-04-28T14:57:41.761382+03:00
+    created: 2019-04-29T14:13:49.423096+03:00
     description: Fast and general-purpose cluster computing system.
     digest: bf6694bee53ca0a036f179c754164c50d7249d9e89277e2db808939e225d94d3
     home: http://spark.apache.org
@@ -2031,7 +2031,7 @@ entries:
     - https://v3io.github.io/helm-charts/stable/spark-0.7.6.tgz
     version: 0.7.6
   - appVersion: '>=2.0.0'
-    created: 2019-04-28T14:57:41.760879+03:00
+    created: 2019-04-29T14:13:49.422344+03:00
     description: Fast and general-purpose cluster computing system.
     digest: 9d5f3bb95915ed61c6f0ab29c38394f4217e2ca7ae5d7cb5632d9ce522def36e
     home: http://spark.apache.org
@@ -2049,7 +2049,7 @@ entries:
     - https://v3io.github.io/helm-charts/stable/spark-0.7.5.tgz
     version: 0.7.5
   - appVersion: '>=2.0.0'
-    created: 2019-04-28T14:57:41.760294+03:00
+    created: 2019-04-29T14:13:49.421857+03:00
     description: Fast and general-purpose cluster computing system.
     digest: b9c8ad2a46198f9620d7abba18340f0256ca332ba3655cf16a0f4875e9878ef2
     home: http://spark.apache.org
@@ -2067,7 +2067,7 @@ entries:
     - https://v3io.github.io/helm-charts/stable/spark-0.7.4.tgz
     version: 0.7.4
   - appVersion: '>=2.0.0'
-    created: 2019-04-28T14:57:41.759509+03:00
+    created: 2019-04-29T14:13:49.421371+03:00
     description: Fast and general-purpose cluster computing system.
     digest: b6de68eb443479868ad1c0e8f81d9180e479466e7dd1ff05db132e9541c50b55
     home: http://spark.apache.org
@@ -2085,7 +2085,7 @@ entries:
     - https://v3io.github.io/helm-charts/stable/spark-0.7.3.tgz
     version: 0.7.3
   - appVersion: '>=2.0.0'
-    created: 2019-04-28T14:57:41.758656+03:00
+    created: 2019-04-29T14:13:49.420872+03:00
     description: Fast and general-purpose cluster computing system.
     digest: dda30704315d7bd3db9ec66c852111e6bf0dd777adba165627899908a29ca458
     home: http://spark.apache.org
@@ -2103,7 +2103,7 @@ entries:
     - https://v3io.github.io/helm-charts/stable/spark-0.7.2.tgz
     version: 0.7.2
   - appVersion: '>=2.0.0'
-    created: 2019-04-28T14:57:41.75812+03:00
+    created: 2019-04-29T14:13:49.420391+03:00
     description: Fast and general-purpose cluster computing system.
     digest: 2556cc8226ab08bfd3799c473d9eeffab8ed996f4c9f433fd0504a4e262afa66
     home: http://spark.apache.org
@@ -2121,7 +2121,7 @@ entries:
     - https://v3io.github.io/helm-charts/stable/spark-0.7.1.tgz
     version: 0.7.1
   - appVersion: '>=2.0.0'
-    created: 2019-04-28T14:57:41.757448+03:00
+    created: 2019-04-29T14:13:49.419901+03:00
     description: Fast and general-purpose cluster computing system.
     digest: f42ca3a4986c967c01762ad427a99fc74fb3969cc8aa609e3b0e8a115a6f6a16
     home: http://spark.apache.org
@@ -2139,7 +2139,7 @@ entries:
     - https://v3io.github.io/helm-charts/stable/spark-0.7.0.tgz
     version: 0.7.0
   - appVersion: '>=2.0.0'
-    created: 2019-04-28T14:57:41.756965+03:00
+    created: 2019-04-29T14:13:49.41943+03:00
     description: Fast and general-purpose cluster computing system.
     digest: 500774e76170e5a270afe52db3eae2c438cd7ceaa98e88309bdaf8d644df54c5
     home: http://spark.apache.org
@@ -2157,7 +2157,7 @@ entries:
     - https://v3io.github.io/helm-charts/stable/spark-0.6.2.tgz
     version: 0.6.2
   - appVersion: 2.1.2-1.7.0
-    created: 2019-04-28T14:57:41.755355+03:00
+    created: 2019-04-29T14:13:49.418019+03:00
     description: Fast and general-purpose cluster computing system.
     digest: d447063ccd871ed2cc5119c35a6c439ba972c8d438e5e02c53829a2d7d21b52d
     home: http://spark.apache.org
@@ -2175,7 +2175,7 @@ entries:
     - https://v3io.github.io/helm-charts/stable/spark-0.6.1.tgz
     version: 0.6.1
   - appVersion: 2.1.2-1.7.0
-    created: 2019-04-28T14:57:41.753973+03:00
+    created: 2019-04-29T14:13:49.41641+03:00
     description: Fast and general-purpose cluster computing system.
     digest: 16d7e3a0a506b9b0315ebff3ae4914dad3cbbda34af7b5a9945c327c6278cd40
     home: http://spark.apache.org
@@ -2193,7 +2193,7 @@ entries:
     - https://v3io.github.io/helm-charts/stable/spark-0.6.0.tgz
     version: 0.6.0
   - appVersion: 2.1.2-1.7.0
-    created: 2019-04-28T14:57:41.751859+03:00
+    created: 2019-04-29T14:13:49.414186+03:00
     description: Fast and general-purpose cluster computing system.
     digest: a98b67dccc9b816b6af34f2c633fd3d0f063d5b78b726edb090dc743ac4d86c0
     home: http://spark.apache.org
@@ -2211,7 +2211,7 @@ entries:
     - https://v3io.github.io/helm-charts/stable/spark-0.5.9.tgz
     version: 0.5.9
   - appVersion: 2.1.2-1.7.0
-    created: 2019-04-28T14:57:41.750717+03:00
+    created: 2019-04-29T14:13:49.413028+03:00
     description: Fast and general-purpose cluster computing system.
     digest: 425c2a534b3de33d2903c568bf114b1ccfa638d4c9e8fac7f360fdebc63b261c
     home: http://spark.apache.org
@@ -2229,7 +2229,7 @@ entries:
     - https://v3io.github.io/helm-charts/stable/spark-0.5.8.tgz
     version: 0.5.8
   - appVersion: 2.1.2-1.7.0
-    created: 2019-04-28T14:57:41.750053+03:00
+    created: 2019-04-29T14:13:49.411296+03:00
     description: Fast and general-purpose cluster computing system.
     digest: da3d73f4173edde9ce4188c8b2ede1c3dfd3469c8a78cb20f5d98f838a3957db
     home: http://spark.apache.org
@@ -2247,7 +2247,7 @@ entries:
     - https://v3io.github.io/helm-charts/stable/spark-0.5.7.tgz
     version: 0.5.7
   - appVersion: 2.1.2-1.7.0
-    created: 2019-04-28T14:57:41.749389+03:00
+    created: 2019-04-29T14:13:49.41067+03:00
     description: Fast and general-purpose cluster computing system.
     digest: d1c5a95aacffffb59d9d00b72eec3502513aed6ff46ec44f6a814a1093a0026a
     home: http://spark.apache.org
@@ -2265,7 +2265,7 @@ entries:
     - https://v3io.github.io/helm-charts/stable/spark-0.5.6.tgz
     version: 0.5.6
   - appVersion: 2.1.2-1.7.0
-    created: 2019-04-28T14:57:41.748723+03:00
+    created: 2019-04-29T14:13:49.410065+03:00
     description: Fast and general-purpose cluster computing system.
     digest: 29bf1bcf9fd58513c7467d430fb389ca2bc9ae03337e8b58b43d0653fbe12022
     home: http://spark.apache.org
@@ -2283,7 +2283,7 @@ entries:
     - https://v3io.github.io/helm-charts/stable/spark-0.5.5.tgz
     version: 0.5.5
   - appVersion: 2.1.2-1.7.0
-    created: 2019-04-28T14:57:41.748104+03:00
+    created: 2019-04-29T14:13:49.409472+03:00
     description: Fast and general-purpose cluster computing system.
     digest: 4e8603673bf6a28594e507f8d6985bcde0e663373670826221b467c56218ac6f
     home: http://spark.apache.org
@@ -2301,7 +2301,7 @@ entries:
     - https://v3io.github.io/helm-charts/stable/spark-0.5.4.tgz
     version: 0.5.4
   - appVersion: 2.1.2-1.7.0
-    created: 2019-04-28T14:57:41.7475+03:00
+    created: 2019-04-29T14:13:49.408952+03:00
     description: Fast and general-purpose cluster computing system.
     digest: 4eb0462a10f776cf6a7eeb4e0efd63877f914511d7eb161305e46638e199e335
     home: http://spark.apache.org
@@ -2319,7 +2319,7 @@ entries:
     - https://v3io.github.io/helm-charts/stable/spark-0.5.3.tgz
     version: 0.5.3
   - appVersion: 2.1.2-1.7.0
-    created: 2019-04-28T14:57:41.746924+03:00
+    created: 2019-04-29T14:13:49.408429+03:00
     description: Fast and general-purpose cluster computing system.
     digest: 5299ed1bbefd8f07527952271655b2c278e374b1ab55f0e730177e9c265d77b3
     home: http://spark.apache.org
@@ -2337,7 +2337,7 @@ entries:
     - https://v3io.github.io/helm-charts/stable/spark-0.5.2.tgz
     version: 0.5.2
   - appVersion: 2.1.2-1.7.0
-    created: 2019-04-28T14:57:41.746355+03:00
+    created: 2019-04-29T14:13:49.407923+03:00
     description: Fast and general-purpose cluster computing system.
     digest: 7f2319557f07a1fab2cb38983f07891944986e73b8b847125c2d1ccd8036eace
     home: http://spark.apache.org
@@ -2355,7 +2355,7 @@ entries:
     - https://v3io.github.io/helm-charts/stable/spark-0.5.1.tgz
     version: 0.5.1
   - appVersion: 2.1.2-1.7.0
-    created: 2019-04-28T14:57:41.752471+03:00
+    created: 2019-04-29T14:13:49.414822+03:00
     description: Fast and general-purpose cluster computing system.
     digest: e6a3ea0fe8c2065166ae7cb72a33ed20e12eb6c9bb135bfd0a746f69528c64fb
     home: http://spark.apache.org
@@ -2373,7 +2373,7 @@ entries:
     - https://v3io.github.io/helm-charts/stable/spark-0.5.tgz
     version: "0.5"
   - appVersion: 2.1.2-1.7_b2_20180620143303
-    created: 2019-04-28T14:57:41.745775+03:00
+    created: 2019-04-29T14:13:49.407415+03:00
     description: Fast and general-purpose cluster computing system.
     digest: 8da6736da862fd36db6a2f6171502b53da9dc2c7c629fecced9bbd6279059290
     home: http://spark.apache.org
@@ -2391,7 +2391,7 @@ entries:
     - https://v3io.github.io/helm-charts/stable/spark-0.4.tgz
     version: "0.4"
   - appVersion: 2.1.2-1.5.2
-    created: 2019-04-28T14:57:41.745274+03:00
+    created: 2019-04-29T14:13:49.406932+03:00
     description: Fast and general-purpose cluster computing system.
     digest: d8606e3302486a8d09fa8f4ab35cbc58780d4309382f06337fd10d9fda0bc9e6
     home: http://spark.apache.org
@@ -2409,7 +2409,7 @@ entries:
     - https://v3io.github.io/helm-charts/stable/spark-0.3.tgz
     version: "0.3"
   - appVersion: 2.1.2-1.5.2
-    created: 2019-04-28T14:57:41.744913+03:00
+    created: 2019-04-29T14:13:49.406614+03:00
     description: Fast and general-purpose cluster computing system.
     digest: f399d967b799cc463be8320dfc13be4200de08b18ea0516fcd8529cec0341ad9
     home: http://spark.apache.org
@@ -2427,7 +2427,7 @@ entries:
     - https://v3io.github.io/helm-charts/stable/spark-0.2.9.tgz
     version: 0.2.9
   - appVersion: 2.1.2
-    created: 2019-04-28T14:57:41.744444+03:00
+    created: 2019-04-29T14:13:49.406226+03:00
     description: Fast and general-purpose cluster computing system.
     digest: 428d91a43b0d31162377ad72db9123268bf7a74bf02b48fb4ece5bf694ab735b
     home: http://spark.apache.org
@@ -2445,7 +2445,7 @@ entries:
     - https://v3io.github.io/helm-charts/stable/spark-0.2.8.tgz
     version: 0.2.8
   - appVersion: 2.1.2
-    created: 2019-04-28T14:57:41.74399+03:00
+    created: 2019-04-29T14:13:49.405859+03:00
     description: Fast and general-purpose cluster computing system.
     digest: 72e257e0f07baff0eaedfc08c1401cdfd77a03c5a0f004ed06fa0af70266a2b4
     home: http://spark.apache.org
@@ -2463,7 +2463,7 @@ entries:
     - https://v3io.github.io/helm-charts/stable/spark-0.2.7.tgz
     version: 0.2.7
   - appVersion: 2.1.2
-    created: 2019-04-28T14:57:41.743544+03:00
+    created: 2019-04-29T14:13:49.405541+03:00
     description: Fast and general-purpose cluster computing system.
     digest: 88570d4735600a8edc52c3585fa2cdc84a1f84d442b6f62018745438b543a18e
     home: http://spark.apache.org
@@ -2481,7 +2481,7 @@ entries:
     - https://v3io.github.io/helm-charts/stable/spark-0.2.6.tgz
     version: 0.2.6
   - appVersion: 2.1.2
-    created: 2019-04-28T14:57:41.743017+03:00
+    created: 2019-04-29T14:13:49.405224+03:00
     description: Fast and general-purpose cluster computing system.
     digest: e5e6cac642ffcf5bdec30b16177d8309f5aedee3e13092a895ae2f13efbb1436
     home: http://spark.apache.org
@@ -2499,7 +2499,7 @@ entries:
     - https://v3io.github.io/helm-charts/stable/spark-0.2.5.tgz
     version: 0.2.5
   - appVersion: 2.1.2
-    created: 2019-04-28T14:57:41.742284+03:00
+    created: 2019-04-29T14:13:49.404908+03:00
     description: Fast and general-purpose cluster computing system.
     digest: a654aa93060f60336067c34a9f746ddfbfc95f539a0af8c2b2eab7759dad782e
     home: http://spark.apache.org
@@ -2517,7 +2517,7 @@ entries:
     - https://v3io.github.io/helm-charts/stable/spark-0.2.4.tgz
     version: 0.2.4
   - appVersion: 2.1.2
-    created: 2019-04-28T14:57:41.741765+03:00
+    created: 2019-04-29T14:13:49.404554+03:00
     description: Fast and general-purpose cluster computing system.
     digest: 847ebfbc17d9fa9d63b5eb274187bf52e3a836148af4b3e242a1f197a24ac050
     home: http://spark.apache.org
@@ -2535,7 +2535,7 @@ entries:
     - https://v3io.github.io/helm-charts/stable/spark-0.2.3.tgz
     version: 0.2.3
   taxi-demo:
-  - created: 2019-04-28T14:57:41.764822+03:00
+  - created: 2019-04-29T14:13:49.426177+03:00
     description: V3IO Taxi Demo
     digest: b5563f1ac84096cbdb6636a2ef1ee951e453783fb1b2d372c8649376084c7073
     home: https://iguazio.com
@@ -2549,7 +2549,7 @@ entries:
     urls:
     - https://v3io.github.io/helm-charts/stable/taxi-demo-0.2.7.tgz
     version: 0.2.7
-  - created: 2019-04-28T14:57:41.764487+03:00
+  - created: 2019-04-29T14:13:49.425826+03:00
     description: V3IO Taxi Demo
     digest: 7ec30db127385494ed86376022643126bf3a2ed77e06bf8fdb9d5d32f61be473
     home: https://iguazio.com
@@ -2563,7 +2563,7 @@ entries:
     urls:
     - https://v3io.github.io/helm-charts/stable/taxi-demo-0.2.6.tgz
     version: 0.2.6
-  - created: 2019-04-28T14:57:41.764273+03:00
+  - created: 2019-04-29T14:13:49.425603+03:00
     description: V3IO Taxi Demo
     digest: 05fe3e370e57979521cec413ea5809b56d500dd6a53f2c53e3d8ac1cd584cefe
     home: https://iguazio.com
@@ -2577,7 +2577,7 @@ entries:
     urls:
     - https://v3io.github.io/helm-charts/stable/taxi-demo-0.2.5.tgz
     version: 0.2.5
-  - created: 2019-04-28T14:57:41.764054+03:00
+  - created: 2019-04-29T14:13:49.425382+03:00
     description: V3IO Taxi Demo
     digest: 21c7f8628c5202c6c225e6e0f7a3851fd0a5b3af8de1d314e8770f228828cff5
     home: https://iguazio.com
@@ -2591,7 +2591,7 @@ entries:
     urls:
     - https://v3io.github.io/helm-charts/stable/taxi-demo-0.2.4.tgz
     version: 0.2.4
-  - created: 2019-04-28T14:57:41.763825+03:00
+  - created: 2019-04-29T14:13:49.425155+03:00
     description: V3IO Taxi Demo
     digest: 83bbe5776e5bc9f170afcd858bd858954d7cf42cac997bfd130c832eb4510dcb
     home: https://iguazio.com
@@ -2605,7 +2605,7 @@ entries:
     urls:
     - https://v3io.github.io/helm-charts/stable/taxi-demo-0.2.3.tgz
     version: 0.2.3
-  - created: 2019-04-28T14:57:41.763604+03:00
+  - created: 2019-04-29T14:13:49.424932+03:00
     description: V3IO Taxi Demo
     digest: a97fea42c504a17518966000a49a9b4b601df63ae2ad339ebcecea7294c0d290
     home: https://iguazio.com
@@ -2619,7 +2619,7 @@ entries:
     urls:
     - https://v3io.github.io/helm-charts/stable/taxi-demo-0.2.2.tgz
     version: 0.2.2
-  - created: 2019-04-28T14:57:41.763372+03:00
+  - created: 2019-04-29T14:13:49.424709+03:00
     description: V3IO Taxi Demo
     digest: 1cabdd1ae749bd74fd18804a200ee7996d5a519291b99ab41fb9deec05879708
     home: https://iguazio.com
@@ -2633,7 +2633,7 @@ entries:
     urls:
     - https://v3io.github.io/helm-charts/stable/taxi-demo-0.2.1.tgz
     version: 0.2.1
-  - created: 2019-04-28T14:57:41.765043+03:00
+  - created: 2019-04-29T14:13:49.426394+03:00
     description: V3IO Taxi Demo
     digest: 4e88b2dfbf7e3f10ec8a83df2ff6dc5e3d586fcf4613c2f5811b436c7fb08fc3
     home: https://iguazio.com
@@ -2647,7 +2647,7 @@ entries:
     urls:
     - https://v3io.github.io/helm-charts/stable/taxi-demo-0.2.tgz
     version: "0.2"
-  - created: 2019-04-28T14:57:41.763141+03:00
+  - created: 2019-04-29T14:13:49.424486+03:00
     description: V3IO Taxi Demo
     digest: b1a155cd2eb2ce544ce503ad8a3a613726224db44346989296dc7a01bb8f3785
     home: https://iguazio.com
@@ -2663,9 +2663,9 @@ entries:
     version: "0.1"
   tenant:
   - apiVersion: v1
-    created: 2019-04-28T14:57:41.766558+03:00
+    created: 2019-04-29T14:13:49.42795+03:00
     description: A Helm chart for creating tenant
-    digest: bbb908a92577bf8f262f4bb80d9aa7eb3e632d30c7d9226590a9b4c103ec8667
+    digest: 09d4fbd982221da4f06c7e96ca98e72210d27e580603096c0a8cb3386058b5f4
     home: https://iguazio.com
     icon: https://www.iguazio.com/wp-content/uploads/2017/09/iguazio_logo_2017_w_c.png
     maintainers:
@@ -2678,7 +2678,7 @@ entries:
     - https://v3io.github.io/helm-charts/stable/tenant-0.2.3.tgz
     version: 0.2.3
   - apiVersion: v1
-    created: 2019-04-28T14:57:41.766289+03:00
+    created: 2019-04-29T14:13:49.427676+03:00
     description: A Helm chart for creating tenant
     digest: b1957a1cf31988ef1c34146e3b02cd85079ac6322536e4b96accc79e17d53d6e
     home: https://iguazio.com
@@ -2693,7 +2693,7 @@ entries:
     - https://v3io.github.io/helm-charts/stable/tenant-0.2.2.tgz
     version: 0.2.2
   - apiVersion: v1
-    created: 2019-04-28T14:57:41.766018+03:00
+    created: 2019-04-29T14:13:49.427377+03:00
     description: A Helm chart for creating tenant
     digest: fb50f6a0edf91eb4100c1a41f8bebc509fa0f682c6ea5b4a83391ef8801b6914
     home: https://iguazio.com
@@ -2708,7 +2708,7 @@ entries:
     - https://v3io.github.io/helm-charts/stable/tenant-0.2.1.tgz
     version: 0.2.1
   - apiVersion: v1
-    created: 2019-04-28T14:57:41.76574+03:00
+    created: 2019-04-29T14:13:49.427117+03:00
     description: A Helm chart for creating tenant
     digest: 96ca4011981c0da7491d9dcd2943785bf60b23f373f2e29921454935ee176202
     home: https://iguazio.com
@@ -2723,7 +2723,7 @@ entries:
     - https://v3io.github.io/helm-charts/stable/tenant-0.2.0.tgz
     version: 0.2.0
   - apiVersion: v1
-    created: 2019-04-28T14:57:41.765482+03:00
+    created: 2019-04-29T14:13:49.426854+03:00
     description: A Helm chart for creating tenant
     digest: 4f7a4c8e45f150a1535083f0c022322a47615ef10df554df44618e777a3dee92
     home: https://iguazio.com
@@ -2738,7 +2738,7 @@ entries:
     - https://v3io.github.io/helm-charts/stable/tenant-0.1.1.tgz
     version: 0.1.1
   - apiVersion: v1
-    created: 2019-04-28T14:57:41.765264+03:00
+    created: 2019-04-29T14:13:49.426627+03:00
     description: A Helm chart for creating tenant
     digest: 3922a65ddee02b5807d0596d831bb72c5b52b9884096154ebaa56da007195f4c
     home: https://iguazio.com
@@ -2754,9 +2754,9 @@ entries:
     version: 0.1.0
   tenant-creator:
   - apiVersion: v1
-    created: 2019-04-28T14:57:41.767194+03:00
+    created: 2019-04-29T14:13:49.428604+03:00
     description: A Helm chart for creating tenant creator
-    digest: 8a922d4e2177d2d7b12e431b13c61922b612d9c626e5efd0da2a0f6b4840d5d3
+    digest: b43c729628c3de555bb57ebf10be2855ffe06246fdd21352ae92c0fa2970f704
     home: https://iguazio.com
     icon: https://www.iguazio.com/wp-content/uploads/2017/09/iguazio_logo_2017_w_c.png
     maintainers:
@@ -2769,7 +2769,7 @@ entries:
     - https://v3io.github.io/helm-charts/stable/tenant-creator-0.1.2.tgz
     version: 0.1.2
   - apiVersion: v1
-    created: 2019-04-28T14:57:41.766986+03:00
+    created: 2019-04-29T14:13:49.428385+03:00
     description: A Helm chart for creating tenant creator
     digest: 462d1939389d6a10bb004ea6423e01a7542d0cbc6f50ac353ebbe41f5d8e2adf
     home: https://iguazio.com
@@ -2784,7 +2784,7 @@ entries:
     - https://v3io.github.io/helm-charts/stable/tenant-creator-0.1.1.tgz
     version: 0.1.1
   - apiVersion: v1
-    created: 2019-04-28T14:57:41.76677+03:00
+    created: 2019-04-29T14:13:49.428177+03:00
     description: A Helm chart for creating tenant creator
     digest: aba3045dfc1b57e1a776bd079014ff6cb25f70dc567056449959bbd385bf876b
     home: https://iguazio.com
@@ -2800,9 +2800,9 @@ entries:
     version: 0.1.0
   tsdb-functions:
   - appVersion: 0.0.12
-    created: 2019-04-28T14:57:41.77207+03:00
+    created: 2019-04-29T14:13:49.433477+03:00
     description: V3IO TSDB nuclio functions
-    digest: 4016ececa7873000924a40f201a41610f368efdea366e1a42ef59dccce38554b
+    digest: 1c9330153e56d464339687fef21d63daa20b6a525ec39273ecc157a9cfc5ff34
     home: https://iguazio.com
     icon: https://www.iguazio.com/wp-content/uploads/2017/09/iguazio_logo_2017_w_c.png
     maintainers:
@@ -2815,7 +2815,7 @@ entries:
     - https://v3io.github.io/helm-charts/stable/tsdb-functions-0.1.0.tgz
     version: 0.1.0
   - appVersion: 0.0.12
-    created: 2019-04-28T14:57:41.769402+03:00
+    created: 2019-04-29T14:13:49.430784+03:00
     description: V3IO TSDB nuclio functions
     digest: e8f1352ba55ee6ac94b7015dbccbd0de436b8dc4ba1fb28bd4ae029d78da3ad1
     home: https://iguazio.com
@@ -2830,7 +2830,7 @@ entries:
     - https://v3io.github.io/helm-charts/stable/tsdb-functions-0.0.18.tgz
     version: 0.0.18
   - appVersion: 0.0.12
-    created: 2019-04-28T14:57:41.769178+03:00
+    created: 2019-04-29T14:13:49.430569+03:00
     description: V3IO TSDB nuclio functions
     digest: 4184d2bba233ad02ee3008a15114da2f403fc0911573bbec493b0f4000647e3d
     home: https://iguazio.com
@@ -2845,7 +2845,7 @@ entries:
     - https://v3io.github.io/helm-charts/stable/tsdb-functions-0.0.17.tgz
     version: 0.0.17
   - appVersion: 0.0.12
-    created: 2019-04-28T14:57:41.768958+03:00
+    created: 2019-04-29T14:13:49.430363+03:00
     description: V3IO TSDB nuclio functions
     digest: a2c5f55ceaf7b97ce17f135b6bbb9f32403c11dc228a8f0a6cac45e348a6763e
     home: https://iguazio.com
@@ -2860,7 +2860,7 @@ entries:
     - https://v3io.github.io/helm-charts/stable/tsdb-functions-0.0.16.tgz
     version: 0.0.16
   - appVersion: 0.0.12
-    created: 2019-04-28T14:57:41.76873+03:00
+    created: 2019-04-29T14:13:49.430142+03:00
     description: V3IO TSDB nuclio functions
     digest: 823ff3655f8dedf72e0e8af995711360fcbdc4db5ef8351f5fe0d8623bf071d9
     home: https://iguazio.com
@@ -2875,7 +2875,7 @@ entries:
     - https://v3io.github.io/helm-charts/stable/tsdb-functions-0.0.15.tgz
     version: 0.0.15
   - appVersion: 0.0.12
-    created: 2019-04-28T14:57:41.768508+03:00
+    created: 2019-04-29T14:13:49.429848+03:00
     description: V3IO TSDB nuclio functions
     digest: ed69ba7be3afe16d1d0ae6886fc1f0007cd235585f6c1007ecd4073c73aedf3a
     home: https://iguazio.com
@@ -2890,7 +2890,7 @@ entries:
     - https://v3io.github.io/helm-charts/stable/tsdb-functions-0.0.14.tgz
     version: 0.0.14
   - appVersion: 0.0.12
-    created: 2019-04-28T14:57:41.768282+03:00
+    created: 2019-04-29T14:13:49.429625+03:00
     description: V3IO TSDB nuclio functions
     digest: 95288b03826923235146a680931ebf21aa81f5cc958edbb46b48951700b369f4
     home: https://iguazio.com
@@ -2905,7 +2905,7 @@ entries:
     - https://v3io.github.io/helm-charts/stable/tsdb-functions-0.0.13.tgz
     version: 0.0.13
   - appVersion: 0.0.12
-    created: 2019-04-28T14:57:41.768067+03:00
+    created: 2019-04-29T14:13:49.42941+03:00
     description: V3IO TSDB nuclio functions
     digest: 894602699e7d1496c42b8d7861871bab48c6484987f5b975960fa9543711c85d
     home: https://iguazio.com
@@ -2920,7 +2920,7 @@ entries:
     - https://v3io.github.io/helm-charts/stable/tsdb-functions-0.0.12.tgz
     version: 0.0.12
   - appVersion: 0.0.12
-    created: 2019-04-28T14:57:41.767834+03:00
+    created: 2019-04-29T14:13:49.429205+03:00
     description: V3IO TSDB nuclio functions
     digest: e73cd5ced2dfc0a3dbd3475240c34bf458a73294454932180c86605e3c95e82f
     home: https://iguazio.com
@@ -2935,7 +2935,7 @@ entries:
     - https://v3io.github.io/helm-charts/stable/tsdb-functions-0.0.11.tgz
     version: 0.0.11
   - appVersion: 0.0.6
-    created: 2019-04-28T14:57:41.767617+03:00
+    created: 2019-04-29T14:13:49.428999+03:00
     description: V3IO TSDB nuclio functions
     digest: f13776325ff30d6ee3b91d7ab1ef3cf0cc83f542dc82df94004c32350c36d4ff
     home: https://iguazio.com
@@ -2950,7 +2950,7 @@ entries:
     - https://v3io.github.io/helm-charts/stable/tsdb-functions-0.0.10.tgz
     version: 0.0.10
   - appVersion: 0.0.5
-    created: 2019-04-28T14:57:41.77184+03:00
+    created: 2019-04-29T14:13:49.433265+03:00
     description: V3IO TSDB nuclio functions
     digest: c934b78c33ce1435b9d23f1fc75b3189248baed430637cd8c8eb7c14b49e1596
     home: https://iguazio.com
@@ -2965,7 +2965,7 @@ entries:
     - https://v3io.github.io/helm-charts/stable/tsdb-functions-0.0.9.tgz
     version: 0.0.9
   - appVersion: 0.0.4
-    created: 2019-04-28T14:57:41.771616+03:00
+    created: 2019-04-29T14:13:49.433022+03:00
     description: V3IO TSDB nuclio functions
     digest: 30e34ff20caf84075dcb3b84f194596f4579866e83a3b09cbdea76a83aa2f5f5
     home: https://iguazio.com
@@ -2980,7 +2980,7 @@ entries:
     - https://v3io.github.io/helm-charts/stable/tsdb-functions-0.0.8.tgz
     version: 0.0.8
   - appVersion: 0.0.3
-    created: 2019-04-28T14:57:41.771318+03:00
+    created: 2019-04-29T14:13:49.432765+03:00
     description: V3IO TSDB nuclio functions
     digest: 1543910ebb8a47165f8a8d3e6e0fcf2423f82ab12a46ea029baa115bf1049a25
     home: https://iguazio.com
@@ -2995,7 +2995,7 @@ entries:
     - https://v3io.github.io/helm-charts/stable/tsdb-functions-0.0.7.tgz
     version: 0.0.7
   - appVersion: 0.0.2
-    created: 2019-04-28T14:57:41.770769+03:00
+    created: 2019-04-29T14:13:49.432523+03:00
     description: V3IO TSDB nuclio functions
     digest: 74c0860f61418d43055dbd8c18e79afd7978785162173d3b4f93a9af52e9be72
     home: https://iguazio.com
@@ -3010,7 +3010,7 @@ entries:
     - https://v3io.github.io/helm-charts/stable/tsdb-functions-0.0.6.tgz
     version: 0.0.6
   - appVersion: 0.0.1
-    created: 2019-04-28T14:57:41.770272+03:00
+    created: 2019-04-29T14:13:49.432186+03:00
     description: V3IO TSDB nuclio functions
     digest: 2992d7263e646178af8842ab1cb0871a8d903021855fdd7cd464b417fcce390f
     home: https://iguazio.com
@@ -3025,7 +3025,7 @@ entries:
     - https://v3io.github.io/helm-charts/stable/tsdb-functions-0.0.5.tgz
     version: 0.0.5
   - appVersion: 0.0.1
-    created: 2019-04-28T14:57:41.770034+03:00
+    created: 2019-04-29T14:13:49.431621+03:00
     description: V3IO TSDB nuclio functions
     digest: 7941bdccc7d9f990332888b385eb1eaa2412b2fa57cdbb5d9353786d73efc183
     home: https://iguazio.com
@@ -3039,7 +3039,7 @@ entries:
     urls:
     - https://v3io.github.io/helm-charts/stable/tsdb-functions-0.0.4.tgz
     version: 0.0.4
-  - created: 2019-04-28T14:57:41.769814+03:00
+  - created: 2019-04-29T14:13:49.43121+03:00
     description: V3IO TSDB nuclio functions
     digest: 3a9cc279f00b7cb184ca3ebb3b8d0596c0557efd0606a825156cfbf60b4b62b5
     home: https://iguazio.com
@@ -3053,7 +3053,7 @@ entries:
     urls:
     - https://v3io.github.io/helm-charts/stable/tsdb-functions-0.0.3.tgz
     version: 0.0.3
-  - created: 2019-04-28T14:57:41.769605+03:00
+  - created: 2019-04-29T14:13:49.430983+03:00
     description: V3IO TSDB nuclio functions
     digest: c395fc8ee7d8fb004c2951ee5666ebcf4ddb85d44f5ee61a1a982461723d20da
     home: https://iguazio.com
@@ -3067,7 +3067,7 @@ entries:
     urls:
     - https://v3io.github.io/helm-charts/stable/tsdb-functions-0.0.2.tgz
     version: 0.0.2
-  - created: 2019-04-28T14:57:41.767398+03:00
+  - created: 2019-04-29T14:13:49.428796+03:00
     description: V3IO TSDB nuclio functions
     digest: ab6a29448de41697cdb4033c80910ea32002d3bca81689b647f76e641b978294
     home: https://iguazio.com
@@ -3082,7 +3082,7 @@ entries:
     - https://v3io.github.io/helm-charts/stable/tsdb-functions-0.0.1.tgz
     version: 0.0.1
   v3io-app:
-  - created: 2019-04-28T14:57:41.774153+03:00
+  - created: 2019-04-29T14:13:49.435446+03:00
     description: V3IO App System
     digest: a215ca43c7010e6bf2e49c64357a53aa145190ac349733b032ab689893ebd5b9
     home: https://iguazio.com
@@ -3098,7 +3098,7 @@ entries:
     urls:
     - https://v3io.github.io/helm-charts/stable/v3io-app-0.2.2.tgz
     version: 0.2.2
-  - created: 2019-04-28T14:57:41.773195+03:00
+  - created: 2019-04-29T14:13:49.43458+03:00
     description: V3IO App System
     digest: de423b9ad0f4f3fbe4b69fbd4e2e2d5293bc439bd6f42038b4dfc5704862f10a
     home: https://iguazio.com
@@ -3114,7 +3114,7 @@ entries:
     urls:
     - https://v3io.github.io/helm-charts/stable/v3io-app-0.2.1.tgz
     version: 0.2.1
-  - created: 2019-04-28T14:57:41.774731+03:00
+  - created: 2019-04-29T14:13:49.436005+03:00
     description: V3IO App System
     digest: f049daec1cb0cfbcba0c84105a90212825b928d78590e04ff3edec1a4647bae3
     home: https://iguazio.com
@@ -3130,7 +3130,7 @@ entries:
     urls:
     - https://v3io.github.io/helm-charts/stable/v3io-app-0.2.tgz
     version: "0.2"
-  - created: 2019-04-28T14:57:41.772495+03:00
+  - created: 2019-04-29T14:13:49.433896+03:00
     description: V3IO App System
     digest: 8602c3a45312ecc3e32abc2dc635e91dd3534102701ee4378c78a09637008ef9
     home: https://iguazio.com
@@ -3147,7 +3147,7 @@ entries:
     - https://v3io.github.io/helm-charts/stable/v3io-app-0.1.1.tgz
     version: 0.1.1
   v3io-base-system:
-  - created: 2019-04-28T14:57:41.779057+03:00
+  - created: 2019-04-29T14:13:49.440056+03:00
     description: V3IO Base System
     digest: 8e929c54e995e7735f861405a97481d2d9fe533ee9a5d0da91e4e5236f9c3afb
     home: https://iguazio.com
@@ -3163,7 +3163,7 @@ entries:
     urls:
     - https://v3io.github.io/helm-charts/stable/v3io-base-system-0.1.6.tgz
     version: 0.1.6
-  - created: 2019-04-28T14:57:41.778402+03:00
+  - created: 2019-04-29T14:13:49.439253+03:00
     description: V3IO Base System
     digest: 4b656586e36b6d1364e701f9dbc3e13667ccf6ffd6d5428e8aa23d43467303de
     home: https://iguazio.com
@@ -3179,7 +3179,7 @@ entries:
     urls:
     - https://v3io.github.io/helm-charts/stable/v3io-base-system-0.1.5.tgz
     version: 0.1.5
-  - created: 2019-04-28T14:57:41.777779+03:00
+  - created: 2019-04-29T14:13:49.438483+03:00
     description: V3IO Base System
     digest: 88668924e6a1f9be3872561f4f7c65dd3005f07646bc964fef73c665f4bcec64
     home: https://iguazio.com
@@ -3195,7 +3195,7 @@ entries:
     urls:
     - https://v3io.github.io/helm-charts/stable/v3io-base-system-0.1.4.tgz
     version: 0.1.4
-  - created: 2019-04-28T14:57:41.776731+03:00
+  - created: 2019-04-29T14:13:49.437781+03:00
     description: V3IO Base System
     digest: fa44937d1a61069ff89f7df0ed313b273f7df86da177be24df405fd20af9229c
     home: https://iguazio.com
@@ -3211,7 +3211,7 @@ entries:
     urls:
     - https://v3io.github.io/helm-charts/stable/v3io-base-system-0.1.3.tgz
     version: 0.1.3
-  - created: 2019-04-28T14:57:41.775893+03:00
+  - created: 2019-04-29T14:13:49.43716+03:00
     description: V3IO Base System
     digest: cc0d1543186ac0446c148647f0e70c9649d83bc6de8194667358c49296a3ed2b
     home: https://iguazio.com
@@ -3227,7 +3227,7 @@ entries:
     urls:
     - https://v3io.github.io/helm-charts/stable/v3io-base-system-0.1.2.tgz
     version: 0.1.2
-  - created: 2019-04-28T14:57:41.775303+03:00
+  - created: 2019-04-29T14:13:49.436596+03:00
     description: V3IO Base System
     digest: 6f0c0aa406d047e9ab0470f6637b2e3353fd4cbb5cb0c40e15b023ea31f15507
     home: https://iguazio.com
@@ -3246,7 +3246,22 @@ entries:
   v3io-configs:
   - apiVersion: v1
     appVersion: "1.0"
-    created: 2019-04-28T14:57:41.78374+03:00
+    created: 2019-04-29T14:13:49.445274+03:00
+    description: V3IO configuration templates
+    digest: 806e77e4627dc404247bad729dfd63af9210e8ebf0b90ea3cd58b98ced1962f4
+    icon: https://www.iguazio.com/wp-content/uploads/2017/09/iguazio_logo_2017_w_c.png
+    maintainers:
+    - email: eliranb@iguazio.com
+      name: bivas
+    name: v3io-configs
+    sources:
+    - https://github.com/iguazio/kubeops/
+    urls:
+    - https://v3io.github.io/helm-charts/stable/v3io-configs-0.7.0.tgz
+    version: 0.7.0
+  - apiVersion: v1
+    appVersion: "1.0"
+    created: 2019-04-29T14:13:49.445025+03:00
     description: V3IO configuration templates
     digest: d8b546eba66f8414bce1a45b484ddf19ec800c3c5b58ae791c60d271a9223d7e
     icon: https://www.iguazio.com/wp-content/uploads/2017/09/iguazio_logo_2017_w_c.png
@@ -3261,7 +3276,7 @@ entries:
     version: 0.6.6
   - apiVersion: v1
     appVersion: "1.0"
-    created: 2019-04-28T14:57:41.783497+03:00
+    created: 2019-04-29T14:13:49.44478+03:00
     description: V3IO configuration templates
     digest: 0345208a2bd5df3b215295e90bddafd27d18df2371fc24c45d0920039cae3bac
     icon: https://www.iguazio.com/wp-content/uploads/2017/09/iguazio_logo_2017_w_c.png
@@ -3276,7 +3291,7 @@ entries:
     version: 0.6.5
   - apiVersion: v1
     appVersion: "1.0"
-    created: 2019-04-28T14:57:41.783253+03:00
+    created: 2019-04-29T14:13:49.444536+03:00
     description: V3IO configuration templates
     digest: 9242c880914452bf4eb1094527b5ea6c15ae15523db7c9f0bd94bbde34b45d1e
     icon: https://www.iguazio.com/wp-content/uploads/2017/09/iguazio_logo_2017_w_c.png
@@ -3291,7 +3306,7 @@ entries:
     version: 0.6.4
   - apiVersion: v1
     appVersion: "1.0"
-    created: 2019-04-28T14:57:41.783008+03:00
+    created: 2019-04-29T14:13:49.444292+03:00
     description: V3IO configuration templates
     digest: 2d1aa6c53681353c5b32e1f730b41260a23ed93e327397bc44d62425e43abb21
     icon: https://www.iguazio.com/wp-content/uploads/2017/09/iguazio_logo_2017_w_c.png
@@ -3306,7 +3321,7 @@ entries:
     version: 0.6.3
   - apiVersion: v1
     appVersion: "1.0"
-    created: 2019-04-28T14:57:41.782755+03:00
+    created: 2019-04-29T14:13:49.444055+03:00
     description: V3IO configuration templates
     digest: 581258240b14db7af112444ffcf92494fdf1bd20e1edd6d047d48a76db075aad
     icon: https://www.iguazio.com/wp-content/uploads/2017/09/iguazio_logo_2017_w_c.png
@@ -3321,7 +3336,7 @@ entries:
     version: 0.6.2
   - apiVersion: v1
     appVersion: "1.0"
-    created: 2019-04-28T14:57:41.782515+03:00
+    created: 2019-04-29T14:13:49.443822+03:00
     description: V3IO configuration templates
     digest: 0866bbee18a80e278c7ced60345990087199af984d3edd9a34e27b94dd45274a
     icon: https://www.iguazio.com/wp-content/uploads/2017/09/iguazio_logo_2017_w_c.png
@@ -3336,7 +3351,7 @@ entries:
     version: 0.6.1
   - apiVersion: v1
     appVersion: "1.0"
-    created: 2019-04-28T14:57:41.782265+03:00
+    created: 2019-04-29T14:13:49.443584+03:00
     description: V3IO configuration templates
     digest: 13025bef637df34bffe383ae3b740625d4c08891b3b10112dbc52efb7d8aa745
     icon: https://www.iguazio.com/wp-content/uploads/2017/09/iguazio_logo_2017_w_c.png
@@ -3351,7 +3366,7 @@ entries:
     version: 0.6.0
   - apiVersion: v1
     appVersion: "1.0"
-    created: 2019-04-28T14:57:41.782+03:00
+    created: 2019-04-29T14:13:49.443331+03:00
     description: V3IO configuration templates
     digest: 70175a619037df97346ae5f7af8558f9f37c300dffe5fc636d852346463c5bf6
     icon: https://www.iguazio.com/wp-content/uploads/2017/09/iguazio_logo_2017_w_c.png
@@ -3366,7 +3381,7 @@ entries:
     version: 0.5.2
   - apiVersion: v1
     appVersion: "1.0"
-    created: 2019-04-28T14:57:41.781514+03:00
+    created: 2019-04-29T14:13:49.443069+03:00
     description: V3IO configuration templates
     digest: bac71abad0047d0e3cc8cb693cb7889d6ea02db4338518b3c038bbdbc157a472
     icon: https://www.iguazio.com/wp-content/uploads/2017/09/iguazio_logo_2017_w_c.png
@@ -3381,7 +3396,7 @@ entries:
     version: 0.5.1
   - apiVersion: v1
     appVersion: "1.0"
-    created: 2019-04-28T14:57:41.780871+03:00
+    created: 2019-04-29T14:13:49.442463+03:00
     description: V3IO configuration templates
     digest: eccc71644c71aa09fad2c9e1d4d8b495689257cb9e1c5c13660785f6027b44ad
     icon: https://www.iguazio.com/wp-content/uploads/2017/09/iguazio_logo_2017_w_c.png
@@ -3396,7 +3411,7 @@ entries:
     version: 0.5.0
   - apiVersion: v1
     appVersion: "1.0"
-    created: 2019-04-28T14:57:41.780612+03:00
+    created: 2019-04-29T14:13:49.441834+03:00
     description: V3IO configuration templates
     digest: 2cafd8de62bde9d435beee2029116e41bd336ab4f035ba689bd0215bf08a5134
     icon: https://www.iguazio.com/wp-content/uploads/2017/09/iguazio_logo_2017_w_c.png
@@ -3411,7 +3426,7 @@ entries:
     version: 0.4.0
   - apiVersion: v1
     appVersion: "1.0"
-    created: 2019-04-28T14:57:41.780348+03:00
+    created: 2019-04-29T14:13:49.441547+03:00
     description: V3IO configuration templates
     digest: 262375079846533321302f073d07b7fc215f6e21edb412b816ab984a48a69315
     icon: https://www.iguazio.com/wp-content/uploads/2017/09/iguazio_logo_2017_w_c.png
@@ -3426,7 +3441,7 @@ entries:
     version: 0.3.2
   - apiVersion: v1
     appVersion: "1.0"
-    created: 2019-04-28T14:57:41.780024+03:00
+    created: 2019-04-29T14:13:49.44131+03:00
     description: V3IO configuration templates
     digest: 7ae9a575c6df42e0d780e3ee55a821cfa9d81bde783dd57c4c5d5a10faa77f3f
     icon: https://www.iguazio.com/wp-content/uploads/2017/09/iguazio_logo_2017_w_c.png
@@ -3441,7 +3456,7 @@ entries:
     version: 0.3.1
   - apiVersion: v1
     appVersion: "1.0"
-    created: 2019-04-28T14:57:41.779771+03:00
+    created: 2019-04-29T14:13:49.441078+03:00
     description: V3IO configuration templates
     digest: 4d60ef9502cb50e98952fe69bcc692ff8984f48974eadeb2e87c3741381d8c6f
     icon: https://www.iguazio.com/wp-content/uploads/2017/09/iguazio_logo_2017_w_c.png
@@ -3456,7 +3471,7 @@ entries:
     version: 0.3.0
   - apiVersion: v1
     appVersion: "1.0"
-    created: 2019-04-28T14:57:41.779535+03:00
+    created: 2019-04-29T14:13:49.440752+03:00
     description: V3IO configuration templates
     digest: 1320baca0961466ff83e6d9d48e68719e77011bb38dfe6a8bfb61aca7cd51027
     icon: https://www.iguazio.com/wp-content/uploads/2017/09/iguazio_logo_2017_w_c.png
@@ -3471,7 +3486,7 @@ entries:
     version: 0.2.0
   - apiVersion: v1
     appVersion: "1.0"
-    created: 2019-04-28T14:57:41.7793+03:00
+    created: 2019-04-29T14:13:49.44036+03:00
     description: V3IO configuration templates
     digest: 7c9e27618f67fcfeee21e244e3c16dcf241b725e43eac005a223c2d15c3c508a
     icon: https://www.iguazio.com/wp-content/uploads/2017/09/iguazio_logo_2017_w_c.png
@@ -3486,9 +3501,9 @@ entries:
     version: 0.1.0
   v3io-framesd:
   - apiVersion: v1
-    created: 2019-04-28T14:57:41.785107+03:00
+    created: 2019-04-29T14:13:49.446701+03:00
     description: V3IO frames daemon
-    digest: 350fc4bf69900ad2436e4c41ef9cef549ddf5246a4b0e4a345ea9420ea1e01d5
+    digest: 1af7ee26f76b167afd5de3dfe688391b2ad6a86f57275c455d035c8985a7ae24
     home: https://iguazio.com
     icon: https://www.iguazio.com/wp-content/uploads/2017/09/iguazio_logo_2017_w_c.png
     maintainers:
@@ -3501,7 +3516,7 @@ entries:
     - https://v3io.github.io/helm-charts/stable/v3io-framesd-0.2.2.tgz
     version: 0.2.2
   - apiVersion: v1
-    created: 2019-04-28T14:57:41.784874+03:00
+    created: 2019-04-29T14:13:49.446477+03:00
     description: V3IO frames daemon
     digest: 905986ec8e199a019442aa9e81b96a25249efd5606c129df6fcf5512c21b7d95
     home: https://iguazio.com
@@ -3516,7 +3531,7 @@ entries:
     - https://v3io.github.io/helm-charts/stable/v3io-framesd-0.2.1.tgz
     version: 0.2.1
   - apiVersion: v1
-    created: 2019-04-28T14:57:41.784639+03:00
+    created: 2019-04-29T14:13:49.446252+03:00
     description: V3IO frames daemon
     digest: 23a5dd42e3571ad26b8c80c049e29391fe70249133ac41aa30923a503d1dc297
     home: https://iguazio.com
@@ -3531,7 +3546,7 @@ entries:
     - https://v3io.github.io/helm-charts/stable/v3io-framesd-0.2.0.tgz
     version: 0.2.0
   - apiVersion: v1
-    created: 2019-04-28T14:57:41.784419+03:00
+    created: 2019-04-29T14:13:49.446033+03:00
     description: V3IO frames daemon
     digest: 1ccf32b18bf9e97326486eaa8fbc1fe56576bf57ebb9e5a4ef98b390002faab9
     home: https://iguazio.com
@@ -3546,7 +3561,7 @@ entries:
     - https://v3io.github.io/helm-charts/stable/v3io-framesd-0.1.2.tgz
     version: 0.1.2
   - apiVersion: v1
-    created: 2019-04-28T14:57:41.784193+03:00
+    created: 2019-04-29T14:13:49.445804+03:00
     description: V3IO frames daemon
     digest: b5ffa09005c491c6fa94d2078f17e79faa0ce366979853d955990d9aebe8e1d3
     home: https://iguazio.com
@@ -3561,7 +3576,7 @@ entries:
     - https://v3io.github.io/helm-charts/stable/v3io-framesd-0.1.1.tgz
     version: 0.1.1
   - apiVersion: v1
-    created: 2019-04-28T14:57:41.783967+03:00
+    created: 2019-04-29T14:13:49.445577+03:00
     description: V3IO frames daemon
     digest: f9bb434c58ef14736254161d2e0478ad87e7270c8fe90beab3bb13f347634ee3
     home: https://iguazio.com
@@ -3576,7 +3591,7 @@ entries:
     - https://v3io.github.io/helm-charts/stable/v3io-framesd-0.1.0.tgz
     version: 0.1.0
   v3io-system:
-  - created: 2019-04-28T14:57:41.808163+03:00
+  - created: 2019-04-29T14:13:49.46804+03:00
     description: V3IO Complete System
     digest: 5f494d1af3fa980df00736cb40150267655fde7d56504b325d80b5c40ae61e7e
     home: https://iguazio.com
@@ -3592,7 +3607,7 @@ entries:
     urls:
     - https://v3io.github.io/helm-charts/stable/v3io-system-0.3.1.tgz
     version: 0.3.1
-  - created: 2019-04-28T14:57:41.810624+03:00
+  - created: 2019-04-29T14:13:49.469991+03:00
     description: V3IO Complete System
     digest: 0e00d869ba04779c0a6fee561708ac785b27d4ab167bea082d2e172077a6d9ef
     home: https://iguazio.com
@@ -3608,7 +3623,7 @@ entries:
     urls:
     - https://v3io.github.io/helm-charts/stable/v3io-system-0.3.tgz
     version: "0.3"
-  - created: 2019-04-28T14:57:41.803974+03:00
+  - created: 2019-04-29T14:13:49.464058+03:00
     description: V3IO Complete System
     digest: d019e53e867e07d9dc9a20e0e4c958e7897a57f74d416499da652d5564adb98b
     home: https://iguazio.com
@@ -3624,7 +3639,7 @@ entries:
     urls:
     - https://v3io.github.io/helm-charts/stable/v3io-system-0.2.2.tgz
     version: 0.2.2
-  - created: 2019-04-28T14:57:41.802115+03:00
+  - created: 2019-04-29T14:13:49.462216+03:00
     description: V3IO Complete System
     digest: 836bb8dd2d6c4e2b1b201875d60ef1a0c60ed27d5f44788e8090d21b50ace2cf
     home: https://iguazio.com
@@ -3640,7 +3655,7 @@ entries:
     urls:
     - https://v3io.github.io/helm-charts/stable/v3io-system-0.2.1.tgz
     version: 0.2.1
-  - created: 2019-04-28T14:57:41.805808+03:00
+  - created: 2019-04-29T14:13:49.465884+03:00
     description: V3IO Complete System
     digest: d2e437c1376e2997d546f229449fb8838db01a81d656484e83e66bac4c7e5dd7
     home: https://iguazio.com
@@ -3656,7 +3671,7 @@ entries:
     urls:
     - https://v3io.github.io/helm-charts/stable/v3io-system-0.2.tgz
     version: "0.2"
-  - created: 2019-04-28T14:57:41.797614+03:00
+  - created: 2019-04-29T14:13:49.457791+03:00
     description: V3IO Complete System
     digest: b7218646206a86e61ad50dbf0974ad14c911feb644361ada39407c836deb982a
     home: https://iguazio.com
@@ -3672,7 +3687,7 @@ entries:
     urls:
     - https://v3io.github.io/helm-charts/stable/v3io-system-0.1.6.tgz
     version: 0.1.6
-  - created: 2019-04-28T14:57:41.795802+03:00
+  - created: 2019-04-29T14:13:49.456145+03:00
     description: V3IO Complete System
     digest: 045e71ffc0a7b7f24d72ef97fe187072a51b11d90e5364c48d972788ac696e6b
     home: https://iguazio.com
@@ -3688,7 +3703,7 @@ entries:
     urls:
     - https://v3io.github.io/helm-charts/stable/v3io-system-0.1.5.tgz
     version: 0.1.5
-  - created: 2019-04-28T14:57:41.793984+03:00
+  - created: 2019-04-29T14:13:49.454381+03:00
     description: V3IO Complete System
     digest: 9b8892e932a0a3f42489e7ecad02a993359bd954236680bf555fe38991515a39
     home: https://iguazio.com
@@ -3704,7 +3719,7 @@ entries:
     urls:
     - https://v3io.github.io/helm-charts/stable/v3io-system-0.1.4.tgz
     version: 0.1.4
-  - created: 2019-04-28T14:57:41.791942+03:00
+  - created: 2019-04-29T14:13:49.452636+03:00
     description: V3IO Complete System
     digest: b68483e36409b388f2fcd8349727642c6de7ee5908a60df01ddba8082f611555
     home: https://iguazio.com
@@ -3720,7 +3735,7 @@ entries:
     urls:
     - https://v3io.github.io/helm-charts/stable/v3io-system-0.1.3.tgz
     version: 0.1.3
-  - created: 2019-04-28T14:57:41.789156+03:00
+  - created: 2019-04-29T14:13:49.450392+03:00
     description: V3IO Complete System
     digest: e7b33b11e6066059f2a6be065e1d22f9a2be01b6706c8dc28ed14047ce927968
     home: https://iguazio.com
@@ -3736,7 +3751,7 @@ entries:
     urls:
     - https://v3io.github.io/helm-charts/stable/v3io-system-0.1.2.tgz
     version: 0.1.2
-  - created: 2019-04-28T14:57:41.787255+03:00
+  - created: 2019-04-29T14:13:49.448362+03:00
     description: V3IO Complete System
     digest: 4b19b2d62c42d89eca8155673c4b4141589170fc566e4885f8df8f4ebe0ea6f9
     home: https://iguazio.com
@@ -3752,7 +3767,7 @@ entries:
     urls:
     - https://v3io.github.io/helm-charts/stable/v3io-system-0.1.1.tgz
     version: 0.1.1
-  - created: 2019-04-28T14:57:41.79954+03:00
+  - created: 2019-04-29T14:13:49.459518+03:00
     description: V3IO Complete System
     digest: 006bbc9e0680f1739a57eef035d9d53c869f8c9059026e8c8e32bd632808a3d9
     home: https://iguazio.com
@@ -3770,9 +3785,9 @@ entries:
     version: "0.1"
   v3io-webapi:
   - appVersion: ~1.7.0
-    created: 2019-04-28T14:57:41.816832+03:00
+    created: 2019-04-29T14:13:49.477241+03:00
     description: v3io WebAPI
-    digest: 73a85e47d180583c6ab329aa3731ad343dd51e8d95f1ad26e51bc38f35d0b404
+    digest: 612175b026aa3c716e5dd557ca3a92c7ac8940bbfe64140791c506b51a0890bb
     home: https://iguazio.com
     icon: https://www.iguazio.com/wp-content/uploads/2017/09/iguazio_logo_2017_w_c.png
     maintainers:
@@ -3785,7 +3800,7 @@ entries:
     - https://v3io.github.io/helm-charts/stable/v3io-webapi-0.6.7.tgz
     version: 0.6.7
   - appVersion: ~1.7.0
-    created: 2019-04-28T14:57:41.816385+03:00
+    created: 2019-04-29T14:13:49.47671+03:00
     description: v3io WebAPI
     digest: 377fde473fd73d6775b27209e41bd8c49e55c71201ddfca7c15be71e757906c0
     home: https://iguazio.com
@@ -3800,7 +3815,7 @@ entries:
     - https://v3io.github.io/helm-charts/stable/v3io-webapi-0.6.6.tgz
     version: 0.6.6
   - appVersion: ~1.7.0
-    created: 2019-04-28T14:57:41.815942+03:00
+    created: 2019-04-29T14:13:49.476281+03:00
     description: v3io WebAPI
     digest: 55089d0d21cf4f16615f5254913e78a317c026bb770c9e9a6bbaf961d78f92b1
     home: https://iguazio.com
@@ -3815,7 +3830,7 @@ entries:
     - https://v3io.github.io/helm-charts/stable/v3io-webapi-0.6.5.tgz
     version: 0.6.5
   - appVersion: ~1.7.0
-    created: 2019-04-28T14:57:41.815493+03:00
+    created: 2019-04-29T14:13:49.475875+03:00
     description: v3io WebAPI
     digest: 5d3d8a39a2507ed823d64ab696d3cacf2534fb9115f6a5c81d9c2674a511b0da
     home: https://iguazio.com
@@ -3830,7 +3845,7 @@ entries:
     - https://v3io.github.io/helm-charts/stable/v3io-webapi-0.6.4.tgz
     version: 0.6.4
   - appVersion: ~1.7.0
-    created: 2019-04-28T14:57:41.815064+03:00
+    created: 2019-04-29T14:13:49.475456+03:00
     description: v3io WebAPI
     digest: fd3ba3661313b8e546fd557260a12692893e4d84c60bd8d749e33f3d03412d8f
     home: https://iguazio.com
@@ -3845,7 +3860,7 @@ entries:
     - https://v3io.github.io/helm-charts/stable/v3io-webapi-0.6.3.tgz
     version: 0.6.3
   - appVersion: ~1.7.0
-    created: 2019-04-28T14:57:41.814627+03:00
+    created: 2019-04-29T14:13:49.47505+03:00
     description: v3io WebAPI
     digest: bf0f9800682969c50a5a0e4a874aa9bf4b4fc1e0906cf9b917738a4c06209414
     home: https://iguazio.com
@@ -3860,7 +3875,7 @@ entries:
     - https://v3io.github.io/helm-charts/stable/v3io-webapi-0.6.2.tgz
     version: 0.6.2
   - appVersion: ~1.7.0
-    created: 2019-04-28T14:57:41.814226+03:00
+    created: 2019-04-29T14:13:49.474608+03:00
     description: v3io WebAPI
     digest: 76384e2d4767a772f7a9b81f4bcf5ea498cb244934d4b5f70423ebe2f641edfa
     home: https://iguazio.com
@@ -3875,7 +3890,7 @@ entries:
     - https://v3io.github.io/helm-charts/stable/v3io-webapi-0.6.1.tgz
     version: 0.6.1
   - appVersion: ~1.7.0
-    created: 2019-04-28T14:57:41.813785+03:00
+    created: 2019-04-29T14:13:49.474182+03:00
     description: v3io WebAPI
     digest: 95fb691d526e74b1854ef5eed008acc7ba0fd1c4de3456cf37c555833a290bd6
     home: https://iguazio.com
@@ -3890,7 +3905,7 @@ entries:
     - https://v3io.github.io/helm-charts/stable/v3io-webapi-0.6.0.tgz
     version: 0.6.0
   - appVersion: ~1.7.0
-    created: 2019-04-28T14:57:41.813547+03:00
+    created: 2019-04-29T14:13:49.473942+03:00
     description: v3io WebAPI
     digest: 5f8c443e9fb3be22dd961dec75073aee8193ef14791adf2b076b1bada4645b70
     home: https://iguazio.com
@@ -3905,7 +3920,7 @@ entries:
     - https://v3io.github.io/helm-charts/stable/v3io-webapi-0.5.0.tgz
     version: 0.5.0
   - appVersion: ~1.7.0
-    created: 2019-04-28T14:57:41.813068+03:00
+    created: 2019-04-29T14:13:49.47343+03:00
     description: v3io WebAPI
     digest: 6a3de69dd973c615af861d11e15ba835cf0ce97255cc6f72a53278c6750c7b22
     home: https://iguazio.com
@@ -3920,7 +3935,7 @@ entries:
     - https://v3io.github.io/helm-charts/stable/v3io-webapi-0.4.2.tgz
     version: 0.4.2
   - appVersion: ~1.7.0
-    created: 2019-04-28T14:57:41.812821+03:00
+    created: 2019-04-29T14:13:49.473188+03:00
     description: v3io WebAPI
     digest: 057a1336e5dfe9143cf35acaa0df51c6b2f03dceb8e85c349b98e3a4fdca69b4
     home: https://iguazio.com
@@ -3935,7 +3950,7 @@ entries:
     - https://v3io.github.io/helm-charts/stable/v3io-webapi-0.4.1.tgz
     version: 0.4.1
   - appVersion: ~1.7.0
-    created: 2019-04-28T14:57:41.813305+03:00
+    created: 2019-04-29T14:13:49.473691+03:00
     description: v3io WebAPI
     digest: d756a53147ce6ecf5d9186797634d8ede356e5dbcaf8531efa26cbfa10ec091e
     home: https://iguazio.com
@@ -3950,7 +3965,7 @@ entries:
     - https://v3io.github.io/helm-charts/stable/v3io-webapi-0.4.tgz
     version: "0.4"
   - appVersion: 1.7.0
-    created: 2019-04-28T14:57:41.812319+03:00
+    created: 2019-04-29T14:13:49.472467+03:00
     description: v3io WebAPI
     digest: 30a991957b8c28a51e2ee17d9323ffa46de3e5711315ee5de5d32184af7eba50
     home: https://iguazio.com
@@ -3965,7 +3980,7 @@ entries:
     - https://v3io.github.io/helm-charts/stable/v3io-webapi-0.3.1.tgz
     version: 0.3.1
   - appVersion: 1.7.0-b80
-    created: 2019-04-28T14:57:41.812579+03:00
+    created: 2019-04-29T14:13:49.472854+03:00
     description: v3io WebAPI
     digest: 17d861da2a7aff11afdf460c9c829a00bc2b4273c95c476a17e61282b66b2d1f
     home: https://iguazio.com
@@ -3980,7 +3995,7 @@ entries:
     - https://v3io.github.io/helm-charts/stable/v3io-webapi-0.3.tgz
     version: "0.3"
   - appVersion: 1.7_b2_20180620143303
-    created: 2019-04-28T14:57:41.811433+03:00
+    created: 2019-04-29T14:13:49.472148+03:00
     description: v3io WebAPI
     digest: 843e39938dc7cf881b1cd6f601e755e9ba540a13d6f4d18bfa66c3d0d20f2196
     home: https://iguazio.com
@@ -3995,7 +4010,7 @@ entries:
     - https://v3io.github.io/helm-charts/stable/v3io-webapi-0.2.0.tgz
     version: 0.2.0
   - appVersion: 1.5.2
-    created: 2019-04-28T14:57:41.810943+03:00
+    created: 2019-04-29T14:13:49.471061+03:00
     description: V3IO WebAPI
     digest: 71172e0fe8c4cffcbab6f1462ac4af42719090ec03fb9172a299b2ab7c5cefc8
     home: https://iguazio.com
@@ -4009,7 +4024,7 @@ entries:
     urls:
     - https://v3io.github.io/helm-charts/stable/v3io-webapi-0.1.1.tgz
     version: 0.1.1
-  - created: 2019-04-28T14:57:41.811189+03:00
+  - created: 2019-04-29T14:13:49.471458+03:00
     description: V3IO WebAPI
     digest: 10456be6b1c0888c33260ac144826d0caab7ad20809ea05afccdc0c42358b79a
     home: https://iguazio.com
@@ -4025,7 +4040,24 @@ entries:
     version: "0.1"
   v3iod:
   - appVersion: '>=1.9.4'
-    created: 2019-04-28T14:57:41.817459+03:00
+    created: 2019-04-29T14:13:49.478216+03:00
+    description: v3io daemon
+    digest: 5e97af910c37d5973abc6d6bb761b91b22cd294bb623210b783f295c4eab78f9
+    home: https://iguazio.com
+    icon: https://www.iguazio.com/wp-content/uploads/2017/09/iguazio_logo_2017_w_c.png
+    maintainers:
+    - email: eliranb@iguazio.com
+      name: bivas
+    - email: erand@iguazio.com
+      name: Eran Duchan
+    name: v3iod
+    sources:
+    - https://github.com/v3io/v3iod
+    urls:
+    - https://v3io.github.io/helm-charts/stable/v3iod-0.11.0.tgz
+    version: 0.11.0
+  - appVersion: '>=1.9.4'
+    created: 2019-04-29T14:13:49.477926+03:00
     description: v3io daemon
     digest: 8fc1e5b07c37e0d2f4f86e405f68757de96cd23d9d11900a80d5115bd61c066a
     home: https://iguazio.com
@@ -4042,7 +4074,7 @@ entries:
     - https://v3io.github.io/helm-charts/stable/v3iod-0.10.1.tgz
     version: 0.10.1
   - appVersion: '>=1.9.4'
-    created: 2019-04-28T14:57:41.817146+03:00
+    created: 2019-04-29T14:13:49.477569+03:00
     description: v3io daemon
     digest: aadbcdc61e2227e40eab3a40d26eebb28e00b23cbab031c16c2c6248b147d805
     home: https://iguazio.com
@@ -4059,7 +4091,7 @@ entries:
     - https://v3io.github.io/helm-charts/stable/v3iod-0.10.0.tgz
     version: 0.10.0
   - appVersion: '>=1.9.4'
-    created: 2019-04-28T14:57:41.824807+03:00
+    created: 2019-04-29T14:13:49.484921+03:00
     description: v3io daemon
     digest: 2a63819ac3d9c58b526a9defb466f4ff6820536cdfc6180a4a73a5fcf7c5769b
     home: https://iguazio.com
@@ -4076,7 +4108,7 @@ entries:
     - https://v3io.github.io/helm-charts/stable/v3iod-0.9.7.tgz
     version: 0.9.7
   - appVersion: '>=1.9.4'
-    created: 2019-04-28T14:57:41.824265+03:00
+    created: 2019-04-29T14:13:49.484624+03:00
     description: v3io daemon
     digest: b7f5e973cd5c1ddc1b603c1ce09152ade346265799e519a70b10ab38c0411212
     home: https://iguazio.com
@@ -4093,7 +4125,7 @@ entries:
     - https://v3io.github.io/helm-charts/stable/v3iod-0.9.6.tgz
     version: 0.9.6
   - appVersion: '>=1.9.4'
-    created: 2019-04-28T14:57:41.823979+03:00
+    created: 2019-04-29T14:13:49.48433+03:00
     description: v3io daemon
     digest: e3edc497efce6ea7f8b90d900eeacb94b749d02c57eab6c9f0f0da1afb98ebdd
     home: https://iguazio.com
@@ -4110,7 +4142,7 @@ entries:
     - https://v3io.github.io/helm-charts/stable/v3iod-0.9.5.tgz
     version: 0.9.5
   - appVersion: '>=1.9.4'
-    created: 2019-04-28T14:57:41.823673+03:00
+    created: 2019-04-29T14:13:49.484036+03:00
     description: v3io daemon
     digest: 69e38201b73e065748ae88455806e9cd80a9605cd5cb472a0d607c99246a1140
     home: https://iguazio.com
@@ -4127,7 +4159,7 @@ entries:
     - https://v3io.github.io/helm-charts/stable/v3iod-0.9.4.tgz
     version: 0.9.4
   - appVersion: '>=1.9.4'
-    created: 2019-04-28T14:57:41.823374+03:00
+    created: 2019-04-29T14:13:49.483744+03:00
     description: v3io daemon
     digest: e5117eee84eb16d77191ab37a4a930efeca9c219126c67c875febf23d3d31985
     home: https://iguazio.com
@@ -4144,7 +4176,7 @@ entries:
     - https://v3io.github.io/helm-charts/stable/v3iod-0.9.3.tgz
     version: 0.9.3
   - appVersion: '>=1.9.4'
-    created: 2019-04-28T14:57:41.823081+03:00
+    created: 2019-04-29T14:13:49.483453+03:00
     description: v3io daemon
     digest: 1d63c4227acb47fe032719df9621641d63bf4e8562b2cd069c26cce1b2604a38
     home: https://iguazio.com
@@ -4161,7 +4193,7 @@ entries:
     - https://v3io.github.io/helm-charts/stable/v3iod-0.9.2.tgz
     version: 0.9.2
   - appVersion: '>=1.9.4'
-    created: 2019-04-28T14:57:41.822759+03:00
+    created: 2019-04-29T14:13:49.483156+03:00
     description: v3io daemon
     digest: bb9f81991f9f61411d86f4c55ec5b75e61e9d36759759df65053bdfd06591ca1
     home: https://iguazio.com
@@ -4178,7 +4210,7 @@ entries:
     - https://v3io.github.io/helm-charts/stable/v3iod-0.9.1.tgz
     version: 0.9.1
   - appVersion: '>=1.9.4'
-    created: 2019-04-28T14:57:41.822437+03:00
+    created: 2019-04-29T14:13:49.482861+03:00
     description: v3io daemon
     digest: f41735f4f3a8ea750d4e42af39e50683c867fd216d4d7b2ec31896b4f3a09540
     home: https://iguazio.com
@@ -4195,7 +4227,7 @@ entries:
     - https://v3io.github.io/helm-charts/stable/v3iod-0.9.0.tgz
     version: 0.9.0
   - appVersion: '>=1.9.4'
-    created: 2019-04-28T14:57:41.822106+03:00
+    created: 2019-04-29T14:13:49.482568+03:00
     description: v3io daemon
     digest: 8f59c7d3c95e18673c523ecdb95eb6e9a8190b239bd5142e8a94d7668a17113a
     home: https://iguazio.com
@@ -4212,7 +4244,7 @@ entries:
     - https://v3io.github.io/helm-charts/stable/v3iod-0.8.0.tgz
     version: 0.8.0
   - appVersion: 1.7.0-b80
-    created: 2019-04-28T14:57:41.821648+03:00
+    created: 2019-04-29T14:13:49.482268+03:00
     description: v3io daemon
     digest: 4631795d4e94fb855f1d4af08a42c4f9645fa430d6c2ffcd94e44d0c3e8ccc2e
     home: https://iguazio.com
@@ -4229,7 +4261,7 @@ entries:
     - https://v3io.github.io/helm-charts/stable/v3iod-0.7.0.tgz
     version: 0.7.0
   - appVersion: 1.7.0-b80
-    created: 2019-04-28T14:57:41.820885+03:00
+    created: 2019-04-29T14:13:49.481882+03:00
     description: v3io daemon
     digest: 3d6e97c22e7670087ce8e8e1679d0c1c17ecea050233a44df028c02605cbece6
     home: https://iguazio.com
@@ -4246,7 +4278,7 @@ entries:
     - https://v3io.github.io/helm-charts/stable/v3iod-0.6.tgz
     version: "0.6"
   - appVersion: 1.7.0-b80
-    created: 2019-04-28T14:57:41.820578+03:00
+    created: 2019-04-29T14:13:49.481217+03:00
     description: v3io daemon
     digest: eff8c3aec8b1926b9d25399d2573f0a2dfde230c6fafdd3c09196b573a6f7faa
     home: https://iguazio.com
@@ -4263,7 +4295,7 @@ entries:
     - https://v3io.github.io/helm-charts/stable/v3iod-0.5.tgz
     version: "0.5"
   - appVersion: 1.7.0-b80
-    created: 2019-04-28T14:57:41.820281+03:00
+    created: 2019-04-29T14:13:49.480847+03:00
     description: v3io daemon
     digest: ca01c8a32acc28f9a1c2555c7f1e19edc549d8a463fc839b49f8f699cbe07e2a
     home: https://iguazio.com
@@ -4280,7 +4312,7 @@ entries:
     - https://v3io.github.io/helm-charts/stable/v3iod-0.4.1.tgz
     version: 0.4.1
   - appVersion: 1.7_b2_20180620143303
-    created: 2019-04-28T14:57:41.819969+03:00
+    created: 2019-04-29T14:13:49.480569+03:00
     description: v3io daemon
     digest: 31c71036da1e8be89b037b9fa9c6ebf9db5e520bc5ae14c242f01f40345a7001
     home: https://iguazio.com
@@ -4297,7 +4329,7 @@ entries:
     - https://v3io.github.io/helm-charts/stable/v3iod-0.4.0.tgz
     version: 0.4.0
   - appVersion: 1.5.2
-    created: 2019-04-28T14:57:41.819366+03:00
+    created: 2019-04-29T14:13:49.480042+03:00
     description: V3IO Daemon
     digest: eed57522ee403e64f16dff87668ca6428079f1fc9c396843e83a85d0e3108b1f
     home: https://iguazio.com
@@ -4312,7 +4344,7 @@ entries:
     - https://v3io.github.io/helm-charts/stable/v3iod-0.3.6.tgz
     version: 0.3.6
   - appVersion: 1.5.2
-    created: 2019-04-28T14:57:41.819097+03:00
+    created: 2019-04-29T14:13:49.479781+03:00
     description: V3IO Daemon
     digest: 59017757cbc1c2e65c0ce7fe1b4ab0e1a898342adb663b11a9c1977f95135f71
     home: https://iguazio.com
@@ -4327,7 +4359,7 @@ entries:
     - https://v3io.github.io/helm-charts/stable/v3iod-0.3.5.tgz
     version: 0.3.5
   - appVersion: 1.5.2
-    created: 2019-04-28T14:57:41.818824+03:00
+    created: 2019-04-29T14:13:49.479496+03:00
     description: V3IO Daemon
     digest: f642b445e4e95a3e928ed396209049f6839a81bf4b67701bcaa363f07e1fb0b5
     home: https://iguazio.com
@@ -4342,7 +4374,7 @@ entries:
     - https://v3io.github.io/helm-charts/stable/v3iod-0.3.4.tgz
     version: 0.3.4
   - appVersion: 1.5.1_b1
-    created: 2019-04-28T14:57:41.818548+03:00
+    created: 2019-04-29T14:13:49.479244+03:00
     description: V3IO Daemon
     digest: 2e531ba8c850c19d5a72ef7f9d12c01734e9b65afdafe949fd4d72caca23d7a9
     home: https://iguazio.com
@@ -4357,7 +4389,7 @@ entries:
     - https://v3io.github.io/helm-charts/stable/v3iod-0.3.3.tgz
     version: 0.3.3
   - appVersion: 1.5.1_b1
-    created: 2019-04-28T14:57:41.818277+03:00
+    created: 2019-04-29T14:13:49.478991+03:00
     description: V3IO Daemon
     digest: 7ffcc849e65393a7081a5d8cca5a99c64343adf5364b86f165e17aeacc684dbe
     home: https://iguazio.com
@@ -4372,7 +4404,7 @@ entries:
     - https://v3io.github.io/helm-charts/stable/v3iod-0.3.2.tgz
     version: 0.3.2
   - appVersion: 1.5.1_b1
-    created: 2019-04-28T14:57:41.818+03:00
+    created: 2019-04-29T14:13:49.478736+03:00
     description: V3IO Daemon
     digest: eeab686c44f76b9ebba3049ad02d513a56c9e78bcceda2dc7f7c4e3587a249ab
     home: https://iguazio.com
@@ -4387,7 +4419,7 @@ entries:
     - https://v3io.github.io/helm-charts/stable/v3iod-0.3.1.tgz
     version: 0.3.1
   - appVersion: 1.5.1_b1
-    created: 2019-04-28T14:57:41.819633+03:00
+    created: 2019-04-29T14:13:49.480297+03:00
     description: V3IO Daemon
     digest: 9dd62e67778e20f6808675020c2785b4ea5174d4309f99c0947d95a07421b4a9
     home: https://iguazio.com
@@ -4401,7 +4433,7 @@ entries:
     urls:
     - https://v3io.github.io/helm-charts/stable/v3iod-0.3.tgz
     version: "0.3"
-  - created: 2019-04-28T14:57:41.817717+03:00
+  - created: 2019-04-29T14:13:49.478473+03:00
     description: V3IO Daemon
     digest: e291f0ac3ac9f18633220b1d605593fbe9e3dc5e1ae1b394d2a055abd0f22d1e
     home: https://iguazio.com
@@ -4417,9 +4449,9 @@ entries:
     version: "0.2"
   zeppelin:
   - appVersion: '>=2.0.0'
-    created: 2019-04-28T14:57:41.832505+03:00
+    created: 2019-04-29T14:13:49.492419+03:00
     description: Zeppelin
-    digest: bac0c7d3b9e02bc3ffb2ac5d76c72b8d16c778f5ad9fcdbd5bd3ee521a751944
+    digest: bdde408decde29ec4dcc075be368037f41cbb2309381a20fb0234ae77f3d29f1
     home: https://zeppelin.apache.org/
     icon: https://zeppelin.apache.org/assets/themes/zeppelin/img/zeppelin_logo.png
     maintainers:
@@ -4432,7 +4464,7 @@ entries:
     - https://v3io.github.io/helm-charts/stable/zeppelin-0.2.8.tgz
     version: 0.2.8
   - appVersion: '>=2.0.0'
-    created: 2019-04-28T14:57:41.83195+03:00
+    created: 2019-04-29T14:13:49.490615+03:00
     description: Zeppelin
     digest: 30e8e22ce14313235832d8e22174eb41e28a3319e696a1fc3fd20902fee54eb0
     home: https://zeppelin.apache.org/
@@ -4447,7 +4479,7 @@ entries:
     - https://v3io.github.io/helm-charts/stable/zeppelin-0.2.7.tgz
     version: 0.2.7
   - appVersion: '>=2.0.0'
-    created: 2019-04-28T14:57:41.831384+03:00
+    created: 2019-04-29T14:13:49.490102+03:00
     description: Zeppelin
     digest: 3cf968a1e23c8cf9af11d561b6cd4d75910662af453d71141a64624ab33afad9
     home: https://zeppelin.apache.org/
@@ -4462,7 +4494,7 @@ entries:
     - https://v3io.github.io/helm-charts/stable/zeppelin-0.2.6.tgz
     version: 0.2.6
   - appVersion: '>=2.0.0'
-    created: 2019-04-28T14:57:41.830842+03:00
+    created: 2019-04-29T14:13:49.489589+03:00
     description: Zeppelin
     digest: d80788c76ca38f82e7dc46fd4a5d78f8f9723cabeca50bea2f6a889648689761
     home: https://zeppelin.apache.org/
@@ -4477,7 +4509,7 @@ entries:
     - https://v3io.github.io/helm-charts/stable/zeppelin-0.2.5.tgz
     version: 0.2.5
   - appVersion: '>=2.0.0'
-    created: 2019-04-28T14:57:41.830335+03:00
+    created: 2019-04-29T14:13:49.489081+03:00
     description: Zeppelin
     digest: 6cf396181764879287b45d6d79ec4e1ea4aacc8f9f37b61253be8c2a3ab9d87c
     home: https://zeppelin.apache.org/
@@ -4492,7 +4524,7 @@ entries:
     - https://v3io.github.io/helm-charts/stable/zeppelin-0.2.4.tgz
     version: 0.2.4
   - appVersion: '>=2.0.0'
-    created: 2019-04-28T14:57:41.829813+03:00
+    created: 2019-04-29T14:13:49.488576+03:00
     description: Zeppelin
     digest: 8bd80e35e5136ed6b51bc666f1e317b6d30bec2cbf15f1a18e617117b9afe3a4
     home: https://zeppelin.apache.org/
@@ -4507,7 +4539,7 @@ entries:
     - https://v3io.github.io/helm-charts/stable/zeppelin-0.2.3.tgz
     version: 0.2.3
   - appVersion: '>=2.0.0'
-    created: 2019-04-28T14:57:41.829297+03:00
+    created: 2019-04-29T14:13:49.488041+03:00
     description: Zeppelin
     digest: 9a05ec61bca4153334433f1af143a794c387965a10ab7e6128df1753feeca09a
     home: https://zeppelin.apache.org/
@@ -4522,7 +4554,7 @@ entries:
     - https://v3io.github.io/helm-charts/stable/zeppelin-0.2.2.tgz
     version: 0.2.2
   - appVersion: '>=2.0.0'
-    created: 2019-04-28T14:57:41.828772+03:00
+    created: 2019-04-29T14:13:49.487522+03:00
     description: Zeppelin
     digest: a7f08b1c5439bd350e852158e41a4fa04e07f331303979b9db454ce38f6d6692
     home: https://zeppelin.apache.org/
@@ -4537,7 +4569,7 @@ entries:
     - https://v3io.github.io/helm-charts/stable/zeppelin-0.2.1.tgz
     version: 0.2.1
   - appVersion: '>=2.0.0'
-    created: 2019-04-28T14:57:41.828043+03:00
+    created: 2019-04-29T14:13:49.487009+03:00
     description: Zeppelin
     digest: 11e711e472a86a64a6b765214a92fe30089a73c3c018262140ac1815a375e0a9
     home: https://zeppelin.apache.org/
@@ -4552,7 +4584,7 @@ entries:
     - https://v3io.github.io/helm-charts/stable/zeppelin-0.2.0.tgz
     version: 0.2.0
   - appVersion: '>=2.0.0'
-    created: 2019-04-28T14:57:41.827274+03:00
+    created: 2019-04-29T14:13:49.486498+03:00
     description: Zeppelin
     digest: 9273d7364073bb9d19316a8e48c9f6fec5453a4c90ec477a5c340b9802f834e1
     home: https://zeppelin.apache.org/
@@ -4567,7 +4599,7 @@ entries:
     - https://v3io.github.io/helm-charts/stable/zeppelin-0.1.2.tgz
     version: 0.1.2
   - appVersion: '>=2.0.0'
-    created: 2019-04-28T14:57:41.826523+03:00
+    created: 2019-04-29T14:13:49.485981+03:00
     description: Zeppelin
     digest: 7fd93085eafa85866fd84e4cba7753e5416648c6380531282a40f71454c3e61c
     home: https://zeppelin.apache.org/
@@ -4582,7 +4614,7 @@ entries:
     - https://v3io.github.io/helm-charts/stable/zeppelin-0.1.1.tgz
     version: 0.1.1
   - appVersion: '>=2.0.0'
-    created: 2019-04-28T14:57:41.825697+03:00
+    created: 2019-04-29T14:13:49.485465+03:00
     description: Zeppelin
     digest: 84e60b4648a1a867d4f5993d54f65945a0b9c08fc6ee7557b8a61463bb58b4b6
     home: https://zeppelin.apache.org/
@@ -4596,4 +4628,4 @@ entries:
     urls:
     - https://v3io.github.io/helm-charts/stable/zeppelin-0.1.0.tgz
     version: 0.1.0
-generated: 2019-04-28T14:57:41.635357+03:00
+generated: 2019-04-29T14:13:49.317428+03:00
