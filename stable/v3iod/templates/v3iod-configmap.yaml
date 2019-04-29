@@ -25,7 +25,7 @@ data:
       {{- end }}
     {{- end }}
     chown -R {{ .Values.v3iod.user.name }}:{{ .Values.v3iod.user.name }} /dev/shm
-    chown -R {{ .Values.v3iod.user.name }}:{{ .Values.v3iod.user.name }} /tmp
+    chown -R {{ .Values.v3iod.user.name }}:{{ .Values.v3iod.user.name }} /var/run/iguazio
     chown -R {{ .Values.v3iod.user.name }}:{{ .Values.v3iod.user.name }} /var/crash
     su --preserve-environment \
       --login {{ .Values.v3iod.user.name }} \
@@ -58,9 +58,9 @@ data:
         "path": "/var/log/iguazio"
       },
       "paths": {
-        "fifo": "/tmp/dayman",
-        "uds": "/tmp/dayman",
-        "pidfile": "/tmp/dayman.pid"
+        "fifo": "/var/run/iguazio/dayman",
+        "uds": "/var/run/iguazio/dayman",
+        "pidfile": "/var/run/iguazio/dayman.pid"
       },
       "cluster": {
         "uris": [
