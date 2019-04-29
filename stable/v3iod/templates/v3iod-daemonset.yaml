@@ -58,7 +58,7 @@ spec:
           volumeMounts:
             - mountPath: /dev/shm
               name: v3iod-shm
-            - mountPath: /tmp/dayman
+            - mountPath: /var/run/iguazio/dayman
               name: v3iod-comm
             - mountPath: /etc/iguazio/dayman
               name: v3iod-config
@@ -93,7 +93,7 @@ spec:
             path: /dev/shm/{{ .Release.Namespace }}
         - name: v3iod-comm
           hostPath:
-            path: /tmp/dayman/{{ .Release.Namespace }}
+            path: /var/run/iguazio/dayman/{{ .Release.Namespace }}
         - name: v3iod-config
           configMap:
             name: {{ template "v3iod.name" . }}
