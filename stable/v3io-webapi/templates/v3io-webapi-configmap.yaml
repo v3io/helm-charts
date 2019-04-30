@@ -29,7 +29,6 @@ data:
     
     chown -R {{ .Values.user.name }}:{{ .Values.user.name }} /dev/shm
     chown -R {{ .Values.user.name }}:{{ .Values.user.name }} {{ .Values.installationPath }}/lib/logs
-    chown -R {{ .Values.user.name }}:{{ .Values.user.name }} /var/run/iguazio
     chown -R {{ .Values.user.name }}:{{ .Values.user.name }} /var/crash
 
     su --preserve-environment \
