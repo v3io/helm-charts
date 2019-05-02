@@ -20,12 +20,12 @@ server:
     ## Initializing the database could take some time
     initialDelaySeconds: 10
     ## Try failureThreshold times before giving up.
-    failureThreshold: 10
+    failureThreshold: 3
     ## Default Kubernetes values
     periodSeconds: 10
   readinessProbe:
     initialDelaySeconds: 10
-    failureThreshold: 10
+    failureThreshold: 3
     ## Default Kubernetes values
     periodSeconds: 10
 
