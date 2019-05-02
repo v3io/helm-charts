@@ -6,7 +6,7 @@ metadata:
     chart: {{ template "tenant-creator.chart" . }}
     release: {{ .Release.Name }}
     heritage: {{ .Release.Service }}
-    iguazio-project: platform
+    iguazio/project: platform
   name: {{ template "tenant-creator.name" . }}-{{ .Values.tiller.serviceAccountSuffix }}
   namespace: {{ template "tenant-creator.name" . }}
 roleRef:

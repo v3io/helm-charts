@@ -6,4 +6,4 @@ metadata:
     owner: {{ template "tenant-creator.name" . }}
     chart: {{ template "tenant-creator.chart" . }}
     release: {{ .Release.Name }}
-    iguazio-project: platform
+    iguazio/project: platform
