@@ -81,6 +81,7 @@ spec:
               - /bin/bash
               - {{ .Values.global.v3io.configMountPath }}/health_check.sh
             initialDelaySeconds: {{ .Values.server.livenessProbe.initialDelaySeconds }}
+            failureThreshold: {{ .Values.server.livenessProbe.failureThreshold }}
             periodSeconds: {{ .Values.server.livenessProbe.periodSeconds }}
           readinessProbe:
             exec:
@@ -88,6 +89,7 @@ spec:
               - /bin/bash
               - {{ .Values.global.v3io.configMountPath }}/health_check.sh
             initialDelaySeconds: {{ .Values.server.readinessProbe.initialDelaySeconds }}
+            failureThreshold: {{ .Values.server.livenessProbe.failureThreshold }}
             periodSeconds: {{ .Values.server.readinessProbe.periodSeconds }}
           env:
             - name: MYSQL_ROOT_PASSWORD
