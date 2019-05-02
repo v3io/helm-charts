@@ -38,7 +38,7 @@ spec:
           volumeMounts:
             - mountPath: /dev/shm
               name: v3iod-shm
-            - mountPath: /tmp/dayman
+            - mountPath: /var/run/iguazio/dayman
               name: v3iod-comm
           securityContext:
             privileged: true
@@ -48,5 +48,5 @@ spec:
             path: /dev/shm
         - name: v3iod-comm
           hostPath:
-            path: /tmp/dayman
+            path: /var/run/iguazio/dayman/{{ .Release.Namespace }}
 {{- end }}

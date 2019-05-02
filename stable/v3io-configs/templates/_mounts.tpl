@@ -4,7 +4,7 @@
     path: "/dev/shm/{{ .Release.Namespace }}"
 - name: v3iod-comm
   hostPath:
-    path: "/tmp/dayman/{{ .Release.Namespace }}"
+    path: "/var/run/iguazio/dayman/{{ .Release.Namespace }}"
 - name: v3io-config
   configMap:
     name: {{ .Release.Name }}-v3io-config
@@ -17,7 +17,7 @@
 - name: shm
   mountPath: "/dev/shm"
 - name: v3iod-comm
-  mountPath: "/tmp/dayman"
+  mountPath: "/var/run/iguazio/dayman"
 - name: v3io-config
   mountPath: {{ default "/etc/config/v3io" .Values.global.v3io.configMountPath }}
 - name: v3io-auth

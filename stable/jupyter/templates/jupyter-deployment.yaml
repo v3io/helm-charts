@@ -57,6 +57,7 @@ spec:
             - --NotebookApp.password=''
             - --notebook-dir="/User"
             - --NotebookApp.default_url="/lab"
+            - --Application.log_level="WARN"
 {{- if .Values.debug.enabled }}
             - --debug
 {{- end }}
