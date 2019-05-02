@@ -18,11 +18,14 @@ server:
 
   livenessProbe:
     ## Initializing the database could take some time
-    initialDelaySeconds: 120
+    initialDelaySeconds: 10
+    ## Try failureThreshold times before giving up.
+    failureThreshold: 3
     ## Default Kubernetes values
     periodSeconds: 10
   readinessProbe:
-    initialDelaySeconds: 120
+    initialDelaySeconds: 10
+    failureThreshold: 3
     ## Default Kubernetes values
     periodSeconds: 10
 
