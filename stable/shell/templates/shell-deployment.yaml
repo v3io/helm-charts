@@ -25,6 +25,8 @@ spec:
         - name: config-volume
           configMap:
             name: {{ template "shell.fullname" . }}
+        - name: daemon-health
+          emptyDir: {}
 {{- if .Values.presto }}
 {{- if .Values.presto.keystoreBinary }}
         - name: java-cert
@@ -37,9 +39,18 @@ spec:
 {{- if .Values.config.hostname }}
       hostname: {{ .Values.config.hostname }}
 {{- end }}
+      initContainers:
+        - name: daemon-health
+          image: "{{ .Values.daemon.image.repository }}:{{ .Values.daemon.image.tag }}"
+          imagePullPolicy: {{ .Values.daemon.image.pullPolicy }}
+          command: ["/bin/bash", "/etc/config/daemon/daemon-health.sh"]
+          volumeMounts:
+            - mountPath: /etc/config/daemon
+              name: config-volume
+            - mountPath: /var/run/iguazio/daemon_health
+              name: daemon-health
 {{- if .Values.presto }}
 {{- if .Values.presto.keystoreBinary }}
-      initContainers:
         - name: jks
           image: "{{ .Values.presto.image.repository }}:{{ .Values.presto.image.tag }}"
           imagePullPolicy: {{ .Values.presto.image.pullPolicy }}
@@ -65,14 +76,14 @@ spec:
             exec:
               command:
               - /bin/bash
-              - {{ .Values.global.v3io.configMountPath }}/health_check.sh
+              - /etc/config/shell/health_check.sh
             initialDelaySeconds: {{ .Values.livenessProbe.initialDelaySeconds }}
             periodSeconds: {{ .Values.livenessProbe.periodSeconds }}
           readinessProbe:
             exec:
               command:
               - /bin/bash
-              - {{ .Values.global.v3io.configMountPath }}/health_check.sh
+              - /etc/config/shell/health_check.sh
             initialDelaySeconds: {{ .Values.readinessProbe.initialDelaySeconds }}
             periodSeconds: {{ .Values.readinessProbe.periodSeconds }}
 {{- if or .Values.environment .Values.v3io.api }}
@@ -94,6 +105,8 @@ spec:
           volumeMounts:
             - name: config-volume
               mountPath: /etc/config/shell
+            - mountPath: /var/run/iguazio/daemon_health
+              name: daemon-health
 {{- if .Values.presto }}
 {{- if .Values.presto.keystoreBinary }}
             - mountPath: {{ .Values.presto.secretsMountPath }}

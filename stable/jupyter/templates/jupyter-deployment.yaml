@@ -30,9 +30,18 @@ spec:
         iguazio.com/prometheus-pull: "true"
         iguazio.com/prometheus-pull-port: "{{ .Values.proxy.servicePort }}"
     spec:
+      initContainers:
+        - name: daemon-health
+          image: "{{ .Values.daemon.image.repository }}:{{ .Values.daemon.image.tag }}"
+          imagePullPolicy: {{ .Values.daemon.image.pullPolicy }}
+          command: ["/bin/bash", "/etc/config/daemon/daemon-health.sh"]
+          volumeMounts:
+            - mountPath: /etc/config/daemon
+              name: config-volume
+            - mountPath: /var/run/iguazio/daemon_health
+              name: daemon-health
 {{- if .Values.presto }}
 {{- if .Values.presto.keystoreBinary }}
-      initContainers:
         - name: jks
           image: "{{ .Values.presto.image.repository }}:{{ .Values.presto.image.tag }}"
           imagePullPolicy: {{ .Values.presto.image.pullPolicy }}
@@ -118,6 +127,8 @@ spec:
               name: shared
             - mountPath: /etc/config/jupyter
               name: config-volume
+            - mountPath: /var/run/iguazio/daemon_health
+              name: daemon-health
 {{- if .Values.presto }}
 {{- if .Values.presto.keystoreBinary }}
             - mountPath: {{ .Values.presto.secretsMountPath }}
@@ -144,6 +155,8 @@ spec:
         - name: config-volume
           configMap:
             name: {{ template "jupyter.fullname" . }}
+        - name: daemon-health
+          emptyDir: {}
         - name: shared
           flexVolume:
             driver: "v3io/fuse"
