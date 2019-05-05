@@ -85,3 +85,9 @@ proxy:
     tag: 0.1.1
   servicePort: 8080
   logLevel: info
+
+daemon:
+  image:
+    repository: "iguazio/v3io_dayman_health_check"
+    tag: "1.0.0"
+    pullPolicy: "IfNotPresent"

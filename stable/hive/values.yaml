@@ -43,15 +43,15 @@ metastore:
 ## Configure extra options for liveness and readiness probes
 ## ref: https://kubernetes.io/docs/tasks/configure-pod-container/configure-liveness-readiness-probes/#configure-probes)
 livenessProbe:
-  initialDelaySeconds: 120
-  periodSeconds: 10
+  initialDelaySeconds: 10
+  periodSeconds: 5
   timeoutSeconds: 5
   failureThreshold: 3
   successThreshold: 1
 
 readinessProbe:
-  initialDelaySeconds: 60
-  periodSeconds: 10
+  initialDelaySeconds: 10
+  periodSeconds: 5
   timeoutSeconds: 5
   failureThreshold: 3
   successThreshold: 1
@@ -90,3 +90,9 @@ hive:
   configPath: /etc/config/hive
 
 v3io: {}
+
+daemon:
+  image:
+    repository: "iguazio/v3io_dayman_health_check"
+    tag: "1.0.0"
+    pullPolicy: "IfNotPresent"

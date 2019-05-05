@@ -35,7 +35,7 @@ spec:
           volumeMounts:
             - mountPath: /etc/config/daemon
               name: zeppelin-config
-            - mountPath: /var/run/iguazio/daemon
+            - mountPath: /var/run/iguazio/daemon_health
               name: daemon-health
       containers:
         - name: zeppelin
@@ -81,7 +81,7 @@ spec:
 {{ include .Values.environment.template . | indent 12 }}
 {{- end }}
           volumeMounts:
-            - mountPath: /var/run/iguazio/daemon
+            - mountPath: /var/run/iguazio/daemon_health
               name: daemon-health
             - mountPath: /etc/config/zeppelin
               name: zeppelin-config

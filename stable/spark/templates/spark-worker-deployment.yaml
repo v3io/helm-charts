@@ -27,6 +27,16 @@ spec:
         heritage: {{ .Release.Service }}
         component: spark-worker
     spec:
+      initContainers:
+        - name: daemon-health
+          image: "{{ .Values.daemon.image.repository }}:{{ .Values.daemon.image.tag }}"
+          imagePullPolicy: {{ .Values.daemon.image.pullPolicy }}
+          command: ["/bin/bash", "/etc/config/daemon/daemon-health.sh"]
+          volumeMounts:
+            - mountPath: /etc/config/daemon
+              name: spark-worker-config
+            - mountPath: /var/run/iguazio/daemon_health
+              name: daemon-health
       containers:
         - name: {{ template "spark.worker-name" . }}
           image: {{ .Values.worker.image.repository }}:{{ .Values.worker.image.tag }}
@@ -34,6 +44,8 @@ spec:
           volumeMounts:
             - mountPath: /etc/config/spark
               name: spark-worker-config
+            - mountPath: /var/run/iguazio/daemon_health
+              name: daemon-health
 {{- if .Values.debug.enabled }}
             - mountPath: /spark/conf
               name: spark-debug-config
@@ -70,6 +82,8 @@ spec:
 {{- if .Values.volumes }}
 {{ include .Values.volumes.worker.volumesTemplate . | indent 8 }}
 {{- end }}
+        - name: daemon-health
+          emptyDir: {}
         - name: spark-worker-config
           configMap:
             name: {{ template "spark.worker-name" . }}
