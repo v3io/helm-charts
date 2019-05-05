@@ -25,11 +25,22 @@ spec:
         - name: hive-config
           configMap:
             name: {{ template "hive.fullname" . }}-config
+        - name: daemon-health
+          emptyDir: {}
 {{- if .Values.volumes }}
 {{ include .Values.volumes.volumesTemplate . | indent 8 }}
 {{- end }}
-{{- if eq .Values.metastore.database.type "mysql" }}
       initContainers:
+        - name: daemon-health
+          image: "{{ .Values.daemon.image.repository }}:{{ .Values.daemon.image.tag }}"
+          imagePullPolicy: {{ .Values.daemon.image.pullPolicy }}
+          command: ["/bin/bash", "/etc/config/daemon/daemon-health.sh"]
+          volumeMounts:
+            - mountPath: /etc/config/daemon
+              name: hive-config
+            - mountPath: /var/run/iguazio/daemon_health
+              name: daemon-health
+{{- if eq .Values.metastore.database.type "mysql" }}
         - name: create-hive-user
           image: "{{ .Values.createHiveUserMariaDbImage.repository }}:{{ .Values.createHiveUserMariaDbImage.tag }}"
           imagePullPolicy: {{ .Values.createHiveUserMariaDbImage.pullPolicy }}
@@ -87,7 +98,6 @@ spec:
 {{- if .Values.volumes }}
 {{ include .Values.volumes.volumeMountsTemplate . | indent 12 }}
 {{- end }}
-
       containers:
         - name: {{ .Chart.Name }}
           image: "{{ .Values.image.repository }}:{{ .Values.image.tag }}"
@@ -145,6 +155,8 @@ spec:
               mountPath: {{ .Values.metastore.authPath }}
             - name: hive-config
               mountPath: "{{ .Values.hive.configPath }}"
+            - mountPath: /var/run/iguazio/daemon_health
+              name: daemon-health
 {{- if .Values.volumes }}
 {{ include .Values.volumes.volumeMountsTemplate . | indent 12 }}
 {{- end }}

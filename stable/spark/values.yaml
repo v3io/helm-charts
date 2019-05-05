@@ -75,10 +75,16 @@ global:
 
 v3io: {}
 
+daemon:
+  image:
+    repository: "iguazio/v3io_dayman_health_check"
+    tag: "1.0.0"
+    pullPolicy: "IfNotPresent"
+
 livenessProbe:
   initialDelaySeconds: 90
-  periodSeconds: 30
+  periodSeconds: 5
 
 readinessProbe:
   initialDelaySeconds: 5
-  periodSeconds: 30
+  periodSeconds: 5
