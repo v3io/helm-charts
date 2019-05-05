@@ -116,7 +116,7 @@ spec:
 {{- if .Values.environment }}
 {{- range $name, $val := .Values.environment.extra }}
             - name: {{ $name }}
-              value: {{ $val }}
+              value: '{{ $val }}'
 {{ end -}}
 {{- if .Values.environment.template }}
 {{ include .Values.environment.template . | indent 12 }}
