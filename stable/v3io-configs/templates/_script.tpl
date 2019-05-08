@@ -65,7 +65,7 @@ else
     HEALTH_URL="http://127.0.0.1:${PORT}/${URI_PATH}"
 fi
 
-curl --disable --silent --fail --connect-timeout 10 -X${HTTP_METHOD} "${HEALTH_URL}"
+curl --disable --silent --fail --connect-timeout 10 --output /dev/null -X${HTTP_METHOD} "${HEALTH_URL}"
 {{- end -}}
 
 {{- define "v3io-configs.script.javaHealthCheck" -}}
