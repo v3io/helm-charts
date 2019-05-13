@@ -40,15 +40,31 @@ fi
 
 set -e
 
-PORT="80"
+PORT="0"
 URI_PATH=""
 HTTP_METHOD="GET"
+PROTOCOL="tcp"
+HOST="127.0.0.1"
+SOCKET_PORT="0"
+SOCKET_TEST="0"
+HTTP_TEST="0"
 
 for i in "$@"
 do
 case $i in
+    -t=*|--socket-protocol=*)
+    PROTOCOL="${i#*=}"
+    ;;
+    -h=*|--host=*)
+    HOST="${i#*=}"
+    ;;
+    -p=*|--socket-port=*)
+    SOCKET_PORT="${i#*=}"
+    SOCKET_TEST="1"
+    ;;
     -p=*|--port=*)
     PORT="${i#*=}"
+    HTTP_TEST="1"
     ;;
     -u=*|--uri-path=*)
     URI_PATH="${i#*=}"
@@ -59,13 +75,32 @@ case $i in
 esac
 done
 
-if [[ "${URI_PATH}" =~ ^/.* ]]; then
-    HEALTH_URL="http://127.0.0.1:${PORT}${URI_PATH}"
-else
-    HEALTH_URL="http://127.0.0.1:${PORT}/${URI_PATH}"
+if [ "${SOCKET_TEST}" == "1" ]; then
+    RC=echo < /dev/$PROTOCOL/$HOST/$SOCKET_PORT
+    if [ "$RC" -ne "0" ]; then
+        echo "Unable to communicate with [$HOST:$SOCKET_PORT] over [$PROTOCOL]. RC=$RC"
+        exit $RC
+    fi
 fi
 
-curl --disable --silent --fail --connect-timeout 10 --output /dev/null -X${HTTP_METHOD} "${HEALTH_URL}"
+if [ "${HTTP_TEST}" == "1" ]; then
+    if [[ "${URI_PATH}" =~ ^/.* ]]; then
+        HEALTH_URL="http://${HOST}:${PORT}${URI_PATH}"
+    else
+        HEALTH_URL="http://${HOST}:${PORT}/${URI_PATH}"
+    fi
+
+    HTTP_STATUS=$(curl --disable --silent --fail --connect-timeout 10 --write-out "%{http_code}" --output /dev/null -X${HTTP_METHOD} "${HEALTH_URL}")
+    if [ "${HTTP_STATUS}" -eq "0" ]; then
+        echo "${HTTP_METHOD} for ${HEALTH_URL} failed (${HTTP_STATUS})"
+        exit 121
+    fi
+    if [ "${HTTP_STATUS}" -ge "400" ]; then
+        echo "${HTTP_METHOD} for ${HEALTH_URL} failed with status code ${HTTP_STATUS}"
+        exit 123
+    fi
+fi
+
 {{- end -}}
 
 {{- define "v3io-configs.script.javaHealthCheck" -}}
