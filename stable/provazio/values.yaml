@@ -67,6 +67,8 @@ controller:
   systemConfigDir: "/etc/provazio/controller/system_config"
   systemConfigContents: ""
 
+  controlAccessKey: ""
+
   crd:
     create: true
     kinds:
