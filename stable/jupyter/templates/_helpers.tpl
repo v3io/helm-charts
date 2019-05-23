@@ -32,3 +32,8 @@ Create chart name and version as used by the chart label.
 {{- define "jupyter.chart" -}}
 {{- printf "%s-%s" .Chart.Name .Chart.Version | replace "+" "_" | trunc 63 | trimSuffix "-" -}}
 {{- end -}}
+
+{{- define "jupyter.mpijobexecutor" -}}
+{{- printf "%s-%s" .Release.Name .Values.permissions.mpiJobExecutor.name -}}
+{{- end -}}
+

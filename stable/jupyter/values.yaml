@@ -5,6 +5,10 @@ spark:
   executorMemory: 2G
   maxApplicationCores: 4
 
+permissions:
+  mpiJobExecutor:
+    name: mpi-job-executor
+
 presto:
   hostname: presto
   port: 8443

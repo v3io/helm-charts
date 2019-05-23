@@ -30,6 +30,7 @@ spec:
         iguazio.com/prometheus-pull: "true"
         iguazio.com/prometheus-pull-port: "{{ .Values.proxy.servicePort }}"
     spec:
+      serviceAccountName: {{ template "jupyter.mpijobexecutor" . }}
       initContainers:
         - name: daemon-health
           image: "{{ .Values.daemon.image.repository }}:{{ .Values.daemon.image.tag }}"
