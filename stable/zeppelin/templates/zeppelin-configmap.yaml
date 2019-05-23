@@ -49,6 +49,11 @@ data:
     done
 {{- end }}
 
+{{- if .Values.zeppelin }}
+    cp -f ${ZEPPELIN_HOME}/conf/zeppelin-site.xml.template ${ZEPPELIN_HOME}/conf/zeppelin-site.xml
+    sed -i "`cat ${ZEPPELIN_HOME}/conf/zeppelin-site.xml | wc -l`i \<property\>\n\t\<name\>zeppelin.interpreter.lifecyclemanager.class\</name\>\n\t\<value\>org.apache.zeppelin.interpreter.lifecycle.TimeoutLifecycleManager\</value\>\n\t\<description\>LifecycleManager class for managing the lifecycle of interpreters, by default interpreter will be closed after timeout\</description\>\n\</property\>\n\n\<property\>\n\t\<name\>zeppelin.interpreter.lifecyclemanager.timeout.checkinterval\</name\>\n\t\<value\>{{ .Values.zeppelin.lifecycleManagerCheckInterval }}\</value\>\n\t\<description\>milliseconds of the interval to checking whether interpreter is time out\</description>\n\</property\>\n\n\<property\>\n\t\<name\>zeppelin.interpreter.lifecyclemanager.timeout.threshold\</name\>\n\t\<value\>{{ .Values.zeppelin.lifecycleManagerTimeout }}\</value\>\n\t\<description\>milliseconds of the interpreter timeout threshold, by default it is 1 hour\</description\>\n\</property\>\n" ${ZEPPELIN_HOME}/conf/zeppelin-site.xml
+{{- end }}
+
     mkdir -p ${HOME}/.pythonlibs
     export PIP_PREFIX="${HOME}/.pythonlibs"
     export PYTHONPATH="${HOME}/.pythonlibs/lib/python3.6/site-packages:${PYTHONPATH}"
