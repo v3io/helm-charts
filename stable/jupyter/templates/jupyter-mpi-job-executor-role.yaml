@@ -11,4 +11,9 @@ rules:
 - apiGroups: ["kubeflow.org"]
   resources: ["mpijobs"]
   verbs: ["*"]
-
+- apiGroups: [""]
+  resources: ["pods"]
+  verbs: ["get", "list", "watch", "create", "delete"]
+- apiGroups: [""]
+  resources: ["pods/log"]
+  verbs: ["get", "list"]
