@@ -1,0 +1,18 @@
+kind: RoleBinding
+apiVersion: rbac.authorization.k8s.io/v1
+metadata:
+  labels:
+    app: {{ template "jupyter.name" . }}
+    chart: {{ template "jupyter.chart" . }}
+    release: {{ .Release.Name }}
+    heritage: {{ .Release.Service }}
+  name: {{ template "jupyter.mpijobexecutor" . }}-{{ .Values.permissions.mpiJobExecutor.name }}
+subjects:
+- kind: ServiceAccount
+  name: {{ template "jupyter.mpijobexecutor" . }}
+  namespace: {{ .Release.Namespace | quote }}
+roleRef:
+  kind: Role
+  name: {{ template "jupyter.mpijobexecutor" . }}
+  apiGroup: rbac.authorization.k8s.io
+
