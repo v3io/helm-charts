@@ -19,7 +19,8 @@ resources: {}
 numHugePages: 0
 hostPort: 8081
 sslHostPort: 8443
-workerProcesses: 2
+workerRlimit : 8192
+workerProcesses: auto
 workerConnections: 1024
 
 installationPath: /home/iguazio/igz/clients/nginx
