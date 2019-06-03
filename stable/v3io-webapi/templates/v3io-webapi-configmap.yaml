@@ -41,6 +41,7 @@ data:
   nginx.conf: |
     worker_processes {{ .Values.workerProcesses }};
     load_module ngx_http_v3io_module.so;
+    worker_rlimit_nofile {{ .Values.workerRlimit }};
     error_log {{ .Values.installationPath }}/lib/logs/v3io.log info;
     events {
         use epoll;
