@@ -27,6 +27,8 @@ data:
     chown -R {{ .Values.v3iod.user.name }}:{{ .Values.v3iod.user.name }} /dev/shm
     chown -R {{ .Values.v3iod.user.name }}:{{ .Values.v3iod.user.name }} /var/run/iguazio
     chown -R {{ .Values.v3iod.user.name }}:{{ .Values.v3iod.user.name }} /var/crash
+    chown -R {{ .Values.v3iod.user.name }}:{{ .Values.v3iod.user.name }} /root
+
     su --preserve-environment \
       --login {{ .Values.v3iod.user.name }} \
       --command "/usr/local/bin/v3io_dayman --config-path /etc/iguazio/dayman/default.json"
