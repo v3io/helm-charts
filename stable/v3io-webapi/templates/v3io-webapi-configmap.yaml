@@ -30,6 +30,7 @@ data:
     chown -R {{ .Values.user.name }}:{{ .Values.user.name }} /dev/shm
     chown -R {{ .Values.user.name }}:{{ .Values.user.name }} {{ .Values.installationPath }}/lib/logs
     chown -R {{ .Values.user.name }}:{{ .Values.user.name }} /var/crash
+    chown -R {{ .Values.user.name }}:{{ .Values.user.name }} /root
 
     su --preserve-environment \
       --login {{ .Values.user.name }} \
