@@ -110,10 +110,6 @@ spec:
             - name: V3IO_API
               value: {{ .Values.v3io.api.hostname }}.{{ .Release.Namespace }}.svc:{{ .Values.v3io.api.port }}
 {{- end }}
-{{- if .Values.v3io.framesd }}
-            - name: V3IO_FRAMESD
-              value: {{ .Values.v3io.framesd.hostname }}.{{ .Release.Namespace }}.svc:{{ .Values.v3io.framesd.port }}
-{{- end }}
 {{- if .Values.environment }}
 {{- range $name, $val := .Values.environment.extra }}
             - name: {{ $name }}
