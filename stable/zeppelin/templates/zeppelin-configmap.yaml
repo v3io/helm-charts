@@ -20,31 +20,6 @@ data:
 
     cp /usr/local/bin/healthz /var/run/iguazio/daemon_health/healthz
 
-  zeppelin-site.xml: |
-    <?xml version="1.0"?>
-    <?xml-stylesheet type="text/xsl" href="configuration.xsl"?>
-    <configuration>
-      <property>
-        <name>zeppelin.interpreter.lifecyclemanager.class</name>
-        <value>org.apache.zeppelin.interpreter.lifecycle.TimeoutLifecycleManager</value>
-        <description>LifecycleManager class for managing the lifecycle of interpreters, by default interpreter will
-        be closed after timeout</description>
-      </property>
-
-      <property>
-        <name>zeppelin.interpreter.lifecyclemanager.timeout.checkinterval</name>
-        <value>{{ .Values.lifecycleManagerCheckInterval | int}}</value>
-        <description>Milliseconds of the interval to checking whether interpreter is time out</description>
-      </property>
-
-      <property>
-        <name>zeppelin.interpreter.lifecyclemanager.timeout.threshold</name>
-        <value>{{ .Values.lifecycleManagerTimeout | int}}</value>
-        <description>Milliseconds of the interpreter timeout threshold, by default it is 1 hour</description>
-      </property>
-    </configuration>
-
-
   run.sh : |
     #!/usr/bin/env bash
 {{- if and .Values.storage.path .Values.storage.initCmd }}
@@ -73,8 +48,6 @@ data:
       fi
     done
 {{- end }}
-
-    cp /etc/config/zeppelin/zeppelin-site.xml $ZEPPELIN_HOME/conf
 
     mkdir -p ${HOME}/.pythonlibs
     export PIP_PREFIX="${HOME}/.pythonlibs"
