@@ -18,7 +18,9 @@ resources: {}
 
 numHugePages: 0
 hostPort: 8081
+serviceHostPort: 8081
 sslHostPort: 8443
+serviceSSLHostPort: 8443
 workerRlimit : 8192
 workerProcesses: auto
 workerConnections: 1024
