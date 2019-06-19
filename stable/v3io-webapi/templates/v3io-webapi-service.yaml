@@ -9,10 +9,10 @@ metadata:
     heritage: {{ .Release.Service }}
 spec:
   ports:
-    - port: {{ .Values.hostPort }}
+    - port: {{ .Values.serviceHostPort }}
       targetPort: {{ .Values.hostPort }}
       name: web-api-http
-    - port: {{ .Values.sslHostPort }}
+    - port: {{ .Values.serviceSSLHostPort }}
       targetPort: {{ .Values.sslHostPort }}
       name: web-api-https
   selector:
