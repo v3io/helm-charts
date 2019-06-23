@@ -23,7 +23,7 @@ spec:
         command: ["/bin/sh", "-c"]
         args:
 {{- range $i, $val := .Values.job.namespaceTag.namespaces }}
-          - kubectl label namespace --overwrite {{ $val }} owner={{ $val }} ;
+          - kubectl label namespace --overwrite {{ $.Values.tenant.name }} owner={{ $val }} app.iguazio.com/managed-by={{ $val }} ;
 {{- end }}
       restartPolicy: "Never"
   backoffLimit: 1

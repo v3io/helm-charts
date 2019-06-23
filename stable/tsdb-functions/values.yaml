@@ -2,7 +2,7 @@ tsdb:
   container: bigdata
   path: mytsdb
 webapi:
-  url: v3io-webapi:8081
+  url: http://v3io-webapi:8081
   auth:
     username: iguazio
     password: iguazio
