@@ -21,7 +21,11 @@ spec:
   - name: QUERY_V3IO_TSDB_PATH
     value: {{ .Values.tsdb.path }}
   - name: QUERY_V3IO_URL
-    value: http://{{ .Values.webapi.url | quote }}
+{{- if hasPrefix "http" .Values.webapi.url }}
+    value: {{ .Values.webapi.url }}
+{{- else }}
+    value: http://{{ cat .Values.webapi.url }}
+{{- end }}
   - name: QUERY_V3IO_USERNAME
     value: {{ .Values.webapi.auth.username }}
   - name: QUERY_V3IO_PASSWORD
