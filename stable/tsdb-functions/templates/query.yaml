@@ -21,7 +21,7 @@ spec:
   - name: QUERY_V3IO_TSDB_PATH
     value: {{ .Values.tsdb.path }}
   - name: QUERY_V3IO_URL
-    value: {{ .Values.webapi.url | quote }}
+    value: http://{{ .Values.webapi.url | quote }}
   - name: QUERY_V3IO_USERNAME
     value: {{ .Values.webapi.auth.username }}
   - name: QUERY_V3IO_PASSWORD
