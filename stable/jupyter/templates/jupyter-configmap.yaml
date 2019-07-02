@@ -131,6 +131,18 @@ data:
       echo "# --- END IGUAZIO CONFIG ---" >> ${HOME}/.bashrc
     fi
 
+    if [ "$(grep --count 'KUBECTL AUTOCOMPLETION' ${HOME}/.bashrc)" == "0" ]; then
+      echo "# ----- KUBECTL AUTOCOMPLETION -----" >> ${HOME}/.bashrc
+      echo "if [ -f /etc/bash_completion ]; then" >> ${HOME}/.bashrc
+      echo " . /etc/bash_completion" >> ${HOME}/.bashrc
+      echo "fi" >> ${HOME}/.bashrc
+      echo "if type -t _get_comp_words_by_ref > /dev/null 2>&1 && command -v kubectl > /dev/null 2&>1; then" >> ${HOME}/.bashrc
+      echo " source <(kubectl completion bash)" >> ${HOME}/.bashrc
+      echo "fi" >> ${HOME}/.bashrc
+      echo "# ----- END KUBECTL AUTOCOMPLETION -----" >> ${HOME}/.bashrc
+    fi
+
+
     touch ${HOME}/.viminfo
     echo ":set term=builtin_ansi" > ${HOME}/.vimrc
 
