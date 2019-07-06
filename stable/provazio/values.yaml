@@ -8,6 +8,7 @@ dashboard:
 
   port: 8060
   replicas: 1
+  host: provazio-dashboard.iguazio.app.provazio-dev.cloud.iguazio.com
   artifactVersionManifestContents:
   whitelistSourceRange: 1.1.1.1/32
 
@@ -15,7 +16,7 @@ dashboard:
     env: dev
 
     dashboard:
-      url: https://provazio.iguazio.app.provazio-dev.cloud.iguazio.com
+      url: https://provazio-dashboard.iguazio.app.provazio-dev.cloud.iguazio.com
       expiration_check_interval: 30
       system_create_mode: kubernetes_job
       frontend:
@@ -91,7 +92,6 @@ dashboard:
         bin_path: /usr/bin/terraform
         config_path: /etc/terraform/configs    
 
-
 controller:
   enabled: false
 
@@ -117,3 +117,27 @@ controller:
     kinds:
     - IguazioTenant
     - IguazioTenantAppServiceSet
+
+vault:
+  enabled: false
+
+  image:
+    repository: quay.io/iguazio/provazio-vault
+    tag: 0.10.11
+    pullPolicy: IfNotPresent
+
+  port: 8061
+  host: provazio-vault.iguazio.app.provazio-dev.cloud.iguazio.com
+  replicas: 1
+
+  envSpec:
+    client:
+      # system_store: 
+      #   kind: inmemory
+
+      # object_store: 
+      #   kind: inmemory
+
+      # license_store: 
+      #   kind: inmemory
+
