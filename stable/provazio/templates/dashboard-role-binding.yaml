@@ -1,0 +1,21 @@
+{{- if .Values.dashboard.enabled }}
+
+kind: RoleBinding
+apiVersion: rbac.authorization.k8s.io/v1
+metadata:
+  name: {{ template "provazio.dashboard.name" . }}-role-binding
+  labels:
+    app: {{ template "provazio.name" . }}
+    chart: {{ template "provazio.chart" . }}
+    release: {{ .Release.Name }}
+    heritage: {{ .Release.Service }}
+    component: dashboard
+subjects:
+- kind: ServiceAccount
+  name: {{ template "provazio.dashboard.name" . }}
+roleRef:
+  kind: Role
+  name: {{ template "provazio.dashboard.name" . }}-role
+  apiGroup: rbac.authorization.k8s.io
+
+{{- end }}

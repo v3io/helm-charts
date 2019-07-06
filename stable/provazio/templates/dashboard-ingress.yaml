@@ -11,7 +11,7 @@ metadata:
     heritage: {{ .Release.Service }}
     component: dashboard
   annotations:
-    nginx.ingress.kubernetes.io/whitelist-source-range: {{ .Values.dashboard.internalNetworkCIDR }}
+    nginx.ingress.kubernetes.io/whitelist-source-range: {{ .Values.dashboard.whitelistSourceRange }}
 spec:
   rules:
   - host: {{ .Values.dashboard.host | quote }}
@@ -21,5 +21,7 @@ spec:
           serviceName: {{ template "provazio.dashboard.name" . }}
           servicePort: 8060
         path: /
-
+  tls:
+  - hosts:
+    - {{ .Values.dashboard.host | quote }}
 {{- end }}
