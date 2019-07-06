@@ -14,3 +14,7 @@
 {{- define "provazio.controller.name" -}}
 {{- printf "%s-controller" .Release.Name | trunc 63 | trimSuffix "-" -}}
 {{- end -}}
+
+{{- define "provazio.vault.name" -}}
+{{- printf "%s-vault" .Release.Name | trunc 63 | trimSuffix "-" -}}
+{{- end -}}

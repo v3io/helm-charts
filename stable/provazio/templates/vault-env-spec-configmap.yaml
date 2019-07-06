@@ -1,0 +1,15 @@
+{{- if and .Values.vault.enabled }}
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: {{ template "provazio.vault.name" . }}-env-spec
+  labels:
+    app: {{ template "provazio.name" . }}
+    chart: {{ template "provazio.chart" . }}
+    release: {{ .Release.Name }}
+    heritage: {{ .Release.Service }}
+    component: vault
+data:
+  env.yaml: |
+{{ toYaml .Values.vault.envSpec | indent 4 }}
+{{- end }}

@@ -1,0 +1,47 @@
+{{- if .Values.vault.enabled }}
+
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ template "provazio.vault.name" . }}
+  labels:
+    app: {{ template "provazio.name" . }}
+    chart: {{ template "provazio.chart" . }}
+    release: {{ .Release.Name }}
+    heritage: {{ .Release.Service }}
+    component: vault
+spec:
+  replicas: {{ .Values.vault.replicas }}
+  selector:
+    matchLabels:
+      chart: {{ template "provazio.chart" . }}
+      component: vault
+  template:
+    metadata:
+      labels:
+        app: {{ template "provazio.name" . }}
+        chart: {{ template "provazio.chart" . }}
+        release: {{ .Release.Name }}
+        heritage: {{ .Release.Service }}
+        component: vault
+    spec:
+      serviceAccountName: {{ template "provazio.vault.name" . }}
+      containers:
+      - env:
+        - name: PROVAZIO_ENV_SPEC_PATH
+          value: /etc/provazio/env.yaml
+        image: {{ .Values.vault.image.repository }}:{{ .Values.vault.image.tag }}
+        imagePullPolicy: {{ .Values.vault.image.pullPolicy | quote }}
+        name: {{ template "provazio.vault.name" . }}
+        ports:
+        - containerPort: {{ .Values.vault.port }}
+          protocol: TCP
+        volumeMounts:
+        - mountPath: /etc/provazio
+          name: {{ template "provazio.vault.name" . }}-env-spec
+      volumes:
+      - name: {{ template "provazio.vault.name" . }}-env-spec
+        configMap:
+          defaultMode: 420
+          name: {{ template "provazio.vault.name" . }}-env-spec
+{{- end }}

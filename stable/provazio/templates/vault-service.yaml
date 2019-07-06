@@ -1,0 +1,24 @@
+{{- if .Values.vault.enabled }}
+
+apiVersion: v1
+kind: Service
+metadata:
+  name: {{ template "provazio.vault.name" . }}
+  labels:
+    app: {{ template "provazio.name" . }}
+    chart: {{ template "provazio.chart" . }}
+    release: {{ .Release.Name }}
+    heritage: {{ .Release.Service }}
+    component: vault
+spec:
+  ports:
+  - name: admin
+    port: {{ .Values.vault.port }}
+    protocol: TCP
+    targetPort: 8061
+  selector:
+    app: provazio
+    component: vault
+    release: {{ .Release.Name }}
+
+{{- end }}
