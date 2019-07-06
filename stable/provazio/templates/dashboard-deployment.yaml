@@ -25,143 +25,33 @@ spec:
         heritage: {{ .Release.Service }}
         component: dashboard
     spec:
+      serviceAccountName: {{ template "provazio.dashboard.name" . }}
       containers:
       - env:
-        - name: PROVAZIO_ENV
-          value: {{ .Values.dashboard.provisioner.env | quote }}
-        - name: PROVAZIO_PROVISIONER_TYPE
-          value: {{ .Values.dashboard.provisioner.type | quote }}
-        - name: PROVAZIO_AWS_REGION
-          value: {{ .Values.dashboard.provisioner.region | quote }}
-        - name: PROVAZIO_STORE_AZURE_COSMOSDB_DATABASE_NAME
-          value: {{ .Values.dashboard.databaseName | quote }}
-        - name: PROVAZIO_STORE_AZURE_COSMOSDB_COLLECTION_NAME
-          value: {{ .Values.dashboard.collectionName | quote }}
-        - name: PROVAZIO_EXPIRATION_CHECK_INTERVAL_SECONDS
-          value: {{ .Values.dashboard.expirationCheckIntervalSeconds | quote }}
-        - name: PROVAZIO_URL
-          value: {{ .Values.dashboard.url | quote }}
-        - name: PROVAZIO_PERMITTED_INGRESSES
-          value: {{ toJson .Values.dashboard.permittedIngresses | quote }}
-        - name: PROVAZIO_CERT_ENSURER_URL
-          value: {{ .Values.dashboard.certEnsurerURL | quote }}
-        - name: PROVAZIO_DOMAIN_SELECTOR_URL
-          value: {{ .Values.dashboard.domainSelectorURL | quote }}
-        - name: PROVAZIO_FRONTEND_SPEC
-          value: {{ toJson .Values.dashboard.frontendSpec | quote }}
-{{- if .Values.dashboard.artifactVersionManifestContents }}
-        - name: PROVAZIO_ARTIFACT_VERSION_RESOLVER_MANIFEST_PATH
-          value: /etc/provazio/dashboard/artifact-version-manifest.json
-{{- end }}
-        - name: PROVAZIO_SSH_USERNAME
-          valueFrom:
-            secretKeyRef:
-              name: {{ .Values.dashboard.secretName | quote }}
-              key: ssh_username
-        - name: PROVAZIO_SSH_PASSWORD
-          valueFrom:
-            secretKeyRef:
-              name: {{ .Values.dashboard.secretName | quote }}
-              key: ssh_password
-        - name: PROVAZIO_CLUSTER_INFO_UPDATER_USERNAME
-          valueFrom:
-            secretKeyRef:
-              name: {{ .Values.dashboard.secretName | quote }}
-              key: cluster_info_updater_username
-        - name: PROVAZIO_CLUSTER_INFO_UPDATER_PASSWORD
-          valueFrom:
-            secretKeyRef:
-              name: {{ .Values.dashboard.secretName | quote }}
-              key: cluster_info_updater_password
-        - name: PROVAZIO_AWS_ACCESS_KEY_ID
-          valueFrom:
-            secretKeyRef:
-              name: {{ .Values.dashboard.secretName | quote }}
-              key: aws_access_key_id
-        - name: PROVAZIO_AWS_SECRET_ACCESS_KEY
-          valueFrom:
-            secretKeyRef:
-              name: {{ .Values.dashboard.secretName | quote }}
-              key: aws_secret_access_key
-        - name: PROVAZIO_DATANODE_USERNAME
-          valueFrom:
-            secretKeyRef:
-              name: {{ .Values.dashboard.secretName | quote }}
-              key: datanode_security_admin_username
-        - name: PROVAZIO_DATANODE_PASSWORD
-          valueFrom:
-            secretKeyRef:
-              name: {{ .Values.dashboard.secretName | quote }}
-              key: datanode_security_admin_password
-        - name: AZURE_TENANT_ID
-          valueFrom:
-            secretKeyRef:
-              name: {{ .Values.dashboard.secretName | quote }}
-              key: azure_tenant_id
-        - name: AZURE_CLIENT_ID
-          valueFrom:
-            secretKeyRef:
-              name: {{ .Values.dashboard.secretName | quote }}
-              key: azure_client_id
-        - name: AZURE_CLIENT_SECRET
-          valueFrom:
-            secretKeyRef:
-              name: {{ .Values.dashboard.secretName | quote }}
-              key: azure_client_secret
-        - name: PROVAZIO_AZURE_SUBSCRIPTION_ID
-          valueFrom:
-            secretKeyRef:
-              name: {{ .Values.dashboard.secretName | quote }}
-              key: azure_subscription_id
-        - name: PROVAZIO_AZURE_RESOURCE_GROUP
-          valueFrom:
-            secretKeyRef:
-              name: {{ .Values.dashboard.secretName | quote }}
-              key: azure_resource_group
-        - name: PROVAZIO_AZURE_STORAGE_ACCOUNT_NAME
-          valueFrom:
-            secretKeyRef:
-              name: {{ .Values.dashboard.secretName | quote }}
-              key: azure_storage_account_name
-        - name: PROVAZIO_AZURE_STORAGE_ACCOUNT_KEY
-          valueFrom:
-            secretKeyRef:
-              name: {{ .Values.dashboard.secretName | quote }}
-              key: azure_storage_account_key
-        - name: PROVAZIO_STORE_AZURE_COSMOSDB_MASTER_KEY
-          valueFrom:
-            secretKeyRef:
-              name: {{ .Values.dashboard.secretName | quote }}
-              key: cosmosdb_master_key
-        - name: PROVAZIO_STORE_AZURE_COSMOSDB_ENDPOINT
-          valueFrom:
-            secretKeyRef:
-              name: {{ .Values.dashboard.secretName | quote }}
-              key: cosmosdb_endpoint
-        - name: PROVAZIO_SLACK_TOKEN
-          valueFrom:
-            secretKeyRef:
-              name: {{ .Values.dashboard.secretName | quote }}
-              key: slack_token
-        - name: PROVAZIO_ARTIFACT_VERSION_RESOLVER_GITHUB_ACCESS_TOKEN
-          valueFrom:
-            secretKeyRef:
-              name: {{ .Values.dashboard.secretName | quote }}
-              key: artifact_version_resolver_github_access_token
+        - name: PROVAZIO_ENV_SPEC_PATH
+          value: /etc/provazio/env.yaml
         image: {{ .Values.dashboard.image.repository }}:{{ .Values.dashboard.image.tag }}
         imagePullPolicy: {{ .Values.dashboard.image.pullPolicy | quote }}
         name: {{ template "provazio.dashboard.name" . }}
         ports:
         - containerPort: 8060
           protocol: TCP
-{{- if .Values.dashboard.artifactVersionManifestContents }}
         volumeMounts:
+        - mountPath: /etc/provazio
+          name: {{ template "provazio.dashboard.name" . }}-env-spec
+{{- if .Values.dashboard.artifactVersionManifestContents }}
         - mountPath: /etc/provazio/dashboard
           name: {{ template "provazio.dashboard.name" . }}-artifact-version-manifest
+{{- end }}
       volumes:
-      - configMap:
+      - name: {{ template "provazio.dashboard.name" . }}-env-spec
+        configMap:
           defaultMode: 420
-          name: {{ template "provazio.dashboard.name" . }}-artifact-version-manifest
-        name: {{ template "provazio.dashboard.name" . }}-artifact-version-manifest
+          name: {{ template "provazio.dashboard.name" . }}-env-spec
+{{- if .Values.dashboard.artifactVersionManifestContents }}
+      - name: {{ template "provazio.dashboard.name" . }}-artifact-version-manifest
+        configMap:
+          defaultMode: 420
+          name: {{ template "provazio.dashboard.name" . }}-artifact-version-manifest        
 {{- end }}
 {{- end }}

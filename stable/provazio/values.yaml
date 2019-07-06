@@ -1,61 +1,104 @@
 dashboard:
-  port: 8060
   enabled: false
-  url: provazio.dev.cloud.iguazio.com # Used only for Slack notifications
-  replicas: 1
-  databaseName: mydatabase
-  collectionName: mycollection
-  certEnsurerURL: http://ensure-cert:8080
-  domainSelectorURL: http://select-domain:8080
-  permittedIngresses: ~
-  internalNetworkCIDR: 1.1.1.1/32
-  expirationCheckIntervalSeconds: 300
-  artifactVersionManifestContents:
 
   image:
     repository: quay.io/iguazio/provazio-dashboard
-    tag: 0.3.0
+    tag: 0.10.11
     pullPolicy: IfNotPresent
 
-  # holds cloud credentials
-  secretName: provazio-creds
+  port: 8060
+  replicas: 1
+  host: provazio-dashboard.iguazio.app.provazio-dev.cloud.iguazio.com
+  artifactVersionManifestContents:
+  whitelistSourceRange: 1.1.1.1/32
 
-  provisioner:
+  envSpec:
     env: dev
-    type: aws
-    region: us-east-1
 
-  frontendSpec:
-    environment: dev
-    allow_provisioning: true
-    # default_system_settings_source: spec
-    # system_settings:
-    #   version: 1.9_cloud_b57_20181225181152
-    #   num_datanodes: 1
-    #   data_cluster_placement_kind: spread
-    #   data_cluster_instance_size: i3.xlarge
-    #   num_appnodes: 1
-    #   app_cluster_provisioner_kind: dedicated
-    #   app_cluster_instance_size: m5.xlarge
-    #   lifetime_in_hours: 24
-    #   cert_kind: prod
-    #   cidr_ip: 172.38.0.0/16
-    #   subnets: 172.38.0.0/24,172.38.1.0/24,172.38.2.0/24
-    #   network_kind: shared
-    #   termination_protection_kind: prompt
-    #   services:
-    #   - grafana
-    #   - nuclio_metrics
-    #   - v3iod
-    #   - spark
-    #   - shell
-    #   - presto
-    #   - zeppelin
-    #   - elastic
+    dashboard:
+      url: https://provazio-dashboard.iguazio.app.provazio-dev.cloud.iguazio.com
+      expiration_check_interval: 30
+      system_create_mode: kubernetes_job
+      frontend:
+        allow_provisioning: true
+        default_system_settings_source: stored
+        environment: dev
+        cloud_provider_regions:
+          aws:
+            - eu-central-1
+      listen_address: 0.0.0.0:18060
 
+    client:
+      # system_store: 
+      #   kind: 
+      #   cosmosdb:
+      #     collection_name: 
+      #     database_name: 
+      #     endpoint: 
+      #     master_key: 
+
+      # object_store: 
+      #   kind: 
+      #   v3io:
+      #     container_name: 
+      #     password: 
+      #     url: 
+      #     username: 
+
+      # infrastructure: 
+      #   ec2:
+      #     access_key_id: 
+      #     secret_access_key: 
+      #     data_cluster_instance_profile: 
+      #     app_cluster_instance_profile: 
+      #   spotinst:
+      #     account: 
+      #     token: 
+
+      # domain_registrar: 
+      #   kind: route53
+      #   route53:
+      #     access_key_id: 
+      #     secret_access_key: 
+
+      # notifier:
+      #   kind: slack
+      #   slack:
+      #     token: 
+
+      https_cert_issuer:
+        kind: http
+        http:
+          url: http://ensure-cert:8080
+
+      domain_selector:
+        kind: http
+        http:
+          url: http://select-domain:8080
+
+    # ssh_credentials: 
+    #   password: 
+    #   username: 
+
+    provisioning:
+
+      permitted_ingresses: ~
+      # - from_port: 0
+      #   to_port: 0
+      #   protocol: "-1"
+      #   source_cidr_block: 10.0.0.1/32
+
+      terraform:
+        bin_path: /usr/bin/terraform
+        config_path: /etc/terraform/configs    
 
 controller:
   enabled: false
+
+  image:
+    repository: quay.io/iguazio/provazio-controller
+    tag: 0.10.11
+    pullPolicy: IfNotPresent
 
   # if artifactVersionManifestContents is set, a configuration file will be created and passed
   # to the controller so that it won't try to resolve artifact versions through the standard github
@@ -74,7 +117,27 @@ controller:
     kinds:
     - IguazioTenant
     - IguazioTenantAppServiceSet
+
+vault:
+  enabled: false
+
   image:
-    repository: quay.io/iguazio/provazio-dashboard
-    tag: 0.3.0
+    repository: quay.io/iguazio/provazio-vault
+    tag: 0.10.11
     pullPolicy: IfNotPresent
+
+  port: 8061
+  host: provazio-vault.iguazio.app.provazio-dev.cloud.iguazio.com
+  replicas: 1
+
+  envSpec:
+    client:
+      # system_store: 
+      #   kind: inmemory
+
+      # object_store: 
+      #   kind: inmemory
+
+      # license_store: 
+      #   kind: inmemory
+

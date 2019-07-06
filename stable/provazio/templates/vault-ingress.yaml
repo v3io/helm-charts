@@ -1,0 +1,25 @@
+{{- if and .Values.vault.enabled .Values.vault.host }}
+
+apiVersion: extensions/v1beta1
+kind: Ingress
+metadata:
+  name: {{ template "provazio.vault.name" . }}
+  labels:
+    app: {{ template "provazio.name" . }}
+    chart: {{ template "provazio.chart" . }}
+    release: {{ .Release.Name }}
+    heritage: {{ .Release.Service }}
+    component: vault
+spec:
+  rules:
+  - host: {{ .Values.vault.host | quote }}
+    http:
+      paths:
+      - backend:
+          serviceName: {{ template "provazio.vault.name" . }}
+          servicePort: {{ .Values.vault.port }}
+        path: /
+  tls:
+  - hosts:
+    - {{ .Values.vault.host | quote }}
+{{- end }}
