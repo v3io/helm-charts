@@ -65,7 +65,14 @@ v3iod:
       "block_size_bytes": 2150400,
       "num_blocks": 500
     }
-
+  coefficients: |
+        "on_v3io_event_num_read_v3io_response_repetitions": 1,
+        "on_v3io_event_max_channel_consecutive_no_commands": 1,
+        "on_channel_event_num_read_v3io_response_repetitions": 1,
+        "on_channel_event_max_channel_consecutive_no_commands": 1,
+        "on_idle_num_read_v3io_response_repetitions": 1,
+        "on_idle_max_channel_consecutive_no_commands": 1,
+        "on_idle_max_channel_command_reads_per_channel": 64
   datanodes:
   - uri: "tcp://localhost:1234"
 
