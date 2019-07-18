@@ -1,0 +1,17 @@
+apiVersion: v1
+kind: Service
+metadata:
+  annotations:
+    prometheus.io/path: "{{ .Values.container.path }}"
+    prometheus.io/port: "{{ .Values.container.port }}"
+    prometheus.io/scrape: "true"
+  name: metrics-server-exporter
+  labels:
+    app: metrics-server-exporter
+spec:
+  ports:
+  - port: {{ .Values.service.port }}
+    protocol: {{ .Values.service.protocol }}
+    targetPort: {{ .Values.container.port }}
+  selector:
+    app: metrics-server-exporter

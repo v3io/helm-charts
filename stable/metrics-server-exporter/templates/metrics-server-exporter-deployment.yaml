@@ -1,0 +1,61 @@
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+  name: {{ template "metrics-server-exporter.fullname" . }}
+  labels:
+    app: {{ template "metrics-server-exporter.name" . }}
+    chart: {{ template "metrics-server-exporter.chart" . }}
+    release: {{ .Release.Name }}
+spec:
+  replicas: 1
+  strategy:
+    rollingUpdate:
+      maxSurge: 1
+      maxUnavailable: 0
+    type: RollingUpdate
+  template:
+    metadata:
+      labels:
+        app: {{ template "metrics-server-exporter.name" . }}
+    spec:
+      serviceAccountName: metrics-server-exporter
+      containers:
+      - name: metrics-server-exporter
+        image: "{{ .Values.image.repository }}:{{ .Values.image.tag }}"
+        imagePullPolicy: {{ .Values.image.pullPolicy }}
+        command: ["metricsserverexporter"]
+        args: 
+        - --log-level={{ .Values.container.logLevel }}
+        - --namespace={{ .Release.Namespace }}
+        - --listen-addr=:{{ .Values.container.port }}
+        ports:
+        - containerPort: {{ .Values.container.port }} 
+          protocol: {{ .Values.container.protocol }}
+        livenessProbe:
+          failureThreshold: {{ .Values.livenessProbe.failureThreshold }}
+          httpGet:
+            path: {{ .Values.container.path }}
+            port: {{ .Values.container.port }}
+            scheme: {{ .Values.container.scheme }}
+          initialDelaySeconds: {{ .Values.livenessProbe.initialDelaySeconds }}
+          periodSeconds: {{ .Values.livenessProbe.periodSeconds }}
+          successThreshold: {{ .Values.livenessProbe.successThreshold }}
+          timeoutSeconds: {{ .Values.livenessProbe.timeoutSeconds }}
+        readinessProbe:
+          failureThreshold: {{ .Values.readinessProbe.failureThreshold }}
+          httpGet:
+            path: {{ .Values.container.path }}
+            port: {{ .Values.container.port }}
+            scheme: {{ .Values.container.scheme }}
+          initialDelaySeconds: {{ .Values.readinessProbe.initialDelaySeconds }}
+          periodSeconds: {{ .Values.readinessProbe.periodSeconds }}
+          successThreshold: {{ .Values.readinessProbe.successThreshold }}
+          timeoutSeconds: {{ .Values.readinessProbe.timeoutSeconds }}
+        resources:
+            requests:
+              memory: {{ .Values.resources.requests.memory }}
+              cpu: {{ .Values.resources.requests.cpu }}
+            limits:
+              memory: {{ .Values.resources.limits.memory }}
+              cpu: {{ .Values.resources.limits.cpu }}
+      restartPolicy: Always
