@@ -1,0 +1,38 @@
+image:
+  repository: iguaziodocker/metrics-server-exporter
+  tag: 0.1.0
+  pullPolicy: IfNotPresent
+
+container:
+  port: 8000
+  protocol: TCP
+  scheme: HTTP
+  path: /metrics
+
+  logLevel: info
+
+service:
+  port: 9104
+  protocol: TCP
+
+livenessProbe:
+  failureThreshold: 3
+  initialDelaySeconds: 30
+  periodSeconds: 10
+  successThreshold: 1
+  timeoutSeconds: 30
+
+readinessProbe:
+  failureThreshold: 3
+  initialDelaySeconds: 5
+  periodSeconds: 10
+  successThreshold: 1
+  timeoutSeconds: 10
+
+resources:
+  requests:
+    memory: 150Mi
+    cpu: 100m
+  limits:
+    memory: 150Mi
+    cpu: 100m
