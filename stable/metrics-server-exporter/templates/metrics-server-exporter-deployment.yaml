@@ -17,6 +17,8 @@ spec:
     metadata:
       labels:
         app: {{ template "metrics-server-exporter.name" . }}
+        chart: {{ template "metrics-server-exporter.chart" . }}
+        release: {{ .Release.Name }}
     spec:
       serviceAccountName: metrics-server-exporter
       containers:

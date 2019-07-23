@@ -7,7 +7,9 @@ metadata:
     prometheus.io/scrape: "true"
   name: metrics-server-exporter
   labels:
-    app: metrics-server-exporter
+    app: {{ template "metrics-server-exporter.name" . }}
+    chart: {{ template "metrics-server-exporter.chart" . }}
+    release: {{ .Release.Name }}
 spec:
   ports:
   - port: {{ .Values.service.port }}
