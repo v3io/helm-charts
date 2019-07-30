@@ -12,26 +12,20 @@ data:
   node.properties: |
 {{- if (eq .Values.server.node.properties.override true) }}
     # ============= Custom node properties ==========
-    {{- range .Values.server.node.properties.custom }}
-    {{ . }}
-    {{- end }}
+    {{- .Values.server.node.properties.custom | b64dec | toYaml | indent 2 }}
 {{- else }}
     node.environment={{ .Values.server.node.environment }}
     node.data-dir={{ .Values.server.node.dataDir }}
 {{- if .Values.server.node.properties.custom }}
     # ============= Custom node properties ==========
-    {{- range .Values.server.node.properties.custom }}
-    {{ . }}
-    {{- end }}
+    {{- .Values.server.node.properties.custom | b64dec | toYaml | indent 2 }}
 {{- end }}
 {{- end }}
 
   jvm.config: |
 {{- if (eq .Values.server.jvm.properties.override true) }}
     # ============= Custom jvm properties ==========
-    {{- range .Values.server.jvm.properties.custom }}
-    {{ . }}
-    {{- end }}
+    {{- .Values.server.jvm.properties.custom | b64dec | toYaml | indent 2 }}
 {{- else }}
     -server
     -Xmx{{ .Values.server.jvm.maxHeapSize }}
@@ -43,18 +37,14 @@ data:
     -XX:+ExitOnOutOfMemoryError
 {{- if .Values.server.jvm.properties.custom }}
     # ============= Custom jvm properties ==========
-    {{- range .Values.server.jvm.properties.custom }}
-    {{ . }}
-    {{- end }}
+    {{- .Values.server.jvm.properties.custom | b64dec | toYaml | indent 2 }}
 {{- end }}
 {{- end }}
 
   config.properties: |
 {{- if (eq .Values.server.config.properties.override true) }}
     # ============= Custom config properties ==========
-    {{- range .Values.server.config.properties.custom }}
-    {{ . }}
-    {{- end }}
+    {{- .Values.server.config.properties.custom | b64dec | toYaml | indent 2 }}
     coordinator=true
 {{- else }}
     coordinator=true
@@ -78,9 +68,7 @@ data:
     node.internal-address={{ template "presto.fullname" . }}.{{ .Release.Namespace }}.svc
 {{- if .Values.server.config.properties.custom }}
     # ============= Custom config properties ==========
-    {{- range .Values.server.config.properties.custom }}
-    {{ . }}
-    {{- end }}
+    {{- .Values.server.config.properties.custom | b64dec | toYaml | indent 2 }}
 {{- end }}
 {{- end }}
 
@@ -93,11 +81,9 @@ data:
   log.properties: |
 {{- if (eq .Values.server.log.properties.override true) }}
     # ============= Custom log properties ==========
-    {{- range .Values.server.log.properties.custom }}
-    {{ . }}
-    {{- end }}
+    {{- .Values.server.log.properties.custom | b64dec | toYaml | indent 2 }}
 {{- else }}
-{{- range $key, $val := .Values.server.log }}
+{{- range $key, $val := .Values.server.log.categories }}
 {{ printf "%s=%s" $key $val | indent 4}}
 {{- end }}
 {{ end -}}
@@ -108,9 +94,7 @@ data:
 {{- end }}
 {{- if .Values.server.log.properties.custom }}
     # ============= Custom log properties ==========
-    {{- range .Values.server.log.properties.custom }}
-    {{ . }}
-    {{- end }}
+    {{- .Values.server.log.properties.custom | b64dec | toYaml | indent 2 }}
 {{- end }}
 {{- end }}
 
