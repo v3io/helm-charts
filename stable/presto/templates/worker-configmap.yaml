@@ -144,7 +144,17 @@ data:
     cp {{ .Values.server.config.mapPath }}/*.properties $PRESTO_CONF_DIR
     cp {{ .Values.server.config.mapPath }}/*.config $PRESTO_CONF_DIR
 
+{{- if .Values.server.configuration.files }}
+
+    # Start creating custom configuration files
+{{- range $name, $content := .Values.server.configuration.files }}
+{{ printf "echo -n '%s' | base64 --decode > $PRESTO_CONF_DIR/%s" $content $name | indent 4 }}
+{{- end }}
+    # Finish creating custom configuration files
+{{- end }}
+
 {{- if .Values.hive }}
+
     # Hive configuration
     echo hive.config.resources=${HADOOP_CONF_DIR}/core-site.xml,${HADOOP_CONF_DIR}/hdfs-site.xml >> $PRESTO_CONF_DIR/hive.properties
     mv $PRESTO_CONF_DIR/hive.properties $PRESTO_CONF_DIR/catalog/hive.properties
