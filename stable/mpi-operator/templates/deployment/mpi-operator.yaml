@@ -28,11 +28,6 @@ spec:
           "--kubectl-delivery-image",
           "{{ .Values.image.kubectlDelivery.repository }}:{{ .Values.image.kubectlDelivery.tag }}"
         ]
-        resources:
-          requests:
-            memory: {{ .Values.resources.requests.memory }}
-            cpu: {{ .Values.resources.requests.cpu }}
-          limits:
-            memory: {{ .Values.resources.limits.memory }}
-            cpu: {{ .Values.resources.limits.cpu }}
+          resources:
+{{ toYaml .Values.resources | indent 10 }}
 {{- end }}
