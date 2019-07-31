@@ -94,22 +94,22 @@ data:
 {{- if contains "/" $elem.path }}
 {{- if ( hasKey $elem "override" ) }}
 {{- if ( eq $elem.override true ) }}
-{{ printf "echo -n '%s' | base64 --decode > %s" $elem.content $elem.path | indent 4 }}
+{{ printf "echo -n '%s' | base64 --decode > %s" $elem.contents $elem.path | indent 4 }}
 {{- end }}
 {{ else }}
 {{ printf "echo '' >> %s" $elem.path | indent 4 }}
 {{ printf "echo '# ------- Custom --------' >> %s" $elem.path | indent 4 }}
-{{ printf "echo -n '%s' | base64 --decode >> %s" $elem.content $elem.path | indent 4 }}
+{{ printf "echo -n '%s' | base64 --decode >> %s" $elem.contents $elem.path | indent 4 }}
 {{- end }}
 {{ else }}
 {{- if ( hasKey $elem "override" ) }}
 {{- if ( eq $elem.override true ) }}
-{{ printf "echo -n '%s' | base64 --decode > ${PRESTO_CONF_DIR}/%s" $elem.content $elem.path | indent 4 }}
+{{ printf "echo -n '%s' | base64 --decode > ${PRESTO_CONF_DIR}/%s" $elem.contents $elem.path | indent 4 }}
 {{- end }}
 {{ else }}
 {{ printf "echo '' >> %s" $elem.path | indent 4 }}
 {{ printf "echo '# ------- Custom --------' >> ${PRESTO_CONF_DIR}/%s" $elem.path | indent 4 }}
-{{ printf "echo -n '%s' | base64 --decode >> ${PRESTO_CONF_DIR}/%s" $elem.content $elem.path | indent 4 }}
+{{ printf "echo -n '%s' | base64 --decode >> ${PRESTO_CONF_DIR}/%s" $elem.contents $elem.path | indent 4 }}
 {{- end }}
 {{- end }}
 {{- end }}
