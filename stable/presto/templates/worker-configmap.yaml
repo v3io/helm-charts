@@ -45,14 +45,14 @@ data:
 
 {{ if .Values.server.log }}
   log.properties: |
-{{- range $key, $val := .Values.server.log.categories }}
+{{- range $key, $val := .Values.server.log }}
 {{ printf "%s=%s" $key $val | indent 4}}
 {{- end }}
+{{ end -}}
 
 {{- range $key, $val := .Values.server.config.extra }}
 {{ printf "%s: |" $key | indent 2 }}
 {{ $val | indent 4 }}
-{{- end }}
 {{- end }}
 
   health_check.sh: |
