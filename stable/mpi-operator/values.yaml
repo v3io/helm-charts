@@ -2,7 +2,9 @@ crd:
   create: false
 
 rbac:
-  clusterresources:
+  # serviceAccountName: service-account-name
+  # clusterRoleName: cluster-role-name
+  clusterResources:
     create: false
   namespaced:
     create: true

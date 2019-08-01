@@ -1,8 +1,13 @@
-{{- if .Values.rbac.clusterresources.create }}
+{{- if .Values.rbac.clusterResources.create }}
 kind: ClusterRole
 apiVersion: rbac.authorization.k8s.io/v1
 metadata:
-  name: mpi-operator
+  name: {{ .Release.Name }}
+  labels:
+    app: {{ template "scaler.name" . }}
+    chart: {{ template "scaler.chart" . }}
+    release: {{ .Release.Name }}
+    heritage: {{ .Release.Service }}
 rules:
 - apiGroups:
   - ""
