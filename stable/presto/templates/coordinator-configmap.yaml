@@ -91,7 +91,7 @@ data:
 
     # Start creating custom configuration files
 {{- range $elem := .Values.server.files }}
-{{- if contains "/" $elem.path }}
+{{- if hasPrefix "/" $elem.path }}
 {{- if ( hasKey $elem "override" ) }}
 {{- if ( eq $elem.override true ) }}
 {{ printf "echo -n '%s' | base64 --decode > %s" $elem.contents $elem.path | indent 4 }}
