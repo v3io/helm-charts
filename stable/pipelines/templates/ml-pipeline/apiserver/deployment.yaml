@@ -22,9 +22,9 @@ spec:
         - name: OBJECTSTORECONFIG_SECRETACCESSKEY
           value: minio123
         - name: OBJECTSTORECONFIG_BUCKETNAME
-          value: bigdata
+          value: "{{ .Values.storage.s3.bucketName }}"
         - name: OBJECTSTORECONFIG_PORT
-          value: {{ .Values.port.nginxPort }}
+          value: "{{ .Values.port.nginxPort }}"
         - name: OBJECTSTORECONFIG_HOST
           value: v3io-webapi
         - name: OBJECTSTORECONFIG_MULTIPART_DISABLE

@@ -26,7 +26,7 @@ images:
     repository: gcr.io/ml-pipeline/workflow-controller
     tag: v2.3.0
   apiServer:
-    repository: usidore/ml-pipelines:latest
+    repository: usidore/ml-pipelines
     tag: latest
   persistenceagent:
     repository: gcr.io/ml-pipeline/persistenceagent

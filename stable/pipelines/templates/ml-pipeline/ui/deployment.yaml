@@ -5,7 +5,7 @@ metadata:
   labels:
     app: ml-pipeline-ui
   name: ml-pipeline-ui
-  namespace: {{ .Namespace }}
+  namespace: {{ .Release.Namespace }}
 spec:
   selector:
     matchLabels:
@@ -18,7 +18,7 @@ spec:
       containers:
       - env:
         - name: MINIO_NAMESPACE
-          value: {{ .Namespace }}
+          value: {{ .Release.Namespace }}
         - name: MINIO_PORT
           value: {{ .Values.port.nginxPort }}
         - name: MINIO_HOST

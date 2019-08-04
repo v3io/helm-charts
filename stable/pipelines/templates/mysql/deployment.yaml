@@ -32,7 +32,7 @@ spec:
           flexVolume:
             driver: "v3io/fuse"
             options:
-              container: {{ .Values.images.storage.mysql.containerName }}
+              container: {{ .Values.storage.mysql.containerName }}
               subPath: /mlpipeline/mysql-kf
               accessKey: {{ .AccessKey }}
       initContainers:
