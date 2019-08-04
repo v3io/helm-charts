@@ -2,11 +2,20 @@
 apiVersion: v1
 kind: Service
 metadata:
-  name: mysql
   namespace: {{ .Release.Namespace }}
+  name: mysql-kf
+  labels:
+    app: mysql-kf
+    chart: mysql-0.0.1
+    release: mysql-kf
+    heritage: Tiller
 spec:
   ports:
-  - port: 3306
+    - name: mysql
+      port: 3306
+      targetPort: mysql
+      protocol: TCP
   selector:
-    app: mysql
+    app: mysql-kf
+    release: mysql-kf
 {{- end }}

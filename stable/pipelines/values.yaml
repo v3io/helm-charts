@@ -2,8 +2,7 @@ crd:
   create: false
 
 rbac:
-  namespaced:
-    create: true
+  create: true
 
 deployment:
   create: true

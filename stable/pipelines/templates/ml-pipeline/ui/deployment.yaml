@@ -18,9 +18,9 @@ spec:
       containers:
       - env:
         - name: MINIO_NAMESPACE
-          value: {{ .Release.Namespace }}
+          value: "{{ .Release.Namespace }}"
         - name: MINIO_PORT
-          value: {{ .Values.port.nginxPort }}
+          value: "{{ .Values.port.nginxPort }}"
         - name: MINIO_HOST
           value: v3io-webapi
         - name: MINIO_ACCESS_KEY
