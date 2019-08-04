@@ -20,6 +20,7 @@ storage:
     containerName: users
 
 
+# updated versions can be taken from here: https://github.com/kubeflow/pipelines/blob/master/manifests/kustomize/base/kustomization.yaml
 images:
   argoexec:
     repository: gcr.io/ml-pipeline/argoexec
@@ -28,6 +29,8 @@ images:
     repository: gcr.io/ml-pipeline/workflow-controller
     tag: v2.3.0
   apiServer:
+    # TODO: once they've built a version with the fix https://github.com/kubeflow/pipelines/pull/1713 in it,
+    # change back upstream i.e gcr.io/ml-pipeline/api-server
     repository: usidore/ml-pipelines
     tag: latest
   persistenceagent:
