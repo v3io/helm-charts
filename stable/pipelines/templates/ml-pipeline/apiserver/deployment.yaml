@@ -18,7 +18,7 @@ spec:
       containers:
       - env:
         - name: OBJECTSTORECONFIG_ACCESSKEY
-          value: {{ .AccessKey }}
+          value: "{{ .Values.credentials.accessKey }}"
         - name: OBJECTSTORECONFIG_SECRETACCESSKEY
           value: minio123
         - name: OBJECTSTORECONFIG_BUCKETNAME

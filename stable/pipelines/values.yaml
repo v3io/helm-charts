@@ -7,6 +7,9 @@ rbac:
 deployment:
   create: true
 
+credentials:
+  accessKey: provideMe
+
 port:
   nginxPort: 8081
 

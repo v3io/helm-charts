@@ -34,7 +34,7 @@ spec:
             options:
               container: {{ .Values.storage.mysql.containerName }}
               subPath: /mlpipeline/mysql-kf
-              accessKey: {{ .AccessKey }}
+              accessKey: {{ .Values.credentials.accessKey }}
       initContainers:
         - name: init-mysql
           image: {{ .Values.images.mysql.repository }}:{{ .Values.images.mysql.tag }}
