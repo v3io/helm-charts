@@ -3,7 +3,7 @@ apiVersion: v1
 kind: Service
 metadata:
   namespace: {{ .Release.Namespace }}
-  name: mysql-kf
+  name: mysql
   labels:
     app: mysql-kf
     chart: mysql-0.0.1
