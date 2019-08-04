@@ -1,0 +1,94 @@
+{{- if .Values.deployment.create }}
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  namespace: {{ .Release.Namespace }}
+  name: mysql-kf
+  labels:
+    app: mysql-kf
+    chart: mysql-0.0.1
+    release: mysql-kf
+    heritage: Tiller
+spec:
+  selector:
+    matchLabels:
+      app: mysql-kf
+      release: mysql-kf
+  template:
+    metadata:
+      labels:
+        app: mysql-kf
+        release: mysql-kf
+    spec:
+      volumes:
+        - name: mysql-init-scripts
+          configMap:
+            name: mysql-init-scripts
+        - name: mysql-config
+          configMap:
+            name: mysql-kf
+        # Add MySQL data mount (Fuse)
+        - name: mysql-fuse
+          flexVolume:
+            driver: "v3io/fuse"
+            options:
+              container: {{ .Values.images.storage.mysql.containerName }}
+              subPath: /mlpipeline/mysql-kf
+              accessKey: {{ .AccessKey }}
+      initContainers:
+        - name: init-mysql
+          image: {{ .Values.images.mysql.repository }}:{{ .Values.images.mysql.tag }}
+          imagePullPolicy: {{ .Values.images.imagePullPolicy }}
+          resources:
+{{ toYaml .Values.resources | indent 12 }}
+          env:
+            - name: MYSQL_ALLOW_EMPTY_PASSWORD
+              value: "true"
+          command:
+            - /bin/bash
+            - /etc/config/mysql/init-v3io-mysql.sh
+          securityContext:
+            runAsUser: 1001
+          volumeMounts:
+            - name: mysql-fuse
+              mountPath: "/var/lib/mysql"
+            - name: mysql-config
+              mountPath: /etc/config/mysql
+      containers:
+        - name: mysql-mysql
+          image: {{ .Values.images.mysql.repository }}:{{ .Values.images.mysql.tag }}
+          imagePullPolicy: {{ .Values.images.imagePullPolicy }}
+          command: ["/bin/bash", "/etc/config/mysql/v3io-mysql.sh"]
+          ports:
+            - name: mysql
+              containerPort: 3306
+              protocol: TCP
+          livenessProbe:
+            exec:
+              command:
+              - /bin/bash
+              - /etc/config/mysql/health_check.sh
+            initialDelaySeconds: 10
+            failureThreshold: 3
+            periodSeconds: 10
+          readinessProbe:
+            exec:
+              command:
+              - /bin/bash
+              - /etc/config/mysql/health_check.sh
+            initialDelaySeconds: 20
+            failureThreshold: 3
+            periodSeconds: 10
+          env:
+            - name: MYSQL_ALLOW_EMPTY_PASSWORD
+              value: "true"
+          volumeMounts:
+            - name: mysql-fuse
+              mountPath: "/var/lib/mysql"
+            - name: mysql-config
+              mountPath: /etc/config/mysql
+            - name: mysql-init-scripts
+              mountPath: /etc/config/mysql/init-scripts
+          resources:
+{{ toYaml .Values.resources | indent 12 }}
+{{- end }}

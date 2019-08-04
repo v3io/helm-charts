@@ -1,0 +1,26 @@
+{{- if .Values.deployment.create }}
+apiVersion: apps/v1beta2
+kind: Deployment
+metadata:
+  labels:
+    app: ml-pipeline-persistenceagent
+  name: ml-pipeline-persistenceagent
+  namespace: {{ .Release.Namespace }}
+spec:
+  selector:
+    matchLabels:
+      app: ml-pipeline-persistenceagent
+  template:
+    metadata:
+      labels:
+        app: ml-pipeline-persistenceagent
+    spec:
+      containers:
+      - image: {{ .Values.images.persistenceagent.repository }}:{{ .Values.images.persistenceagent.tag }}
+        imagePullPolicy: {{ .Values.images.imagePullPolicy }}
+        name: ml-pipeline-persistenceagent
+        namespace: {{ .Release.Namespace }}
+      serviceAccountName: ml-pipeline-persistenceagent
+      resources:
+{{ toYaml .Values.resources | indent 8 }}
+{{- end }}

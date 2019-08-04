@@ -1,0 +1,28 @@
+{{- if .Values.deployment.create }}
+apiVersion: apps/v1beta2
+kind: Deployment
+metadata:
+  labels:
+    app: ml-pipeline-viewer-crd
+  name: ml-pipeline-viewer-crd
+  namespace: {{ .Release.Namespace }}
+spec:
+  selector:
+    matchLabels:
+      app: ml-pipeline-viewer-crd
+  template:
+    metadata:
+      labels:
+        app: ml-pipeline-viewer-crd
+    spec:
+      containers:
+      - image: {{ .Values.images.viewerCrdController.repository }}:{{ .Values.images.viewerCrdController.tag }}
+        imagePullPolicy: {{ .Values.images.imagePullPolicy }}
+        name: ml-pipeline-viewer-crd
+        env:
+        - name: MAX_NUM_VIEWERS
+          value: "50"
+      serviceAccountName: ml-pipeline-viewer-crd-service-account
+      resources:
+{{ toYaml .Values.resources | indent 8 }}
+{{- end }}

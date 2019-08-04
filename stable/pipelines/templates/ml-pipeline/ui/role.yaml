@@ -1,0 +1,29 @@
+{{- if .Values.rbac.namespaced.create }}
+apiVersion: rbac.authorization.k8s.io/v1
+kind: Role
+metadata:
+  labels:
+    app: ml-pipeline-ui
+  name: ml-pipeline-ui
+  namespace: {{ .Release.Namespace }}
+rules:
+- apiGroups:
+  - ""
+  resources:
+  - pods
+  - pods/log
+  verbs:
+  - create
+  - get
+  - list
+- apiGroups:
+  - "kubeflow.org"
+  resources:
+  - viewers
+  verbs:
+  - create
+  - get
+  - list
+  - watch
+  - delete
+{{- end }}

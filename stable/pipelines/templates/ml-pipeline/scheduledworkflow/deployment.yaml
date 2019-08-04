@@ -1,0 +1,26 @@
+{{- if .Values.deployment.create }}
+apiVersion: apps/v1beta2
+kind: Deployment
+metadata:
+  labels:
+    app: ml-pipeline-scheduledworkflow
+  name: ml-pipeline-scheduledworkflow
+  namespace: {{ .Release.Namespace }}
+spec:
+  selector:
+    matchLabels:
+      app: ml-pipeline-scheduledworkflow
+  template:
+    metadata:
+      labels:
+        app: ml-pipeline-scheduledworkflow
+    spec:
+      containers:
+      - image: {{ .Values.images.scheduledworkflow.repository }}:{{ .Values.images.scheduledworkflow.tag }}
+        imagePullPolicy: {{ .Values.images.imagePullPolicy }}
+        name: ml-pipeline-scheduledworkflow
+        namespace: {{ .Release.Namespace }}
+      serviceAccountName: ml-pipeline-scheduledworkflow
+      resources:
+{{ toYaml .Values.resources | indent 8 }}
+{{- end }}

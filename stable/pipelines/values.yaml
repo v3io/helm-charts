@@ -1,0 +1,59 @@
+crd:
+  create: false
+
+rbac:
+  namespaced:
+    create: true
+
+deployment:
+  create: true
+
+port:
+  nginxPort: 8081
+
+storage:
+  s3:
+    bucketName: bigdata
+  mysql:
+    containerName: users
+
+
+images:
+  argoexec:
+    repository: gcr.io/ml-pipeline/argoexec
+    tag: v2.3.0
+  workflowController:
+    repository: gcr.io/ml-pipeline/workflow-controller
+    tag: v2.3.0
+  apiServer:
+    repository: usidore/ml-pipelines:latest
+    tag: latest
+  persistenceagent:
+    repository: gcr.io/ml-pipeline/persistenceagent
+    tag: 0.1.25
+  scheduledworkflow:
+    repository: gcr.io/ml-pipeline/scheduledworkflow
+    tag: 0.1.25
+  ui:
+    repository: quay.io/iguazio/ml-pipelines-frontend-v3io
+    tag: latest
+  viewerCrdController:
+    repository: gcr.io/ml-pipeline/viewer-crd-controller
+    tag: 0.1.25
+  mysql:
+    repository: mysql
+    tag: 5.6
+  imagePullPolicy: IfNotPresent
+
+
+resources: {}
+  # We usually recommend not to specify default resources and to leave this as a conscious
+  # choice for the user. This also increases chances charts run on environments with little
+  # resources, such as Minikube. If you do want to specify resources, uncomment the following
+  # lines, adjust them as necessary, and remove the curly braces after 'resources:'.
+  # limits:
+  #  cpu: 100m
+  #  memory: 128Mi
+  # requests:
+  #  cpu: 100m
+  #  memory: 128Mi

@@ -1,0 +1,12 @@
+{{- if .Values.rbac.namespaced.create }}
+apiVersion: v1
+kind: Service
+metadata:
+  name: mysql
+  namespace: {{ .Release.Namespace }}
+spec:
+  ports:
+  - port: 3306
+  selector:
+    app: mysql
+{{- end }}
