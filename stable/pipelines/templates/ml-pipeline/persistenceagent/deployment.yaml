@@ -3,7 +3,10 @@ apiVersion: apps/v1beta2
 kind: Deployment
 metadata:
   labels:
-    app: ml-pipeline-persistenceagent
+    app: {{ template "pipelines.name" . }}
+    chart: {{ template "pipelines.chart" . }}
+    release: {{ .Release.Name }}
+    heritage: {{ .Release.Service }}
   name: ml-pipeline-persistenceagent
   namespace: {{ .Release.Namespace }}
 spec:

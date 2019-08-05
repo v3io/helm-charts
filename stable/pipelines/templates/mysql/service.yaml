@@ -5,10 +5,10 @@ metadata:
   namespace: {{ .Release.Namespace }}
   name: mysql
   labels:
-    app: mysql-kf
-    chart: mysql-0.0.1
-    release: mysql-kf
-    heritage: Tiller
+    app: {{ template "pipelines.name" . }}
+    chart: {{ template "pipelines.chart" . }}
+    release: {{ .Release.Name }}
+    heritage: {{ .Release.Service }}
 spec:
   ports:
     - name: mysql

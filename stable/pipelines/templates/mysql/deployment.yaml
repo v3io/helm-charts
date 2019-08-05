@@ -5,10 +5,10 @@ metadata:
   namespace: {{ .Release.Namespace }}
   name: mysql-kf
   labels:
-    app: mysql-kf
-    chart: mysql-0.0.1
-    release: mysql-kf
-    heritage: Tiller
+    app: {{ template "pipelines.name" . }}
+    chart: {{ template "pipelines.chart" . }}
+    release: {{ .Release.Name }}
+    heritage: {{ .Release.Service }}
 spec:
   selector:
     matchLabels:
@@ -17,8 +17,10 @@ spec:
   template:
     metadata:
       labels:
-        app: mysql-kf
-        release: mysql-kf
+        app: {{ template "pipelines.name" . }}
+        chart: {{ template "pipelines.chart" . }}
+        release: {{ .Release.Name }}
+        heritage: {{ .Release.Service }}
     spec:
       volumes:
         - name: mysql-init-scripts
