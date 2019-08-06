@@ -15,6 +15,6 @@ roleRef:
   name: {{ template "agro.name" . }}
 subjects:
 - kind: ServiceAccount
-  name: {{ template "agro.name" . }}
+  name: {{ template "agro.serviceAccountName" . }}
   namespace: {{ .Release.Namespace }}
 {{- end }}

@@ -38,7 +38,7 @@ spec:
               fieldPath: metadata.namespace
         image: {{ .Values.images.apiServer.repository }}:{{ .Values.images.apiServer.tag }}
         imagePullPolicy: {{ .Values.images.imagePullPolicy }}
-        name: ml-pipeline-api-server
+        name: {{ template "api-server.name" . }}
         ports:
         - containerPort: 8888
         - containerPort: 8887

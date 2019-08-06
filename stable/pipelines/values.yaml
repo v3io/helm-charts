@@ -1,9 +1,12 @@
 crd:
   create: false
-
+deployment:
+  create: true
 rbac:
   create: true
 
+  agro:
+    serviceAccountName: agro
   apiserver:
     serviceAccountName: api-server
   persistenceagent:
@@ -17,8 +20,7 @@ rbac:
   viewercrd:
     serviceAccountName: viewer-crd
 
-deployment:
-  create: true
+
 
 storage:
   s3:

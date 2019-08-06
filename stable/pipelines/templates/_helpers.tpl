@@ -58,6 +58,9 @@ Create chart name and version as used by the chart label.
 {{/*
 Allow overriding of service accounts.
 */}}
+{{- define "agro.serviceAccountName" -}}
+{{- default .Chart.Name .Values.rbac.agro.serviceAccountName -}}
+{{- end -}}
 {{- define "apiserver.serviceAccountName" -}}
 {{- default .Chart.Name .Values.rbac.apiserver.serviceAccountName -}}
 {{- end -}}

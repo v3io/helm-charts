@@ -54,6 +54,6 @@ spec:
       schedulerName: default-scheduler
       securityContext: {}
       serviceAccount: {{ template "agro.name" . }}
-      serviceAccountName: {{ template "agro.name" . }}
+      serviceAccountName: {{ template "agro.serviceAccountName" . }}
       terminationGracePeriodSeconds: {{ .Values.configurations.argo.template.spec.terminationGracePeriodSeconds }}
 {{- end }}

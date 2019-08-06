@@ -12,7 +12,7 @@ metadata:
 roleRef:
   apiGroup: rbac.authorization.k8s.io
   kind: Role
-  name: ml-pipeline
+  name: {{ template "api-server.name" . }}
 subjects:
 - kind: ServiceAccount
   name: {{ template "apiserver.serviceAccountName" . }}
