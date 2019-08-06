@@ -2,7 +2,7 @@
 apiVersion: rbac.authorization.k8s.io/v1
 kind: RoleBinding
 metadata:
-  name: ml-pipeline-viewer-crd-binding
+  name: {{ template "viewer-crd.name" . }}
   namespace: {{ .Release.Namespace }}
   labels:
     app: {{ template "pipelines.name" . }}
@@ -12,9 +12,9 @@ metadata:
 roleRef:
   apiGroup: rbac.authorization.k8s.io
   kind: Role
-  name: ml-pipeline-viewer-controller-role
+  name: {{ template "viewer-crd.name" . }}
 subjects:
 - kind: ServiceAccount
-  name: ml-pipeline-viewer-crd-service-account
+  name: {{ template "viewer-crd.serviceAccountName" . }}
   namespace: {{ .Release.Namespace }}
 {{- end }}

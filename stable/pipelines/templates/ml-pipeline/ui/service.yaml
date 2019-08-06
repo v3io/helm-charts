@@ -7,12 +7,12 @@ metadata:
     chart: {{ template "pipelines.chart" . }}
     release: {{ .Release.Name }}
     heritage: {{ .Release.Service }}
-  name: ml-pipeline-ui
+  name: {{ template "ui.name" . }}
   namespace: {{ .Release.Namespace }}
 spec:
   ports:
   - port: 80
     targetPort: 3000
   selector:
-    app: ml-pipeline-ui
+    app: {{ template "ui.name" . }}
 {{- end }}

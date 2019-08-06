@@ -7,7 +7,7 @@ metadata:
     chart: {{ template "pipelines.chart" . }}
     release: {{ .Release.Name }}
     heritage: {{ .Release.Service }}
-  name: ml-pipeline-viewer-crd
+  name: {{ template "viewer-crd.name" . }}
   namespace: {{ .Release.Namespace }}
 spec:
   selector:
@@ -21,11 +21,11 @@ spec:
       containers:
       - image: {{ .Values.images.viewerCrdController.repository }}:{{ .Values.images.viewerCrdController.tag }}
         imagePullPolicy: {{ .Values.images.imagePullPolicy }}
-        name: ml-pipeline-viewer-crd
+        name: {{ template "viewer-crd.name" . }}
         env:
         - name: MAX_NUM_VIEWERS
           value: "50"
-      serviceAccountName: ml-pipeline-viewer-crd-service-account
+      serviceAccountName: {{ template "viewer-crd.serviceAccountName" . }}
       resources:
 {{ toYaml .Values.resources | indent 8 }}
 {{- end }}

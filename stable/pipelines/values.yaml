@@ -4,14 +4,21 @@ crd:
 rbac:
   create: true
 
+  api-server:
+    serviceAccountName: api-server
+  persistenceagent:
+    serviceAccountName: persistenceagent
+  pipeline-runner:
+    serviceAccountName: pipeline-runner
+  scheduledworkflow:
+    serviceAccountName: ml-pipeline-scheduledworkflow
+  ui:
+    serviceAccountName: ml-pipeline-ui
+  viewer-crd:
+    serviceAccountName: viewer-crd
+
 deployment:
   create: true
-
-credentials:
-  accessKey: provideMe
-
-port:
-  nginxPort: 8081
 
 storage:
   s3:
@@ -19,6 +26,35 @@ storage:
   mysql:
     containerName: users
 
+configurations:
+  credentials:
+    accessKey: provideMe
+  ports:
+    nginxPort: 8081
+  argo:
+    progressDeadlineSeconds: 60
+    replicas: 1
+    revisionHistoryLimit: 10
+    strategy:
+      rollingUpdate:
+        maxSurge: 25%
+        maxUnavailable: 25%
+    template:
+      spec:
+        terminationGracePeriodSeconds: 30
+  mysql:
+    spec:
+      template:
+        spec:
+          containers:
+            livenessProbe:
+              initialDelaySeconds: 10
+              failureThreshold: 3
+              periodSeconds: 10
+            readinessProbe:
+              initialDelaySeconds: 20
+              failureThreshold: 3
+              periodSeconds: 10
 
 # updated versions can be taken from here: https://github.com/kubeflow/pipelines/blob/master/manifests/kustomize/base/kustomization.yaml
 images:

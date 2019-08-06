@@ -2,7 +2,7 @@
 apiVersion: v1
 kind: ConfigMap
 metadata:
-  name: workflow-controller-configmap
+  name: {{ template "workflow-controller.name" . }}
   labels:
       app: {{ template "pipelines.name" . }}
       chart: {{ template "pipelines.chart" . }}
@@ -16,7 +16,7 @@ data:
     {
         s3: {
             bucket: {{ .Values.storage.s3.bucketName }},
-            endpoint: v3io-webapi.{{ .Release.Namespace }}:{{ .Values.port.nginxPort }},
+            endpoint: v3io-webapi.{{ .Release.Namespace }}:{{ .Values.configurations.ports.nginxPort }},
             insecure: true,
             accessKeySecret: {
                 name: v3io-webapi-secret,

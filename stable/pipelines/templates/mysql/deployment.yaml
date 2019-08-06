@@ -38,7 +38,7 @@ spec:
             options:
               container: {{ .Values.storage.mysql.containerName }}
               subPath: /mlpipeline/mysql-kf
-              accessKey: {{ .Values.credentials.accessKey }}
+              accessKey: {{ .Values.configuratrions.credentials.accessKey }}
       initContainers:
         - name: init-mysql
           image: {{ .Values.images.mysql.repository }}:{{ .Values.images.mysql.tag }}
@@ -72,17 +72,17 @@ spec:
               command:
               - /bin/bash
               - /etc/config/mysql/health_check.sh
-            initialDelaySeconds: 10
-            failureThreshold: 3
-            periodSeconds: 10
+            initialDelaySeconds: {{ .Values.configuratrions.mysql.spec.template.spec.containers.livenessProbe.initialDelaySeconds }}
+            failureThreshold: {{ .Values.configuratrions.mysql.spec.template.spec.containers.livenessProbe.failureThreshold }}
+            periodSeconds: {{ .Values.configuratrions.mysql.spec.template.spec.containers.livenessProbe.periodSeconds }}
           readinessProbe:
             exec:
               command:
               - /bin/bash
               - /etc/config/mysql/health_check.sh
-            initialDelaySeconds: 20
-            failureThreshold: 3
-            periodSeconds: 10
+            initialDelaySeconds: {{ .Values.configuratrions.mysql.spec.template.spec.containers.readinessProbe.initialDelaySeconds }}
+            failureThreshold: {{ .Values.configuratrions.mysql.spec.template.spec.containers.readinessProbe.failureThreshold }}
+            periodSeconds: {{ .Values.configuratrions.mysql.spec.template.spec.containers.readinessProbe.periodSeconds }}
           env:
             - name: MYSQL_ALLOW_EMPTY_PASSWORD
               value: "true"

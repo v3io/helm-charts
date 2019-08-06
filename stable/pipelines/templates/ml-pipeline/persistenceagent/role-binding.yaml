@@ -2,7 +2,7 @@
 apiVersion: rbac.authorization.k8s.io/v1beta1
 kind: RoleBinding
 metadata:
-  name: ml-pipeline-persistenceagent-binding
+  name: {{ template "persistenceagent.name" . }}
   namespace: {{ .Release.Namespace }}
   labels:
     app: {{ template "pipelines.name" . }}
@@ -12,9 +12,9 @@ metadata:
 roleRef:
   apiGroup: rbac.authorization.k8s.io
   kind: Role
-  name: ml-pipeline-persistenceagent-role
+  name: {{ template "persistenceagent.name" . }}
 subjects:
 - kind: ServiceAccount
-  name: ml-pipeline-persistenceagent
+  name: {{ template "persistenceagent.serviceAccountName" . }}
   namespace: {{ .Release.Namespace }}
 {{- end }}

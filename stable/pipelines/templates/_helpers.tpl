@@ -5,6 +5,30 @@ Expand the name of the chart.
 {{- define "pipelines.name" -}}
 {{- default .Chart.Name .Values.nameOverride | trunc 63 | trimSuffix "-" -}}
 {{- end -}}
+{{- define "api-server.name" -}}
+{{- default "%s-%s" .Release.Name "api-server"}}
+{{- end -}}
+{{- define "workflow-controller.name" -}}
+{{- printf "%s-%s" .Release.Name "workflow-controller" -}}
+{{- end -}}
+{{- define "agro.name" -}}
+{{- printf "%s-%s" .Release.Name "agro" -}}
+{{- end -}}
+{{- define "persistenceagent.name" -}}
+{{- default "%s-%s" .Release.Name "persistenceagent" -}}
+{{- end -}}
+{{- define "pipeline-runner.name" -}}
+{{-- printf "%s-%s" .Release.Name "pipeline-runner" -}}
+{{- end -}}
+{{- define "scheduledworkflow.name" -}}
+{{- default "%s-%s" .Release.Name "scheduledworkflow" -}}
+{{- end -}}
+{{- define "ui.name" -}}
+{{- default "%s-%s" .Release.Name "ui" -}}
+{{- end -}}
+{{- define "viewer-crd.name" -}}
+{{- default "%s-%s" .Release.Name "viewer-crd" -}}
+{{- end -}}
 
 {{/*
 Create a default fully qualified app name.
@@ -32,8 +56,23 @@ Create chart name and version as used by the chart label.
 {{- end -}}
 
 {{/*
-Allow overriding of service account and clusterrole names.
+Allow overriding of service accounts.
 */}}
-{{- define "pipelines.serviceAccountName" -}}
-{{- default .Chart.Name .Values.rbac.serviceAccountName -}}
+{{- define "api-server.serviceAccountName" -}}
+{{- default .Chart.Name .Values.rbac.api-server.serviceAccountName -}}
+{{- end -}}
+{{- define "persistenceagent.serviceAccountName" -}}
+{{- default .Chart.Name .Values.rbac.persistenceagent.serviceAccountName -}}
+{{- end -}}
+{{- define "pipeline-runner.serviceAccountName" -}}
+{{- default .Chart.Name .Values.rbac.pipeline-runner.serviceAccountName -}}
+{{- end -}}
+{{- define "scheduledworkflow.serviceAccountName" -}}
+{{- default .Chart.Name .Values.rbac.scheduledworkflow.serviceAccountName -}}
+{{- end -}}
+{{- define "ui.serviceAccountName" -}}
+{{- default .Chart.Name .Values.rbac.ui.serviceAccountName -}}
+{{- end -}}
+{{- define "viewer-crd.serviceAccountName" -}}
+{{- default .Chart.Name .Values.rbac.viewer-crd.serviceAccountName -}}
 {{- end -}}

@@ -7,7 +7,7 @@ metadata:
     chart: {{ template "pipelines.chart" . }}
     release: {{ .Release.Name }}
     heritage: {{ .Release.Service }}
-  name: ml-pipeline
+  name: {{ template "api-server.name" . }}
   namespace: {{ .Release.Namespace }}
 spec:
   selector:
@@ -21,13 +21,13 @@ spec:
       containers:
       - env:
         - name: OBJECTSTORECONFIG_ACCESSKEY
-          value: "{{ .Values.credentials.accessKey }}"
+          value: "{{ .Values.configurations.credentials.accessKey }}"
         - name: OBJECTSTORECONFIG_SECRETACCESSKEY
           value: minio123
         - name: OBJECTSTORECONFIG_BUCKETNAME
           value: "{{ .Values.storage.s3.bucketName }}"
         - name: OBJECTSTORECONFIG_PORT
-          value: "{{ .Values.port.nginxPort }}"
+          value: "{{ .Values.configurations.ports.nginxPort }}"
         - name: OBJECTSTORECONFIG_HOST
           value: v3io-webapi
         - name: OBJECTSTORECONFIG_MULTIPART_DISABLE
@@ -42,7 +42,7 @@ spec:
         ports:
         - containerPort: 8888
         - containerPort: 8887
-      serviceAccountName: ml-pipeline
+      serviceAccountName: {{ template "api-server.serviceAccountName" . }}
       resources:
 {{ toYaml .Values.resources | indent 8 }}
 {{- end }}

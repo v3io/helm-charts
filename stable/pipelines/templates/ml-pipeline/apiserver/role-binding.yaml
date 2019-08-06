@@ -7,7 +7,7 @@ metadata:
     chart: {{ template "pipelines.chart" . }}
     release: {{ .Release.Name }}
     heritage: {{ .Release.Service }}
-  name: ml-pipeline
+  name: {{ template "api-server.name" . }}
   namespace: {{ .Release.Namespace }}
 roleRef:
   apiGroup: rbac.authorization.k8s.io
@@ -15,6 +15,6 @@ roleRef:
   name: ml-pipeline
 subjects:
 - kind: ServiceAccount
-  name: ml-pipeline
+  name: {{ template "api-server.serviceAccountName" . }}
   namespace: {{ .Release.Namespace }}
 {{- end }}

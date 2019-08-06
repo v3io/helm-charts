@@ -2,7 +2,7 @@
 apiVersion: rbac.authorization.k8s.io/v1
 kind: RoleBinding
 metadata:
-  name: argo-binding
+  name: {{ template "agro.name" . }}
   namespace: {{ .Release.Namespace }}
   labels:
     app: {{ template "pipelines.name" . }}
@@ -12,9 +12,9 @@ metadata:
 roleRef:
   apiGroup: rbac.authorization.k8s.io
   kind: Role
-  name: argo-role
+  name: {{ template "agro.name" . }}
 subjects:
 - kind: ServiceAccount
-  name: argo
+  name: {{ template "agro.name" . }}
   namespace: {{ .Release.Namespace }}
 {{- end }}

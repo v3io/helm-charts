@@ -7,7 +7,7 @@ metadata:
     chart: {{ template "pipelines.chart" . }}
     release: {{ .Release.Name }}
     heritage: {{ .Release.Service }}
-  name: ml-pipeline-ui
+  name: {{ template "ui.name" . }}
   namespace: {{ .Release.Namespace }}
 spec:
   selector:
@@ -23,15 +23,15 @@ spec:
         - name: MINIO_NAMESPACE
           value: "{{ .Release.Namespace }}"
         - name: MINIO_PORT
-          value: "{{ .Values.port.nginxPort }}"
+          value: "{{ .Values.configurations.ports.nginxPort }}"
         - name: MINIO_HOST
           value: v3io-webapi
         - name: MINIO_ACCESS_KEY
-          value: "{{ .Values.credentials.accessKey }}"
+          value: "{{ .Values.configurations.credentials.accessKey }}"
         - name: HTTP_AUTHORIZATION_KEY
           value: X-v3io-session-key
         - name: HTTP_AUTHORIZATION_DEFAULT_VALUE
-          value: "{{ .Values.credentials.accessKey }}"
+          value: "{{ .Values.configurations.credentials.accessKey }}"
         - name: MINIO_V3IO
           value: "1"
         image: {{ .Values.images.ui.repository }}:{{ .Values.images.ui.tag }}
@@ -39,7 +39,7 @@ spec:
         name: ml-pipeline-ui
         ports:
         - containerPort: 3000
-      serviceAccountName: ml-pipeline-ui
+      serviceAccountName: {{ template "ui.serviceAccountName" . }}
       resources:
 {{ toYaml .Values.resources | indent 8 }}
 {{- end }}
