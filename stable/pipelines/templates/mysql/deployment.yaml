@@ -3,7 +3,7 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   namespace: {{ .Release.Namespace }}
-  name: mysql-kf
+  name: {{ template "mysql-pipelines.name" . }}
   labels:
     app: {{ template "pipelines.name" . }}
     chart: {{ template "pipelines.chart" . }}
@@ -25,12 +25,12 @@ spec:
         heritage: {{ .Release.Service }}
     spec:
       volumes:
-        - name: mysql-init-scripts
+        - name: {{ template "mysql-init-script.name" . }}
           configMap:
-            name: mysql-init-scripts
+            name: {{ template "mysql-init-script.name" . }}
         - name: mysql-config
           configMap:
-            name: mysql-kf
+            name: {{ template "mysql-pipelines.name" . }}
         # Add MySQL data mount (Fuse)
         - name: mysql-fuse
           flexVolume:
@@ -91,7 +91,7 @@ spec:
               mountPath: "/var/lib/mysql"
             - name: mysql-config
               mountPath: /etc/config/mysql
-            - name: mysql-init-scripts
+            - name: {{ template "mysql-init-script.name" . }}
               mountPath: /etc/config/mysql/init-scripts
           resources:
 {{ toYaml .Values.resources | indent 12 }}

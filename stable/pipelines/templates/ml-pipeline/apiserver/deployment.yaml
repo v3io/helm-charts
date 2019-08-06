@@ -42,7 +42,7 @@ spec:
         ports:
         - containerPort: 8888
         - containerPort: 8887
-      serviceAccountName: {{ template api-server.name" . }}
+      serviceAccountName: {{ template "api-server.name" . }}
       resources:
 {{ toYaml .Values.resources | indent 8 }}
 {{- end }}

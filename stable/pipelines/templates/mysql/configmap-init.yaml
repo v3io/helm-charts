@@ -3,7 +3,7 @@ apiVersion: v1
 kind: ConfigMap
 metadata:
   namespace: {{ .Release.Namespace }}
-  name: mysql-init-scripts
+  name: {{ template "mysql-init-script.name" . }}
   labels:
     app: {{ template "pipelines.name" . }}
     chart: {{ template "pipelines.chart" . }}

@@ -29,6 +29,12 @@ Expand the name of the chart.
 {{- define "viewer-crd.name" -}}
 {{- printf "%s-%s" .Release.Name "viewer-crd" -}}
 {{- end -}}
+{{- define "mysql-init-script.name" -}}
+{{- printf "%s-%s" .Release.Name "mysql-init-script" -}}
+{{- end -}}
+{{- define "mysql-pipelines.name" -}}
+{{- printf "%s-%s" .Release.Name "mysql" -}}
+{{- end -}}
 
 {{/*
 Create chart name and version as used by the chart label.

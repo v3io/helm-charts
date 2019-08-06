@@ -3,7 +3,7 @@ apiVersion: v1
 kind: ConfigMap
 metadata:
   namespace: {{ .Release.Namespace }}
-  name: mysql-kf
+  name: {{ template "mysql-pipelines.name" . }}
   labels:
     app: {{ template "pipelines.name" . }}
     chart: {{ template "pipelines.chart" . }}
