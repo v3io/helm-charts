@@ -4,11 +4,13 @@ server:
     environment: production
     dataDir: /presto/etc/data
   log:
-    com.facebook.presto: INFO
-    io.iguaz.v3io: INFO
-    io.iguaz.v3io.daemon: INFO
+    categories:
+      com.facebook.presto: INFO
+      io.iguaz.v3io: INFO
+      io.iguaz.v3io.daemon: INFO
   config:
     mapPath: /etc/config/presto
+    catalogMapPath: /etc/config/presto/catalog
     path: /presto/etc
     http:
       port: 8080

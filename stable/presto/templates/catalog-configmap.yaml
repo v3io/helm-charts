@@ -1,0 +1,14 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: presto.catalog
+  labels:
+    app: {{ template "presto.name" . }}
+    chart: {{ template "presto.chart" . }}
+    release: {{ .Release.Name }}
+    heritage: {{ .Release.Service }}
+data:
+{{- range $key, $val := .Values.server.config.catalogs }}
+{{ printf "%s: |" $key | indent 2 }}
+{{ $val | indent 4 }}
+{{- end }}

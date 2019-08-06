@@ -10,10 +10,23 @@ metadata:
     component: coordinator
 data:
   node.properties: |
+{{- if (eq .Values.server.node.properties.override true) }}
+{{ printf "#============= Custom node properties (override) ==========" | indent 4 }}
+{{ .Values.server.node.properties.custom | indent 4 }}
+{{- else }}
     node.environment={{ .Values.server.node.environment }}
     node.data-dir={{ .Values.server.node.dataDir }}
+{{- if .Values.server.node.properties.custom }}
+{{ printf "#============= Custom node properties ==========" | indent 4 }}
+{{ .Values.server.node.properties.custom | indent 4 }}
+{{- end }}
+{{- end }}
 
   jvm.config: |
+{{- if (eq .Values.server.jvm.properties.override true) }}
+{{ printf "#============= Custom jvm properties (override) ==========" | indent 4 }}
+{{ .Values.server.jvm.properties.custom | indent 4 }}
+{{- else }}
     -server
     -Xmx{{ .Values.server.jvm.maxHeapSize }}
     -XX:+{{ .Values.server.jvm.gcMethod.type }}
@@ -22,8 +35,18 @@ data:
     -XX:+ExplicitGCInvokesConcurrent
     -XX:+HeapDumpOnOutOfMemoryError
     -XX:+ExitOnOutOfMemoryError
+{{- if .Values.server.jvm.properties.custom }}
+{{ printf "#============= Custom jvm properties ==========" | indent 4 }}
+{{ .Values.server.jvm.properties.custom | indent 4 }}
+{{- end }}
+{{- end }}
 
   config.properties: |
+{{- if (eq .Values.server.config.properties.override true) }}
+{{ printf "#============= Custom config properties (override) ==========" | indent 4 }}
+{{ .Values.server.config.properties.custom | indent 4 }}
+{{- println "coordinator=true" }}
+{{- else }}
     coordinator=true
 {{- if gt (int .Values.server.workers) 0 }}
     node-scheduler.include-coordinator=false
@@ -43,6 +66,11 @@ data:
     discovery-server.enabled=true
     discovery.uri=http://{{ template "presto.fullname" . }}.{{ .Release.Namespace }}.svc:{{ .Values.server.config.http.port }}
     node.internal-address={{ template "presto.fullname" . }}.{{ .Release.Namespace }}.svc
+{{- if .Values.server.config.properties.custom }}
+{{ printf "#============= Custom config properties ==========" | indent 4 }}
+{{ .Values.server.config.properties.custom | indent 4 }}
+{{- end }}
+{{- end }}
 
 {{ if .Values.server.config.https }}
   password-authenticator.properties: |
@@ -51,14 +79,32 @@ data:
 
 {{ if .Values.server.log }}
   log.properties: |
-{{- range $key, $val := .Values.server.log }}
+{{- if (eq .Values.server.log.properties.override true) }}
+{{ printf "#============= Custom log properties (override) ==========" | indent 4 }}
+{{ .Values.server.log.properties.custom | indent 4 }}
+{{- else }}
+{{- range $key, $val := .Values.server.log.categories }}
 {{ printf "%s=%s" $key $val | indent 4}}
+{{- end }}
+{{- if .Values.server.log.properties.custom }}
+{{ println }}
+{{- printf "#============= Custom log properties ==========" | indent 4 }}
+{{ .Values.server.log.properties.custom | indent 4 }}
+{{- end }}
 {{- end }}
 {{ end -}}
 
 {{- range $key, $val := .Values.server.config.extra }}
 {{ printf "%s: |" $key | indent 2 }}
 {{ $val | indent 4 }}
+{{- end }}
+
+{{- if .Values.server.files }}
+{{- range $elem := .Values.server.files }}
+{{ printf "" }}
+{{ printf "%s: |" $elem.name | indent 2}}
+{{ printf "%s" $elem.contents | indent 4 }}
+{{- end }}
 {{- end }}
 
 {{- if .Values.server.config.https }}
@@ -86,35 +132,8 @@ data:
     #!/bin/bash
     cp {{ .Values.server.config.mapPath }}/*.properties $PRESTO_CONF_DIR
     cp {{ .Values.server.config.mapPath }}/*.config $PRESTO_CONF_DIR
-
-{{- if .Values.server.files }}
-
-    # Start creating custom configuration files
-{{- range $elem := .Values.server.files }}
-{{- if hasPrefix "/" $elem.path }}
-{{- if ( hasKey $elem "override" ) }}
-{{- if ( eq $elem.override true ) }}
-{{ printf "echo -n '%s' | base64 --decode > %s" $elem.contents $elem.path | indent 4 }}
-{{- end }}
-{{ else }}
-{{ printf "echo '' >> %s" $elem.path | indent 4 }}
-{{ printf "echo '# ------- Custom --------' >> %s" $elem.path | indent 4 }}
-{{ printf "echo -n '%s' | base64 --decode >> %s" $elem.contents $elem.path | indent 4 }}
-{{- end }}
-{{ else }}
-{{- if ( hasKey $elem "override" ) }}
-{{- if ( eq $elem.override true ) }}
-{{ printf "echo -n '%s' | base64 --decode > ${PRESTO_CONF_DIR}/%s" $elem.contents $elem.path | indent 4 }}
-{{- end }}
-{{ else }}
-{{ printf "echo '' >> %s" $elem.path | indent 4 }}
-{{ printf "echo '# ------- Custom --------' >> ${PRESTO_CONF_DIR}/%s" $elem.path | indent 4 }}
-{{ printf "echo -n '%s' | base64 --decode >> ${PRESTO_CONF_DIR}/%s" $elem.contents $elem.path | indent 4 }}
-{{- end }}
-{{- end }}
-{{- end }}
-    # Finish creating custom configuration files
-{{- end }}
+    cp {{ .Values.server.config.mapPath }}/*.json $PRESTO_CONF_DIR
+    cp {{ .Values.server.config.catalogMapPath }}/*.properties $PRESTO_CONF_DIR/catalog
 
 {{- if .Values.hive }}
 
