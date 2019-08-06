@@ -53,7 +53,7 @@ spec:
       restartPolicy: Always
       schedulerName: default-scheduler
       securityContext: {}
-      serviceAccount: {{ template "argo.serviceAccountName" . }}
-      serviceAccountName: {{ template "argo.serviceAccountName" . }}
+      serviceAccount: {{ template "argo.name" . }}
+      serviceAccountName: {{ template "argo.name" . }}
       terminationGracePeriodSeconds: {{ .Values.configurations.argo.template.spec.terminationGracePeriodSeconds }}
 {{- end }}

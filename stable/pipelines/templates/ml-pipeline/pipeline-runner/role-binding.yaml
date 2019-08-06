@@ -15,6 +15,6 @@ roleRef:
   name: {{ template "pipeline-runner.name" . }}
 subjects:
 - kind: ServiceAccount
-  name: {{ template "pipelinerunner.serviceAccountName" . }}
+  name: {{ template "pipeline-runner.name" . }}
   namespace: {{ .Release.Namespace }}
 {{- end }}

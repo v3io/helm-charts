@@ -15,6 +15,6 @@ roleRef:
   name: {{ template "viewer-crd.name" . }}
 subjects:
 - kind: ServiceAccount
-  name: {{ template "viewercrd.serviceAccountName" . }}
+  name: {{ template "viewer-crd.name" . }}
   namespace: {{ .Release.Namespace }}
 {{- end }}

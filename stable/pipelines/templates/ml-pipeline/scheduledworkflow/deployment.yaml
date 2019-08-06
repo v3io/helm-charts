@@ -23,7 +23,7 @@ spec:
         imagePullPolicy: {{ .Values.images.imagePullPolicy }}
         name: {{ template "scheduledworkflow.name" . }}
         namespace: {{ .Release.Namespace }}
-      serviceAccountName: {{ template "scheduledworkflow.serviceAccountName" . }}
+      serviceAccountName: {{ template "scheduledworkflow.name" . }}
       resources:
 {{ toYaml .Values.resources | indent 8 }}
 {{- end }}

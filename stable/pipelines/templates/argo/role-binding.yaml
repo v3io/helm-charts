@@ -15,6 +15,6 @@ roleRef:
   name: {{ template "argo.name" . }}
 subjects:
 - kind: ServiceAccount
-  name: {{ template "argo.serviceAccountName" . }}
+  name: {{ template "argo.name" . }}
   namespace: {{ .Release.Namespace }}
 {{- end }}

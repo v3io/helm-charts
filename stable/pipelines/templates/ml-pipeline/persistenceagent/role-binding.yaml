@@ -15,6 +15,6 @@ roleRef:
   name: {{ template "persistenceagent.name" . }}
 subjects:
 - kind: ServiceAccount
-  name: {{ template "persistenceagent.serviceAccountName" . }}
+  name: {{ template "persistenceagent.name" . }}
   namespace: {{ .Release.Namespace }}
 {{- end }}

@@ -36,28 +36,3 @@ Create chart name and version as used by the chart label.
 {{- define "pipelines.chart" -}}
 {{- printf "%s-%s" .Chart.Name .Chart.Version | replace "+" "_" | trunc 63 | trimSuffix "-" -}}
 {{- end -}}
-
-{{/*
-Allow overriding of service accounts.
-*/}}
-{{- define "argo.serviceAccountName" -}}
-{{- default .Chart.Name .Values.rbac.argo.serviceAccountName -}}
-{{- end -}}
-{{- define "apiserver.serviceAccountName" -}}
-{{- default .Chart.Name .Values.rbac.apiserver.serviceAccountName -}}
-{{- end -}}
-{{- define "persistenceagent.serviceAccountName" -}}
-{{- default .Chart.Name .Values.rbac.persistenceagent.serviceAccountName -}}
-{{- end -}}
-{{- define "pipelinerunner.serviceAccountName" -}}
-{{- default .Chart.Name .Values.rbac.pipelinerunner.serviceAccountName -}}
-{{- end -}}
-{{- define "scheduledworkflow.serviceAccountName" -}}
-{{- default .Chart.Name .Values.rbac.scheduledworkflow.serviceAccountName -}}
-{{- end -}}
-{{- define "ui.serviceAccountName" -}}
-{{- default .Chart.Name .Values.rbac.ui.serviceAccountName -}}
-{{- end -}}
-{{- define "viewercrd.serviceAccountName" -}}
-{{- default .Chart.Name .Values.rbac.viewercrd.serviceAccountName -}}
-{{- end -}}

@@ -15,6 +15,6 @@ roleRef:
   name: {{ template "api-server.name" . }}
 subjects:
 - kind: ServiceAccount
-  name: {{ template "apiserver.serviceAccountName" . }}
+  name: {{ template "api-server.name" . }}
   namespace: {{ .Release.Namespace }}
 {{- end }}

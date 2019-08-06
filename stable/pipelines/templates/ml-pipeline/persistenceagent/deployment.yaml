@@ -23,7 +23,7 @@ spec:
         imagePullPolicy: {{ .Values.images.imagePullPolicy }}
         name: ml-pipeline-persistenceagent
         namespace: {{ .Release.Namespace }}
-      serviceAccountName: {{ template "persistenceagent.serviceAccountName" . }}
+      serviceAccountName: {{ template "persistenceagent.name" . }}
       resources:
 {{ toYaml .Values.resources | indent 8 }}
 {{- end }}

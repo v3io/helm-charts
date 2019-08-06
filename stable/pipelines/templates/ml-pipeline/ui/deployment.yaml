@@ -39,7 +39,7 @@ spec:
         name: {{ template "ui.name" . }}
         ports:
         - containerPort: 3000
-      serviceAccountName: {{ template "ui.serviceAccountName" . }}
+      serviceAccountName: {{ template "ui.name" . }}
       resources:
 {{ toYaml .Values.resources | indent 8 }}
 {{- end }}

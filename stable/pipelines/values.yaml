@@ -5,23 +5,6 @@ deployment:
 rbac:
   create: true
 
-  argo:
-    serviceAccountName: argo
-  apiserver:
-    serviceAccountName: api-server
-  persistenceagent:
-    serviceAccountName: persistenceagent
-  pipelinerunner:
-    serviceAccountName: pipeline-runner
-  scheduledworkflow:
-    serviceAccountName: ml-pipeline-scheduledworkflow
-  ui:
-    serviceAccountName: ml-pipeline-ui
-  viewercrd:
-    serviceAccountName: viewer-crd
-
-
-
 storage:
   s3:
     bucketName: bigdata

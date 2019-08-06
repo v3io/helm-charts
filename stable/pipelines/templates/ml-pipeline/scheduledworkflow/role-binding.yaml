@@ -15,6 +15,6 @@ roleRef:
   name: {{ template "scheduledworkflow.name" . }}
 subjects:
 - kind: ServiceAccount
-  name: {{ template "scheduledworkflow.serviceAccountName" . }}
+  name: {{ template "scheduledworkflow.name" . }}
   namespace: {{ .Release.Namespace }}
 {{- end }}
