@@ -10,7 +10,7 @@ metadata:
     component: coordinator
 data:
   node.properties: |
-{{- if (eq .Values.server.node.properties.override true) }}
+{{- if and .Values.server.node.properties.override (eq .Values.server.node.properties.override true) }}
 {{ printf "#============= Custom node properties (override) ==========" | indent 4 }}
 {{ .Values.server.node.properties.custom | indent 4 }}
 {{- else }}
