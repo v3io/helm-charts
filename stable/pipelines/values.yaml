@@ -5,10 +5,13 @@ deployment:
 rbac:
   create: true
 
+# kubeflow pipliens uses two kinds of storage:
+# Metadata -  mostly used for purposes of sorting and filtering uses mysql
+# Artifacts - heavier data (packages, views, etc. Also large-scale metrics) we use iguazio storage for this
 storage:
-  s3:
-    bucketName: bigdata
-  mysql:
+  artifacts:
+    containerName: bigdata
+  metadata:
     containerName: users
 
 configurations:

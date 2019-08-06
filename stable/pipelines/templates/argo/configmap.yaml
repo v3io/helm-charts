@@ -15,7 +15,7 @@ data:
     artifactRepository:
     {
         s3: {
-            bucket: {{ .Values.storage.s3.bucketName }},
+            bucket: {{ .Values.storage.artifacts.containerName }},
             endpoint: v3io-webapi.{{ .Release.Namespace }}:{{ .Values.configurations.ports.nginxPort }},
             insecure: true,
             accessKeySecret: {

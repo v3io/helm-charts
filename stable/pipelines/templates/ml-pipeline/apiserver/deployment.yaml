@@ -25,7 +25,7 @@ spec:
         - name: OBJECTSTORECONFIG_SECRETACCESSKEY
           value: minio123
         - name: OBJECTSTORECONFIG_BUCKETNAME
-          value: "{{ .Values.storage.s3.bucketName }}"
+          value: "{{ .Values.storage.artifacts.containerName }}"
         - name: OBJECTSTORECONFIG_PORT
           value: "{{ .Values.configurations.ports.nginxPort }}"
         - name: OBJECTSTORECONFIG_HOST
