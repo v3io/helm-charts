@@ -6,7 +6,7 @@ Expand the name of the chart.
 {{- default .Chart.Name .Values.nameOverride | trunc 63 | trimSuffix "-" -}}
 {{- end -}}
 {{- define "api-server.name" -}}
-{{- default "%s-%s" .Release.Name "apiserver" -}}
+{{- printf "%s-%s" .Release.Name "api-server" -}}
 {{- end -}}
 {{- define "workflow-controller.name" -}}
 {{- printf "%s-%s" .Release.Name "workflow-controller" -}}
@@ -15,19 +15,19 @@ Expand the name of the chart.
 {{- printf "%s-%s" .Release.Name "argo" -}}
 {{- end -}}
 {{- define "persistenceagent.name" -}}
-{{- default "%s-%s" .Release.Name "persistenceagent" -}}
+{{- printf "%s-%s" .Release.Name "persistenceagent" -}}
 {{- end -}}
 {{- define "pipeline-runner.name" -}}
 {{- printf "%s-%s" .Release.Name "pipeline-runner" -}}
 {{- end -}}
 {{- define "scheduledworkflow.name" -}}
-{{- default "%s-%s" .Release.Name "scheduledworkflow" -}}
+{{- printf "%s-%s" .Release.Name "scheduledworkflow" -}}
 {{- end -}}
 {{- define "ui.name" -}}
-{{- default "%s-%s" .Release.Name "ui" -}}
+{{- printf "%s-%s" .Release.Name "ui" -}}
 {{- end -}}
 {{- define "viewer-crd.name" -}}
-{{- default "%s-%s" .Release.Name "viewer-crd" -}}
+{{- printf "%s-%s" .Release.Name "viewer-crd" -}}
 {{- end -}}
 
 {{/*
