@@ -18,7 +18,7 @@ Expand the name of the chart.
 {{- default "%s-%s" .Release.Name "persistenceagent" -}}
 {{- end -}}
 {{- define "pipeline-runner.name" -}}
-{{-- printf "%s-%s" .Release.Name "pipeline-runner" -}}
+{{- printf "%s-%s" .Release.Name "pipeline-runner" -}}
 {{- end -}}
 {{- define "scheduledworkflow.name" -}}
 {{- default "%s-%s" .Release.Name "scheduledworkflow" -}}
@@ -58,13 +58,13 @@ Create chart name and version as used by the chart label.
 {{/*
 Allow overriding of service accounts.
 */}}
-{{- define "api-server.serviceAccountName" -}}
-{{- default .Chart.Name .Values.rbac.api-server.serviceAccountName -}}
+{{- define "apiserver.serviceAccountName" -}}
+{{- default .Chart.Name .Values.rbac.apiserver.serviceAccountName -}}
 {{- end -}}
 {{- define "persistenceagent.serviceAccountName" -}}
 {{- default .Chart.Name .Values.rbac.persistenceagent.serviceAccountName -}}
 {{- end -}}
-{{- define "pipeline-runner.serviceAccountName" -}}
+{{- define "pipelinerunner.serviceAccountName" -}}
 {{- default .Chart.Name .Values.rbac.pipeline-runner.serviceAccountName -}}
 {{- end -}}
 {{- define "scheduledworkflow.serviceAccountName" -}}
@@ -73,6 +73,6 @@ Allow overriding of service accounts.
 {{- define "ui.serviceAccountName" -}}
 {{- default .Chart.Name .Values.rbac.ui.serviceAccountName -}}
 {{- end -}}
-{{- define "viewer-crd.serviceAccountName" -}}
-{{- default .Chart.Name .Values.rbac.viewer-crd.serviceAccountName -}}
+{{- define "viewercrd.serviceAccountName" -}}
+{{- default .Chart.Name .Values.rbac.viewercrd.serviceAccountName -}}
 {{- end -}}

@@ -4,17 +4,17 @@ crd:
 rbac:
   create: true
 
-  api-server:
+  apiserver:
     serviceAccountName: api-server
   persistenceagent:
     serviceAccountName: persistenceagent
-  pipeline-runner:
+  pipelinerunner:
     serviceAccountName: pipeline-runner
   scheduledworkflow:
     serviceAccountName: ml-pipeline-scheduledworkflow
   ui:
     serviceAccountName: ml-pipeline-ui
-  viewer-crd:
+  viewercrd:
     serviceAccountName: viewer-crd
 
 deployment:

@@ -18,8 +18,8 @@ spec:
       app: workflow-controller
   strategy:
     rollingUpdate:
-      maxSurge: {{ .Values.configuratrions.argo.strategy.rollingUpdate.maxSurge }}
-      maxUnavailable: {{ .Values.configuratrions.argo.strategy.rollingUpdate.maxUnavailable }}
+      maxSurge: {{ .Values.configurations.argo.strategy.rollingUpdate.maxSurge }}
+      maxUnavailable: {{ .Values.configurations.argo.strategy.rollingUpdate.maxUnavailable }}
     type: RollingUpdate
   template:
     metadata:
@@ -30,9 +30,9 @@ spec:
       containers:
       - args: [
           "--configmap",
-          "{{ template 'workflow-controller.name' . }}",
+          '- {{ template "workflow-controller.name" . }}',
           "--executor-image",
-          "{{ .Values.images.argoexec.repository }}:{{ .Values.images.argoexec.tag }}"
+          "- {{ .Values.images.argoexec.repository }}:{{ .Values.images.argoexec.tag }}"
         ]
         command:
         - workflow-controller
@@ -55,5 +55,5 @@ spec:
       securityContext: {}
       serviceAccount: {{ template "agro.name" . }}
       serviceAccountName: {{ template "agro.name" . }}
-      terminationGracePeriodSeconds: {{ .Values.configuratrions.argo.template.spec.terminationGracePeriodSeconds }}
+      terminationGracePeriodSeconds: {{ .Values.configurations.argo.template.spec.terminationGracePeriodSeconds }}
 {{- end }}
