@@ -5,8 +5,8 @@ deployment:
 rbac:
   create: true
 
-  agro:
-    serviceAccountName: agro
+  argo:
+    serviceAccountName: argo
   apiserver:
     serviceAccountName: api-server
   persistenceagent:

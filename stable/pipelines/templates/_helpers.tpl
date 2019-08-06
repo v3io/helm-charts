@@ -6,13 +6,13 @@ Expand the name of the chart.
 {{- default .Chart.Name .Values.nameOverride | trunc 63 | trimSuffix "-" -}}
 {{- end -}}
 {{- define "api-server.name" -}}
-{{- default "%s-%s" .Release.Name "api-server"}}
+{{- default "%s-%s" .Release.Name "apiserver" -}}
 {{- end -}}
 {{- define "workflow-controller.name" -}}
 {{- printf "%s-%s" .Release.Name "workflow-controller" -}}
 {{- end -}}
-{{- define "agro.name" -}}
-{{- printf "%s-%s" .Release.Name "agro" -}}
+{{- define "argo.name" -}}
+{{- printf "%s-%s" .Release.Name "argo" -}}
 {{- end -}}
 {{- define "persistenceagent.name" -}}
 {{- default "%s-%s" .Release.Name "persistenceagent" -}}
@@ -31,24 +31,6 @@ Expand the name of the chart.
 {{- end -}}
 
 {{/*
-Create a default fully qualified app name.
-We truncate at 63 chars because some Kubernetes name fields are limited to this (by the DNS naming spec).
-If release name contains chart name it will be used as a full name.
-*/}}
-{{- define "pipelines.fullname" -}}
-{{- if .Values.fullnameOverride -}}
-{{- .Values.fullnameOverride | trunc 63 | trimSuffix "-" -}}
-{{- else -}}
-{{- $name := default .Chart.Name .Values.nameOverride -}}
-{{- if contains $name .Release.Name -}}
-{{- .Release.Name | trunc 63 | trimSuffix "-" -}}
-{{- else -}}
-{{- printf "%s-%s" .Release.Name $name | trunc 63 | trimSuffix "-" -}}
-{{- end -}}
-{{- end -}}
-{{- end -}}
-
-{{/*
 Create chart name and version as used by the chart label.
 */}}
 {{- define "pipelines.chart" -}}
@@ -58,8 +40,8 @@ Create chart name and version as used by the chart label.
 {{/*
 Allow overriding of service accounts.
 */}}
-{{- define "agro.serviceAccountName" -}}
-{{- default .Chart.Name .Values.rbac.agro.serviceAccountName -}}
+{{- define "argo.serviceAccountName" -}}
+{{- default .Chart.Name .Values.rbac.argo.serviceAccountName -}}
 {{- end -}}
 {{- define "apiserver.serviceAccountName" -}}
 {{- default .Chart.Name .Values.rbac.apiserver.serviceAccountName -}}
