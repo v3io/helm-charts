@@ -30,9 +30,9 @@ spec:
       containers:
       - args: [
           "--configmap",
-          '- {{ template "workflow-controller.name" . }}',
+          '{{ template "workflow-controller.name" . }}',
           "--executor-image",
-          "- {{ .Values.images.argoexec.repository }}:{{ .Values.images.argoexec.tag }}"
+          "{{ .Values.images.argoexec.repository }}:{{ .Values.images.argoexec.tag }}"
         ]
         command:
         - workflow-controller
@@ -53,7 +53,7 @@ spec:
       restartPolicy: Always
       schedulerName: default-scheduler
       securityContext: {}
-      serviceAccount: {{ template "argo.name" . }}
+      serviceAccount: {{ template "argo.serviceAccountName" . }}
       serviceAccountName: {{ template "argo.serviceAccountName" . }}
       terminationGracePeriodSeconds: {{ .Values.configurations.argo.template.spec.terminationGracePeriodSeconds }}
 {{- end }}
