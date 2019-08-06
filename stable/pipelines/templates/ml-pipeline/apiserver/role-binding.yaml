@@ -15,6 +15,6 @@ roleRef:
   name: ml-pipeline
 subjects:
 - kind: ServiceAccount
-  name: {{ template "api-server.serviceAccountName" . }}
+  name: {{ template "apiserver.serviceAccountName" . }}
   namespace: {{ .Release.Namespace }}
 {{- end }}

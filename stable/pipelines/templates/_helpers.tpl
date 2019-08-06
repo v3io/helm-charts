@@ -65,7 +65,7 @@ Allow overriding of service accounts.
 {{- default .Chart.Name .Values.rbac.persistenceagent.serviceAccountName -}}
 {{- end -}}
 {{- define "pipelinerunner.serviceAccountName" -}}
-{{- default .Chart.Name .Values.rbac.pipeline-runner.serviceAccountName -}}
+{{- default .Chart.Name .Values.rbac.pipelinerunner.serviceAccountName -}}
 {{- end -}}
 {{- define "scheduledworkflow.serviceAccountName" -}}
 {{- default .Chart.Name .Values.rbac.scheduledworkflow.serviceAccountName -}}
