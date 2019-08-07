@@ -64,7 +64,7 @@ spec:
           imagePullPolicy: {{ .Values.images.imagePullPolicy }}
           command: ["/bin/bash", "/etc/config/mysql/v3io-mysql.sh"]
           ports:
-            - name: mysql
+            - name: {{ template "mysql-pipelines.name" . }}
               containerPort: 3306
               protocol: TCP
           livenessProbe:

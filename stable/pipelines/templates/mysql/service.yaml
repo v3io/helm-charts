@@ -3,19 +3,21 @@ apiVersion: v1
 kind: Service
 metadata:
   namespace: {{ .Release.Namespace }}
-  name: mysql
+  name: {{ template "mysql-pipelines.name" . }}
   labels:
-    app: {{ template "pipelines.name" . }}
+    app: {{ template "mysql-pipelines.name" . }}
     chart: {{ template "pipelines.chart" . }}
     release: {{ .Release.Name }}
     heritage: {{ .Release.Service }}
 spec:
   ports:
-    - name: mysql
+    - name: {{ template "mysql-pipelines.name" . }}
       port: 3306
-      targetPort: mysql
+      targetPort: {{ template "mysql-pipelines.name" . }}
       protocol: TCP
   selector:
-    app: mysql-kf
-    release: mysql-kf
+    app: {{ template "mysql-pipelines.name" . }}
+    chart: {{ template "pipelines.chart" . }}
+    release: {{ .Release.Name }}
+    heritage: {{ .Release.Service }}
 {{- end }}
