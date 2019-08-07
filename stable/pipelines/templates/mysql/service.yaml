@@ -3,7 +3,8 @@ apiVersion: v1
 kind: Service
 metadata:
   namespace: {{ .Release.Namespace }}
-  name: {{ template "mysql-pipelines.name" . }}
+  # Sadly this is referenced from the code. can't change the name
+  name: mysql
   labels:
     app: {{ template "mysql-pipelines.name" . }}
     chart: {{ template "pipelines.chart" . }}
