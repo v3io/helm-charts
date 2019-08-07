@@ -5,7 +5,7 @@ metadata:
   namespace: {{ .Release.Namespace }}
   name: {{ template "mysql-pipelines.name" . }}
   labels:
-    app: {{ template "pipelines.name" . }}
+    app: {{ template "mysql-pipelines.name" . }}
     chart: {{ template "pipelines.chart" . }}
     release: {{ .Release.Name }}
     heritage: {{ .Release.Service }}

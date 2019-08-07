@@ -5,7 +5,7 @@ metadata:
   name: {{ template "api-server.name" . }}
   namespace: {{ .Release.Namespace }}
   labels:
-    app: {{ template "pipelines.name" . }}
+    app: {{ template "api-server.name" . }}
     chart: {{ template "pipelines.chart" . }}
     release: {{ .Release.Name }}
     heritage: {{ .Release.Service }}

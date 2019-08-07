@@ -5,7 +5,7 @@ deployment:
 rbac:
   create: true
 
-# kubeflow pipliens uses two kinds of storage:
+# kubeflow piplines uses two kinds of storage:
 # Metadata -  mostly used for purposes of sorting and filtering uses mysql
 # Artifacts - heavier data (packages, views, etc. Also large-scale metrics) we use iguazio storage for this
 storage:
@@ -35,6 +35,7 @@ configurations:
       template:
         spec:
           containers:
+            name: mysql-mysql
             livenessProbe:
               initialDelaySeconds: 10
               failureThreshold: 3
@@ -43,6 +44,11 @@ configurations:
               initialDelaySeconds: 20
               failureThreshold: 3
               periodSeconds: 10
+    viewerCrd:
+      spec:
+        containers:
+          env:
+            maxNumViewersValue: "50"
 
 # updated versions can be taken from here: https://github.com/kubeflow/pipelines/blob/master/manifests/kustomize/base/kustomization.yaml
 images:

@@ -3,7 +3,7 @@ apiVersion: apps/v1beta2
 kind: Deployment
 metadata:
   labels:
-    app: {{ template "pipelines.name" . }}
+    app: {{ template "argo.name" . }}
     chart: {{ template "pipelines.chart" . }}
     release: {{ .Release.Name }}
     heritage: {{ .Release.Service }}
@@ -15,7 +15,10 @@ spec:
   revisionHistoryLimit: {{ .Values.configurations.argo.revisionHistoryLimit }}
   selector:
     matchLabels:
-      app: workflow-controller
+      app: {{ template "workflow-controller.name" . }}
+      chart: {{ template "pipelines.chart" . }}
+      release: {{ .Release.Name }}
+      heritage: {{ .Release.Service }}
   strategy:
     rollingUpdate:
       maxSurge: {{ .Values.configurations.argo.strategy.rollingUpdate.maxSurge }}
@@ -25,7 +28,10 @@ spec:
     metadata:
       creationTimestamp: null
       labels:
-        app: workflow-controller
+        app: {{ template "workflow-controller.name" . }}
+        chart: {{ template "pipelines.chart" . }}
+        release: {{ .Release.Name }}
+        heritage: {{ .Release.Service }}
     spec:
       containers:
       - args: [

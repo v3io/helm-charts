@@ -4,7 +4,7 @@ kind: CustomResourceDefinition
 metadata:
   name: workflows.argoproj.io
   labels:
-    app: {{ template "pipelines.name" . }}
+    app: {{ template "scheduledworkflow.name" . }}
     chart: {{ template "pipelines.chart" . }}
     release: {{ .Release.Name }}
     heritage: {{ .Release.Service }}

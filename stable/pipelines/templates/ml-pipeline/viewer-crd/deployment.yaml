@@ -5,18 +5,24 @@ metadata:
   name: {{ template "viewer-crd.name" . }}
   namespace: {{ .Release.Namespace }}
   labels:
-    app: {{ template "pipelines.name" . }}
+    app: {{ template "viewer-crd.name" . }}
     chart: {{ template "pipelines.chart" . }}
     release: {{ .Release.Name }}
     heritage: {{ .Release.Service }}
 spec:
   selector:
     matchLabels:
-      app: ml-pipeline-viewer-crd
+      app: {{ template "viewer-crd.name" . }}
+      chart: {{ template "pipelines.chart" . }}
+      release: {{ .Release.Name }}
+      heritage: {{ .Release.Service }}
   template:
     metadata:
       labels:
-        app: ml-pipeline-viewer-crd
+        app: {{ template "viewer-crd.name" . }}
+        chart: {{ template "pipelines.chart" . }}
+        release: {{ .Release.Name }}
+        heritage: {{ .Release.Service }}
     spec:
       containers:
       - image: {{ .Values.images.viewerCrdController.repository }}:{{ .Values.images.viewerCrdController.tag }}
@@ -24,7 +30,7 @@ spec:
         name: {{ template "viewer-crd.name" . }}
         env:
         - name: MAX_NUM_VIEWERS
-          value: "50"
+          value: {{ .Values.configurations.viewerCrd.spec.containers.env.maxNumViewersValue }}
       serviceAccountName: {{ template "viewer-crd.name" . }}
       resources:
 {{ toYaml .Values.resources | indent 8 }}

@@ -59,7 +59,7 @@ spec:
             - name: mysql-config
               mountPath: /etc/config/mysql
       containers:
-        - name: mysql-mysql
+        - name: {{ .Values.configurations.mysql.spec.template.spec.containers.name }}
           image: {{ .Values.images.mysql.repository }}:{{ .Values.images.mysql.tag }}
           imagePullPolicy: {{ .Values.images.imagePullPolicy }}
           command: ["/bin/bash", "/etc/config/mysql/v3io-mysql.sh"]

@@ -1,4 +1,4 @@
-# Kubeflow pipelines operator
+# Kubeflow pipelines service
 
 Provides installation of the Pipelines workflow CRDs, RBAC and services, and Mysql (with fuse backend) as persistency
 

@@ -3,7 +3,7 @@ apiVersion: apps/v1beta2
 kind: Deployment
 metadata:
   labels:
-    app: {{ template "pipelines.name" . }}
+    app: {{ template "scheduledworkflow.name" . }}
     chart: {{ template "pipelines.chart" . }}
     release: {{ .Release.Name }}
     heritage: {{ .Release.Service }}
@@ -12,11 +12,17 @@ metadata:
 spec:
   selector:
     matchLabels:
-      app: ml-pipeline-scheduledworkflow
+      app: {{ template "scheduledworkflow.name" . }}
+      chart: {{ template "pipelines.chart" . }}
+      release: {{ .Release.Name }}
+      heritage: {{ .Release.Service }}
   template:
     metadata:
       labels:
-        app: ml-pipeline-scheduledworkflow
+        app: {{ template "scheduledworkflow.name" . }}
+        chart: {{ template "pipelines.chart" . }}
+        release: {{ .Release.Name }}
+        heritage: {{ .Release.Service }}
     spec:
       containers:
       - image: {{ .Values.images.scheduledworkflow.repository }}:{{ .Values.images.scheduledworkflow.tag }}

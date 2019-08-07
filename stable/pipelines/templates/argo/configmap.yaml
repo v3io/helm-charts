@@ -4,7 +4,7 @@ kind: ConfigMap
 metadata:
   name: {{ template "workflow-controller.name" . }}
   labels:
-      app: {{ template "pipelines.name" . }}
+      app: {{ template "workflow-controller.name" . }}
       chart: {{ template "pipelines.chart" . }}
       release: {{ .Release.Name }}
       heritage: {{ .Release.Service }}
@@ -19,11 +19,11 @@ data:
             endpoint: v3io-webapi.{{ .Release.Namespace }}:{{ .Values.configurations.ports.nginxPort }},
             insecure: true,
             accessKeySecret: {
-                name: v3io-webapi-secret,
+                name: {{ .Release.Namespace }}-v3io-webapi-secret,
                 key: accesskey
             },
             secretKeySecret: {
-                name: mlpipeline-minio-secret,
+                name: {{ .Release.Service }}-minio-secret,
                 key: secretkey
             }
         }
