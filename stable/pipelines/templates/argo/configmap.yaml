@@ -19,11 +19,11 @@ data:
             endpoint: v3io-webapi.{{ .Release.Namespace }}:{{ .Values.configurations.ports.nginxPort }},
             insecure: true,
             accessKeySecret: {
-                name: {{ .Release.Namespace }}-v3io-webapi-secret,
+                name: {{ .Release.Name }}-v3io-webapi-secret,
                 key: accesskey
             },
             secretKeySecret: {
-                name: {{ .Release.Service }}-minio-secret,
+                name: {{ .Release.Name }}-minio-secret,
                 key: secretkey
             }
         }

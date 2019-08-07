@@ -44,11 +44,11 @@ configurations:
               initialDelaySeconds: 20
               failureThreshold: 3
               periodSeconds: 10
-    viewerCrd:
-      spec:
-        containers:
-          env:
-            maxNumViewersValue: "50"
+  viewerCrd:
+    spec:
+      containers:
+        env:
+          maxNumViewersValue: "50"
 
 # updated versions can be taken from here: https://github.com/kubeflow/pipelines/blob/master/manifests/kustomize/base/kustomization.yaml
 images:
