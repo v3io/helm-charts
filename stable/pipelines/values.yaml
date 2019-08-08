@@ -31,7 +31,7 @@ images:
   apiServer:
     # TODO: once they've built a version with the fix https://github.com/kubeflow/pipelines/pull/1713 in it,
     # change back upstream i.e gcr.io/ml-pipeline/api-server
-    repository: usidore/ml-pipelines
+    repository: usidore/ml-debug
     tag: latest
   persistenceagent:
     repository: gcr.io/ml-pipeline/persistenceagent
