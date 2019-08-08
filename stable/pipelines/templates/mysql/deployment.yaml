@@ -1,5 +1,5 @@
 {{- if .Values.deployment.create }}
-apiVersion: extensions/v1beta1
+apiVersion: apps/v1beta2
 kind: Deployment
 metadata:
   namespace: {{ .Release.Namespace }}
@@ -12,10 +12,8 @@ metadata:
 spec:
   selector:
     matchLabels:
-      app: {{ template "pipelines.name" . }}
-      chart: {{ template "pipelines.chart" . }}
-      release: {{ .Release.Name }}
-      heritage: {{ .Release.Service }}
+      app: mysql-kf
+      release: mysql-kf
   template:
     metadata:
       labels:
