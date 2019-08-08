@@ -48,9 +48,7 @@ spec:
           env:
             - name: MYSQL_ALLOW_EMPTY_PASSWORD
               value: "true"
-          command:
-            - /bin/bash
-            - /etc/config/mysql/init-v3io-mysql.sh
+          command: ["/bin/bash", "/etc/config/mysql/init-v3io-mysql.sh"]
           securityContext:
             runAsUser: 1001
           volumeMounts:
@@ -69,17 +67,13 @@ spec:
               protocol: TCP
           livenessProbe:
             exec:
-              command:
-              - /bin/bash
-              - /etc/config/mysql/health_check.sh
+              command: ["/bin/bash", "/etc/config/mysql/health_check.sh"]
             initialDelaySeconds: 10
             failureThreshold: 3
             periodSeconds: 10
           readinessProbe:
             exec:
-              command:
-              - /bin/bash
-              - /etc/config/mysql/health_check.sh
+              command: ["/bin/bash", "/etc/config/mysql/health_check.sh"]
             initialDelaySeconds: 20
             failureThreshold: 3
             periodSeconds: 10

@@ -3,7 +3,7 @@ apiVersion: apps/v1beta2
 kind: Deployment
 metadata:
   labels:
-    app: {{ template "pipelines.name" . }}
+    app: ml-pipeline-viewer-crd
     chart: {{ template "pipelines.chart" . }}
     release: {{ .Release.Name }}
     heritage: {{ .Release.Service }}
@@ -22,9 +22,6 @@ spec:
       - image: {{ .Values.images.viewerCrdController.repository }}:{{ .Values.images.viewerCrdController.tag }}
         imagePullPolicy: {{ .Values.images.imagePullPolicy }}
         name: ml-pipeline-viewer-crd
-        env:
-        - name: MAX_NUM_VIEWERS
-          value: "50"
       serviceAccountName: ml-pipeline-viewer-crd-service-account
       resources:
 {{ toYaml .Values.resources | indent 8 }}

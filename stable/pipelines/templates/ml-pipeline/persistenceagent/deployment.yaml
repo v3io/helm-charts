@@ -3,7 +3,7 @@ apiVersion: apps/v1beta2
 kind: Deployment
 metadata:
   labels:
-    app: {{ template "pipelines.name" . }}
+    app: ml-pipeline-persistenceagent
     chart: {{ template "pipelines.chart" . }}
     release: {{ .Release.Name }}
     heritage: {{ .Release.Service }}
@@ -19,7 +19,10 @@ spec:
         app: ml-pipeline-persistenceagent
     spec:
       containers:
-      - image: {{ .Values.images.persistenceagent.repository }}:{{ .Values.images.persistenceagent.tag }}
+      - env:
+        - name: NAMESPACE
+          value: "default-tenant"
+        image: {{ .Values.images.persistenceagent.repository }}:{{ .Values.images.persistenceagent.tag }}
         imagePullPolicy: {{ .Values.images.imagePullPolicy }}
         name: ml-pipeline-persistenceagent
         namespace: {{ .Release.Namespace }}
