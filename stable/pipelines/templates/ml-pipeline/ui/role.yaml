@@ -4,9 +4,6 @@ kind: Role
 metadata:
   labels:
     app: ml-pipeline-ui
-    chart: {{ template "pipelines.chart" . }}
-    release: {{ .Release.Name }}
-    heritage: {{ .Release.Service }}
   name: ml-pipeline-ui
   namespace: {{ .Release.Namespace }}
 rules:
@@ -19,14 +16,4 @@ rules:
   - create
   - get
   - list
-- apiGroups:
-  - "kubeflow.org"
-  resources:
-  - viewers
-  verbs:
-  - create
-  - get
-  - list
-  - watch
-  - delete
 {{- end }}

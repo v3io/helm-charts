@@ -4,9 +4,6 @@ kind: Role
 metadata:
   labels:
     app: ml-pipeline-scheduledworkflow-role
-    chart: {{ template "pipelines.chart" . }}
-    release: {{ .Release.Name }}
-    heritage: {{ .Release.Service }}
   name: ml-pipeline-scheduledworkflow-role
   namespace: {{ .Release.Namespace }}
 rules:

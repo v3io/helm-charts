@@ -1,12 +1,9 @@
 {{- if .Values.deployment.create }}
-apiVersion: apps/v1beta2
+apiVersion: extensions/v1beta2
 kind: Deployment
 metadata:
   labels:
     app: ml-pipeline-ui
-    chart: {{ template "pipelines.chart" . }}
-    release: {{ .Release.Name }}
-    heritage: {{ .Release.Service }}
   name: ml-pipeline-ui
   namespace: {{ .Release.Namespace }}
 spec:
@@ -27,7 +24,7 @@ spec:
         - name: MINIO_HOST
           value: v3io-webapi
         - name: MINIO_ACCESS_KEY
-          value: "{{ .Values.credentials.accessKey }}"
+          value: minio
         - name: HTTP_AUTHORIZATION_KEY
           value: X-v3io-session-key
         - name: HTTP_AUTHORIZATION_DEFAULT_VALUE

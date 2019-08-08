@@ -4,11 +4,6 @@ kind: RoleBinding
 metadata:
   name: ml-pipeline-scheduledworkflow-binding
   namespace: {{ .Release.Namespace }}
-  labels:
-    app: {{ template "pipelines.name" . }}
-    chart: {{ template "pipelines.chart" . }}
-    release: {{ .Release.Name }}
-    heritage: {{ .Release.Service }}
 roleRef:
   apiGroup: rbac.authorization.k8s.io
   kind: Role

@@ -4,11 +4,6 @@ kind: Role
 metadata:
   name: argo-role
   namespace: {{ .Release.Namespace }}
-  labels:
-    app: {{ template "pipelines.name" . }}
-    chart: {{ template "pipelines.chart" . }}
-    release: {{ .Release.Name }}
-    heritage: {{ .Release.Service }}
 rules:
 - apiGroups:
   - ""

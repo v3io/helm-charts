@@ -3,11 +3,6 @@ apiVersion: apiextensions.k8s.io/v1beta1
 kind: CustomResourceDefinition
 metadata:
   name: workflows.argoproj.io
-  labels:
-    app: {{ template "pipelines.name" . }}
-    chart: {{ template "pipelines.chart" . }}
-    release: {{ .Release.Name }}
-    heritage: {{ .Release.Service }}
 spec:
   group: argoproj.io
   names:

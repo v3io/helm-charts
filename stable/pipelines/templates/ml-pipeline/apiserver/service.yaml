@@ -4,11 +4,6 @@ kind: Service
 metadata:
   name: ml-pipeline
   namespace: {{ .Release.Namespace }}
-  labels:
-    app: ml-pipeline
-    chart: {{ template "pipelines.chart" . }}
-    release: {{ .Release.Name }}
-    heritage: {{ .Release.Service }}
 spec:
   ports:
   - name: http

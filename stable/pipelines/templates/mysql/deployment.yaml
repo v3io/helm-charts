@@ -1,13 +1,13 @@
 {{- if .Values.deployment.create }}
-apiVersion: apps/v1
+apiVersion: extensions/v1beta1
 kind: Deployment
 metadata:
   namespace: {{ .Release.Namespace }}
   name: mysql-kf
   labels:
-    app: {{ template "pipelines.name" . }}
-    chart: {{ template "pipelines.chart" . }}
-    release: {{ .Release.Name }}
+    app: mysql-kf
+    chart: mysql-0.0.1
+    release: mysql-kf
     heritage: {{ .Release.Service }}
 spec:
   selector:
@@ -19,10 +19,8 @@ spec:
   template:
     metadata:
       labels:
-        app: {{ template "pipelines.name" . }}
-        chart: {{ template "pipelines.chart" . }}
-        release: {{ .Release.Name }}
-        heritage: {{ .Release.Service }}
+        app: mysql-kf
+        release: mysql-kf
     spec:
       volumes:
         - name: mysql-init-scripts

@@ -4,9 +4,6 @@ kind: RoleBinding
 metadata:
   labels:
     app: ml-pipeline
-    chart: {{ template "pipelines.chart" . }}
-    release: {{ .Release.Name }}
-    heritage: {{ .Release.Service }}
   name: ml-pipeline
   namespace: {{ .Release.Namespace }}
 roleRef:

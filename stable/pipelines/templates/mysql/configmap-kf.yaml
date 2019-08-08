@@ -5,10 +5,10 @@ metadata:
   namespace: {{ .Release.Namespace }}
   name: mysql-kf
   labels:
-    app: {{ template "pipelines.name" . }}
-    chart: {{ template "pipelines.chart" . }}
+    app: mysql-kf
+    chart: mysql-0.0.1
     release: {{ .Release.Name }}
-    heritage: {{ .Release.Service }}
+    heritage: mysql-kf
 data:
 
   health_check.sh: |

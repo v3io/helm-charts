@@ -2,13 +2,10 @@
 apiVersion: rbac.authorization.k8s.io/v1
 kind: Role
 metadata:
-  labels:
-    app: ml-pipeline
-    chart: {{ template "pipelines.chart" . }}
-    release: {{ .Release.Name }}
-    heritage: {{ .Release.Service }}
   name: ml-pipeline
   namespace: {{ .Release.Namespace }}
+  labels:
+      app: ml-pipeline
 rules:
 - apiGroups:
   - argoproj.io

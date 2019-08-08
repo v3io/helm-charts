@@ -4,11 +4,6 @@ kind: Role
 metadata:
   name: pipeline-runner
   namespace: {{ .Release.Namespace }}
-  labels:
-    app: {{ template "pipelines.name" . }}
-    chart: {{ template "pipelines.chart" . }}
-    release: {{ .Release.Name }}
-    heritage: {{ .Release.Service }}
 rules:
 - apiGroups:
   - ""
@@ -27,18 +22,10 @@ rules:
 - apiGroups:
   - ""
   resources:
-  - persistentvolumes
   - persistentvolumeclaims
-  verbs:
-  - '*'
-- apiGroups:
-  - snapshot.storage.k8s.io
-  resources:
-  - volumesnapshots
   verbs:
   - create
   - delete
-  - get
 - apiGroups:
   - argoproj.io
   resources:
