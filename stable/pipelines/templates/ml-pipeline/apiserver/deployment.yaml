@@ -18,13 +18,13 @@ spec:
       containers:
       - env:
         - name: OBJECTSTORECONFIG_ACCESSKEY
-          value: "{{ .Values.credentials.accessKey }}"
+          value: "{{ .Values.configurations.credentials.accessKey }}"
         - name: OBJECTSTORECONFIG_SECRETACCESSKEY
           value: minio123
         - name: OBJECTSTORECONFIG_BUCKETNAME
-          value: "{{ .Values.storage.s3.bucketName }}"
+          value: "{{ .Values.storage.artifacts.containerName }}"
         - name: OBJECTSTORECONFIG_PORT
-          value: "{{ .Values.port.nginxPort }}"
+          value: "{{ .Values.configurations.port.nginxPort }}"
         - name: OBJECTSTORECONFIG_HOST
           value: v3io-webapi
         - name: OBJECTSTORECONFIG_MULTIPART_DISABLE

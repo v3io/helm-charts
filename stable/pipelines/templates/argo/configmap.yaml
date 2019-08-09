@@ -10,9 +10,9 @@ data:
     artifactRepository:
     {
         s3: {
-            bucket: {{ .Values.storage.s3.bucketName }},
+            bucket: {{ .Values.storage.artifacts.containerName }},
             keyPrefix: mlpipeline,
-            endpoint: v3io-webapi.{{ .Release.Namespace }}:{{ .Values.port.nginxPort }},
+            endpoint: v3io-webapi.{{ .Release.Namespace }}:{{ .Values.configurations.port.nginxPort }},
             insecure: true,
             accessKeySecret: {
                 name: v3io-webapi-secret,

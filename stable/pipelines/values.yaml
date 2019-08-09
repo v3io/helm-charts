@@ -1,24 +1,49 @@
 crd:
   create: false
-
+deployment:
+  create: true
 rbac:
   create: true
 
-deployment:
-  create: true
-
-credentials:
-  accessKey: provideMe
-
-port:
-  nginxPort: 8081
-
+# kubeflow piplines uses two kinds of storage:
+# Metadata -  mostly used for purposes of sorting and filtering uses mysql
+# Artifacts - heavier data (packages, views, etc. Also large-scale metrics) we use iguazio storage for this
 storage:
-  s3:
-    bucketName: bigdata
-  mysql:
+  artifacts:
+    containerName: bigdata
+  metadata:
     containerName: users
 
+configurations:
+  credentials:
+    accessKey: provideMe
+  ports:
+    nginxPort: 8081
+  argo:
+    progressDeadlineSeconds: 600
+    replicas: 1
+    revisionHistoryLimit: 10
+    strategy:
+      rollingUpdate:
+        maxSurge: 25%
+        maxUnavailable: 25%
+    template:
+      spec:
+        terminationGracePeriodSeconds: 30
+  mysql:
+    spec:
+      template:
+        spec:
+          containers:
+            name: mysql-mysql
+            livenessProbe:
+              initialDelaySeconds: 10
+              failureThreshold: 3
+              periodSeconds: 10
+            readinessProbe:
+              initialDelaySeconds: 20
+              failureThreshold: 3
+              periodSeconds: 10
 
 # updated versions can be taken from here: https://github.com/kubeflow/pipelines/blob/master/manifests/kustomize/base/kustomization.yaml
 images:
@@ -31,7 +56,7 @@ images:
   apiServer:
     # TODO: once they've built a version with the fix https://github.com/kubeflow/pipelines/pull/1713 in it,
     # change back upstream i.e gcr.io/ml-pipeline/api-server
-    repository: usidore/ml-debug
+    repository: usidore/ml-pipelines
     tag: latest
   persistenceagent:
     repository: gcr.io/ml-pipeline/persistenceagent

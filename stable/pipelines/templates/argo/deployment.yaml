@@ -7,16 +7,16 @@ metadata:
   name: workflow-controller
   namespace: {{ .Release.Namespace }}
 spec:
-  progressDeadlineSeconds: 600
-  replicas: 1
-  revisionHistoryLimit: 10
+  progressDeadlineSeconds: {{ .Values.configurations.argo.progressDeadlineSeconds }}
+  replicas: {{ .Values.configurations.argo.replicas }}
+  revisionHistoryLimit: {{ .Values.configurations.argo.revisionHistoryLimit }}
   selector:
     matchLabels:
       app: workflow-controller
   strategy:
     rollingUpdate:
-      maxSurge: 25%
-      maxUnavailable: 25%
+      maxSurge: {{ .Values.configurations.argo.strategy.rollingUpdate.maxSurge }}
+      maxUnavailable: {{ .Values.configurations.argo.strategy.rollingUpdate.maxUnavailable }}
     type: RollingUpdate
   template:
     metadata:
@@ -52,5 +52,5 @@ spec:
       securityContext: {}
       serviceAccount: argo
       serviceAccountName: argo
-      terminationGracePeriodSeconds: 30
+      terminationGracePeriodSeconds: {{ .Values.configurations.argo.template.spec.terminationGracePeriodSeconds }}
 {{- end }}

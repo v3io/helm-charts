@@ -20,7 +20,7 @@ spec:
         - name: MINIO_NAMESPACE
           value: "{{ .Release.Namespace }}"
         - name: MINIO_PORT
-          value: "{{ .Values.port.nginxPort }}"
+          value: "{{ .Values.configurations.port.nginxPort }}"
         - name: MINIO_HOST
           value: v3io-webapi
         - name: MINIO_ACCESS_KEY
@@ -28,7 +28,7 @@ spec:
         - name: HTTP_AUTHORIZATION_KEY
           value: X-v3io-session-key
         - name: HTTP_AUTHORIZATION_DEFAULT_VALUE
-          value: "{{ .Values.credentials.accessKey }}"
+          value: "{{ .Values.configurations.credentials.accessKey }}"
         - name: MINIO_V3IO
           value: "1"
         image: {{ .Values.images.ui.repository }}:{{ .Values.images.ui.tag }}
