@@ -1,12 +1,12 @@
-# Kubeflow pipelines operator
+# Kubeflow pipelines service
 
-Provides installation of the Pipelines job CRDs, RBAC and service, and Mysql as DB
+Provides installation of the Pipelines workflow CRDs, RBAC and services, and Mysql (with fuse backend) as persistency
 
 ## Chart Details
 
 This chart will do one or more of the following:
 
-* Install Kubeflow Pipelines job CRDs
+* Install Kubeflow Pipelines CRDs
 * Install Mysql DB
 * Install The Kubeflow Pipelines deployment (operator pod) and the needed rbac (namespaced)
 
