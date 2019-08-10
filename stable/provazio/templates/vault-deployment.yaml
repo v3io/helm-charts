@@ -39,9 +39,18 @@ spec:
         volumeMounts:
         - mountPath: /etc/provazio
           name: {{ template "provazio.vault.name" . }}-env-spec
+        - mountPath: /var/provazio/vault
+          name: {{ template "provazio.vault.name" . }}-persistency
       volumes:
       - name: {{ template "provazio.vault.name" . }}-env-spec
         configMap:
           defaultMode: 420
           name: {{ template "provazio.vault.name" . }}-env-spec
+      - name: {{ template "provazio.vault.name" . }}-persistency
+{{- if .Values.vault.persistencyVolume }}
+{{ toYaml .Values.vault.persistencyVolume | indent 8 }}
+{{- else }}
+        emptyDir: {}
+{{- end }}
+
 {{- end }}

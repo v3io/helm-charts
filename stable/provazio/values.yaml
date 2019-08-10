@@ -129,6 +129,9 @@ vault:
   port: 8061
   host: provazio-vault.iguazio.app.provazio-dev.cloud.iguazio.com
   replicas: 1
+  persistencyVolume:
+    hostPath:
+      path: /home/iguazio/vault
 
   envSpec:
     client:
