@@ -4,6 +4,11 @@ kind: Service
 metadata:
   name: ml-pipeline-ui
   namespace: {{ .Release.Namespace }}
+  labels:
+    app: {{ template "pipelines.name" . }}
+    chart: {{ template "pipelines.chart" . }}
+    release: {{ .Release.Name }}
+    heritage: {{ .Release.Service }}
 spec:
   ports:
   - port: 80

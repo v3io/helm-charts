@@ -2,18 +2,27 @@
 apiVersion: apps/v1beta2
 kind: Deployment
 metadata:
-  labels:
-    app: ml-pipeline-scheduledworkflow
   name: ml-pipeline-scheduledworkflow
   namespace: {{ .Release.Namespace }}
+  labels:
+    app: {{ template "pipelines.name" . }}
+    chart: {{ template "pipelines.chart" . }}
+    release: {{ .Release.Name }}
+    heritage: {{ .Release.Service }}
 spec:
   selector:
     matchLabels:
-      app: ml-pipeline-scheduledworkflow
+      app: {{ template "pipelines.name" . }}
+      chart: {{ template "pipelines.chart" . }}
+      release: {{ .Release.Name }}
+      heritage: {{ .Release.Service }}
   template:
     metadata:
       labels:
-        app: ml-pipeline-scheduledworkflow
+        app: {{ template "pipelines.name" . }}
+        chart: {{ template "pipelines.chart" . }}
+        release: {{ .Release.Name }}
+        heritage: {{ .Release.Service }}
     spec:
       containers:
       - env:

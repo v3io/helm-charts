@@ -5,7 +5,10 @@ metadata:
   name: ml-pipeline
   namespace: {{ .Release.Namespace }}
   labels:
-      app: ml-pipeline
+    app: {{ template "pipelines.name" . }}
+    chart: {{ template "pipelines.chart" . }}
+    release: {{ .Release.Name }}
+    heritage: {{ .Release.Service }}
 rules:
 - apiGroups:
   - argoproj.io

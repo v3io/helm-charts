@@ -2,17 +2,23 @@
 apiVersion: apps/v1beta2
 kind: Deployment
 metadata:
-  labels:
-    app: workflow-controller
   name: workflow-controller
   namespace: {{ .Release.Namespace }}
+  labels:
+    app: {{ template "pipelines.name" . }}
+    chart: {{ template "pipelines.chart" . }}
+    release: {{ .Release.Name }}
+    heritage: {{ .Release.Service }}
 spec:
   progressDeadlineSeconds: {{ .Values.configurations.argo.progressDeadlineSeconds }}
   replicas: {{ .Values.configurations.argo.replicas }}
   revisionHistoryLimit: {{ .Values.configurations.argo.revisionHistoryLimit }}
   selector:
     matchLabels:
-      app: workflow-controller
+      app: {{ template "pipelines.name" . }}
+      chart: {{ template "pipelines.chart" . }}
+      release: {{ .Release.Name }}
+      heritage: {{ .Release.Service }}
   strategy:
     rollingUpdate:
       maxSurge: {{ .Values.configurations.argo.strategy.rollingUpdate.maxSurge }}
@@ -22,7 +28,10 @@ spec:
     metadata:
       creationTimestamp: null
       labels:
-        app: workflow-controller
+        app: {{ template "pipelines.name" . }}
+        chart: {{ template "pipelines.chart" . }}
+        release: {{ .Release.Name }}
+        heritage: {{ .Release.Service }}
     spec:
       containers:
       - args: [
