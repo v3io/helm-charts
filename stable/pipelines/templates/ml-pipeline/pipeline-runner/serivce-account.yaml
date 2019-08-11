@@ -1,0 +1,12 @@
+{{- if .Values.rbac.create }}
+apiVersion: v1
+kind: ServiceAccount
+metadata:
+  name: pipeline-runner
+  namespace: {{ .Release.Namespace }}
+  labels:
+    app: {{ template "pipelines.name" . }}
+    chart: {{ template "pipelines.chart" . }}
+    release: {{ .Release.Name }}
+    heritage: {{ .Release.Service }}
+{{- end }}

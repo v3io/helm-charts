@@ -1,0 +1,38 @@
+{{- if .Values.deployment.create }}
+apiVersion: apps/v1beta2
+kind: Deployment
+metadata:
+  name: ml-pipeline-scheduledworkflow
+  namespace: {{ .Release.Namespace }}
+  labels:
+    app: ml-pipeline-scheduledworkflow
+    chart: {{ template "pipelines.chart" . }}
+    release: {{ .Release.Name }}
+    heritage: {{ .Release.Service }}
+spec:
+  selector:
+    matchLabels:
+      app: ml-pipeline-scheduledworkflow
+      chart: {{ template "pipelines.chart" . }}
+      release: {{ .Release.Name }}
+      heritage: {{ .Release.Service }}
+  template:
+    metadata:
+      labels:
+        app: ml-pipeline-scheduledworkflow
+        chart: {{ template "pipelines.chart" . }}
+        release: {{ .Release.Name }}
+        heritage: {{ .Release.Service }}
+    spec:
+      containers:
+      - env:
+        - name: NAMESPACE
+          value: default-tenant
+        image: {{ .Values.images.scheduledworkflow.repository }}:{{ .Values.images.scheduledworkflow.tag }}
+        imagePullPolicy: {{ .Values.images.imagePullPolicy }}
+        name: ml-pipeline-scheduledworkflow
+        namespace: {{ .Release.Namespace }}
+      serviceAccountName: ml-pipeline-scheduledworkflow
+      resources:
+{{ toYaml .Values.resources | indent 8 }}
+{{- end }}

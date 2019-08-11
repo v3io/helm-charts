@@ -1,0 +1,34 @@
+{{- if .Values.deployment.create }}
+apiVersion: apps/v1beta2
+kind: Deployment
+metadata:
+  name: ml-pipeline-viewer-crd
+  namespace: {{ .Release.Namespace }}
+  labels:
+    app: ml-pipeline-viewer-crd
+    chart: {{ template "pipelines.chart" . }}
+    release: {{ .Release.Name }}
+    heritage: {{ .Release.Service }}
+spec:
+  selector:
+    matchLabels:
+      app: ml-pipeline-viewer-crd
+      chart: {{ template "pipelines.chart" . }}
+      release: {{ .Release.Name }}
+      heritage: {{ .Release.Service }}
+  template:
+    metadata:
+      labels:
+        app: ml-pipeline-viewer-crd
+        chart: {{ template "pipelines.chart" . }}
+        release: {{ .Release.Name }}
+        heritage: {{ .Release.Service }}
+    spec:
+      containers:
+      - image: {{ .Values.images.viewerCrdController.repository }}:{{ .Values.images.viewerCrdController.tag }}
+        imagePullPolicy: {{ .Values.images.imagePullPolicy }}
+        name: ml-pipeline-viewer-crd
+      serviceAccountName: ml-pipeline-viewer-crd-service-account
+      resources:
+{{ toYaml .Values.resources | indent 8 }}
+{{- end }}

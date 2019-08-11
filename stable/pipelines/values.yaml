@@ -1,0 +1,88 @@
+crd:
+  create: false
+deployment:
+  create: true
+rbac:
+  create: true
+
+# kubeflow piplines uses two kinds of storage:
+# Metadata -  mostly used for purposes of sorting and filtering uses mysql
+# Artifacts - heavier data (packages, views, etc. Also large-scale metrics) we use iguazio storage for this
+storage:
+  artifacts:
+    containerName: bigdata
+  metadata:
+    containerName: users
+
+configurations:
+  credentials:
+    accessKey: provideMe
+  ports:
+    nginxPort: 8081
+  argo:
+    progressDeadlineSeconds: 600
+    replicas: 1
+    revisionHistoryLimit: 10
+    strategy:
+      rollingUpdate:
+        maxSurge: 25%
+        maxUnavailable: 25%
+    template:
+      spec:
+        terminationGracePeriodSeconds: 30
+  mysql:
+    spec:
+      template:
+        spec:
+          containers:
+            name: mysql-mysql
+            livenessProbe:
+              initialDelaySeconds: 10
+              failureThreshold: 3
+              periodSeconds: 10
+            readinessProbe:
+              initialDelaySeconds: 20
+              failureThreshold: 3
+              periodSeconds: 10
+
+# updated versions can be taken from here: https://github.com/kubeflow/pipelines/blob/master/manifests/kustomize/base/kustomization.yaml
+images:
+  argoexec:
+    repository: gcr.io/ml-pipeline/argoexec
+    tag: v2.3.0
+  workflowController:
+    repository: gcr.io/ml-pipeline/workflow-controller
+    tag: v2.3.0
+  apiServer:
+    # TODO: once they've update to version 0.1.26 we can return to upstream, gcr.io/ml-pipeline/api-server
+    repository: quay.io/iguazio/ml-pipeline-api-server
+    tag: 0.1.25
+  persistenceagent:
+    repository: gcr.io/ml-pipeline/persistenceagent
+    tag: 0.1.25
+  scheduledworkflow:
+    repository: gcr.io/ml-pipeline/scheduledworkflow
+    tag: 0.1.25
+  ui:
+    repository: quay.io/iguazio/ml-pipelines-frontend-v3io
+    tag: latest
+  viewerCrdController:
+    repository: gcr.io/ml-pipeline/viewer-crd-controller
+    tag: 0.1.25
+  mysql:
+    repository: mysql
+    tag: 5.6
+  imagePullPolicy: IfNotPresent
+
+
+resources: {}
+  # We usually recommend not to specify default resources and to leave this as a conscious
+  # choice for the user. This also increases chances charts run on environments with little
+  # resources, such as Minikube. If you do want to specify resources, uncomment the following
+  # lines, adjust them as necessary, and remove the curly braces after 'resources:'.
+  # limits:
+  #  cpu: 100m
+  #  memory: 128Mi
+  # requests:
+  #  cpu: 100m
+  #  memory: 128Mi

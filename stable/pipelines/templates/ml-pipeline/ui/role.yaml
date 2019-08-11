@@ -1,0 +1,22 @@
+{{- if .Values.rbac.create }}
+apiVersion: rbac.authorization.k8s.io/v1
+kind: Role
+metadata:
+  name: ml-pipeline-ui
+  namespace: {{ .Release.Namespace }}
+  labels:
+    app: ml-pipeline-ui
+    chart: {{ template "pipelines.chart" . }}
+    release: {{ .Release.Name }}
+    heritage: {{ .Release.Service }}
+rules:
+- apiGroups:
+  - ""
+  resources:
+  - pods
+  - pods/log
+  verbs:
+  - create
+  - get
+  - list
+{{- end }}
