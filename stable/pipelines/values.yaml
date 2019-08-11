@@ -54,10 +54,9 @@ images:
     repository: gcr.io/ml-pipeline/workflow-controller
     tag: v2.3.0
   apiServer:
-    # TODO: once they've built a version with the fix https://github.com/kubeflow/pipelines/pull/1713 in it,
-    # change back upstream i.e gcr.io/ml-pipeline/api-server
-    repository: usidore/ml-pipelines
-    tag: latest
+    # TODO: once they've update to version 0.1.26 we can return to upstream, gcr.io/ml-pipeline/api-server
+    repository: quay.io/iguazio/ml-pipeline-api-server
+    tag: 0.1.25
   persistenceagent:
     repository: gcr.io/ml-pipeline/persistenceagent
     tag: 0.1.25
