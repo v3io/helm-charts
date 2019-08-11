@@ -11,7 +11,7 @@ metadata:
     heritage: {{ .Release.Service }}
 spec:
   selector:
-      matchLabels:
+    matchLabels:
       app: mysql-kf
       chart: mysql-0.0.1
       release: mysql-kf
