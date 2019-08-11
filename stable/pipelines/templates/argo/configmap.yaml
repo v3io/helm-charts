@@ -1,0 +1,33 @@
+{{- if .Values.rbac.create }}
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: workflow-controller-configmap
+  labels:
+    app: {{ template "pipelines.name" . }}
+    chart: {{ template "pipelines.chart" . }}
+    release: {{ .Release.Name }}
+    heritage: {{ .Release.Service }}
+data:
+  config: |
+    {
+    executorImage: {{ .Values.images.argoexec.repository }}:{{ .Values.images.argoexec.tag }},
+    artifactRepository:
+    {
+        s3: {
+            bucket: {{ .Values.storage.artifacts.containerName }},
+            keyPrefix: mlpipeline,
+            endpoint: v3io-webapi.{{ .Release.Namespace }}:{{ .Values.configurations.ports.nginxPort }},
+            insecure: true,
+            accessKeySecret: {
+                name: v3io-webapi-secret,
+                key: accesskey
+            },
+            secretKeySecret: {
+                name: mlpipeline-minio-secret,
+                key: secretkey
+            }
+        }
+    }
+    }
+{{- end }}

@@ -1,0 +1,18 @@
+{{- if .Values.rbac.create }}
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  namespace: {{ .Release.Namespace }}
+  name: mysql-init-scripts
+  labels:
+    app: mysql-kf
+    chart: mysql-0.0.1
+    release: mysql-kf
+    heritage: {{ .Release.Service }}
+data:
+  enable-root-remote-access.sql: |
+    -- Allow passwordless (insecure) access to root user from anywhere
+    GRANT ALL PRIVILEGES ON *.* TO 'root'@'%' WITH GRANT OPTION;
+    GRANT PROXY ON ''@'' TO 'root'@'%' WITH GRANT OPTION;
+    FLUSH PRIVILEGES;
+{{- end }}
