@@ -5,7 +5,7 @@ metadata:
   name: ml-pipeline-scheduledworkflow-role
   namespace: {{ .Release.Namespace }}
   labels:
-    app: {{ template "pipelines.name" . }}
+    app: ml-pipeline-scheduledworkflow-role
     chart: {{ template "pipelines.chart" . }}
     release: {{ .Release.Name }}
     heritage: {{ .Release.Service }}

@@ -5,21 +5,21 @@ metadata:
   name: ml-pipeline-viewer-crd
   namespace: {{ .Release.Namespace }}
   labels:
-    app: {{ template "pipelines.name" . }}
+    app: ml-pipeline-viewer-crd
     chart: {{ template "pipelines.chart" . }}
     release: {{ .Release.Name }}
     heritage: {{ .Release.Service }}
 spec:
   selector:
     matchLabels:
-      app: {{ template "pipelines.name" . }}
+      app: ml-pipeline-viewer-crd
       chart: {{ template "pipelines.chart" . }}
       release: {{ .Release.Name }}
       heritage: {{ .Release.Service }}
   template:
     metadata:
       labels:
-        app: {{ template "pipelines.name" . }}
+        app: ml-pipeline-viewer-crd
         chart: {{ template "pipelines.chart" . }}
         release: {{ .Release.Name }}
         heritage: {{ .Release.Service }}
