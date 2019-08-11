@@ -16,6 +16,8 @@ spec:
       targetPort: mysql
       protocol: TCP
   selector:
-    app: mysql-kf
-    release: mysql-kf
+    app: {{ template "pipelines.name" . }}
+    chart: {{ template "pipelines.chart" . }}
+    release: {{ .Release.Name }}
+    heritage: {{ .Release.Service }}
 {{- end }}

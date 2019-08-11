@@ -20,5 +20,8 @@ spec:
     protocol: TCP
     targetPort: 8887
   selector:
-    app: ml-pipeline
+    app: {{ template "pipelines.name" . }}
+    chart: {{ template "pipelines.chart" . }}
+    release: {{ .Release.Name }}
+    heritage: {{ .Release.Service }}
 {{- end }}
