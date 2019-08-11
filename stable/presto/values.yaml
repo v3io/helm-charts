@@ -3,12 +3,20 @@ server:
   node:
     environment: production
     dataDir: /presto/etc/data
+    properties:
+        override: false
   log:
-    com.facebook.presto: INFO
-    io.iguaz.v3io: INFO
-    io.iguaz.v3io.daemon: INFO
+    properties:
+      override: false
+    categories:
+      com.facebook.presto: INFO
+      io.iguaz.v3io: INFO
+      io.iguaz.v3io.daemon: INFO
   config:
+    properties:
+      override: false
     mapPath: /etc/config/presto
+    catalogMapPath: /etc/config/presto/catalog
     path: /presto/etc
     http:
       port: 8080
@@ -27,6 +35,8 @@ server:
     extra: {}
 
   jvm:
+    properties:
+      override: false
     maxHeapSize: "8G"
     gcMethod:
       type: "UseG1GC"

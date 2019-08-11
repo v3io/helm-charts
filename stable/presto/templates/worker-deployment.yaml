@@ -27,6 +27,9 @@ spec:
         - name: config-volume
           configMap:
             name: {{ template "presto.worker" . }}
+        - name: catalog-config-volume
+          configMap:
+            name: presto.catalog
         - name: daemon-health
           emptyDir: {}
 {{- if .Values.server.config.https }}
@@ -71,6 +74,8 @@ spec:
           volumeMounts:
             - mountPath: {{ .Values.server.config.mapPath }}
               name: config-volume
+            - mountPath: {{ .Values.server.config.catalogMapPath }}
+              name: catalog-config-volume
             - mountPath: /var/run/iguazio/daemon_health
               name: daemon-health
 {{- if .Values.server.config.https }}
