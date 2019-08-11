@@ -24,7 +24,7 @@ spec:
         - name: OBJECTSTORECONFIG_BUCKETNAME
           value: "{{ .Values.storage.artifacts.containerName }}"
         - name: OBJECTSTORECONFIG_PORT
-          value: "{{ .Values.configurations.port.nginxPort }}"
+          value: "{{ .Values.configurations.ports.nginxPort }}"
         - name: OBJECTSTORECONFIG_HOST
           value: v3io-webapi
         - name: OBJECTSTORECONFIG_MULTIPART_DISABLE

@@ -12,7 +12,7 @@ data:
         s3: {
             bucket: {{ .Values.storage.artifacts.containerName }},
             keyPrefix: mlpipeline,
-            endpoint: v3io-webapi.{{ .Release.Namespace }}:{{ .Values.configurations.port.nginxPort }},
+            endpoint: v3io-webapi.{{ .Release.Namespace }}:{{ .Values.configurations.ports.nginxPort }},
             insecure: true,
             accessKeySecret: {
                 name: v3io-webapi-secret,
