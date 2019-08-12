@@ -31,7 +31,9 @@ spec:
         args: [
           "-alsologtostderr",
           "--kubectl-delivery-image",
-          "{{ .Values.image.kubectlDelivery.repository }}:{{ .Values.image.kubectlDelivery.tag }}"
+          "{{ .Values.image.kubectlDelivery.repository }}:{{ .Values.image.kubectlDelivery.tag }}",
+          "--namespace",
+          "{{ .Release.Namespace }}"
         ]
         env:
         - name: KUBEFLOW_NAMESPACE
