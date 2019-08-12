@@ -33,6 +33,9 @@ spec:
           "--kubectl-delivery-image",
           "{{ .Values.image.kubectlDelivery.repository }}:{{ .Values.image.kubectlDelivery.tag }}"
         ]
+        env:
+        - name: KUBEFLOW_NAMESPACE
+          value: {{ .Release.Namespace }}
         resources:
 {{ toYaml .Values.resources | indent 10 }}
 {{- end }}
