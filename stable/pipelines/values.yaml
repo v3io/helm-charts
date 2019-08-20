@@ -54,21 +54,20 @@ images:
     repository: gcr.io/ml-pipeline/workflow-controller
     tag: v2.3.0
   apiServer:
-    # TODO: once they've update to version 0.1.26 we can return to upstream, gcr.io/ml-pipeline/api-server
-    repository: quay.io/iguazio/ml-pipeline-api-server
-    tag: 0.1.25
+    repository: gcr.io/ml-pipeline/api-server
+    tag: 0.1.26
   persistenceagent:
     repository: gcr.io/ml-pipeline/persistenceagent
-    tag: 0.1.25
+    tag: 0.1.26
   scheduledworkflow:
     repository: gcr.io/ml-pipeline/scheduledworkflow
-    tag: 0.1.25
+    tag: 0.1.26
   ui:
     repository: quay.io/iguazio/ml-pipelines-frontend-v3io
-    tag: latest
+    tag: 0.1.26
   viewerCrdController:
     repository: gcr.io/ml-pipeline/viewer-crd-controller
-    tag: 0.1.25
+    tag: 0.1.26
   mysql:
     repository: mysql
     tag: 5.6
