@@ -11,12 +11,13 @@ rbac:
 
 deployment:
   create: true
+  gpusPerNode: 1  # for mpioperator 0.2.0
 
 image:
   deployment:
     replicas: 1
     repository: mpioperator/mpi-operator
-    tag: 0.2.1
+    tag: 0.2.0
     pullPolicy: IfNotPresent
   kubectlDelivery:
     repository: mpioperator/kubectl-delivery
