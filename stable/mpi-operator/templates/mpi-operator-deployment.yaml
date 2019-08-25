@@ -30,6 +30,8 @@ spec:
         imagePullPolicy: {{ .Values.image.pullPolicy }}
         args: [
           "-alsologtostderr",
+          "--gpus-per-node",
+          "{{ .Values.deployment.gpusPerNode }}",
           "--kubectl-delivery-image",
           "{{ .Values.image.kubectlDelivery.repository }}:{{ .Values.image.kubectlDelivery.tag }}",
           "--namespace",
