@@ -25,7 +25,7 @@ spec:
         heritage: {{ .Release.Service }}
     spec:
       containers:
-      - env:
+      env:
         - name: MINIO_NAMESPACE
           valueFrom:
             fieldRef:
