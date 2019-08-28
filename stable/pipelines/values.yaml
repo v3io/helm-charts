@@ -55,19 +55,28 @@ images:
     tag: v2.3.0
   apiServer:
     repository: gcr.io/ml-pipeline/api-server
-    tag: 0.1.26
+    tag: 0.1.27
   persistenceagent:
     repository: gcr.io/ml-pipeline/persistenceagent
-    tag: 0.1.26
+    tag: 0.1.27
   scheduledworkflow:
     repository: gcr.io/ml-pipeline/scheduledworkflow
-    tag: 0.1.26
+    tag: 0.1.27
   ui:
     repository: quay.io/iguazio/ml-pipelines-frontend-v3io
     tag: 0.1.26
   viewerCrdController:
     repository: gcr.io/ml-pipeline/viewer-crd-controller
-    tag: 0.1.26
+    tag: 0.1.27
+  visualizationserver:
+    repository: gcr.io/ml-pipeline/visualization-server
+    tag: 0.1.27
+  inverseProxyAgent:
+    repository: gcr.io/ml-pipeline/inverse-proxy-agent
+    tag: 0.1.20
+  metadata:
+    repository: gcr.io/kubeflow-images-public/metadata
+    tag: v0.1.8
   mysql:
     repository: mysql
     tag: 5.6

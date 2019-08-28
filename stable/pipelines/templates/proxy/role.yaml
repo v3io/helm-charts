@@ -2,10 +2,10 @@
 apiVersion: rbac.authorization.k8s.io/v1
 kind: Role
 metadata:
-  name: ml-pipeline-ui
+  name: proxy-agent-runner
   namespace: {{ .Release.Namespace }}
   labels:
-    app: ml-pipeline-ui
+    app: proxy-agent-runner
     chart: {{ template "pipelines.chart" . }}
     release: {{ .Release.Name }}
     heritage: {{ .Release.Service }}
@@ -13,20 +13,7 @@ rules:
 - apiGroups:
   - ""
   resources:
-  - pods
-  - pods/log
+  - configmaps
   verbs:
-  - create
-  - get
-  - list
-- apiGroups:
-  - kubeflow.org
-  resources:
-  - viewers
-  verbs:
-  - create
-  - get
-  - list
-  - watch
-  - delete
+  - '*'
 {{- end }}

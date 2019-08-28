@@ -1,0 +1,41 @@
+{{- if .Values.deployment.create }}
+apiVersion: extensions/v1beta2
+kind: Deployment
+metadata:
+  labels:
+    app: metadata-server
+    chart: {{ template "pipelines.chart" . }}
+    release: {{ .Release.Name }}
+    heritage: {{ .Release.Service }}
+  name: metadata-deployment
+  namespace: {{ .Release.Namespace }}
+spec:
+  selector:
+    matchLabels:
+      app: metadata-server
+      chart: {{ template "pipelines.chart" . }}
+      release: {{ .Release.Name }}
+      heritage: {{ .Release.Service }}
+  template:
+    metadata:
+      labels:
+        app: metadata-server
+        chart: {{ template "pipelines.chart" . }}
+        release: {{ .Release.Name }}
+        heritage: {{ .Release.Service }}
+    spec:
+      containers:
+      - command:
+        - ./server/server
+        - --http_port=8080
+        - --mysql_service_host=mysql
+        - --mysql_service_port=3306
+        - --mlmd_db_name=metadb
+        image: {{ .Values.images.metadata.repository }}:{{ .Values.images.metadata.tag }}
+        name: container
+        ports:
+        - containerPort: 8080
+          name: md-backendapi
+      resources:
+{{ toYaml .Values.resources | indent 8 }}
+{{- end }}
