@@ -25,28 +25,28 @@ spec:
         heritage: {{ .Release.Service }}
     spec:
       containers:
-      env:
-        - name: MINIO_NAMESPACE
-          valueFrom:
-            fieldRef:
-              fieldPath: metadata.namespace
-        - name: MINIO_PORT
-          value: "{{ .Values.configurations.ports.nginxPort }}"
-        - name: MINIO_HOST
-          value: v3io-webapi
-        - name: MINIO_ACCESS_KEY
-          value: minio
-        - name: HTTP_AUTHORIZATION_KEY
-          value: X-v3io-session-key
-        - name: HTTP_AUTHORIZATION_DEFAULT_VALUE
-          value: "{{ .Values.configurations.credentials.accessKey }}"
-        - name: MINIO_V3IO
-          value: "1"
-        image: {{ .Values.images.ui.repository }}:{{ .Values.images.ui.tag }}
+      - image: {{ .Values.images.ui.repository }}:{{ .Values.images.ui.tag }}
         imagePullPolicy: {{ .Values.images.imagePullPolicy }}
         name: ml-pipeline-ui
         ports:
         - containerPort: 3000
+        env:
+          - name: MINIO_PORT
+            value: "{{ .Values.configurations.ports.nginxPort }}"
+          - name: MINIO_HOST
+            value: v3io-webapi
+          - name: MINIO_ACCESS_KEY
+            value: minio
+          - name: HTTP_AUTHORIZATION_KEY
+            value: X-v3io-session-key
+          - name: HTTP_AUTHORIZATION_DEFAULT_VALUE
+            value: "{{ .Values.configurations.credentials.accessKey }}"
+          - name: MINIO_V3IO
+            value: "1"
+          - name: MINIO_NAMESPACE
+            valueFrom:
+              fieldRef:
+                fieldPath: metadata.namespace
       serviceAccountName: ml-pipeline-ui
       resources:
 {{ toYaml .Values.resources | indent 8 }}
