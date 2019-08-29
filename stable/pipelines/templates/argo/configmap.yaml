@@ -11,6 +11,7 @@ metadata:
 data:
   config: |
     {
+    namespace: {{ .Release.Namespace }},
     executorImage: {{ .Values.images.argoexec.repository }}:{{ .Values.images.argoexec.tag }},
     artifactRepository:
     {

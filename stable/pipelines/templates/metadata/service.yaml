@@ -1,0 +1,23 @@
+{{- if .Values.rbac.create }}
+apiVersion: v1
+kind: Service
+metadata:
+  name: metadata-service
+  namespace: {{ .Release.Namespace }}
+  labels:
+    app: metadata
+    chart: {{ template "pipelines.chart" . }}
+    release: {{ .Release.Name }}
+    heritage: {{ .Release.Service }}
+spec:
+  ports:
+  - port: 8080
+    protocol: TCP
+    name: md-backendapi
+  type: ClusterIP
+  selector:
+    component: metadata-server
+    chart: {{ template "pipelines.chart" . }}
+    release: {{ .Release.Name }}
+    heritage: {{ .Release.Service }}
+{{- end }}

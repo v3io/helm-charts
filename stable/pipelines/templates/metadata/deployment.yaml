@@ -2,40 +2,40 @@
 apiVersion: apps/v1beta2
 kind: Deployment
 metadata:
-  name: ml-pipeline-viewer-crd
-  namespace: {{ .Release.Namespace }}
   labels:
-    app: ml-pipeline-viewer-crd
+    app: metadata-server
     chart: {{ template "pipelines.chart" . }}
     release: {{ .Release.Name }}
     heritage: {{ .Release.Service }}
+  name: metadata-deployment
+  namespace: {{ .Release.Namespace }}
 spec:
   selector:
     matchLabels:
-      app: ml-pipeline-viewer-crd
+      app: metadata-server
       chart: {{ template "pipelines.chart" . }}
       release: {{ .Release.Name }}
       heritage: {{ .Release.Service }}
   template:
     metadata:
       labels:
-        app: ml-pipeline-viewer-crd
+        app: metadata-server
         chart: {{ template "pipelines.chart" . }}
         release: {{ .Release.Name }}
         heritage: {{ .Release.Service }}
     spec:
       containers:
-      - image: {{ .Values.images.viewerCrdController.repository }}:{{ .Values.images.viewerCrdController.tag }}
-        imagePullPolicy: {{ .Values.images.imagePullPolicy }}
-        name: ml-pipeline-viewer-crd
-        env:
-        - name: MAX_NUM_VIEWERS
-          value: "50"
-        - name: MINIO_NAMESPACE
-          valueFrom:
-            fieldRef:
-              fieldPath: metadata.namespace
-      serviceAccountName: ml-pipeline-viewer-crd-service-account
+      - command:
+        - ./server/server
+        - --http_port=8080
+        - --mysql_service_host=mysql
+        - --mysql_service_port=3306
+        - --mlmd_db_name=metadb
+        image: {{ .Values.images.metadata.repository }}:{{ .Values.images.metadata.tag }}
+        name: container
+        ports:
+        - containerPort: 8080
+          name: md-backendapi
       resources:
 {{ toYaml .Values.resources | indent 8 }}
 {{- end }}
