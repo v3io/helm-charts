@@ -5,18 +5,18 @@ deployment:
 rbac:
   create: true
 
-# kubeflow piplines uses two kinds of storage:
+# kubeflow pipelines uses two kinds of storage:
 # Metadata -  mostly used for purposes of sorting and filtering uses mysql
 # Artifacts - heavier data (packages, views, etc. Also large-scale metrics) we use iguazio storage for this
 storage:
   artifacts:
-    containerName: bigdata
+    containerName: users
   metadata:
     containerName: users
 
 configurations:
   credentials:
-    accessKey: provideMe
+    accessKey: overrideMe
   ports:
     nginxPort: 8081
   argo:
@@ -63,7 +63,7 @@ images:
     repository: gcr.io/ml-pipeline/scheduledworkflow
     tag: 0.1.27
   ui:
-    repository: quay.io/iguazio/ml-pipelines-frontend-v3io
+    repository: quay.io/iguazio/ml-pipeline-frontend-v3io
     tag: 0.1.27
   viewerCrdController:
     repository: gcr.io/ml-pipeline/viewer-crd-controller
