@@ -25,7 +25,7 @@ spec:
         heritage: {{ .Release.Service }}
     spec:
       containers:
-      - image: {{ .Values.images.visualizationserver.repository }}:{{ .Values.images.visualizationserver.tag }}
+      - image: {{ .Values.images.visualizationServer.repository }}:{{ .Values.images.visualizationServer.tag }}
         imagePullPolicy: {{ .Values.images.imagePullPolicy }}
         name: ml-pipeline-visualizationserver
         ports:
