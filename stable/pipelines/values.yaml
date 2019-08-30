@@ -71,9 +71,6 @@ images:
   visualizationserver:
     repository: gcr.io/ml-pipeline/visualization-server
     tag: 0.1.27
-  inverseProxyAgent:
-    repository: gcr.io/ml-pipeline/inverse-proxy-agent
-    tag: 0.1.20
   metadata:
     repository: gcr.io/kubeflow-images-public/metadata
     tag: v0.1.8
