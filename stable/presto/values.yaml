@@ -43,6 +43,8 @@ server:
       g1:
         heapRegionSize: "32M"
 hive:
+  properties:
+    override: false
   hostname: hive
   port: 9083
 

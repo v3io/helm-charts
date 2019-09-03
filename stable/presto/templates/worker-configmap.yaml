@@ -118,24 +118,17 @@ data:
     echo -n "{{ .Values.server.config.https.keystoreBinary }}" | base64 --decode > {{ .Values.server.config.https.keystore }}
 {{- end }}
 
-{{- if .Values.hive }}
-  hive.properties: |
-    connector.name=hive-hadoop2
-    hive.metastore.uri=thrift://{{ .Values.hive.hostname }}:{{ .Values.hive.port }}
-{{- end }}
-
   docker-presto.sh: |
     #!/bin/bash
+
     cp {{ .Values.server.config.mapPath }}/*.properties $PRESTO_CONF_DIR
     cp {{ .Values.server.config.mapPath }}/*.config $PRESTO_CONF_DIR
     cp {{ .Values.server.config.mapPath }}/*.json $PRESTO_CONF_DIR
     cp {{ .Values.server.config.catalogMapPath }}/*.properties $PRESTO_CONF_DIR/catalog
 
 {{- if .Values.hive }}
-
-    # Hive configuration
-    echo hive.config.resources=${HADOOP_CONF_DIR}/core-site.xml,${HADOOP_CONF_DIR}/hdfs-site.xml >> $PRESTO_CONF_DIR/hive.properties
-    mv $PRESTO_CONF_DIR/hive.properties $PRESTO_CONF_DIR/catalog/hive.properties
+    # append to Hive configuration
+    echo hive.config.resources=${HADOOP_CONF_DIR}/core-site.xml,${HADOOP_CONF_DIR}/hdfs-site.xml >> $PRESTO_CONF_DIR/catalog/hive.properties
 
     # Hive dependencies
     ln -s ${PRESTO_HOME}/plugin/v3io/v3io-hcfs_${SCALA_MAJOR_VERSION}.jar ${PRESTO_HOME}/plugin/hive-hadoop2/v3io-hcfs_${SCALA_MAJOR_VERSION}.jar
