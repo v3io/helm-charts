@@ -136,10 +136,10 @@ data:
     ln -s ${PRESTO_HOME}/plugin/v3io/scala-library-${SCALA_VERSION}.jar ${PRESTO_HOME}/plugin/hive-hadoop2/scala-library-${SCALA_VERSION}.jar
 {{- end }}
 
-mv {{ .Values.server.config.mapPath }}/*.properties $PRESTO_CONF_DIR
-mv {{ .Values.server.config.mapPath }}/*.config $PRESTO_CONF_DIR
-mv {{ .Values.server.config.mapPath }}/*.json $PRESTO_CONF_DIR
-mv {{ .Values.server.config.catalogMapPath }}/*.properties $PRESTO_CONF_DIR/catalog
+    mv {{ .Values.server.config.mapPath }}/*.properties $PRESTO_CONF_DIR
+    mv {{ .Values.server.config.mapPath }}/*.config $PRESTO_CONF_DIR
+    mv {{ .Values.server.config.mapPath }}/*.json $PRESTO_CONF_DIR
+    mv {{ .Values.server.config.catalogMapPath }}/*.properties $PRESTO_CONF_DIR/catalog
 
     launcher run
 

@@ -1,3 +1,739 @@
 apiVersion: v1
-entries: ~
-generated: 2018-01-30T17:09:13.202782+02:00
+entries:
+  empty:
+  - appVersion: '>=1.9.4'
+    created: 2019-09-03T11:08:37.946206+03:00
+    description: empty
+    digest: 2ca7a44da4d88c06bbad40791f00c3c24427de0cd3de0fdb7389c7826ff3a379
+    home: https://iguazio.com
+    icon: https://www.iguazio.com/wp-content/uploads/2017/09/iguazio_logo_2017_w_c.png
+    maintainers:
+    - email: eliranb@iguazio.com
+      name: bivas
+    - email: hedii@iguazio.com
+      name: Hedi Ingber
+    name: empty
+    urls:
+    - https://v3io.github.io/helm-charts/stable/empty-0.1.1.tgz
+    version: 0.1.1
+  - appVersion: '>=1.9.4'
+    created: 2019-09-03T11:08:37.945934+03:00
+    description: empty
+    digest: 1d18e84352d318df13b311b0d6e9a83cc7b4e8c489501f6c5f58b03d806f2b8f
+    home: https://iguazio.com
+    icon: https://www.iguazio.com/wp-content/uploads/2017/09/iguazio_logo_2017_w_c.png
+    maintainers:
+    - email: eliranb@iguazio.com
+      name: bivas
+    - email: hedii@iguazio.com
+      name: Hedi Ingber
+    name: empty
+    urls:
+    - https://v3io.github.io/helm-charts/stable/empty-0.1.0.tgz
+    version: 0.1.0
+  hive:
+  - apiVersion: v1
+    appVersion: '>=2.0.0'
+    created: 2019-09-03T11:08:37.950502+03:00
+    description: Hive metastore service
+    digest: 2686ad14862d195e17ac83f10aaf229c9e8434d69c57f5f1b8abeac78e723fbc
+    home: https://iguazio.com
+    icon: https://www.iguazio.com/wp-content/uploads/2017/09/iguazio_logo_2017_w_c.png
+    maintainers:
+    - email: igorm@iguazio.com
+      name: imakhlin
+    name: hive
+    sources:
+    - https://github.com/iguazio/kubeops/
+    urls:
+    - https://v3io.github.io/helm-charts/stable/hive-0.2.2.tgz
+    version: 0.2.2
+  - apiVersion: v1
+    appVersion: '>=2.0.0'
+    created: 2019-09-03T11:08:37.949569+03:00
+    description: Hive metastore service
+    digest: 6d747ab22052bca08d6d07e8a2ddea61c5072ce76752072323cd3ba47d1982bb
+    home: https://iguazio.com
+    icon: https://www.iguazio.com/wp-content/uploads/2017/09/iguazio_logo_2017_w_c.png
+    maintainers:
+    - email: igorm@iguazio.com
+      name: imakhlin
+    name: hive
+    sources:
+    - https://github.com/iguazio/kubeops/
+    urls:
+    - https://v3io.github.io/helm-charts/stable/hive-0.1.1.tgz
+    version: 0.1.1
+  - apiVersion: v1
+    appVersion: '>=2.0.0'
+    created: 2019-09-03T11:08:37.947926+03:00
+    description: Hive metastore service
+    digest: ae5a609161ccfb4e58d0ba79e926207ac5db112a955df0af68a23fc07a345783
+    home: https://iguazio.com
+    icon: https://www.iguazio.com/wp-content/uploads/2017/09/iguazio_logo_2017_w_c.png
+    maintainers:
+    - email: igorm@iguazio.com
+      name: imakhlin
+    name: hive
+    sources:
+    - https://github.com/iguazio/kubeops/
+    urls:
+    - https://v3io.github.io/helm-charts/stable/hive-0.1.0.tgz
+    version: 0.1.0
+  iguazio-system:
+  - apiVersion: v1
+    created: 2019-09-03T11:08:37.957356+03:00
+    description: A Helm chart for creating iguazio-system services
+    digest: b56d8f895c664d3dd6c0db7369376409138a32768c0fbb4dcdaaf087c6c29d4a
+    home: https://iguazio.com
+    icon: https://www.iguazio.com/wp-content/uploads/2017/09/iguazio_logo_2017_w_c.png
+    maintainers:
+    - email: eliranb@iguazio.com
+      name: bivas
+    name: iguazio-system
+    sources:
+    - https://github.com/v3io
+    urls:
+    - https://v3io.github.io/helm-charts/stable/iguazio-system-0.4.6.tgz
+    version: 0.4.6
+  - apiVersion: v1
+    created: 2019-09-03T11:08:37.954375+03:00
+    description: A Helm chart for creating iguazio-system services
+    digest: 568b93539a40d55f45a6f857999dd192ecc7c073fc4429f3486158a5b879aff3
+    home: https://iguazio.com
+    icon: https://www.iguazio.com/wp-content/uploads/2017/09/iguazio_logo_2017_w_c.png
+    maintainers:
+    - email: eliranb@iguazio.com
+      name: bivas
+    name: iguazio-system
+    sources:
+    - https://github.com/v3io
+    urls:
+    - https://v3io.github.io/helm-charts/stable/iguazio-system-0.4.5.tgz
+    version: 0.4.5
+  jupyter:
+  - appVersion: '>=2.0.0'
+    created: 2019-09-03T11:08:37.960282+03:00
+    description: Jupyter
+    digest: d669875dbfb7f7c07de15cf475ef48f46d6258a33a43644a4652d8e738b03e47
+    home: https://jupyter.org/
+    icon: https://jupyter.org/assets/nav_logo.svg
+    maintainers:
+    - email: eliranb@iguazio.com
+      name: bivas
+    name: jupyter
+    sources:
+    - https://github.com/jupyter
+    urls:
+    - https://v3io.github.io/helm-charts/stable/jupyter-0.6.9.tgz
+    version: 0.6.9
+  - appVersion: '>=2.0.0'
+    created: 2019-09-03T11:08:37.959549+03:00
+    description: Jupyter
+    digest: 520d55296f90b700d81fef56e6c3e6863aecc0e489e6595656df45f34a539a07
+    home: https://jupyter.org/
+    icon: https://jupyter.org/assets/nav_logo.svg
+    maintainers:
+    - email: eliranb@iguazio.com
+      name: bivas
+    name: jupyter
+    sources:
+    - https://github.com/jupyter
+    urls:
+    - https://v3io.github.io/helm-charts/stable/jupyter-0.3.15.tgz
+    version: 0.3.15
+  - appVersion: '>=2.0.0'
+    created: 2019-09-03T11:08:37.958425+03:00
+    description: Jupyter
+    digest: ab5116176a7f34a536a2082519ccc3edc14245592de98058f36800379ddebfb2
+    home: https://jupyter.org/
+    icon: https://jupyter.org/assets/nav_logo.svg
+    maintainers:
+    - email: eliranb@iguazio.com
+      name: bivas
+    name: jupyter
+    sources:
+    - https://github.com/jupyter
+    urls:
+    - https://v3io.github.io/helm-charts/stable/jupyter-0.3.12.tgz
+    version: 0.3.12
+  jupyterhub:
+  - appVersion: 0.9.2
+    created: 2019-09-03T11:08:37.961624+03:00
+    description: Multi-user Jupyter installation
+    digest: 4a30c3572503cb210d2c329fdcf414178bb103b86bff41115055902a3ad97225
+    home: https://z2jh.jupyter.org
+    icon: https://jupyter.org/assets/hublogo.svg
+    kubeVersion: '>=1.8.0-0'
+    name: jupyterhub
+    sources:
+    - https://github.com/jupyterhub/zero-to-jupyterhub-k8s
+    tillerVersion: '>=2.9.1-0'
+    urls:
+    - https://v3io.github.io/helm-charts/stable/jupyterhub-0.7.7.tgz
+    version: 0.7.7
+  mariadb:
+  - apiVersion: v1
+    appVersion: '>=2.0.0'
+    created: 2019-09-03T11:08:37.963497+03:00
+    description: MariaDB (MySQL) service
+    digest: 0d57b6c1f39b8ebb967ff6b3558fe9d6a081e1df58f39d7c77650ef2e074d763
+    home: https://iguazio.com
+    icon: https://www.iguazio.com/wp-content/uploads/2017/09/iguazio_logo_2017_w_c.png
+    maintainers:
+    - email: igorm@iguazio.com
+      name: imakhlin
+    name: mariadb
+    sources:
+    - https://github.com/iguazio/kubeops/
+    urls:
+    - https://v3io.github.io/helm-charts/stable/mariadb-0.2.2.tgz
+    version: 0.2.2
+  - apiVersion: v1
+    appVersion: '>=2.0.0'
+    created: 2019-09-03T11:08:37.962644+03:00
+    description: MariaDB (MySQL) service
+    digest: f5b85fdcbddc442a214ce44ad392c84f607823ed874f81aee1ec302b1518c8e6
+    home: https://iguazio.com
+    icon: https://www.iguazio.com/wp-content/uploads/2017/09/iguazio_logo_2017_w_c.png
+    maintainers:
+    - email: igorm@iguazio.com
+      name: imakhlin
+    name: mariadb
+    sources:
+    - https://github.com/iguazio/kubeops/
+    urls:
+    - https://v3io.github.io/helm-charts/stable/mariadb-0.1.0.tgz
+    version: 0.1.0
+  metrics-server-exporter:
+  - apiVersion: v1
+    appVersion: '>=2.0.0'
+    created: 2019-09-03T11:08:37.963811+03:00
+    description: K8s metrics exporter in prometheus format
+    digest: 3cabb736556784f9f016cfff9cc5acdb552c2d932c58a1c47f049313536becfe
+    home: https://iguazio.com
+    icon: https://www.iguazio.com/wp-content/uploads/2017/09/iguazio_logo_2017_w_c.png
+    maintainers:
+    - email: pavelr@iguazio.com
+      name: pavelr
+    name: metrics-server-exporter
+    sources:
+    - https://github.com/iguazio/zapp/
+    urls:
+    - https://v3io.github.io/helm-charts/stable/metrics-server-exporter-0.1.3.tgz
+    version: 0.1.3
+  mpi-operator:
+  - apiVersion: v1
+    appVersion: ==0.2.0
+    created: 2019-09-03T11:08:37.964166+03:00
+    description: Kubeflow MPI job operator
+    digest: 712c0abfcaca8235019354362fd56483766f637c6757066f512f1bc4ffcc741b
+    home: https://www.kubeflow.org/
+    icon: https://github.com/kubeflow/marketing-materials/blob/master/logos/Raster/Kubeflow-Logo-RGB.png
+    maintainers:
+    - email: odedm@iguazio.com
+      name: odedm
+    name: mpi-operator
+    sources:
+    - https://github.com/kubeflow/mpi-operator
+    urls:
+    - https://v3io.github.io/helm-charts/stable/mpi-operator-0.0.3.tgz
+    version: 0.0.3
+  pipelines:
+  - apiVersion: v1
+    appVersion: '>=0.1.27'
+    created: 2019-09-03T11:08:37.964884+03:00
+    description: Kubeflow pipelines framework for machine learning
+    digest: 521f6ab0277419ba2cdf53a2e556fb5188e79d4b021c199ea3a494330d6bd15b
+    home: https://www.kubeflow.org/
+    icon: https://github.com/kubeflow/marketing-materials/blob/master/logos/Raster/Kubeflow-Logo-RGB.png
+    maintainers:
+    - email: nirs@iguazio.com
+      name: nirsagi
+    name: pipelines
+    sources:
+    - https://github.com/kubeflow/pipelines
+    urls:
+    - https://v3io.github.io/helm-charts/stable/pipelines-0.1.2.tgz
+    version: 0.1.2
+  presto:
+  - apiVersion: v1
+    appVersion: '>=2.0.0'
+    created: 2019-09-03T11:08:37.969807+03:00
+    description: Distributed SQL query engine for running interactive analytic queries
+    digest: 7e8577bbb1477408b75adebd1cb6971c46c1ee31d14f938989ffcd26405ca30c
+    home: https://prestodb.io
+    icon: https://prestodb.io/static/presto.png
+    maintainers:
+    - email: igorm@iguazio.com
+      name: Igor Makhlin
+    name: presto
+    sources:
+    - https://github.com/facebook/presto
+    urls:
+    - https://v3io.github.io/helm-charts/stable/presto-0.6.4.tgz
+    version: 0.6.4
+  - apiVersion: v1
+    appVersion: '>=2.0.0'
+    created: 2019-09-03T11:08:37.96856+03:00
+    description: Distributed SQL query engine for running interactive analytic queries
+    digest: a80e3bba656d89f2be93bb0cdb7535fb3e1fcbf5865dc6f5b71ee7adf54d84dd
+    home: https://prestodb.io
+    icon: https://prestodb.io/static/presto.png
+    maintainers:
+    - email: eliranb@iguazio.com
+      name: bivas
+    name: presto
+    sources:
+    - https://github.com/facebook/presto
+    urls:
+    - https://v3io.github.io/helm-charts/stable/presto-0.5.0.tgz
+    version: 0.5.0
+  - apiVersion: v1
+    appVersion: '>=2.0.0'
+    created: 2019-09-03T11:08:37.966171+03:00
+    description: Distributed SQL query engine for running interactive analytic queries
+    digest: cd5143be4763f9e036632d1886c59d043b92744c4c4d3a2423da38638d19fd86
+    home: https://prestodb.io
+    icon: https://prestodb.io/static/presto.png
+    maintainers:
+    - email: eliranb@iguazio.com
+      name: bivas
+    name: presto
+    sources:
+    - https://github.com/facebook/presto
+    urls:
+    - https://v3io.github.io/helm-charts/stable/presto-0.4.4.tgz
+    version: 0.4.4
+  provazio:
+  - apiVersion: v1
+    appVersion: 0.10.11
+    created: 2019-09-03T11:08:37.971795+03:00
+    description: Iguazio provisioner
+    digest: 310aaa223c547dbe45eca02026ff06b9a4f8e3bd2275d7a950f9e9c2d7ccdccb
+    home: https://iguazio.com
+    icon: https://github.com/nuclio/nuclio/raw/master/docs/assets/images/logo.png
+    maintainers:
+    - email: erand@iguazio.com
+      name: pavius
+    name: provazio
+    urls:
+    - https://v3io.github.io/helm-charts/stable/provazio-0.3.1.tgz
+    version: 0.3.1
+  - apiVersion: v1
+    appVersion: 0.3.0
+    created: 2019-09-03T11:08:37.970737+03:00
+    description: Iguazio provisioner
+    digest: 6eadc1158580dfb13eeee2bf8b67df8ab429305b87c4609eba07b7cbea662d08
+    home: https://iguazio.com
+    icon: https://github.com/nuclio/nuclio/raw/master/docs/assets/images/logo.png
+    maintainers:
+    - email: erand@iguazio.com
+      name: pavius
+    name: provazio
+    urls:
+    - https://v3io.github.io/helm-charts/stable/provazio-0.2.1.tgz
+    version: 0.2.1
+  scaler:
+  - apiVersion: v1
+    created: 2019-09-03T11:08:37.972504+03:00
+    description: A Helm chart for creating scaler - dlx
+    digest: bc76ec2cbac70dbbf85da949c7a2a949ba5692427a7013c39deb9140b88e4764
+    home: https://iguazio.com
+    icon: https://www.iguazio.com/wp-content/uploads/2017/09/iguazio_logo_2017_w_c.png
+    maintainers:
+    - email: eliranb@iguazio.com
+      name: bivas
+    name: scaler
+    sources:
+    - https://github.com/v3io
+    urls:
+    - https://v3io.github.io/helm-charts/stable/scaler-0.1.1.tgz
+    version: 0.1.1
+  shell:
+  - apiVersion: v1
+    appVersion: '>=2.0.0'
+    created: 2019-09-03T11:08:37.976399+03:00
+    description: Shell access to data services
+    digest: d1225378e4bf676e7bf105955b5a3ef25fb30bfd5990dfbc72a4d591a279f4c5
+    home: https://iguazio.com
+    icon: https://www.iguazio.com/wp-content/uploads/2017/09/iguazio_logo_2017_w_c.png
+    maintainers:
+    - email: eliranb@iguazio.com
+      name: bivas
+    name: shell
+    sources:
+    - https://github.com/iguazio/kubeops/
+    urls:
+    - https://v3io.github.io/helm-charts/stable/shell-0.9.5.tgz
+    version: 0.9.5
+  - apiVersion: v1
+    appVersion: '>=2.0.0'
+    created: 2019-09-03T11:08:37.975605+03:00
+    description: Shell access to data services
+    digest: 0052577148bbeb3264d2d282826628b73ab2d540317068520ba925c9cc984f8a
+    home: https://iguazio.com
+    icon: https://www.iguazio.com/wp-content/uploads/2017/09/iguazio_logo_2017_w_c.png
+    maintainers:
+    - email: eliranb@iguazio.com
+      name: bivas
+    name: shell
+    sources:
+    - https://github.com/iguazio/kubeops/
+    urls:
+    - https://v3io.github.io/helm-charts/stable/shell-0.8.00.tgz
+    version: 0.8.00
+  - apiVersion: v1
+    appVersion: '>=2.0.0'
+    created: 2019-09-03T11:08:37.974007+03:00
+    description: Shell access to data services
+    digest: dca07e9a512ba863831a080d99539d70f7540c25cd5660bdf1d69a2fe3d378f0
+    home: https://iguazio.com
+    icon: https://www.iguazio.com/wp-content/uploads/2017/09/iguazio_logo_2017_w_c.png
+    maintainers:
+    - email: eliranb@iguazio.com
+      name: bivas
+    name: shell
+    sources:
+    - https://github.com/iguazio/kubeops/
+    urls:
+    - https://v3io.github.io/helm-charts/stable/shell-0.7.16.tgz
+    version: 0.7.16
+  spark:
+  - appVersion: '>=2.0.0'
+    created: 2019-09-03T11:08:37.97966+03:00
+    description: Fast and general-purpose cluster computing system.
+    digest: 5f18ff41535a07e143b3cba5a8370e743ac501e214b3a34881060766abeb7180
+    home: http://spark.apache.org
+    icon: http://spark.apache.org/images/spark-logo-trademark.png
+    maintainers:
+    - email: lachlan.evenson@gmail.com
+      name: Lachlan Evenson
+    - email: eliranb@iguazio.com
+      name: bivas
+    name: spark
+    sources:
+    - https://github.com/kubernetes/kubernetes/tree/master/examples/spark
+    - https://github.com/apache/spark
+    urls:
+    - https://v3io.github.io/helm-charts/stable/spark-0.9.2.tgz
+    version: 0.9.2
+  - appVersion: '>=2.0.0'
+    created: 2019-09-03T11:08:37.978973+03:00
+    description: Fast and general-purpose cluster computing system.
+    digest: 1fdb14b91fe0210dd02aa18a7a23c49ff49bad4f59c92e5e1bf51b55d615aa24
+    home: http://spark.apache.org
+    icon: http://spark.apache.org/images/spark-logo-trademark.png
+    maintainers:
+    - email: lachlan.evenson@gmail.com
+      name: Lachlan Evenson
+    - email: eliranb@iguazio.com
+      name: bivas
+    name: spark
+    sources:
+    - https://github.com/kubernetes/kubernetes/tree/master/examples/spark
+    - https://github.com/apache/spark
+    urls:
+    - https://v3io.github.io/helm-charts/stable/spark-0.8.0.tgz
+    version: 0.8.0
+  - appVersion: '>=2.0.0'
+    created: 2019-09-03T11:08:37.977434+03:00
+    description: Fast and general-purpose cluster computing system.
+    digest: 30aa7e0fc400a38452bb68cb05a3dd18f1ba3f15ae07a97790e1751ca2a5c458
+    home: http://spark.apache.org
+    icon: http://spark.apache.org/images/spark-logo-trademark.png
+    maintainers:
+    - email: lachlan.evenson@gmail.com
+      name: Lachlan Evenson
+    - email: eliranb@iguazio.com
+      name: bivas
+    name: spark
+    sources:
+    - https://github.com/kubernetes/kubernetes/tree/master/examples/spark
+    - https://github.com/apache/spark
+    urls:
+    - https://v3io.github.io/helm-charts/stable/spark-0.7.6.tgz
+    version: 0.7.6
+  tenant:
+  - apiVersion: v1
+    created: 2019-09-03T11:08:37.980066+03:00
+    description: A Helm chart for creating tenant
+    digest: 3b564506f0f00ec5cd64144daec5c8d4ec7e224256dd8d2195a092f3ee0809ac
+    home: https://iguazio.com
+    icon: https://www.iguazio.com/wp-content/uploads/2017/09/iguazio_logo_2017_w_c.png
+    maintainers:
+    - email: eliranb@iguazio.com
+      name: bivas
+    name: tenant
+    sources:
+    - https://github.com/v3io
+    urls:
+    - https://v3io.github.io/helm-charts/stable/tenant-0.2.3.tgz
+    version: 0.2.3
+  tenant-creator:
+  - apiVersion: v1
+    created: 2019-09-03T11:08:37.981019+03:00
+    description: A Helm chart for creating tenant creator
+    digest: 83a7b72085195a01f45caff4d14552792308b864119b3134a5609cf6b8ffc40e
+    home: https://iguazio.com
+    icon: https://www.iguazio.com/wp-content/uploads/2017/09/iguazio_logo_2017_w_c.png
+    maintainers:
+    - email: eliranb@iguazio.com
+      name: bivas
+    name: tenant-creator
+    sources:
+    - https://github.com/v3io
+    urls:
+    - https://v3io.github.io/helm-charts/stable/tenant-creator-0.1.4.tgz
+    version: 0.1.4
+  - apiVersion: v1
+    created: 2019-09-03T11:08:37.980729+03:00
+    description: A Helm chart for creating tenant creator
+    digest: 5dffcd5c824c3e634bfbe3feddf970bda4d2e26f5e8169fcd3905e1ce519f5ef
+    home: https://iguazio.com
+    icon: https://www.iguazio.com/wp-content/uploads/2017/09/iguazio_logo_2017_w_c.png
+    maintainers:
+    - email: eliranb@iguazio.com
+      name: bivas
+    name: tenant-creator
+    sources:
+    - https://github.com/v3io
+    urls:
+    - https://v3io.github.io/helm-charts/stable/tenant-creator-0.1.2.tgz
+    version: 0.1.2
+  tsdb-functions:
+  - appVersion: 0.0.12
+    created: 2019-09-03T11:08:37.981831+03:00
+    description: V3IO TSDB nuclio functions
+    digest: 23e7a9d73b529c3114ee65b94945daf6047e0e0544c975835b20883f465c1928
+    home: https://iguazio.com
+    icon: https://www.iguazio.com/wp-content/uploads/2017/09/iguazio_logo_2017_w_c.png
+    maintainers:
+    - email: levr@iguazio.com
+      name: levrado
+    name: tsdb-functions
+    sources:
+    - https://github.com/v3io
+    urls:
+    - https://v3io.github.io/helm-charts/stable/tsdb-functions-0.1.2.tgz
+    version: 0.1.2
+  - appVersion: 0.0.12
+    created: 2019-09-03T11:08:37.98153+03:00
+    description: V3IO TSDB nuclio functions
+    digest: 1f64b08275654d3eff29be1a099d2696a65d8a799d66aff6cbd8c4427ae65fa2
+    home: https://iguazio.com
+    icon: https://www.iguazio.com/wp-content/uploads/2017/09/iguazio_logo_2017_w_c.png
+    maintainers:
+    - email: levr@iguazio.com
+      name: levrado
+    name: tsdb-functions
+    sources:
+    - https://github.com/v3io
+    urls:
+    - https://v3io.github.io/helm-charts/stable/tsdb-functions-0.1.0.tgz
+    version: 0.1.0
+  v3io-configs:
+  - apiVersion: v1
+    appVersion: "1.0"
+    created: 2019-09-03T11:08:37.983521+03:00
+    description: V3IO configuration templates
+    digest: 66afcc861c948c12959b647b9f549ba4d10694514f318007f26e6a9045cd418a
+    icon: https://www.iguazio.com/wp-content/uploads/2017/09/iguazio_logo_2017_w_c.png
+    maintainers:
+    - email: eliranb@iguazio.com
+      name: bivas
+    name: v3io-configs
+    sources:
+    - https://github.com/iguazio/kubeops/
+    urls:
+    - https://v3io.github.io/helm-charts/stable/v3io-configs-0.7.2.tgz
+    version: 0.7.2
+  - apiVersion: v1
+    appVersion: "1.0"
+    created: 2019-09-03T11:08:37.983163+03:00
+    description: V3IO configuration templates
+    digest: bf3caee799d4e6c9a8c4e0a07f2192f82d9e30dd202f65dd9d0f989641bf3780
+    icon: https://www.iguazio.com/wp-content/uploads/2017/09/iguazio_logo_2017_w_c.png
+    maintainers:
+    - email: eliranb@iguazio.com
+      name: bivas
+    name: v3io-configs
+    sources:
+    - https://github.com/iguazio/kubeops/
+    urls:
+    - https://v3io.github.io/helm-charts/stable/v3io-configs-0.6.6.tgz
+    version: 0.6.6
+  - apiVersion: v1
+    appVersion: "1.0"
+    created: 2019-09-03T11:08:37.982561+03:00
+    description: V3IO configuration templates
+    digest: 4ba46949ce8516520a544e9571c1140dd661e9efc8144ba4315285ef88326d0f
+    icon: https://www.iguazio.com/wp-content/uploads/2017/09/iguazio_logo_2017_w_c.png
+    maintainers:
+    - email: eliranb@iguazio.com
+      name: bivas
+    name: v3io-configs
+    sources:
+    - https://github.com/iguazio/kubeops/
+    urls:
+    - https://v3io.github.io/helm-charts/stable/v3io-configs-0.6.5.tgz
+    version: 0.6.5
+  v3io-framesd:
+  - apiVersion: v1
+    created: 2019-09-03T11:08:37.984331+03:00
+    description: V3IO frames daemon
+    digest: 33027599304feff271692d6fabda7d78d846afb272c6ef6176a86d88b39b30e8
+    home: https://iguazio.com
+    icon: https://www.iguazio.com/wp-content/uploads/2017/09/iguazio_logo_2017_w_c.png
+    maintainers:
+    - email: eliranb@iguazio.com
+      name: bivas
+    name: v3io-framesd
+    sources:
+    - https://github.com/v3io/frames
+    urls:
+    - https://v3io.github.io/helm-charts/stable/v3io-framesd-0.2.2.tgz
+    version: 0.2.2
+  - apiVersion: v1
+    created: 2019-09-03T11:08:37.984023+03:00
+    description: V3IO frames daemon
+    digest: 2fb079dc7b0c947b41dc0ad46e174e1a4d6aba6af2b0052bc3dc74de106711a0
+    home: https://iguazio.com
+    icon: https://www.iguazio.com/wp-content/uploads/2017/09/iguazio_logo_2017_w_c.png
+    maintainers:
+    - email: eliranb@iguazio.com
+      name: bivas
+    name: v3io-framesd
+    sources:
+    - https://github.com/v3io/frames
+    urls:
+    - https://v3io.github.io/helm-charts/stable/v3io-framesd-0.2.1.tgz
+    version: 0.2.1
+  v3io-webapi:
+  - appVersion: ~1.7.0
+    created: 2019-09-03T11:08:37.987155+03:00
+    description: v3io WebAPI
+    digest: 6e667a822aad00f186a4b6fd4c5ac36a859d3b29c859e7f50023e2085b1afb39
+    home: https://iguazio.com
+    icon: https://www.iguazio.com/wp-content/uploads/2017/09/iguazio_logo_2017_w_c.png
+    maintainers:
+    - email: eliranb@iguazio.com
+      name: bivas
+    name: v3io-webapi
+    sources:
+    - https://github.com/iguazio/zeek/
+    urls:
+    - https://v3io.github.io/helm-charts/stable/v3io-webapi-0.7.6.tgz
+    version: 0.7.6
+  - appVersion: ~1.7.0
+    created: 2019-09-03T11:08:37.986462+03:00
+    description: v3io WebAPI
+    digest: 7df1707cda3b92f0dd151e29229e753c544f29c42f5cc4c3be605cbe0cbb3cb5
+    home: https://iguazio.com
+    icon: https://www.iguazio.com/wp-content/uploads/2017/09/iguazio_logo_2017_w_c.png
+    maintainers:
+    - email: eliranb@iguazio.com
+      name: bivas
+    name: v3io-webapi
+    sources:
+    - https://github.com/iguazio/zeek/
+    urls:
+    - https://v3io.github.io/helm-charts/stable/v3io-webapi-0.6.7.tgz
+    version: 0.6.7
+  - appVersion: ~1.7.0
+    created: 2019-09-03T11:08:37.985218+03:00
+    description: v3io WebAPI
+    digest: 1ae12be5eb05be1f5a9272a2466fa52762ad444ee8aa77c33809d11428decc92
+    home: https://iguazio.com
+    icon: https://www.iguazio.com/wp-content/uploads/2017/09/iguazio_logo_2017_w_c.png
+    maintainers:
+    - email: eliranb@iguazio.com
+      name: bivas
+    name: v3io-webapi
+    sources:
+    - https://github.com/iguazio/zeek/
+    urls:
+    - https://v3io.github.io/helm-charts/stable/v3io-webapi-0.6.5.tgz
+    version: 0.6.5
+  v3iod:
+  - appVersion: '>=1.9.4'
+    created: 2019-09-03T11:08:37.987576+03:00
+    description: v3io daemon
+    digest: 55986eb033a1ebd65d85490186ae099bf67508192b4dc71c3c0f71dd12a6dd35
+    home: https://iguazio.com
+    icon: https://www.iguazio.com/wp-content/uploads/2017/09/iguazio_logo_2017_w_c.png
+    maintainers:
+    - email: eliranb@iguazio.com
+      name: bivas
+    - email: erand@iguazio.com
+      name: Eran Duchan
+    name: v3iod
+    sources:
+    - https://github.com/v3io/v3iod
+    urls:
+    - https://v3io.github.io/helm-charts/stable/v3iod-0.11.1.tgz
+    version: 0.11.1
+  - appVersion: '>=1.9.4'
+    created: 2019-09-03T11:08:37.988349+03:00
+    description: v3io daemon
+    digest: c31da5b8bcd739e003b2093529436bb45ffe476264c7d7c2bce1752a0b5157e5
+    home: https://iguazio.com
+    icon: https://www.iguazio.com/wp-content/uploads/2017/09/iguazio_logo_2017_w_c.png
+    maintainers:
+    - email: eliranb@iguazio.com
+      name: bivas
+    - email: erand@iguazio.com
+      name: Eran Duchan
+    name: v3iod
+    sources:
+    - https://github.com/v3io/v3iod
+    urls:
+    - https://v3io.github.io/helm-charts/stable/v3iod-0.9.7.tgz
+    version: 0.9.7
+  zeppelin:
+  - appVersion: '>=2.0.0'
+    created: 2019-09-03T11:08:37.992692+03:00
+    description: Zeppelin
+    digest: 4d495abe11f7c00922fbd5fa8144ac7517f6a34d4816f06c1467cacfc7abc339
+    home: https://zeppelin.apache.org/
+    icon: https://zeppelin.apache.org/assets/themes/zeppelin/img/zeppelin_logo.png
+    maintainers:
+    - email: eliranb@iguazio.com
+      name: bivas
+    name: zeppelin
+    sources:
+    - https://github.com/apache/zeppelin
+    urls:
+    - https://v3io.github.io/helm-charts/stable/zeppelin-0.3.4.tgz
+    version: 0.3.4
+  - appVersion: '>=2.0.0'
+    created: 2019-09-03T11:08:37.99197+03:00
+    description: Zeppelin
+    digest: 5d92890e202060a55390d0784797146085ede31cdead036bf94cf65db28864d9
+    home: https://zeppelin.apache.org/
+    icon: https://zeppelin.apache.org/assets/themes/zeppelin/img/zeppelin_logo.png
+    maintainers:
+    - email: eliranb@iguazio.com
+      name: bivas
+    name: zeppelin
+    sources:
+    - https://github.com/apache/zeppelin
+    urls:
+    - https://v3io.github.io/helm-charts/stable/zeppelin-0.2.8.tgz
+    version: 0.2.8
+  - appVersion: '>=2.0.0'
+    created: 2019-09-03T11:08:37.990086+03:00
+    description: Zeppelin
+    digest: fec5f4007420b7b380362d3c3c0c0a7ca21e0b21f1631528b870e8dbe39cfe6f
+    home: https://zeppelin.apache.org/
+    icon: https://zeppelin.apache.org/assets/themes/zeppelin/img/zeppelin_logo.png
+    maintainers:
+    - email: eliranb@iguazio.com
+      name: bivas
+    name: zeppelin
+    sources:
+    - https://github.com/apache/zeppelin
+    urls:
+    - https://v3io.github.io/helm-charts/stable/zeppelin-0.2.7.tgz
+    version: 0.2.7
+generated: 2019-09-03T11:08:37.944552+03:00
