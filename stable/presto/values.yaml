@@ -15,6 +15,7 @@ server:
   config:
     properties:
       override: false
+    catalogs: {}
     mapPath: /etc/config/presto
     catalogMapPath: /etc/config/presto/catalog
     path: /presto/etc
