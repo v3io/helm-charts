@@ -15,6 +15,7 @@ server:
   config:
     properties:
       override: false
+    catalogs: {}
     mapPath: /etc/config/presto
     catalogMapPath: /etc/config/presto/catalog
     path: /presto/etc
@@ -43,6 +44,8 @@ server:
       g1:
         heapRegionSize: "32M"
 hive:
+  properties:
+    override: false
   hostname: hive
   port: 9083
 
