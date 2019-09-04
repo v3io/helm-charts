@@ -43,9 +43,11 @@ server:
       type: "UseG1GC"
       g1:
         heapRegionSize: "32M"
+
+  catalog:
+    hive:
+        override: false
 hive:
-  properties:
-    override: false
   hostname: hive
   port: 9083
 
