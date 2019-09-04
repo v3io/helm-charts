@@ -8,7 +8,7 @@ metadata:
     release: {{ .Release.Name }}
     heritage: {{ .Release.Service }}
 data:
-{{- $overrideHiveProperties := .Values.hive.properties.override -}}
+{{- $overrideHiveProperties := .Values.server.catalog.hive.override -}}
 {{- if .Values.hive }}
 {{- if and (hasKey .Values.server.config.catalogs "hive.properties") (not ($overrideHiveProperties)) }}
   hive.properties: |
