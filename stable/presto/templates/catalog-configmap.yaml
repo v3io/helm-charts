@@ -10,11 +10,14 @@ metadata:
 data:
 {{- $overrideHiveProperties := .Values.server.catalog.hive.override -}}
 {{- if .Values.hive }}
-{{- if and (hasKey .Values.server.config.catalogs "hive.properties") (not ($overrideHiveProperties)) }}
+{{- if not ($overrideHiveProperties) }}
   hive.properties: |
     connector.name=hive-hadoop2
     hive.metastore.uri=thrift://{{ .Values.hive.hostname }}:{{ .Values.hive.port }}
+{{- if hasKey .Values.server.config.catalogs "hive.properties" }}
+{{ print "======== Custom properties =========" | indent 4 }}
 {{ index .Values.server.config.catalogs "hive.properties" | indent 4 }}
+{{- end }}
 {{- end }}
 {{- end }}
 
