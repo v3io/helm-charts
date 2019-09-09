@@ -54,6 +54,9 @@ data:
 {{- end }}
         ]
       },
+      "coefficients": {
+{{ .Values.v3iod.coefficients | indent 8 }}
+      },
       "logger": {
         "mode": "direct",
         "severity": "{{ .Values.v3iod.logger.severity }}",

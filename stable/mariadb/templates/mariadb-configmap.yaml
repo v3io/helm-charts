@@ -10,7 +10,7 @@ metadata:
 data:
 
   health_check.sh: |
-    mysqladmin status
+    mysqladmin --protocol=TCP -uroot -p$MYSQL_ROOT_PASSWORD status
 
   init-v3io-mariadb.sh: |
     #!/usr/bin/env bash
