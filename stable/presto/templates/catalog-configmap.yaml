@@ -15,7 +15,7 @@ data:
     connector.name=hive-hadoop2
     hive.metastore.uri=thrift://{{ .Values.hive.hostname }}:{{ .Values.hive.port }}
 {{- if hasKey .Values.server.config.catalogs "hive.properties" }}
-{{ print "======== Custom properties =========" | indent 4 }}
+{{ print "# ======== Custom properties =========" | indent 4 }}
 {{ index .Values.server.config.catalogs "hive.properties" | indent 4 }}
 {{- end }}
 {{- end }}
