@@ -90,15 +90,15 @@ spec:
               command:
               - /bin/bash
               - {{ .Values.server.config.mapPath }}/health_check.sh
-            initialDelaySeconds: 10
-            periodSeconds: 5
+            initialDelaySeconds: 30
+            periodSeconds: 10
           readinessProbe:
             exec:
               command:
               - /bin/bash
               - {{ .Values.server.config.mapPath }}/health_check.sh
-            initialDelaySeconds: 5
-            periodSeconds: 5
+            initialDelaySeconds: 10
+            periodSeconds: 10
           resources:
 {{ toYaml .Values.resources | indent 12 }}
     {{- with .Values.nodeSelector }}

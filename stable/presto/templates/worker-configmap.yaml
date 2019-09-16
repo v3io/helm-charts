@@ -96,9 +96,32 @@ data:
   health_check.sh: |
     #!/usr/bin/env bash
 
-    set -e
 {{ include "v3io-configs.script.javaHealthCheckTest" . | indent 4 }}
-    curl --disable --silent --fail --connect-timeout 10 {{ template "presto.fullname" . }}.{{ .Release.Namespace }}.svc:{{ .Values.server.config.http.port }}/v1/node | tr "," "\n" | grep --silent $(hostname -i)
+
+    IP=$(hostname -i)
+    echo "IP=$IP"
+    CURL_TIMEOUT={{ default 10 .Values.server.config.http.timeout }}
+    CURL_CMD="curl --disable --silent --fail --connect-timeout $CURL_TIMEOUT {{ template "presto.fullname" . }}.{{ .Release.Namespace }}.svc:{{ .Values.server.config.http.port }}/v1/node"
+    echo "Curl command: $CURL_CMD"
+    CURL_OUT=$($CURL_CMD)
+    RC=$?
+    if [ $RC != 0 ]; then
+      echo "command '$CURL_CMD' has failed. RC=$RC. Output: $CURL_OUT"
+      exit $RC
+    fi
+
+    PARSE_CMD="echo $CURL_OUT | tr ',' '\n' | grep --silent $IP"
+    echo "Parse command: $PARSE_CMD"
+    PARSE_OUT=$($PARSE_CMD)
+    RC=$?
+    if [ $RC != 0 ]; then
+      echo "command '$PARSE_CMD' has failed. RC=$RC Output: $PARSE_OUT"
+      exit $RC
+    fi
+    RC=$?
+    echo "Connectivity check passed. RC=$RC"
+
+    set -e
     CONFIGURED_V3IOD=$(grep "socket.host" $IGZ_DATA_CONFIG_FILE | cut -f2 -d"=")
     if [ "${CONFIGURED_V3IOD}" != "CURRENT_NODE_IP" ]; then
       /var/run/iguazio/daemon_health/healthz --host ${CONFIGURED_V3IOD}
