@@ -10,11 +10,11 @@ scaler:
     command: autoscaler
 
     # args
-    scaleInterval: 30m
-    scaleWindow: 5m
-    metricsPollInterval: 1m
+    scaleInterval: 1m
+    scaleWindow: 10m
+    metricsPollInterval: 10s
     metricName: num_of_requests
-    metricsGroupKind: Deployment
+    metricsGroupKind: Service
     scaleThreshold: 0
 
 general:
