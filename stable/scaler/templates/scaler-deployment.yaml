@@ -26,6 +26,7 @@ spec:
         heritage: {{ .Release.Service }}
         component: scaler
     spec:
+      serviceAccountName: {{ template "scaler.serviceAccountName" . }}
       containers:
         - name: scaler
           image: {{ .Values.scaler.image.repository }}:{{ .Values.scaler.image.tag }}
