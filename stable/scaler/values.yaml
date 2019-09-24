@@ -14,7 +14,7 @@ scaler:
     scaleWindow: 10m
     metricsPollInterval: 10s
     metricName: num_of_requests
-    metricsGroupKind: Service
+    metricsGroupKind: Deployment
     scaleThreshold: 0
 
 general:
