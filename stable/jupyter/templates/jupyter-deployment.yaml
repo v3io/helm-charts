@@ -10,7 +10,7 @@ metadata:
 spec:
   securityContext:
     fsGroup: 1000
-  replicas: 1
+  replicas: {{ .Values.replicas }}
   strategy:
     type: RollingUpdate
   selector:
