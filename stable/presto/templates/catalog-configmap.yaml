@@ -9,30 +9,23 @@ metadata:
     heritage: {{ .Release.Service }}
 data:
 {{- $overrideV3ioProperties := .Values.server.catalog.v3io.override -}}
+{{- if hasKey .Values.server.config.catalogs "v3io.properties" }}
 {{- if not ($overrideV3ioProperties) }}
   v3io.properties: |
     connector.name=v3io
-{{- if hasKey .Values.server.config.catalogs "v3io.properties" }}
 {{ print "# ======== Custom properties =========" | indent 4 }}
 {{ index .Values.server.config.catalogs "v3io.properties" | indent 4 }}
 {{- end }}
 {{- end }}
 
-{{- range $key, $val := .Values.server.config.catalogs }}
-{{- if or (ne $key "v3io.properties") $overrideV3ioProperties }}
-{{ printf "%s: |" $key | indent 2 }}
-{{ $val | indent 4 }}
-{{- end }}
-{{- end }}
-
 {{- $overrideHiveProperties := .Values.server.catalog.hive.override -}}
 {{- if .Values.hive }}
+{{- if hasKey .Values.server.config.catalogs "hive.properties" }}
 {{- if not ($overrideHiveProperties) }}
   hive.properties: |
     connector.name=hive-hadoop2
     hive.metastore.uri=thrift://{{ .Values.hive.hostname }}:{{ .Values.hive.port }}
     hive.parquet.use-column-names=true
-{{- if hasKey .Values.server.config.catalogs "hive.properties" }}
 {{ print "# ======== Custom properties =========" | indent 4 }}
 {{ index .Values.server.config.catalogs "hive.properties" | indent 4 }}
 {{- end }}
@@ -40,8 +33,9 @@ data:
 {{- end }}
 
 {{- range $key, $val := .Values.server.config.catalogs }}
-{{- if or (ne $key "hive.properties") $overrideHiveProperties }}
+{{- if and ( (or (ne $key "hive.properties") $overrideHiveProperties) (or (ne $key "v3io.properties") $overrideV3ioProperties)) }}
 {{ printf "%s: |" $key | indent 2 }}
+{{ print "# ======== Custom catalog =========" | indent 4 }}
 {{ $val | indent 4 }}
 {{- end }}
 {{- end }}
