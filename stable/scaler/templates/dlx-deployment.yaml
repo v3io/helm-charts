@@ -26,6 +26,7 @@ spec:
         heritage: {{ .Release.Service }}
         component: dlx
     spec:
+      serviceAccountName: {{ template "scaler.serviceAccountName" . }}
       containers:
         - name: dlx
           image: {{ .Values.dlx.image.repository }}:{{ .Values.dlx.image.tag }}
