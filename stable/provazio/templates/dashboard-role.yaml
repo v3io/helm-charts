@@ -18,6 +18,6 @@ rules:
   resources: ["jobs"]
   verbs: ["get", "list", "create", "delete"]
 - apiGroups: [""]
-  resources: ["pods"]
+  resources: ["pods", "pods/log"]
   verbs: ["get", "list"]
 {{- end }}
