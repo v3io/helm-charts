@@ -16,5 +16,8 @@ rules:
   verbs: ["get", "list", "create"]
 - apiGroups: ["batch", "extensions"]
   resources: ["jobs"]
-  verbs: ["get", "list", "create"]
+  verbs: ["get", "list", "create", "delete"]
+- apiGroups: [""]
+  resources: ["pods", "pods/log"]
+  verbs: ["get", "list"]
 {{- end }}
