@@ -149,6 +149,11 @@ spec:
           - --namespace={{ .Release.Namespace }}
           - --service-name={{ .Release.Name }}
           - --instance-name={{ template "jupyter.fullname" . }}
+{{- if .Values.proxy.metricNames }}
+{{- range $val := .Values.proxy.metricNames }}
+          - --metric-names={{ $val }}
+{{ end -}}
+{{- end }}
           ports:
             - containerPort: {{ .Values.proxy.servicePort }}
               name: sidecar-proxy
