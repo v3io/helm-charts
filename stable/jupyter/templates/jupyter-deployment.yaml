@@ -151,7 +151,7 @@ spec:
           - --instance-name={{ template "jupyter.fullname" . }}
 {{- if .Values.proxy.metricNames }}
 {{- range $val := .Values.proxy.metricNames }}
-          - --metric-names={{ $val }}
+          - --metric-name={{ $val }}
 {{ end -}}
 {{- end }}
           ports:
