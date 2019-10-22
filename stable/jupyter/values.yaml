@@ -91,6 +91,7 @@ proxy:
   logLevel: info
   metricNames:
     - 'num_of_requests'
+    - 'jupyter_kernel_busyness'
 
 daemon:
   image:
