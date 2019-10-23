@@ -11,11 +11,9 @@ scaler:
 
     # args
     scaleInterval: 1m
-    scaleWindow: 10m
     metricsPollInterval: 10s
-    metricName: num_of_requests
+    metricsPollerReconfigureInterval: 30s
     metricsGroupKind: Deployment
-    scaleThreshold: 0
 
 general:
   image:
