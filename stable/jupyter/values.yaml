@@ -89,6 +89,9 @@ proxy:
     tag: 0.1.1
   servicePort: 8080
   logLevel: info
+  metricNames:
+    - 'num_of_requests'
+    - 'jupyter_kernel_busyness'
 
 daemon:
   image:
