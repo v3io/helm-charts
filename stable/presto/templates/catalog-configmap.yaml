@@ -33,7 +33,7 @@ data:
 {{- end }}
 
 {{- range $key, $val := .Values.server.config.catalogs }}
-{{- if and ( (or (ne $key "hive.properties") $overrideHiveProperties) (or (ne $key "v3io.properties") $overrideV3ioProperties)) }}
+{{- if or (or ( (and (eq $key "hive.properties") $overrideHiveProperties) (and (eq $key "v3io.properties") $overrideV3ioProperties)) (and (ne $key "hive.properties") (ne $key "v3io.properties")) )}}
 {{ printf "%s: |" $key | indent 2 }}
 {{ print "# ======== Custom catalog =========" | indent 4 }}
 {{ $val | indent 4 }}
