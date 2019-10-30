@@ -11,8 +11,6 @@ scaler:
 
     # args
     scaleInterval: 1m
-    metricsPollInterval: 10s
-    metricsPollerReconfigureInterval: 30s
     metricsGroupKind: Deployment
 
 general:
