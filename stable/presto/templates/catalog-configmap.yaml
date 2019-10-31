@@ -55,7 +55,7 @@ data:
 {{- end }}
 
 {{- range $key, $val := .Values.server.config.catalogs }}
-{{- if (and (ne $key "hive.properties") (ne $key "v3io.properties"))}}
+{{- if (and (ne $key $hiveCatalogKey) (ne $key $v3ioCatalogKey))}}
 {{ printf "%s: |" $key | indent 2 }}
 {{ printf "# ======== Connector %s has been created by user =========" $key | indent 4 }}
 {{ $val | indent 4 }}
