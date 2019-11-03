@@ -1,30 +1,63 @@
 apiVersion: v1
 kind: ConfigMap
 metadata:
-  name: presto.catalog
+  name: {{ template "presto.catalog" . }}
   labels:
     app: {{ template "presto.name" . }}
     chart: {{ template "presto.chart" . }}
     release: {{ .Release.Name }}
     heritage: {{ .Release.Service }}
 data:
+{{- $v3ioCatalogKey := "v3io.properties" -}}
+{{- $overrideV3ioProperties := .Values.server.catalog.v3io.override -}}
+{{- if hasKey .Values.server.config.catalogs $v3ioCatalogKey }}
+{{- if ($overrideV3ioProperties) }}
+{{ printf "%s: |" $v3ioCatalogKey | indent 2 }}
+{{ printf "# ======== Content of %s has been overriden by user =========" $v3ioCatalogKey | indent 4 }}
+{{ index .Values.server.config.catalogs $v3ioCatalogKey | indent 4 }}
+{{- else }}
+  # append custom properties to v3io connector
+{{ printf "%s: |" $v3ioCatalogKey | indent 2 }}
+    connector.name=v3io
+{{ print "# ======== Custom properties (added by user) =========" | indent 4 }}
+{{ index .Values.server.config.catalogs $v3ioCatalogKey | indent 4 }}
+{{- end }}
+{{- else }}
+  # no custom v3io conector present - create default v3io connector settings
+{{ printf "%s: |" $v3ioCatalogKey | indent 2 }}
+    connector.name=v3io
+{{- end }}
+
+{{- $hiveCatalogKey := "hive.properties" -}}
 {{- $overrideHiveProperties := .Values.server.catalog.hive.override -}}
 {{- if .Values.hive }}
-{{- if not ($overrideHiveProperties) }}
-  hive.properties: |
+{{- if hasKey .Values.server.config.catalogs $hiveCatalogKey }}
+{{- if ($overrideHiveProperties) }}
+{{ printf "%s: |" $hiveCatalogKey | indent 2 }}
+{{ printf "# ======== Content of %s has been overriden by user =========" $hiveCatalogKey | indent 4 }}
+{{ index .Values.server.config.catalogs $hiveCatalogKey | indent 4 }}
+{{- else }}
+  # append custom properties to hive connector
+{{ printf "%s: |" $hiveCatalogKey | indent 2 }}
     connector.name=hive-hadoop2
     hive.metastore.uri=thrift://{{ .Values.hive.hostname }}:{{ .Values.hive.port }}
     hive.parquet.use-column-names=true
-{{- if hasKey .Values.server.config.catalogs "hive.properties" }}
-{{ print "# ======== Custom properties =========" | indent 4 }}
-{{ index .Values.server.config.catalogs "hive.properties" | indent 4 }}
+{{ print "# ======== Custom properties (added by user) =========" | indent 4 }}
+{{ index .Values.server.config.catalogs $hiveCatalogKey | indent 4 }}
 {{- end }}
+{{- else }}
+  # no custom hive connector present - use default hive connector settings
+{{ printf "%s: |" $hiveCatalogKey | indent 2 }}
+    connector.name=hive-hadoop2
+    hive.metastore.uri=thrift://{{ .Values.hive.hostname }}:{{ .Values.hive.port }}
+    hive.parquet.use-column-names=true
 {{- end }}
 {{- end }}
 
 {{- range $key, $val := .Values.server.config.catalogs }}
-{{- if or (ne $key "hive.properties") $overrideHiveProperties }}
+{{- if (and (ne $key $hiveCatalogKey) (ne $key $v3ioCatalogKey))}}
 {{ printf "%s: |" $key | indent 2 }}
+{{ printf "# ======== Connector %s has been created by user =========" $key | indent 4 }}
 {{ $val | indent 4 }}
 {{- end }}
 {{- end }}
