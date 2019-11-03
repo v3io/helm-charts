@@ -45,6 +45,8 @@ server:
         heapRegionSize: "32M"
 
   catalog:
+    v3io:
+      override: false
     hive:
       override: false
 hive:
