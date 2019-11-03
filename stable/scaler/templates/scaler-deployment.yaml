@@ -39,8 +39,4 @@ spec:
           args:
             - --namespace={{ .Release.Namespace }}
             - --scale-interval={{ .Values.scaler.image.scaleInterval }}
-            - --scale-window={{ .Values.scaler.image.scaleWindow }}
-            - --metrics-poll-interval={{ .Values.scaler.image.metricsPollInterval }}
-            - --metric-name={{ .Values.scaler.image.metricName }}
             - --metrics-group-kind={{ .Values.scaler.image.metricsGroupKind }}
-            - --scale-threshold={{ .Values.scaler.image.scaleThreshold }}
