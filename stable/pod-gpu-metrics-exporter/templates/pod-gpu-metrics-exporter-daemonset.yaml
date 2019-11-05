@@ -16,7 +16,7 @@ spec:
       name: pod-gpu-metrics-exporter
     spec:
       containers:
-      - image: "{{ .Values.pod-gpu-metrics-exporter.image.repository }}:{{ .Values.pod-gpu-metrics-exporter.image.tag }}"
+      - image: "{{ .Values.podGPUMetricsExporter.image.repository }}:{{ .Values.podGPUMetricsExporter.image.tag }}"
         name: pod-nvidia-gpu-metrics-exporter
         ports:
         - name: gpu-metrics
@@ -31,7 +31,7 @@ spec:
         - name: device-metrics
           readOnly: true
           mountPath: /run/prometheus
-      - image: "{{ .Values.dcgm-exporter.image.repository }}:{{ .Values.dcgm-exporter.image.tag }}"
+      - image: "{{ .Values.dcgmExporter.image.repository }}:{{ .Values.dcgmExporter.image.tag }}"
         name: nvidia-dcgm-exporter
         securityContext:
           runAsNonRoot: false
