@@ -10,22 +10,26 @@ metadata:
     component: coordinator
 data:
   node.properties: |
-{{- if (eq .Values.server.node.properties.override true) }}
+{{- if (eq .Values.server.node.properties.coordinator.override true) }}
 {{ printf "#============= Custom node properties (override) ==========" | indent 4 }}
-{{ .Values.server.node.properties.custom | indent 4 }}
+{{- if .Values.server.node.properties.coordinator.custom }}
+{{ .Values.server.node.properties.coordinator.custom | indent 4 }}
+{{- end }}
 {{- else }}
     node.environment={{ .Values.server.node.environment }}
     node.data-dir={{ .Values.server.node.dataDir }}
-{{- if .Values.server.node.properties.custom }}
+{{- if .Values.server.node.properties.coordinator.custom }}
 {{ printf "#============= Custom node properties ==========" | indent 4 }}
-{{ .Values.server.node.properties.custom | indent 4 }}
+{{ .Values.server.node.properties.coordinator.custom | indent 4 }}
 {{- end }}
 {{- end }}
 
   jvm.config: |
-{{- if (eq .Values.server.jvm.properties.override true) }}
+{{- if (eq .Values.server.jvm.properties.coordinator.override true) }}
 {{ printf "#============= Custom jvm properties (override) ==========" | indent 4 }}
-{{ .Values.server.jvm.properties.custom | indent 4 }}
+{{- if .Values.server.jvm.properties.coordinator.custom }}
+{{ .Values.server.jvm.properties.coordinator.custom | indent 4 }}
+{{- end }}
 {{- else }}
     -server
     -Xmx{{ .Values.server.jvm.maxHeapSize }}
@@ -35,17 +39,19 @@ data:
     -XX:+ExplicitGCInvokesConcurrent
     -XX:+HeapDumpOnOutOfMemoryError
     -XX:+ExitOnOutOfMemoryError
-{{- if .Values.server.jvm.properties.custom }}
+{{- if .Values.server.jvm.properties.coordinator.custom }}
 {{ printf "#============= Custom jvm properties ==========" | indent 4 }}
-{{ .Values.server.jvm.properties.custom | indent 4 }}
+{{ .Values.server.jvm.properties.coordinator.custom | indent 4 }}
 {{- end }}
 {{- end }}
 
   config.properties: |
-{{- if (eq .Values.server.config.properties.override true) }}
+{{- if (eq .Values.server.config.properties.coordinator.override true) }}
 {{ printf "#============= Custom config properties (override) ==========" | indent 4 }}
-{{ .Values.server.config.properties.custom | indent 4 }}
+{{- if .Values.server.config.properties.coordinator.custom }}
+{{ .Values.server.config.properties.coordinator.custom | indent 4 }}
 {{- println "coordinator=true" }}
+{{- end }}
 {{- else }}
     coordinator=true
 {{- if gt (int .Values.server.workers) 0 }}
@@ -66,9 +72,9 @@ data:
     discovery-server.enabled=true
     discovery.uri=http://{{ template "presto.fullname" . }}.{{ .Release.Namespace }}.svc:{{ .Values.server.config.http.port }}
     node.internal-address={{ template "presto.fullname" . }}.{{ .Release.Namespace }}.svc
-{{- if .Values.server.config.properties.custom }}
+{{- if .Values.server.config.properties.coordinator.custom }}
 {{ printf "#============= Custom config properties ==========" | indent 4 }}
-{{ .Values.server.config.properties.custom | indent 4 }}
+{{ .Values.server.config.properties.coordinator.custom | indent 4 }}
 {{- end }}
 {{- end }}
 
@@ -79,17 +85,19 @@ data:
 
 {{ if .Values.server.log }}
   log.properties: |
-{{- if (eq .Values.server.log.properties.override true) }}
+{{- if (eq .Values.server.log.properties.coordinator.override true) }}
 {{ printf "#============= Custom log properties (override) ==========" | indent 4 }}
-{{ .Values.server.log.properties.custom | indent 4 }}
+{{- if .Values.server.log.properties.coordinator.custom }}
+{{ .Values.server.log.properties.coordinator.custom | indent 4 }}
+{{- end }}
 {{- else }}
 {{- range $key, $val := .Values.server.log.categories }}
 {{ printf "%s=%s" $key $val | indent 4}}
 {{- end }}
-{{- if .Values.server.log.properties.custom }}
+{{- if .Values.server.log.properties.coordinator.custom }}
 {{ println }}
 {{- printf "#============= Custom log properties ==========" | indent 4 }}
-{{ .Values.server.log.properties.custom | indent 4 }}
+{{ .Values.server.log.properties.coordinator.custom | indent 4 }}
 {{- end }}
 {{- end }}
 {{ end -}}

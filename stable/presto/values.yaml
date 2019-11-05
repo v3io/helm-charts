@@ -4,17 +4,26 @@ server:
     environment: production
     dataDir: /presto/etc/data
     properties:
+      worker:
+        override: false
+      coordinator:
         override: false
   log:
     properties:
-      override: false
+      worker:
+        override: false
+      coordinator:
+        override: false
     categories:
       com.facebook.presto: INFO
       io.iguaz.v3io: INFO
       io.iguaz.v3io.daemon: INFO
   config:
     properties:
-      override: false
+      worker:
+        override: false
+      coordinator:
+        override: false
     catalogs: {}
     mapPath: /etc/config/presto
     catalogMapPath: /etc/config/presto/catalog
@@ -37,7 +46,10 @@ server:
 
   jvm:
     properties:
-      override: false
+      worker:
+        override: false
+      coordinator:
+        override: false
     maxHeapSize: "8G"
     gcMethod:
       type: "UseG1GC"
