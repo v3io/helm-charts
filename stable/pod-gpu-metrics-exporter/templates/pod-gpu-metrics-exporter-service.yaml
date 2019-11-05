@@ -8,7 +8,6 @@ metadata:
     release: {{ .Release.Name }}
 spec:
   type:  "{{ .Values.service.type }}"
-  externalTrafficPolicy: Cluster
   ports:
     - port: {{ .Values.service.port }}
       targetPort: {{ .Values.container.port }}
