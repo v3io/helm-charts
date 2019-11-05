@@ -9,12 +9,12 @@ service:
 container:
   port: 8080
 
-pod-gpu-metrics-exporter:
+podGPUMetricsExporter:
   image:
     repository: "nvidia/pod-gpu-metrics-exporter"
     tag: "v1.0.0-alpha"
 
-dcgm-exporter:
+dcgmExporter:
   image:
     repository: "nvidia/dcgm-exporter"
     tag: "1.4.6"
