@@ -7,7 +7,7 @@ service:
   protocol: TCP
 
 container:
-  port: 8080
+  port: 9400
 
 podGPUMetricsExporter:
   image:
