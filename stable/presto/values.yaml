@@ -42,8 +42,9 @@ server:
     query:
       maxMemory: "4GB"
       maxMemoryPerNode: "1GB"
-    extra: {}
-
+    extra:
+      coordinator: {}
+      worker: {}
   jvm:
     properties:
       worker:

@@ -96,7 +96,7 @@ data:
 {{- end }}
 {{ end -}}
 
-{{- range $key, $val := .Values.server.config.extra }}
+{{- range $key, $val := .Values.server.config.extra.worker }}
 {{ printf "%s: |" $key | indent 2 }}
 {{ $val | indent 4 }}
 {{- end }}
