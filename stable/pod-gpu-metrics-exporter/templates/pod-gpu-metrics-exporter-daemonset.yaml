@@ -6,6 +6,9 @@ metadata:
     app: {{ template "pod-gpu-metrics-exporter.name" . }}
     chart: {{ template "pod-gpu-metrics-exporter.chart" . }}
     release: {{ .Release.Name }}
+  annotations:
+    prometheus.io/path: /gpu/metrics
+    prometheus.io/scrape: "true"
 spec:
   template:
     metadata:
@@ -14,6 +17,9 @@ spec:
         chart: {{ template "pod-gpu-metrics-exporter.chart" . }}
         release: {{ .Release.Name }}
       name: pod-gpu-metrics-exporter
+      annotations:
+        prometheus.io/path: /gpu/metrics
+        prometheus.io/scrape: "true"
     spec:
       containers:
       - image: "{{ .Values.podGPUMetricsExporter.image.repository }}:{{ .Values.podGPUMetricsExporter.image.tag }}"
