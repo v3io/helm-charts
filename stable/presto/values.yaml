@@ -1,29 +1,55 @@
 server:
   workers: 2
-  node:
-    environment: production
-    dataDir: /presto/etc/data
-    properties:
-      worker:
+  properties:
+    coordinator:
+      volumes:
+        volumesTemplate: v3io-configs.deployment.mount
+        volumeMountsTemplate: v3io-configs.deployment.volumeMounts
+      node:
+        environment: production
+        dataDir: /presto/etc/data
         override: false
-      coordinator:
+      log:
         override: false
-  log:
-    properties:
-      worker:
+        categories:
+          com.facebook.presto: INFO
+          io.iguaz.v3io: INFO
+          io.iguaz.v3io.daemon: INFO
+      config:
         override: false
-      coordinator:
+      jvm:
         override: false
-    categories:
-      com.facebook.presto: INFO
-      io.iguaz.v3io: INFO
-      io.iguaz.v3io.daemon: INFO
-  config:
-    properties:
-      worker:
+        maxHeapSize: "8G"
+        gcMethod:
+          type: "UseG1GC"
+          g1:
+            heapRegionSize: "32M"
+      extra: {}
+    worker:
+      volumes:
+        volumesTemplate: v3io-configs.deployment.mount
+        volumeMountsTemplate: v3io-configs.deployment.volumeMounts
+      node:
+        environment: production
+        dataDir: /presto/etc/data
         override: false
-      coordinator:
+      log:
         override: false
+        categories:
+          com.facebook.presto: INFO
+          io.iguaz.v3io: INFO
+          io.iguaz.v3io.daemon: INFO
+      config:
+        override: false
+      jvm:
+        override: false
+        maxHeapSize: "8G"
+        gcMethod:
+          type: "UseG1GC"
+          g1:
+            heapRegionSize: "32M"
+      extra: {}
+
     catalogs: {}
     mapPath: /etc/config/presto
     catalogMapPath: /etc/config/presto/catalog
@@ -42,21 +68,6 @@ server:
     query:
       maxMemory: "4GB"
       maxMemoryPerNode: "1GB"
-    extra:
-      coordinator: {}
-      worker: {}
-  jvm:
-    properties:
-      worker:
-        override: false
-      coordinator:
-        override: false
-    maxHeapSize: "8G"
-    gcMethod:
-      type: "UseG1GC"
-      g1:
-        heapRegionSize: "32M"
-
   catalog:
     v3io:
       override: false
@@ -68,14 +79,6 @@ hive:
 
 environment:
   template: v3io-configs.deployment.env
-
-volumes:
-  coordinator:
-    volumesTemplate: v3io-configs.deployment.mount
-    volumeMountsTemplate: v3io-configs.deployment.volumeMounts
-  worker:
-    volumesTemplate: v3io-configs.deployment.mount
-    volumeMountsTemplate: v3io-configs.deployment.volumeMounts
 
 image:
   repository: iguaziodocker/presto

@@ -10,17 +10,17 @@ metadata:
 data:
 {{- $v3ioCatalogKey := "v3io.properties" -}}
 {{- $overrideV3ioProperties := .Values.server.catalog.v3io.override -}}
-{{- if hasKey .Values.server.config.catalogs $v3ioCatalogKey }}
+{{- if hasKey .Values.server.properties.catalogs $v3ioCatalogKey }}
 {{- if ($overrideV3ioProperties) }}
 {{ printf "%s: |" $v3ioCatalogKey | indent 2 }}
 {{ printf "# ======== Content of %s has been overriden by user =========" $v3ioCatalogKey | indent 4 }}
-{{ index .Values.server.config.catalogs $v3ioCatalogKey | indent 4 }}
+{{ index .Values.server.properties.catalogs $v3ioCatalogKey | indent 4 }}
 {{- else }}
   # append custom properties to v3io connector
 {{ printf "%s: |" $v3ioCatalogKey | indent 2 }}
     connector.name=v3io
 {{ print "# ======== Custom properties (added by user) =========" | indent 4 }}
-{{ index .Values.server.config.catalogs $v3ioCatalogKey | indent 4 }}
+{{ index .Values.server.properties.catalogs $v3ioCatalogKey | indent 4 }}
 {{- end }}
 {{- else }}
   # no custom v3io conector present - create default v3io connector settings
@@ -31,11 +31,11 @@ data:
 {{- $hiveCatalogKey := "hive.properties" -}}
 {{- $overrideHiveProperties := .Values.server.catalog.hive.override -}}
 {{- if .Values.hive }}
-{{- if hasKey .Values.server.config.catalogs $hiveCatalogKey }}
+{{- if hasKey .Values.server.properties.catalogs $hiveCatalogKey }}
 {{- if ($overrideHiveProperties) }}
 {{ printf "%s: |" $hiveCatalogKey | indent 2 }}
 {{ printf "# ======== Content of %s has been overriden by user =========" $hiveCatalogKey | indent 4 }}
-{{ index .Values.server.config.catalogs $hiveCatalogKey | indent 4 }}
+{{ index .Values.server.properties.catalogs $hiveCatalogKey | indent 4 }}
 {{- else }}
   # append custom properties to hive connector
 {{ printf "%s: |" $hiveCatalogKey | indent 2 }}
@@ -43,7 +43,7 @@ data:
     hive.metastore.uri=thrift://{{ .Values.hive.hostname }}:{{ .Values.hive.port }}
     hive.parquet.use-column-names=true
 {{ print "# ======== Custom properties (added by user) =========" | indent 4 }}
-{{ index .Values.server.config.catalogs $hiveCatalogKey | indent 4 }}
+{{ index .Values.server.properties.catalogs $hiveCatalogKey | indent 4 }}
 {{- end }}
 {{- else }}
   # no custom hive connector present - use default hive connector settings
@@ -54,7 +54,7 @@ data:
 {{- end }}
 {{- end }}
 
-{{- range $key, $val := .Values.server.config.catalogs }}
+{{- range $key, $val := .Values.server.properties.catalogs }}
 {{- if (and (ne $key $hiveCatalogKey) (ne $key $v3ioCatalogKey))}}
 {{ printf "%s: |" $key | indent 2 }}
 {{ printf "# ======== Connector %s has been created by user =========" $key | indent 4 }}
