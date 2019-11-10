@@ -8,17 +8,13 @@ server:
       node:
         environment: production
         dataDir: /presto/etc/data
-        override: false
       log:
-        override: false
         categories:
           com.facebook.presto: INFO
           io.iguaz.v3io: INFO
           io.iguaz.v3io.daemon: INFO
-      config:
-        override: false
+      config: {}
       jvm:
-        override: false
         maxHeapSize: "8G"
         gcMethod:
           type: "UseG1GC"
@@ -32,17 +28,13 @@ server:
       node:
         environment: production
         dataDir: /presto/etc/data
-        override: false
       log:
-        override: false
         categories:
           com.facebook.presto: INFO
           io.iguaz.v3io: INFO
           io.iguaz.v3io.daemon: INFO
-      config:
-        override: false
+      config: {}
       jvm:
-        override: false
         maxHeapSize: "8G"
         gcMethod:
           type: "UseG1GC"
@@ -69,10 +61,6 @@ server:
       maxMemory: "4GB"
       maxMemoryPerNode: "1GB"
   catalog:
-    v3io:
-      override: false
-    hive:
-      override: false
 hive:
   hostname: hive
   port: 9083

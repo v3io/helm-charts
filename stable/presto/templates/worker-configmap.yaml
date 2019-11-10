@@ -11,27 +11,21 @@ metadata:
     component: worker
 data:
   node.properties: |
-{{- if (eq .Values.server.properties.worker.node.override true) }}
-{{ printf "#============= Custom node properties (override) ==========" | indent 4 }}
-{{- if .Values.server.properties.worker.node.custom }}
-{{ .Values.server.properties.worker.node.custom | indent 4 }}
-{{- end }}
-{{- else }}
-    node.environment={{ .Values.server.properties.worker.node.environment }}
-    node.data-dir={{ .Values.server.properties.worker.node.dataDir }}
 {{- if .Values.server.properties.worker.node.custom }}
 {{ printf "#============= Custom node properties ==========" | indent 4 }}
 {{ .Values.server.properties.worker.node.custom | indent 4 }}
-{{- end }}
+{{- else }}
+{{ printf "#============= Default node properties ==========" | indent 4 }}
+    node.environment={{ .Values.server.properties.worker.node.environment }}
+    node.data-dir={{ .Values.server.properties.worker.node.dataDir }}
 {{- end }}
 
   jvm.config: |
-{{- if (eq .Values.server.properties.worker.jvm.override true) }}
-{{ printf "#============= Custom jvm properties (override) ==========" | indent 4 }}
 {{- if .Values.server.properties.worker.jvm.custom }}
+{{ printf "#============= Custom jvm config ==========" | indent 4 }}
 {{ .Values.server.properties.worker.jvm.custom | indent 4 }}
-{{- end }}
 {{- else }}
+{{ printf "#============= Default jvm config ==========" | indent 4 }}
     -server
     -Xmx{{ .Values.server.properties.worker.jvm.maxHeapSize }}
     -XX:+{{ .Values.server.properties.worker.jvm.gcMethod.type }}
@@ -40,20 +34,15 @@ data:
     -XX:+ExplicitGCInvokesConcurrent
     -XX:+HeapDumpOnOutOfMemoryError
     -XX:+ExitOnOutOfMemoryError
-{{- if .Values.server.properties.worker.jvm.custom }}
-{{ printf "#============= Custom jvm properties ==========" | indent 4 }}
-{{ .Values.server.properties.worker.jvm.custom | indent 4 }}
-{{- end }}
 {{- end }}
 
   config.properties: |
-{{- if (eq .Values.server.properties.worker.config.override true) }}
-{{ printf "#============= Custom config properties (override) ==========" | indent 4 }}
 {{- if .Values.server.properties.worker.config.custom }}
+{{ printf "#============= Custom config properties ==========" | indent 4 }}
 {{ .Values.server.properties.worker.config.custom | indent 4 }}
 {{- println "coordinator=false" }}
-{{- end }}
 {{- else }}
+{{ printf "#============= Default config properties ==========" | indent 4 }}
     coordinator=false
     http-server.http.port={{ .Values.server.properties.http.port }}
 {{- if .Values.server.properties.https }}
@@ -66,10 +55,6 @@ data:
     query.max-memory={{ .Values.server.properties.query.maxMemory }}
     query.max-memory-per-node={{ .Values.server.properties.query.maxMemoryPerNode }}
     discovery.uri=http://{{ template "presto.fullname" . }}.{{ .Release.Namespace }}.svc:{{ .Values.server.properties.http.port }}
-{{- if .Values.server.properties.worker.config.custom }}
-{{ printf "#============= Custom config properties ==========" | indent 4 }}
-{{ .Values.server.properties.worker.config.custom | indent 4 }}
-{{- end }}
 {{- end }}
 
 {{ if .Values.server.properties.https }}
@@ -79,19 +64,13 @@ data:
 
 {{ if .Values.server.log }}
   log.properties: |
-{{- if (eq .Values.server.properties.worker.log.override true) }}
-{{ printf "#============= Custom log properties (override) ==========" | indent 4 }}
 {{- if .Values.server.properties.worker.log.custom }}
+{{ printf "#============= Custom log properties ==========" | indent 4 }}
 {{ .Values.server.properties.worker.log.custom | indent 4 }}
-{{- end }}
 {{- else }}
+{{ printf "#============= Default log properties ==========" | indent 4 }}
 {{- range $key, $val := .Values.server.log.categories }}
 {{ printf "%s=%s" $key $val | indent 4}}
-{{- end }}
-{{- if .Values.server.properties.worker.log.custom }}
-{{ println }}
-{{- printf "#============= Custom log properties ==========" | indent 4 }}
-{{ .Values.server.properties.worker.log.custom | indent 4 }}
 {{- end }}
 {{- end }}
 {{ end -}}
