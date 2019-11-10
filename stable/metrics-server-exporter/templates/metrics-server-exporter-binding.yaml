@@ -1,12 +1,12 @@
 apiVersion: rbac.authorization.k8s.io/v1beta1
 kind: RoleBinding
 metadata:
-  name: metrics-server-exporter
+  name: {{ template "metrics-server-exporter.name" . }}
 subjects:
 - kind: ServiceAccount
-  name: metrics-server-exporter
+  name: {{ template "metrics-server-exporter.name" . }}
   namespace: {{ .Release.Namespace }}
 roleRef:
   kind: Role
-  name: metrics-reader
+  name: {{ template "metrics-server-exporter.name" . }}-role
   apiGroup: rbac.authorization.k8s.io
