@@ -5,8 +5,8 @@ metadata:
 subjects:
 - kind: ServiceAccount
   name: {{ template "metrics-server-exporter.name" . }}
-  namespace: default-tenant
+  namespace: {{ .Release.Namespace }}
 roleRef:
-  apiGroup: rbac.authorization.k8s.io
   kind: Role
   name: {{ template "metrics-server-exporter.name" . }}-role
+  apiGroup: rbac.authorization.k8s.io
