@@ -16,13 +16,13 @@ data:
     #!/usr/bin/env bash
     set -e
 
-    echo "Current user -> $(whoami)"
+    echo -e "$(date -u)\tCurrent user -> $(whoami)"
     LOCK_FILE=/var/lib/mysql/.init-complete
     if [ -f $LOCK_FILE ]
     then
-      echo "MariaDB has already been initialized. Skipping..."
+      echo -e "$(date -u)\tMariaDB has already been initialized. Skipping..."
     else
-      echo "Initializing MariaDB..."
+      echo -e "$(date -u)\tInitializing MariaDB..."
 
       mysql_install_db --user=mysql --basedir=/usr --datadir=/tmp/mysql
       # and then copy the init files into real working directory (on Fuse mount)
@@ -35,7 +35,7 @@ data:
     #!/usr/bin/env bash
     set -e
 
-    echo "Current user -> $(whoami)"
+    echo -e "$(date -u)\tCurrent user -> $(whoami)"
 
     LOCK_FILE=/var/lib/mysql/.allow-remote-access-complete
     if [ ! -f $LOCK_FILE ]
@@ -44,7 +44,7 @@ data:
       INIT_SCRIPT="{{ .Values.configMountPath }}/init-scripts/enable-root-remote-access.sql"
 
       # Call init script on startup
-      echo "Adding $INIT_SCRIPT to $MYSQL_CONFIG ..."
+      echo -e "$(date -u)\tAdding $INIT_SCRIPT to $MYSQL_CONFIG ..."
       echo "" >> $MYSQL_CONFIG
       echo "[mysqld]" >> $MYSQL_CONFIG
       echo "init-file=$INIT_SCRIPT" >> $MYSQL_CONFIG
@@ -52,6 +52,6 @@ data:
       touch $LOCK_FILE
     fi
 
-    echo "Starting MariaDB..."
+    echo -e "$(date -u)\tStarting MariaDB..."
     # start the database server daemon
     mysqld

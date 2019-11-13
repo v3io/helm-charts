@@ -11,9 +11,9 @@ data:
   v3io-hive-initdb-mysql.sh: |
     #!/usr/bin/env bash
     set -e
-    echo "About to initialize hive metastore database. (Note, running as $(whoami))"
+    echo -e "$(date -u)\t About to initialize hive metastore database. (Note, running as $(whoami))"
     mysql -h{{ .Values.metastore.database.hostname }} -u{{ .Values.createHiveUserMariaDbImage.user }} -p${HIVE_METASTORE_ADMIN_PASSWORD} < {{ .Values.hive.configPath }}/create-hive-user.sql
-    echo "Done."
+    echo -e "$(date -u)\t Done."
 
   create-hive-user.sql: |
     CREATE DATABASE IF NOT EXISTS {{ .Values.metastore.database.name }};
@@ -29,7 +29,7 @@ data:
 
     cp {{ .Values.hive.configPath }}/hive-site.xml $HIVE_CONF_DIR/
 
-    echo "About to create hive metastore schema. (Note, running as $(whoami))"
+    echo -e "$(date -u)\t About to create hive metastore schema. (Note, running as $(whoami))"
 
     # Initialize Hive metastore database
     # Check if schema does not exists or invalid, then try to initialize Hive metastore database schema
@@ -38,18 +38,18 @@ data:
     RC=$?
     set -e
     if [ $RC != 0 ]; then
-      echo "Hive schema didn't pass validation. RC=$RC"
-      echo "Initializing Hive metastore schema..."
+      echo -e "$(date -u)\t Hive schema didn't pass validation. RC=$RC"
+      echo -e "$(date -u)\t Initializing Hive metastore schema..."
       schematool -initSchema -dbType $HIVE_DB_TYPE
       RC=$?
       if [ $RC != 0 ]; then
-        echo "Failed to initialize Hive metastore database schema. RC=$RC"
+        echo -e "$(date -u)\t Failed to initialize Hive metastore database schema. RC=$RC"
         exit $RC
       else
-        echo "Hive metastore schema initialized successfully."
+        echo -e "$(date -u)\t Hive metastore schema initialized successfully."
       fi
     else
-      echo "Hive metastore schema already exists. Details:"
+      echo -e "$(date -u)\t Hive metastore schema already exists. Details:"
       schematool -dbType $HIVE_DB_TYPE -info
     fi
 
@@ -78,7 +78,7 @@ data:
 
     RC=echo < /dev/$PROTOCOL/$HOST/$SOCKET_PORT
     if [ "$RC" -ne "0" ]; then
-      echo "Unable to communicate with [$HOST:$SOCKET_PORT] over [$PROTOCOL]. RC=$RC"
+      echo -e "$(date -u)\t Unable to communicate with [$HOST:$SOCKET_PORT] over [$PROTOCOL]. RC=$RC"
       exit $RC
     fi
     CONFIGURED_V3IOD=$(grep "socket.host" $IGZ_DATA_CONFIG_FILE | cut -f2 -d"=")
@@ -104,7 +104,7 @@ data:
     sed -i "s/property.hive.log.level = INFO/property.hive.log.level = {{ .Values.hive.logLevel }}/g" $HIVE_CONF_DIR/hive-exec-log4j2.properties
     sed -i "s/property.hive.root.logger = DRFA/property.hive.root.logger = console/g" $HIVE_CONF_DIR/hive-exec-log4j2.properties
 
-    echo Starting hive metastore service....
+    echo -e "$(date -u)\t Starting hive metastore service...."
     hive --service metastore
 
   hive-site.xml: |
