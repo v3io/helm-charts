@@ -42,3 +42,4 @@ spec:
             - --target-path-header={{ .Values.dlx.image.targetPathHeader }}
             - --target-port={{ .Values.dlx.image.targetPort }}
             - --listen-address={{ .Values.dlx.image.listenAddress }}
+            - --resource-readiness-timeout={{ .Values.dlx.image.resourceReadinessTimeout }}
