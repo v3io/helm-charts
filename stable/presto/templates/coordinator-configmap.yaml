@@ -1,4 +1,4 @@
-.Values.server.properties.coordinator.node.apiVersion: v1
+apiVersion: v1
 kind: ConfigMap
 metadata:
   name: {{ template "presto.coordinator" . }}
