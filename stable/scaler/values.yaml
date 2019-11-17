@@ -29,6 +29,7 @@ dlx:
     targetPathHeader: ""
     targetPort: 8080
     listenAddress: :8080
+    resourceReadinessTimeout: 5m
 
 
 rbac:
