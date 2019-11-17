@@ -30,6 +30,7 @@ spec:
         - --log-level={{ .Values.container.logLevel }}
         - --namespace={{ .Release.Namespace }}
         - --listen-addr=:{{ .Values.container.port }}
+        - --handle-gpu-metrics={{ .Values.container.handleGPUMetrics }}
         ports:
         - containerPort: {{ .Values.container.port }} 
           protocol: {{ .Values.container.protocol }}
