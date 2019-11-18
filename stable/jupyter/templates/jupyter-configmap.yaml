@@ -157,7 +157,7 @@ data:
     fi
     mkdir -p ${PIP_USER_PATH}
     export PIP_PREFIX="${PIP_USER_PATH}"
-    export PYTHONPATH="${PIP_USER_PATH}/lib/python3.6/site-packages:${PYTHONPATH}"
+    export JUPYTER_PATH="${PIP_USER_PATH}/lib/python3.6/site-packages"
     export PATH="${PATH}:${PIP_USER_PATH}/bin"
 
     jupyter-notebook $@
