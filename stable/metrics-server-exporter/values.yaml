@@ -11,6 +11,8 @@ container:
 
   logLevel: info
 
+  handleGPUMetrics: false
+
 service:
   port: 9104
   protocol: TCP
