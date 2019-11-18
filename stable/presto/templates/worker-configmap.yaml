@@ -62,7 +62,7 @@ data:
     password-authenticator.name=v3io
 {{- end }}
 
-{{ if .Values.server.log }}
+{{ if .Values.server.properties.worker.log }}
   log.properties: |
 {{- if .Values.server.properties.worker.log.custom }}
 {{ printf "#============= Custom log properties ==========" | indent 4 }}
