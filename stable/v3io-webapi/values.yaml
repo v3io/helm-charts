@@ -8,6 +8,9 @@ image:
   pullPolicy: IfNotPresent
   command: /etc/iguazio/nginx/init.sh
 
+environment:
+  extra: {}
+
 resources: {}
   # limits:
     # cpu: 1
