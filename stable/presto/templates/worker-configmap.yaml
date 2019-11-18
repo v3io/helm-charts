@@ -69,7 +69,7 @@ data:
 {{ .Values.server.properties.worker.log.custom | indent 4 }}
 {{- else }}
 {{ printf "#============= Default log properties ==========" | indent 4 }}
-{{- range $key, $val := .Values.server.log.categories }}
+{{- range $key, $val := .Values.server.properties.worker.log.categories }}
 {{ printf "%s=%s" $key $val | indent 4}}
 {{- end }}
 {{- end }}
