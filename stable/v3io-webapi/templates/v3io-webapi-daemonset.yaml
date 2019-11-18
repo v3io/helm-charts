@@ -78,6 +78,7 @@ spec:
             - name: {{ $name }}
               value: {{ $val | quote }}
 {{- end }}
+{{- end }}
           volumeMounts:
             - mountPath: /etc/iguazio/nginx
               name: webapi-config
