@@ -73,6 +73,12 @@ spec:
               valueFrom:
                 fieldRef:
                   fieldPath: status.hostIP
+{{- if .Values.environment }}
+{{- range $name, $val := .Values.environment.extra }}
+            - name: {{ $name }}
+              value: {{ $val | quote }}
+{{- end }}
+{{- end }}
           volumeMounts:
             - mountPath: /etc/iguazio/nginx
               name: webapi-config
