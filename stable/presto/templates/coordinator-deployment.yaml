@@ -30,12 +30,12 @@ spec:
             name: presto-catalog
         - name: daemon-health
           emptyDir: {}
-{{- if .Values.server.config.https }}
+{{- if .Values.server.properties.https }}
         - name: java-cert
           emptyDir: {}
 {{- end }}
-{{- if .Values.volumes }}
-{{ include .Values.volumes.coordinator.volumesTemplate . | indent 8 }}
+{{- if .Values.server.properties.coordinator.volumes }}
+{{ include .Values.server.properties.coordinator.volumes.volumesTemplate . | indent 8 }}
 {{- end }}
       initContainers:
         - name: daemon-health
@@ -47,10 +47,10 @@ spec:
               name: config-volume
             - mountPath: /var/run/iguazio/daemon_health
               name: daemon-health
-{{- if .Values.server.config.https }}
+{{- if .Values.server.properties.https }}
         - name: {{ .Chart.Name }}-jks
-          image: "{{ .Values.server.config.https.image.repository }}:{{ .Values.server.config.https.image.tag }}"
-          imagePullPolicy: {{ .Values.server.config.https.image.pullPolicy }}
+          image: "{{ .Values.server.properties.https.image.repository }}:{{ .Values.server.properties.https.image.tag }}"
+          imagePullPolicy: {{ .Values.server.properties.https.image.pullPolicy }}
           command: ["/bin/bash", "/opt/v3io/jks/create-cert.sh"]
           volumeMounts:
             - mountPath: /opt/v3io/jks
@@ -68,44 +68,44 @@ spec:
 {{ include .Values.environment.template . | indent 12 }}
 {{- end }}
           volumeMounts:
-            - mountPath: {{ .Values.server.config.mapPath }}
+            - mountPath: {{ .Values.server.properties.mapPath }}
               name: config-volume
-            - mountPath: {{ .Values.server.config.catalogMapPath }}
+            - mountPath: {{ .Values.server.properties.catalogMapPath }}
               name: catalog-config-volume
             - mountPath: /var/run/iguazio/daemon_health
               name: daemon-health
-{{- if .Values.server.config.https }}
+{{- if .Values.server.properties.https }}
             - mountPath: /var/run/iguazio/java/cert
               name: java-cert
 {{- end }}
-{{- if .Values.volumes }}
-{{ include .Values.volumes.coordinator.volumeMountsTemplate . | indent 12 }}
+{{- if .Values.server.properties.coordinator.volumes }}
+{{ include .Values.server.properties.coordinator.volumes.volumeMountsTemplate . | indent 12 }}
 {{- end }}
           ports:
             - name: http-coord
-              containerPort: {{ .Values.server.config.http.port }}
+              containerPort: {{ .Values.server.properties.http.port }}
               protocol: TCP
-{{- if .Values.server.config.https }}
+{{- if .Values.server.properties.https }}
             - name: https-coord
-              containerPort: {{ .Values.server.config.https.port }}
+              containerPort: {{ .Values.server.properties.https.port }}
               protocol: TCP
 {{- end }}
           livenessProbe:
             exec:
               command:
               - /bin/bash
-              - {{ .Values.server.config.mapPath }}/health_check.sh
+              - {{ .Values.server.properties.mapPath }}/health_check.sh
               - --uri-path=/v1/cluster
-              - --port={{ .Values.server.config.http.port }}
+              - --port={{ .Values.server.properties.http.port }}
             initialDelaySeconds: 90
             periodSeconds: 1
           readinessProbe:
             exec:
               command:
               - /bin/bash
-              - {{ .Values.server.config.mapPath }}/health_check.sh
+              - {{ .Values.server.properties.mapPath }}/health_check.sh
               - --uri-path=/v1/cluster
-              - --port={{ .Values.server.config.http.port }}
+              - --port={{ .Values.server.properties.http.port }}
             initialDelaySeconds: 5
             periodSeconds: 1
           resources:
