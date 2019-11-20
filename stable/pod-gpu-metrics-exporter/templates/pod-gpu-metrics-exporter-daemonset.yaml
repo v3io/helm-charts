@@ -21,6 +21,8 @@ spec:
         prometheus.io/path: /gpu/metrics
         prometheus.io/scrape: "true"
     spec:
+      nodeSelector:
+        hardware-type: NVIDIAGPU
       containers:
       - image: "{{ .Values.podGPUMetricsExporter.image.repository }}:{{ .Values.podGPUMetricsExporter.image.tag }}"
         name: pod-nvidia-gpu-metrics-exporter
