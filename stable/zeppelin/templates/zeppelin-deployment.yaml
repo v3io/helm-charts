@@ -67,6 +67,8 @@ spec:
             initialDelaySeconds: 5
             periodSeconds: 1
           env:
+            - name: ZEPPELIN_ADDR
+              value: 0.0.0.0
             - name: MASTER
               value: spark://{{ .Values.spark.hostname }}:{{ .Values.spark.port }}
 {{- if .Values.storage.path }}
