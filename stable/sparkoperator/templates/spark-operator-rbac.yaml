@@ -1,6 +1,6 @@
 {{- if .Values.rbac.create }}
 apiVersion: rbac.authorization.k8s.io/v1
-kind: ClusterRole
+kind: Role
 metadata:
   name: {{ include "sparkoperator.fullname" . }}-cr
   labels:
@@ -9,6 +9,9 @@ metadata:
     app.kubernetes.io/instance: {{ .Release.Name }}
     app.kubernetes.io/managed-by: {{ .Release.Service }}
 rules:
+- apiGroups: ["batch"]
+  resources: ["jobs"]
+  verbs: ["*"]
 - apiGroups: [""]
   resources: ["pods"]
   verbs: ["*"]
@@ -45,7 +48,7 @@ rules:
 
 ---
 apiVersion: rbac.authorization.k8s.io/v1
-kind: ClusterRoleBinding
+kind: RoleBinding
 metadata:
   name: {{ include "sparkoperator.fullname" . }}-crb
   labels:
@@ -58,7 +61,7 @@ subjects:
     name: {{ include "sparkoperator.serviceAccountName" . }}
     namespace: {{ .Release.Namespace }}
 roleRef:
-  kind: ClusterRole
+  kind: Role
   name: {{ include "sparkoperator.fullname" . }}-cr
   apiGroup: rbac.authorization.k8s.io
 {{- end }}
