@@ -10,12 +10,12 @@ metadata:
 spec:
   type: {{ .Values.service.type }}
   ports:
-    - port: {{ .Values.server.config.http.port }}
+    - port: {{ .Values.server.properties.http.port }}
       targetPort: http-coord
       protocol: TCP
       name: http-coord
-{{- if .Values.server.config.https }}
-    - port: {{ .Values.server.config.https.port }}
+{{- if .Values.server.properties.https }}
+    - port: {{ .Values.server.properties.https.port }}
       targetPort: https-coord
       protocol: TCP
       name: https-coord

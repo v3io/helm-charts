@@ -1,20 +1,47 @@
 server:
   workers: 2
-  node:
-    environment: production
-    dataDir: /presto/etc/data
-    properties:
-        override: false
-  log:
-    properties:
-      override: false
-    categories:
-      com.facebook.presto: INFO
-      io.iguaz.v3io: INFO
-      io.iguaz.v3io.daemon: INFO
-  config:
-    properties:
-      override: false
+  properties:
+    coordinator:
+      volumes:
+        volumesTemplate: v3io-configs.deployment.mount
+        volumeMountsTemplate: v3io-configs.deployment.volumeMounts
+      node:
+        environment: production
+        dataDir: /presto/etc/data
+      log:
+        categories:
+          com.facebook.presto: INFO
+          io.iguaz.v3io: INFO
+          io.iguaz.v3io.daemon: INFO
+      config: {}
+      jvm:
+        maxHeapSize: "8G"
+        gcMethod:
+          type: "UseG1GC"
+          g1:
+            heapRegionSize: "32M"
+      extra: {}
+    worker:
+      volumes:
+        volumesTemplate: v3io-configs.deployment.mount
+        volumeMountsTemplate: v3io-configs.deployment.volumeMounts
+      node:
+        environment: production
+        dataDir: /presto/etc/data
+      log:
+        categories:
+          com.facebook.presto: INFO
+          io.iguaz.v3io: INFO
+          io.iguaz.v3io.daemon: INFO
+      config: {}
+      jvm:
+        maxHeapSize: "8G"
+        gcMethod:
+          type: "UseG1GC"
+          g1:
+            heapRegionSize: "32M"
+      extra: {}
+
     catalogs: {}
     mapPath: /etc/config/presto
     catalogMapPath: /etc/config/presto/catalog
@@ -33,36 +60,13 @@ server:
     query:
       maxMemory: "4GB"
       maxMemoryPerNode: "1GB"
-    extra: {}
-
-  jvm:
-    properties:
-      override: false
-    maxHeapSize: "8G"
-    gcMethod:
-      type: "UseG1GC"
-      g1:
-        heapRegionSize: "32M"
-
   catalog:
-    v3io:
-      override: false
-    hive:
-      override: false
 hive:
   hostname: hive
   port: 9083
 
 environment:
   template: v3io-configs.deployment.env
-
-volumes:
-  coordinator:
-    volumesTemplate: v3io-configs.deployment.mount
-    volumeMountsTemplate: v3io-configs.deployment.volumeMounts
-  worker:
-    volumesTemplate: v3io-configs.deployment.mount
-    volumeMountsTemplate: v3io-configs.deployment.volumeMounts
 
 image:
   repository: iguaziodocker/presto

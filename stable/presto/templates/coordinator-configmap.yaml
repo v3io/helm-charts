@@ -10,91 +10,78 @@ metadata:
     component: coordinator
 data:
   node.properties: |
-{{- if (eq .Values.server.node.properties.override true) }}
-{{ printf "#============= Custom node properties (override) ==========" | indent 4 }}
-{{ .Values.server.node.properties.custom | indent 4 }}
-{{- else }}
-    node.environment={{ .Values.server.node.environment }}
-    node.data-dir={{ .Values.server.node.dataDir }}
-{{- if .Values.server.node.properties.custom }}
+{{- if .Values.server.properties.coordinator.node.custom }}
 {{ printf "#============= Custom node properties ==========" | indent 4 }}
-{{ .Values.server.node.properties.custom | indent 4 }}
-{{- end }}
+{{ .Values.server.properties.coordinator.node.custom | indent 4 }}
+{{- else }}
+{{ printf "#============= Default node properties ==========" | indent 4 }}
+    node.environment={{ .Values.server.properties.coordinator.node.environment }}
+    node.data-dir={{ .Values.server.properties.coordinator.node.dataDir }}
 {{- end }}
 
   jvm.config: |
-{{- if (eq .Values.server.jvm.properties.override true) }}
-{{ printf "#============= Custom jvm properties (override) ==========" | indent 4 }}
-{{ .Values.server.jvm.properties.custom | indent 4 }}
+{{- if .Values.server.properties.coordinator.jvm.custom }}
+{{ printf "#============= Custom jvm properties ==========" | indent 4 }}
+{{ .Values.server.properties.coordinator.jvm.custom | indent 4 }}
 {{- else }}
+{{ printf "#============= Default jvm properties ==========" | indent 4 }}
     -server
-    -Xmx{{ .Values.server.jvm.maxHeapSize }}
-    -XX:+{{ .Values.server.jvm.gcMethod.type }}
-    -XX:G1HeapRegionSize={{ .Values.server.jvm.gcMethod.g1.heapRegionSize }}
+    -Xmx{{ .Values.server.properties.coordinator.jvm.maxHeapSize }}
+    -XX:+{{ .Values.server.properties.coordinator.jvm.gcMethod.type }}
+    -XX:G1HeapRegionSize={{ .Values.server.properties.coordinator.jvm.gcMethod.g1.heapRegionSize }}
     -XX:+UseGCOverheadLimit
     -XX:+ExplicitGCInvokesConcurrent
     -XX:+HeapDumpOnOutOfMemoryError
     -XX:+ExitOnOutOfMemoryError
-{{- if .Values.server.jvm.properties.custom }}
-{{ printf "#============= Custom jvm properties ==========" | indent 4 }}
-{{ .Values.server.jvm.properties.custom | indent 4 }}
-{{- end }}
 {{- end }}
 
   config.properties: |
-{{- if (eq .Values.server.config.properties.override true) }}
-{{ printf "#============= Custom config properties (override) ==========" | indent 4 }}
-{{ .Values.server.config.properties.custom | indent 4 }}
+{{- if .Values.server.properties.coordinator.config.custom }}
+{{ printf "#============= Custom config properties ==========" | indent 4 }}
+{{ .Values.server.properties.coordinator.config.custom | indent 4 }}
 {{- println "coordinator=true" }}
 {{- else }}
+{{ printf "#============= Default config properties ==========" | indent 4 }}
     coordinator=true
 {{- if gt (int .Values.server.workers) 0 }}
     node-scheduler.include-coordinator=false
 {{- else }}
     node-scheduler.include-coordinator=true
 {{- end }}
-    http-server.http.port={{ .Values.server.config.http.port }}
-{{- if .Values.server.config.https }}
+    http-server.http.port={{ .Values.server.properties.http.port }}
+{{- if .Values.server.properties.https }}
     http-server.https.enabled=true
-    http-server.https.port={{ .Values.server.config.https.port }}
-    http-server.https.keystore.path={{ .Values.server.config.https.keystore }}
-    http-server.https.keystore.key={{ .Values.server.config.https.passphrase }}
+    http-server.https.port={{ .Values.server.properties.https.port }}
+    http-server.https.keystore.path={{ .Values.server.properties.https.keystore }}
+    http-server.https.keystore.key={{ .Values.server.properties.https.passphrase }}
     http-server.authentication.type=PASSWORD
 {{- end }}
-    query.max-memory={{ .Values.server.config.query.maxMemory }}
-    query.max-memory-per-node={{ .Values.server.config.query.maxMemoryPerNode }}
+    query.max-memory={{ .Values.server.properties.query.maxMemory }}
+    query.max-memory-per-node={{ .Values.server.properties.query.maxMemoryPerNode }}
     discovery-server.enabled=true
-    discovery.uri=http://{{ template "presto.fullname" . }}.{{ .Release.Namespace }}.svc:{{ .Values.server.config.http.port }}
+    discovery.uri=http://{{ template "presto.fullname" . }}.{{ .Release.Namespace }}.svc:{{ .Values.server.properties.http.port }}
     node.internal-address={{ template "presto.fullname" . }}.{{ .Release.Namespace }}.svc
-{{- if .Values.server.config.properties.custom }}
-{{ printf "#============= Custom config properties ==========" | indent 4 }}
-{{ .Values.server.config.properties.custom | indent 4 }}
-{{- end }}
 {{- end }}
 
-{{ if .Values.server.config.https }}
+{{ if .Values.server.properties.https }}
   password-authenticator.properties: |
     password-authenticator.name=v3io
 {{- end }}
 
-{{ if .Values.server.log }}
+{{ if .Values.server.properties.coordinator.log }}
   log.properties: |
-{{- if (eq .Values.server.log.properties.override true) }}
-{{ printf "#============= Custom log properties (override) ==========" | indent 4 }}
-{{ .Values.server.log.properties.custom | indent 4 }}
+{{- if .Values.server.properties.coordinator.log.custom }}
+{{ printf "#============= Custom log properties ==========" | indent 4 }}
+{{ .Values.server.properties.coordinator.log.custom | indent 4 }}
 {{- else }}
-{{- range $key, $val := .Values.server.log.categories }}
+{{ printf "#============= Default log properties ==========" | indent 4 }}
+{{- range $key, $val := .Values.server.properties.coordinator.log.categories }}
 {{ printf "%s=%s" $key $val | indent 4}}
-{{- end }}
-{{- if .Values.server.log.properties.custom }}
-{{ println }}
-{{- printf "#============= Custom log properties ==========" | indent 4 }}
-{{ .Values.server.log.properties.custom | indent 4 }}
 {{- end }}
 {{- end }}
 {{ end -}}
 
-{{- range $key, $val := .Values.server.config.extra }}
+{{- range $key, $val := .Values.server.properties.coordinator.extra }}
 {{ printf "%s: |" $key | indent 2 }}
 {{ $val | indent 4 }}
 {{- end }}
@@ -107,13 +94,13 @@ data:
 {{- end }}
 {{- end }}
 
-{{- if .Values.server.config.https }}
+{{- if .Values.server.properties.https }}
   create-cert.sh: |
     #!/bin/bash
 
     set -e
 
-    echo -n "{{ .Values.server.config.https.keystoreBinary }}" | base64 --decode > {{ .Values.server.config.https.keystore }}
+    echo -n "{{ .Values.server.properties.https.keystoreBinary }}" | base64 --decode > {{ .Values.server.properties.https.keystore }}
 {{- end }}
 
   health_check.sh: |
@@ -131,10 +118,10 @@ data:
   docker-presto.sh: |
     #!/bin/bash
 
-    cp {{ .Values.server.config.mapPath }}/*.properties $PRESTO_CONF_DIR
-    cp {{ .Values.server.config.mapPath }}/*.config $PRESTO_CONF_DIR
-    cp {{ .Values.server.config.mapPath }}/*.json $PRESTO_CONF_DIR
-    cp {{ .Values.server.config.catalogMapPath }}/*.properties $PRESTO_CONF_DIR/catalog
+    cp {{ .Values.server.properties.mapPath }}/*.properties $PRESTO_CONF_DIR
+    cp {{ .Values.server.properties.mapPath }}/*.config $PRESTO_CONF_DIR
+    cp {{ .Values.server.properties.mapPath }}/*.json $PRESTO_CONF_DIR
+    cp {{ .Values.server.properties.catalogMapPath }}/*.properties $PRESTO_CONF_DIR/catalog
 
 {{- if .Values.hive }}
     # append to Hive configuration
