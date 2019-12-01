@@ -12,7 +12,7 @@ rules:
 - apiGroups: ["dex.coreos.com"] # API group created by dex
   resources: ["*"]
   verbs: ["*"]
-{{- end }}
+{{- end -}}
 {{- if or .Values.certs.grpc.create .Values.certs.web.create }}
 - apiGroups: [""]
   resources: ["configmaps", "secrets"]
