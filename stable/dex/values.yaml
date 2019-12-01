@@ -113,7 +113,7 @@ env: []
 
 rbac:
   # Specifies whether RBAC resources should be created
-  create: false
+  create: true
 
 crd:
   # Specifies whether dex's CRDs are already present (if not cluster role and cluster role binding will be created
