@@ -41,6 +41,11 @@ job:
       pullPolicy: IfNotPresent
     executablePath: /home/iguazio/igz/clients/fuse/bin/v3io_adapters_fuse
     mountType: os
+    v3ioFuse:
+      image:
+        repository: quay.io/iguazio
+        tag: latest
+        pullPolicy: IfNotPresent
     clusters: []
       # - name: default
       #   dataUrls: 
