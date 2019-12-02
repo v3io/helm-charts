@@ -14,6 +14,8 @@ data:
   v3io.conf: |
     {
       "fuse_path": "{{ .Values.job.flexVolume.executablePath }}",
+      "image_repository": "{{ .Values.job.flexVolume.v3ioFuse.image.repository }}",
+      "image_tag": "{{ .Values.job.flexVolume.v3ioFuse.image.tag }}",
       "type": "{{ .Values.job.flexVolume.mountType }}",
       "clusters": [
 {{- range $index, $cluster := .Values.job.flexVolume.clusters }}
