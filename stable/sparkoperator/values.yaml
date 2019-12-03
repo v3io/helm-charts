@@ -1,5 +1,5 @@
-operatorImageName: gcr.io/spark-operator/spark-operator
-operatorVersion: v1beta2-1.0.1-2.4.4
+operatorImageName: urihoenig/multi-version-spark-operator
+operatorVersion: v03
 imagePullPolicy: IfNotPresent
 imagePullSecrets: []
 replicas: 1
@@ -24,7 +24,7 @@ logLevel: 2
 
 securityContext: {}
 
-enableWebhook: false
+enableWebhook: true
 webhookPort: 8080
 
 enableMetrics: true
