@@ -6,8 +6,8 @@ metadata:
     chart: {{ template "jupyter.chart" . }}
     release: {{ .Release.Name }}
     heritage: {{ .Release.Service }}
-  name: {{ template "jupyter.mpijobexecutor" . }}
+  name: {{ template "jupyter.sparkjobexecutor" . }}
 rules:
-- apiGroups: ["kubeflow.org"]
-  resources: ["mpijobs"]
+- apiGroups: ["sparkoperator.k8s.io"]
+  resources: ["sparkapplications", "scheduledsparkapplications"]
   verbs: ["*"]

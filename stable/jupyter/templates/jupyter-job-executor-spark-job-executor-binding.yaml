@@ -6,13 +6,13 @@ metadata:
     chart: {{ template "jupyter.chart" . }}
     release: {{ .Release.Name }}
     heritage: {{ .Release.Service }}
-  name: {{ template "jupyter.mpijobexecutor" . }}-{{ .Values.permissions.mpiJobExecutor.name }}
+  name: {{ template "jupyter.jobexecutor" . }}-{{ .Values.permissions.sparkJobExecutor.name }}
 subjects:
 - kind: ServiceAccount
-  name: {{ template "jupyter.mpijobexecutor" . }}
+  name: {{ template "jupyter.jobexecutor" . }}
   namespace: {{ .Release.Namespace | quote }}
 roleRef:
   kind: Role
-  name: {{ template "jupyter.mpijobexecutor" . }}
+  name: {{ template "jupyter.sparkjobexecutor" . }}
   apiGroup: rbac.authorization.k8s.io
 
