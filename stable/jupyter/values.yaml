@@ -6,8 +6,14 @@ spark:
   maxApplicationCores: 4
 
 permissions:
+  jobExecutor:
+    name: job-executor
+  basicJobExecutor:
+    name: basic-job-executor
   mpiJobExecutor:
     name: mpi-job-executor
+  sparkJobExecutor:
+    name: spark-job-executor
 
 presto:
   hostname: presto

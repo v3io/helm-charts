@@ -33,7 +33,19 @@ Create chart name and version as used by the chart label.
 {{- printf "%s-%s" .Chart.Name .Chart.Version | replace "+" "_" | trunc 63 | trimSuffix "-" -}}
 {{- end -}}
 
+{{- define "jupyter.jobexecutor" -}}
+{{- printf "%s-%s" .Release.Name .Values.permissions.jobExecutor.name -}}
+{{- end -}}
+
+{{- define "jupyter.basicjobexecutor" -}}
+{{- printf "%s-%s" .Release.Name .Values.permissions.basicJobExecutor.name -}}
+{{- end -}}
+
 {{- define "jupyter.mpijobexecutor" -}}
 {{- printf "%s-%s" .Release.Name .Values.permissions.mpiJobExecutor.name -}}
+{{- end -}}
+
+{{- define "jupyter.sparkjobexecutor" -}}
+{{- printf "%s-%s" .Release.Name .Values.permissions.sparkJobExecutor.name -}}
 {{- end -}}
 
