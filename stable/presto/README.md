@@ -1,13 +1,13 @@
 # Presto Chart
 
-[Presto](http://prestodb.io/) is an open source distributed SQL query engine for running interactive analytic queries against data sources of all sizes ranging from gigabytes to petabytes.
+[Presto](https://prestosql.io/) Presto is a high performance, distributed SQL query engine for big data.
 
 ## Chart Details
 
 This chart will do the following:
 
-* Install a single server which acts both as coordinator and worker
-* Install a configmap for it
+* Install coordinator and worker servers
+* Install a configmaps for coordinator, worker and catalogs
 * Install a service
 
 ## Installing the Chart
