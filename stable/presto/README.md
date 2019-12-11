@@ -6,8 +6,8 @@
 
 This chart will do the following:
 
-* Install coordinator and worker servers
-* Install a configmaps for coordinator, worker and catalogs
+* Install a coordinator and worker servers
+* Install configmaps for coordinator, worker and catalog
 * Install a service
 
 ## Installing the Chart
