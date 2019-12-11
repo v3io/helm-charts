@@ -10,9 +10,8 @@ server:
         dataDir: /presto/etc/data
       log:
         categories:
-          com.facebook.presto: INFO
+          io.prestosql: INFO
           io.iguaz.v3io: INFO
-          io.iguaz.v3io.daemon: INFO
       config: {}
       jvm:
         maxHeapSize: "8G"
@@ -30,9 +29,8 @@ server:
         dataDir: /presto/etc/data
       log:
         categories:
-          com.facebook.presto: INFO
+          io.prestosql: INFO
           io.iguaz.v3io: INFO
-          io.iguaz.v3io.daemon: INFO
       config: {}
       jvm:
         maxHeapSize: "8G"
