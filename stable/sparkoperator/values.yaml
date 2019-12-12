@@ -57,3 +57,8 @@ enableResourceQuotaEnforcement: false
 ## Only applicable when `replicas` is set to a value greater than 1.
 ## Ref: https://github.com/GoogleCloudPlatform/spark-on-k8s-operator/blob/master/docs/user-guide.md#enabling-leader-election-for-high-availability.
 enableLeaderElection: false
+
+global:
+  v3io:
+    configMountPath: /etc/config/v3io
+
