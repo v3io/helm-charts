@@ -11,7 +11,6 @@ data:
 {{- $v3ioCatalogKey := "v3io.properties" -}}
 {{- if hasKey .Values.server.properties.catalogs $v3ioCatalogKey }}
 {{ printf "%s: |" $v3ioCatalogKey | indent 2 }}
-{{ printf "# ======== Content of %s has been overriden by user =========" $v3ioCatalogKey | indent 4 }}
 {{ index .Values.server.properties.catalogs $v3ioCatalogKey | indent 4 }}
 {{- else }}
   # no custom v3io conector present - create default v3io connector settings
@@ -23,7 +22,6 @@ data:
 {{- if .Values.hive }}
 {{- if hasKey .Values.server.properties.catalogs $hiveCatalogKey }}
 {{ printf "%s: |" $hiveCatalogKey | indent 2 }}
-{{ printf "# ======== Content of %s has been overriden by user =========" $hiveCatalogKey | indent 4 }}
 {{ index .Values.server.properties.catalogs $hiveCatalogKey | indent 4 }}
 {{- else }}
   # no custom hive connector present - use default hive connector settings
@@ -37,7 +35,6 @@ data:
 {{- range $key, $val := .Values.server.properties.catalogs }}
 {{- if (and (ne $key $hiveCatalogKey) (ne $key $v3ioCatalogKey))}}
 {{ printf "%s: |" $key | indent 2 }}
-{{ printf "# ======== Connector %s has been created by user =========" $key | indent 4 }}
 {{ $val | indent 4 }}
 {{- end }}
 {{- end }}

@@ -11,20 +11,16 @@ metadata:
 data:
   node.properties: |
 {{- if .Values.server.properties.coordinator.node.custom }}
-{{ printf "#============= Custom node properties ==========" | indent 4 }}
 {{ .Values.server.properties.coordinator.node.custom | indent 4 }}
 {{- else }}
-{{ printf "#============= Default node properties ==========" | indent 4 }}
     node.environment={{ .Values.server.properties.coordinator.node.environment }}
     node.data-dir={{ .Values.server.properties.coordinator.node.dataDir }}
 {{- end }}
 
   jvm.config: |
 {{- if .Values.server.properties.coordinator.jvm.custom }}
-{{ printf "#============= Custom jvm properties ==========" | indent 4 }}
 {{ .Values.server.properties.coordinator.jvm.custom | indent 4 }}
 {{- else }}
-{{ printf "#============= Default jvm properties ==========" | indent 4 }}
     -server
     -Xmx{{ .Values.server.properties.coordinator.jvm.maxHeapSize }}
     -XX:+{{ .Values.server.properties.coordinator.jvm.gcMethod.type }}
@@ -37,11 +33,9 @@ data:
 
   config.properties: |
 {{- if .Values.server.properties.coordinator.config.custom }}
-{{ printf "#============= Custom config properties ==========" | indent 4 }}
 {{ .Values.server.properties.coordinator.config.custom | indent 4 }}
 {{- println "coordinator=true" }}
 {{- else }}
-{{ printf "#============= Default config properties ==========" | indent 4 }}
     coordinator=true
 {{- if gt (int .Values.server.workers) 0 }}
     node-scheduler.include-coordinator=false
@@ -71,10 +65,8 @@ data:
 {{ if .Values.server.properties.coordinator.log }}
   log.properties: |
 {{- if .Values.server.properties.coordinator.log.custom }}
-{{ printf "#============= Custom log properties ==========" | indent 4 }}
 {{ .Values.server.properties.coordinator.log.custom | indent 4 }}
 {{- else }}
-{{ printf "#============= Default log properties ==========" | indent 4 }}
 {{- range $key, $val := .Values.server.properties.coordinator.log.categories }}
 {{ printf "%s=%s" $key $val | indent 4}}
 {{- end }}
