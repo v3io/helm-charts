@@ -82,6 +82,10 @@ volumes:
   volumesTemplate: v3io-configs.deployment.mount-with-fuse-and-home
   volumeMountsTemplate: v3io-configs.deployment.volumeMounts-with-fuse-and-home
 
+pvc:
+  pvcVolumesTemplate: pvc.volumes
+  pvcVolumeMountsTemplate: pvc.volumeMounts
+
 debug:
   enabled: false
 
