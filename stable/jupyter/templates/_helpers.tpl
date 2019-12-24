@@ -49,3 +49,7 @@ Create chart name and version as used by the chart label.
 {{- printf "%s-%s" .Release.Name .Values.permissions.sparkJobExecutor.name -}}
 {{- end -}}
 
+{{- define "jupyter.pvcadmin" -}}
+{{- printf "%s-%s" .Release.Name .Values.permissions.pvcAdmin.name -}}
+{{- end -}}
+
