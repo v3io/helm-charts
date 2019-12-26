@@ -40,4 +40,11 @@ nodeSelector: {}
 
 tolerations: []
 
-affinity: {}
+affinity:
+  podAntiAffinity:
+  requiredDuringSchedulingIgnoredDuringExecution:
+  - labelSelector:
+      matchExpressions:
+      - key: nvidia.com/gpu.product
+        operator: Exists
+    topologyKey: "kubernetes.io/hostname"
