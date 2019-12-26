@@ -21,8 +21,19 @@ spec:
         prometheus.io/path: /gpu/metrics
         prometheus.io/scrape: "true"
     spec:
+      serviceAccountName: {{ template "pod-gpu-metrics-exporter.serviceAccountName" . }}
+    {{- with .Values.nodeSelector }}
       nodeSelector:
-        hardware-type: NVIDIAGPU
+        {{- toYaml . | nindent 8 }}
+    {{- end }}
+    {{- with .Values.affinity }}
+      affinity:
+        {{- toYaml . | nindent 8 }}
+    {{- end }}
+    {{- with .Values.tolerations }}
+      tolerations:
+        {{- toYaml . | nindent 8 }}
+    {{- end }}
       containers:
       - image: "{{ .Values.podGPUMetricsExporter.image.repository }}:{{ .Values.podGPUMetricsExporter.image.tag }}"
         name: pod-nvidia-gpu-metrics-exporter
