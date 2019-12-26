@@ -4,6 +4,7 @@ metadata:
   name: {{ include "gpu-feature-discovery.fullname" . }}
   labels:
 {{ include "gpu-feature-discovery.labels" . | indent 4 }}
+spec:
   selector:
     matchLabels:
 {{ include "gpu-feature-discovery.matchLabels" . | indent 6 }}

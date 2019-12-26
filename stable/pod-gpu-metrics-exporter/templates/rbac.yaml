@@ -4,9 +4,7 @@ kind: ClusterRole
 metadata:
   name: {{ template "pod-gpu-metrics-exporter.serviceAccountName" . }}
   labels:
-    app: {{ template "pod-gpu-metrics-exporter.name" . }}
-    chart: {{ template "pod-gpu-metrics-exporter.chart" . }}
-    release: {{ .Release.Name }}
+{{ include "pod-gpu-metrics-exporter.labels" . | indent 4 }}
 rules:
 - apiGroups:
   - ""
@@ -17,19 +15,16 @@ rules:
   - patch
   - update
 ---
-apiVersion: rbac.authorization.k8s.io/v1
-kind: ClusterRoleBinding
+apiVersion: rbac.authorization.k8s.io/v1beta1
+kind: RoleBinding
 metadata:
-  name: {{ template "pod-gpu-metrics-exporter.serviceAccountName" . }}
+  name: {{ include "pod-gpu-metrics-exporter.fullname" . }}
   labels:
-    app: {{ template "pod-gpu-metrics-exporter.name" . }}
-    chart: {{ template "pod-gpu-metrics-exporter.chart" . }}
-    release: {{ .Release.Name }}
+{{ include "pod-gpu-metrics-exporter.labels" . | indent 4 }}
 roleRef:
   apiGroup: rbac.authorization.k8s.io
-  kind: ClusterRole
-  name: {{ template "pod-gpu-metrics-exporter.serviceAccountName" . }}
-  namespace: {{ .Release.Namespace }}
+  kind: Role
+  name: {{ include "pod-gpu-metrics-exporter.fullname" . }}
 subjects:
 - kind: ServiceAccount
   name: {{ template "pod-gpu-metrics-exporter.serviceAccountName" . }}

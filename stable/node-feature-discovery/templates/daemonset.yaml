@@ -29,6 +29,8 @@ spec:
           name: nfd-master
           command:
             - "nfd-master"
+          args:
+            - "--extra-label-ns=nvidia.com"
           securityContext:
 {{- toYaml .Values.securityContext | nindent 12 }}
           resources:

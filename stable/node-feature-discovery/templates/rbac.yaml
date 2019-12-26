@@ -25,8 +25,8 @@ roleRef:
   apiGroup: rbac.authorization.k8s.io
   kind: ClusterRole
   name: {{ template "node-feature-discovery.serviceAccountName" . }}
-  namespace: {{ .Release.Namespace }}
 subjects:
 - kind: ServiceAccount
   name: {{ template "node-feature-discovery.serviceAccountName" . }}
+  namespace: {{ .Release.Namespace }}
 {{- end }}

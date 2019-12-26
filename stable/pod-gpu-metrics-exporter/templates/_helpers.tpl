@@ -41,3 +41,16 @@ Create the name of the service account to use
     {{ default "default" .Values.serviceAccount.name }}
 {{- end -}}
 {{- end -}}
+
+{{/*
+Common labels
+*/}}
+{{- define "pod-gpu-metrics-exporter.labels" -}}
+app.kubernetes.io/name: {{ include "pod-gpu-metrics-exporter.name" . }}
+helm.sh/chart: {{ include "pod-gpu-metrics-exporter.chart" . }}
+app.kubernetes.io/instance: {{ .Release.Name }}
+{{- if .Chart.AppVersion }}
+app.kubernetes.io/version: {{ .Chart.AppVersion | quote }}
+{{- end }}
+app.kubernetes.io/managed-by: {{ .Release.Service }}
+{{- end -}}

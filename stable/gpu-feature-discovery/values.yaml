@@ -45,7 +45,7 @@ resources: {}
   #   memory: 128Mi
 
 nodeSelector:
-  feature.node.kubernetes.io/pci-10de.present: "true"
+  feature.node.kubernetes.io/pci-0302_10de.present: "true"
 
 tolerations: []
 
