@@ -22,6 +22,14 @@ serviceAccount:
 rbac:
   create: true
 
+nfdMaster:
+  extraArgs:
+    - --extra-label-ns=nvidia.com
+
+nfdWorker:
+  extraArgs:
+    - --sleep-interval=60s
+
 podSecurityContext: {}
   # fsGroup: 2000
 

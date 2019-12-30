@@ -29,8 +29,10 @@ spec:
           name: nfd-master
           command:
             - "nfd-master"
+          {{- if .Values.nfdMaster.extraArgs }}
           args:
-            - "--extra-label-ns=nvidia.com"
+{{ toYaml .Values.nfdMaster.extraArgs | indent 12 }}
+          {{- end }}
           securityContext:
 {{- toYaml .Values.securityContext | nindent 12 }}
           resources:
@@ -45,8 +47,10 @@ spec:
           name: nfd-worker
           command:
             - "nfd-worker"
+          {{- if .Values.nfdWorker.extraArgs }}
           args:
-            - "--sleep-interval=60s"
+{{ toYaml .Values.nfdWorker.extraArgs | indent 12 }}
+          {{- end }}
           securityContext:
 {{- toYaml .Values.securityContext | nindent 12 }}
           resources:
