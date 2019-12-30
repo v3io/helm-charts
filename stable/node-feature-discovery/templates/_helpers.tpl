@@ -35,17 +35,14 @@ Create chart name and version as used by the chart label.
 Common labels
 */}}
 {{- define "node-feature-discovery.labels" -}}
-app.kubernetes.io/name: {{ include "node-feature-discovery.name" . }}
-helm.sh/chart: {{ include "node-feature-discovery.chart" . }}
-app.kubernetes.io/instance: {{ .Release.Name }}
-{{- if .Chart.AppVersion }}
-app.kubernetes.io/version: {{ .Chart.AppVersion | quote }}
-{{- end }}
-app.kubernetes.io/managed-by: {{ .Release.Service }}
+app: {{ include "node-feature-discovery.name" . }}
+chart: {{ include "node-feature-discovery.chart" . }}
+release: {{ .Release.Name }}
+heritage: {{ .Release.Service }}
 {{- end -}}
 
 {{- define "node-feature-discovery.matchLabels" -}}
-app.kubernetes.io/name: {{ include "node-feature-discovery.name" . }}
+app: {{ include "node-feature-discovery.name" . }}
 {{- end -}}
 
 {{/*
