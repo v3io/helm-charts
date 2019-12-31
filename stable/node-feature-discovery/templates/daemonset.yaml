@@ -20,10 +20,20 @@ spec:
     {{- end }}
       containers:
         - env:
-          - name: NODE_NAME
+{{- range $name, $value := .Values.environment.open }}
+{{- if not (empty $value) }}
+          - name: {{ $name | quote }}
+            value: {{ $value | quote }}
+{{- end }}
+{{- end }}
+{{- range $name, $value := .Values.environment.field }}
+{{- if not ( empty $value) }}
+          - name: {{ $name | quote }}
             valueFrom:
               fieldRef:
-                fieldPath: spec.nodeName
+                fieldPath: {{ $value | quote }}
+{{- end }}
+{{- end }}
           image: "{{ .Values.image.repository }}:{{ .Values.image.tag }}"
           imagePullPolicy: {{ .Values.image.pullPolicy }}
           name: nfd-master
@@ -38,10 +48,20 @@ spec:
           resources:
 {{ toYaml .Values.resources | indent 12 }}
         - env:
-          - name: NODE_NAME
+{{- range $name, $value := .Values.environment.open }}
+{{- if not (empty $value) }}
+          - name: {{ $name | quote }}
+            value: {{ $value | quote }}
+{{- end }}
+{{- end }}
+{{- range $name, $value := .Values.environment.field }}
+{{- if not ( empty $value) }}
+          - name: {{ $name | quote }}
             valueFrom:
               fieldRef:
-                fieldPath: spec.nodeName
+                fieldPath: {{ $value | quote }}
+{{- end }}
+{{- end }}
           image: "{{ .Values.image.repository }}:{{ .Values.image.tag }}"
           imagePullPolicy: {{ .Values.image.pullPolicy }}
           name: nfd-worker

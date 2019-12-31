@@ -22,6 +22,12 @@ serviceAccount:
 rbac:
   create: true
 
+environment:
+  field:
+    NODE_NAME: spec.nodeName
+  open:
+    # SOME_ENV: some_value
+
 nfdMaster:
   extraArgs:
     - --extra-label-ns=nvidia.com
