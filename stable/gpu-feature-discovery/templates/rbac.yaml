@@ -1,0 +1,34 @@
+{{- if .Values.rbac.create }}
+apiVersion: rbac.authorization.k8s.io/v1beta1
+kind: Role
+metadata:
+  name: {{ include "gpu-feature-discovery.fullname" . }}
+  labels:
+{{ include "gpu-feature-discovery.labels" . | indent 4 }}
+rules:
+- apiGroups:
+    - ""
+  resources:
+    - services
+    - endpoints
+  resourceNames:
+    - {{ include "gpu-feature-discovery.fullname" . }}
+  verbs:
+    - get
+    - list
+    - watch
+---
+apiVersion: rbac.authorization.k8s.io/v1beta1
+kind: RoleBinding
+metadata:
+  name: {{ include "gpu-feature-discovery.fullname" . }}
+  labels:
+{{ include "gpu-feature-discovery.labels" . | indent 4 }}
+roleRef:
+  apiGroup: rbac.authorization.k8s.io
+  kind: Role
+  name: {{ include "gpu-feature-discovery.fullname" . }}
+subjects:
+- kind: ServiceAccount
+  name: {{ template "gpu-feature-discovery.serviceAccountName" . }}
+{{- end }}

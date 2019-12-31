@@ -2,7 +2,7 @@
 {{/*
 Expand the name of the chart.
 */}}
-{{- define "pod-gpu-metrics-exporter.name" -}}
+{{- define "gpu-feature-discovery.name" -}}
 {{- default .Chart.Name .Values.nameOverride | trunc 63 | trimSuffix "-" -}}
 {{- end -}}
 
@@ -11,7 +11,7 @@ Create a default fully qualified app name.
 We truncate at 63 chars because some Kubernetes name fields are limited to this (by the DNS naming spec).
 If release name contains chart name it will be used as a full name.
 */}}
-{{- define "pod-gpu-metrics-exporter.fullname" -}}
+{{- define "gpu-feature-discovery.fullname" -}}
 {{- if .Values.fullnameOverride -}}
 {{- .Values.fullnameOverride | trunc 63 | trimSuffix "-" -}}
 {{- else -}}
@@ -27,31 +27,31 @@ If release name contains chart name it will be used as a full name.
 {{/*
 Create chart name and version as used by the chart label.
 */}}
-{{- define "pod-gpu-metrics-exporter.chart" -}}
+{{- define "gpu-feature-discovery.chart" -}}
 {{- printf "%s-%s" .Chart.Name .Chart.Version | replace "+" "_" | trunc 63 | trimSuffix "-" -}}
-{{- end -}}
-
-{{/*
-Create the name of the service account to use
-*/}}
-{{- define "pod-gpu-metrics-exporter.serviceAccountName" -}}
-{{- if .Values.serviceAccount.create -}}
-    {{ default (include "pod-gpu-metrics-exporter.fullname" .) .Values.serviceAccount.name }}
-{{- else -}}
-    {{ default "default" .Values.serviceAccount.name }}
-{{- end -}}
 {{- end -}}
 
 {{/*
 Common labels
 */}}
-{{- define "pod-gpu-metrics-exporter.labels" -}}
-app: {{ include "pod-gpu-metrics-exporter.name" . }}
-chart: {{ include "pod-gpu-metrics-exporter.chart" . }}
+{{- define "gpu-feature-discovery.labels" -}}
+app: {{ include "gpu-feature-discovery.name" . }}
+chart: {{ include "gpu-feature-discovery.chart" . }}
 release: {{ .Release.Name }}
 heritage: {{ .Release.Service }}
 {{- end -}}
 
-{{- define "pod-gpu-metrics-exporter.matchLabels" -}}
-app: {{ include "pod-gpu-metrics-exporter.name" . }}
+{{- define "gpu-feature-discovery.matchLabels" -}}
+app: {{ include "gpu-feature-discovery.name" . }}
+{{- end -}}
+
+{{/*
+Create the name of the service account to use
+*/}}
+{{- define "gpu-feature-discovery.serviceAccountName" -}}
+{{- if .Values.serviceAccount.create -}}
+    {{ default (include "gpu-feature-discovery.fullname" .) .Values.serviceAccount.name }}
+{{- else -}}
+    {{ default "default" .Values.serviceAccount.name }}
+{{- end -}}
 {{- end -}}
