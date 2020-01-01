@@ -53,6 +53,15 @@ data:
 {{ end -}}
 {{- end }}
 
+    if [ ! -e "${HOME}/.jupyter/lab/user-settings/@jupyterlab/terminal-extension/plugin.jupyterlab-settings" ]; then
+        mkdir -p ${HOME}/.jupyter/lab/user-settings/@jupyterlab/terminal-extension
+        touch ${HOME}/.jupyter/lab/user-settings/@jupyterlab/terminal-extension/plugin.jupyterlab-settings
+        echo "{" >> ${HOME}/.jupyter/lab/user-settings/@jupyterlab/terminal-extension/plugin.jupyterlab-settings
+        echo "\"theme\": \"dark\"" >> ${HOME}/.jupyter/lab/user-settings/@jupyterlab/terminal-extension/plugin.jupyterlab-settings
+        echo "}" >> ${HOME}/.jupyter/lab/user-settings/@jupyterlab/terminal-extension/plugin.jupyterlab-settings
+    fi
+
+
 {{- if .Values.spark }}
     echo "spark.master=spark://{{ .Values.spark.hostname }}:{{ .Values.spark.port }}" >> ${SPARK_HOME}/conf/spark-defaults.conf
     echo spark.driver.host=$(hostname -i) >> ${SPARK_HOME}/conf/spark-defaults.conf
