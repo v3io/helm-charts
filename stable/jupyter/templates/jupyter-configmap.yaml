@@ -154,7 +154,7 @@ data:
     echo "source ${HOME}/.bashrc" > ${HOME}/.bash_profile
 
     touch ${HOME}/.viminfo
-    chmod +w ${HOME}/.viminfo
+    chmod a+w ${HOME}/.viminfo
     echo ":set term=builtin_ansi" > ${HOME}/.vimrc
 
     PIP_USER_PROFILE="{{ .Values.pip.profile }}"
