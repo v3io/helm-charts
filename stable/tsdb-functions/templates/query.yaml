@@ -28,13 +28,17 @@ spec:
 {{- end }}
   - name: QUERY_V3IO_USERNAME
     value: {{ .Values.webapi.auth.username }}
+  {{- if .Values.webapi.auth.secretName }}
   - name: QUERY_V3IO_PASSWORD
-    value: {{ .Values.webapi.auth.password }}
-  {{- if .Values.webapi.auth.accessKeySecretName }}
+    valueFrom:
+      secretKeyRef:
+        name: {{ .Values.webapi.auth.secretName }}
+        key: password
+        optional: true
   - name: QUERY_V3IO_ACCESS_KEY
     valueFrom:
       secretKeyRef:
-        name: {{ .Values.webapi.auth.accessKeySecretName }}
+        name: {{ .Values.webapi.auth.secretName }}
         key: accessKey
         optional: true
   {{- end }}
