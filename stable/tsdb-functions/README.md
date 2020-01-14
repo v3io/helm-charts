@@ -11,6 +11,11 @@ This chart will do the following:
 
 ## Installing the Chart
 
+The chart requires having a secret which includes either the password or the access key of the user.
+The secret keys are: `accessKey` or `password`. 
+The secret name should be provided through the `webapi.auth.secretName` value.
+See here [how to create a secret](https://kubernetes.io/docs/concepts/configuration/secret/#creating-your-own-secrets) 
+
 To install the chart with the release name `my-release`:
 
 ```bash
