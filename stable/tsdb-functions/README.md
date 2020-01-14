@@ -16,7 +16,7 @@ The secret keys are: `accessKey` or `password`.
 The secret name should be provided through the `webapi.auth.secretName` value. <br>
 The secret can be created using:<br>
 ```bash
-$ kubectl create secret generic secret-name --from-literal=password='some-password' --from-literal=accessKey='some-access-key'
+$ kubectl create secret generic secret-name --from-literal=password='some-password''
 ```
 To install the chart with the release name `my-release`:
 
