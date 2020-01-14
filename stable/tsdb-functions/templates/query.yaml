@@ -26,9 +26,13 @@ spec:
 {{- else }}
     value: http://{{ cat .Values.webapi.url }}
 {{- end }}
-  - name: QUERY_V3IO_USERNAME
-    value: {{ .Values.webapi.auth.username }}
   {{- if .Values.webapi.auth.secretName }}
+  - name: QUERY_V3IO_USERNAME
+    valueFrom:
+      secretKeyRef:
+        name: {{ .Values.webapi.auth.secretName }}
+        key: username
+        optional: true
   - name: QUERY_V3IO_PASSWORD
     valueFrom:
       secretKeyRef:
