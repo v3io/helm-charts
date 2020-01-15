@@ -26,15 +26,22 @@ spec:
 {{- else }}
     value: http://{{ cat .Values.webapi.url }}
 {{- end }}
+  {{- if .Values.webapi.auth.secretName }}
   - name: INGEST_V3IO_USERNAME
-    value: {{ .Values.webapi.auth.username }}
+    valueFrom:
+      secretKeyRef:
+        name: {{ .Values.webapi.auth.secretName }}
+        key: username
   - name: INGEST_V3IO_PASSWORD
-    value: {{ .Values.webapi.auth.password }}
-  {{- if .Values.webapi.auth.accessKeySecretName }}
+    valueFrom:
+      secretKeyRef:
+        name: {{ .Values.webapi.auth.secretName }}
+        key: password
+        optional: true
   - name: INGEST_V3IO_ACCESS_KEY
     valueFrom:
       secretKeyRef:
-        name: {{ .Values.webapi.auth.accessKeySecretName }}
+        name: {{ .Values.webapi.auth.secretName }}
         key: accessKey
         optional: true
   {{- end }}
