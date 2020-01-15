@@ -4,9 +4,8 @@ tsdb:
 webapi:
   url: v3io-webapi:8081
   auth:
-    username: iguazio
-    password: iguazio
-    accessKeySecretName: ""
+#     must include username and password/accessKey
+    secretName: ""
 project:
   displayName: TSDB functions
 functions:
