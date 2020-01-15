@@ -11,6 +11,13 @@ This chart will do the following:
 
 ## Installing the Chart
 
+The chart requires having a secret which includes the username and either the password or the access key of the user.
+The secret keys are: `username`, `accessKey` and `password`. 
+The secret name should be provided through the `webapi.auth.secretName` value. <br>
+The secret can be created using:<br>
+```bash
+$ kubectl create secret generic secret-name --from-literal=username='some-username' --from-literal=password='some-password'
+```
 To install the chart with the release name `my-release`:
 
 ```bash
