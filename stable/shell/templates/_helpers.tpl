@@ -42,3 +42,8 @@ Create chart name and version as used by the chart label.
 {{- define "shell.svcadmin" -}}
 {{- printf "%s-%s" .Release.Name .Values.permissions.svcAdmin.name -}}
 {{- end -}}
+
+{{- define "shell.pvcadmin" -}}
+{{- printf "%s-%s" .Release.Name .Values.permissions.pvcAdmin.name -}}
+{{- end -}}
+
