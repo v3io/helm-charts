@@ -53,6 +53,15 @@ data:
 {{ end -}}
 {{- end }}
 
+    if [ ! -e "${HOME}/.jupyter/lab/user-settings/@jupyterlab/terminal-extension/plugin.jupyterlab-settings" ]; then
+        mkdir -p ${HOME}/.jupyter/lab/user-settings/@jupyterlab/terminal-extension
+        touch ${HOME}/.jupyter/lab/user-settings/@jupyterlab/terminal-extension/plugin.jupyterlab-settings
+        echo "{" >> ${HOME}/.jupyter/lab/user-settings/@jupyterlab/terminal-extension/plugin.jupyterlab-settings
+        echo "\"theme\": \"dark\"" >> ${HOME}/.jupyter/lab/user-settings/@jupyterlab/terminal-extension/plugin.jupyterlab-settings
+        echo "}" >> ${HOME}/.jupyter/lab/user-settings/@jupyterlab/terminal-extension/plugin.jupyterlab-settings
+    fi
+
+
 {{- if .Values.spark }}
     echo "spark.master=spark://{{ .Values.spark.hostname }}:{{ .Values.spark.port }}" >> ${SPARK_HOME}/conf/spark-defaults.conf
     echo spark.driver.host=$(hostname -i) >> ${SPARK_HOME}/conf/spark-defaults.conf
@@ -136,7 +145,7 @@ data:
       echo "if [ -f /etc/bash_completion ]; then" >> ${HOME}/.bashrc
       echo " . /etc/bash_completion" >> ${HOME}/.bashrc
       echo "fi" >> ${HOME}/.bashrc
-      echo "if type -t _get_comp_words_by_ref > /dev/null 2>&1 && command -v kubectl > /dev/null 2&>1; then" >> ${HOME}/.bashrc
+      echo "if type -t _get_comp_words_by_ref > /dev/null 2>&1 && command -v kubectl > /dev/null 2>&1; then" >> ${HOME}/.bashrc
       echo " source <(kubectl completion bash)" >> ${HOME}/.bashrc
       echo "fi" >> ${HOME}/.bashrc
       echo "# ----- END KUBECTL AUTOCOMPLETION -----" >> ${HOME}/.bashrc
@@ -145,7 +154,7 @@ data:
     echo "source ${HOME}/.bashrc" > ${HOME}/.bash_profile
 
     touch ${HOME}/.viminfo
-    chmod +w ${HOME}/.viminfo
+    chmod a+w ${HOME}/.viminfo
     echo ":set term=builtin_ansi" > ${HOME}/.vimrc
 
     PIP_USER_PROFILE="{{ .Values.pip.profile }}"

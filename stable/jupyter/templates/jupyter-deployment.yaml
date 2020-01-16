@@ -68,6 +68,7 @@ spec:
             - --notebook-dir="/User"
             - --NotebookApp.default_url="/lab"
             - --Application.log_level="WARN"
+            - --Application.log_datefmt="%Y-%m-%d_%H:%M:%S"
 {{- if .Values.debug.enabled }}
             - --debug
 {{- end }}
@@ -139,6 +140,9 @@ spec:
 {{- if .Values.volumes }}
 {{ include .Values.volumes.volumeMountsTemplate . | indent 12 }}
 {{- end }}
+{{- if .Values.pvc }}
+{{ include .Values.pvc.pvcVolumeMountsTemplate . | indent 12 }}
+{{- end }}
         - name: sidecar-proxy
           image: {{ .Values.proxy.image.repository }}:{{ .Values.proxy.image.tag }}
           command: ["proxy_server"]
@@ -176,4 +180,7 @@ spec:
 {{- end }}
 {{- if .Values.volumes }}
 {{ include .Values.volumes.volumesTemplate . | indent 8 }}
+{{- end }}
+{{- if .Values.pvc }}
+{{ include .Values.pvc.pvcVolumesTemplate . | indent 8 }}
 {{- end }}

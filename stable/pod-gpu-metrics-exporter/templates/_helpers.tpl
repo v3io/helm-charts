@@ -30,3 +30,28 @@ Create chart name and version as used by the chart label.
 {{- define "pod-gpu-metrics-exporter.chart" -}}
 {{- printf "%s-%s" .Chart.Name .Chart.Version | replace "+" "_" | trunc 63 | trimSuffix "-" -}}
 {{- end -}}
+
+{{/*
+Create the name of the service account to use
+*/}}
+{{- define "pod-gpu-metrics-exporter.serviceAccountName" -}}
+{{- if .Values.serviceAccount.create -}}
+    {{ default (include "pod-gpu-metrics-exporter.fullname" .) .Values.serviceAccount.name }}
+{{- else -}}
+    {{ default "default" .Values.serviceAccount.name }}
+{{- end -}}
+{{- end -}}
+
+{{/*
+Common labels
+*/}}
+{{- define "pod-gpu-metrics-exporter.labels" -}}
+app: {{ include "pod-gpu-metrics-exporter.name" . }}
+chart: {{ include "pod-gpu-metrics-exporter.chart" . }}
+release: {{ .Release.Name }}
+heritage: {{ .Release.Service }}
+{{- end -}}
+
+{{- define "pod-gpu-metrics-exporter.matchLabels" -}}
+app: {{ include "pod-gpu-metrics-exporter.name" . }}
+{{- end -}}

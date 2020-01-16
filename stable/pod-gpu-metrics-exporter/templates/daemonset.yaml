@@ -3,26 +3,33 @@ kind: DaemonSet
 metadata:
   name: {{ template "pod-gpu-metrics-exporter.fullname" . }}
   labels:
-    app: {{ template "pod-gpu-metrics-exporter.name" . }}
-    chart: {{ template "pod-gpu-metrics-exporter.chart" . }}
-    release: {{ .Release.Name }}
+{{ include "pod-gpu-metrics-exporter.labels" . | indent 4 }}
   annotations:
     prometheus.io/path: /gpu/metrics
     prometheus.io/scrape: "true"
 spec:
   template:
     metadata:
-      labels:
-        app: {{ template "pod-gpu-metrics-exporter.name" . }}
-        chart: {{ template "pod-gpu-metrics-exporter.chart" . }}
-        release: {{ .Release.Name }}
       name: pod-gpu-metrics-exporter
       annotations:
         prometheus.io/path: /gpu/metrics
         prometheus.io/scrape: "true"
+      labels:
+{{ include "pod-gpu-metrics-exporter.labels" . | indent 8 }}
     spec:
+      serviceAccountName: {{ template "pod-gpu-metrics-exporter.serviceAccountName" . }}
+    {{- with .Values.nodeSelector }}
       nodeSelector:
-        hardware-type: NVIDIAGPU
+        {{- toYaml . | nindent 8 }}
+    {{- end }}
+    {{- with .Values.affinity }}
+      affinity:
+        {{- toYaml . | nindent 8 }}
+    {{- end }}
+    {{- with .Values.tolerations }}
+      tolerations:
+        {{- toYaml . | nindent 8 }}
+    {{- end }}
       containers:
       - image: "{{ .Values.podGPUMetricsExporter.image.repository }}:{{ .Values.podGPUMetricsExporter.image.tag }}"
         name: pod-nvidia-gpu-metrics-exporter
@@ -32,6 +39,8 @@ spec:
         securityContext:
           runAsNonRoot: false
           runAsUser: 0
+        resources:
+{{ toYaml .Values.resources | indent 10 }}
         volumeMounts:
         - name: pod-gpu-resources
           readOnly: true
