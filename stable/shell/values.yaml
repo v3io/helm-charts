@@ -18,6 +18,8 @@ permissions:
     name: application-admin
   svcAdmin:
     name: service-admin
+  pvcAdmin:
+    name: pvc-admin
 
 presto:
   hostname: presto
