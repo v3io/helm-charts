@@ -32,6 +32,8 @@ spec:
           value: v3io-webapi
         - name: OBJECTSTORECONFIG_MULTIPART_DISABLE
           value: "true"
+        - name: OBJECTSTORECONFIG_FORCEV2SIGNATURE
+          value: "true"
         - name: POD_NAMESPACE
           valueFrom:
             fieldRef:
