@@ -5,10 +5,8 @@ metadata:
   name: ml-pipeline-scheduledworkflow-role
   namespace: {{ .Release.Namespace }}
   labels:
-    app: ml-pipeline-scheduledworkflow-role
-    chart: {{ template "pipelines.chart" . }}
-    release: {{ .Release.Name }}
-    heritage: {{ .Release.Service }}
+    component: ml-pipeline-scheduledworkflow
+{{ include "pipelines.commonLabels" . | indent 4 }}
 rules:
 - apiGroups:
   - argoproj.io

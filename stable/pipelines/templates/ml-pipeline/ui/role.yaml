@@ -5,10 +5,8 @@ metadata:
   name: ml-pipeline-ui
   namespace: {{ .Release.Namespace }}
   labels:
-    app: ml-pipeline-ui
-    chart: {{ template "pipelines.chart" . }}
-    release: {{ .Release.Name }}
-    heritage: {{ .Release.Service }}
+    component: ml-pipeline-ui
+{{ include "pipelines.commonLabels" . | indent 4 }}
 rules:
 - apiGroups:
   - ""
@@ -20,7 +18,7 @@ rules:
   - get
   - list
 - apiGroups:
-  - kubeflow.org
+  - "kubeflow.org"
   resources:
   - viewers
   verbs:
@@ -29,4 +27,11 @@ rules:
   - list
   - watch
   - delete
+- apiGroups:
+  - "argoproj.io"
+  resources:
+  - workflows
+  verbs:
+  - get
+  - list
 {{- end }}

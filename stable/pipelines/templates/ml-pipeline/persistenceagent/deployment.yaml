@@ -5,24 +5,18 @@ metadata:
   name: ml-pipeline-persistenceagent
   namespace: {{ .Release.Namespace }}
   labels:
-    app: ml-pipeline-persistenceagent
-    chart: {{ template "pipelines.chart" . }}
-    release: {{ .Release.Name }}
-    heritage: {{ .Release.Service }}
+    component: ml-pipeline-persistenceagent
+{{ include "pipelines.commonLabels" . | indent 4 }}
 spec:
   selector:
     matchLabels:
-      app: ml-pipeline-persistenceagent
-      chart: {{ template "pipelines.chart" . }}
-      release: {{ .Release.Name }}
-      heritage: {{ .Release.Service }}
+      component: ml-pipeline-persistenceagent
+{{ include "pipelines.commonLabels" . | indent 6 }}
   template:
     metadata:
       labels:
-        app: ml-pipeline-persistenceagent
-        chart: {{ template "pipelines.chart" . }}
-        release: {{ .Release.Name }}
-        heritage: {{ .Release.Service }}
+        component: ml-pipeline-persistenceagent
+{{ include "pipelines.commonLabels" . | indent 8 }}
     spec:
       containers:
       - image: {{ .Values.images.persistenceagent.repository }}:{{ .Values.images.persistenceagent.tag }}

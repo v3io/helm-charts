@@ -4,10 +4,8 @@ kind: ConfigMap
 metadata:
   name: workflow-controller-configmap
   labels:
-    app: {{ template "pipelines.name" . }}
-    chart: {{ template "pipelines.chart" . }}
-    release: {{ .Release.Name }}
-    heritage: {{ .Release.Service }}
+    component: workflow-controller
+{{ include "pipelines.commonLabels" . | indent 4 }}
 data:
   config: |
     {
