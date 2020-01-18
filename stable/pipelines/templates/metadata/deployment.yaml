@@ -26,12 +26,12 @@ spec:
         - name: DBCONFIG_USER
           valueFrom:
             secretKeyRef:
-              name: mysql-credential
+              name: metadata-mysql-configmap
               key: username
         - name: DBCONFIG_PASSWORD
           valueFrom:
             secretKeyRef:
-              name: mysql-credential
+              name: metadata-mysql-configmap
               key: password
         - name: MYSQL_DATABASE
           valueFrom:
