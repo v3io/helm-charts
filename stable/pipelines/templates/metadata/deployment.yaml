@@ -23,16 +23,16 @@ spec:
       - name: container
         image: {{ .Values.images.metadata.repository }}:{{ .Values.images.metadata.tag }}
         env:
-        - name: DBCONFIG_USER
-          valueFrom:
-            secretKeyRef:
-              name: metadata-mysql-configmap
-              key: username
-        - name: DBCONFIG_PASSWORD
-          valueFrom:
-            secretKeyRef:
-              name: metadata-mysql-configmap
-              key: password
+#        - name: DBCONFIG_USER
+#          valueFrom:
+#            secretKeyRef:
+#              name: mysql-credential
+#              key: username
+#        - name: DBCONFIG_PASSWORD
+#          valueFrom:
+#            secretKeyRef:
+#              name: mysql-credential
+#              key: password
         - name: MYSQL_DATABASE
           valueFrom:
             configMapKeyRef:
@@ -53,8 +53,8 @@ spec:
                "--mysql_config_database=$(MYSQL_DATABASE)",
                "--mysql_config_host=$(MYSQL_HOST)",
                "--mysql_config_port=$(MYSQL_PORT)",
-               "--mysql_config_user=$(DBCONFIG_USER)",
-               "--mysql_config_password=$(DBCONFIG_PASSWORD)"
+#               "--mysql_config_user=$(DBCONFIG_USER)",
+#               "--mysql_config_password=$(DBCONFIG_PASSWORD)"
         ]
         ports:
         - containerPort: 8080
