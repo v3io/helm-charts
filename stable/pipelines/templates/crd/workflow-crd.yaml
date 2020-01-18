@@ -5,7 +5,7 @@ metadata:
   name: workflows.argoproj.io
   labels:
     component: crd
-  {{ include "pipelines.commonLabels" . | indent 4 }}
+{{ include "pipelines.commonLabels" . | indent 4 }}
 
 spec:
   group: argoproj.io
