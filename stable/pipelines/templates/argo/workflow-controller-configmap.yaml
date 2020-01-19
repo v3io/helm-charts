@@ -22,7 +22,10 @@ data:
                 name: v3io-webapi-secret,
                 key: accesskey
             },
-            secretKeySecret: dontcare
+            secretKeySecret: {
+                name: v3io-webapi-secret,
+                key: secretkey
+            }
         }
     }
     }
