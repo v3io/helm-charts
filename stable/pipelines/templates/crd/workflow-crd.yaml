@@ -6,7 +6,6 @@ metadata:
   labels:
     component: crd
 {{ include "pipelines.commonLabels" . | indent 4 }}
-
 spec:
   group: argoproj.io
   version: v1alpha1
