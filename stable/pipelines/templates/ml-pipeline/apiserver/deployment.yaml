@@ -3,26 +3,20 @@ apiVersion: apps/v1beta2
 kind: Deployment
 metadata:
   labels:
-    app: ml-pipeline
-    chart: {{ template "pipelines.chart" . }}
-    release: {{ .Release.Name }}
-    heritage: {{ .Release.Service }}
+    component: ml-pipeline
+{{ include "pipelines.commonLabels" . | indent 4 }}
   name: ml-pipeline
   namespace: {{ .Release.Namespace }}
 spec:
   selector:
     matchLabels:
-      app: ml-pipeline
-      chart: {{ template "pipelines.chart" . }}
-      release: {{ .Release.Name }}
-      heritage: {{ .Release.Service }}
+      component: ml-pipeline
+{{ include "pipelines.commonLabels" . | indent 6 }}
   template:
     metadata:
       labels:
-        app: ml-pipeline
-        chart: {{ template "pipelines.chart" . }}
-        release: {{ .Release.Name }}
-        heritage: {{ .Release.Service }}
+        component: ml-pipeline
+{{ include "pipelines.commonLabels" . | indent 8 }}
     spec:
       containers:
       - env:
@@ -37,6 +31,8 @@ spec:
         - name: OBJECTSTORECONFIG_HOST
           value: v3io-webapi
         - name: OBJECTSTORECONFIG_MULTIPART_DISABLE
+          value: "true"
+        - name: OBJECTSTORECONFIG_FORCEV2SIGNATURE
           value: "true"
         - name: POD_NAMESPACE
           valueFrom:

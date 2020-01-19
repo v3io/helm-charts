@@ -2,19 +2,17 @@
 apiVersion: rbac.authorization.k8s.io/v1
 kind: RoleBinding
 metadata:
-  name: ml-pipeline
+  name: argo-binding
   namespace: {{ .Release.Namespace }}
   labels:
-    app: ml-pipeline
-    chart: {{ template "pipelines.chart" . }}
-    release: {{ .Release.Name }}
-    heritage: {{ .Release.Service }}
+    component: argo
+{{ include "pipelines.commonLabels" . | indent 4 }}
 roleRef:
   apiGroup: rbac.authorization.k8s.io
   kind: Role
-  name: ml-pipeline
+  name: argo-role
 subjects:
 - kind: ServiceAccount
-  name: ml-pipeline
+  name: argo
   namespace: {{ .Release.Namespace }}
 {{- end }}

@@ -5,20 +5,16 @@ metadata:
   name: workflow-controller
   namespace: {{ .Release.Namespace }}
   labels:
-    app: workflow-controller
-    chart: {{ template "pipelines.chart" . }}
-    release: {{ .Release.Name }}
-    heritage: {{ .Release.Service }}
+    component: workflow-controller
+{{ include "pipelines.commonLabels" . | indent 4 }}
 spec:
   progressDeadlineSeconds: {{ .Values.configurations.argo.progressDeadlineSeconds }}
   replicas: {{ .Values.configurations.argo.replicas }}
   revisionHistoryLimit: {{ .Values.configurations.argo.revisionHistoryLimit }}
   selector:
     matchLabels:
-      app: workflow-controller
-      chart: {{ template "pipelines.chart" . }}
-      release: {{ .Release.Name }}
-      heritage: {{ .Release.Service }}
+      component: workflow-controller
+{{ include "pipelines.commonLabels" . | indent 6 }}
   strategy:
     rollingUpdate:
       maxSurge: {{ .Values.configurations.argo.strategy.rollingUpdate.maxSurge }}
@@ -28,10 +24,8 @@ spec:
     metadata:
       creationTimestamp: null
       labels:
-        app: workflow-controller
-        chart: {{ template "pipelines.chart" . }}
-        release: {{ .Release.Name }}
-        heritage: {{ .Release.Service }}
+        component: workflow-controller
+{{ include "pipelines.commonLabels" . | indent 8 }}
     spec:
       containers:
       - args: [

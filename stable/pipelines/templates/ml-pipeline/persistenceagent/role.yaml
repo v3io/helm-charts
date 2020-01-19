@@ -5,10 +5,8 @@ metadata:
   name: ml-pipeline-persistenceagent-role
   namespace: {{ .Release.Namespace }}
   labels:
-    app: {{ template "pipelines.name" . }}
-    chart: {{ template "pipelines.chart" . }}
-    release: {{ .Release.Name }}
-    heritage: {{ .Release.Service }}
+    component: ml-pipeline-persistenceagent
+{{ include "pipelines.commonLabels" . | indent 4 }}
 rules:
 - apiGroups:
   - argoproj.io

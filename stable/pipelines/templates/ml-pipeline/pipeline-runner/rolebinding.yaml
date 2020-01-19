@@ -2,19 +2,17 @@
 apiVersion: rbac.authorization.k8s.io/v1
 kind: RoleBinding
 metadata:
-  name: ml-pipeline-ui
+  name: pipeline-runner-binding
   namespace: {{ .Release.Namespace }}
   labels:
-    app: ml-pipeline-ui
-    chart: {{ template "pipelines.chart" . }}
-    release: {{ .Release.Name }}
-    heritage: {{ .Release.Service }}
+    component: pipeline-runner
+{{ include "pipelines.commonLabels" . | indent 4 }}
 roleRef:
   apiGroup: rbac.authorization.k8s.io
   kind: Role
-  name: ml-pipeline-ui
+  name: pipeline-runner
 subjects:
 - kind: ServiceAccount
-  name: ml-pipeline-ui
+  name: pipeline-runner
   namespace: {{ .Release.Namespace }}
 {{- end }}

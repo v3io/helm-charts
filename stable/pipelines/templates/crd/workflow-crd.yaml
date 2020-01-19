@@ -2,19 +2,18 @@
 apiVersion: apiextensions.k8s.io/v1beta1
 kind: CustomResourceDefinition
 metadata:
-  name: scheduledworkflows.kubeflow.org
+  name: workflows.argoproj.io
+  labels:
+    component: crd
+{{ include "pipelines.commonLabels" . | indent 4 }}
+
 spec:
-  group: kubeflow.org
+  group: argoproj.io
+  version: v1alpha1
   names:
-    kind: ScheduledWorkflow
-    listKind: ScheduledWorkflowList
-    plural: scheduledworkflows
+    kind: Workflow
+    plural: workflows
     shortNames:
-    - swf
-    singular: scheduledworkflow
+    - wf
   scope: Namespaced
-  versions:
-  - name: v1beta1
-    served: true
-    storage: true
 {{- end }}

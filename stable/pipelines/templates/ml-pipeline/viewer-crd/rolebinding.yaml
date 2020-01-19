@@ -2,19 +2,17 @@
 apiVersion: rbac.authorization.k8s.io/v1
 kind: RoleBinding
 metadata:
-  name: ml-pipeline-scheduledworkflow-binding
+  name: ml-pipeline-viewer-crd-binding
   namespace: {{ .Release.Namespace }}
   labels:
-    app: {{ template "pipelines.name" . }}
-    chart: {{ template "pipelines.chart" . }}
-    release: {{ .Release.Name }}
-    heritage: {{ .Release.Service }}
+    component: ml-pipeline-viewer-crd
+{{ include "pipelines.commonLabels" . | indent 4 }}
 roleRef:
   apiGroup: rbac.authorization.k8s.io
   kind: Role
-  name: ml-pipeline-scheduledworkflow-role
+  name: ml-pipeline-viewer-controller-role
 subjects:
 - kind: ServiceAccount
-  name: ml-pipeline-scheduledworkflow
+  name: ml-pipeline-viewer-crd-service-account
   namespace: {{ .Release.Namespace }}
 {{- end }}

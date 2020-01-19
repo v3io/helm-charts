@@ -5,10 +5,8 @@ metadata:
   name: pipeline-runner
   namespace: {{ .Release.Namespace }}
   labels:
-    app: {{ template "pipelines.name" . }}
-    chart: {{ template "pipelines.chart" . }}
-    release: {{ .Release.Name }}
-    heritage: {{ .Release.Service }}
+    component: pipeline-runner
+{{ include "pipelines.commonLabels" . | indent 4 }}
 rules:
 - apiGroups:
   - ""
@@ -77,6 +75,12 @@ rules:
   - batch
   resources:
   - jobs
+  verbs:
+  - '*'
+- apiGroups:
+  - machinelearning.seldon.io
+  resources:
+  - seldondeployments
   verbs:
   - '*'
 {{- end }}
