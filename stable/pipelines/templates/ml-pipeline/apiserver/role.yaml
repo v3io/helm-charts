@@ -5,10 +5,8 @@ metadata:
   name: ml-pipeline
   namespace: {{ .Release.Namespace }}
   labels:
-    app: {{ template "pipelines.name" . }}
-    chart: {{ template "pipelines.chart" . }}
-    release: {{ .Release.Name }}
-    heritage: {{ .Release.Service }}
+    component: ml-pipeline
+{{ include "pipelines.commonLabels" . | indent 4 }}
 rules:
 - apiGroups:
   - ""

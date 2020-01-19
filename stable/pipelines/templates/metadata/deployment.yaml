@@ -3,36 +3,59 @@ apiVersion: apps/v1beta2
 kind: Deployment
 metadata:
   labels:
-    app: metadata-server
-    chart: {{ template "pipelines.chart" . }}
-    release: {{ .Release.Name }}
-    heritage: {{ .Release.Service }}
+    component: metadata-server
+{{ include "pipelines.commonLabels" . | indent 4 }}
   name: metadata-deployment
   namespace: {{ .Release.Namespace }}
 spec:
+  replicas: 1
   selector:
     matchLabels:
-      app: metadata-server
-      chart: {{ template "pipelines.chart" . }}
-      release: {{ .Release.Name }}
-      heritage: {{ .Release.Service }}
+      component: metadata-server
+{{ include "pipelines.commonLabels" . | indent 6 }}
   template:
     metadata:
       labels:
-        app: metadata-server
-        chart: {{ template "pipelines.chart" . }}
-        release: {{ .Release.Name }}
-        heritage: {{ .Release.Service }}
+        component: metadata-server
+{{ include "pipelines.commonLabels" . | indent 8 }}
     spec:
       containers:
-      - command:
-        - ./server/server
-        - --http_port=8080
-        - --mysql_service_host=mysql
-        - --mysql_service_port=3306
-        - --mlmd_db_name=metadb
+      - name: container
         image: {{ .Values.images.metadata.repository }}:{{ .Values.images.metadata.tag }}
-        name: container
+        env:
+#        - name: DBCONFIG_USER
+#          valueFrom:
+#            secretKeyRef:
+#              name: mysql-credential
+#              key: username
+#        - name: DBCONFIG_PASSWORD
+#          valueFrom:
+#            secretKeyRef:
+#              name: mysql-credential
+#              key: password
+        - name: MYSQL_DATABASE
+          valueFrom:
+            configMapKeyRef:
+              name: metadata-mysql-configmap
+              key: MYSQL_DATABASE
+        - name: MYSQL_HOST
+          valueFrom:
+            configMapKeyRef:
+              name: metadata-mysql-configmap
+              key: MYSQL_HOST
+        - name: MYSQL_PORT
+          valueFrom:
+            configMapKeyRef:
+              name: metadata-mysql-configmap
+              key: MYSQL_PORT
+        command: ["/bin/metadata_store_server"]
+        args: ["--grpc_port=8080",
+               "--mysql_config_database=$(MYSQL_DATABASE)",
+               "--mysql_config_host=$(MYSQL_HOST)",
+               "--mysql_config_port=$(MYSQL_PORT)",
+#               "--mysql_config_user=$(DBCONFIG_USER)",
+#               "--mysql_config_password=$(DBCONFIG_PASSWORD)"
+        ]
         ports:
         - containerPort: 8080
           name: md-backendapi

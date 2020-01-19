@@ -5,10 +5,8 @@ metadata:
   name: ml-pipeline
   namespace: {{ .Release.Namespace }}
   labels:
-    app: ml-pipeline
-    chart: {{ template "pipelines.chart" . }}
-    release: {{ .Release.Name }}
-    heritage: {{ .Release.Service }}
+    component: ml-pipeline
+{{ include "pipelines.commonLabels" . | indent 4 }}
 spec:
   ports:
   - name: http
@@ -20,8 +18,6 @@ spec:
     protocol: TCP
     targetPort: 8887
   selector:
-    app: ml-pipeline
-    chart: {{ template "pipelines.chart" . }}
-    release: {{ .Release.Name }}
-    heritage: {{ .Release.Service }}
+    component: ml-pipeline
+{{ include "pipelines.commonLabels" . | indent 4 }}
 {{- end }}

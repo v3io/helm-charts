@@ -5,24 +5,18 @@ metadata:
   name: ml-pipeline-ui
   namespace: {{ .Release.Namespace }}
   labels:
-    app: ml-pipeline-ui
-    chart: {{ template "pipelines.chart" . }}
-    release: {{ .Release.Name }}
-    heritage: {{ .Release.Service }}
+    component: ml-pipeline-ui
+{{ include "pipelines.commonLabels" . | indent 4 }}
 spec:
   selector:
     matchLabels:
-      app: ml-pipeline-ui
-      chart: {{ template "pipelines.chart" . }}
-      release: {{ .Release.Name }}
-      heritage: {{ .Release.Service }}
+      component: ml-pipeline-ui
+{{ include "pipelines.commonLabels" . | indent 6 }}
   template:
     metadata:
       labels:
-        app: ml-pipeline-ui
-        chart: {{ template "pipelines.chart" . }}
-        release: {{ .Release.Name }}
-        heritage: {{ .Release.Service }}
+        component: ml-pipeline-ui
+{{ include "pipelines.commonLabels" . | indent 8 }}
     spec:
       containers:
       - image: {{ .Values.images.ui.repository }}:{{ .Values.images.ui.tag }}

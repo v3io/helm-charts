@@ -5,10 +5,8 @@ metadata:
   name: argo-role
   namespace: {{ .Release.Namespace }}
   labels:
-    app: {{ template "pipelines.name" . }}
-    chart: {{ template "pipelines.chart" . }}
-    release: {{ .Release.Name }}
-    heritage: {{ .Release.Service }}
+    component: argo
+{{ include "pipelines.commonLabels" . | indent 4 }}
 rules:
 - apiGroups:
   - ""

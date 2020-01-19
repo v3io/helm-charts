@@ -5,10 +5,8 @@ metadata:
   name: metadata-service
   namespace: {{ .Release.Namespace }}
   labels:
-    app: metadata
-    chart: {{ template "pipelines.chart" . }}
-    release: {{ .Release.Name }}
-    heritage: {{ .Release.Service }}
+    component: metadata
+{{ include "pipelines.commonLabels" . | indent 4 }}
 spec:
   ports:
   - port: 8080
@@ -17,7 +15,5 @@ spec:
   type: ClusterIP
   selector:
     component: metadata-server
-    chart: {{ template "pipelines.chart" . }}
-    release: {{ .Release.Name }}
-    heritage: {{ .Release.Service }}
+{{ include "pipelines.commonLabels" . | indent 4 }}
 {{- end }}
