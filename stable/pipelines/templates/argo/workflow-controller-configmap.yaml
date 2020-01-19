@@ -22,10 +22,7 @@ data:
                 name: v3io-webapi-secret,
                 key: accesskey
             },
-            secretKeySecret: {
-                name: mlpipeline-minio-secret,
-                key: secretkey
-            }
+            secretKeySecret: dontcare
         }
     }
     }
