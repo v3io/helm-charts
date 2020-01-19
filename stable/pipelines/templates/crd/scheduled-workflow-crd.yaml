@@ -5,8 +5,7 @@ metadata:
   name: scheduledworkflows.kubeflow.org
   labels:
     component: crd
-  {{ include "pipelines.commonLabels" . | indent 4 }}
-
+{{ include "pipelines.commonLabels" . | indent 4 }}
 spec:
   group: kubeflow.org
   names:
