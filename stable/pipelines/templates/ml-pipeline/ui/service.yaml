@@ -5,17 +5,13 @@ metadata:
   name: ml-pipeline-ui
   namespace: {{ .Release.Namespace }}
   labels:
-    app: {{ template "pipelines.name" . }}
-    chart: {{ template "pipelines.chart" . }}
-    release: {{ .Release.Name }}
-    heritage: {{ .Release.Service }}
+    component: ml-pipeline-ui
+{{ include "pipelines.commonLabels" . | indent 4 }}
 spec:
   ports:
   - port: 80
     targetPort: 3000
   selector:
-    app: ml-pipeline-ui
-    chart: {{ template "pipelines.chart" . }}
-    release: {{ .Release.Name }}
-    heritage: {{ .Release.Service }}
+    component: ml-pipeline-ui
+{{ include "pipelines.commonLabels" . | indent 4 }}
 {{- end }}
