@@ -60,7 +60,7 @@ spec:
         ]
         ports:
         - containerPort: 8080
-          name:
+          name: md-backendapi
       initContainers:
       - name: metadata-init
         command: [
