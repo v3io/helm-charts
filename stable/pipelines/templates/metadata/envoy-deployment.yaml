@@ -19,7 +19,8 @@ spec:
     spec:
       containers:
       - name: container
-        image: gcr.io/ml-pipeline/envoy:initial
+        image: {{ .Values.images.metadataEnvoy.repository }}:{{ .Values.images.metadataEnvoy.tag }}
+        imagePullPolicy: {{ .Values.images.imagePullPolicy }}
         ports:
         - name: md-envoy
           containerPort: 9090
