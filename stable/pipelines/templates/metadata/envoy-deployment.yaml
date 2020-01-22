@@ -19,7 +19,7 @@ spec:
     spec:
       containers:
       - name: container
-        image: {{ .Values.images.metadata-envoy.repository }}:{{ .Values.images.metadata-envoy.tag }}
+        image: {{ .Values.images.metadataEnvoy.repository }}:{{ .Values.images.metadataEnvoy.tag }}
         imagePullPolicy: {{ .Values.images.imagePullPolicy }}
         ports:
         - name: md-envoy

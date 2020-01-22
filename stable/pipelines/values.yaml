@@ -78,7 +78,7 @@ images:
     init:
       repository: gcr.io/tfx-oss-public/ml_metadata_store_server
       tag: 0.14.0
-  metadata-envoy:
+  metadataEnvoy:
     repository: gcr.io/ml-pipeline/envoy
     tag: initial
   mysql:
