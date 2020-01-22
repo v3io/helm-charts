@@ -83,4 +83,11 @@ rules:
   - seldondeployments
   verbs:
   - '*'
+- apiGroups:
+  - sparkoperator.k8s.io
+  resources:
+  - sparkapplications
+  - scheduledsparkapplications
+  verbs:
+  - '*'
 {{- end }}

@@ -20,8 +20,9 @@ spec:
 {{ include "pipelines.commonLabels" . | indent 8 }}
     spec:
       containers:
-      - name: container
-        image: {{ .Values.images.metadata.repository }}:{{ .Values.images.metadata.tag }}
+      - name: metadata-container
+        image: {{ .Values.images.metadata.container.repository }}:{{ .Values.images.metadata.container.tag }}
+        imagePullPolicy: {{ .Values.images.imagePullPolicy }}
         env:
 #        - name: DBCONFIG_USER
 #          valueFrom:
@@ -49,16 +50,25 @@ spec:
               name: metadata-mysql-configmap
               key: MYSQL_PORT
         command: ["/bin/metadata_store_server"]
-        args: ["--grpc_port=8080",
-               "--mysql_config_database=$(MYSQL_DATABASE)",
-               "--mysql_config_host=$(MYSQL_HOST)",
-               "--mysql_config_port=$(MYSQL_PORT)",
-#               "--mysql_config_user=$(DBCONFIG_USER)",
-#               "--mysql_config_password=$(DBCONFIG_PASSWORD)"
+        args: [
+          "--grpc_port=8080",
+          "--mysql_config_database=$(MYSQL_DATABASE)",
+          "--mysql_config_host=$(MYSQL_HOST)",
+          "--mysql_config_port=$(MYSQL_PORT)",
+          #               "--mysql_config_user=$(DBCONFIG_USER)",
+          #               "--mysql_config_password=$(DBCONFIG_PASSWORD)"
         ]
         ports:
         - containerPort: 8080
           name: md-backendapi
+      initContainers:
+      - name: metadata-init
+        command: [
+          'sh',
+          '-c',
+          'until nslookup myservice; do echo waiting for myservice; sleep 2; done; echo mysql found;']
+        image: {{ .Values.images.metadata.init.repository }}:{{ .Values.images.metadata.init.tag }}
+        imagePullPolicy: {{ .Values.images.imagePullPolicy }}
       resources:
 {{ toYaml .Values.resources | indent 8 }}
 {{- end }}

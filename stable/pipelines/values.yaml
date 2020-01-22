@@ -72,8 +72,15 @@ images:
     repository: gcr.io/ml-pipeline/visualization-server
     tag: 0.1.27
   metadata:
-    repository: gcr.io/tfx-oss-public/ml_metadata_store_server
-    tag: 0.14.0
+    container:
+      repository: gcr.io/tfx-oss-public/ml_metadata_store_server
+      tag: 0.14.0
+    init:
+      repository: busybox
+      tag: latest
+  metadataEnvoy:
+    repository: gcr.io/ml-pipeline/envoy
+    tag: initial
   mysql:
     repository: mysql
     tag: 5.6
