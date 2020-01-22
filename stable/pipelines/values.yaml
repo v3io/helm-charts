@@ -76,7 +76,7 @@ images:
       repository: gcr.io/tfx-oss-public/ml_metadata_store_server
       tag: 0.14.0
     init:
-      repository: quay.io/iguazio/busybox
+      repository: busybox
       tag: latest
   metadataEnvoy:
     repository: gcr.io/ml-pipeline/envoy
