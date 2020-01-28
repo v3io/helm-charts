@@ -3,7 +3,7 @@
 env:
   global:
     - HELM_REPO=https://storage.googleapis.com/kubernetes-helm
-    - HELM_BIN=helm-v2.9.1-linux-amd64.tar.gz
+    - HELM_BIN=helm-v2.14.1-linux-amd64.tar.gz
 
 install:
   - wget -q ${HELM_REPO}/${HELM_BIN}
