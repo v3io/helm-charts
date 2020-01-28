@@ -338,7 +338,7 @@ volumes:
       driver: "v3io/fuse"
       options:
         container: users
-        subPath: /iguazio/.grafana
+        subPath: /{{ .Values.v3io.username }}/.grafana
       secretRef:
         name: {{ .Release.Name }}-v3io-fuse
 {{- else }}
