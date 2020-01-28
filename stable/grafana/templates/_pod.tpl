@@ -332,6 +332,15 @@ volumes:
       claimName: {{ .Values.persistence.existingClaim | default (include "grafana.fullname" .) }}
 {{- else if and .Values.persistence.enabled (eq .Values.persistence.type "statefulset") }}
 # nothing
+{{- else if and .Values.persistence.enabled (eq .Values.persistence.type "v3io") }}
+  - name: storage
+    flexVolume:
+      driver: "v3io/fuse"
+      options:
+        container: users
+        subPath: /iguazio/.grafana
+      secretRef:
+        name: {{ .Release.Name }}-v3io-fuse
 {{- else }}
   - name: storage
     emptyDir: {}

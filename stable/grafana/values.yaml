@@ -185,8 +185,8 @@ extraContainers: |
 ## ref: http://kubernetes.io/docs/user-guide/persistent-volumes/
 ##
 persistence:
-  type: pvc
-  enabled: false
+  type: v3io
+  enabled: true
   # storageClassName: default
   accessModes:
     - ReadWriteOnce
@@ -197,11 +197,13 @@ persistence:
   # subPath: ""
   # existingClaim:
 
+v3io: {}
+
 initChownData:
   ## If false, data ownership will not be reset at startup
   ## This allows the prometheus-server to be run with an arbitrary user
   ##
-  enabled: true
+  enabled: false
 
   ## initChownData container image
   ##
