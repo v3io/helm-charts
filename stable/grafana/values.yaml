@@ -361,6 +361,7 @@ dashboards: {}
   #     url: https://example.com/repository/test-b64.json
   #     b64content: true
 
+## NOTE: No support for this in rm_provisioned_dashboards.sh
 ## Reference to external ConfigMap per provider. Use provider name as key and ConfiMap name as value.
 ## A provider dashboards must be defined either by external ConfigMaps or in values.yaml, not in both.
 ## ConfigMap data example:

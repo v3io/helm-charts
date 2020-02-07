@@ -70,3 +70,40 @@ data:
     {{- end }}
   {{- end }}
 {{- end }}
+
+{{- if .Values.dashboards  }}
+  rm_provisioned_dashboards.sh: |
+    #!/usr/bin/env sh
+
+    cd /var/lib/grafana/dashboards
+
+    # Exit if the directory isn't found.
+    if (($?>0)); then
+        echo "Can't find work dir... exiting"
+        exit
+    fi
+
+
+
+  {{- range $provider, $dashboards := .Values.dashboards }}
+    cd /var/lib/grafana/dashboards/{{ $provider }}
+
+    # Exit if the directory isn't found.
+    if [ $? -eq 0 ]; then
+      DashboardNamesString="
+        {{- $index := 0 -}}
+        {{- range $dashboardName, $_ := $dashboards}}
+          {{- if $index}} {{end -}}
+            {{- $dashboardName -}}
+          {{- end -}}
+          {{- $index = $index + 1 -}}"
+      for i in *; do
+        if [[ ${DashboardNamesString} != *"$i"* ]]; then
+          echo "Deleting: $i"
+          # the next line is commented out.  Test it.  Then uncomment to removed the files
+          # rm "$i"
+        fi
+      done
+    fi
+  {{- end }}
+{{- end }}
