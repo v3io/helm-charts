@@ -103,8 +103,13 @@ data:
     if [[ $? -eq 0 ]]; then
       for i in *; do
         case "$DashboardNamesString" in
-          *,$i,*) echo "Not Deleting: $i";;
-          *) echo "Deleting: $i" && rm "$i";;
+          *,$i,*)
+            echo "Not Deleting: $i"
+            ;;
+          *)
+            echo "Deleting: $i"
+            rm "$i"
+            ;;
         esac
       done
     fi
