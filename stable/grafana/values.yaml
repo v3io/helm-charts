@@ -92,7 +92,15 @@ downloadDashboardsImage:
   tag: latest
   pullPolicy: IfNotPresent
 
+rmProvisionedDashboardsImage:
+  repository: alpine
+  tag: latest
+  pullPolicy: IfNotPresent
+
 downloadDashboards:
+  env: {}
+
+rmProvisionedDashboards:
   env: {}
 
 ## Pod Annotations
