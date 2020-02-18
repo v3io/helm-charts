@@ -31,6 +31,8 @@
     driver: "v3io/fuse"
     secretRef:
       name: {{ .Release.Name }}-v3io-fuse
+    options:
+      dirsToCreate: '[{"name": "{{ default "users" .Values.global.v3io.homeContainer }}/{{ default "" .Values.global.v3io.homePrefix }}/{{ .Values.v3io.username }}", "permissions": 488}]'
 {{- end -}}
 
 {{- define "v3io-configs.deployment.volumeMounts-with-fuse" -}}
@@ -56,7 +58,8 @@
 {{- define "v3io-configs.deployment.volumeMounts-with-fuse-and-home" -}}
 {{- include "v3io-configs.deployment.volumeMounts-with-fuse" . }}
 {{- if .Values.v3io.username }}
-- name: v3io-home
+- name: v3io-fuse
   mountPath: {{ default "/User" .Values.global.v3io.homeMount }}
+  subPath: {{ default "users" .Values.global.v3io.homeContainer }}/{{ default "" .Values.global.v3io.homePrefix }}/{{ .Values.v3io.username }}
 {{- end }}
 {{- end -}}
