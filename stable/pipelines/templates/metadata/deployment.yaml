@@ -19,6 +19,39 @@ spec:
         component: metadata-server
 {{ include "pipelines.commonLabels" . | indent 8 }}
     spec:
+      initContainers:
+      - name: metadata-init
+        env:
+        - name: MYSQL_DATABASE
+          valueFrom:
+            configMapKeyRef:
+              name: metadata-mysql-configmap
+              key: MYSQL_DATABASE
+        - name: MYSQL_HOST
+          valueFrom:
+            configMapKeyRef:
+              name: metadata-mysql-configmap
+              key: MYSQL_HOST
+        - name: MYSQL_PORT
+          valueFrom:
+            configMapKeyRef:
+              name: metadata-mysql-configmap
+              key: MYSQL_PORT
+        - name: MYSQL_USER
+          valueFrom:
+            configMapKeyRef:
+              name: metadata-mysql-configmap
+              key: MYSQL_USER
+        command: [
+          'mysql',
+          '--host=$(MYSQL_HOST)',
+          '--port=$(MYSQL_PORT)',
+          '--user=$(MYSQL_USER)',
+          '--database=$(MYSQL_DATABASE)',
+          '--execute=show tables;',
+        ]
+        image: {{ .Values.images.metadata.init.repository }}:{{ .Values.images.metadata.init.tag }}
+        imagePullPolicy: {{ .Values.images.imagePullPolicy }}
       containers:
       - name: metadata-container
         image: {{ .Values.images.metadata.container.repository }}:{{ .Values.images.metadata.container.tag }}
@@ -61,14 +94,6 @@ spec:
         ports:
         - containerPort: 8080
           name: md-backendapi
-      initContainers:
-      - name: metadata-init
-        command: [
-          'sh',
-          '-c',
-          'until nslookup mysql; do echo waiting for mysql; sleep 2; done; echo mysql found;']
-        image: {{ .Values.images.metadata.init.repository }}:{{ .Values.images.metadata.init.tag }}
-        imagePullPolicy: {{ .Values.images.imagePullPolicy }}
       resources:
 {{ toYaml .Values.resources | indent 8 }}
 {{- end }}
