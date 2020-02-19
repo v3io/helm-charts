@@ -37,18 +37,12 @@ spec:
             configMapKeyRef:
               name: metadata-mysql-configmap
               key: MYSQL_PORT
-        - name: MYSQL_USER
-          valueFrom:
-            configMapKeyRef:
-              name: metadata-mysql-configmap
-              key: MYSQL_USER
         command: [
-          'mysql',
+          'mysqladmin',
+          'status',
           '--host=$(MYSQL_HOST)',
           '--port=$(MYSQL_PORT)',
-          '--user=$(MYSQL_USER)',
-          '--database=$(MYSQL_DATABASE)',
-          '--execute=show tables;',
+          '--wait=10',
         ]
         image: {{ .Values.images.metadata.init.repository }}:{{ .Values.images.metadata.init.tag }}
         imagePullPolicy: {{ .Values.images.imagePullPolicy }}
