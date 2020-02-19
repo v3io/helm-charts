@@ -58,6 +58,30 @@ initContainers:
         readOnly: {{ .readOnly }}
     {{- end }}
 {{- end }}
+  - name: rm-obsolete-provisioned-dashboards
+    image: "{{ .Values.rmObsoleteProvisionedDashboardsImage.repository }}:{{ .Values.rmObsoleteProvisionedDashboardsImage.tag }}"
+    imagePullPolicy: {{ .Values.rmObsoleteProvisionedDashboardsImage.pullPolicy }}
+    command: ["/bin/sh"]
+    args: [ "-c", "mkdir -p /var/lib/grafana/dashboards/default && /bin/sh /etc/grafana/rm_obsolete_provisioned_dashboards.sh" ]
+    env:
+{{- range $key, $value := .Values.rmObsoleteProvisionedDashboards.env }}
+      - name: "{{ $key }}"
+        value: "{{ $value }}"
+{{- end }}
+    volumeMounts:
+      - name: config
+        mountPath: "/etc/grafana/rm_obsolete_provisioned_dashboards.sh"
+        subPath: rm_obsolete_provisioned_dashboards.sh
+      - name: storage
+        mountPath: "/var/lib/grafana"
+{{- if .Values.persistence.subPath }}
+        subPath: {{ .Values.persistence.subPath }}
+{{- end }}
+    {{- range .Values.extraSecretMounts }}
+      - name: {{ .name }}
+        mountPath: {{ .mountPath }}
+        readOnly: {{ .readOnly }}
+    {{- end }}
 {{- if .Values.sidecar.datasources.enabled }}
   - name: {{ template "grafana.name" . }}-sc-datasources
     image: "{{ .Values.sidecar.image }}"

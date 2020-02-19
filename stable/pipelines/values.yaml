@@ -76,8 +76,8 @@ images:
       repository: gcr.io/tfx-oss-public/ml_metadata_store_server
       tag: 0.14.0
     init:
-      repository: busybox
-      tag: latest
+      repository: imega/mysql-client
+      tag: 10.4.12
   metadataEnvoy:
     repository: gcr.io/ml-pipeline/envoy
     tag: initial
