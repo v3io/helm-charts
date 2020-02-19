@@ -71,7 +71,7 @@ data:
   {{- end }}
 {{- end }}
 
-  rm_provisioned_dashboards.sh: |
+  rm_obsolete_provisioned_dashboards.sh: |
     #!/usr/bin/env sh
     cd /var/lib/grafana/dashboards
 

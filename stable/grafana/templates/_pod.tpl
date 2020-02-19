@@ -58,20 +58,20 @@ initContainers:
         readOnly: {{ .readOnly }}
     {{- end }}
 {{- end }}
-  - name: rm-provisioned-dashboards
-    image: "{{ .Values.rmProvisionedDashboardsImage.repository }}:{{ .Values.rmProvisionedDashboardsImage.tag }}"
-    imagePullPolicy: {{ .Values.rmProvisionedDashboardsImage.pullPolicy }}
+  - name: rm-obsolete-provisioned-dashboards
+    image: "{{ .Values.rmObsoleteProvisionedDashboardsImage.repository }}:{{ .Values.rmObsoleteProvisionedDashboardsImage.tag }}"
+    imagePullPolicy: {{ .Values.rmObsoleteProvisionedDashboardsImage.pullPolicy }}
     command: ["/bin/sh"]
-    args: [ "-c", "mkdir -p /var/lib/grafana/dashboards/default && /bin/sh /etc/grafana/rm_provisioned_dashboards.sh" ]
+    args: [ "-c", "mkdir -p /var/lib/grafana/dashboards/default && /bin/sh /etc/grafana/rm_obsolete_provisioned_dashboards.sh" ]
     env:
-{{- range $key, $value := .Values.rmProvisionedDashboards.env }}
+{{- range $key, $value := .Values.rmObsoleteProvisionedDashboards.env }}
       - name: "{{ $key }}"
         value: "{{ $value }}"
 {{- end }}
     volumeMounts:
       - name: config
-        mountPath: "/etc/grafana/rm_provisioned_dashboards.sh"
-        subPath: rm_provisioned_dashboards.sh
+        mountPath: "/etc/grafana/rm_obsolete_provisioned_dashboards.sh"
+        subPath: rm_obsolete_provisioned_dashboards.sh
       - name: storage
         mountPath: "/var/lib/grafana"
 {{- if .Values.persistence.subPath }}
