@@ -70,3 +70,50 @@ data:
     {{- end }}
   {{- end }}
 {{- end }}
+
+  rm_obsolete_provisioned_dashboards.sh: |
+    #!/usr/bin/env sh
+    cd /var/lib/grafana/dashboards
+
+    # Exit if the directory isn't found.
+    if [[ $? -gt 0 ]]; then
+        echo "Can't find work dir... exiting"
+        exit
+    fi
+  {{- if .Values.dashboardProviders }}
+    {{- range $_, $providersData := .Values.dashboardProviders }}
+      {{- range $_, $providerData := $providersData.providers }}
+    cd /var/lib/grafana/dashboards/{{ $providerData.folder }}
+
+        {{- if $.Values.dashboards }}
+          {{- range $provider, $dashboards := $.Values.dashboards }}
+            {{- if eq $provider $providerData.name }}
+    DashboardNamesString=",
+              {{- range $dashboardName, $_ := $dashboards}}
+                  {{- $dashboardName -}}.json,
+              {{- end -}}"
+        {{- else }}
+    DashboardNamesString=""
+            {{- end }}
+          {{- end }}
+        {{- end }}
+
+
+    # Check only if the directory found.
+    if [[ $? -eq 0 ]]; then
+      for i in *; do
+        case "$DashboardNamesString" in
+          *,$i,*)
+            echo "Not Deleting: $i"
+            ;;
+          *)
+            echo "Deleting: $i"
+            rm "$i"
+            ;;
+        esac
+      done
+    fi
+
+      {{- end }}
+    {{- end }}
+  {{- end }}
