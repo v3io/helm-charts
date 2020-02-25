@@ -1,0 +1,79 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ include "mlrun.fullname" . }}
+  labels:
+    {{- include "mlrun.labels" . | nindent 4 }}
+spec:
+  replicas: {{ .Values.replicas }}
+  selector:
+    matchLabels:
+      {{- include "mlrun.selectorLabels" . | nindent 6 }}
+  template:
+    metadata:
+      labels:
+        {{- include "mlrun.selectorLabels" . | nindent 8 }}
+    spec:
+    {{- with .Values.image.pullSecrets }}
+      imagePullSecrets:
+        {{- toYaml . | nindent 8 }}
+    {{- end }}
+      serviceAccountName: {{ include "mlrun.serviceAccountName" . }}
+      securityContext:
+        {{- toYaml .Values.podSecurityContext | nindent 8 }}
+      containers:
+        - name: {{ include "mlrun.fullname" . }}
+          securityContext:
+            {{- toYaml .Values.securityContext | nindent 12 }}
+          image: "{{ .Values.image.repository }}:{{ .Values.image.tag }}"
+          imagePullPolicy: {{ .Values.image.pullPolicy }}
+          ports:
+            - name: http
+              containerPort: 8080
+              protocol: TCP
+          env:
+          - name: MLRUN_HTTPDB__DIRPATH
+            value: {{ .Values.httpDB.dirPath }}
+          - name: DEFAULT_DOCKER_REGISTRY
+            value: {{ .Values.defaultDockerRegistryURL }}
+          - name: MLRUN_HTTPDB__DSN
+            value: {{ .Values.httpDB.dsn }}
+          - name: V3IO_ACCESS_KEY
+            valueFrom:
+              secretKeyRef:
+                name: {{ .Release.Name }}-v3io-fuse
+                key: accessKey
+            value: {{ .Values.v3io.accessKey }}
+          - name: V3IO_USERNAME
+            valueFrom:
+              secretKeyRef:
+                name: {{ .Release.Name }}-v3io-fuse
+                key: username
+          command: ["python", "-m", "mlrun", "db"]
+          args: []
+          resources:
+            {{- toYaml .Values.resources | nindent 12 }}
+          volumeMounts:
+            - name: storage
+              mountPath: {{ .Values.httpDB.dirPath }}
+      volumes:
+        - name: storage
+          flexVolume:
+            driver: "v3io/fuse"
+            options:
+              container: users
+              subPath: /{{ .Values.v3io.username }}/.mlrun
+            secretRef:
+              name: {{ .Release.Name }}-v3io-fuse
+      {{- with .Values.nodeSelector }}
+      nodeSelector:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+    {{- with .Values.affinity }}
+      affinity:
+        {{- toYaml . | nindent 8 }}
+    {{- end }}
+    {{- with .Values.tolerations }}
+      tolerations:
+        {{- toYaml . | nindent 8 }}
+    {{- end }}
