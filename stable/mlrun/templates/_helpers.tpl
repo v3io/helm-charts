@@ -61,3 +61,27 @@ Create the name of the service account to use
     {{ default "default" .Values.serviceAccount.name }}
 {{- end -}}
 {{- end -}}
+
+{{- define "mlrun.apiName" -}}
+{{- printf "%s-api" (include "mlrun.fullname" .) | trunc 63 -}}
+{{- end -}}
+
+{{/*
+API Common labels
+*/}}
+{{- define "mlrun.apiLabels" -}}
+helm.sh/chart: {{ include "mlrun.chart" . }}
+{{ include "mlrun.apiSelectorLabels" . }}
+{{- if .Chart.AppVersion }}
+app.kubernetes.io/version: {{ .Chart.AppVersion | quote }}
+{{- end }}
+app.kubernetes.io/managed-by: {{ .Release.Service }}
+{{- end -}}
+
+{{/*
+API Selector labels
+*/}}
+{{- define "mlrun.apiSelectorLabels" -}}
+app.kubernetes.io/name: {{ include "mlrun.apiName" . }}
+app.kubernetes.io/instance: {{ .Release.Name }}
+{{- end -}}

@@ -3,16 +3,16 @@ kind: Deployment
 metadata:
   name: {{ include "mlrun.fullname" . }}
   labels:
-    {{- include "mlrun.labels" . | nindent 4 }}
+    {{- include "mlrun.apiLabels" . | nindent 4 }}
 spec:
   replicas: {{ .Values.replicas }}
   selector:
     matchLabels:
-      {{- include "mlrun.selectorLabels" . | nindent 6 }}
+      {{- include "mlrun.apiSelectorLabels" . | nindent 6 }}
   template:
     metadata:
       labels:
-        {{- include "mlrun.selectorLabels" . | nindent 8 }}
+        {{- include "mlrun.apiSelectorLabels" . | nindent 8 }}
     spec:
     {{- with .Values.image.pullSecrets }}
       imagePullSecrets:

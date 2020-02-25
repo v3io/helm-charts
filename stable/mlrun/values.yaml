@@ -6,8 +6,6 @@ image:
   pullPolicy: IfNotPresent
   pullSecrets: []
 
-nameOverride: "mlrun-api"
-
 rbac:
   create: true
 
