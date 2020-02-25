@@ -2,7 +2,7 @@ HELM=helm
 HELM_REPO_DEFAULT := https://v3io.github.io/helm-charts
 HELM_REPO_ROOT := $(if $(HELM_REPO_OVERRIDE),$(HELM_REPO_OVERRIDE),$(HELM_REPO_DEFAULT))
 WORKDIR := stable
-SPECIFIC_CHART := $(if $(SPECIFIC_CHART),$(SPECIFIC_CHART),specific-chart)
+CHART_NAME := $(if $(CHART_NAME),$(CHART_NAME),chart-name)
 
 .PHONY: stable
 stable: WORKDIR = stable
@@ -83,10 +83,10 @@ update-req:
 
 update-req-specific:
 	@echo "Updating chart requirements"
-	@cd $(WORKDIR) && if [ -e "$(SPECIFIC_CHART)/requirements.yaml" ]; then \
-	    $(HELM) dependency build $(SPECIFIC_CHART) ; \
+	@cd $(WORKDIR) && if [ -e "$(CHART_NAME)/requirements.yaml" ]; then \
+	    $(HELM) dependency build $(CHART_NAME) ; \
 	    if [ "$$?" != "0" ]; then \
-            echo "Chart $(SPECIFIC_CHART) failed dependency build" ; \
+            echo "Chart $(CHART_NAME) failed dependency build" ; \
             exit 103 ; \
         fi ; \
     fi
@@ -108,12 +108,12 @@ package-all:
 
 package-specific:
 	@echo "Packing chart"
-	@cd $(WORKDIR) && $(HELM) lint $(SPECIFIC_CHART) && if [ "$$?" != "0" ]; then \
-            echo "Chart $(SPECIFIC_CHART) failed lint" ; \
+	@cd $(WORKDIR) && $(HELM) lint $(CHART_NAME) && if [ "$$?" != "0" ]; then \
+            echo "Chart $(CHART_NAME) failed lint" ; \
             exit 103 ; \
         fi ; \
-        $(HELM) package $(SPECIFIC_CHART) && if [ "$$?" != "0" ]; then \
-            echo "Chart $(SPECIFIC_CHART) failed package" ; \
+        $(HELM) package $(CHART_NAME) && if [ "$$?" != "0" ]; then \
+            echo "Chart $(CHART_NAME) failed package" ; \
             exit 103 ; \
         fi ; \
 
