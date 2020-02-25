@@ -2,23 +2,36 @@ HELM=helm
 HELM_REPO_DEFAULT := https://v3io.github.io/helm-charts
 HELM_REPO_ROOT := $(if $(HELM_REPO_OVERRIDE),$(HELM_REPO_OVERRIDE),$(HELM_REPO_DEFAULT))
 WORKDIR := stable
+SPECIFIC_CHART := $(if $(SPECIFIC_CHART),$(SPECIFIC_CHART),specific-chart)
 
 .PHONY: stable
 stable: WORKDIR = stable
-
 stable: repo-helm update-req package-all index
+	@echo "Done"
+
+.PHONY: stable-specific
+stable-specific: WORKDIR = stable
+stable-specific: repo-helm update-req-specific package-specific index
 	@echo "Done"
 
 .PHONY: demo
 demo: WORKDIR = demo
-
 demo: repo-helm update-req package-all index
+	@echo "Done"
+
+.PHONY: demo-specific
+demo-specific: WORKDIR = demo
+demo-specific: repo-helm update-req-specific package-specific index
 	@echo "Done"
 
 .PHONY: incubator
 incubator: WORKDIR = incubator
-
 incubator: repo-helm update-req package-all index
+	@echo "Done"
+
+.PHONY: incubator-specific
+incubator-specific: WORKDIR = incubator
+incubator-specific: repo-helm update-req-specific package-specific index
 	@echo "Done"
 
 helm-publish:
@@ -68,6 +81,16 @@ update-req:
 		fi ; \
 	done
 
+update-req-specific:
+	@echo "Updating chart requirements"
+	@cd $(WORKDIR) && if [ -e "$(SPECIFIC_CHART)/requirements.yaml" ]; then \
+	    $(HELM) dependency build $(SPECIFIC_CHART) ; \
+	    if [ "$$?" != "0" ]; then \
+            echo "Chart $(SPECIFIC_CHART) failed dependency build" ; \
+            exit 103 ; \
+        fi ; \
+    fi
+
 package-all:
 	@echo "Packing charts"
 	@cd $(WORKDIR) && for chart in $$(ls -d */); do \
@@ -82,6 +105,17 @@ package-all:
 			exit 102 ; \
 		fi ; \
 	done
+
+package-specific:
+	@echo "Packing chart"
+	@cd $(WORKDIR) && $(HELM) lint $(SPECIFIC_CHART) && if [ "$$?" != "0" ]; then \
+            echo "Chart $(SPECIFIC_CHART) failed lint" ; \
+            exit 103 ; \
+        fi ; \
+        $(HELM) package $(SPECIFIC_CHART) && if [ "$$?" != "0" ]; then \
+            echo "Chart $(SPECIFIC_CHART) failed package" ; \
+            exit 103 ; \
+        fi ; \
 
 index:
 	@echo "Generating index.yaml"
