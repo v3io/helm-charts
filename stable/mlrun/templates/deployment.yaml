@@ -43,7 +43,6 @@ spec:
               secretKeyRef:
                 name: {{ .Release.Name }}-v3io-fuse
                 key: accessKey
-            value: {{ .Values.v3io.accessKey }}
           - name: V3IO_USERNAME
             valueFrom:
               secretKeyRef:
