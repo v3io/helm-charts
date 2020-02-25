@@ -1,7 +1,7 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: {{ include "mlrun.fullname" . }}
+  name: {{ include "mlrun.apiName" . }}
   labels:
     {{- include "mlrun.apiLabels" . | nindent 4 }}
 spec:
@@ -22,7 +22,7 @@ spec:
       securityContext:
         {{- toYaml .Values.podSecurityContext | nindent 8 }}
       containers:
-        - name: {{ include "mlrun.fullname" . }}
+        - name: {{ include "mlrun.apiName" . }}
           securityContext:
             {{- toYaml .Values.securityContext | nindent 12 }}
           image: "{{ .Values.image.repository }}:{{ .Values.image.tag }}"
