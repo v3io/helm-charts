@@ -67,7 +67,7 @@ ui:
   replicaCount: 1
 
   image:
-    repository: mlrun/mlrun-ui
+    repository: quay.io/iguazio/mlrun-ui
     tag: 0.1.0
     pullPolicy: IfNotPresent
     pullSecrets: []
