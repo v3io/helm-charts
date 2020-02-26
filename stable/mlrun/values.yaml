@@ -1,6 +1,8 @@
 api:
   name: api
 
+  logLevel: INFO
+
   replicaCount: 1
 
   image:
@@ -136,6 +138,7 @@ serviceAccounts:
 v3io: {}
 
 httpDB:
+  dbType: "filerundb"
   dirPath: "/mlrun/db"
   dsn: "sqlite:///mlrun.sqlite3?check_same_thread=false"
 

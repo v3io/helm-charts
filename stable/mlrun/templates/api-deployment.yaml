@@ -32,6 +32,10 @@ spec:
               containerPort: 8080
               protocol: TCP
           env:
+          - name: MLRUN_LOG_LEVEL
+            value: {{ .Values.api.logLevel }}
+          - name: MLRUN_HTTPDB__DB_TYPE
+            value: {{ .Values.httpDB.dbType }}
           - name: MLRUN_HTTPDB__DIRPATH
             value: {{ .Values.httpDB.dirPath }}
           - name: DEFAULT_DOCKER_REGISTRY
