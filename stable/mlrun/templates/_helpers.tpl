@@ -100,10 +100,6 @@ API selector labels
 helm.sh/component: {{ .Values.api.name | quote }}
 {{- end -}}
 
-{{- define "mlrun.ui.name" -}}
-{{- printf "%s-ui" (include "mlrun.fullname" .) | trunc 63 -}}
-{{- end -}}
-
 {{/*
 UI labels
 */}}
