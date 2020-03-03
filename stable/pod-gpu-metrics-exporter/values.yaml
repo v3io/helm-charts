@@ -36,14 +36,9 @@ resources: {}
   #   cpu: 100m
   #   memory: 128Mi
 
-nodeSelector: {}
+nodeSelector:
+  feature.node.kubernetes.io/pci-0302_10de.present: "true"
 
 tolerations: []
 
-affinity:
-  nodeAffinity:
-    requiredDuringSchedulingIgnoredDuringExecution:
-      nodeSelectorTerms:
-      - matchExpressions:
-        - key: nvidia.com/gpu.product
-          operator: Exists
+affinity: {}
