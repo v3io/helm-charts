@@ -24,6 +24,9 @@ spec:
         release: {{ .Release.Name }}
         heritage: {{ .Release.Service }}
         component: controller
+      annotations:
+        checksum/system-config: {{ include (print $.Template.BasePath "/controller-system-config-configmap.yaml") . | sha256sum }}
+        checksum/artifact-version-manifest: {{ include (print $.Template.BasePath "/controller-artifact-version-manifest-configmap.yaml") . | sha256sum }}
     spec:
       serviceAccountName: {{ template "provazio.controller.name" . }}
       containers:
