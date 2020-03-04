@@ -24,6 +24,9 @@ spec:
         release: {{ .Release.Name }}
         heritage: {{ .Release.Service }}
         component: dashboard
+      annotations:
+        checksum/env-spec: {{ include (print $.Template.BasePath "/dashboard-env-spec-configmap.yaml") . | sha256sum }}
+        checksum/artifact-version-manifest: {{ include (print $.Template.BasePath "/dashboard-artifact-version-manifest-configmap.yaml") . | sha256sum }}
     spec:
       serviceAccountName: {{ template "provazio.dashboard.name" . }}
       containers:
