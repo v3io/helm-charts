@@ -46,5 +46,5 @@ spec:
         - containerPort: 8887
       serviceAccountName: ml-pipeline
       resources:
-{{ toYaml .Values.resources | indent 8 }}
+{{ toYaml .Values.resources.apiServer | indent 8 }}
 {{- end }}

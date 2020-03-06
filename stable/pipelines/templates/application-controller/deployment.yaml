@@ -2,13 +2,13 @@
 apiVersion: apps/v1beta2
 kind: Deployment
 metadata:
+  name: controller-manager
+  namespace: {{ .Release.Namespace }}
   labels:
     component: application-controller
     control-plane: controller-manager
     controller-tools.k8s.io: "1.0"
 {{ include "pipelines.commonLabels" . | indent 4 }}
-  name: controller-manager
-  namespace: {{ .Release.Namespace }}
 spec:
   replicas: 1
   selector:
@@ -27,7 +27,7 @@ spec:
     spec:
       containers:
       - name: manager
-        image: {{ .Values.images.application-controller.repository }}:{{ .Values.images.application-controller.tag }}
+        image: {{ .Values.images.applicationController.repository }}:{{ .Values.images.applicationController.tag }}
         imagePullPolicy: {{ .Values.images.imagePullPolicy }}
         command:
           - /root/manager
@@ -37,6 +37,6 @@ spec:
               fieldRef:
                 fieldPath: metadata.namespace
       resources:
-{{ toYaml .Values.resources | indent 8 }}
+{{ toYaml .Values.resources.applicationController | indent 8 }}
       serviceAccountName: pipelines-application
 {{- end }}

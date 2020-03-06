@@ -25,5 +25,5 @@ spec:
         ports:
         - containerPort: 8888
       resources:
-{{ toYaml .Values.resources | indent 8 }}
+{{ toYaml .Values.resources.visualizationServer | indent 8 }}
 {{- end }}

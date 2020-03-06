@@ -43,5 +43,5 @@ spec:
                 fieldPath: metadata.namespace
       serviceAccountName: ml-pipeline-ui
       resources:
-{{ toYaml .Values.resources | indent 8 }}
+{{ toYaml .Values.resources.ui | indent 8 }}
 {{- end }}
