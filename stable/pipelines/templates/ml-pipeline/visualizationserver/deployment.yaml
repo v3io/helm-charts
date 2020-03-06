@@ -24,6 +24,7 @@ spec:
         name: ml-pipeline-visualizationserver
         ports:
         - containerPort: 8888
+      serviceAccountName: ml-pipeline-visualizationserver
       resources:
 {{ toYaml .Values.resources.visualizationServer | indent 8 }}
 {{- end }}

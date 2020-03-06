@@ -19,7 +19,8 @@ spec:
 {{ include "pipelines.commonLabels" . | indent 8 }}
     spec:
       containers:
-      - env:
+      - name: ml-pipeline-api-server
+        env:
         - name: OBJECTSTORECONFIG_ACCESSKEY
           value: "{{ .Values.configurations.credentials.accessKey }}"
         - name: OBJECTSTORECONFIG_SECRETACCESSKEY
@@ -40,7 +41,6 @@ spec:
               fieldPath: metadata.namespace
         image: {{ .Values.images.apiServer.repository }}:{{ .Values.images.apiServer.tag }}
         imagePullPolicy: {{ .Values.images.imagePullPolicy }}
-        name: ml-pipeline-api-server
         ports:
         - containerPort: 8888
         - containerPort: 8887

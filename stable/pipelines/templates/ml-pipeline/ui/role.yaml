@@ -18,6 +18,13 @@ rules:
   - get
   - list
 - apiGroups:
+  - ""
+  resources:
+  - secrets
+  verbs:
+  - get
+  - list
+- apiGroups:
   - "kubeflow.org"
   resources:
   - viewers

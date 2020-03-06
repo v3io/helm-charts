@@ -25,6 +25,8 @@ spec:
         ports:
         - containerPort: 3000
         env:
+          - name: MINIO_V3IO
+            value: "1"
           - name: MINIO_PORT
             value: "{{ .Values.configurations.ports.nginxPort }}"
           - name: MINIO_HOST
@@ -35,8 +37,6 @@ spec:
             value: X-v3io-session-key
           - name: HTTP_AUTHORIZATION_DEFAULT_VALUE
             value: "{{ .Values.configurations.credentials.accessKey }}"
-          - name: MINIO_V3IO
-            value: "1"
           - name: MINIO_NAMESPACE
             valueFrom:
               fieldRef:
