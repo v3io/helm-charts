@@ -30,5 +30,5 @@ spec:
                 fieldPath: metadata.namespace
       serviceAccountName: ml-pipeline-persistenceagent
       resources:
-{{ toYaml .Values.resources | indent 8 }}
+{{ toYaml .Values.resources.persistenceAgent | indent 8 }}
 {{- end }}

@@ -35,5 +35,5 @@ spec:
               fieldPath: metadata.namespace
       serviceAccountName: ml-pipeline-viewer-crd-service-account
       resources:
-{{ toYaml .Values.resources | indent 8 }}
+{{ toYaml .Values.resources.viewerCRD | indent 8 }}
 {{- end }}

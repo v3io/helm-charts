@@ -44,7 +44,7 @@ spec:
           image: {{ .Values.images.mysql.repository }}:{{ .Values.images.mysql.tag }}
           imagePullPolicy: {{ .Values.images.imagePullPolicy }}
           resources:
-{{ toYaml .Values.resources | indent 12 }}
+{{ toYaml .Values.resources.mysql | indent 12 }}
           env:
             - name: MYSQL_ALLOW_EMPTY_PASSWORD
               value: "true"
@@ -88,5 +88,5 @@ spec:
             - name: mysql-init-scripts
               mountPath: /etc/config/mysql/init-scripts
           resources:
-{{ toYaml .Values.resources | indent 12 }}
+{{ toYaml .Values.resources.mysql | indent 12 }}
 {{- end }}
