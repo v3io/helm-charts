@@ -56,25 +56,25 @@ images:
     tag: v2.3.0
   workflowController:
     repository: gcr.io/ml-pipeline/workflow-controller
-    tag: v2.3.0
+    tag: v2.3.0-license-compliance
   apiServer:
     repository: gcr.io/ml-pipeline/api-server
-    tag: 0.1.27
+    tag: 0.2.5
   persistenceagent:
     repository: gcr.io/ml-pipeline/persistenceagent
-    tag: 0.1.27
+    tag: 0.2.5
   scheduledworkflow:
     repository: gcr.io/ml-pipeline/scheduledworkflow
-    tag: 0.1.27
+    tag: 0.2.5
   ui:
     repository: quay.io/iguazio/ml-pipeline-frontend-v3io
-    tag: 0.1.27
+    tag: 0.2.5
   viewerCrdController:
     repository: gcr.io/ml-pipeline/viewer-crd-controller
-    tag: 0.1.27
+    tag: 0.2.5
   visualizationServer:
     repository: gcr.io/ml-pipeline/visualization-server
-    tag: 0.1.27
+    tag: 0.2.5
   metadata:
     container:
       repository: gcr.io/tfx-oss-public/ml_metadata_store_server
@@ -87,7 +87,7 @@ images:
     tag: initial
   metadataWriter:
     repository: gcr.io/ml-pipeline/metadata-writer
-    tag: 0.1.40
+    tag: 0.2.5
   mysql:
     repository: mysql
     tag: 5.6
