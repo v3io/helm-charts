@@ -1,4 +1,4 @@
-HELM=helm
+HELM=/Users/excalibur/local_repos/iguazio/helm2
 HELM_REPO_DEFAULT := https://v3io.github.io/helm-charts
 HELM_REPO_ROOT := $(if $(HELM_REPO_OVERRIDE),$(HELM_REPO_OVERRIDE),$(HELM_REPO_DEFAULT))
 WORKDIR := stable
@@ -54,6 +54,57 @@ helm-publish:
 		git add --force incubator/*tgz && \
 		git add incubator/* && \
 		git commit --message "Merging incubator $$REF_SHA" && \
+		git push
+	@rm -rf /tmp/v3io-helm-charts
+	@echo "New index released!"
+
+helm-publish-demo-specific:
+	@echo "Preparing to release a new index"
+	@rm -rf /tmp/v3io-helm-charts
+	@git clone git@github.com:v3io/helm-charts /tmp/v3io-helm-charts
+	@cd /tmp/v3io-helm-charts && \
+		git checkout gh-pages && \
+		git merge development --message "Merge development into gh-pages" && \
+		REF_SHA=$$(git log development -1 | head -1) && \
+		make demo-specific && \
+		git add --force demo/$(CHART_NAME)-*tgz && \
+		git add demo/$(CHART_NAME) && \
+		git add demo/index.yaml && \
+		git commit --message "Merging $$CHART_NAME from $$REF_SHA" && \
+		git push
+	@rm -rf /tmp/v3io-helm-charts
+	@echo "New index released!"
+
+helm-publish-incubator-specific:
+	@echo "Preparing to release a new index"
+	@rm -rf /tmp/v3io-helm-charts
+	@git clone git@github.com:v3io/helm-charts /tmp/v3io-helm-charts
+	@cd /tmp/v3io-helm-charts && \
+		git checkout gh-pages && \
+		git merge development --message "Merge development into gh-pages" && \
+		REF_SHA=$$(git log development -1 | head -1) && \
+		make incubator-specific && \
+		git add --force incubator/$(CHART_NAME)-*tgz && \
+		git add incubator/$(CHART_NAME) && \
+		git add incubator/index.yaml && \
+		git commit --message "Merging $$CHART_NAME from $$REF_SHA" && \
+		git push
+	@rm -rf /tmp/v3io-helm-charts
+	@echo "New index released!"
+
+helm-publish-stable-specific:
+	@echo "Preparing to release a new index"
+	@rm -rf /tmp/v3io-helm-charts
+	@git clone git@github.com:v3io/helm-charts /tmp/v3io-helm-charts
+	@cd /tmp/v3io-helm-charts && \
+		git checkout gh-pages && \
+		git merge development --message "Merge development into gh-pages" && \
+		REF_SHA=$$(git log development -1 | head -1) && \
+		make stable-specific && \
+		git add --force stable/$(CHART_NAME)-*tgz && \
+		git add stable/$(CHART_NAME) && \
+		git add stable/index.yaml && \
+		git commit --message "Merging $$CHART_NAME from $$REF_SHA" && \
 		git push
 	@rm -rf /tmp/v3io-helm-charts
 	@echo "New index released!"
