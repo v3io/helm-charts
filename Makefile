@@ -1,4 +1,4 @@
-HELM=/Users/excalibur/local_repos/iguazio/helm2
+HELM=helm
 HELM_REPO_DEFAULT := https://v3io.github.io/helm-charts
 HELM_REPO_ROOT := $(if $(HELM_REPO_OVERRIDE),$(HELM_REPO_OVERRIDE),$(HELM_REPO_DEFAULT))
 WORKDIR := stable
