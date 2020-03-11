@@ -37,7 +37,7 @@ spec:
             driver: "v3io/fuse"
             options:
               container: {{ .Values.storage.metadata.containerName }}
-              subPath: /mlpipeline/mysql-kf
+              subPath: {{ .Values.storage.metadata.subPath }}
               accessKey: {{ .Values.configurations.credentials.accessKey }}
       initContainers:
         - name: init-mysql
