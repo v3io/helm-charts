@@ -92,3 +92,5 @@ spec:
         - name: core-dump
           hostPath:
             path: /var/crash/{{ .Release.Namespace }}
+  updateStrategy:
+    type: RollingUpdate
