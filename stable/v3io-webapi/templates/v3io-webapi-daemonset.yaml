@@ -23,6 +23,7 @@ spec:
         # reserves resources for critical add-on pods so that they can be rescheduled after
         # a failure.  This annotation works in tandem with the toleration below.
         scheduler.alpha.kubernetes.io/critical-pod: ''
+        checksum/config: {{ include (print $.Template.BasePath "/v3io-webapi-configmap.yaml") . | sha256sum }}
     spec:
       hostPID: true
       hostNetwork: true
@@ -91,3 +92,5 @@ spec:
         - name: core-dump
           hostPath:
             path: /var/crash/{{ .Release.Namespace }}
+  updateStrategy:
+    type: RollingUpdate
