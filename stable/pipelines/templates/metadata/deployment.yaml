@@ -78,8 +78,7 @@ spec:
               key: MYSQL_PORT
         command: ["/bin/metadata_store_server"]
         args: [
-		  # enables database migration during initialization
-		  "--enable_database_upgrade"
+          "--enable_database_upgrade"
           "--grpc_port=8080",
           "--mysql_config_database=$(MYSQL_DATABASE)",
           "--mysql_config_host=$(MYSQL_HOST)",
