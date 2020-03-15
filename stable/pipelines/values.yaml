@@ -13,6 +13,7 @@ storage:
     containerName: users
   metadata:
     containerName: users
+    subPath: /mlpipeline/mysql-kf
 
 configurations:
   credentials:
@@ -47,54 +48,71 @@ configurations:
 
 # updated versions can be taken from here: https://github.com/kubeflow/pipelines/blob/master/manifests/kustomize/base/kustomization.yaml
 images:
+  imagePullPolicy: IfNotPresent
+  applicationController:
+    repository: gcr.io/ml-pipeline/application-crd-controller
+    tag: 1.0-beta-non-cluster-role
   argoexec:
     repository: gcr.io/ml-pipeline/argoexec
-    tag: v2.3.0
+    tag: v2.3.0-igz
   workflowController:
     repository: gcr.io/ml-pipeline/workflow-controller
-    tag: v2.3.0
+    tag: v2.3.0-license-compliance
   apiServer:
     repository: gcr.io/ml-pipeline/api-server
-    tag: 0.1.27
+    tag: 0.2.5-igz
   persistenceagent:
     repository: gcr.io/ml-pipeline/persistenceagent
-    tag: 0.1.27
+    tag: 0.2.5
   scheduledworkflow:
     repository: gcr.io/ml-pipeline/scheduledworkflow
-    tag: 0.1.27
+    tag: 0.2.5
   ui:
     repository: quay.io/iguazio/ml-pipeline-frontend-v3io
-    tag: 0.1.27
+    tag: 0.2.5-igz
   viewerCrdController:
     repository: gcr.io/ml-pipeline/viewer-crd-controller
-    tag: 0.1.27
+    tag: 0.2.5
   visualizationServer:
     repository: gcr.io/ml-pipeline/visualization-server
-    tag: 0.1.27
+    tag: 0.2.5
   metadata:
     container:
       repository: gcr.io/tfx-oss-public/ml_metadata_store_server
-      tag: 0.14.0
+      tag: 0.21.1
     init:
       repository: imega/mysql-client
       tag: 10.4.12
   metadataEnvoy:
     repository: gcr.io/ml-pipeline/envoy
     tag: initial
+  metadataWriter:
+    repository: gcr.io/ml-pipeline/metadata-writer
+    tag: 0.2.5
   mysql:
     repository: mysql
     tag: 5.6
-  imagePullPolicy: IfNotPresent
 
-
-resources: {}
+resources:
   # We usually recommend not to specify default resources and to leave this as a conscious
   # choice for the user. This also increases chances charts run on environments with little
-  # resources, such as Minikube. If you do want to specify resources, uncomment the following
-  # lines, adjust them as necessary, and remove the curly braces after 'resources:'.
+  # resources, such as Minikube. If you do want to specify resources, use the following
+  # format in any of the below subelements, adjust them as necessary, and remove the curly
+  # braces after the block name, e.g. 'applicationController:'
   # limits:
   #  cpu: 100m
   #  memory: 128Mi
   # requests:
   #  cpu: 100m
   #  memory: 128Mi
+
+  applicationController: {}
+  workflowController: {}
+  metadata: {}
+  apiServer: {}
+  persistenceAgent: {}
+  scheduledWorkflow: {}
+  ui: {}
+  viewerCRD: {}
+  visualizationServer: {}
+  mysql: {}

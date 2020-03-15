@@ -1,0 +1,42 @@
+{{- if .Values.deployment.create }}
+apiVersion: apps/v1beta2
+kind: Deployment
+metadata:
+  name: controller-manager
+  namespace: {{ .Release.Namespace }}
+  labels:
+    component: application-controller
+    control-plane: controller-manager
+    controller-tools.k8s.io: "1.0"
+{{ include "pipelines.commonLabels" . | indent 4 }}
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      component: application-controller
+      control-plane: controller-manager
+      controller-tools.k8s.io: "1.0"
+{{ include "pipelines.commonLabels" . | indent 6 }}
+  template:
+    metadata:
+      labels:
+        component: application-controller
+        control-plane: controller-manager
+        controller-tools.k8s.io: "1.0"
+{{ include "pipelines.commonLabels" . | indent 8 }}
+    spec:
+      containers:
+      - name: manager
+        image: {{ .Values.images.applicationController.repository }}:{{ .Values.images.applicationController.tag }}
+        imagePullPolicy: {{ .Values.images.imagePullPolicy }}
+        command:
+          - /root/manager
+        env:
+          - name: NAMESPACE
+            valueFrom:
+              fieldRef:
+                fieldPath: metadata.namespace
+      resources:
+{{ toYaml .Values.resources.applicationController | indent 8 }}
+      serviceAccountName: pipelines-application
+{{- end }}
