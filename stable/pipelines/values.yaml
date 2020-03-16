@@ -49,9 +49,6 @@ configurations:
 # updated versions can be taken from here: https://github.com/kubeflow/pipelines/blob/master/manifests/kustomize/base/kustomization.yaml
 images:
   imagePullPolicy: IfNotPresent
-  applicationController:
-    repository: gcr.io/ml-pipeline/application-crd-controller
-    tag: 1.0-beta-non-cluster-role
   argoexec:
     repository: gcr.io/ml-pipeline/argoexec
     tag: v2.3.0-igz
@@ -98,7 +95,7 @@ resources:
   # choice for the user. This also increases chances charts run on environments with little
   # resources, such as Minikube. If you do want to specify resources, use the following
   # format in any of the below subelements, adjust them as necessary, and remove the curly
-  # braces after the block name, e.g. 'applicationController:'
+  # braces after the block name, e.g. 'workflowController:'
   # limits:
   #  cpu: 100m
   #  memory: 128Mi
@@ -106,7 +103,6 @@ resources:
   #  cpu: 100m
   #  memory: 128Mi
 
-  applicationController: {}
   workflowController: {}
   metadata: {}
   apiServer: {}
