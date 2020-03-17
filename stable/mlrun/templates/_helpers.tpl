@@ -97,7 +97,7 @@ API selector labels
 */}}
 {{- define "mlrun.api.selectorLabels" -}}
 {{ include "mlrun.common.selectorLabels" . }}
-helm.sh/component: {{ .Values.api.name | quote }}
+app.kubernetes.io/component: {{ .Values.api.name | quote }}
 {{- end -}}
 
 {{/*
@@ -113,7 +113,7 @@ UI selector labels
 */}}
 {{- define "mlrun.ui.selectorLabels" -}}
 {{ include "mlrun.common.selectorLabels" . }}
-helm.sh/component: {{ .Values.ui.name | quote }}
+app.kubernetes.io/component: {{ .Values.ui.name | quote }}
 {{- end -}}
 
 {{/*
