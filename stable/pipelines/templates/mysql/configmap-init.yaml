@@ -5,10 +5,8 @@ metadata:
   namespace: {{ .Release.Namespace }}
   name: mysql-init-scripts
   labels:
-    app: mysql-kf
-    chart: mysql-0.0.1
-    release: mysql-kf
-    heritage: {{ .Release.Service }}
+    component: mysql-kf
+{{ include "pipelines.commonLabels" . | indent 4 }}
 data:
   enable-root-remote-access.sql: |
     -- Allow passwordless (insecure) access to root user from anywhere
