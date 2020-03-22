@@ -10,6 +10,20 @@ v3io.client {
 }
 v3io.config.auth.file={{ default "/igz/java/auth" .Values.global.v3io.authPath }}/{{ default ".java" .Values.global.v3io.authFileName }}
 new-daemon=true
+
+{{- if .Values.java }}
+{{- if .Values.java.v3io }}
+{{- if .Values.java.v3io.conf }}
+{{- if .Values.java.v3io.conf.properties }}
+{{ print }}
+    {{- range $key, $val := .Values.java.v3io.conf.properties }}
+{{ printf "%s=%s" $key $val }}
+    {{- end }}
+{{- end }}
+{{- end }}
+{{- end }}
+{{- end }}
+
 {{- end -}}
 
 {{- define "v3io-configs.java.configMap" -}}
