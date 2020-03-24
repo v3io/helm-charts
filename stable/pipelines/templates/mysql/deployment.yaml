@@ -5,24 +5,18 @@ metadata:
   namespace: {{ .Release.Namespace }}
   name: mysql-kf
   labels:
-    app: mysql-kf
-    chart: mysql-0.0.1
-    release: mysql-kf
-    heritage: {{ .Release.Service }}
+    component: mysql-kf
+{{ include "pipelines.commonLabels" . | indent 4 }}
 spec:
   selector:
     matchLabels:
-      app: mysql-kf
-      chart: mysql-0.0.1
-      release: mysql-kf
-      heritage: {{ .Release.Service }}
+      component: mysql-kf
+{{ include "pipelines.commonLabels" . | indent 6 }}
   template:
     metadata:
       labels:
-        app: mysql-kf
-        chart: mysql-0.0.1
-        release: mysql-kf
-        heritage: {{ .Release.Service }}
+        component: mysql-kf
+{{ include "pipelines.commonLabels" . | indent 8 }}
     spec:
       volumes:
         - name: mysql-init-scripts
@@ -37,14 +31,14 @@ spec:
             driver: "v3io/fuse"
             options:
               container: {{ .Values.storage.metadata.containerName }}
-              subPath: /mlpipeline/mysql-kf
+              subPath: {{ .Values.storage.metadata.subPath }}
               accessKey: {{ .Values.configurations.credentials.accessKey }}
       initContainers:
         - name: init-mysql
           image: {{ .Values.images.mysql.repository }}:{{ .Values.images.mysql.tag }}
           imagePullPolicy: {{ .Values.images.imagePullPolicy }}
           resources:
-{{ toYaml .Values.resources | indent 12 }}
+{{ toYaml .Values.resources.mysql | indent 12 }}
           env:
             - name: MYSQL_ALLOW_EMPTY_PASSWORD
               value: "true"
@@ -88,5 +82,5 @@ spec:
             - name: mysql-init-scripts
               mountPath: /etc/config/mysql/init-scripts
           resources:
-{{ toYaml .Values.resources | indent 12 }}
+{{ toYaml .Values.resources.mysql | indent 12 }}
 {{- end }}

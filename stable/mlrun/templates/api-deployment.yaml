@@ -1,0 +1,82 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ include "mlrun.api.fullname" . }}
+  labels:
+    {{- include "mlrun.api.labels" . | nindent 4 }}
+spec:
+  replicas: {{ .Values.api.replicaCount }}
+  selector:
+    matchLabels:
+      {{- include "mlrun.api.selectorLabels" . | nindent 6 }}
+  template:
+    metadata:
+      labels:
+        {{- include "mlrun.api.selectorLabels" . | nindent 8 }}
+    spec:
+    {{- with .Values.api.image.pullSecrets }}
+      imagePullSecrets:
+        {{- toYaml . | nindent 8 }}
+    {{- end }}
+      serviceAccountName: {{ include "mlrun.serviceAccountName.api" . }}
+      securityContext:
+        {{- toYaml .Values.api.podSecurityContext | nindent 8 }}
+      containers:
+        - name: {{ template "mlrun.name" . }}-{{ .Values.api.name }}
+          securityContext:
+            {{- toYaml .Values.api.securityContext | nindent 12 }}
+          image: "{{ .Values.api.image.repository }}:{{ .Values.api.image.tag }}"
+          imagePullPolicy: {{ .Values.api.image.pullPolicy }}
+          ports:
+            - name: http
+              containerPort: 8080
+              protocol: TCP
+          env:
+          - name: MLRUN_LOG_LEVEL
+            value: {{ .Values.api.logLevel }}
+          - name: MLRUN_HTTPDB__DB_TYPE
+            value: {{ .Values.httpDB.dbType }}
+          - name: MLRUN_HTTPDB__DIRPATH
+            value: {{ .Values.httpDB.dirPath }}
+          - name: DEFAULT_DOCKER_REGISTRY
+            value: {{ .Values.defaultDockerRegistryURL }}
+          - name: MLRUN_HTTPDB__DSN
+            value: {{ .Values.httpDB.dsn }}
+          - name: V3IO_ACCESS_KEY
+            valueFrom:
+              secretKeyRef:
+                name: {{ .Release.Name }}-v3io-fuse
+                key: accessKey
+          - name: V3IO_USERNAME
+            valueFrom:
+              secretKeyRef:
+                name: {{ .Release.Name }}-v3io-fuse
+                key: username
+          command: ["python", "-m", "mlrun", "db"]
+          args: []
+          resources:
+            {{- toYaml .Values.api.resources | nindent 12 }}
+          volumeMounts:
+            - name: storage
+              mountPath: {{ .Values.httpDB.dirPath }}
+      volumes:
+        - name: storage
+          flexVolume:
+            driver: "v3io/fuse"
+            options:
+              container: users
+              subPath: /{{ .Values.v3io.username }}/.mlrun
+            secretRef:
+              name: {{ .Release.Name }}-v3io-fuse
+      {{- with .Values.api.nodeSelector }}
+      nodeSelector:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+    {{- with .Values.api.affinity }}
+      affinity:
+        {{- toYaml . | nindent 8 }}
+    {{- end }}
+    {{- with .Values.api.tolerations }}
+      tolerations:
+        {{- toYaml . | nindent 8 }}
+    {{- end }}

@@ -24,6 +24,8 @@ spec:
         release: {{ .Release.Name }}
         heritage: {{ .Release.Service }}
         component: vault
+      annotations:
+        checksum/env-spec: {{ include (print $.Template.BasePath "/vault-env-spec-configmap.yaml") . | sha256sum }}
     spec:
       serviceAccountName: {{ template "provazio.vault.name" . }}
       containers:

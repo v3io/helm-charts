@@ -9,10 +9,10 @@ metadata:
 spec:
   group: argoproj.io
   version: v1alpha1
+  scope: Namespaced
   names:
     kind: Workflow
     plural: workflows
     shortNames:
     - wf
-  scope: Namespaced
 {{- end }}

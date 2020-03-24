@@ -126,7 +126,7 @@ spec:
 {{- end }}
           volumeMounts:
             - mountPath: /User/v3io
-              name: shared
+              name: v3io-fuse
             - mountPath: /etc/config/jupyter
               name: config-volume
             - mountPath: /var/run/iguazio/daemon_health
@@ -167,11 +167,6 @@ spec:
             name: {{ template "jupyter.fullname" . }}
         - name: daemon-health
           emptyDir: {}
-        - name: shared
-          flexVolume:
-            driver: "v3io/fuse"
-            secretRef:
-              name: {{ .Release.Name }}-v3io-fuse
 {{- if .Values.presto }}
 {{- if .Values.presto.keystoreBinary }}
         - name: java-cert

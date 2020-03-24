@@ -61,6 +61,17 @@ data:
         echo "}" >> ${HOME}/.jupyter/lab/user-settings/@jupyterlab/terminal-extension/plugin.jupyterlab-settings
     fi
 
+    if [ ! -e "${HOME}/.jupyter/custom/custom.css" ]; then
+        mkdir -p ${HOME}/.jupyter/custom
+        touch ${HOME}/.jupyter/custom/custom.css
+        echo ".notebook_app .container {" >> ${HOME}/.jupyter/custom/custom.css
+        echo "    width:98%; !important" >> ${HOME}/.jupyter/custom/custom.css
+        echo "}" >> ${HOME}/.jupyter/custom/custom.css
+        echo ".terminal-app .container {" >> ${HOME}/.jupyter/custom/custom.css
+        echo "    width:98%; !important" >> ${HOME}/.jupyter/custom/custom.css
+        echo "}" >> ${HOME}/.jupyter/custom/custom.css
+    fi
+
 
 {{- if .Values.spark }}
     echo "spark.master=spark://{{ .Values.spark.hostname }}:{{ .Values.spark.port }}" >> ${SPARK_HOME}/conf/spark-defaults.conf
@@ -151,6 +162,11 @@ data:
       echo "# ----- END KUBECTL AUTOCOMPLETION -----" >> ${HOME}/.bashrc
     fi
 
+    conda config --set always_softlink True
+    conda config --add envs_dirs ${HOME}/.conda/envs
+    conda init bash 2>&1
+    mkdir -p ${HOME}/.conda/envs
+
     echo "source ${HOME}/.bashrc" > ${HOME}/.bash_profile
 
     touch ${HOME}/.viminfo
@@ -165,7 +181,10 @@ data:
       PIP_USER_PATH="${HOME}/.pythonlibs/${PIP_USER_PROFILE}"
     fi
     mkdir -p ${PIP_USER_PATH}
-    export PIP_PREFIX="${PIP_USER_PATH}"
+    export IGZ_ORIG_PIP_PREFIX="${PIP_USER_PATH}"
+    export IGZ_ORIG_PYTHONPATH="${PIP_USER_PATH}/lib/python3.6/site-packages:${PYTHONPATH}"
     export PATH="${PATH}:${PIP_USER_PATH}/bin"
+    unset PYTHONPATH
 
+    source activate base
     jupyter-notebook $@
