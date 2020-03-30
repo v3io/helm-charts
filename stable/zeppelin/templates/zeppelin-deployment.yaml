@@ -8,8 +8,6 @@ metadata:
     release: {{ .Release.Name }}
     heritage: {{ .Release.Service }}
 spec:
-  securityContext:
-    fsGroup: 1000
   replicas: 1
   strategy:
     type: RollingUpdate
@@ -97,7 +95,9 @@ spec:
 {{- if .Values.preloadNotebooks.enabled }}
             - mountPath: /etc/config/zeppelin/notebooks
               name: notebook-volume
-{{- end }}        
+{{- end }}
+      securityContext:
+        fsGroup: 1000
       volumes:
 {{- if .Values.volumes }}
 {{ include .Values.volumes.volumesTemplate . | indent 8 }}
