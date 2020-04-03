@@ -2,7 +2,7 @@
 
 env:
   global:
-    - HELM_REPO=https://get.helm.sh/
+    - HELM_REPO=https://get.helm.sh
     - HELM_BIN=helm-v3.1.2-linux-amd64.tar.gz
 
 install:
