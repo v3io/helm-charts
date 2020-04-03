@@ -8,7 +8,7 @@ metadata:
 {{ include "pipelines.commonLabels" . | indent 4 }}
 data:
   config: |
-    {
+  {
     namespace: {{ .Release.Namespace }},
     executorImage: {{ .Values.images.argoexec.repository }}:{{ .Values.images.argoexec.tag }},
     artifactRepository:
@@ -26,7 +26,8 @@ data:
                 name: v3io-webapi-secret,
                 key: secretkey
             }
-        }
+        },
+        archiveLogs: true
     }
-    }
+  }
 {{- end }}
