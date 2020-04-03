@@ -182,7 +182,7 @@ $(debug $(shell $(HELM) repo add v3io-$(WORKDIR) $(HELM_REPO)))
 
 check-helm:
 	@echo "Checking if helm command exists"
-	@$(HELM) home &> /dev/null
+	@$(HELM) help &> /dev/null
 	@if [ "$$?" != "0" ]; then \
 		echo "Missing helm command" ; \
 		exit 2 ; \
