@@ -8,26 +8,26 @@ metadata:
 {{ include "pipelines.commonLabels" . | indent 4 }}
 data:
   config: |
-  {
-    namespace: {{ .Release.Namespace }},
-    executorImage: {{ .Values.images.argoexec.repository }}:{{ .Values.images.argoexec.tag }},
-    artifactRepository:
     {
-        s3: {
-            bucket: {{ .Values.storage.artifacts.containerName }},
-            keyPrefix: mlpipeline,
-            endpoint: v3io-webapi.{{ .Release.Namespace }}:{{ .Values.configurations.ports.nginxPort }},
-            insecure: true,
-            accessKeySecret: {
-                name: v3io-webapi-secret,
-                key: accesskey
-            },
-            secretKeySecret: {
-                name: v3io-webapi-secret,
-                key: secretkey
-            }
-        },
-        archiveLogs: true
+      namespace: {{ .Release.Namespace }},
+      executorImage: {{ .Values.images.argoexec.repository }}:{{ .Values.images.argoexec.tag }},
+      artifactRepository:
+      {
+          s3: {
+              bucket: {{ .Values.storage.artifacts.containerName }},
+              keyPrefix: mlpipeline,
+              endpoint: v3io-webapi.{{ .Release.Namespace }}:{{ .Values.configurations.ports.nginxPort }},
+              insecure: true,
+              accessKeySecret: {
+                  name: v3io-webapi-secret,
+                  key: accesskey
+              },
+              secretKeySecret: {
+                  name: v3io-webapi-secret,
+                  key: secretkey
+              }
+          },
+          archiveLogs: true
+      }
     }
-  }
 {{- end }}
