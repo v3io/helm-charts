@@ -2,7 +2,7 @@ apiVersion: v1
 appVersion: "v1.0.0-alpha"
 description: Pod GPU metrics exporter
 name: pod-gpu-metrics-exporter
-version: 0.2.1
+version: 0.3.0
 sources:
   - https://github.com/NVIDIA/gpu-monitoring-tools/tree/master/exporters/prometheus-dcgm/k8s/pod-gpu-metrics-exporter
 maintainers:
