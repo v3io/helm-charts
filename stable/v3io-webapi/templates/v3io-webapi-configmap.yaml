@@ -128,6 +128,7 @@ data:
                     v3io_pass       {{ $datanode.uri | quote }};
 {{- end }}
                     v3io_md5_mode   disable;
+                    v3io_config_path    /etc/iguazio/nginx/nginx_v3io_config.json;
                 }
                 # OPTIONS (pre-flight) request from allowed
                 # CORS domain. return response directly
@@ -143,3 +144,6 @@ data:
             }
         }
     }
+
+  nginx_v3io_config.json: |
+    {{ .Values.nginxConfig.jsonConf | toPrettyJson }}
