@@ -76,6 +76,21 @@ v3iod:
   datanodes:
   - uri: "tcp://localhost:1234"
 
+daymanV3ioConfig:
+  jsonConf:
+            {
+              "v3io": {
+                "session": {
+                  "reconnect_wait_times_ms":  [0],
+                  "channel_lease_time_sec": 30
+                } ,
+                "connection": {
+                  "connect_timeout_sec": 60
+                },
+                "max_open_handles": 65536
+              }
+            }
+
 locator:
   image:
     repository: iguaziodocker/locator
