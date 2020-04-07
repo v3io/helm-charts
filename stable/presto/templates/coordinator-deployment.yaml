@@ -30,6 +30,9 @@ spec:
             name: presto-catalog
         - name: daemon-health
           emptyDir: {}
+        - name: third-party-volume
+          hostPath:
+            path: "/home/iguazio/igz/bigdata/libs/third-party"
 {{- if .Values.server.properties.https }}
         - name: java-cert
           emptyDir: {}
@@ -74,6 +77,8 @@ spec:
               name: catalog-config-volume
             - mountPath: /var/run/iguazio/daemon_health
               name: daemon-health
+            - mountPath: {{ .Values.server.properties.thirdPartyMapPath }}
+              name: third-party-volume
 {{- if .Values.server.properties.https }}
             - mountPath: /var/run/iguazio/java/cert
               name: java-cert

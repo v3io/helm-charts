@@ -43,6 +43,9 @@ server:
     catalogs: {}
     mapPath: /etc/config/presto
     catalogMapPath: /etc/config/presto/catalog
+    thirdPartyMapPath: /etc/config/presto/lib/third-party
+    thirdPartyLibs:
+      oracleJdbcDriver: "ojdbc8.jar"
     path: /presto/etc
     http:
       port: 8080
