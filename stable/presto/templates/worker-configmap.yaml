@@ -130,7 +130,7 @@ data:
     cp {{ .Values.server.properties.mapPath }}/*.config $PRESTO_CONF_DIR
     cp {{ .Values.server.properties.mapPath }}/*.json $PRESTO_CONF_DIR
     cp {{ .Values.server.properties.catalogMapPath }}/*.properties $PRESTO_CONF_DIR/catalog
-    cp {{ .Values.server.properties.thirdPartyMapPath }}/* ${PRESTO_HOME}/lib/third-party/
+    cp {{ .Values.server.properties.thirdPartyMapPath }}/* ${PRESTO_THIRD_PARTY_LIBS}/
 
     # make sure that oracle jdbc driver exists at the ap-node, otherwise remove oracle connector plugin from presto
     if [[ -f ${PRESTO_THIRD_PARTY_LIBS}/{{ .Values.server.properties.thirdPartyLibs.oracleJdbcDriver }} ]]; then
