@@ -231,7 +231,7 @@ repo-helm: check-helm
 .PHONY: check-helm
 check-helm:
 	@echo "Checking if helm command exists"
-	@$(HELM) home &> /dev/null
+	@$(HELM) help &> /dev/null
 	@if [ "$$?" != "0" ]; then \
 		echo "Missing helm command" ; \
 		exit 2 ; \

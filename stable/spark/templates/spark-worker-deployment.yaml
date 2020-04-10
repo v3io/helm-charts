@@ -9,8 +9,6 @@ metadata:
     heritage: {{ .Release.Service }}
     component: spark-worker
 spec:
-  securityContext:
-    fsGroup: 1000
   replicas: {{ .Values.worker.replicas }}
   strategy:
     type: RollingUpdate
@@ -78,6 +76,8 @@ spec:
           env:
 {{ include .Values.environment.template . | indent 12 }}
 {{- end }}
+      securityContext:
+        fsGroup: 1000
       volumes:
 {{- if .Values.volumes }}
 {{ include .Values.volumes.worker.volumesTemplate . | indent 8 }}
