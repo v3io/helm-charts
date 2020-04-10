@@ -6,91 +6,91 @@ dashboard:
     tag: 0.10.11
     pullPolicy: IfNotPresent
 
-  port: 8060
-  replicas: 1
-  host: provazio-dashboard.iguazio.app.provazio-dev.cloud.iguazio.com
-  artifactVersionManifestContents:
-  whitelistSourceRange: 1.1.1.1/32
+  # port: 8060
+  # replicas: 1
+  # host: provazio-dashboard.iguazio.app.provazio-dev.cloud.iguazio.com
+  # artifactVersionManifestContents:
+  # whitelistSourceRange: 1.1.1.1/32
 
-  envSpec:
-    env: dev
+  # envSpec:
+  #   env: dev
 
-    dashboard:
-      url: https://provazio-dashboard.iguazio.app.provazio-dev.cloud.iguazio.com
-      expiration_check_interval: 30
-      system_create_mode: kubernetes_job
-      frontend:
-        allow_provisioning: true
-        default_system_settings_source: stored
-        environment: dev
-        cloud_provider_regions:
-          aws:
-            - eu-central-1
-      listen_address: 0.0.0.0:18060
+  #   dashboard:
+  #     url: https://provazio-dashboard.iguazio.app.provazio-dev.cloud.iguazio.com
+  #     expiration_check_interval: 30
+  #     system_create_mode: kubernetes_job
+  #     frontend:
+  #       allow_provisioning: true
+  #       default_system_settings_source: stored
+  #       environment: dev
+  #       cloud_provider_regions:
+  #         aws:
+  #           - eu-central-1
+  #     listen_address: 0.0.0.0:18060
 
-    client:
-      # system_store: 
-      #   kind: 
-      #   cosmosdb:
-      #     collection_name: 
-      #     database_name: 
-      #     endpoint: 
-      #     master_key: 
+    # client:
+    #   system_store: 
+    #     kind: 
+    #     cosmosdb:
+    #       collection_name: 
+    #       database_name: 
+    #       endpoint: 
+    #       master_key: 
 
-      # object_store: 
-      #   kind: 
-      #   v3io:
-      #     container_name: 
-      #     password: 
-      #     url: 
-      #     username: 
+    #   object_store: 
+    #     kind: 
+    #     v3io:
+    #       container_name: 
+    #       password: 
+    #       url: 
+    #       username: 
 
-      # infrastructure: 
-      #   ec2:
-      #     access_key_id: 
-      #     secret_access_key: 
-      #     data_cluster_instance_profile: 
-      #     app_cluster_instance_profile: 
-      #   spotinst:
-      #     account: 
-      #     token: 
+    #   infrastructure: 
+    #     ec2:
+    #       access_key_id: 
+    #       secret_access_key: 
+    #       data_cluster_instance_profile: 
+    #       app_cluster_instance_profile: 
+    #     spotinst:
+    #       account: 
+    #       token: 
 
-      # domain_registrar: 
-      #   kind: route53
-      #   route53:
-      #     access_key_id: 
-      #     secret_access_key: 
+    #   domain_registrar: 
+    #     kind: route53
+    #     route53:
+    #       access_key_id: 
+    #       secret_access_key: 
 
-      # notifier:
-      #   kind: slack
-      #   slack:
-      #     token: 
+    #   notifier:
+    #     kind: slack
+    #     slack:
+    #       token: 
 
-      https_cert_issuer:
-        kind: http
-        http:
-          url: http://ensure-cert:8080
+    #   https_cert_issuer:
+    #     kind: http
+    #     http:
+    #       url: http://ensure-cert:8080
 
-      domain_selector:
-        kind: http
-        http:
-          url: http://select-domain:8080
+    #   domain_selector:
+    #     kind: http
+    #     http:
+    #       url: http://select-domain:8080
 
     # ssh_credentials: 
     #   password: 
     #   username: 
 
-    provisioning:
+    # provisioning:
 
-      permitted_ingresses: ~
-      # - from_port: 0
-      #   to_port: 0
-      #   protocol: "-1"
-      #   source_cidr_block: 10.0.0.1/32
+    #   permitted_ingresses:
+    #   - from_port: 0
+    #     to_port: 0
+    #     protocol: "-1"
+    #     source_cidr_block: 10.0.0.1/32
 
-      terraform:
-        bin_path: /usr/bin/terraform
-        config_path: /etc/terraform/configs    
+    #   terraform:
+    #     bin_path: /usr/bin/terraform
+    #     config_path: /etc/terraform/configs    
 
 controller:
   enabled: false
@@ -126,15 +126,15 @@ vault:
     tag: 0.10.11
     pullPolicy: IfNotPresent
 
-  port: 8061
-  host: provazio-vault.iguazio.app.provazio-dev.cloud.iguazio.com
-  replicas: 1
-  persistencyVolume:
-    hostPath:
-      path: /home/iguazio/vault
+  # port: 8061
+  # host: provazio-vault.iguazio.app.provazio-dev.cloud.iguazio.com
+  # replicas: 1
+  # persistencyVolume:
+  #   hostPath:
+  #     path: /home/iguazio/vault
 
-  envSpec:
-    client:
+  # envSpec:
+  #   client:
       # system_store: 
       #   kind: inmemory
 
