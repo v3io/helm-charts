@@ -189,7 +189,7 @@ package-all:
 
 .PHONY: package-specific
 package-specific:
-	@echo "Packing chart"
+	echo "Packing chart"
 	@cd $(WORKDIR); \
 	if [ "$(CHART_VERSION_OVERRIDE)" != "none" ]; then \
 	    cp $(CHART_NAME)/Chart.yaml $(CHART_NAME)/Chart.yaml.old; \
