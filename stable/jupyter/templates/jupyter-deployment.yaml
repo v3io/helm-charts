@@ -8,8 +8,6 @@ metadata:
     release: {{ .Release.Name }}
     heritage: {{ .Release.Service }}
 spec:
-  securityContext:
-    fsGroup: 1000
   replicas: 1
   strategy:
     type: RollingUpdate
@@ -146,7 +144,7 @@ spec:
         - name: sidecar-proxy
           image: {{ .Values.proxy.image.repository }}:{{ .Values.proxy.image.tag }}
           command: ["proxy_server"]
-          args: 
+          args:
           - --listen-addr=:{{ .Values.proxy.servicePort }}
           - --forward-addr=127.0.0.1:{{ .Values.servicePort }}
           - --log-level={{ .Values.proxy.logLevel }}
@@ -161,6 +159,8 @@ spec:
           ports:
             - containerPort: {{ .Values.proxy.servicePort }}
               name: sidecar-proxy
+      securityContext:
+        fsGroup: 1000
       volumes:
         - name: config-volume
           configMap:
