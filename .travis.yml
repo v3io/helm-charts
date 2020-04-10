@@ -2,14 +2,14 @@
 
 env:
   global:
-    - HELM_REPO=https://storage.googleapis.com/kubernetes-helm
-    - HELM_BIN=helm-v2.14.1-linux-amd64.tar.gz
+    - HELM_REPO=https://get.helm.sh
+    - HELM_BIN=helm-v3.1.2-linux-amd64.tar.gz
 
 install:
   - wget -q ${HELM_REPO}/${HELM_BIN}
   - tar xzvf ${HELM_BIN}
   - PATH=$(pwd)/linux-amd64/:$PATH
-  - helm init --client-only
+  - helm repo add stable https://kubernetes-charts.storage.googleapis.com
   - helm repo add nuclio https://nuclio.github.io/nuclio/charts
   - helm repo add v3io-stable https://v3io.github.io/helm-charts/stable
 
