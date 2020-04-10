@@ -199,10 +199,16 @@ package-specific:
 	$(HELM) lint $(CHART_NAME); \
 	if [ "$$?" != "0" ]; then \
         echo "Chart $(CHART_NAME) failed lint" ; \
+        if [ "$(CHART_VERSION_OVERRIDE)" != "none" ]; then \
+            mv $(CHART_NAME)/Chart.yaml.old $(CHART_NAME)/Chart.yaml; \
+        fi ; \
         exit 103 ; \
     fi ; \
     $(HELM) package $(CHART_NAME) && if [ "$$?" != "0" ]; then \
         echo "Chart $(CHART_NAME) failed package" ; \
+        if [ "$(CHART_VERSION_OVERRIDE)" != "none" ]; then \
+            mv $(CHART_NAME)/Chart.yaml.old $(CHART_NAME)/Chart.yaml; \
+        fi ; \
         exit 103 ; \
     fi ; \
     if [ "$(CHART_VERSION_OVERRIDE)" != "none" ]; then \
