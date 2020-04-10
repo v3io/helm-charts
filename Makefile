@@ -189,10 +189,10 @@ package-all:
 
 .PHONY: package-specific
 package-specific:
-	echo "Packing chart"
-	cd $(WORKDIR); \
+	@echo "Packing chart"
+	@cd $(WORKDIR); \
 	if [ "$(CHART_VERSION_OVERRIDE)" != "none" ]; then \
-	    cp $(CHART_NAME)/Chart.yaml $(CHART_NAME)/oldChart.yaml; \
+	    cp $(CHART_NAME)/Chart.yaml $(CHART_NAME)/Chart.yaml.old; \
         awk '{if ($$1=="version:") {$$2="$(CHART_VERSION_OVERRIDE)"; print $$0} else print $$0}' $(CHART_NAME)/Chart.yaml > $(CHART_NAME)/tmp; \
         mv $(CHART_NAME)/tmp $(CHART_NAME)/Chart.yaml; \
     fi ; \
@@ -206,7 +206,7 @@ package-specific:
         exit 103 ; \
     fi ; \
     if [ "$(CHART_VERSION_OVERRIDE)" != "none" ]; then \
-        mv $(CHART_NAME)/oldChart.yaml $(CHART_NAME)/Chart.yaml; \
+        mv $(CHART_NAME)/Chart.yaml.old $(CHART_NAME)/Chart.yaml; \
     fi ; \
 
 .PHONY: index
