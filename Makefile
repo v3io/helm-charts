@@ -7,6 +7,7 @@ HELM_REPO_ROOT := $(if $(HELM_REPO_OVERRIDE),$(HELM_REPO_OVERRIDE),$(HELM_REPO_D
 WORKDIR := stable
 HELM_REPO := $(HELM_REPO_ROOT)/$(WORKDIR)
 CHART_NAME := $(if $(CHART_NAME),$(CHART_NAME),chart-name)
+CHART_VERSION_OVERRIDE := $(if $(CHART_VERSION_OVERRIDE),$(CHART_VERSION_OVERRIDE),none)
 
 
 #### Some exmamples:
@@ -188,15 +189,25 @@ package-all:
 
 .PHONY: package-specific
 package-specific:
-	@echo "Packing chart"
-	@cd $(WORKDIR) && $(HELM) lint $(CHART_NAME) && if [ "$$?" != "0" ]; then \
-            echo "Chart $(CHART_NAME) failed lint" ; \
-            exit 103 ; \
-        fi ; \
-        $(HELM) package $(CHART_NAME) && if [ "$$?" != "0" ]; then \
-            echo "Chart $(CHART_NAME) failed package" ; \
-            exit 103 ; \
-        fi ; \
+	echo "Packing chart"
+	cd $(WORKDIR); \
+	if [ "$(CHART_VERSION_OVERRIDE)" != "none" ]; then \
+	    cp $(CHART_NAME)/Chart.yaml $(CHART_NAME)/oldChart.yaml; \
+        awk '{if ($$1=="version:") {$$2="$(CHART_VERSION_OVERRIDE)"; print $$0} else print $$0}' $(CHART_NAME)/Chart.yaml > $(CHART_NAME)/tmp; \
+        mv $(CHART_NAME)/tmp $(CHART_NAME)/Chart.yaml; \
+    fi ; \
+	$(HELM) lint $(CHART_NAME); \
+	if [ "$$?" != "0" ]; then \
+        echo "Chart $(CHART_NAME) failed lint" ; \
+        exit 103 ; \
+    fi ; \
+    $(HELM) package $(CHART_NAME) && if [ "$$?" != "0" ]; then \
+        echo "Chart $(CHART_NAME) failed package" ; \
+        exit 103 ; \
+    fi ; \
+    if [ "$(CHART_VERSION_OVERRIDE)" != "none" ]; then \
+        mv $(CHART_NAME)/oldChart.yaml $(CHART_NAME)/Chart.yaml; \
+    fi ; \
 
 .PHONY: index
 index:
