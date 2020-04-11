@@ -43,7 +43,7 @@ spec:
                 fieldPath: metadata.namespace
           - name: DISABLE_GKE_METADATA
             value: "true"
+        resources:
+{{ toYaml .Values.resources.ui | indent 10 }}
       serviceAccountName: ml-pipeline-ui
-      resources:
-{{ toYaml .Values.resources.ui | indent 8 }}
 {{- end }}

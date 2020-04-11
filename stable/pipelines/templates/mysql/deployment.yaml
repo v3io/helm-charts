@@ -51,36 +51,36 @@ spec:
             - name: mysql-config
               mountPath: /etc/config/mysql
       containers:
-        - name: {{ .Values.configurations.mysql.spec.template.spec.containers.name }}
-          image: {{ .Values.images.mysql.repository }}:{{ .Values.images.mysql.tag }}
-          imagePullPolicy: {{ .Values.images.imagePullPolicy }}
-          command: ["/bin/bash", "/etc/config/mysql/v3io-mysql.sh"]
-          ports:
-            - name: mysql
-              containerPort: 3306
-              protocol: TCP
-          livenessProbe:
-            exec:
-              command: ["/bin/bash", "/etc/config/mysql/health_check.sh"]
-            initialDelaySeconds: {{ .Values.configurations.mysql.spec.template.spec.containers.livenessProbe.initialDelaySeconds }}
-            failureThreshold: {{ .Values.configurations.mysql.spec.template.spec.containers.livenessProbe.failureThreshold }}
-            periodSeconds: {{ .Values.configurations.mysql.spec.template.spec.containers.livenessProbe.periodSeconds }}
-          readinessProbe:
-            exec:
-              command: ["/bin/bash", "/etc/config/mysql/health_check.sh"]
-            initialDelaySeconds: {{ .Values.configurations.mysql.spec.template.spec.containers.readinessProbe.initialDelaySeconds }}
-            failureThreshold: {{ .Values.configurations.mysql.spec.template.spec.containers.readinessProbe.failureThreshold }}
-            periodSeconds: {{ .Values.configurations.mysql.spec.template.spec.containers.readinessProbe.periodSeconds }}
-          env:
-            - name: MYSQL_ALLOW_EMPTY_PASSWORD
-              value: "true"
-          volumeMounts:
-            - name: mysql-fuse
-              mountPath: "/var/lib/mysql"
-            - name: mysql-config
-              mountPath: /etc/config/mysql
-            - name: mysql-init-scripts
-              mountPath: /etc/config/mysql/init-scripts
-          resources:
-{{ toYaml .Values.resources.mysql | indent 12 }}
+      - name: {{ .Values.configurations.mysql.spec.template.spec.containers.name }}
+        image: {{ .Values.images.mysql.repository }}:{{ .Values.images.mysql.tag }}
+        imagePullPolicy: {{ .Values.images.imagePullPolicy }}
+        command: ["/bin/bash", "/etc/config/mysql/v3io-mysql.sh"]
+        ports:
+        - name: mysql
+          containerPort: 3306
+          protocol: TCP
+        livenessProbe:
+          exec:
+            command: ["/bin/bash", "/etc/config/mysql/health_check.sh"]
+          initialDelaySeconds: {{ .Values.configurations.mysql.spec.template.spec.containers.livenessProbe.initialDelaySeconds }}
+          failureThreshold: {{ .Values.configurations.mysql.spec.template.spec.containers.livenessProbe.failureThreshold }}
+          periodSeconds: {{ .Values.configurations.mysql.spec.template.spec.containers.livenessProbe.periodSeconds }}
+        readinessProbe:
+          exec:
+            command: ["/bin/bash", "/etc/config/mysql/health_check.sh"]
+          initialDelaySeconds: {{ .Values.configurations.mysql.spec.template.spec.containers.readinessProbe.initialDelaySeconds }}
+          failureThreshold: {{ .Values.configurations.mysql.spec.template.spec.containers.readinessProbe.failureThreshold }}
+          periodSeconds: {{ .Values.configurations.mysql.spec.template.spec.containers.readinessProbe.periodSeconds }}
+        env:
+        - name: MYSQL_ALLOW_EMPTY_PASSWORD
+          value: "true"
+        volumeMounts:
+        - name: mysql-fuse
+          mountPath: "/var/lib/mysql"
+        - name: mysql-config
+          mountPath: /etc/config/mysql
+        - name: mysql-init-scripts
+          mountPath: /etc/config/mysql/init-scripts
+        resources:
+{{ toYaml .Values.resources.mysql | indent 10 }}
 {{- end }}
