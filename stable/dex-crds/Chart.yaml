@@ -1,0 +1,13 @@
+apiVersion: v2
+name: dex-crds
+version: 0.1.0
+appVersion: 2.21.0
+description: A Helm chart for deploying Dex's CRDs
+type: application
+sources:
+  - https://github.com/dexidp/dex
+maintainers:
+  - name: hedingber
+    email: hedii@iguazio.com
+icon: https://di5r923elu32w2e633ofbxj9-wpengine.netdna-ssl.com/wp-content/uploads/2019/10/Iguazio-Logo.png
+
