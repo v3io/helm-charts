@@ -125,7 +125,7 @@ helm-publish-stable-specific:
 		git checkout $(GITHUB_BRANCH) && \
 		REF_SHA=$$(git log $(GITHUB_BRANCH) -1 | head -1) && \
 		make stable-specific && \
-	    cd /tmp/v3io-helm-charts && \
+		cd /tmp/v3io-helm-charts && \
 		git checkout gh-pages && \
 		mv /tmp/v3io-helm-charts-2/stable/$(CHART_NAME)-*tgz /tmp/v3io-helm-charts/stable/ && \
 		make stable-specific && \
