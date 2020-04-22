@@ -134,6 +134,7 @@ helm-publish-stable-specific:
 		git commit --message "Merging $$CHART_NAME from $$REF_SHA" && \
 		git push
 	@echo "New index released!"
+helm-publish-stable-specific: cleanup-tmp-workspace
 
 .PHONY: print-versions
 print-versions:
