@@ -47,7 +47,7 @@ incubator-specific: repo-helm update-req-specific package-specific index
 
 .PHONY: cleanup-tmp-workspace
 cleanup-tmp-workspace:
-	@rm -rf /tmp/v3io-helm-charts
+	@rm -rf /tmp/v3io-helm-charts*
 	@echo "Cleaned up /tmp/v3io-helm-charts"
 
 .PHONY: helm-publish
@@ -120,14 +120,16 @@ helm-publish-stable-specific: cleanup-tmp-workspace
 helm-publish-stable-specific:
 	@echo "Preparing to release a new stable index for $(CHART_NAME) from $(GITHUB_BRANCH)"
 	@git clone git@github.com:v3io/helm-charts /tmp/v3io-helm-charts
-	@cd /tmp/v3io-helm-charts && \
+	@cp -r /tmp/v3io-helm-charts /tmp/v3io-helm-charts-2
+	@cd /tmp/v3io-helm-charts-2 && \
 		git checkout $(GITHUB_BRANCH) && \
-		git checkout gh-pages && \
-		git merge $(GITHUB_BRANCH) --message "Merging $(GITHUB_BRANCH) into gh-pages" && \
 		REF_SHA=$$(git log $(GITHUB_BRANCH) -1 | head -1) && \
 		make stable-specific && \
+		cd /tmp/v3io-helm-charts && \
+		git checkout gh-pages && \
+		mv /tmp/v3io-helm-charts-2/stable/$(CHART_NAME)-*tgz /tmp/v3io-helm-charts/stable/ && \
+		make index && \
 		git add --force stable/$(CHART_NAME)-*tgz && \
-		git add stable/$(CHART_NAME) && \
 		git add stable/index.yaml && \
 		git commit --message "Merging $$CHART_NAME from $$REF_SHA" && \
 		git push
