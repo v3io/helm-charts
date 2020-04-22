@@ -128,7 +128,7 @@ helm-publish-stable-specific:
 		cd /tmp/v3io-helm-charts && \
 		git checkout gh-pages && \
 		mv /tmp/v3io-helm-charts-2/stable/$(CHART_NAME)-*tgz /tmp/v3io-helm-charts/stable/ && \
-		make stable-specific && \
+		make index && \
 		git add --force stable/$(CHART_NAME)-*tgz && \
 		git add stable/index.yaml && \
 		git commit --message "Merging $$CHART_NAME from $$REF_SHA" && \
