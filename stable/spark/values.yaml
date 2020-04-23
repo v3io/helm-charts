@@ -55,6 +55,9 @@ worker:
 
 environment:
   template: v3io-configs.deployment.env
+  master: []
+  worker:
+    SPARK_WORKER_OPTS: "-Dspark.worker.cleanup.enabled=true -Dspark.worker.cleanup.interval=604800 -Dspark.worker.cleanup.appDataTtl=604800"
 
 volumes:
   master:
