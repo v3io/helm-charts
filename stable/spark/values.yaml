@@ -20,6 +20,10 @@ master:
     servicePort: 8088
     containerPort: 8088
 
+  restApi:
+    servicePort: 6066
+    containerPort: 6066
+
   uiProxy:
     containerPort: 8080
     servicePort: 8080
