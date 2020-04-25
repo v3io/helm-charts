@@ -75,9 +75,11 @@ spec:
 {{- if .Values.environment }}
           env:
 {{ include .Values.environment.template . | indent 12 }}
+{{- range $key, $value := .Values.environment.worker }}
+            - name: {{ $key }}
+              value: {{ $value }}
 {{- end }}
-      securityContext:
-        fsGroup: 1000
+{{- end }}
       volumes:
 {{- if .Values.volumes }}
 {{ include .Values.volumes.worker.volumesTemplate . | indent 8 }}

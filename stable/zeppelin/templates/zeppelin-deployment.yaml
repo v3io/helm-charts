@@ -96,8 +96,6 @@ spec:
             - mountPath: /etc/config/zeppelin/notebooks
               name: notebook-volume
 {{- end }}
-      securityContext:
-        fsGroup: 1000
       volumes:
 {{- if .Values.volumes }}
 {{ include .Values.volumes.volumesTemplate . | indent 8 }}

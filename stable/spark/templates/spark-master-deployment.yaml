@@ -76,6 +76,10 @@ spec:
 {{- if .Values.environment }}
           env:
 {{ include .Values.environment.template . | indent 12 }}
+{{- range $key, $value := .Values.environment.master }}
+            - name: {{ $key }}
+              value: {{ $value }}
+{{- end }}
 {{- end }}
         - name: spark-ui-proxy
           image: {{ .Values.master.uiProxy.image.repository }}:{{ .Values.master.uiProxy.image.tag }}
@@ -99,8 +103,6 @@ spec:
                 port: {{ .Values.master.uiProxy.containerPort }}
               initialDelaySeconds: 120
               timeoutSeconds: 5
-      securityContext:
-        fsGroup: 1000
       volumes:
 {{- if .Values.volumes }}
 {{ include .Values.volumes.master.volumesTemplate . | indent 8 }}
