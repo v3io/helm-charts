@@ -18,32 +18,32 @@ CHART_VERSION_OVERRIDE := $(if $(CHART_VERSION_OVERRIDE),$(CHART_VERSION_OVERRID
 
 .PHONY: stable
 stable: WORKDIR = stable
-stable: repo-helm update-req package-all index
+stable: check-helm repo-helm update-req package-all index
 	@echo "Done"
 
 .PHONY: stable-specific
 stable-specific: WORKDIR = stable
-stable-specific: repo-helm update-req-specific package-specific index
+stable-specific: check-helm repo-helm update-req-specific package-specific index
 	@echo "Done"
 
 .PHONY: demo
 demo: WORKDIR = demo
-demo: repo-helm update-req package-all index
+demo: check-helm repo-helm update-req package-all index
 	@echo "Done"
 
 .PHONY: demo-specific
 demo-specific: WORKDIR = demo
-demo-specific: repo-helm update-req-specific package-specific index
+demo-specific: check-helm repo-helm update-req-specific package-specific index
 	@echo "Done"
 
 .PHONY: incubator
 incubator: WORKDIR = incubator
-incubator: repo-helm update-req package-all index
+incubator: check-helm repo-helm update-req package-all index
 	@echo "Done"
 
 .PHONY: incubator-specific
 incubator-specific: WORKDIR = incubator
-incubator-specific: repo-helm update-req-specific package-specific index
+incubator-specific: check-helm repo-helm update-req-specific package-specific index
 	@echo "Done"
 
 .PHONY: cleanup-tmp-workspace
@@ -52,7 +52,7 @@ cleanup-tmp-workspace:
 	@echo "Cleaned up /tmp/v3io-helm-charts"
 
 .PHONY: helm-publish
-helm-publish: cleanup-tmp-workspace
+helm-publish: check-helm cleanup-tmp-workspace
 helm-publish:
 	@echo "Preparing to release a new index from $(GITHUB_BRANCH)"
 	@git clone git@github.com:v3io/helm-charts /tmp/v3io-helm-charts
@@ -78,7 +78,7 @@ helm-publish:
 helm-publish: cleanup-tmp-workspace
 
 .PHONY: helm-publish-demo-specific
-helm-publish-demo-specific: cleanup-tmp-workspace
+helm-publish-demo-specific: check-helm cleanup-tmp-workspace
 helm-publish-demo-specific:
 	@echo "Preparing to release a new demo index for $(CHART_NAME) from $(GITHUB_BRANCH)"
 	@git clone git@github.com:v3io/helm-charts /tmp/v3io-helm-charts
@@ -97,7 +97,7 @@ helm-publish-demo-specific:
 helm-publish-demo-specific: cleanup-tmp-workspace
 
 .PHONY: helm-publish-incubator-specific
-helm-publish-incubator-specific: cleanup-tmp-workspace
+helm-publish-incubator-specific: check-helm cleanup-tmp-workspace
 helm-publish-incubator-specific:
 	@echo "Preparing to release a new incubator index for $(CHART_NAME) from $(GITHUB_BRANCH)"
 	@rm -rf /tmp/v3io-helm-charts
@@ -117,7 +117,7 @@ helm-publish-incubator-specific:
 helm-publish-incubator-specific: cleanup-tmp-workspace
 
 .PHONY: helm-publish-stable-specific
-helm-publish-stable-specific: cleanup-tmp-workspace
+helm-publish-stable-specific: check-helm cleanup-tmp-workspace
 helm-publish-stable-specific:
 	@echo "Preparing to release a new stable index for $(CHART_NAME) from $(GITHUB_BRANCH)"
 	@git clone git@github.com:v3io/helm-charts /tmp/v3io-helm-charts
@@ -149,7 +149,7 @@ print-versions:
 	done
 
 .PHONY: update-req
-update-req:
+update-req: check-helm
 	@echo "Updating all charts requirements"
 	@cd $(WORKDIR) && for chart in $$(ls); do \
 		if [ -e "$$chart/requirements.yaml" ]; then \
@@ -163,7 +163,7 @@ update-req:
 	done
 
 .PHONY: update-req-specific
-update-req-specific:
+update-req-specific: check-helm
 	@echo "Updating $(CHART_NAME) chart requirements"
 	@cd $(WORKDIR) && if [ -e "$(CHART_NAME)/requirements.yaml" ]; then \
 	    $(HELM) dependency build $(CHART_NAME) ; \
@@ -174,7 +174,7 @@ update-req-specific:
     fi
 
 .PHONY: package-all
-package-all:
+package-all: check-helm
 	@echo "Packing charts"
 	@cd $(WORKDIR) && for chart in $$(ls -d */); do \
 		$(HELM) lint $$chart ; \
@@ -190,7 +190,7 @@ package-all:
 	done
 
 .PHONY: package-specific
-package-specific:
+package-specific: check-helm
 	@echo "Packing chart"
 	@cd $(WORKDIR); \
 	if [ "$(CHART_VERSION_OVERRIDE)" != "none" ]; then \
@@ -218,7 +218,7 @@ package-specific:
     fi ; \
 
 .PHONY: index
-index:
+index: check-helm
 	@echo "Generating index.yaml"
 	$(HELM) repo index --merge $(WORKDIR)/index.yaml --url $(HELM_REPO_ROOT)/$(WORKDIR) $(WORKDIR)
 	@if [ "$$?" != "0" ]; then \
@@ -236,6 +236,11 @@ check-helm:
 	@$(HELM) help &> /dev/null
 	@if [ "$$?" != "0" ]; then \
 		echo "Missing helm command" ; \
+		exit 2 ; \
+	fi
+	@HELM_VERSION=$$($(HELM) version --short --client) && \
+	if [[ "$$HELM_VERSION" != *"v3"* ]]; then \
+		echo "Helm version must be 3" ; \
 		exit 2 ; \
 	fi
 	@echo "Helm command exists"
