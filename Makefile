@@ -218,7 +218,7 @@ package-specific: check-helm
     fi ; \
 
 .PHONY: index
-index: check-helm
+index:
 	@echo "Generating index.yaml"
 	$(HELM) repo index --merge $(WORKDIR)/index.yaml --url $(HELM_REPO_ROOT)/$(WORKDIR) $(WORKDIR)
 	@if [ "$$?" != "0" ]; then \
