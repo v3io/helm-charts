@@ -159,8 +159,6 @@ spec:
           ports:
             - containerPort: {{ .Values.proxy.servicePort }}
               name: sidecar-proxy
-      securityContext:
-        fsGroup: 1000
       volumes:
         - name: config-volume
           configMap:
