@@ -78,7 +78,7 @@ helm-publish:
 helm-publish: cleanup-tmp-workspace
 
 .PHONY: helm-publish-demo-specific
-helm-publish-demo-specific: check-helm cleanup-tmp-workspace
+helm-publish-demo-specific: cleanup-tmp-workspace
 helm-publish-demo-specific:
 	@echo "Preparing to release a new demo index for $(CHART_NAME) from $(GITHUB_BRANCH)"
 	@git clone git@github.com:v3io/helm-charts /tmp/v3io-helm-charts
@@ -97,7 +97,7 @@ helm-publish-demo-specific:
 helm-publish-demo-specific: cleanup-tmp-workspace
 
 .PHONY: helm-publish-incubator-specific
-helm-publish-incubator-specific: check-helm cleanup-tmp-workspace
+helm-publish-incubator-specific: cleanup-tmp-workspace
 helm-publish-incubator-specific:
 	@echo "Preparing to release a new incubator index for $(CHART_NAME) from $(GITHUB_BRANCH)"
 	@rm -rf /tmp/v3io-helm-charts
@@ -117,7 +117,7 @@ helm-publish-incubator-specific:
 helm-publish-incubator-specific: cleanup-tmp-workspace
 
 .PHONY: helm-publish-stable-specific
-helm-publish-stable-specific: check-helm cleanup-tmp-workspace
+helm-publish-stable-specific: cleanup-tmp-workspace
 helm-publish-stable-specific:
 	@echo "Preparing to release a new stable index for $(CHART_NAME) from $(GITHUB_BRANCH)"
 	@git clone git@github.com:v3io/helm-charts /tmp/v3io-helm-charts
