@@ -17,12 +17,12 @@ CHART_NAME := $(if $(CHART_NAME),$(CHART_NAME),chart-name)
 
 .PHONY: stable
 stable: WORKDIR = stable
-stable: repo-helm update-req package-all index
+stable: check-helm repo-helm update-req package-all index
 	@echo "Done"
 
 .PHONY: stable-specific
 stable-specific: WORKDIR = stable
-stable-specific: repo-helm update-req-specific package-specific index
+stable-specific: check-helm repo-helm update-req-specific package-specific index
 	@echo "Done"
 
 .PHONY: demo
@@ -51,7 +51,7 @@ cleanup-tmp-workspace:
 	@echo "Cleaned up /tmp/v3io-helm-charts"
 
 .PHONY: helm-publish
-helm-publish: cleanup-tmp-workspace
+helm-publish: check-helm cleanup-tmp-workspace
 helm-publish:
 	@echo "Preparing to release a new index from $(GITHUB_BRANCH)"
 	@git clone git@github.com:v3io/helm-charts /tmp/v3io-helm-charts
@@ -116,7 +116,7 @@ helm-publish-incubator-specific:
 helm-publish-incubator-specific: cleanup-tmp-workspace
 
 .PHONY: helm-publish-stable-specific
-helm-publish-stable-specific: cleanup-tmp-workspace
+helm-publish-stable-specific: check-helm cleanup-tmp-workspace
 helm-publish-stable-specific:
 	@echo "Preparing to release a new stable index for $(CHART_NAME) from $(GITHUB_BRANCH)"
 	@git clone git@github.com:v3io/helm-charts /tmp/v3io-helm-charts
@@ -219,6 +219,11 @@ check-helm:
 	@$(HELM) home &> /dev/null
 	@if [ "$$?" != "0" ]; then \
 		echo "Missing helm command" ; \
+		exit 2 ; \
+	fi
+	@HELM_VERSION=$$($(HELM) version --short --client) && \
+	if [[ "$$HELM_VERSION" != *"v2"* ]]; then \
+		echo "Helm version must be 2" ; \
 		exit 2 ; \
 	fi
 	@echo "Helm command exists"
