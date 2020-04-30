@@ -16,7 +16,7 @@ data:
 {{ printf "%s: |" $v3ioCatalogKey | indent 2 }}
 {{ index .Values.server.properties.catalogs $v3ioCatalogKey | indent 4 }}
 {{- else }}
-  # no custom v3io conector present - create default v3io connector settings
+  # no custom v3io connector present - create default v3io connector settings
 {{ printf "%s: |" $v3ioCatalogKey | indent 2 }}
     connector.name=v3io
 {{- end }}
