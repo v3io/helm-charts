@@ -6,8 +6,8 @@ api:
   replicaCount: 1
 
   image:
-    repository: mlrun/mlrun-api
-    tag: 0.4.3
+    repository: mlrun/api
+    tag: 0.4.8
     pullPolicy: IfNotPresent
     pullSecrets: []
 
