@@ -48,7 +48,9 @@ spec:
         - name: device-metrics
           readOnly: true
           mountPath: /run/prometheus
-      - image: "{{ .Values.dcgmExporter.image.repository }}:{{ .Values.dcgmExporter.image.tag }}"
+      - args:
+        - "-d {{ .Values.dcgmExporter.collectInterval }}"
+        image: "{{ .Values.dcgmExporter.image.repository }}:{{ .Values.dcgmExporter.image.tag }}"
         name: nvidia-dcgm-exporter
         securityContext:
           runAsNonRoot: false
