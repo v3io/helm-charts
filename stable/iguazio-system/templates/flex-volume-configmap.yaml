@@ -11,9 +11,13 @@ metadata:
     heritage: {{ .Release.Service }}
     component: flex-volume-plugin
 data:
+  fuse_v3io_config.json: |
+    {{ .Values.job.flexVolume.v3ioFuse.v3ioConfigJson | toJson }}
+
   v3io.conf: |
     {
       "fuse_path": "{{ .Values.job.flexVolume.executablePath }}",
+      "v3io_config_path": "{{ .Values.job.flexVolume.v3ioFuse.v3ioConfigPath }}",
       "image_repository": "{{ .Values.job.flexVolume.v3ioFuse.image.repository }}",
       "image_tag": "{{ .Values.job.flexVolume.v3ioFuse.image.tag }}",
       "type": "{{ .Values.job.flexVolume.mountType }}",
@@ -36,3 +40,4 @@ data:
       ]
     }
 {{- end -}}
+    
