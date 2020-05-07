@@ -22,9 +22,9 @@ spec:
         app: {{ template "presto.name" . }}
         release: {{ .Release.Name }}
         component: worker
-    annotations:
-      checksum/catalog-configmap: {{ include (print $.Template.BasePath "/catalog-configmap.yaml") . | sha256sum }}
-      checksum/worker-configmap: {{ include (print $.Template.BasePath "/worker-configmap.yaml") . | sha256sum }}
+      annotations:
+        checksum/catalog-configmap: {{ include (print $.Template.BasePath "/catalog-configmap.yaml") . | sha256sum }}
+        checksum/worker-configmap: {{ include (print $.Template.BasePath "/worker-configmap.yaml") . | sha256sum }}
     spec:
       volumes:
         - name: config-volume
