@@ -10,8 +10,6 @@ podGPUMetricsExporter:
     tag: "v1.0.0-alpha"
 
 dcgmExporter:
-  # Collect metrics every 10 seconds
-  collectInterval: 10000
   image:
     repository: "nvidia/dcgm-exporter"
     tag: "1.4.6"

@@ -28,6 +28,21 @@ workerRlimit : 8192
 workerProcesses: auto
 workerConnections: 1024
 
+nginxV3ioConfig:
+  jsonConf:
+            {
+              "v3io": {
+                "session": {
+                  "reconnect_wait_times_ms":  [0],
+                  "channel_lease_time_sec": 30
+                } ,
+                "connection": {
+                  "connect_timeout_sec": 60
+                },
+                "max_open_handles": 65536
+              }
+            }
+
 installationPath: /home/iguazio/igz/clients/nginx
 
 user:
