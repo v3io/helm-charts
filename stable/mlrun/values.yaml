@@ -6,7 +6,7 @@ api:
   replicaCount: 1
 
   image:
-    repository: mlrun/api
+    repository: quay.io/mlrun/api
     tag: 0.4.8
     pullPolicy: IfNotPresent
     pullSecrets: []
@@ -69,7 +69,7 @@ ui:
   replicaCount: 1
 
   image:
-    repository: quay.io/iguazio/mlrun-ui
+    repository: quay.io/mlrun/ui
     tag: 0.1.0
     pullPolicy: IfNotPresent
     pullSecrets: []
