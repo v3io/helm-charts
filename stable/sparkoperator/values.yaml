@@ -4,8 +4,15 @@ imagePullPolicy: IfNotPresent
 imagePullSecrets: []
 replicas: 1
 
+crd:
+  create: false
+
 rbac:
-  create: true
+  clusterResources:
+    create: false
+  namespaced:
+    create: true
+
 
 serviceAccounts:
   spark:
