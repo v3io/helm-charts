@@ -3,9 +3,9 @@ entries:
   dex-crds:
   - apiVersion: v2
     appVersion: 2.23.0
-    created: "2020-05-07T14:12:45.314734+03:00"
+    created: "2020-05-11T11:13:13.661696545+03:00"
     description: A Helm chart for deploying Dex's CRDs
-    digest: dae59ca45f9ff68e1d9cdaa0250fb53c2e33a46bd229ad8dc341d434e86f03a0
+    digest: 4c27dac82879398f5e3bcb58dff69b199577dac1c8ab846ad567952da138944b
     icon: https://di5r923elu32w2e633ofbxj9-wpengine.netdna-ssl.com/wp-content/uploads/2019/10/Iguazio-Logo.png
     maintainers:
     - email: hedii@iguazio.com
@@ -20,9 +20,9 @@ entries:
   empty:
   - apiVersion: v1
     appVersion: '>=1.9.4'
-    created: "2020-05-07T14:12:45.31587+03:00"
+    created: "2020-05-11T11:13:13.662334427+03:00"
     description: An empty chart
-    digest: d824c1758fee6f7bbf2309d932190b3f46e31520ab0d0d868f98b7ebacf5f2fd
+    digest: 2c25a9242145ad022ec78383365f3ba03dd4e4e0eb05cf24224f272a5754bba0
     home: https://iguazio.com
     icon: https://www.iguazio.com/wp-content/uploads/2017/09/iguazio_logo_2017_w_c.png
     maintainers:
@@ -36,7 +36,7 @@ entries:
     version: 0.1.2
   - apiVersion: v1
     appVersion: '>=1.9.4'
-    created: "2020-05-07T14:12:45.315648+03:00"
+    created: "2020-05-11T11:13:13.662192756+03:00"
     description: empty
     digest: 8ef0d73f16f2970202ff4617e5b3afd7a4927db131f08542cd8e1803b427cfe4
     home: https://iguazio.com
@@ -52,7 +52,7 @@ entries:
     version: 0.1.1
   - apiVersion: v1
     appVersion: '>=1.9.4'
-    created: "2020-05-07T14:12:45.315193+03:00"
+    created: "2020-05-11T11:13:13.662050531+03:00"
     description: empty
     digest: 309ea5351ae39f43f03d6cb9da0f61a1b8b131158a47f8cd0cb0a0e483e2e727
     home: https://iguazio.com
@@ -69,9 +69,9 @@ entries:
   gpu-feature-discovery:
   - apiVersion: v1
     appVersion: 1.0.0-beta
-    created: "2020-05-07T14:12:45.316886+03:00"
+    created: "2020-05-11T11:13:13.662840189+03:00"
     description: A Helm chart for Kubernetes
-    digest: 27406c5690b0de1c9d7db185bcdb06e2d7a28c712fea74ed1c935197733f66a5
+    digest: cd2a5c245121094874449f28843536eece0ab02c50fa060bff96885bdd683330
     maintainers:
     - email: vladimirs@iguazio.com
       name: Vladimir Syromyatnikov
@@ -81,7 +81,7 @@ entries:
     version: 0.2.0
   - apiVersion: v1
     appVersion: 1.0.0-beta
-    created: "2020-05-07T14:12:45.316389+03:00"
+    created: "2020-05-11T11:13:13.662603539+03:00"
     description: A Helm chart for Kubernetes
     digest: 0706ddf026ebafed18231553e2f37f8b66b9b90795db62a2525cf5713ee3978e
     maintainers:
@@ -94,13 +94,13 @@ entries:
   grafana:
   - apiVersion: v1
     appVersion: 6.5.2
-    created: "2020-05-07T14:12:45.326098+03:00"
+    created: "2020-05-11T11:13:13.667358817+03:00"
     dependencies:
     - name: v3io-configs
       repository: https://v3io.github.io/helm-charts/stable
       version: 0.8.0
     description: The leading tool for querying and visualizing time series and metrics.
-    digest: cf155107f55043971b471e781499bdfae0da06f4c2fb623c94d87309ada22885
+    digest: a887da4292476bbd802d514a9578f41e4f2f7cb5c21cbb7006fc37fd065316ea
     home: https://grafana.net
     icon: https://raw.githubusercontent.com/grafana/grafana/master/public/img/logo_transparent_400x.png
     kubeVersion: ^1.8.0-0
@@ -119,7 +119,7 @@ entries:
     version: 4.6.0
   - apiVersion: v1
     appVersion: 6.5.2
-    created: "2020-05-07T14:12:45.322772+03:00"
+    created: "2020-05-11T11:13:13.66582548+03:00"
     dependencies:
     - name: v3io-configs
       repository: https://v3io.github.io/helm-charts/stable
@@ -144,7 +144,7 @@ entries:
     version: 4.5.0
   - apiVersion: v1
     appVersion: 6.5.2
-    created: "2020-05-07T14:12:45.319791+03:00"
+    created: "2020-05-11T11:13:13.664346449+03:00"
     dependencies:
     - name: v3io-configs
       repository: https://v3io.github.io/helm-charts/stable
@@ -170,13 +170,13 @@ entries:
   hive:
   - apiVersion: v1
     appVersion: '>=2.0.0'
-    created: "2020-05-07T14:12:45.333129+03:00"
+    created: "2020-05-11T11:13:13.671993071+03:00"
     dependencies:
     - name: v3io-configs
       repository: https://v3io.github.io/helm-charts/stable
       version: 0.8.0
     description: Hive metastore service
-    digest: 0e59d1ac135f39ab4741e626edc28f05c5eed01684f5fe801854e70af7dc39e6
+    digest: e094df2fd1f9ff7ba835d268a0f800dd060aacfcd064cb86c63c99d1a1917aa9
     home: https://iguazio.com
     icon: https://www.iguazio.com/wp-content/uploads/2017/09/iguazio_logo_2017_w_c.png
     maintainers:
@@ -190,7 +190,7 @@ entries:
     version: 0.3.0
   - apiVersion: v1
     appVersion: '>=2.0.0'
-    created: "2020-05-07T14:12:45.331998+03:00"
+    created: "2020-05-11T11:13:13.671317484+03:00"
     dependencies:
     - name: v3io-configs
       repository: https://v3io.github.io/helm-charts/stable
@@ -210,7 +210,7 @@ entries:
     version: 0.2.2
   - apiVersion: v1
     appVersion: '>=2.0.0'
-    created: "2020-05-07T14:12:45.330751+03:00"
+    created: "2020-05-11T11:13:13.670598314+03:00"
     dependencies:
     - name: v3io-configs
       repository: https://v3io.github.io/helm-charts/stable
@@ -230,7 +230,7 @@ entries:
     version: 0.2.1
   - apiVersion: v1
     appVersion: '>=2.0.0'
-    created: "2020-05-07T14:12:45.329606+03:00"
+    created: "2020-05-11T11:13:13.66992312+03:00"
     dependencies:
     - name: v3io-configs
       repository: https://v3io.github.io/helm-charts/stable
@@ -250,7 +250,7 @@ entries:
     version: 0.2.0
   - apiVersion: v1
     appVersion: '>=2.0.0'
-    created: "2020-05-07T14:12:45.328458+03:00"
+    created: "2020-05-11T11:13:13.669270144+03:00"
     dependencies:
     - name: v3io-configs
       repository: https://v3io.github.io/helm-charts/stable
@@ -270,7 +270,7 @@ entries:
     version: 0.1.1
   - apiVersion: v1
     appVersion: '>=2.0.0'
-    created: "2020-05-07T14:12:45.327375+03:00"
+    created: "2020-05-11T11:13:13.668050725+03:00"
     dependencies:
     - name: v3io-configs
       repository: https://v3io.github.io/helm-charts/stable
@@ -290,7 +290,7 @@ entries:
     version: 0.1.0
   iguazio-system:
   - apiVersion: v1
-    created: "2020-05-07T14:12:45.410576+03:00"
+    created: "2020-05-11T11:13:13.725942059+03:00"
     dependencies:
     - condition: prometheus.enabled
       name: prometheus
@@ -309,7 +309,7 @@ entries:
       repository: https://v3io.github.io/helm-charts/stable
       version: 0.3.0
     description: A Helm chart for creating iguazio-system namespace and jobs
-    digest: 58869184e333201577d960309dc7191cfc91cd75ff6e959400f92e5533c89766
+    digest: 1f8dfcfeda6cf1b408ad8575a6d9c528c212fb9517d9112ba772ecaaf6227d49
     home: https://iguazio.com
     icon: https://www.iguazio.com/wp-content/uploads/2017/09/iguazio_logo_2017_w_c.png
     maintainers:
@@ -322,7 +322,7 @@ entries:
     - https://v3io.github.io/helm-charts/stable/iguazio-system-0.5.0.tgz
     version: 0.5.0
   - apiVersion: v1
-    created: "2020-05-07T14:12:45.406108+03:00"
+    created: "2020-05-11T11:13:13.722669633+03:00"
     dependencies:
     - condition: prometheus.enabled
       name: prometheus
@@ -354,7 +354,7 @@ entries:
     - https://v3io.github.io/helm-charts/stable/iguazio-system-0.4.8.tgz
     version: 0.4.8
   - apiVersion: v1
-    created: "2020-05-07T14:12:45.401264+03:00"
+    created: "2020-05-11T11:13:13.719006929+03:00"
     dependencies:
     - condition: prometheus.enabled
       name: prometheus
@@ -386,7 +386,7 @@ entries:
     - https://v3io.github.io/helm-charts/stable/iguazio-system-0.4.7.tgz
     version: 0.4.7
   - apiVersion: v1
-    created: "2020-05-07T14:12:45.396117+03:00"
+    created: "2020-05-11T11:13:13.715783351+03:00"
     dependencies:
     - condition: prometheus.enabled
       name: prometheus
@@ -418,7 +418,7 @@ entries:
     - https://v3io.github.io/helm-charts/stable/iguazio-system-0.4.6.tgz
     version: 0.4.6
   - apiVersion: v1
-    created: "2020-05-07T14:12:45.391155+03:00"
+    created: "2020-05-11T11:13:13.712043087+03:00"
     dependencies:
     - condition: prometheus.enabled
       name: prometheus
@@ -450,7 +450,7 @@ entries:
     - https://v3io.github.io/helm-charts/stable/iguazio-system-0.4.5.tgz
     version: 0.4.5
   - apiVersion: v1
-    created: "2020-05-07T14:12:45.385943+03:00"
+    created: "2020-05-11T11:13:13.708772571+03:00"
     dependencies:
     - condition: prometheus.enabled
       name: prometheus
@@ -482,7 +482,7 @@ entries:
     - https://v3io.github.io/helm-charts/stable/iguazio-system-0.4.4.tgz
     version: 0.4.4
   - apiVersion: v1
-    created: "2020-05-07T14:12:45.381422+03:00"
+    created: "2020-05-11T11:13:13.704687354+03:00"
     dependencies:
     - condition: prometheus.enabled
       name: prometheus
@@ -514,7 +514,7 @@ entries:
     - https://v3io.github.io/helm-charts/stable/iguazio-system-0.4.3.tgz
     version: 0.4.3
   - apiVersion: v1
-    created: "2020-05-07T14:12:45.376337+03:00"
+    created: "2020-05-11T11:13:13.701416011+03:00"
     dependencies:
     - condition: prometheus.enabled
       name: prometheus
@@ -546,7 +546,7 @@ entries:
     - https://v3io.github.io/helm-charts/stable/iguazio-system-0.4.2.tgz
     version: 0.4.2
   - apiVersion: v1
-    created: "2020-05-07T14:12:45.37095+03:00"
+    created: "2020-05-11T11:13:13.697662972+03:00"
     dependencies:
     - condition: prometheus.enabled
       name: prometheus
@@ -578,7 +578,7 @@ entries:
     - https://v3io.github.io/helm-charts/stable/iguazio-system-0.4.1.tgz
     version: 0.4.1
   - apiVersion: v1
-    created: "2020-05-07T14:12:45.365673+03:00"
+    created: "2020-05-11T11:13:13.694408603+03:00"
     dependencies:
     - condition: prometheus.enabled
       name: prometheus
@@ -610,7 +610,7 @@ entries:
     - https://v3io.github.io/helm-charts/stable/iguazio-system-0.4.0.tgz
     version: 0.4.0
   - apiVersion: v1
-    created: "2020-05-07T14:12:45.360939+03:00"
+    created: "2020-05-11T11:13:13.690577696+03:00"
     dependencies:
     - condition: prometheus.enabled
       name: prometheus
@@ -642,7 +642,7 @@ entries:
     - https://v3io.github.io/helm-charts/stable/iguazio-system-0.3.0.tgz
     version: 0.3.0
   - apiVersion: v1
-    created: "2020-05-07T14:12:45.356614+03:00"
+    created: "2020-05-11T11:13:13.687463772+03:00"
     dependencies:
     - condition: prometheus.enabled
       name: prometheus
@@ -673,7 +673,7 @@ entries:
     - https://v3io.github.io/helm-charts/stable/iguazio-system-0.2.1.tgz
     version: 0.2.1
   - apiVersion: v1
-    created: "2020-05-07T14:12:45.351745+03:00"
+    created: "2020-05-11T11:13:13.684534792+03:00"
     dependencies:
     - condition: prometheus.enabled
       name: prometheus
@@ -704,7 +704,7 @@ entries:
     - https://v3io.github.io/helm-charts/stable/iguazio-system-0.2.0.tgz
     version: 0.2.0
   - apiVersion: v1
-    created: "2020-05-07T14:12:45.347331+03:00"
+    created: "2020-05-11T11:13:13.680933134+03:00"
     dependencies:
     - condition: prometheus.enabled
       name: prometheus
@@ -735,7 +735,7 @@ entries:
     - https://v3io.github.io/helm-charts/stable/iguazio-system-0.1.2.tgz
     version: 0.1.2
   - apiVersion: v1
-    created: "2020-05-07T14:12:45.341511+03:00"
+    created: "2020-05-11T11:13:13.678033047+03:00"
     dependencies:
     - condition: prometheus.enabled
       name: prometheus
@@ -766,7 +766,7 @@ entries:
     - https://v3io.github.io/helm-charts/stable/iguazio-system-0.1.1.tgz
     version: 0.1.1
   - apiVersion: v1
-    created: "2020-05-07T14:12:45.337357+03:00"
+    created: "2020-05-11T11:13:13.674482767+03:00"
     dependencies:
     - condition: prometheus.enabled
       name: prometheus
@@ -795,7 +795,30 @@ entries:
   jupyter:
   - apiVersion: v1
     appVersion: '>=2.0.0'
-    created: "2020-05-07T14:12:45.512708+03:00"
+    created: "2020-05-11T11:13:13.790782749+03:00"
+    dependencies:
+    - name: v3io-configs
+      repository: https://v3io.github.io/helm-charts/stable
+      version: 0.8.0
+    - name: pvc
+      repository: https://v3io.github.io/helm-charts/stable
+      version: 0.1.0
+    description: Jupyter
+    digest: 9bfffd6a3941416a8c55ecfd751b5745c3aa0d4ef2a74fd3053593715b8310cc
+    home: https://jupyter.org/
+    icon: https://jupyter.org/assets/nav_logo.svg
+    maintainers:
+    - email: eliranb@iguazio.com
+      name: bivas
+    name: jupyter
+    sources:
+    - https://github.com/jupyter
+    urls:
+    - https://v3io.github.io/helm-charts/stable/jupyter-0.8.4.tgz
+    version: 0.8.4
+  - apiVersion: v1
+    appVersion: '>=2.0.0'
+    created: "2020-05-11T11:13:13.789804429+03:00"
     dependencies:
     - name: v3io-configs
       repository: https://v3io.github.io/helm-charts/stable
@@ -818,7 +841,7 @@ entries:
     version: 0.8.3
   - apiVersion: v1
     appVersion: '>=2.0.0'
-    created: "2020-05-07T14:12:45.511417+03:00"
+    created: "2020-05-11T11:13:13.788826431+03:00"
     dependencies:
     - name: v3io-configs
       repository: https://v3io.github.io/helm-charts/stable
@@ -841,7 +864,7 @@ entries:
     version: 0.8.2
   - apiVersion: v1
     appVersion: '>=2.0.0'
-    created: "2020-05-07T14:12:45.509877+03:00"
+    created: "2020-05-11T11:13:13.787815003+03:00"
     dependencies:
     - name: v3io-configs
       repository: https://v3io.github.io/helm-charts/stable
@@ -864,7 +887,7 @@ entries:
     version: 0.8.1
   - apiVersion: v1
     appVersion: '>=2.0.0'
-    created: "2020-05-07T14:12:45.50759+03:00"
+    created: "2020-05-11T11:13:13.78653594+03:00"
     dependencies:
     - name: v3io-configs
       repository: https://v3io.github.io/helm-charts/stable
@@ -887,7 +910,7 @@ entries:
     version: 0.8.0
   - apiVersion: v1
     appVersion: '>=2.0.0'
-    created: "2020-05-07T14:12:45.492671+03:00"
+    created: "2020-05-11T11:13:13.776716326+03:00"
     dependencies:
     - name: v3io-configs
       repository: https://v3io.github.io/helm-charts/stable
@@ -910,7 +933,7 @@ entries:
     version: 0.7.18
   - apiVersion: v1
     appVersion: '>=2.0.0'
-    created: "2020-05-07T14:12:45.490316+03:00"
+    created: "2020-05-11T11:13:13.775624556+03:00"
     dependencies:
     - name: v3io-configs
       repository: https://v3io.github.io/helm-charts/stable
@@ -933,7 +956,7 @@ entries:
     version: 0.7.17
   - apiVersion: v1
     appVersion: '>=2.0.0'
-    created: "2020-05-07T14:12:45.488799+03:00"
+    created: "2020-05-11T11:13:13.774078895+03:00"
     dependencies:
     - name: v3io-configs
       repository: https://v3io.github.io/helm-charts/stable
@@ -956,7 +979,7 @@ entries:
     version: 0.7.16
   - apiVersion: v1
     appVersion: '>=2.0.0'
-    created: "2020-05-07T14:12:45.487402+03:00"
+    created: "2020-05-11T11:13:13.77294861+03:00"
     dependencies:
     - name: v3io-configs
       repository: https://v3io.github.io/helm-charts/stable
@@ -979,7 +1002,7 @@ entries:
     version: 0.7.15
   - apiVersion: v1
     appVersion: '>=2.0.0'
-    created: "2020-05-07T14:12:45.485929+03:00"
+    created: "2020-05-11T11:13:13.771991116+03:00"
     dependencies:
     - name: v3io-configs
       repository: https://v3io.github.io/helm-charts/stable
@@ -1002,7 +1025,7 @@ entries:
     version: 0.7.14
   - apiVersion: v1
     appVersion: '>=2.0.0'
-    created: "2020-05-07T14:12:45.484283+03:00"
+    created: "2020-05-11T11:13:13.770524444+03:00"
     dependencies:
     - name: v3io-configs
       repository: https://v3io.github.io/helm-charts/stable
@@ -1025,7 +1048,7 @@ entries:
     version: 0.7.13
   - apiVersion: v1
     appVersion: '>=2.0.0'
-    created: "2020-05-07T14:12:45.482783+03:00"
+    created: "2020-05-11T11:13:13.769545044+03:00"
     dependencies:
     - name: v3io-configs
       repository: https://v3io.github.io/helm-charts/stable
@@ -1048,7 +1071,7 @@ entries:
     version: 0.7.12
   - apiVersion: v1
     appVersion: '>=2.0.0'
-    created: "2020-05-07T14:12:45.481256+03:00"
+    created: "2020-05-11T11:13:13.768619911+03:00"
     dependencies:
     - name: v3io-configs
       repository: https://v3io.github.io/helm-charts/stable
@@ -1071,7 +1094,7 @@ entries:
     version: 0.7.11
   - apiVersion: v1
     appVersion: '>=2.0.0'
-    created: "2020-05-07T14:12:45.479023+03:00"
+    created: "2020-05-11T11:13:13.767672787+03:00"
     dependencies:
     - name: v3io-configs
       repository: https://v3io.github.io/helm-charts/stable
@@ -1094,7 +1117,7 @@ entries:
     version: 0.7.10
   - apiVersion: v1
     appVersion: '>=2.0.0'
-    created: "2020-05-07T14:12:45.505893+03:00"
+    created: "2020-05-11T11:13:13.785071721+03:00"
     dependencies:
     - name: v3io-configs
       repository: https://v3io.github.io/helm-charts/stable
@@ -1117,7 +1140,7 @@ entries:
     version: 0.7.9
   - apiVersion: v1
     appVersion: '>=2.0.0'
-    created: "2020-05-07T14:12:45.504438+03:00"
+    created: "2020-05-11T11:13:13.784125942+03:00"
     dependencies:
     - name: v3io-configs
       repository: https://v3io.github.io/helm-charts/stable
@@ -1140,7 +1163,7 @@ entries:
     version: 0.7.8
   - apiVersion: v1
     appVersion: '>=2.0.0'
-    created: "2020-05-07T14:12:45.502834+03:00"
+    created: "2020-05-11T11:13:13.783183387+03:00"
     dependencies:
     - name: v3io-configs
       repository: https://v3io.github.io/helm-charts/stable
@@ -1163,7 +1186,7 @@ entries:
     version: 0.7.7
   - apiVersion: v1
     appVersion: '>=2.0.0'
-    created: "2020-05-07T14:12:45.501195+03:00"
+    created: "2020-05-11T11:13:13.782137171+03:00"
     dependencies:
     - name: v3io-configs
       repository: https://v3io.github.io/helm-charts/stable
@@ -1186,7 +1209,7 @@ entries:
     version: 0.7.6
   - apiVersion: v1
     appVersion: '>=2.0.0'
-    created: "2020-05-07T14:12:45.498758+03:00"
+    created: "2020-05-11T11:13:13.781120238+03:00"
     dependencies:
     - name: v3io-configs
       repository: https://v3io.github.io/helm-charts/stable
@@ -1209,7 +1232,7 @@ entries:
     version: 0.7.5
   - apiVersion: v1
     appVersion: '>=2.0.0'
-    created: "2020-05-07T14:12:45.497167+03:00"
+    created: "2020-05-11T11:13:13.78010418+03:00"
     dependencies:
     - name: v3io-configs
       repository: https://v3io.github.io/helm-charts/stable
@@ -1232,7 +1255,7 @@ entries:
     version: 0.7.4
   - apiVersion: v1
     appVersion: '>=2.0.0'
-    created: "2020-05-07T14:12:45.495654+03:00"
+    created: "2020-05-11T11:13:13.778827801+03:00"
     dependencies:
     - name: v3io-configs
       repository: https://v3io.github.io/helm-charts/stable
@@ -1252,7 +1275,7 @@ entries:
     version: 0.7.3
   - apiVersion: v1
     appVersion: '>=2.0.0'
-    created: "2020-05-07T14:12:45.494138+03:00"
+    created: "2020-05-11T11:13:13.777642351+03:00"
     dependencies:
     - name: v3io-configs
       repository: https://v3io.github.io/helm-charts/stable
@@ -1272,7 +1295,7 @@ entries:
     version: 0.7.2
   - apiVersion: v1
     appVersion: '>=2.0.0'
-    created: "2020-05-07T14:12:45.477454+03:00"
+    created: "2020-05-11T11:13:13.766715335+03:00"
     dependencies:
     - name: v3io-configs
       repository: https://v3io.github.io/helm-charts/stable
@@ -1292,7 +1315,7 @@ entries:
     version: 0.7.1
   - apiVersion: v1
     appVersion: '>=2.0.0'
-    created: "2020-05-07T14:12:45.475909+03:00"
+    created: "2020-05-11T11:13:13.765813191+03:00"
     dependencies:
     - name: v3io-configs
       repository: https://v3io.github.io/helm-charts/stable
@@ -1312,7 +1335,7 @@ entries:
     version: 0.7.0
   - apiVersion: v1
     appVersion: '>=2.0.0'
-    created: "2020-05-07T14:12:45.474494+03:00"
+    created: "2020-05-11T11:13:13.764926271+03:00"
     dependencies:
     - name: v3io-configs
       repository: https://v3io.github.io/helm-charts/stable
@@ -1332,7 +1355,7 @@ entries:
     version: 0.6.9
   - apiVersion: v1
     appVersion: '>=2.0.0'
-    created: "2020-05-07T14:12:45.473057+03:00"
+    created: "2020-05-11T11:13:13.763383933+03:00"
     dependencies:
     - name: v3io-configs
       repository: https://v3io.github.io/helm-charts/stable
@@ -1352,7 +1375,7 @@ entries:
     version: 0.6.8
   - apiVersion: v1
     appVersion: '>=2.0.0'
-    created: "2020-05-07T14:12:45.470741+03:00"
+    created: "2020-05-11T11:13:13.762461843+03:00"
     dependencies:
     - name: v3io-configs
       repository: https://v3io.github.io/helm-charts/stable
@@ -1372,7 +1395,7 @@ entries:
     version: 0.6.7
   - apiVersion: v1
     appVersion: '>=2.0.0'
-    created: "2020-05-07T14:12:45.469205+03:00"
+    created: "2020-05-11T11:13:13.761565114+03:00"
     dependencies:
     - name: v3io-configs
       repository: https://v3io.github.io/helm-charts/stable
@@ -1392,7 +1415,7 @@ entries:
     version: 0.6.6
   - apiVersion: v1
     appVersion: '>=2.0.0'
-    created: "2020-05-07T14:12:45.467771+03:00"
+    created: "2020-05-11T11:13:13.760671286+03:00"
     dependencies:
     - name: v3io-configs
       repository: https://v3io.github.io/helm-charts/stable
@@ -1412,7 +1435,7 @@ entries:
     version: 0.6.5
   - apiVersion: v1
     appVersion: '>=2.0.0'
-    created: "2020-05-07T14:12:45.46636+03:00"
+    created: "2020-05-11T11:13:13.759783624+03:00"
     dependencies:
     - name: v3io-configs
       repository: https://v3io.github.io/helm-charts/stable
@@ -1432,7 +1455,7 @@ entries:
     version: 0.6.4
   - apiVersion: v1
     appVersion: '>=2.0.0'
-    created: "2020-05-07T14:12:45.464956+03:00"
+    created: "2020-05-11T11:13:13.758875671+03:00"
     dependencies:
     - name: v3io-configs
       repository: https://v3io.github.io/helm-charts/stable
@@ -1452,7 +1475,7 @@ entries:
     version: 0.6.3
   - apiVersion: v1
     appVersion: '>=2.0.0'
-    created: "2020-05-07T14:12:45.463539+03:00"
+    created: "2020-05-11T11:13:13.757448237+03:00"
     dependencies:
     - name: v3io-configs
       repository: https://v3io.github.io/helm-charts/stable
@@ -1472,7 +1495,7 @@ entries:
     version: 0.6.2
   - apiVersion: v1
     appVersion: '>=2.0.0'
-    created: "2020-05-07T14:12:45.461454+03:00"
+    created: "2020-05-11T11:13:13.755712591+03:00"
     dependencies:
     - name: v3io-configs
       repository: https://v3io.github.io/helm-charts/stable
@@ -1492,7 +1515,7 @@ entries:
     version: 0.6.1
   - apiVersion: v1
     appVersion: '>=2.0.0'
-    created: "2020-05-07T14:12:45.459967+03:00"
+    created: "2020-05-11T11:13:13.754715125+03:00"
     dependencies:
     - name: v3io-configs
       repository: https://v3io.github.io/helm-charts/stable
@@ -1512,7 +1535,7 @@ entries:
     version: 0.6.0
   - apiVersion: v1
     appVersion: '>=2.0.0'
-    created: "2020-05-07T14:12:45.458502+03:00"
+    created: "2020-05-11T11:13:13.753584589+03:00"
     dependencies:
     - name: v3io-configs
       repository: https://v3io.github.io/helm-charts/stable
@@ -1532,7 +1555,7 @@ entries:
     version: 0.5.0
   - apiVersion: v1
     appVersion: '>=2.0.0'
-    created: "2020-05-07T14:12:45.456993+03:00"
+    created: "2020-05-11T11:13:13.752655799+03:00"
     dependencies:
     - name: v3io-configs
       repository: https://v3io.github.io/helm-charts/stable
@@ -1552,7 +1575,7 @@ entries:
     version: 0.4.2
   - apiVersion: v1
     appVersion: '>=2.0.0'
-    created: "2020-05-07T14:12:45.455481+03:00"
+    created: "2020-05-11T11:13:13.751812913+03:00"
     dependencies:
     - name: v3io-configs
       repository: https://v3io.github.io/helm-charts/stable
@@ -1572,7 +1595,7 @@ entries:
     version: 0.4.1
   - apiVersion: v1
     appVersion: '>=2.0.0'
-    created: "2020-05-07T14:12:45.440186+03:00"
+    created: "2020-05-11T11:13:13.744209166+03:00"
     dependencies:
     - name: v3io-configs
       repository: https://v3io.github.io/helm-charts/stable
@@ -1592,7 +1615,7 @@ entries:
     version: 0.3.15
   - apiVersion: v1
     appVersion: '>=2.0.0'
-    created: "2020-05-07T14:12:45.438918+03:00"
+    created: "2020-05-11T11:13:13.743360655+03:00"
     dependencies:
     - name: v3io-configs
       repository: https://v3io.github.io/helm-charts/stable
@@ -1612,7 +1635,7 @@ entries:
     version: 0.3.14
   - apiVersion: v1
     appVersion: '>=2.0.0'
-    created: "2020-05-07T14:12:45.43758+03:00"
+    created: "2020-05-11T11:13:13.741895982+03:00"
     dependencies:
     - name: v3io-configs
       repository: https://v3io.github.io/helm-charts/stable
@@ -1632,7 +1655,7 @@ entries:
     version: 0.3.13
   - apiVersion: v1
     appVersion: '>=2.0.0'
-    created: "2020-05-07T14:12:45.43635+03:00"
+    created: "2020-05-11T11:13:13.741103429+03:00"
     dependencies:
     - name: v3io-configs
       repository: https://v3io.github.io/helm-charts/stable
@@ -1652,7 +1675,7 @@ entries:
     version: 0.3.12
   - apiVersion: v1
     appVersion: '>=2.0.0'
-    created: "2020-05-07T14:12:45.435051+03:00"
+    created: "2020-05-11T11:13:13.740314848+03:00"
     dependencies:
     - name: v3io-configs
       repository: https://v3io.github.io/helm-charts/stable
@@ -1672,7 +1695,7 @@ entries:
     version: 0.3.11
   - apiVersion: v1
     appVersion: '>=2.0.0'
-    created: "2020-05-07T14:12:45.433574+03:00"
+    created: "2020-05-11T11:13:13.739526812+03:00"
     dependencies:
     - name: v3io-configs
       repository: https://v3io.github.io/helm-charts/stable
@@ -1692,7 +1715,7 @@ entries:
     version: 0.3.10
   - apiVersion: v1
     appVersion: '>=2.0.0'
-    created: "2020-05-07T14:12:45.454081+03:00"
+    created: "2020-05-11T11:13:13.751007234+03:00"
     dependencies:
     - name: v3io-configs
       repository: https://v3io.github.io/helm-charts/stable
@@ -1712,7 +1735,7 @@ entries:
     version: 0.3.9
   - apiVersion: v1
     appVersion: '>=2.0.0'
-    created: "2020-05-07T14:12:45.451853+03:00"
+    created: "2020-05-11T11:13:13.750223571+03:00"
     dependencies:
     - name: v3io-configs
       repository: https://v3io.github.io/helm-charts/stable
@@ -1732,7 +1755,7 @@ entries:
     version: 0.3.8
   - apiVersion: v1
     appVersion: '>=2.0.0'
-    created: "2020-05-07T14:12:45.45033+03:00"
+    created: "2020-05-11T11:13:13.74943368+03:00"
     dependencies:
     - name: v3io-configs
       repository: https://v3io.github.io/helm-charts/stable
@@ -1752,7 +1775,7 @@ entries:
     version: 0.3.7
   - apiVersion: v1
     appVersion: '>=2.0.0'
-    created: "2020-05-07T14:12:45.448605+03:00"
+    created: "2020-05-11T11:13:13.748153623+03:00"
     dependencies:
     - name: v3io-configs
       repository: https://v3io.github.io/helm-charts/stable
@@ -1772,7 +1795,7 @@ entries:
     version: 0.3.6
   - apiVersion: v1
     appVersion: '>=2.0.0'
-    created: "2020-05-07T14:12:45.446929+03:00"
+    created: "2020-05-11T11:13:13.74736149+03:00"
     dependencies:
     - name: v3io-configs
       repository: https://v3io.github.io/helm-charts/stable
@@ -1792,7 +1815,7 @@ entries:
     version: 0.3.5
   - apiVersion: v1
     appVersion: '>=2.0.0'
-    created: "2020-05-07T14:12:45.445158+03:00"
+    created: "2020-05-11T11:13:13.746578876+03:00"
     dependencies:
     - name: v3io-configs
       repository: https://v3io.github.io/helm-charts/stable
@@ -1812,7 +1835,7 @@ entries:
     version: 0.3.4
   - apiVersion: v1
     appVersion: '>=2.0.0'
-    created: "2020-05-07T14:12:45.443579+03:00"
+    created: "2020-05-11T11:13:13.74579724+03:00"
     dependencies:
     - name: v3io-configs
       repository: https://v3io.github.io/helm-charts/stable
@@ -1832,7 +1855,7 @@ entries:
     version: 0.3.3
   - apiVersion: v1
     appVersion: '>=2.0.0'
-    created: "2020-05-07T14:12:45.442111+03:00"
+    created: "2020-05-11T11:13:13.745023236+03:00"
     dependencies:
     - name: v3io-configs
       repository: https://v3io.github.io/helm-charts/stable
@@ -1852,7 +1875,7 @@ entries:
     version: 0.3.2
   - apiVersion: v1
     appVersion: '>=2.0.0'
-    created: "2020-05-07T14:12:45.431526+03:00"
+    created: "2020-05-11T11:13:13.738723225+03:00"
     dependencies:
     - name: v3io-configs
       repository: https://v3io.github.io/helm-charts/stable
@@ -1872,7 +1895,7 @@ entries:
     version: 0.3.1
   - apiVersion: v1
     appVersion: '>=2.0.0'
-    created: "2020-05-07T14:12:45.430313+03:00"
+    created: "2020-05-11T11:13:13.737907362+03:00"
     dependencies:
     - name: v3io-configs
       repository: https://v3io.github.io/helm-charts/stable
@@ -1892,7 +1915,7 @@ entries:
     version: 0.3.0
   - apiVersion: v1
     appVersion: '>=2.0.0'
-    created: "2020-05-07T14:12:45.429031+03:00"
+    created: "2020-05-11T11:13:13.737062687+03:00"
     dependencies:
     - name: v3io-configs
       repository: https://v3io.github.io/helm-charts/stable
@@ -1912,7 +1935,7 @@ entries:
     version: 0.2.1
   - apiVersion: v1
     appVersion: '>=2.0.0'
-    created: "2020-05-07T14:12:45.427888+03:00"
+    created: "2020-05-11T11:13:13.736342192+03:00"
     dependencies:
     - name: v3io-configs
       repository: https://v3io.github.io/helm-charts/stable
@@ -1932,7 +1955,7 @@ entries:
     version: 0.2.0
   - apiVersion: v1
     appVersion: '>=2.0.0'
-    created: "2020-05-07T14:12:45.416185+03:00"
+    created: "2020-05-11T11:13:13.728774836+03:00"
     dependencies:
     - name: v3io-configs
       repository: https://v3io.github.io/helm-charts/stable
@@ -1952,7 +1975,7 @@ entries:
     version: 0.1.11
   - apiVersion: v1
     appVersion: '>=2.0.0'
-    created: "2020-05-07T14:12:45.414379+03:00"
+    created: "2020-05-11T11:13:13.728019101+03:00"
     dependencies:
     - name: v3io-configs
       repository: https://v3io.github.io/helm-charts/stable
@@ -1972,7 +1995,7 @@ entries:
     version: 0.1.10
   - apiVersion: v1
     appVersion: '>=2.0.0'
-    created: "2020-05-07T14:12:45.426651+03:00"
+    created: "2020-05-11T11:13:13.735155156+03:00"
     dependencies:
     - name: v3io-configs
       repository: https://v3io.github.io/helm-charts/stable
@@ -1992,7 +2015,7 @@ entries:
     version: 0.1.9
   - apiVersion: v1
     appVersion: '>=2.0.0'
-    created: "2020-05-07T14:12:45.425389+03:00"
+    created: "2020-05-11T11:13:13.734427731+03:00"
     dependencies:
     - name: v3io-configs
       repository: https://v3io.github.io/helm-charts/stable
@@ -2012,7 +2035,7 @@ entries:
     version: 0.1.8
   - apiVersion: v1
     appVersion: '>=2.0.0'
-    created: "2020-05-07T14:12:45.424196+03:00"
+    created: "2020-05-11T11:13:13.733698455+03:00"
     dependencies:
     - name: v3io-configs
       repository: file://../v3io-configs
@@ -2032,7 +2055,7 @@ entries:
     version: 0.1.7
   - apiVersion: v1
     appVersion: '>=2.0.0'
-    created: "2020-05-07T14:12:45.422449+03:00"
+    created: "2020-05-11T11:13:13.732966613+03:00"
     dependencies:
     - name: v3io-configs
       repository: file://../v3io-configs
@@ -2052,7 +2075,7 @@ entries:
     version: 0.1.6
   - apiVersion: v1
     appVersion: '>=2.0.0'
-    created: "2020-05-07T14:12:45.421243+03:00"
+    created: "2020-05-11T11:13:13.732240525+03:00"
     dependencies:
     - name: v3io-configs
       repository: file://../v3io-configs
@@ -2072,7 +2095,7 @@ entries:
     version: 0.1.5
   - apiVersion: v1
     appVersion: '>=2.0.0'
-    created: "2020-05-07T14:12:45.419878+03:00"
+    created: "2020-05-11T11:13:13.731494942+03:00"
     dependencies:
     - name: v3io-configs
       repository: file://../v3io-configs
@@ -2092,7 +2115,7 @@ entries:
     version: 0.1.4
   - apiVersion: v1
     appVersion: '>=2.0.0'
-    created: "2020-05-07T14:12:45.418557+03:00"
+    created: "2020-05-11T11:13:13.730772174+03:00"
     dependencies:
     - name: v3io-configs
       repository: file://../v3io-configs
@@ -2112,7 +2135,7 @@ entries:
     version: 0.1.3
   - apiVersion: v1
     appVersion: '>=2.0.0'
-    created: "2020-05-07T14:12:45.41735+03:00"
+    created: "2020-05-11T11:13:13.730030707+03:00"
     dependencies:
     - name: v3io-configs
       repository: file://../v3io-configs
@@ -2132,7 +2155,7 @@ entries:
     version: 0.1.2
   - apiVersion: v1
     appVersion: '>=2.0.0'
-    created: "2020-05-07T14:12:45.413001+03:00"
+    created: "2020-05-11T11:13:13.727236364+03:00"
     dependencies:
     - name: v3io-configs
       repository: file://../v3io-configs
@@ -2152,7 +2175,7 @@ entries:
     version: 0.1.1
   - apiVersion: v1
     appVersion: '>=2.0.0'
-    created: "2020-05-07T14:12:45.411692+03:00"
+    created: "2020-05-11T11:13:13.726506129+03:00"
     dependencies:
     - name: v3io-configs
       repository: file://../v3io-configs
@@ -2173,13 +2196,13 @@ entries:
   jupyterhub:
   - apiVersion: v1
     appVersion: 0.9.2
-    created: "2020-05-07T14:12:45.533179+03:00"
+    created: "2020-05-11T11:13:13.804589958+03:00"
     dependencies:
     - name: v3io-configs
       repository: https://v3io.github.io/helm-charts/stable
       version: 0.5.2
     description: Multi-user Jupyter installation
-    digest: 0464c89c23846ece38e45ab81f55c380ebf839dd840bb78d6a609c23675cdac7
+    digest: b2c04446f680f3dd8bfb61a8244b5a753ef36e1aa23e169f8d11c25552366aa1
     home: https://z2jh.jupyter.org
     icon: https://jupyter.org/assets/hublogo.svg
     kubeVersion: '>=1.8.0-0'
@@ -2191,7 +2214,7 @@ entries:
     version: 0.7.8
   - apiVersion: v1
     appVersion: 0.9.2
-    created: "2020-05-07T14:12:45.531036+03:00"
+    created: "2020-05-11T11:13:13.802962019+03:00"
     dependencies:
     - name: v3io-configs
       repository: https://v3io.github.io/helm-charts/stable
@@ -2209,7 +2232,7 @@ entries:
     version: 0.7.7
   - apiVersion: v1
     appVersion: 0.9.2
-    created: "2020-05-07T14:12:45.527982+03:00"
+    created: "2020-05-11T11:13:13.801374811+03:00"
     dependencies:
     - name: v3io-configs
       repository: https://v3io.github.io/helm-charts/stable
@@ -2227,7 +2250,7 @@ entries:
     version: 0.7.6
   - apiVersion: v1
     appVersion: 0.9.2
-    created: "2020-05-07T14:12:45.525479+03:00"
+    created: "2020-05-11T11:13:13.799262088+03:00"
     dependencies:
     - name: v3io-configs
       repository: https://v3io.github.io/helm-charts/stable
@@ -2245,7 +2268,7 @@ entries:
     version: 0.7.5
   - apiVersion: v1
     appVersion: 0.9.2
-    created: "2020-05-07T14:12:45.523216+03:00"
+    created: "2020-05-11T11:13:13.797667556+03:00"
     dependencies:
     - name: v3io-configs
       repository: https://v3io.github.io/helm-charts/stable
@@ -2263,7 +2286,7 @@ entries:
     version: 0.7.4
   - apiVersion: v1
     appVersion: 0.9.2
-    created: "2020-05-07T14:12:45.520817+03:00"
+    created: "2020-05-11T11:13:13.796100282+03:00"
     dependencies:
     - name: v3io-configs
       repository: https://v3io.github.io/helm-charts/stable
@@ -2281,7 +2304,7 @@ entries:
     version: 0.7.3
   - apiVersion: v1
     appVersion: 0.9.2
-    created: "2020-05-07T14:12:45.518222+03:00"
+    created: "2020-05-11T11:13:13.794481618+03:00"
     dependencies:
     - name: v3io-configs
       repository: https://v3io.github.io/helm-charts/stable
@@ -2299,7 +2322,7 @@ entries:
     version: 0.7.2
   - apiVersion: v1
     appVersion: 0.9.2
-    created: "2020-05-07T14:12:45.515047+03:00"
+    created: "2020-05-11T11:13:13.792354133+03:00"
     dependencies:
     - name: v3io-configs
       repository: https://v3io.github.io/helm-charts/stable
@@ -2318,13 +2341,13 @@ entries:
   mariadb:
   - apiVersion: v1
     appVersion: '>=2.0.0'
-    created: "2020-05-07T14:12:45.540189+03:00"
+    created: "2020-05-11T11:13:13.80984517+03:00"
     dependencies:
     - name: v3io-configs
       repository: https://v3io.github.io/helm-charts/stable
       version: 0.8.0
     description: MariaDB (MySQL) service
-    digest: 5f2823face07ba495b55fd93ac2b717febf3a28f99fff5db1fc51a9d2d9da031
+    digest: 97cedc428965360e6446db5634980691da6efd99468eb04ffc4e6ab3d764a091
     home: https://iguazio.com
     icon: https://www.iguazio.com/wp-content/uploads/2017/09/iguazio_logo_2017_w_c.png
     maintainers:
@@ -2338,7 +2361,7 @@ entries:
     version: 0.3.0
   - apiVersion: v1
     appVersion: '>=2.0.0'
-    created: "2020-05-07T14:12:45.539208+03:00"
+    created: "2020-05-11T11:13:13.808138903+03:00"
     dependencies:
     - name: v3io-configs
       repository: https://v3io.github.io/helm-charts/stable
@@ -2358,7 +2381,7 @@ entries:
     version: 0.2.3
   - apiVersion: v1
     appVersion: '>=2.0.0'
-    created: "2020-05-07T14:12:45.538066+03:00"
+    created: "2020-05-11T11:13:13.807110731+03:00"
     dependencies:
     - name: v3io-configs
       repository: https://v3io.github.io/helm-charts/stable
@@ -2378,7 +2401,7 @@ entries:
     version: 0.2.2
   - apiVersion: v1
     appVersion: '>=2.0.0'
-    created: "2020-05-07T14:12:45.536394+03:00"
+    created: "2020-05-11T11:13:13.806378413+03:00"
     dependencies:
     - name: v3io-configs
       repository: https://v3io.github.io/helm-charts/stable
@@ -2398,7 +2421,7 @@ entries:
     version: 0.2.1
   - apiVersion: v1
     appVersion: '>=2.0.0'
-    created: "2020-05-07T14:12:45.535227+03:00"
+    created: "2020-05-11T11:13:13.80577382+03:00"
     dependencies:
     - name: v3io-configs
       repository: https://v3io.github.io/helm-charts/stable
@@ -2418,7 +2441,7 @@ entries:
     version: 0.2.0
   - apiVersion: v1
     appVersion: '>=2.0.0'
-    created: "2020-05-07T14:12:45.534225+03:00"
+    created: "2020-05-11T11:13:13.805186457+03:00"
     dependencies:
     - name: v3io-configs
       repository: https://v3io.github.io/helm-charts/stable
@@ -2439,9 +2462,9 @@ entries:
   metrics-server-exporter:
   - apiVersion: v1
     appVersion: '>=2.0.0'
-    created: "2020-05-07T14:12:45.544764+03:00"
+    created: "2020-05-11T11:13:13.812756918+03:00"
     description: K8s metrics exporter in prometheus format
-    digest: 3b15c577d8d55ca27a5ad4a21904e3b1f3640eff2205050e60f91ca92a622e8b
+    digest: 87b3d6fb9ed9a54fc0689d27244c7490cea2b7d6be1bee67531cc0df454e19f3
     home: https://iguazio.com
     icon: https://www.iguazio.com/wp-content/uploads/2017/09/iguazio_logo_2017_w_c.png
     maintainers:
@@ -2457,7 +2480,7 @@ entries:
     version: 0.3.0
   - apiVersion: v1
     appVersion: '>=2.0.0'
-    created: "2020-05-07T14:12:45.544307+03:00"
+    created: "2020-05-11T11:13:13.812476006+03:00"
     description: K8s metrics exporter in prometheus format
     digest: d783df6599b16e75c3e38ac17024d9de5569397066409c1e4ec616158151b8e7
     home: https://iguazio.com
@@ -2475,7 +2498,7 @@ entries:
     version: 0.2.1
   - apiVersion: v1
     appVersion: '>=2.0.0'
-    created: "2020-05-07T14:12:45.543712+03:00"
+    created: "2020-05-11T11:13:13.812178743+03:00"
     description: K8s metrics exporter in prometheus format
     digest: 861f5af029a8641c52843687f164e6f2a9afb97013eb6a743ceb4977121d8996
     home: https://iguazio.com
@@ -2493,7 +2516,7 @@ entries:
     version: 0.2.0
   - apiVersion: v1
     appVersion: '>=2.0.0'
-    created: "2020-05-07T14:12:45.543139+03:00"
+    created: "2020-05-11T11:13:13.811896391+03:00"
     description: K8s metrics exporter in prometheus format
     digest: dae31fd360ebe6da122fa257609798a4b40cdc93f2fdd1932db93f6a1ef43f5d
     home: https://iguazio.com
@@ -2509,7 +2532,7 @@ entries:
     version: 0.1.4
   - apiVersion: v1
     appVersion: '>=2.0.0'
-    created: "2020-05-07T14:12:45.542578+03:00"
+    created: "2020-05-11T11:13:13.811622133+03:00"
     description: K8s metrics exporter in prometheus format
     digest: fcabe858860bca059887b583334082016d7626c758d2909dc277e37bfa32d9dc
     home: https://iguazio.com
@@ -2525,7 +2548,7 @@ entries:
     version: 0.1.3
   - apiVersion: v1
     appVersion: '>=2.0.0'
-    created: "2020-05-07T14:12:45.541966+03:00"
+    created: "2020-05-11T11:13:13.811262212+03:00"
     description: K8s metrics exporter in prometheus format
     digest: 2f94f6fb970021522976ef2c486ebc668e5d1e7e426aa8d31b4bb4f5754274af
     home: https://iguazio.com
@@ -2541,7 +2564,7 @@ entries:
     version: 0.1.2
   - apiVersion: v1
     appVersion: '>=2.0.0'
-    created: "2020-05-07T14:12:45.541372+03:00"
+    created: "2020-05-11T11:13:13.810477449+03:00"
     description: K8s metrics exporter in prometheus format
     digest: 7196d0e2f4c8ac27e438412dc97db5a6824e1fa6330670d3e9cba150318ae126
     home: https://iguazio.com
@@ -2557,7 +2580,7 @@ entries:
     version: 0.1.1
   - apiVersion: v1
     appVersion: '>=2.0.0'
-    created: "2020-05-07T14:12:45.540818+03:00"
+    created: "2020-05-11T11:13:13.810149117+03:00"
     description: K8s metrics exporter in prometheus format
     digest: fa1c7560dd39d1ca96f3ff05fefea5d58159ab5044ab7262634424e0a547edb3
     home: https://iguazio.com
@@ -2574,13 +2597,13 @@ entries:
   mlrun:
   - apiVersion: v1
     appVersion: 0.4.3
-    created: "2020-05-07T14:12:45.552075+03:00"
+    created: "2020-05-11T11:13:13.817158438+03:00"
     dependencies:
     - name: v3io-configs
       repository: https://v3io.github.io/helm-charts/stable
       version: 0.8.0
     description: Machine Learning automation and tracking
-    digest: b9415038b34972dd265da46bc9be9b478926a788d8ea16f148e2e614031fdaf1
+    digest: 8a6e7144b4de8e7ab43e0602b8376d210b29f5fb08b4900b2e32c791fb1284e5
     icon: https://di5r923elu32w2e633ofbxj9-wpengine.netdna-ssl.com/wp-content/uploads/2019/10/Iguazio-Logo.png
     maintainers:
     - email: hedii@iguazio.com
@@ -2593,7 +2616,7 @@ entries:
     version: 0.3.2
   - apiVersion: v1
     appVersion: 0.4.3
-    created: "2020-05-07T14:12:45.551029+03:00"
+    created: "2020-05-11T11:13:13.816092135+03:00"
     dependencies:
     - name: v3io-configs
       repository: https://v3io.github.io/helm-charts/stable
@@ -2612,7 +2635,7 @@ entries:
     version: 0.3.1
   - apiVersion: v1
     appVersion: 0.4.3
-    created: "2020-05-07T14:12:45.549933+03:00"
+    created: "2020-05-11T11:13:13.815414284+03:00"
     dependencies:
     - name: v3io-configs
       repository: https://v3io.github.io/helm-charts/stable
@@ -2631,7 +2654,7 @@ entries:
     version: 0.3.0
   - apiVersion: v1
     appVersion: 0.4.3
-    created: "2020-05-07T14:12:45.548799+03:00"
+    created: "2020-05-11T11:13:13.814751701+03:00"
     dependencies:
     - name: v3io-configs
       repository: https://v3io.github.io/helm-charts/stable
@@ -2650,7 +2673,7 @@ entries:
     version: 0.2.1
   - apiVersion: v1
     appVersion: 0.4.3
-    created: "2020-05-07T14:12:45.546964+03:00"
+    created: "2020-05-11T11:13:13.814081523+03:00"
     dependencies:
     - name: v3io-configs
       repository: https://v3io.github.io/helm-charts/stable
@@ -2669,7 +2692,7 @@ entries:
     version: 0.2.0
   - apiVersion: v1
     appVersion: 0.4.3
-    created: "2020-05-07T14:12:45.545877+03:00"
+    created: "2020-05-11T11:13:13.813420502+03:00"
     dependencies:
     - name: v3io-configs
       repository: https://v3io.github.io/helm-charts/stable
@@ -2689,9 +2712,9 @@ entries:
   mpi-operator:
   - apiVersion: v1
     appVersion: ==0.2.0
-    created: "2020-05-07T14:12:45.554381+03:00"
+    created: "2020-05-11T11:13:13.818236615+03:00"
     description: Kubeflow MPI job operator
-    digest: e39f80c8bf3f8f491364dbf9fb7f2c5ae6fb24fbec6bde65cdda42e2988a3a90
+    digest: 3ab3e5596736e0c01fd07dc07de2b96f71cb9a44c1af11a60b09deeaa0a7f2d9
     home: https://www.kubeflow.org/
     icon: https://github.com/kubeflow/marketing-materials/blob/master/logos/Raster/Kubeflow-Logo-RGB.png
     maintainers:
@@ -2705,7 +2728,7 @@ entries:
     version: 0.1.0
   - apiVersion: v1
     appVersion: ==0.2.0
-    created: "2020-05-07T14:12:45.553885+03:00"
+    created: "2020-05-11T11:13:13.817956983+03:00"
     description: Kubeflow MPI job operator
     digest: cb431728fa103bc22c7440c8ded64ed3f4cb023f2b3861250bf0d5ce3459d2db
     home: https://www.kubeflow.org/
@@ -2721,7 +2744,7 @@ entries:
     version: 0.0.3
   - apiVersion: v1
     appVersion: '>=0.2.1'
-    created: "2020-05-07T14:12:45.553321+03:00"
+    created: "2020-05-11T11:13:13.817685452+03:00"
     description: Kubeflow MPI job operator
     digest: 21fbd9067b7d614d0ac2ff8a97805ec5e25b2a3db3a575439cf602a2f0b3298a
     home: https://www.kubeflow.org/
@@ -2737,7 +2760,7 @@ entries:
     version: 0.0.2
   - apiVersion: v1
     appVersion: '>=0.2.1'
-    created: "2020-05-07T14:12:45.55272+03:00"
+    created: "2020-05-11T11:13:13.81742026+03:00"
     description: Kubeflow MPI job operator
     digest: 0cbfd6a9de40f0e3196e1603381b359ef9effdddfd125f60c52fadb39cdcc5b0
     home: https://www.kubeflow.org/
@@ -2754,9 +2777,9 @@ entries:
   node-feature-discovery:
   - apiVersion: v1
     appVersion: 0.5.0
-    created: "2020-05-07T14:12:45.555875+03:00"
+    created: "2020-05-11T11:13:13.818774456+03:00"
     description: A Helm chart for Kubernetes
-    digest: 851eee80a06c4f0937406e1125250635aafa6ff49cff34bc4fae85062e6b8c63
+    digest: 56a898976c556e44464304ff7dacb880daf8d762830452fd164326298efb1e09
     maintainers:
     - email: vladimirs@iguazio.com
       name: Vladimir Syromyatnikov
@@ -2766,7 +2789,7 @@ entries:
     version: 0.2.0
   - apiVersion: v1
     appVersion: 0.5.0
-    created: "2020-05-07T14:12:45.555114+03:00"
+    created: "2020-05-11T11:13:13.818496515+03:00"
     description: A Helm chart for Kubernetes
     digest: df6eb8a1ea156e98e434895222358d99516d2621b7d498d4f01618207482cb38
     maintainers:
@@ -2779,9 +2802,9 @@ entries:
   pipelines:
   - apiVersion: v1
     appVersion: '>=0.2.5'
-    created: "2020-05-07T14:12:45.586478+03:00"
+    created: "2020-05-11T11:13:13.834486244+03:00"
     description: Kubeflow pipelines framework for machine learning
-    digest: ad1ab7c497c4f540407bed4aea68d7980fdb29d90a7cf06b59b525120531433e
+    digest: 787425858aecb4c5b7fc5ef949874b92814bde8eea24e634f3e30ca6ef4eef38
     home: https://www.kubeflow.org/
     icon: https://github.com/kubeflow/marketing-materials/blob/master/logos/Raster/Kubeflow-Logo-RGB.png
     maintainers:
@@ -2797,7 +2820,7 @@ entries:
     version: 0.4.1
   - apiVersion: v1
     appVersion: '>=0.2.5'
-    created: "2020-05-07T14:12:45.585161+03:00"
+    created: "2020-05-11T11:13:13.833672482+03:00"
     description: Kubeflow pipelines framework for machine learning
     digest: 98eac23add78213ee83a9ba3514e9d2fcb7d97dddeb3f74fdfde0c6a9dbcc07d
     home: https://www.kubeflow.org/
@@ -2815,7 +2838,7 @@ entries:
     version: 0.4.0
   - apiVersion: v1
     appVersion: '>=0.2.5'
-    created: "2020-05-07T14:12:45.58356+03:00"
+    created: "2020-05-11T11:13:13.832855886+03:00"
     description: Kubeflow pipelines framework for machine learning
     digest: 6291398e8e43dad2d09b360c70e15610267482d048145c130792e162b430b8b3
     home: https://www.kubeflow.org/
@@ -2833,7 +2856,7 @@ entries:
     version: 0.3.9
   - apiVersion: v1
     appVersion: '>=0.2.5'
-    created: "2020-05-07T14:12:45.581563+03:00"
+    created: "2020-05-11T11:13:13.832042537+03:00"
     description: Kubeflow pipelines framework for machine learning
     digest: e6f8f8578fb1bfbd37e605a284ace96f74b27af39f2e507258a3fb900fe768a0
     home: https://www.kubeflow.org/
@@ -2851,7 +2874,7 @@ entries:
     version: 0.3.8
   - apiVersion: v1
     appVersion: '>=0.2.5'
-    created: "2020-05-07T14:12:45.580059+03:00"
+    created: "2020-05-11T11:13:13.831229883+03:00"
     description: Kubeflow pipelines framework for machine learning
     digest: 336513534a0b3be87e210e14a82b11d57ee4e4c4632aec5015fb46b4460a16df
     home: https://www.kubeflow.org/
@@ -2869,7 +2892,7 @@ entries:
     version: 0.3.7
   - apiVersion: v1
     appVersion: '>=0.2.5'
-    created: "2020-05-07T14:12:45.578746+03:00"
+    created: "2020-05-11T11:13:13.830036137+03:00"
     description: Kubeflow pipelines framework for machine learning
     digest: 64bb25fbb5fd0e9ea355c7f05c655b32ae949689a4050578948084a104fe98af
     home: https://www.kubeflow.org/
@@ -2887,7 +2910,7 @@ entries:
     version: 0.3.6
   - apiVersion: v1
     appVersion: '>=0.2.5'
-    created: "2020-05-07T14:12:45.577307+03:00"
+    created: "2020-05-11T11:13:13.82892354+03:00"
     description: Kubeflow pipelines framework for machine learning
     digest: 1babe1ca281e2ac9aedfc7c027f1c4f2683dc423b955430ce648b3f736f5a363
     home: https://www.kubeflow.org/
@@ -2905,7 +2928,7 @@ entries:
     version: 0.3.5
   - apiVersion: v1
     appVersion: '>=0.2.5'
-    created: "2020-05-07T14:12:45.57592+03:00"
+    created: "2020-05-11T11:13:13.828061096+03:00"
     description: Kubeflow pipelines framework for machine learning
     digest: 76fe47127b5aa3262190b5d4d52e9f754c85faa2bf1760dabaf4cdfe1bea960e
     home: https://www.kubeflow.org/
@@ -2923,7 +2946,7 @@ entries:
     version: 0.3.4
   - apiVersion: v1
     appVersion: '>=0.1.40'
-    created: "2020-05-07T14:12:45.574455+03:00"
+    created: "2020-05-11T11:13:13.827141832+03:00"
     description: Kubeflow pipelines framework for machine learning
     digest: 866c991719af598f696b1719c020ccaadf491dbc989225aae7b0753c0cb90d62
     home: https://www.kubeflow.org/
@@ -2941,7 +2964,7 @@ entries:
     version: 0.3.3
   - apiVersion: v1
     appVersion: '>=0.1.40'
-    created: "2020-05-07T14:12:45.572528+03:00"
+    created: "2020-05-11T11:13:13.82639014+03:00"
     description: Kubeflow pipelines framework for machine learning
     digest: 3a7cf1b10e43a98b8b57e49d4224348c90c383d7abf22f9f58468b077aa3016a
     home: https://www.kubeflow.org/
@@ -2959,7 +2982,7 @@ entries:
     version: 0.3.2
   - apiVersion: v1
     appVersion: '>=0.1.40'
-    created: "2020-05-07T14:12:45.570878+03:00"
+    created: "2020-05-11T11:13:13.825642932+03:00"
     description: Kubeflow pipelines framework for machine learning
     digest: 5b9d3c16de6bb0bf8912d347f05c5e3066de80d29d24e5b81a0a17f95e6f6c39
     home: https://www.kubeflow.org/
@@ -2977,7 +3000,7 @@ entries:
     version: 0.3.1
   - apiVersion: v1
     appVersion: '>=0.1.40'
-    created: "2020-05-07T14:12:45.569518+03:00"
+    created: "2020-05-11T11:13:13.824895993+03:00"
     description: Kubeflow pipelines framework for machine learning
     digest: 6a6e1e6c557563b6c79f71ba812962a359e0fed520d03d050a752bbec0f89666
     home: https://www.kubeflow.org/
@@ -2995,7 +3018,7 @@ entries:
     version: 0.3.0
   - apiVersion: v1
     appVersion: '>=0.1.40'
-    created: "2020-05-07T14:12:45.568113+03:00"
+    created: "2020-05-11T11:13:13.824171456+03:00"
     description: Kubeflow pipelines framework for machine learning
     digest: 5a0bdb4aac234de3cddb503b9cd0ddfc0c5f94b11c97df28819a0f7398688545
     home: https://www.kubeflow.org/
@@ -3013,7 +3036,7 @@ entries:
     version: 0.2.1
   - apiVersion: v1
     appVersion: '>=0.1.40'
-    created: "2020-05-07T14:12:45.566685+03:00"
+    created: "2020-05-11T11:13:13.823440227+03:00"
     description: Kubeflow pipelines framework for machine learning
     digest: cbb962ccb57eca2ba7f93951addc40391fac5c81537cbd2b0120a3d72a4efcc6
     home: https://www.kubeflow.org/
@@ -3031,7 +3054,7 @@ entries:
     version: 0.2.0
   - apiVersion: v1
     appVersion: '>=0.1.27'
-    created: "2020-05-07T14:12:45.56521+03:00"
+    created: "2020-05-11T11:13:13.822147748+03:00"
     description: Kubeflow pipelines framework for machine learning
     digest: 2be7126d5312a4110d850bc8d3d4f4264827f911f792257a3184716e557daa97
     home: https://www.kubeflow.org/
@@ -3047,7 +3070,7 @@ entries:
     version: 0.1.3
   - apiVersion: v1
     appVersion: '>=0.1.27'
-    created: "2020-05-07T14:12:45.563674+03:00"
+    created: "2020-05-11T11:13:13.821440804+03:00"
     description: Kubeflow pipelines framework for machine learning
     digest: e7d311b20e378c3c25f6e2c8f4326d15643833c62078ac0fdb01f3b623120775
     home: https://www.kubeflow.org/
@@ -3063,7 +3086,7 @@ entries:
     version: 0.1.2
   - apiVersion: v1
     appVersion: '>=0.1.27'
-    created: "2020-05-07T14:12:45.561942+03:00"
+    created: "2020-05-11T11:13:13.820777933+03:00"
     description: Kubeflow pipelines framework for machine learning
     digest: 8c5ce40b38b0ef2fae7be57c2aeec4764907e234c23c112bf8fa09c619a21341
     home: https://www.kubeflow.org/
@@ -3079,7 +3102,7 @@ entries:
     version: 0.1.1
   - apiVersion: v1
     appVersion: '>=0.1.27'
-    created: "2020-05-07T14:12:45.560108+03:00"
+    created: "2020-05-11T11:13:13.82011325+03:00"
     description: Kubeflow pipelines framework for machine learning
     digest: e6e80667ce579d51d5281e136c7108587b20235f3ae27739d4c72e2a7b5dc167
     home: https://www.kubeflow.org/
@@ -3095,7 +3118,7 @@ entries:
     version: 0.1.0
   - apiVersion: v1
     appVersion: '>=0.1.25'
-    created: "2020-05-07T14:12:45.557698+03:00"
+    created: "2020-05-11T11:13:13.819434683+03:00"
     description: Kubeflow pipelines framework for machine learning
     digest: ab555ede5eec51532bd840330479e9688eaa802c1f1779bd357cff5df13ffe87
     home: https://www.kubeflow.org/
@@ -3112,13 +3135,13 @@ entries:
   pod-gpu-metrics-exporter:
   - apiVersion: v1
     appVersion: v1.0.0-alpha
-    created: "2020-05-07T14:12:45.593883+03:00"
+    created: "2020-05-11T11:13:13.838749197+03:00"
     dependencies:
     - name: node-feature-discovery
       repository: https://v3io.github.io/helm-charts/stable
       version: 0.2.0
     description: Pod GPU metrics exporter
-    digest: dc0a588a944ef92aba6328bceada5cbfdac445a4d39e7209e04d12a4c50e9e49
+    digest: 9fd14762e329228ba15abb41c685c07a376642466cb22876c834dd22e9e12ba9
     maintainers:
     - email: sahare@iguazio.com
       name: sahare
@@ -3132,7 +3155,7 @@ entries:
     version: 0.3.3
   - apiVersion: v1
     appVersion: v1.0.0-alpha
-    created: "2020-05-07T14:12:45.593159+03:00"
+    created: "2020-05-11T11:13:13.83823334+03:00"
     dependencies:
     - name: node-feature-discovery
       repository: https://v3io.github.io/helm-charts/stable
@@ -3152,7 +3175,7 @@ entries:
     version: 0.3.2
   - apiVersion: v1
     appVersion: v1.0.0-alpha
-    created: "2020-05-07T14:12:45.592332+03:00"
+    created: "2020-05-11T11:13:13.83771063+03:00"
     dependencies:
     - name: node-feature-discovery
       repository: https://v3io.github.io/helm-charts/stable
@@ -3172,7 +3195,7 @@ entries:
     version: 0.3.1
   - apiVersion: v1
     appVersion: v1.0.0-alpha
-    created: "2020-05-07T14:12:45.591445+03:00"
+    created: "2020-05-11T11:13:13.836677095+03:00"
     dependencies:
     - name: node-feature-discovery
       repository: https://v3io.github.io/helm-charts/stable
@@ -3195,7 +3218,7 @@ entries:
     version: 0.3.0
   - apiVersion: v1
     appVersion: v1.0.0-alpha
-    created: "2020-05-07T14:12:45.590017+03:00"
+    created: "2020-05-11T11:13:13.835988264+03:00"
     dependencies:
     - name: node-feature-discovery
       repository: https://v3io.github.io/helm-charts/stable
@@ -3218,7 +3241,7 @@ entries:
     version: 0.2.1
   - apiVersion: v1
     appVersion: v1.0.0-alpha
-    created: "2020-05-07T14:12:45.588528+03:00"
+    created: "2020-05-11T11:13:13.835304604+03:00"
     description: Pod GPU metrics exporter
     digest: 1de3e8db3ff43c2fbbff39348a60edb2b4750bad45e46d967ce85208945123cf
     maintainers:
@@ -3234,7 +3257,7 @@ entries:
     version: 0.2.0
   - apiVersion: v1
     appVersion: '>=2.0.0'
-    created: "2020-05-07T14:12:45.587932+03:00"
+    created: "2020-05-11T11:13:13.8350247+03:00"
     description: Pod GPU metrics exporter
     digest: dfb7695c12175289997fe8a96194b61513fd2b2d33bc40d7fbe0d6c27b0615db
     maintainers:
@@ -3248,7 +3271,7 @@ entries:
     version: 0.1.2
   - apiVersion: v1
     appVersion: '>=2.0.0'
-    created: "2020-05-07T14:12:45.587433+03:00"
+    created: "2020-05-11T11:13:13.834855142+03:00"
     description: Pod GPU metrics exporter
     digest: 46e22068117f41c745cdc314bed8f90109dbcb86488a0124b6c74fd6712e6d9c
     maintainers:
@@ -3262,7 +3285,7 @@ entries:
     version: 0.1.1
   - apiVersion: v1
     appVersion: '>=2.0.0'
-    created: "2020-05-07T14:12:45.586977+03:00"
+    created: "2020-05-11T11:13:13.834684444+03:00"
     description: Pod GPU metrics exporter
     digest: f8bfbd30e426dff943bb029b1513f946f598b539f605aa51b5d9f115f3ce4732
     maintainers:
@@ -3277,10 +3300,10 @@ entries:
   prebaked-registry:
   - apiVersion: v1
     appVersion: 2.7.1
-    created: "2020-05-07T14:12:45.596095+03:00"
+    created: "2020-05-11T11:13:13.839655137+03:00"
     description: A Helm chart for Docker Registry with prebaked images and without
       persistency
-    digest: 907322f0b9ede3cf8befdd0b0d8188f0b1d23ca4b2b490d8697b335f6ee516c1
+    digest: 3f88eba50c368866ab36ea077d95260f3fb9ead4f27f92211afbd6573b2b9026
     home: https://hub.docker.com/_/registry/
     icon: https://hub.docker.com/public/images/logos/mini-logo.svg
     maintainers:
@@ -3294,7 +3317,7 @@ entries:
     version: 1.9.0
   - apiVersion: v1
     appVersion: 2.7.1
-    created: "2020-05-07T14:12:45.59547+03:00"
+    created: "2020-05-11T11:13:13.839208293+03:00"
     description: A Helm chart for Docker Registry with prebaked images and without
       persistency
     digest: 511d75a96494d2313aae97ff7116b222d4f74375a6a4992788943b3140fe208c
@@ -3312,13 +3335,13 @@ entries:
   presto:
   - apiVersion: v1
     appVersion: '>=2.0.0'
-    created: "2020-05-07T14:12:45.602972+03:00"
+    created: "2020-05-11T11:13:13.844872321+03:00"
     dependencies:
     - name: v3io-configs
       repository: https://v3io.github.io/helm-charts/stable
       version: 0.8.0
     description: Presto is a distributed SQL query engine for big data
-    digest: 38c738a5285facea2bea6dcfe3694c0c3189a0278f4c6d75956670e2d5d4cbac
+    digest: 89e2eacf32fe02a6ce1076b5fdf56902e7c4c4665f1d624c66fff9e7923f5d0c
     home: https://prestosql.io/
     icon: https://prestosql.io/assets/presto.png
     maintainers:
@@ -3332,7 +3355,7 @@ entries:
     version: 0.10.3
   - apiVersion: v1
     appVersion: '>=2.0.0'
-    created: "2020-05-07T14:12:45.601837+03:00"
+    created: "2020-05-11T11:13:13.843818717+03:00"
     dependencies:
     - name: v3io-configs
       repository: https://v3io.github.io/helm-charts/stable
@@ -3352,7 +3375,7 @@ entries:
     version: 0.10.2
   - apiVersion: v1
     appVersion: '>=2.0.0'
-    created: "2020-05-07T14:12:45.600465+03:00"
+    created: "2020-05-11T11:13:13.842863839+03:00"
     dependencies:
     - name: v3io-configs
       repository: https://v3io.github.io/helm-charts/stable
@@ -3372,7 +3395,7 @@ entries:
     version: 0.10.1
   - apiVersion: v1
     appVersion: '>=2.0.0'
-    created: "2020-05-07T14:12:45.59916+03:00"
+    created: "2020-05-11T11:13:13.841788981+03:00"
     dependencies:
     - name: v3io-configs
       repository: https://v3io.github.io/helm-charts/stable
@@ -3392,7 +3415,7 @@ entries:
     version: 0.10.0
   - apiVersion: v1
     appVersion: '>=2.0.0'
-    created: "2020-05-07T14:12:45.638798+03:00"
+    created: "2020-05-11T11:13:13.865370718+03:00"
     dependencies:
     - name: v3io-configs
       repository: https://v3io.github.io/helm-charts/stable
@@ -3412,7 +3435,7 @@ entries:
     version: 0.9.0
   - apiVersion: v1
     appVersion: '>=2.0.0'
-    created: "2020-05-07T14:12:45.63759+03:00"
+    created: "2020-05-11T11:13:13.864599013+03:00"
     dependencies:
     - name: v3io-configs
       repository: https://v3io.github.io/helm-charts/stable
@@ -3432,7 +3455,7 @@ entries:
     version: 0.8.2
   - apiVersion: v1
     appVersion: '>=2.0.0'
-    created: "2020-05-07T14:12:45.636293+03:00"
+    created: "2020-05-11T11:13:13.863848809+03:00"
     dependencies:
     - name: v3io-configs
       repository: https://v3io.github.io/helm-charts/stable
@@ -3452,7 +3475,7 @@ entries:
     version: 0.8.1
   - apiVersion: v1
     appVersion: '>=2.0.0'
-    created: "2020-05-07T14:12:45.634284+03:00"
+    created: "2020-05-11T11:13:13.863059863+03:00"
     dependencies:
     - name: v3io-configs
       repository: https://v3io.github.io/helm-charts/stable
@@ -3472,7 +3495,7 @@ entries:
     version: 0.8.0
   - apiVersion: v1
     appVersion: '>=2.0.0'
-    created: "2020-05-07T14:12:45.63292+03:00"
+    created: "2020-05-11T11:13:13.862279209+03:00"
     dependencies:
     - name: v3io-configs
       repository: https://v3io.github.io/helm-charts/stable
@@ -3492,7 +3515,7 @@ entries:
     version: 0.7.0
   - apiVersion: v1
     appVersion: '>=2.0.0'
-    created: "2020-05-07T14:12:45.631556+03:00"
+    created: "2020-05-11T11:13:13.861515053+03:00"
     dependencies:
     - name: v3io-configs
       repository: https://v3io.github.io/helm-charts/stable
@@ -3512,7 +3535,7 @@ entries:
     version: 0.6.8
   - apiVersion: v1
     appVersion: '>=2.0.0'
-    created: "2020-05-07T14:12:45.630309+03:00"
+    created: "2020-05-11T11:13:13.86069615+03:00"
     dependencies:
     - name: v3io-configs
       repository: https://v3io.github.io/helm-charts/stable
@@ -3532,7 +3555,7 @@ entries:
     version: 0.6.7
   - apiVersion: v1
     appVersion: '>=2.0.0'
-    created: "2020-05-07T14:12:45.629133+03:00"
+    created: "2020-05-11T11:13:13.859960277+03:00"
     dependencies:
     - name: v3io-configs
       repository: https://v3io.github.io/helm-charts/stable
@@ -3552,7 +3575,7 @@ entries:
     version: 0.6.6
   - apiVersion: v1
     appVersion: '>=2.0.0'
-    created: "2020-05-07T14:12:45.62786+03:00"
+    created: "2020-05-11T11:13:13.858788601+03:00"
     dependencies:
     - name: v3io-configs
       repository: https://v3io.github.io/helm-charts/stable
@@ -3572,7 +3595,7 @@ entries:
     version: 0.6.5
   - apiVersion: v1
     appVersion: '>=2.0.0'
-    created: "2020-05-07T14:12:45.626487+03:00"
+    created: "2020-05-11T11:13:13.857805797+03:00"
     dependencies:
     - name: v3io-configs
       repository: https://v3io.github.io/helm-charts/stable
@@ -3592,7 +3615,7 @@ entries:
     version: 0.6.4
   - apiVersion: v1
     appVersion: '>=2.0.0'
-    created: "2020-05-07T14:12:45.624451+03:00"
+    created: "2020-05-11T11:13:13.857076635+03:00"
     dependencies:
     - name: v3io-configs
       repository: https://v3io.github.io/helm-charts/stable
@@ -3612,7 +3635,7 @@ entries:
     version: 0.6.3
   - apiVersion: v1
     appVersion: '>=2.0.0'
-    created: "2020-05-07T14:12:45.62328+03:00"
+    created: "2020-05-11T11:13:13.856358054+03:00"
     dependencies:
     - name: v3io-configs
       repository: https://v3io.github.io/helm-charts/stable
@@ -3632,7 +3655,7 @@ entries:
     version: 0.6.2
   - apiVersion: v1
     appVersion: '>=2.0.0'
-    created: "2020-05-07T14:12:45.622103+03:00"
+    created: "2020-05-11T11:13:13.855660749+03:00"
     dependencies:
     - name: v3io-configs
       repository: https://v3io.github.io/helm-charts/stable
@@ -3652,7 +3675,7 @@ entries:
     version: 0.6.1
   - apiVersion: v1
     appVersion: '>=2.0.0'
-    created: "2020-05-07T14:12:45.620822+03:00"
+    created: "2020-05-11T11:13:13.854994834+03:00"
     dependencies:
     - name: v3io-configs
       repository: https://v3io.github.io/helm-charts/stable
@@ -3672,7 +3695,7 @@ entries:
     version: 0.6.0
   - apiVersion: v1
     appVersion: '>=2.0.0'
-    created: "2020-05-07T14:12:45.61957+03:00"
+    created: "2020-05-11T11:13:13.854324376+03:00"
     dependencies:
     - name: v3io-configs
       repository: https://v3io.github.io/helm-charts/stable
@@ -3692,7 +3715,7 @@ entries:
     version: 0.5.1
   - apiVersion: v1
     appVersion: '>=2.0.0'
-    created: "2020-05-07T14:12:45.6184+03:00"
+    created: "2020-05-11T11:13:13.8536445+03:00"
     dependencies:
     - name: v3io-configs
       repository: https://v3io.github.io/helm-charts/stable
@@ -3712,7 +3735,7 @@ entries:
     version: 0.5.0
   - apiVersion: v1
     appVersion: '>=2.0.0'
-    created: "2020-05-07T14:12:45.617227+03:00"
+    created: "2020-05-11T11:13:13.852984581+03:00"
     dependencies:
     - name: v3io-configs
       repository: https://v3io.github.io/helm-charts/stable
@@ -3732,7 +3755,7 @@ entries:
     version: 0.4.7
   - apiVersion: v1
     appVersion: '>=2.0.0'
-    created: "2020-05-07T14:12:45.616111+03:00"
+    created: "2020-05-11T11:13:13.852249684+03:00"
     dependencies:
     - name: v3io-configs
       repository: https://v3io.github.io/helm-charts/stable
@@ -3752,7 +3775,7 @@ entries:
     version: 0.4.6
   - apiVersion: v1
     appVersion: '>=2.0.0'
-    created: "2020-05-07T14:12:45.614304+03:00"
+    created: "2020-05-11T11:13:13.851204723+03:00"
     dependencies:
     - name: v3io-configs
       repository: https://v3io.github.io/helm-charts/stable
@@ -3772,7 +3795,7 @@ entries:
     version: 0.4.5
   - apiVersion: v1
     appVersion: '>=2.0.0'
-    created: "2020-05-07T14:12:45.613193+03:00"
+    created: "2020-05-11T11:13:13.850562591+03:00"
     dependencies:
     - name: v3io-configs
       repository: https://v3io.github.io/helm-charts/stable
@@ -3792,7 +3815,7 @@ entries:
     version: 0.4.4
   - apiVersion: v1
     appVersion: '>=2.0.0'
-    created: "2020-05-07T14:12:45.612095+03:00"
+    created: "2020-05-11T11:13:13.849922183+03:00"
     dependencies:
     - name: v3io-configs
       repository: https://v3io.github.io/helm-charts/stable
@@ -3812,7 +3835,7 @@ entries:
     version: 0.4.3
   - apiVersion: v1
     appVersion: '>=2.0.0'
-    created: "2020-05-07T14:12:45.611032+03:00"
+    created: "2020-05-11T11:13:13.84929024+03:00"
     dependencies:
     - name: v3io-configs
       repository: https://v3io.github.io/helm-charts/stable
@@ -3832,7 +3855,7 @@ entries:
     version: 0.4.2
   - apiVersion: v1
     appVersion: '>=2.0.0'
-    created: "2020-05-07T14:12:45.609963+03:00"
+    created: "2020-05-11T11:13:13.848658808+03:00"
     dependencies:
     - name: v3io-configs
       repository: https://v3io.github.io/helm-charts/stable
@@ -3852,7 +3875,7 @@ entries:
     version: 0.4.1
   - apiVersion: v1
     appVersion: '>=2.0.0'
-    created: "2020-05-07T14:12:45.608895+03:00"
+    created: "2020-05-11T11:13:13.848038423+03:00"
     dependencies:
     - name: v3io-configs
       repository: https://v3io.github.io/helm-charts/stable
@@ -3872,7 +3895,7 @@ entries:
     version: 0.4.0
   - apiVersion: v1
     appVersion: 0.189-1.7.0
-    created: "2020-05-07T14:12:45.606802+03:00"
+    created: "2020-05-11T11:13:13.846853347+03:00"
     dependencies:
     - name: v3io-configs
       repository: https://v3io.github.io/helm-charts/stable
@@ -3892,7 +3915,7 @@ entries:
     version: 0.3.2
   - apiVersion: v1
     appVersion: 0.189-1.7.0
-    created: "2020-05-07T14:12:45.6058+03:00"
+    created: "2020-05-11T11:13:13.846260465+03:00"
     dependencies:
     - name: v3io-configs
       repository: https://v3io.github.io/helm-charts/stable
@@ -3912,7 +3935,7 @@ entries:
     version: 0.3.1
   - apiVersion: v1
     appVersion: 0.189-1.7.0
-    created: "2020-05-07T14:12:45.607834+03:00"
+    created: "2020-05-11T11:13:13.847429045+03:00"
     dependencies:
     - name: v3io-configs
       repository: https://v3io.github.io/helm-charts/stable
@@ -3932,7 +3955,7 @@ entries:
     version: "0.3"
   - apiVersion: v1
     appVersion: 0.189-1.7.0-b80
-    created: "2020-05-07T14:12:45.604071+03:00"
+    created: "2020-05-11T11:13:13.845662962+03:00"
     dependencies:
     - name: v3io-configs
       repository: https://v3io.github.io/helm-charts/stable
@@ -3952,7 +3975,7 @@ entries:
     version: "0.2"
   - apiVersion: v1
     appVersion: 0.189-1.5.2
-    created: "2020-05-07T14:12:45.597895+03:00"
+    created: "2020-05-11T11:13:13.840530626+03:00"
     description: Distributed SQL query engine for running interactive analytic queries
     digest: 4fe7557e355a707771f5ac1033c704fce2943e5f455d337bc97d29cac9d42204
     home: https://prestodb.io
@@ -3968,7 +3991,7 @@ entries:
     version: 0.1.1
   - apiVersion: v1
     appVersion: "0.189"
-    created: "2020-05-07T14:12:45.596998+03:00"
+    created: "2020-05-11T11:13:13.83999965+03:00"
     description: Distributed SQL query engine for running interactive analytic queries
     digest: 7bd808beb233c2fd37a4499c050eba9a246341bdb1d41e2375bc2f8ba4caeaa5
     home: https://prestodb.io
@@ -3985,9 +4008,9 @@ entries:
   provazio:
   - apiVersion: v1
     appVersion: 0.20.10
-    created: "2020-05-07T14:12:45.658247+03:00"
+    created: "2020-05-11T11:13:13.876203452+03:00"
     description: Iguazio provisioner
-    digest: d123c113e2d5daa69fafc75573d1d0d6637743339d1df0fd96a4dca40572e78f
+    digest: 973d63a857ccefc834f2a3c28bad20bff3911aaf75a42b54606caba80dbd7bef
     home: https://iguazio.com
     icon: https://github.com/nuclio/nuclio/raw/master/docs/assets/images/logo.png
     maintainers:
@@ -3999,7 +4022,7 @@ entries:
     version: 0.4.2
   - apiVersion: v1
     appVersion: 0.10.11
-    created: "2020-05-07T14:12:45.657467+03:00"
+    created: "2020-05-11T11:13:13.875746214+03:00"
     description: Iguazio provisioner
     digest: 060a1f7f68a0ae1820f8eee8fe56d4add2e36a4a268c35898f0877b0d8c326a8
     home: https://iguazio.com
@@ -4013,7 +4036,7 @@ entries:
     version: 0.4.1
   - apiVersion: v1
     appVersion: 0.10.11
-    created: "2020-05-07T14:12:45.656114+03:00"
+    created: "2020-05-11T11:13:13.87517013+03:00"
     description: Iguazio provisioner
     digest: dfc1a6841077ecd46e961ffda363480adf1700a023300d4958cc78caf232235d
     home: https://iguazio.com
@@ -4027,7 +4050,7 @@ entries:
     version: 0.4.0
   - apiVersion: v1
     appVersion: 0.10.11
-    created: "2020-05-07T14:12:45.655231+03:00"
+    created: "2020-05-11T11:13:13.874589746+03:00"
     description: Iguazio provisioner
     digest: af2b8c970c7f80dbff30a5997511145c339869a4bebc28c0f50c2d91526eda02
     home: https://iguazio.com
@@ -4041,7 +4064,7 @@ entries:
     version: 0.3.6
   - apiVersion: v1
     appVersion: 0.10.11
-    created: "2020-05-07T14:12:45.654374+03:00"
+    created: "2020-05-11T11:13:13.874043003+03:00"
     description: Iguazio provisioner
     digest: 3f57ecce4101e5fb33f71f16b26f8ca9c16d56888e5131de9b9f2863a3184d91
     home: https://iguazio.com
@@ -4055,7 +4078,7 @@ entries:
     version: 0.3.5
   - apiVersion: v1
     appVersion: 0.10.11
-    created: "2020-05-07T14:12:45.653516+03:00"
+    created: "2020-05-11T11:13:13.873515062+03:00"
     description: Iguazio provisioner
     digest: bdd2a29902b7c5bb774447e10bee61ea2bbd9459e05ded70db3fb3525f1cdbf4
     home: https://iguazio.com
@@ -4069,7 +4092,7 @@ entries:
     version: 0.3.4
   - apiVersion: v1
     appVersion: 0.10.11
-    created: "2020-05-07T14:12:45.652685+03:00"
+    created: "2020-05-11T11:13:13.872841238+03:00"
     description: Iguazio provisioner
     digest: 4cf27b4eb7304d4aacc9f3d2d7e93fb7192c3125a50bc9dcd3fdd4e53cab7809
     home: https://iguazio.com
@@ -4083,7 +4106,7 @@ entries:
     version: 0.3.3
   - apiVersion: v1
     appVersion: 0.10.11
-    created: "2020-05-07T14:12:45.651805+03:00"
+    created: "2020-05-11T11:13:13.871953788+03:00"
     description: Iguazio provisioner
     digest: 6d2ae5a19f2a9717bf6a3db421be2138e1e1da80a7d6eb58a0b13d79822e88c9
     home: https://iguazio.com
@@ -4097,7 +4120,7 @@ entries:
     version: 0.3.2
   - apiVersion: v1
     appVersion: 0.10.11
-    created: "2020-05-07T14:12:45.650734+03:00"
+    created: "2020-05-11T11:13:13.871427987+03:00"
     description: Iguazio provisioner
     digest: cd59ebb07f3aabbe5b754ce4c07cb6dd4c8f09cf617c5ac3b9de46905d956af7
     home: https://iguazio.com
@@ -4111,7 +4134,7 @@ entries:
     version: 0.3.1
   - apiVersion: v1
     appVersion: 0.10.11
-    created: "2020-05-07T14:12:45.649805+03:00"
+    created: "2020-05-11T11:13:13.870900588+03:00"
     description: Iguazio provisioner
     digest: 9ead8f0d7a27b7e35c6eeabacdb954b3c09acb7a495ba146f244c8e5c4afd76a
     home: https://iguazio.com
@@ -4125,7 +4148,7 @@ entries:
     version: 0.3.0
   - apiVersion: v1
     appVersion: 0.3.0
-    created: "2020-05-07T14:12:45.648803+03:00"
+    created: "2020-05-11T11:13:13.870356405+03:00"
     description: Iguazio provisioner
     digest: 56a846eaaac5b2a7d438b4c7c2bce6ba79e55583cf5b58b370f55decbd028d29
     home: https://iguazio.com
@@ -4139,7 +4162,7 @@ entries:
     version: 0.2.3
   - apiVersion: v1
     appVersion: 0.3.0
-    created: "2020-05-07T14:12:45.647959+03:00"
+    created: "2020-05-11T11:13:13.869951699+03:00"
     description: Iguazio provisioner
     digest: 3634e729692f28372a1062e148b0865643930d1d1d0d445601d777c61aca7ab9
     home: https://iguazio.com
@@ -4153,7 +4176,7 @@ entries:
     version: 0.2.2
   - apiVersion: v1
     appVersion: 0.3.0
-    created: "2020-05-07T14:12:45.646951+03:00"
+    created: "2020-05-11T11:13:13.86954816+03:00"
     description: Iguazio provisioner
     digest: e846bae4eecadd890466d727375e00995a1b54d9887c30799b708e0fbbda660b
     home: https://iguazio.com
@@ -4167,7 +4190,7 @@ entries:
     version: 0.2.1
   - apiVersion: v1
     appVersion: 0.3.0
-    created: "2020-05-07T14:12:45.645981+03:00"
+    created: "2020-05-11T11:13:13.869144295+03:00"
     description: Iguazio provisioner
     digest: a68b2446ba413582f0204f356bd5717ede1532e2f30a7c616b80af982b2b2c4e
     home: https://iguazio.com
@@ -4181,7 +4204,7 @@ entries:
     version: 0.2.0
   - apiVersion: v1
     appVersion: 0.3.0
-    created: "2020-05-07T14:12:45.644675+03:00"
+    created: "2020-05-11T11:13:13.868754869+03:00"
     description: Iguazio provisioner
     digest: c34a7dcde42052122f8be46123163d65640aec67ce18bb9e13bafd97dadec3db
     home: https://iguazio.com
@@ -4195,7 +4218,7 @@ entries:
     version: 0.1.0
   - apiVersion: v1
     appVersion: 0.2.18
-    created: "2020-05-07T14:12:45.643432+03:00"
+    created: "2020-05-11T11:13:13.868356595+03:00"
     description: Iguazio provisioner
     digest: f00904db3c7bb4e47502200a52c715754a842d36674e90498920c859861c087e
     home: https://iguazio.com
@@ -4209,7 +4232,7 @@ entries:
     version: 0.0.7
   - apiVersion: v1
     appVersion: 0.2.14
-    created: "2020-05-07T14:12:45.642684+03:00"
+    created: "2020-05-11T11:13:13.867958225+03:00"
     description: Iguazio provisioner
     digest: 8c1283e9196fd4cbcc4e52ef73bcdd3ff4aa1a17316a661f6ab6c7b135757fc4
     home: https://iguazio.com
@@ -4223,7 +4246,7 @@ entries:
     version: 0.0.6
   - apiVersion: v1
     appVersion: 0.0.4
-    created: "2020-05-07T14:12:45.642025+03:00"
+    created: "2020-05-11T11:13:13.867603062+03:00"
     description: Iguazio provisioner
     digest: 4f18953fb57a05adce2734ca2e2671ca088aa11e844a8ec343440f007ce5af6c
     home: https://iguazio.com
@@ -4237,7 +4260,7 @@ entries:
     version: 0.0.5
   - apiVersion: v1
     appVersion: 0.0.4
-    created: "2020-05-07T14:12:45.641373+03:00"
+    created: "2020-05-11T11:13:13.867240349+03:00"
     description: Iguazio provisioner
     digest: 724801f4a5c976fc6ef4a5ee9e6e031c7c6223da0ab7d5296de5c16b577d471d
     home: https://iguazio.com
@@ -4251,7 +4274,7 @@ entries:
     version: 0.0.4
   - apiVersion: v1
     appVersion: 0.0.3
-    created: "2020-05-07T14:12:45.640759+03:00"
+    created: "2020-05-11T11:13:13.866893958+03:00"
     description: Iguazio provisioner
     digest: 8ba747368bd294f136f2eb54a0450f0d2b2e5ff2815dd4ba3ff4bd2c94f697a2
     home: https://iguazio.com
@@ -4265,7 +4288,7 @@ entries:
     version: 0.0.3
   - apiVersion: v1
     appVersion: 0.0.2
-    created: "2020-05-07T14:12:45.640122+03:00"
+    created: "2020-05-11T11:13:13.866512325+03:00"
     description: Iguazio provisioner
     digest: 099b24e1e6d8f8164853bf6632c4c5e3913293d5fc4357583c7d66032ff71421
     home: https://iguazio.com
@@ -4279,7 +4302,7 @@ entries:
     version: 0.0.2
   - apiVersion: v1
     appVersion: 0.0.1
-    created: "2020-05-07T14:12:45.639456+03:00"
+    created: "2020-05-11T11:13:13.865710565+03:00"
     description: Iguazio provisioner
     digest: 8f7466af20c0448e66c98047a6c557e09ce3ebf5e725b2130560501875eb0d67
     home: https://iguazio.com
@@ -4294,16 +4317,16 @@ entries:
   pvc:
   - apiVersion: v1
     appVersion: "1.0"
-    created: "2020-05-07T14:12:45.658713+03:00"
+    created: "2020-05-11T11:13:13.876368146+03:00"
     description: PVC Support
-    digest: 635021245d6ac3ec5bf939979d81885be22dc778aac669d25ae8655df5e01e7d
+    digest: 42bb7ecbb9953c9246b8741da0b3ef46089a49c31599e435e1fdbe07f1939acb
     name: pvc
     urls:
     - https://v3io.github.io/helm-charts/stable/pvc-0.1.0.tgz
     version: 0.1.0
   - apiVersion: v1
     appVersion: "1.0"
-    created: "2020-05-07T14:12:45.658548+03:00"
+    created: "2020-05-11T11:13:13.876283539+03:00"
     description: PVC Support
     digest: c154947a863e1379fbf49bfbe640ac9d6fec2b04555b4d35ba916c51433e2989
     name: pvc
@@ -4312,9 +4335,9 @@ entries:
     version: 0.0.1
   scaler:
   - apiVersion: v1
-    created: "2020-05-07T14:12:45.661751+03:00"
+    created: "2020-05-11T11:13:13.878264108+03:00"
     description: A Helm chart for creating scaler - dlx
-    digest: 4691e2e4ad95dcce448e1fc21dc6e2663af93c2d8e19ca291114b458d015adfe
+    digest: c635e3f872d032732998a0de1cd6a1e5b6ec8f1c4d3793c42658170b69295fc4
     home: https://iguazio.com
     icon: https://www.iguazio.com/wp-content/uploads/2017/09/iguazio_logo_2017_w_c.png
     maintainers:
@@ -4327,7 +4350,7 @@ entries:
     - https://v3io.github.io/helm-charts/stable/scaler-0.5.0.tgz
     version: 0.5.0
   - apiVersion: v1
-    created: "2020-05-07T14:12:45.66136+03:00"
+    created: "2020-05-11T11:13:13.877985484+03:00"
     description: A Helm chart for creating scaler - dlx
     digest: 2dea0d50a55f25b26216c4ad71eddf6a85598d472d18a5682cc059580e7bdeb8
     home: https://iguazio.com
@@ -4342,7 +4365,7 @@ entries:
     - https://v3io.github.io/helm-charts/stable/scaler-0.4.0.tgz
     version: 0.4.0
   - apiVersion: v1
-    created: "2020-05-07T14:12:45.660912+03:00"
+    created: "2020-05-11T11:13:13.877702464+03:00"
     description: A Helm chart for creating scaler - dlx
     digest: fa71d05dafa8d9155498e552b4e304485172a199eaee85bf2f87eec059e9176e
     home: https://iguazio.com
@@ -4357,7 +4380,7 @@ entries:
     - https://v3io.github.io/helm-charts/stable/scaler-0.3.0.tgz
     version: 0.3.0
   - apiVersion: v1
-    created: "2020-05-07T14:12:45.660438+03:00"
+    created: "2020-05-11T11:13:13.877394961+03:00"
     description: A Helm chart for creating scaler - dlx
     digest: 262b29e944ac2b5a857041d7f1d6ae0f9af4c74f3df48874382f5e72f7a3bdc6
     home: https://iguazio.com
@@ -4372,7 +4395,7 @@ entries:
     - https://v3io.github.io/helm-charts/stable/scaler-0.2.0.tgz
     version: 0.2.0
   - apiVersion: v1
-    created: "2020-05-07T14:12:45.659989+03:00"
+    created: "2020-05-11T11:13:13.877127659+03:00"
     description: A Helm chart for creating scaler - dlx
     digest: 2cb306bc017064e862af93126c752a4f333b0554ef3ccbd89af9f0d1c0a8bc6c
     home: https://iguazio.com
@@ -4387,7 +4410,7 @@ entries:
     - https://v3io.github.io/helm-charts/stable/scaler-0.1.2.tgz
     version: 0.1.2
   - apiVersion: v1
-    created: "2020-05-07T14:12:45.659509+03:00"
+    created: "2020-05-11T11:13:13.876838391+03:00"
     description: A Helm chart for creating scaler - dlx
     digest: 7fdb700f83a33e3062c5bad9eba12996e1605c726e37c1f80d581a152f435229
     home: https://iguazio.com
@@ -4402,7 +4425,7 @@ entries:
     - https://v3io.github.io/helm-charts/stable/scaler-0.1.1.tgz
     version: 0.1.1
   - apiVersion: v1
-    created: "2020-05-07T14:12:45.659061+03:00"
+    created: "2020-05-11T11:13:13.876588971+03:00"
     description: A Helm chart for creating scaler - dlx
     digest: b969393cfa9410223b9d5e13f761582931fd6f1033c1b711abd615ae188bb210
     home: https://iguazio.com
@@ -4419,13 +4442,13 @@ entries:
   shell:
   - apiVersion: v1
     appVersion: '>=2.0.0'
-    created: "2020-05-07T14:12:45.663509+03:00"
+    created: "2020-05-11T11:13:13.879999512+03:00"
     dependencies:
     - name: v3io-configs
       repository: https://v3io.github.io/helm-charts/stable
       version: 0.8.0
     description: Shell access to data services
-    digest: b289d9266897143cbd09342385c57c1608c6c66beff8bb9f0d0687845d1b7181
+    digest: c2770e6b3f618ba987f42b6baa86ddf8fbfe0cfe7552b2f48e89c598243ee4cd
     home: https://iguazio.com
     icon: https://www.iguazio.com/wp-content/uploads/2017/09/iguazio_logo_2017_w_c.png
     maintainers:
@@ -4439,7 +4462,7 @@ entries:
     version: 0.10.0
   - apiVersion: v1
     appVersion: '>=2.0.0'
-    created: "2020-05-07T14:12:45.724817+03:00"
+    created: "2020-05-11T11:13:13.916947944+03:00"
     dependencies:
     - name: v3io-configs
       repository: https://v3io.github.io/helm-charts/stable
@@ -4459,7 +4482,7 @@ entries:
     version: 0.9.12
   - apiVersion: v1
     appVersion: '>=2.0.0'
-    created: "2020-05-07T14:12:45.723349+03:00"
+    created: "2020-05-11T11:13:13.915686465+03:00"
     dependencies:
     - name: v3io-configs
       repository: https://v3io.github.io/helm-charts/stable
@@ -4479,7 +4502,7 @@ entries:
     version: 0.9.11
   - apiVersion: v1
     appVersion: '>=2.0.0'
-    created: "2020-05-07T14:12:45.721984+03:00"
+    created: "2020-05-11T11:13:13.914819095+03:00"
     dependencies:
     - name: v3io-configs
       repository: https://v3io.github.io/helm-charts/stable
@@ -4499,7 +4522,7 @@ entries:
     version: 0.9.10
   - apiVersion: v1
     appVersion: '>=2.0.0'
-    created: "2020-05-07T14:12:45.739226+03:00"
+    created: "2020-05-11T11:13:13.925016272+03:00"
     dependencies:
     - name: v3io-configs
       repository: https://v3io.github.io/helm-charts/stable
@@ -4519,7 +4542,7 @@ entries:
     version: 0.9.9
   - apiVersion: v1
     appVersion: '>=2.0.0'
-    created: "2020-05-07T14:12:45.737358+03:00"
+    created: "2020-05-11T11:13:13.923455696+03:00"
     dependencies:
     - name: v3io-configs
       repository: https://v3io.github.io/helm-charts/stable
@@ -4539,7 +4562,7 @@ entries:
     version: 0.9.8
   - apiVersion: v1
     appVersion: '>=2.0.0'
-    created: "2020-05-07T14:12:45.735816+03:00"
+    created: "2020-05-11T11:13:13.922595439+03:00"
     dependencies:
     - name: v3io-configs
       repository: https://v3io.github.io/helm-charts/stable
@@ -4559,7 +4582,7 @@ entries:
     version: 0.9.7
   - apiVersion: v1
     appVersion: '>=2.0.0'
-    created: "2020-05-07T14:12:45.734245+03:00"
+    created: "2020-05-11T11:13:13.921750807+03:00"
     dependencies:
     - name: v3io-configs
       repository: https://v3io.github.io/helm-charts/stable
@@ -4579,7 +4602,7 @@ entries:
     version: 0.9.6
   - apiVersion: v1
     appVersion: '>=2.0.0'
-    created: "2020-05-07T14:12:45.732475+03:00"
+    created: "2020-05-11T11:13:13.920832019+03:00"
     dependencies:
     - name: v3io-configs
       repository: https://v3io.github.io/helm-charts/stable
@@ -4599,7 +4622,7 @@ entries:
     version: 0.9.5
   - apiVersion: v1
     appVersion: '>=2.0.0'
-    created: "2020-05-07T14:12:45.730555+03:00"
+    created: "2020-05-11T11:13:13.919927849+03:00"
     dependencies:
     - name: v3io-configs
       repository: https://v3io.github.io/helm-charts/stable
@@ -4619,7 +4642,7 @@ entries:
     version: 0.9.4
   - apiVersion: v1
     appVersion: '>=2.0.0'
-    created: "2020-05-07T14:12:45.727829+03:00"
+    created: "2020-05-11T11:13:13.919007144+03:00"
     dependencies:
     - name: v3io-configs
       repository: https://v3io.github.io/helm-charts/stable
@@ -4639,7 +4662,7 @@ entries:
     version: 0.9.3
   - apiVersion: v1
     appVersion: '>=2.0.0'
-    created: "2020-05-07T14:12:45.726353+03:00"
+    created: "2020-05-11T11:13:13.918054148+03:00"
     dependencies:
     - name: v3io-configs
       repository: https://v3io.github.io/helm-charts/stable
@@ -4659,7 +4682,7 @@ entries:
     version: 0.9.2
   - apiVersion: v1
     appVersion: '>=2.0.0'
-    created: "2020-05-07T14:12:45.720558+03:00"
+    created: "2020-05-11T11:13:13.913962624+03:00"
     dependencies:
     - name: v3io-configs
       repository: https://v3io.github.io/helm-charts/stable
@@ -4679,7 +4702,7 @@ entries:
     version: 0.9.1
   - apiVersion: v1
     appVersion: '>=2.0.0'
-    created: "2020-05-07T14:12:45.718108+03:00"
+    created: "2020-05-11T11:13:13.913020121+03:00"
     dependencies:
     - name: v3io-configs
       repository: https://v3io.github.io/helm-charts/stable
@@ -4699,7 +4722,7 @@ entries:
     version: 0.9.0
   - apiVersion: v1
     appVersion: '>=2.0.0'
-    created: "2020-05-07T14:12:45.716692+03:00"
+    created: "2020-05-11T11:13:13.912131994+03:00"
     dependencies:
     - name: v3io-configs
       repository: https://v3io.github.io/helm-charts/stable
@@ -4719,7 +4742,7 @@ entries:
     version: 0.8.2
   - apiVersion: v1
     appVersion: '>=2.0.0'
-    created: "2020-05-07T14:12:45.715309+03:00"
+    created: "2020-05-11T11:13:13.911198763+03:00"
     dependencies:
     - name: v3io-configs
       repository: https://v3io.github.io/helm-charts/stable
@@ -4739,7 +4762,7 @@ entries:
     version: 0.8.1
   - apiVersion: v1
     appVersion: '>=2.0.0'
-    created: "2020-05-07T14:12:45.71409+03:00"
+    created: "2020-05-11T11:13:13.910354311+03:00"
     dependencies:
     - name: v3io-configs
       repository: https://v3io.github.io/helm-charts/stable
@@ -4759,7 +4782,7 @@ entries:
     version: 0.8.00
   - apiVersion: v1
     appVersion: '>=2.0.0'
-    created: "2020-05-07T14:12:45.702826+03:00"
+    created: "2020-05-11T11:13:13.902626769+03:00"
     dependencies:
     - name: v3io-configs
       repository: https://v3io.github.io/helm-charts/stable
@@ -4779,7 +4802,7 @@ entries:
     version: 0.7.18
   - apiVersion: v1
     appVersion: '>=2.0.0'
-    created: "2020-05-07T14:12:45.701387+03:00"
+    created: "2020-05-11T11:13:13.901819369+03:00"
     dependencies:
     - name: v3io-configs
       repository: https://v3io.github.io/helm-charts/stable
@@ -4799,7 +4822,7 @@ entries:
     version: 0.7.17
   - apiVersion: v1
     appVersion: '>=2.0.0'
-    created: "2020-05-07T14:12:45.699918+03:00"
+    created: "2020-05-11T11:13:13.900524836+03:00"
     dependencies:
     - name: v3io-configs
       repository: https://v3io.github.io/helm-charts/stable
@@ -4819,7 +4842,7 @@ entries:
     version: 0.7.16
   - apiVersion: v1
     appVersion: '>=2.0.0'
-    created: "2020-05-07T14:12:45.698218+03:00"
+    created: "2020-05-11T11:13:13.899609646+03:00"
     dependencies:
     - name: v3io-configs
       repository: https://v3io.github.io/helm-charts/stable
@@ -4839,7 +4862,7 @@ entries:
     version: 0.7.15
   - apiVersion: v1
     appVersion: '>=2.0.0'
-    created: "2020-05-07T14:12:45.697004+03:00"
+    created: "2020-05-11T11:13:13.898850579+03:00"
     dependencies:
     - name: v3io-configs
       repository: https://v3io.github.io/helm-charts/stable
@@ -4859,7 +4882,7 @@ entries:
     version: 0.7.14
   - apiVersion: v1
     appVersion: '>=2.0.0'
-    created: "2020-05-07T14:12:45.695837+03:00"
+    created: "2020-05-11T11:13:13.898071163+03:00"
     dependencies:
     - name: v3io-configs
       repository: https://v3io.github.io/helm-charts/stable
@@ -4879,7 +4902,7 @@ entries:
     version: 0.7.13
   - apiVersion: v1
     appVersion: '>=2.0.0'
-    created: "2020-05-07T14:12:45.694655+03:00"
+    created: "2020-05-11T11:13:13.897325158+03:00"
     dependencies:
     - name: v3io-configs
       repository: https://v3io.github.io/helm-charts/stable
@@ -4899,7 +4922,7 @@ entries:
     version: 0.7.12
   - apiVersion: v1
     appVersion: '>=2.0.0'
-    created: "2020-05-07T14:12:45.693469+03:00"
+    created: "2020-05-11T11:13:13.896520138+03:00"
     dependencies:
     - name: v3io-configs
       repository: https://v3io.github.io/helm-charts/stable
@@ -4919,7 +4942,7 @@ entries:
     version: 0.7.11
   - apiVersion: v1
     appVersion: '>=2.0.0'
-    created: "2020-05-07T14:12:45.692294+03:00"
+    created: "2020-05-11T11:13:13.895800345+03:00"
     dependencies:
     - name: v3io-configs
       repository: https://v3io.github.io/helm-charts/stable
@@ -4939,7 +4962,7 @@ entries:
     version: 0.7.10
   - apiVersion: v1
     appVersion: '>=2.0.0'
-    created: "2020-05-07T14:12:45.712877+03:00"
+    created: "2020-05-11T11:13:13.909292812+03:00"
     dependencies:
     - name: v3io-configs
       repository: https://v3io.github.io/helm-charts/stable
@@ -4959,7 +4982,7 @@ entries:
     version: 0.7.9
   - apiVersion: v1
     appVersion: '>=2.0.0'
-    created: "2020-05-07T14:12:45.711705+03:00"
+    created: "2020-05-11T11:13:13.907689866+03:00"
     dependencies:
     - name: v3io-configs
       repository: https://v3io.github.io/helm-charts/stable
@@ -4979,7 +5002,7 @@ entries:
     version: 0.7.8
   - apiVersion: v1
     appVersion: '>=2.0.0'
-    created: "2020-05-07T14:12:45.710536+03:00"
+    created: "2020-05-11T11:13:13.906957729+03:00"
     dependencies:
     - name: v3io-configs
       repository: https://v3io.github.io/helm-charts/stable
@@ -4999,7 +5022,7 @@ entries:
     version: 0.7.7
   - apiVersion: v1
     appVersion: '>=2.0.0'
-    created: "2020-05-07T14:12:45.709325+03:00"
+    created: "2020-05-11T11:13:13.906204705+03:00"
     dependencies:
     - name: v3io-configs
       repository: https://v3io.github.io/helm-charts/stable
@@ -5019,7 +5042,7 @@ entries:
     version: 0.7.6
   - apiVersion: v1
     appVersion: '>=2.0.0'
-    created: "2020-05-07T14:12:45.70734+03:00"
+    created: "2020-05-11T11:13:13.905472543+03:00"
     dependencies:
     - name: v3io-configs
       repository: https://v3io.github.io/helm-charts/stable
@@ -5039,7 +5062,7 @@ entries:
     version: 0.7.5
   - apiVersion: v1
     appVersion: '>=2.0.0'
-    created: "2020-05-07T14:12:45.706223+03:00"
+    created: "2020-05-11T11:13:13.904746094+03:00"
     dependencies:
     - name: v3io-configs
       repository: https://v3io.github.io/helm-charts/stable
@@ -5059,7 +5082,7 @@ entries:
     version: 0.7.4
   - apiVersion: v1
     appVersion: '>=2.0.0'
-    created: "2020-05-07T14:12:45.705054+03:00"
+    created: "2020-05-11T11:13:13.904021103+03:00"
     dependencies:
     - name: v3io-configs
       repository: https://v3io.github.io/helm-charts/stable
@@ -5079,7 +5102,7 @@ entries:
     version: 0.7.3
   - apiVersion: v1
     appVersion: '>=2.0.0'
-    created: "2020-05-07T14:12:45.703965+03:00"
+    created: "2020-05-11T11:13:13.903331989+03:00"
     dependencies:
     - name: v3io-configs
       repository: https://v3io.github.io/helm-charts/stable
@@ -5099,7 +5122,7 @@ entries:
     version: 0.7.2
   - apiVersion: v1
     appVersion: '>=2.0.0'
-    created: "2020-05-07T14:12:45.691016+03:00"
+    created: "2020-05-11T11:13:13.895070637+03:00"
     dependencies:
     - name: v3io-configs
       repository: https://v3io.github.io/helm-charts/stable
@@ -5119,7 +5142,7 @@ entries:
     version: 0.7.1
   - apiVersion: v1
     appVersion: '>=2.0.0'
-    created: "2020-05-07T14:12:45.689902+03:00"
+    created: "2020-05-11T11:13:13.894355586+03:00"
     dependencies:
     - name: v3io-configs
       repository: https://v3io.github.io/helm-charts/stable
@@ -5139,7 +5162,7 @@ entries:
     version: 0.7.0
   - apiVersion: v1
     appVersion: '>=2.0.0'
-    created: "2020-05-07T14:12:45.688736+03:00"
+    created: "2020-05-11T11:13:13.893414301+03:00"
     dependencies:
     - name: v3io-configs
       repository: https://v3io.github.io/helm-charts/stable
@@ -5159,7 +5182,7 @@ entries:
     version: 0.6.9
   - apiVersion: v1
     appVersion: '>=2.0.0'
-    created: "2020-05-07T14:12:45.686649+03:00"
+    created: "2020-05-11T11:13:13.892471966+03:00"
     dependencies:
     - name: v3io-configs
       repository: https://v3io.github.io/helm-charts/stable
@@ -5179,7 +5202,7 @@ entries:
     version: 0.6.8
   - apiVersion: v1
     appVersion: '>=2.0.0'
-    created: "2020-05-07T14:12:45.685377+03:00"
+    created: "2020-05-11T11:13:13.891750397+03:00"
     dependencies:
     - name: v3io-configs
       repository: https://v3io.github.io/helm-charts/stable
@@ -5199,7 +5222,7 @@ entries:
     version: 0.6.7
   - apiVersion: v1
     appVersion: '>=2.0.0'
-    created: "2020-05-07T14:12:45.684299+03:00"
+    created: "2020-05-11T11:13:13.891057598+03:00"
     dependencies:
     - name: v3io-configs
       repository: https://v3io.github.io/helm-charts/stable
@@ -5219,7 +5242,7 @@ entries:
     version: 0.6.6
   - apiVersion: v1
     appVersion: '>=2.0.0'
-    created: "2020-05-07T14:12:45.683197+03:00"
+    created: "2020-05-11T11:13:13.890334033+03:00"
     dependencies:
     - name: v3io-configs
       repository: https://v3io.github.io/helm-charts/stable
@@ -5239,7 +5262,7 @@ entries:
     version: 0.6.5
   - apiVersion: v1
     appVersion: '>=2.0.0'
-    created: "2020-05-07T14:12:45.682057+03:00"
+    created: "2020-05-11T11:13:13.889679476+03:00"
     dependencies:
     - name: v3io-configs
       repository: https://v3io.github.io/helm-charts/stable
@@ -5259,7 +5282,7 @@ entries:
     version: 0.6.4
   - apiVersion: v1
     appVersion: 1.7.0
-    created: "2020-05-07T14:12:45.680809+03:00"
+    created: "2020-05-11T11:13:13.889010269+03:00"
     dependencies:
     - name: v3io-configs
       repository: https://v3io.github.io/helm-charts/stable
@@ -5279,7 +5302,7 @@ entries:
     version: 0.6.3
   - apiVersion: v1
     appVersion: 1.7.0
-    created: "2020-05-07T14:12:45.679498+03:00"
+    created: "2020-05-11T11:13:13.888327865+03:00"
     dependencies:
     - name: v3io-configs
       repository: https://v3io.github.io/helm-charts/stable
@@ -5299,7 +5322,7 @@ entries:
     version: 0.6.2
   - apiVersion: v1
     appVersion: 1.7.0
-    created: "2020-05-07T14:12:45.6783+03:00"
+    created: "2020-05-11T11:13:13.88765315+03:00"
     dependencies:
     - name: v3io-configs
       repository: https://v3io.github.io/helm-charts/stable
@@ -5319,7 +5342,7 @@ entries:
     version: 0.6.1
   - apiVersion: v1
     appVersion: 1.7.0
-    created: "2020-05-07T14:12:45.676003+03:00"
+    created: "2020-05-11T11:13:13.88698589+03:00"
     dependencies:
     - name: v3io-configs
       repository: https://v3io.github.io/helm-charts/stable
@@ -5339,7 +5362,7 @@ entries:
     version: 0.6.0
   - apiVersion: v1
     appVersion: 1.7.0
-    created: "2020-05-07T14:12:45.674775+03:00"
+    created: "2020-05-11T11:13:13.885823856+03:00"
     dependencies:
     - name: v3io-configs
       repository: https://v3io.github.io/helm-charts/stable
@@ -5359,7 +5382,7 @@ entries:
     version: 0.5.2
   - apiVersion: v1
     appVersion: 1.7.0
-    created: "2020-05-07T14:12:45.673732+03:00"
+    created: "2020-05-11T11:13:13.885182321+03:00"
     dependencies:
     - name: v3io-configs
       repository: https://v3io.github.io/helm-charts/stable
@@ -5379,7 +5402,7 @@ entries:
     version: 0.5.1
   - apiVersion: v1
     appVersion: 1.7.0
-    created: "2020-05-07T14:12:45.672665+03:00"
+    created: "2020-05-11T11:13:13.884517097+03:00"
     dependencies:
     - name: v3io-configs
       repository: https://v3io.github.io/helm-charts/stable
@@ -5399,7 +5422,7 @@ entries:
     version: 0.5.0
   - apiVersion: v1
     appVersion: 1.7.0
-    created: "2020-05-07T14:12:45.6707+03:00"
+    created: "2020-05-11T11:13:13.883400442+03:00"
     dependencies:
     - name: v3io-configs
       repository: https://v3io.github.io/helm-charts/stable
@@ -5419,7 +5442,7 @@ entries:
     version: 0.4.4
   - apiVersion: v1
     appVersion: 1.7.0
-    created: "2020-05-07T14:12:45.669494+03:00"
+    created: "2020-05-11T11:13:13.882769074+03:00"
     dependencies:
     - name: v3io-configs
       repository: https://v3io.github.io/helm-charts/stable
@@ -5439,7 +5462,7 @@ entries:
     version: 0.4.3
   - apiVersion: v1
     appVersion: 1.7.0
-    created: "2020-05-07T14:12:45.668274+03:00"
+    created: "2020-05-11T11:13:13.882092396+03:00"
     dependencies:
     - name: v3io-configs
       repository: https://v3io.github.io/helm-charts/stable
@@ -5459,7 +5482,7 @@ entries:
     version: 0.4.2
   - apiVersion: v1
     appVersion: 1.7.0
-    created: "2020-05-07T14:12:45.667054+03:00"
+    created: "2020-05-11T11:13:13.88145496+03:00"
     dependencies:
     - name: v3io-configs
       repository: https://v3io.github.io/helm-charts/stable
@@ -5479,7 +5502,7 @@ entries:
     version: 0.4.1
   - apiVersion: v1
     appVersion: 1.7.0
-    created: "2020-05-07T14:12:45.6716+03:00"
+    created: "2020-05-11T11:13:13.883853944+03:00"
     dependencies:
     - name: v3io-configs
       repository: https://v3io.github.io/helm-charts/stable
@@ -5499,7 +5522,7 @@ entries:
     version: "0.4"
   - apiVersion: v1
     appVersion: 1.7.0-b80
-    created: "2020-05-07T14:12:45.6651+03:00"
+    created: "2020-05-11T11:13:13.880818138+03:00"
     dependencies:
     - name: v3io-configs
       repository: https://v3io.github.io/helm-charts/stable
@@ -5519,7 +5542,7 @@ entries:
     version: "0.3"
   - apiVersion: v1
     appVersion: 1.5.2
-    created: "2020-05-07T14:12:45.664249+03:00"
+    created: "2020-05-11T11:13:13.880376621+03:00"
     description: Shell access to data services
     digest: fe2f3b37166b22003b86740ff575f85815808c03ea301f94170ab6f822babe05
     home: https://iguazio.com
@@ -5535,7 +5558,7 @@ entries:
     version: "0.2"
   - apiVersion: v1
     appVersion: 1.5.2
-    created: "2020-05-07T14:12:45.662244+03:00"
+    created: "2020-05-11T11:13:13.878502136+03:00"
     description: Shell access to data services
     digest: 75514bc2c3400b3f811eea29bb93321379dc66d1f87c7f9ff895f2f1337f9dce
     home: https://iguazio.com
@@ -5552,13 +5575,13 @@ entries:
   spark:
   - apiVersion: v1
     appVersion: '>=2.0.0'
-    created: "2020-05-07T14:12:45.743737+03:00"
+    created: "2020-05-11T11:13:13.927255146+03:00"
     dependencies:
     - name: v3io-configs
       repository: https://v3io.github.io/helm-charts/stable
       version: 0.8.0
     description: Fast and general-purpose cluster computing system.
-    digest: 05dbb55622e67f3ac332697a678e3f3c318fadf8244571231b16822d9fc3c63c
+    digest: e0c8402498e25c62191802171b5f74ddac22365c7d2956e4c46b1391ce7bb227
     home: http://spark.apache.org
     icon: http://spark.apache.org/images/spark-logo-trademark.png
     maintainers:
@@ -5577,7 +5600,7 @@ entries:
     version: 0.10.3
   - apiVersion: v1
     appVersion: '>=2.0.0'
-    created: "2020-05-07T14:12:45.74265+03:00"
+    created: "2020-05-11T11:13:13.926463325+03:00"
     dependencies:
     - name: v3io-configs
       repository: https://v3io.github.io/helm-charts/stable
@@ -5600,7 +5623,7 @@ entries:
     version: 0.10.1
   - apiVersion: v1
     appVersion: '>=2.0.0'
-    created: "2020-05-07T14:12:45.740571+03:00"
+    created: "2020-05-11T11:13:13.925788379+03:00"
     dependencies:
     - name: v3io-configs
       repository: https://v3io.github.io/helm-charts/stable
@@ -5623,7 +5646,7 @@ entries:
     version: 0.10.0
   - apiVersion: v1
     appVersion: '>=2.0.0'
-    created: "2020-05-07T14:12:45.799202+03:00"
+    created: "2020-05-11T11:13:13.959161394+03:00"
     dependencies:
     - name: v3io-configs
       repository: https://v3io.github.io/helm-charts/stable
@@ -5646,7 +5669,7 @@ entries:
     version: 0.9.3
   - apiVersion: v1
     appVersion: '>=2.0.0'
-    created: "2020-05-07T14:12:45.798037+03:00"
+    created: "2020-05-11T11:13:13.958448123+03:00"
     dependencies:
     - name: v3io-configs
       repository: https://v3io.github.io/helm-charts/stable
@@ -5669,7 +5692,7 @@ entries:
     version: 0.9.2
   - apiVersion: v1
     appVersion: '>=2.0.0'
-    created: "2020-05-07T14:12:45.796844+03:00"
+    created: "2020-05-11T11:13:13.957787485+03:00"
     dependencies:
     - name: v3io-configs
       repository: https://v3io.github.io/helm-charts/stable
@@ -5692,7 +5715,7 @@ entries:
     version: 0.9.1
   - apiVersion: v1
     appVersion: '>=2.0.0'
-    created: "2020-05-07T14:12:45.795661+03:00"
+    created: "2020-05-11T11:13:13.957078693+03:00"
     dependencies:
     - name: v3io-configs
       repository: https://v3io.github.io/helm-charts/stable
@@ -5715,7 +5738,7 @@ entries:
     version: 0.9.0
   - apiVersion: v1
     appVersion: '>=2.0.0'
-    created: "2020-05-07T14:12:45.794479+03:00"
+    created: "2020-05-11T11:13:13.95641836+03:00"
     dependencies:
     - name: v3io-configs
       repository: https://v3io.github.io/helm-charts/stable
@@ -5738,7 +5761,7 @@ entries:
     version: 0.8.0
   - apiVersion: v1
     appVersion: '>=2.0.0'
-    created: "2020-05-07T14:12:45.79338+03:00"
+    created: "2020-05-11T11:13:13.955768373+03:00"
     dependencies:
     - name: v3io-configs
       repository: https://v3io.github.io/helm-charts/stable
@@ -5761,7 +5784,7 @@ entries:
     version: 0.7.7
   - apiVersion: v1
     appVersion: '>=2.0.0'
-    created: "2020-05-07T14:12:45.79233+03:00"
+    created: "2020-05-11T11:13:13.955018954+03:00"
     dependencies:
     - name: v3io-configs
       repository: https://v3io.github.io/helm-charts/stable
@@ -5784,7 +5807,7 @@ entries:
     version: 0.7.6
   - apiVersion: v1
     appVersion: '>=2.0.0'
-    created: "2020-05-07T14:12:45.791269+03:00"
+    created: "2020-05-11T11:13:13.953991365+03:00"
     dependencies:
     - name: v3io-configs
       repository: https://v3io.github.io/helm-charts/stable
@@ -5807,7 +5830,7 @@ entries:
     version: 0.7.5
   - apiVersion: v1
     appVersion: '>=2.0.0'
-    created: "2020-05-07T14:12:45.790035+03:00"
+    created: "2020-05-11T11:13:13.953375234+03:00"
     dependencies:
     - name: v3io-configs
       repository: https://v3io.github.io/helm-charts/stable
@@ -5830,7 +5853,7 @@ entries:
     version: 0.7.4
   - apiVersion: v1
     appVersion: '>=2.0.0'
-    created: "2020-05-07T14:12:45.788437+03:00"
+    created: "2020-05-11T11:13:13.952767813+03:00"
     dependencies:
     - name: v3io-configs
       repository: https://v3io.github.io/helm-charts/stable
@@ -5853,7 +5876,7 @@ entries:
     version: 0.7.3
   - apiVersion: v1
     appVersion: '>=2.0.0'
-    created: "2020-05-07T14:12:45.787353+03:00"
+    created: "2020-05-11T11:13:13.952152488+03:00"
     dependencies:
     - name: v3io-configs
       repository: https://v3io.github.io/helm-charts/stable
@@ -5876,7 +5899,7 @@ entries:
     version: 0.7.2
   - apiVersion: v1
     appVersion: '>=2.0.0'
-    created: "2020-05-07T14:12:45.786187+03:00"
+    created: "2020-05-11T11:13:13.951553319+03:00"
     dependencies:
     - name: v3io-configs
       repository: https://v3io.github.io/helm-charts/stable
@@ -5899,7 +5922,7 @@ entries:
     version: 0.7.1
   - apiVersion: v1
     appVersion: '>=2.0.0'
-    created: "2020-05-07T14:12:45.785004+03:00"
+    created: "2020-05-11T11:13:13.950961029+03:00"
     dependencies:
     - name: v3io-configs
       repository: https://v3io.github.io/helm-charts/stable
@@ -5922,7 +5945,7 @@ entries:
     version: 0.7.0
   - apiVersion: v1
     appVersion: '>=2.0.0'
-    created: "2020-05-07T14:12:45.783975+03:00"
+    created: "2020-05-11T11:13:13.95036259+03:00"
     dependencies:
     - name: v3io-configs
       repository: https://v3io.github.io/helm-charts/stable
@@ -5945,7 +5968,7 @@ entries:
     version: 0.6.2
   - apiVersion: v1
     appVersion: 2.1.2-1.7.0
-    created: "2020-05-07T14:12:45.779869+03:00"
+    created: "2020-05-11T11:13:13.947091067+03:00"
     dependencies:
     - name: v3io-configs
       repository: https://v3io.github.io/helm-charts/stable
@@ -5968,7 +5991,7 @@ entries:
     version: 0.6.1
   - apiVersion: v1
     appVersion: 2.1.2-1.7.0
-    created: "2020-05-07T14:12:45.774782+03:00"
+    created: "2020-05-11T11:13:13.944410184+03:00"
     dependencies:
     - name: v3io-configs
       repository: https://v3io.github.io/helm-charts/stable
@@ -5991,7 +6014,7 @@ entries:
     version: 0.6.0
   - apiVersion: v1
     appVersion: 2.1.2-1.7.0
-    created: "2020-05-07T14:12:45.769631+03:00"
+    created: "2020-05-11T11:13:13.940961807+03:00"
     dependencies:
     - name: v3io-configs
       repository: https://v3io.github.io/helm-charts/stable
@@ -6014,7 +6037,7 @@ entries:
     version: 0.5.9
   - apiVersion: v1
     appVersion: 2.1.2-1.7.0
-    created: "2020-05-07T14:12:45.767615+03:00"
+    created: "2020-05-11T11:13:13.939522583+03:00"
     dependencies:
     - name: v3io-configs
       repository: https://v3io.github.io/helm-charts/stable
@@ -6037,7 +6060,7 @@ entries:
     version: 0.5.8
   - apiVersion: v1
     appVersion: 2.1.2-1.7.0
-    created: "2020-05-07T14:12:45.764858+03:00"
+    created: "2020-05-11T11:13:13.937883361+03:00"
     dependencies:
     - name: v3io-configs
       repository: https://v3io.github.io/helm-charts/stable
@@ -6060,7 +6083,7 @@ entries:
     version: 0.5.7
   - apiVersion: v1
     appVersion: 2.1.2-1.7.0
-    created: "2020-05-07T14:12:45.763097+03:00"
+    created: "2020-05-11T11:13:13.93667626+03:00"
     dependencies:
     - name: v3io-configs
       repository: https://v3io.github.io/helm-charts/stable
@@ -6083,7 +6106,7 @@ entries:
     version: 0.5.6
   - apiVersion: v1
     appVersion: 2.1.2-1.7.0
-    created: "2020-05-07T14:12:45.761298+03:00"
+    created: "2020-05-11T11:13:13.935442293+03:00"
     dependencies:
     - name: v3io-configs
       repository: https://v3io.github.io/helm-charts/stable
@@ -6106,7 +6129,7 @@ entries:
     version: 0.5.5
   - apiVersion: v1
     appVersion: 2.1.2-1.7.0
-    created: "2020-05-07T14:12:45.760189+03:00"
+    created: "2020-05-11T11:13:13.934722169+03:00"
     dependencies:
     - name: v3io-configs
       repository: https://v3io.github.io/helm-charts/stable
@@ -6129,7 +6152,7 @@ entries:
     version: 0.5.4
   - apiVersion: v1
     appVersion: 2.1.2-1.7.0
-    created: "2020-05-07T14:12:45.75896+03:00"
+    created: "2020-05-11T11:13:13.934005709+03:00"
     dependencies:
     - name: v3io-configs
       repository: https://v3io.github.io/helm-charts/stable
@@ -6152,7 +6175,7 @@ entries:
     version: 0.5.3
   - apiVersion: v1
     appVersion: 2.1.2-1.7.0
-    created: "2020-05-07T14:12:45.757444+03:00"
+    created: "2020-05-11T11:13:13.933297778+03:00"
     dependencies:
     - name: v3io-configs
       repository: https://v3io.github.io/helm-charts/stable
@@ -6175,7 +6198,7 @@ entries:
     version: 0.5.2
   - apiVersion: v1
     appVersion: 2.1.2-1.7.0
-    created: "2020-05-07T14:12:45.756049+03:00"
+    created: "2020-05-11T11:13:13.932580636+03:00"
     dependencies:
     - name: v3io-configs
       repository: https://v3io.github.io/helm-charts/stable
@@ -6198,7 +6221,7 @@ entries:
     version: 0.5.1
   - apiVersion: v1
     appVersion: 2.1.2-1.7.0
-    created: "2020-05-07T14:12:45.770743+03:00"
+    created: "2020-05-11T11:13:13.941642525+03:00"
     dependencies:
     - name: v3io-configs
       repository: https://v3io.github.io/helm-charts/stable
@@ -6221,7 +6244,7 @@ entries:
     version: "0.5"
   - apiVersion: v1
     appVersion: 2.1.2-1.7_b2_20180620143303
-    created: "2020-05-07T14:12:45.754638+03:00"
+    created: "2020-05-11T11:13:13.931692273+03:00"
     description: Fast and general-purpose cluster computing system.
     digest: 8da6736da862fd36db6a2f6171502b53da9dc2c7c629fecced9bbd6279059290
     home: http://spark.apache.org
@@ -6240,7 +6263,7 @@ entries:
     version: "0.4"
   - apiVersion: v1
     appVersion: 2.1.2-1.5.2
-    created: "2020-05-07T14:12:45.752608+03:00"
+    created: "2020-05-11T11:13:13.930729617+03:00"
     description: Fast and general-purpose cluster computing system.
     digest: d8606e3302486a8d09fa8f4ab35cbc58780d4309382f06337fd10d9fda0bc9e6
     home: http://spark.apache.org
@@ -6259,7 +6282,7 @@ entries:
     version: "0.3"
   - apiVersion: v1
     appVersion: 2.1.2-1.5.2
-    created: "2020-05-07T14:12:45.751388+03:00"
+    created: "2020-05-11T11:13:13.930291228+03:00"
     description: Fast and general-purpose cluster computing system.
     digest: f399d967b799cc463be8320dfc13be4200de08b18ea0516fcd8529cec0341ad9
     home: http://spark.apache.org
@@ -6278,7 +6301,7 @@ entries:
     version: 0.2.9
   - apiVersion: v1
     appVersion: 2.1.2
-    created: "2020-05-07T14:12:45.750234+03:00"
+    created: "2020-05-11T11:13:13.929849249+03:00"
     description: Fast and general-purpose cluster computing system.
     digest: 428d91a43b0d31162377ad72db9123268bf7a74bf02b48fb4ece5bf694ab735b
     home: http://spark.apache.org
@@ -6297,7 +6320,7 @@ entries:
     version: 0.2.8
   - apiVersion: v1
     appVersion: 2.1.2
-    created: "2020-05-07T14:12:45.749016+03:00"
+    created: "2020-05-11T11:13:13.929424487+03:00"
     description: Fast and general-purpose cluster computing system.
     digest: 72e257e0f07baff0eaedfc08c1401cdfd77a03c5a0f004ed06fa0af70266a2b4
     home: http://spark.apache.org
@@ -6316,7 +6339,7 @@ entries:
     version: 0.2.7
   - apiVersion: v1
     appVersion: 2.1.2
-    created: "2020-05-07T14:12:45.747762+03:00"
+    created: "2020-05-11T11:13:13.928996868+03:00"
     description: Fast and general-purpose cluster computing system.
     digest: 88570d4735600a8edc52c3585fa2cdc84a1f84d442b6f62018745438b543a18e
     home: http://spark.apache.org
@@ -6335,7 +6358,7 @@ entries:
     version: 0.2.6
   - apiVersion: v1
     appVersion: 2.1.2
-    created: "2020-05-07T14:12:45.746656+03:00"
+    created: "2020-05-11T11:13:13.92855789+03:00"
     description: Fast and general-purpose cluster computing system.
     digest: e5e6cac642ffcf5bdec30b16177d8309f5aedee3e13092a895ae2f13efbb1436
     home: http://spark.apache.org
@@ -6354,7 +6377,7 @@ entries:
     version: 0.2.5
   - apiVersion: v1
     appVersion: 2.1.2
-    created: "2020-05-07T14:12:45.745596+03:00"
+    created: "2020-05-11T11:13:13.928125607+03:00"
     description: Fast and general-purpose cluster computing system.
     digest: a654aa93060f60336067c34a9f746ddfbfc95f539a0af8c2b2eab7759dad782e
     home: http://spark.apache.org
@@ -6373,7 +6396,7 @@ entries:
     version: 0.2.4
   - apiVersion: v1
     appVersion: 2.1.2
-    created: "2020-05-07T14:12:45.744565+03:00"
+    created: "2020-05-11T11:13:13.927650621+03:00"
     description: Fast and general-purpose cluster computing system.
     digest: 847ebfbc17d9fa9d63b5eb274187bf52e3a836148af4b3e242a1f197a24ac050
     home: http://spark.apache.org
@@ -6393,13 +6416,13 @@ entries:
   sparkoperator:
   - apiVersion: v1
     appVersion: v1beta2-1.0.1-2.4.4
-    created: "2020-05-07T14:12:45.805045+03:00"
+    created: "2020-05-11T11:13:13.963103582+03:00"
     dependencies:
     - name: v3io-configs
       repository: https://v3io.github.io/helm-charts/stable
       version: 0.8.0
     description: A Helm chart for Spark on Kubernetes operator
-    digest: 529287a4fc1a20c0c1984d5b5c2369a8eac3747e25edb0ff700c3d46a3a25e08
+    digest: c62a4a32203fc964bfb67e4444cb81b150d780dcb0ceb65b14bce1d39e524a8f
     home: https://github.com/GoogleCloudPlatform/spark-on-k8s-operator
     keywords:
     - spark
@@ -6412,7 +6435,7 @@ entries:
     version: 1.1.0
   - apiVersion: v1
     appVersion: v1beta2-1.0.1-2.4.4
-    created: "2020-05-07T14:12:45.803559+03:00"
+    created: "2020-05-11T11:13:13.962057701+03:00"
     dependencies:
     - name: v3io-configs
       repository: https://v3io.github.io/helm-charts/stable
@@ -6431,7 +6454,7 @@ entries:
     version: 1.0.1
   - apiVersion: v1
     appVersion: v1beta2-1.0.1-2.4.4
-    created: "2020-05-07T14:12:45.801674+03:00"
+    created: "2020-05-11T11:13:13.960251253+03:00"
     dependencies:
     - name: v3io-configs
       repository: https://v3io.github.io/helm-charts/stable
@@ -6450,7 +6473,7 @@ entries:
     version: 1.0.0
   taxi-demo:
   - apiVersion: v1
-    created: "2020-05-07T14:12:45.810635+03:00"
+    created: "2020-05-11T11:13:13.96611807+03:00"
     description: V3IO Taxi Demo
     digest: b5563f1ac84096cbdb6636a2ef1ee951e453783fb1b2d372c8649376084c7073
     home: https://iguazio.com
@@ -6465,7 +6488,7 @@ entries:
     - https://v3io.github.io/helm-charts/stable/taxi-demo-0.2.7.tgz
     version: 0.2.7
   - apiVersion: v1
-    created: "2020-05-07T14:12:45.809218+03:00"
+    created: "2020-05-11T11:13:13.965289939+03:00"
     description: V3IO Taxi Demo
     digest: 7ec30db127385494ed86376022643126bf3a2ed77e06bf8fdb9d5d32f61be473
     home: https://iguazio.com
@@ -6480,7 +6503,7 @@ entries:
     - https://v3io.github.io/helm-charts/stable/taxi-demo-0.2.6.tgz
     version: 0.2.6
   - apiVersion: v1
-    created: "2020-05-07T14:12:45.808517+03:00"
+    created: "2020-05-11T11:13:13.964960071+03:00"
     description: V3IO Taxi Demo
     digest: 05fe3e370e57979521cec413ea5809b56d500dd6a53f2c53e3d8ac1cd584cefe
     home: https://iguazio.com
@@ -6495,7 +6518,7 @@ entries:
     - https://v3io.github.io/helm-charts/stable/taxi-demo-0.2.5.tgz
     version: 0.2.5
   - apiVersion: v1
-    created: "2020-05-07T14:12:45.807889+03:00"
+    created: "2020-05-11T11:13:13.964628109+03:00"
     description: V3IO Taxi Demo
     digest: 21c7f8628c5202c6c225e6e0f7a3851fd0a5b3af8de1d314e8770f228828cff5
     home: https://iguazio.com
@@ -6510,7 +6533,7 @@ entries:
     - https://v3io.github.io/helm-charts/stable/taxi-demo-0.2.4.tgz
     version: 0.2.4
   - apiVersion: v1
-    created: "2020-05-07T14:12:45.807305+03:00"
+    created: "2020-05-11T11:13:13.964298944+03:00"
     description: V3IO Taxi Demo
     digest: 83bbe5776e5bc9f170afcd858bd858954d7cf42cac997bfd130c832eb4510dcb
     home: https://iguazio.com
@@ -6525,7 +6548,7 @@ entries:
     - https://v3io.github.io/helm-charts/stable/taxi-demo-0.2.3.tgz
     version: 0.2.3
   - apiVersion: v1
-    created: "2020-05-07T14:12:45.806722+03:00"
+    created: "2020-05-11T11:13:13.963972474+03:00"
     description: V3IO Taxi Demo
     digest: a97fea42c504a17518966000a49a9b4b601df63ae2ad339ebcecea7294c0d290
     home: https://iguazio.com
@@ -6540,7 +6563,7 @@ entries:
     - https://v3io.github.io/helm-charts/stable/taxi-demo-0.2.2.tgz
     version: 0.2.2
   - apiVersion: v1
-    created: "2020-05-07T14:12:45.806137+03:00"
+    created: "2020-05-11T11:13:13.963640266+03:00"
     description: V3IO Taxi Demo
     digest: 1cabdd1ae749bd74fd18804a200ee7996d5a519291b99ab41fb9deec05879708
     home: https://iguazio.com
@@ -6555,7 +6578,7 @@ entries:
     - https://v3io.github.io/helm-charts/stable/taxi-demo-0.2.1.tgz
     version: 0.2.1
   - apiVersion: v1
-    created: "2020-05-07T14:12:45.811954+03:00"
+    created: "2020-05-11T11:13:13.966409982+03:00"
     description: V3IO Taxi Demo
     digest: 4e88b2dfbf7e3f10ec8a83df2ff6dc5e3d586fcf4613c2f5811b436c7fb08fc3
     home: https://iguazio.com
@@ -6570,7 +6593,7 @@ entries:
     - https://v3io.github.io/helm-charts/stable/taxi-demo-0.2.tgz
     version: "0.2"
   - apiVersion: v1
-    created: "2020-05-07T14:12:45.805522+03:00"
+    created: "2020-05-11T11:13:13.963320075+03:00"
     description: V3IO Taxi Demo
     digest: b1a155cd2eb2ce544ce503ad8a3a613726224db44346989296dc7a01bb8f3785
     home: https://iguazio.com
@@ -6586,9 +6609,9 @@ entries:
     version: "0.1"
   tenant:
   - apiVersion: v1
-    created: "2020-05-07T14:12:45.81652+03:00"
+    created: "2020-05-11T11:13:13.969564603+03:00"
     description: A Helm chart for creating tenant
-    digest: 3a174593c8ee652252bd071ec7178dceefcb65c9847e2aa74a8114d69a11eea4
+    digest: 717dd9aca99d6a58805b48f962e0b3be3fc92e9f4b1fcc65a8a08654d35eecbf
     home: https://iguazio.com
     icon: https://www.iguazio.com/wp-content/uploads/2017/09/iguazio_logo_2017_w_c.png
     maintainers:
@@ -6601,7 +6624,7 @@ entries:
     - https://v3io.github.io/helm-charts/stable/tenant-0.3.0.tgz
     version: 0.3.0
   - apiVersion: v1
-    created: "2020-05-07T14:12:45.815957+03:00"
+    created: "2020-05-11T11:13:13.969187211+03:00"
     description: A Helm chart for creating tenant
     digest: e6ff8fadf51b8fa934ce139063aa61d390fa64b6e8a601dc20d4a9d7c817a7a9
     home: https://iguazio.com
@@ -6616,7 +6639,7 @@ entries:
     - https://v3io.github.io/helm-charts/stable/tenant-0.2.3.tgz
     version: 0.2.3
   - apiVersion: v1
-    created: "2020-05-07T14:12:45.815199+03:00"
+    created: "2020-05-11T11:13:13.968342613+03:00"
     description: A Helm chart for creating tenant
     digest: b1957a1cf31988ef1c34146e3b02cd85079ac6322536e4b96accc79e17d53d6e
     home: https://iguazio.com
@@ -6631,7 +6654,7 @@ entries:
     - https://v3io.github.io/helm-charts/stable/tenant-0.2.2.tgz
     version: 0.2.2
   - apiVersion: v1
-    created: "2020-05-07T14:12:45.814491+03:00"
+    created: "2020-05-11T11:13:13.967766263+03:00"
     description: A Helm chart for creating tenant
     digest: fb50f6a0edf91eb4100c1a41f8bebc509fa0f682c6ea5b4a83391ef8801b6914
     home: https://iguazio.com
@@ -6646,7 +6669,7 @@ entries:
     - https://v3io.github.io/helm-charts/stable/tenant-0.2.1.tgz
     version: 0.2.1
   - apiVersion: v1
-    created: "2020-05-07T14:12:45.813775+03:00"
+    created: "2020-05-11T11:13:13.967403821+03:00"
     description: A Helm chart for creating tenant
     digest: 96ca4011981c0da7491d9dcd2943785bf60b23f373f2e29921454935ee176202
     home: https://iguazio.com
@@ -6661,7 +6684,7 @@ entries:
     - https://v3io.github.io/helm-charts/stable/tenant-0.2.0.tgz
     version: 0.2.0
   - apiVersion: v1
-    created: "2020-05-07T14:12:45.813131+03:00"
+    created: "2020-05-11T11:13:13.967042924+03:00"
     description: A Helm chart for creating tenant
     digest: 4f7a4c8e45f150a1535083f0c022322a47615ef10df554df44618e777a3dee92
     home: https://iguazio.com
@@ -6676,7 +6699,7 @@ entries:
     - https://v3io.github.io/helm-charts/stable/tenant-0.1.1.tgz
     version: 0.1.1
   - apiVersion: v1
-    created: "2020-05-07T14:12:45.812553+03:00"
+    created: "2020-05-11T11:13:13.966734967+03:00"
     description: A Helm chart for creating tenant
     digest: 3922a65ddee02b5807d0596d831bb72c5b52b9884096154ebaa56da007195f4c
     home: https://iguazio.com
@@ -6692,9 +6715,9 @@ entries:
     version: 0.1.0
   tenant-creator:
   - apiVersion: v1
-    created: "2020-05-07T14:12:45.818907+03:00"
+    created: "2020-05-11T11:13:13.970651656+03:00"
     description: A Helm chart for creating tenant creator
-    digest: 21bd4ef300fe9e5d7e80d172b738ebb036ef0f73675c780bf6b39cc3a2a1b4ce
+    digest: 670cdea2552b8907099d108c6e8241a5a8251c7c41d4af6de106f53cd5fb267e
     home: https://iguazio.com
     icon: https://www.iguazio.com/wp-content/uploads/2017/09/iguazio_logo_2017_w_c.png
     maintainers:
@@ -6707,7 +6730,7 @@ entries:
     - https://v3io.github.io/helm-charts/stable/tenant-creator-0.2.0.tgz
     version: 0.2.0
   - apiVersion: v1
-    created: "2020-05-07T14:12:45.818584+03:00"
+    created: "2020-05-11T11:13:13.97045832+03:00"
     description: A Helm chart for creating tenant creator
     digest: 8e10c1e4e83e220e08d7eaf8b833fa3bf6ed5e0057a3e449e0fc8d4bd4cede4a
     home: https://iguazio.com
@@ -6722,7 +6745,7 @@ entries:
     - https://v3io.github.io/helm-charts/stable/tenant-creator-0.1.4.tgz
     version: 0.1.4
   - apiVersion: v1
-    created: "2020-05-07T14:12:45.818155+03:00"
+    created: "2020-05-11T11:13:13.970283532+03:00"
     description: A Helm chart for creating tenant creator
     digest: bef9adf692aa6b922689aaaf45f249cb7613a14da49a82f35ca10dca67e94756
     home: https://iguazio.com
@@ -6737,7 +6760,7 @@ entries:
     - https://v3io.github.io/helm-charts/stable/tenant-creator-0.1.3.tgz
     version: 0.1.3
   - apiVersion: v1
-    created: "2020-05-07T14:12:45.817741+03:00"
+    created: "2020-05-11T11:13:13.970104363+03:00"
     description: A Helm chart for creating tenant creator
     digest: 7fd65dfba62569dab2041b9a69fa3bb8e899301581e7a75172705636270de286
     home: https://iguazio.com
@@ -6752,7 +6775,7 @@ entries:
     - https://v3io.github.io/helm-charts/stable/tenant-creator-0.1.2.tgz
     version: 0.1.2
   - apiVersion: v1
-    created: "2020-05-07T14:12:45.817351+03:00"
+    created: "2020-05-11T11:13:13.969927562+03:00"
     description: A Helm chart for creating tenant creator
     digest: 462d1939389d6a10bb004ea6423e01a7542d0cbc6f50ac353ebbe41f5d8e2adf
     home: https://iguazio.com
@@ -6767,7 +6790,7 @@ entries:
     - https://v3io.github.io/helm-charts/stable/tenant-creator-0.1.1.tgz
     version: 0.1.1
   - apiVersion: v1
-    created: "2020-05-07T14:12:45.816946+03:00"
+    created: "2020-05-11T11:13:13.969746485+03:00"
     description: A Helm chart for creating tenant creator
     digest: aba3045dfc1b57e1a776bd079014ff6cb25f70dc567056449959bbd385bf876b
     home: https://iguazio.com
@@ -6784,9 +6807,9 @@ entries:
   tsdb-functions:
   - apiVersion: v1
     appVersion: 0.0.12
-    created: "2020-05-07T14:12:45.831195+03:00"
+    created: "2020-05-11T11:13:13.977217045+03:00"
     description: V3IO TSDB nuclio functions
-    digest: 9c3227c4f7bd7dc4e5f406477d4920d9ba4f56c582e4e296efdcd23703e5b91a
+    digest: c103c06e44a7b90424b600992158c84111c7e74f1f56df28b7fc01b84741b8d9
     home: https://iguazio.com
     icon: https://www.iguazio.com/wp-content/uploads/2017/09/iguazio_logo_2017_w_c.png
     maintainers:
@@ -6800,7 +6823,7 @@ entries:
     version: 0.3.0
   - apiVersion: v1
     appVersion: 0.0.12
-    created: "2020-05-07T14:12:45.830726+03:00"
+    created: "2020-05-11T11:13:13.976870311+03:00"
     description: V3IO TSDB nuclio functions
     digest: 89f4c58c0acd7ef873a2cfc532b22f87479a74bc2f5bc9b9334381f6ef85292c
     home: https://iguazio.com
@@ -6816,7 +6839,7 @@ entries:
     version: 0.2.1
   - apiVersion: v1
     appVersion: 0.0.12
-    created: "2020-05-07T14:12:45.83021+03:00"
+    created: "2020-05-11T11:13:13.976604867+03:00"
     description: V3IO TSDB nuclio functions
     digest: c7de245bb52eadd0187dc688f136e45f0a47f34631fa66712d7e3b0b305aae44
     home: https://iguazio.com
@@ -6832,7 +6855,7 @@ entries:
     version: 0.2.0
   - apiVersion: v1
     appVersion: 0.0.12
-    created: "2020-05-07T14:12:45.829756+03:00"
+    created: "2020-05-11T11:13:13.976322286+03:00"
     description: V3IO TSDB nuclio functions
     digest: 7c716bef028a46aa32e48ca72314f51a7f051e78a92ea9f95677e8c9ce421c87
     home: https://iguazio.com
@@ -6848,7 +6871,7 @@ entries:
     version: 0.1.2
   - apiVersion: v1
     appVersion: 0.0.12
-    created: "2020-05-07T14:12:45.829295+03:00"
+    created: "2020-05-11T11:13:13.976067467+03:00"
     description: V3IO TSDB nuclio functions
     digest: 060a14209cdfa90c768973830c39bc6bcb857f64b8c927502fb43b93c0fe1afb
     home: https://iguazio.com
@@ -6864,7 +6887,7 @@ entries:
     version: 0.1.1
   - apiVersion: v1
     appVersion: 0.0.12
-    created: "2020-05-07T14:12:45.828825+03:00"
+    created: "2020-05-11T11:13:13.975820859+03:00"
     description: V3IO TSDB nuclio functions
     digest: f397cbde1d522635d5bde09dfb41db3e7eb3b4185e3ddecc33d741b8291da930
     home: https://iguazio.com
@@ -6880,7 +6903,7 @@ entries:
     version: 0.1.0
   - apiVersion: v1
     appVersion: 0.0.12
-    created: "2020-05-07T14:12:45.824643+03:00"
+    created: "2020-05-11T11:13:13.973118877+03:00"
     description: V3IO TSDB nuclio functions
     digest: e8f1352ba55ee6ac94b7015dbccbd0de436b8dc4ba1fb28bd4ae029d78da3ad1
     home: https://iguazio.com
@@ -6896,7 +6919,7 @@ entries:
     version: 0.0.18
   - apiVersion: v1
     appVersion: 0.0.12
-    created: "2020-05-07T14:12:45.824078+03:00"
+    created: "2020-05-11T11:13:13.972868877+03:00"
     description: V3IO TSDB nuclio functions
     digest: 4184d2bba233ad02ee3008a15114da2f403fc0911573bbec493b0f4000647e3d
     home: https://iguazio.com
@@ -6912,7 +6935,7 @@ entries:
     version: 0.0.17
   - apiVersion: v1
     appVersion: 0.0.12
-    created: "2020-05-07T14:12:45.823596+03:00"
+    created: "2020-05-11T11:13:13.972624471+03:00"
     description: V3IO TSDB nuclio functions
     digest: a2c5f55ceaf7b97ce17f135b6bbb9f32403c11dc228a8f0a6cac45e348a6763e
     home: https://iguazio.com
@@ -6928,7 +6951,7 @@ entries:
     version: 0.0.16
   - apiVersion: v1
     appVersion: 0.0.12
-    created: "2020-05-07T14:12:45.823127+03:00"
+    created: "2020-05-11T11:13:13.972377272+03:00"
     description: V3IO TSDB nuclio functions
     digest: 823ff3655f8dedf72e0e8af995711360fcbdc4db5ef8351f5fe0d8623bf071d9
     home: https://iguazio.com
@@ -6944,7 +6967,7 @@ entries:
     version: 0.0.15
   - apiVersion: v1
     appVersion: 0.0.12
-    created: "2020-05-07T14:12:45.822601+03:00"
+    created: "2020-05-11T11:13:13.972127286+03:00"
     description: V3IO TSDB nuclio functions
     digest: ed69ba7be3afe16d1d0ae6886fc1f0007cd235585f6c1007ecd4073c73aedf3a
     home: https://iguazio.com
@@ -6960,7 +6983,7 @@ entries:
     version: 0.0.14
   - apiVersion: v1
     appVersion: 0.0.12
-    created: "2020-05-07T14:12:45.821461+03:00"
+    created: "2020-05-11T11:13:13.971888184+03:00"
     description: V3IO TSDB nuclio functions
     digest: 95288b03826923235146a680931ebf21aa81f5cc958edbb46b48951700b369f4
     home: https://iguazio.com
@@ -6976,7 +6999,7 @@ entries:
     version: 0.0.13
   - apiVersion: v1
     appVersion: 0.0.12
-    created: "2020-05-07T14:12:45.820695+03:00"
+    created: "2020-05-11T11:13:13.971644534+03:00"
     description: V3IO TSDB nuclio functions
     digest: 894602699e7d1496c42b8d7861871bab48c6484987f5b975960fa9543711c85d
     home: https://iguazio.com
@@ -6992,7 +7015,7 @@ entries:
     version: 0.0.12
   - apiVersion: v1
     appVersion: 0.0.12
-    created: "2020-05-07T14:12:45.820246+03:00"
+    created: "2020-05-11T11:13:13.971401976+03:00"
     description: V3IO TSDB nuclio functions
     digest: e73cd5ced2dfc0a3dbd3475240c34bf458a73294454932180c86605e3c95e82f
     home: https://iguazio.com
@@ -7008,7 +7031,7 @@ entries:
     version: 0.0.11
   - apiVersion: v1
     appVersion: 0.0.6
-    created: "2020-05-07T14:12:45.819774+03:00"
+    created: "2020-05-11T11:13:13.971159581+03:00"
     description: V3IO TSDB nuclio functions
     digest: f13776325ff30d6ee3b91d7ab1ef3cf0cc83f542dc82df94004c32350c36d4ff
     home: https://iguazio.com
@@ -7024,7 +7047,7 @@ entries:
     version: 0.0.10
   - apiVersion: v1
     appVersion: 0.0.5
-    created: "2020-05-07T14:12:45.828372+03:00"
+    created: "2020-05-11T11:13:13.975571741+03:00"
     description: V3IO TSDB nuclio functions
     digest: c934b78c33ce1435b9d23f1fc75b3189248baed430637cd8c8eb7c14b49e1596
     home: https://iguazio.com
@@ -7040,7 +7063,7 @@ entries:
     version: 0.0.9
   - apiVersion: v1
     appVersion: 0.0.4
-    created: "2020-05-07T14:12:45.827926+03:00"
+    created: "2020-05-11T11:13:13.975329952+03:00"
     description: V3IO TSDB nuclio functions
     digest: 30e34ff20caf84075dcb3b84f194596f4579866e83a3b09cbdea76a83aa2f5f5
     home: https://iguazio.com
@@ -7056,7 +7079,7 @@ entries:
     version: 0.0.8
   - apiVersion: v1
     appVersion: 0.0.3
-    created: "2020-05-07T14:12:45.827477+03:00"
+    created: "2020-05-11T11:13:13.974893966+03:00"
     description: V3IO TSDB nuclio functions
     digest: 1543910ebb8a47165f8a8d3e6e0fcf2423f82ab12a46ea029baa115bf1049a25
     home: https://iguazio.com
@@ -7072,7 +7095,7 @@ entries:
     version: 0.0.7
   - apiVersion: v1
     appVersion: 0.0.2
-    created: "2020-05-07T14:12:45.827038+03:00"
+    created: "2020-05-11T11:13:13.974333789+03:00"
     description: V3IO TSDB nuclio functions
     digest: 74c0860f61418d43055dbd8c18e79afd7978785162173d3b4f93a9af52e9be72
     home: https://iguazio.com
@@ -7088,7 +7111,7 @@ entries:
     version: 0.0.6
   - apiVersion: v1
     appVersion: 0.0.1
-    created: "2020-05-07T14:12:45.826505+03:00"
+    created: "2020-05-11T11:13:13.97399582+03:00"
     description: V3IO TSDB nuclio functions
     digest: 2992d7263e646178af8842ab1cb0871a8d903021855fdd7cd464b417fcce390f
     home: https://iguazio.com
@@ -7104,7 +7127,7 @@ entries:
     version: 0.0.5
   - apiVersion: v1
     appVersion: 0.0.1
-    created: "2020-05-07T14:12:45.826063+03:00"
+    created: "2020-05-11T11:13:13.973769816+03:00"
     description: V3IO TSDB nuclio functions
     digest: 7941bdccc7d9f990332888b385eb1eaa2412b2fa57cdbb5d9353786d73efc183
     home: https://iguazio.com
@@ -7119,7 +7142,7 @@ entries:
     - https://v3io.github.io/helm-charts/stable/tsdb-functions-0.0.4.tgz
     version: 0.0.4
   - apiVersion: v1
-    created: "2020-05-07T14:12:45.825618+03:00"
+    created: "2020-05-11T11:13:13.973549877+03:00"
     description: V3IO TSDB nuclio functions
     digest: 3a9cc279f00b7cb184ca3ebb3b8d0596c0557efd0606a825156cfbf60b4b62b5
     home: https://iguazio.com
@@ -7134,7 +7157,7 @@ entries:
     - https://v3io.github.io/helm-charts/stable/tsdb-functions-0.0.3.tgz
     version: 0.0.3
   - apiVersion: v1
-    created: "2020-05-07T14:12:45.825124+03:00"
+    created: "2020-05-11T11:13:13.973336759+03:00"
     description: V3IO TSDB nuclio functions
     digest: c395fc8ee7d8fb004c2951ee5666ebcf4ddb85d44f5ee61a1a982461723d20da
     home: https://iguazio.com
@@ -7149,7 +7172,7 @@ entries:
     - https://v3io.github.io/helm-charts/stable/tsdb-functions-0.0.2.tgz
     version: 0.0.2
   - apiVersion: v1
-    created: "2020-05-07T14:12:45.819326+03:00"
+    created: "2020-05-11T11:13:13.970857328+03:00"
     description: V3IO TSDB nuclio functions
     digest: ab6a29448de41697cdb4033c80910ea32002d3bca81689b647f76e641b978294
     home: https://iguazio.com
@@ -7165,7 +7188,7 @@ entries:
     version: 0.0.1
   v3io-app:
   - apiVersion: v1
-    created: "2020-05-07T14:12:45.83668+03:00"
+    created: "2020-05-11T11:13:13.980631641+03:00"
     dependencies:
     - condition: spark.enabled
       name: spark
@@ -7195,7 +7218,7 @@ entries:
     - https://v3io.github.io/helm-charts/stable/v3io-app-0.2.2.tgz
     version: 0.2.2
   - apiVersion: v1
-    created: "2020-05-07T14:12:45.834688+03:00"
+    created: "2020-05-11T11:13:13.979377799+03:00"
     dependencies:
     - condition: spark.enabled
       name: spark
@@ -7225,7 +7248,7 @@ entries:
     - https://v3io.github.io/helm-charts/stable/v3io-app-0.2.1.tgz
     version: 0.2.1
   - apiVersion: v1
-    created: "2020-05-07T14:12:45.838166+03:00"
+    created: "2020-05-11T11:13:13.981543606+03:00"
     dependencies:
     - condition: spark.enabled
       name: spark
@@ -7251,7 +7274,7 @@ entries:
     - https://v3io.github.io/helm-charts/stable/v3io-app-0.2.tgz
     version: "0.2"
   - apiVersion: v1
-    created: "2020-05-07T14:12:45.832944+03:00"
+    created: "2020-05-11T11:13:13.97815613+03:00"
     dependencies:
     - condition: spark.enabled
       name: spark
@@ -7274,7 +7297,7 @@ entries:
     version: 0.1.1
   v3io-base-system:
   - apiVersion: v1
-    created: "2020-05-07T14:12:45.847403+03:00"
+    created: "2020-05-11T11:13:13.98704526+03:00"
     dependencies:
     - condition: nuclio.enabled
       name: nuclio
@@ -7302,7 +7325,7 @@ entries:
     - https://v3io.github.io/helm-charts/stable/v3io-base-system-0.1.6.tgz
     version: 0.1.6
   - apiVersion: v1
-    created: "2020-05-07T14:12:45.846092+03:00"
+    created: "2020-05-11T11:13:13.986215922+03:00"
     dependencies:
     - condition: nuclio.enabled
       name: nuclio
@@ -7330,7 +7353,7 @@ entries:
     - https://v3io.github.io/helm-charts/stable/v3io-base-system-0.1.5.tgz
     version: 0.1.5
   - apiVersion: v1
-    created: "2020-05-07T14:12:45.844775+03:00"
+    created: "2020-05-11T11:13:13.98541986+03:00"
     dependencies:
     - condition: nuclio.enabled
       name: nuclio
@@ -7358,7 +7381,7 @@ entries:
     - https://v3io.github.io/helm-charts/stable/v3io-base-system-0.1.4.tgz
     version: 0.1.4
   - apiVersion: v1
-    created: "2020-05-07T14:12:45.843317+03:00"
+    created: "2020-05-11T11:13:13.984576695+03:00"
     dependencies:
     - condition: nuclio.enabled
       name: nuclio
@@ -7386,7 +7409,7 @@ entries:
     - https://v3io.github.io/helm-charts/stable/v3io-base-system-0.1.3.tgz
     version: 0.1.3
   - apiVersion: v1
-    created: "2020-05-07T14:12:45.841197+03:00"
+    created: "2020-05-11T11:13:13.983779275+03:00"
     dependencies:
     - condition: nuclio.enabled
       name: nuclio
@@ -7414,7 +7437,7 @@ entries:
     - https://v3io.github.io/helm-charts/stable/v3io-base-system-0.1.2.tgz
     version: 0.1.2
   - apiVersion: v1
-    created: "2020-05-07T14:12:45.839635+03:00"
+    created: "2020-05-11T11:13:13.982967395+03:00"
     dependencies:
     - condition: nuclio.enabled
       name: nuclio
@@ -7444,9 +7467,9 @@ entries:
   v3io-configs:
   - apiVersion: v1
     appVersion: "1.0"
-    created: "2020-05-07T14:12:45.857274+03:00"
+    created: "2020-05-11T11:13:13.991987069+03:00"
     description: V3IO configuration templates
-    digest: 0a9ee7bf0cdd0ff5854f0ce593627ccebb92602931b7f863316ba8f93bb202dc
+    digest: 72c8770f54871f6a3285ac7134a942123247981057e803eea5e2f7ea59f33a05
     icon: https://www.iguazio.com/wp-content/uploads/2017/09/iguazio_logo_2017_w_c.png
     maintainers:
     - email: eliranb@iguazio.com
@@ -7459,7 +7482,7 @@ entries:
     version: 0.8.0
   - apiVersion: v1
     appVersion: "1.0"
-    created: "2020-05-07T14:12:45.856898+03:00"
+    created: "2020-05-11T11:13:13.991749894+03:00"
     description: V3IO configuration templates
     digest: 39c10f770f69564f4ff49e807b3304370ef50027d1e6cd76924d44feac8814b9
     icon: https://www.iguazio.com/wp-content/uploads/2017/09/iguazio_logo_2017_w_c.png
@@ -7474,7 +7497,7 @@ entries:
     version: 0.7.4
   - apiVersion: v1
     appVersion: "1.0"
-    created: "2020-05-07T14:12:45.856446+03:00"
+    created: "2020-05-11T11:13:13.991514737+03:00"
     description: V3IO configuration templates
     digest: 971e3c7dac7e5ac581121337d03f3ba4f2b1e33aa68bd406df19c32f00ef1f29
     icon: https://www.iguazio.com/wp-content/uploads/2017/09/iguazio_logo_2017_w_c.png
@@ -7489,7 +7512,7 @@ entries:
     version: 0.7.3
   - apiVersion: v1
     appVersion: "1.0"
-    created: "2020-05-07T14:12:45.855987+03:00"
+    created: "2020-05-11T11:13:13.991310363+03:00"
     description: V3IO configuration templates
     digest: 8be2dd576c34558498c172a5da88c9750ef08d04ca0beed845fb554b31c7b0de
     icon: https://www.iguazio.com/wp-content/uploads/2017/09/iguazio_logo_2017_w_c.png
@@ -7504,7 +7527,7 @@ entries:
     version: 0.7.2
   - apiVersion: v1
     appVersion: "1.0"
-    created: "2020-05-07T14:12:45.85554+03:00"
+    created: "2020-05-11T11:13:13.991105768+03:00"
     description: V3IO configuration templates
     digest: d4b595e8c084deb71d98d1ce4938018a539d1d04d954f45e7edbb0ef728fd85e
     icon: https://www.iguazio.com/wp-content/uploads/2017/09/iguazio_logo_2017_w_c.png
@@ -7519,7 +7542,7 @@ entries:
     version: 0.7.1
   - apiVersion: v1
     appVersion: "1.0"
-    created: "2020-05-07T14:12:45.855025+03:00"
+    created: "2020-05-11T11:13:13.990904862+03:00"
     description: V3IO configuration templates
     digest: 4b90fbc8a37b7fccfc4e81ba9e5f995580981b18fb623e424417f278b8504e98
     icon: https://www.iguazio.com/wp-content/uploads/2017/09/iguazio_logo_2017_w_c.png
@@ -7534,7 +7557,7 @@ entries:
     version: 0.7.0
   - apiVersion: v1
     appVersion: "1.0"
-    created: "2020-05-07T14:12:45.854587+03:00"
+    created: "2020-05-11T11:13:13.990699656+03:00"
     description: V3IO configuration templates
     digest: d8b546eba66f8414bce1a45b484ddf19ec800c3c5b58ae791c60d271a9223d7e
     icon: https://www.iguazio.com/wp-content/uploads/2017/09/iguazio_logo_2017_w_c.png
@@ -7549,7 +7572,7 @@ entries:
     version: 0.6.6
   - apiVersion: v1
     appVersion: "1.0"
-    created: "2020-05-07T14:12:45.854096+03:00"
+    created: "2020-05-11T11:13:13.990492865+03:00"
     description: V3IO configuration templates
     digest: 0345208a2bd5df3b215295e90bddafd27d18df2371fc24c45d0920039cae3bac
     icon: https://www.iguazio.com/wp-content/uploads/2017/09/iguazio_logo_2017_w_c.png
@@ -7564,7 +7587,7 @@ entries:
     version: 0.6.5
   - apiVersion: v1
     appVersion: "1.0"
-    created: "2020-05-07T14:12:45.853679+03:00"
+    created: "2020-05-11T11:13:13.990297522+03:00"
     description: V3IO configuration templates
     digest: 9242c880914452bf4eb1094527b5ea6c15ae15523db7c9f0bd94bbde34b45d1e
     icon: https://www.iguazio.com/wp-content/uploads/2017/09/iguazio_logo_2017_w_c.png
@@ -7579,7 +7602,7 @@ entries:
     version: 0.6.4
   - apiVersion: v1
     appVersion: "1.0"
-    created: "2020-05-07T14:12:45.853183+03:00"
+    created: "2020-05-11T11:13:13.990099401+03:00"
     description: V3IO configuration templates
     digest: 2d1aa6c53681353c5b32e1f730b41260a23ed93e327397bc44d62425e43abb21
     icon: https://www.iguazio.com/wp-content/uploads/2017/09/iguazio_logo_2017_w_c.png
@@ -7594,7 +7617,7 @@ entries:
     version: 0.6.3
   - apiVersion: v1
     appVersion: "1.0"
-    created: "2020-05-07T14:12:45.852765+03:00"
+    created: "2020-05-11T11:13:13.989908044+03:00"
     description: V3IO configuration templates
     digest: 581258240b14db7af112444ffcf92494fdf1bd20e1edd6d047d48a76db075aad
     icon: https://www.iguazio.com/wp-content/uploads/2017/09/iguazio_logo_2017_w_c.png
@@ -7609,7 +7632,7 @@ entries:
     version: 0.6.2
   - apiVersion: v1
     appVersion: "1.0"
-    created: "2020-05-07T14:12:45.851751+03:00"
+    created: "2020-05-11T11:13:13.989633448+03:00"
     description: V3IO configuration templates
     digest: 0866bbee18a80e278c7ced60345990087199af984d3edd9a34e27b94dd45274a
     icon: https://www.iguazio.com/wp-content/uploads/2017/09/iguazio_logo_2017_w_c.png
@@ -7624,7 +7647,7 @@ entries:
     version: 0.6.1
   - apiVersion: v1
     appVersion: "1.0"
-    created: "2020-05-07T14:12:45.851384+03:00"
+    created: "2020-05-11T11:13:13.989108255+03:00"
     description: V3IO configuration templates
     digest: 13025bef637df34bffe383ae3b740625d4c08891b3b10112dbc52efb7d8aa745
     icon: https://www.iguazio.com/wp-content/uploads/2017/09/iguazio_logo_2017_w_c.png
@@ -7639,7 +7662,7 @@ entries:
     version: 0.6.0
   - apiVersion: v1
     appVersion: "1.0"
-    created: "2020-05-07T14:12:45.850975+03:00"
+    created: "2020-05-11T11:13:13.988704997+03:00"
     description: V3IO configuration templates
     digest: 70175a619037df97346ae5f7af8558f9f37c300dffe5fc636d852346463c5bf6
     icon: https://www.iguazio.com/wp-content/uploads/2017/09/iguazio_logo_2017_w_c.png
@@ -7654,7 +7677,7 @@ entries:
     version: 0.5.2
   - apiVersion: v1
     appVersion: "1.0"
-    created: "2020-05-07T14:12:45.850602+03:00"
+    created: "2020-05-11T11:13:13.988520409+03:00"
     description: V3IO configuration templates
     digest: bac71abad0047d0e3cc8cb693cb7889d6ea02db4338518b3c038bbdbc157a472
     icon: https://www.iguazio.com/wp-content/uploads/2017/09/iguazio_logo_2017_w_c.png
@@ -7669,7 +7692,7 @@ entries:
     version: 0.5.1
   - apiVersion: v1
     appVersion: "1.0"
-    created: "2020-05-07T14:12:45.85015+03:00"
+    created: "2020-05-11T11:13:13.988332273+03:00"
     description: V3IO configuration templates
     digest: eccc71644c71aa09fad2c9e1d4d8b495689257cb9e1c5c13660785f6027b44ad
     icon: https://www.iguazio.com/wp-content/uploads/2017/09/iguazio_logo_2017_w_c.png
@@ -7684,7 +7707,7 @@ entries:
     version: 0.5.0
   - apiVersion: v1
     appVersion: "1.0"
-    created: "2020-05-07T14:12:45.849756+03:00"
+    created: "2020-05-11T11:13:13.988144589+03:00"
     description: V3IO configuration templates
     digest: 2cafd8de62bde9d435beee2029116e41bd336ab4f035ba689bd0215bf08a5134
     icon: https://www.iguazio.com/wp-content/uploads/2017/09/iguazio_logo_2017_w_c.png
@@ -7699,7 +7722,7 @@ entries:
     version: 0.4.0
   - apiVersion: v1
     appVersion: "1.0"
-    created: "2020-05-07T14:12:45.849319+03:00"
+    created: "2020-05-11T11:13:13.987959076+03:00"
     description: V3IO configuration templates
     digest: 262375079846533321302f073d07b7fc215f6e21edb412b816ab984a48a69315
     icon: https://www.iguazio.com/wp-content/uploads/2017/09/iguazio_logo_2017_w_c.png
@@ -7714,7 +7737,7 @@ entries:
     version: 0.3.2
   - apiVersion: v1
     appVersion: "1.0"
-    created: "2020-05-07T14:12:45.848959+03:00"
+    created: "2020-05-11T11:13:13.987765616+03:00"
     description: V3IO configuration templates
     digest: 7ae9a575c6df42e0d780e3ee55a821cfa9d81bde783dd57c4c5d5a10faa77f3f
     icon: https://www.iguazio.com/wp-content/uploads/2017/09/iguazio_logo_2017_w_c.png
@@ -7729,7 +7752,7 @@ entries:
     version: 0.3.1
   - apiVersion: v1
     appVersion: "1.0"
-    created: "2020-05-07T14:12:45.848596+03:00"
+    created: "2020-05-11T11:13:13.9875865+03:00"
     description: V3IO configuration templates
     digest: 4d60ef9502cb50e98952fe69bcc692ff8984f48974eadeb2e87c3741381d8c6f
     icon: https://www.iguazio.com/wp-content/uploads/2017/09/iguazio_logo_2017_w_c.png
@@ -7744,7 +7767,7 @@ entries:
     version: 0.3.0
   - apiVersion: v1
     appVersion: "1.0"
-    created: "2020-05-07T14:12:45.848211+03:00"
+    created: "2020-05-11T11:13:13.987402302+03:00"
     description: V3IO configuration templates
     digest: 1320baca0961466ff83e6d9d48e68719e77011bb38dfe6a8bfb61aca7cd51027
     icon: https://www.iguazio.com/wp-content/uploads/2017/09/iguazio_logo_2017_w_c.png
@@ -7759,7 +7782,7 @@ entries:
     version: 0.2.0
   - apiVersion: v1
     appVersion: "1.0"
-    created: "2020-05-07T14:12:45.84778+03:00"
+    created: "2020-05-11T11:13:13.987226648+03:00"
     description: V3IO configuration templates
     digest: 7c9e27618f67fcfeee21e244e3c16dcf241b725e43eac005a223c2d15c3c508a
     icon: https://www.iguazio.com/wp-content/uploads/2017/09/iguazio_logo_2017_w_c.png
@@ -7774,9 +7797,9 @@ entries:
     version: 0.1.0
   v3io-framesd:
   - apiVersion: v1
-    created: "2020-05-07T14:12:45.861219+03:00"
+    created: "2020-05-11T11:13:13.993898974+03:00"
     description: V3IO frames daemon
-    digest: c82c796b75cf8847350c878afe5d2a268afc8407ff542fc779a3545fef9ba638
+    digest: 3ef6560787de12f055d5a6f399d50a93c3170112dfff582413ec67afb0ecb12f
     home: https://iguazio.com
     icon: https://www.iguazio.com/wp-content/uploads/2017/09/iguazio_logo_2017_w_c.png
     maintainers:
@@ -7789,7 +7812,7 @@ entries:
     - https://v3io.github.io/helm-charts/stable/v3io-framesd-0.3.0.tgz
     version: 0.3.0
   - apiVersion: v1
-    created: "2020-05-07T14:12:45.860755+03:00"
+    created: "2020-05-11T11:13:13.993615318+03:00"
     description: V3IO frames daemon
     digest: 23c0a7d2384e34447e689e6472fa974e3c82c06725c0b893886faddd37f7af23
     home: https://iguazio.com
@@ -7804,7 +7827,7 @@ entries:
     - https://v3io.github.io/helm-charts/stable/v3io-framesd-0.2.2.tgz
     version: 0.2.2
   - apiVersion: v1
-    created: "2020-05-07T14:12:45.8602+03:00"
+    created: "2020-05-11T11:13:13.993346445+03:00"
     description: V3IO frames daemon
     digest: 905986ec8e199a019442aa9e81b96a25249efd5606c129df6fcf5512c21b7d95
     home: https://iguazio.com
@@ -7819,7 +7842,7 @@ entries:
     - https://v3io.github.io/helm-charts/stable/v3io-framesd-0.2.1.tgz
     version: 0.2.1
   - apiVersion: v1
-    created: "2020-05-07T14:12:45.859597+03:00"
+    created: "2020-05-11T11:13:13.993082425+03:00"
     description: V3IO frames daemon
     digest: 23a5dd42e3571ad26b8c80c049e29391fe70249133ac41aa30923a503d1dc297
     home: https://iguazio.com
@@ -7834,7 +7857,7 @@ entries:
     - https://v3io.github.io/helm-charts/stable/v3io-framesd-0.2.0.tgz
     version: 0.2.0
   - apiVersion: v1
-    created: "2020-05-07T14:12:45.85905+03:00"
+    created: "2020-05-11T11:13:13.992803941+03:00"
     description: V3IO frames daemon
     digest: 1ccf32b18bf9e97326486eaa8fbc1fe56576bf57ebb9e5a4ef98b390002faab9
     home: https://iguazio.com
@@ -7849,7 +7872,7 @@ entries:
     - https://v3io.github.io/helm-charts/stable/v3io-framesd-0.1.2.tgz
     version: 0.1.2
   - apiVersion: v1
-    created: "2020-05-07T14:12:45.858487+03:00"
+    created: "2020-05-11T11:13:13.99253152+03:00"
     description: V3IO frames daemon
     digest: b5ffa09005c491c6fa94d2078f17e79faa0ce366979853d955990d9aebe8e1d3
     home: https://iguazio.com
@@ -7864,7 +7887,7 @@ entries:
     - https://v3io.github.io/helm-charts/stable/v3io-framesd-0.1.1.tgz
     version: 0.1.1
   - apiVersion: v1
-    created: "2020-05-07T14:12:45.85792+03:00"
+    created: "2020-05-11T11:13:13.992259515+03:00"
     description: V3IO frames daemon
     digest: f9bb434c58ef14736254161d2e0478ad87e7270c8fe90beab3bb13f347634ee3
     home: https://iguazio.com
@@ -7880,7 +7903,7 @@ entries:
     version: 0.1.0
   v3io-system:
   - apiVersion: v1
-    created: "2020-05-07T14:12:45.920223+03:00"
+    created: "2020-05-11T11:13:14.03615335+03:00"
     dependencies:
     - condition: prometheus.enabled
       name: prometheus
@@ -7928,7 +7951,7 @@ entries:
     - https://v3io.github.io/helm-charts/stable/v3io-system-0.3.1.tgz
     version: 0.3.1
   - apiVersion: v1
-    created: "2020-05-07T14:12:45.925678+03:00"
+    created: "2020-05-11T11:13:14.040652438+03:00"
     dependencies:
     - condition: prometheus.enabled
       name: prometheus
@@ -7976,7 +7999,7 @@ entries:
     - https://v3io.github.io/helm-charts/stable/v3io-system-0.3.tgz
     version: "0.3"
   - apiVersion: v1
-    created: "2020-05-07T14:12:45.908503+03:00"
+    created: "2020-05-11T11:13:14.02767246+03:00"
     dependencies:
     - condition: prometheus.enabled
       name: prometheus
@@ -8020,7 +8043,7 @@ entries:
     - https://v3io.github.io/helm-charts/stable/v3io-system-0.2.2.tgz
     version: 0.2.2
   - apiVersion: v1
-    created: "2020-05-07T14:12:45.902825+03:00"
+    created: "2020-05-11T11:13:14.023897807+03:00"
     dependencies:
     - condition: prometheus.enabled
       name: prometheus
@@ -8064,7 +8087,7 @@ entries:
     - https://v3io.github.io/helm-charts/stable/v3io-system-0.2.1.tgz
     version: 0.2.1
   - apiVersion: v1
-    created: "2020-05-07T14:12:45.913893+03:00"
+    created: "2020-05-11T11:13:14.032055671+03:00"
     dependencies:
     - condition: prometheus.enabled
       name: prometheus
@@ -8108,7 +8131,7 @@ entries:
     - https://v3io.github.io/helm-charts/stable/v3io-system-0.2.tgz
     version: "0.2"
   - apiVersion: v1
-    created: "2020-05-07T14:12:45.89203+03:00"
+    created: "2020-05-11T11:13:14.016415134+03:00"
     dependencies:
     - condition: prometheus.enabled
       name: prometheus
@@ -8148,7 +8171,7 @@ entries:
     - https://v3io.github.io/helm-charts/stable/v3io-system-0.1.6.tgz
     version: 0.1.6
   - apiVersion: v1
-    created: "2020-05-07T14:12:45.887197+03:00"
+    created: "2020-05-11T11:13:14.012501014+03:00"
     dependencies:
     - condition: prometheus.enabled
       name: prometheus
@@ -8188,7 +8211,7 @@ entries:
     - https://v3io.github.io/helm-charts/stable/v3io-system-0.1.5.tgz
     version: 0.1.5
   - apiVersion: v1
-    created: "2020-05-07T14:12:45.881759+03:00"
+    created: "2020-05-11T11:13:14.008989363+03:00"
     dependencies:
     - condition: prometheus.enabled
       name: prometheus
@@ -8228,7 +8251,7 @@ entries:
     - https://v3io.github.io/helm-charts/stable/v3io-system-0.1.4.tgz
     version: 0.1.4
   - apiVersion: v1
-    created: "2020-05-07T14:12:45.877027+03:00"
+    created: "2020-05-11T11:13:14.005317689+03:00"
     dependencies:
     - condition: prometheus.enabled
       name: prometheus
@@ -8268,7 +8291,7 @@ entries:
     - https://v3io.github.io/helm-charts/stable/v3io-system-0.1.3.tgz
     version: 0.1.3
   - apiVersion: v1
-    created: "2020-05-07T14:12:45.871707+03:00"
+    created: "2020-05-11T11:13:14.001404893+03:00"
     dependencies:
     - condition: prometheus.enabled
       name: prometheus
@@ -8308,7 +8331,7 @@ entries:
     - https://v3io.github.io/helm-charts/stable/v3io-system-0.1.2.tgz
     version: 0.1.2
   - apiVersion: v1
-    created: "2020-05-07T14:12:45.866832+03:00"
+    created: "2020-05-11T11:13:13.997958718+03:00"
     dependencies:
     - condition: prometheus.enabled
       name: prometheus
@@ -8348,7 +8371,7 @@ entries:
     - https://v3io.github.io/helm-charts/stable/v3io-system-0.1.1.tgz
     version: 0.1.1
   - apiVersion: v1
-    created: "2020-05-07T14:12:45.897409+03:00"
+    created: "2020-05-11T11:13:14.01964532+03:00"
     dependencies:
     - name: prometheus
       repository: https://kubernetes-charts.storage.googleapis.com/
@@ -8386,13 +8409,13 @@ entries:
   v3io-webapi:
   - apiVersion: v1
     appVersion: ~1.7.0
-    created: "2020-05-07T14:12:45.949936+03:00"
+    created: "2020-05-11T11:13:14.053545774+03:00"
     dependencies:
     - name: v3io-configs
       repository: https://v3io.github.io/helm-charts/stable
       version: 0.8.0
     description: v3io WebAPI
-    digest: e96d1d90dd8ff94881cfc24f192a695280ac9a1d78460172db6f7826c02b09e6
+    digest: 8582e660feda3bb84fd324341ba728636e21b23e7a56a41a7b4ccc666e72b230
     home: https://iguazio.com
     icon: https://www.iguazio.com/wp-content/uploads/2017/09/iguazio_logo_2017_w_c.png
     maintainers:
@@ -8406,7 +8429,7 @@ entries:
     version: 0.8.1
   - apiVersion: v1
     appVersion: ~1.7.0
-    created: "2020-05-07T14:12:45.94909+03:00"
+    created: "2020-05-11T11:13:14.05297165+03:00"
     dependencies:
     - name: v3io-configs
       repository: https://v3io.github.io/helm-charts/stable
@@ -8426,7 +8449,7 @@ entries:
     version: 0.8.0
   - apiVersion: v1
     appVersion: ~1.7.0
-    created: "2020-05-07T14:12:45.948153+03:00"
+    created: "2020-05-11T11:13:14.052441194+03:00"
     dependencies:
     - name: v3io-configs
       repository: https://v3io.github.io/helm-charts/stable
@@ -8446,7 +8469,7 @@ entries:
     version: 0.7.9
   - apiVersion: v1
     appVersion: ~1.7.0
-    created: "2020-05-07T14:12:45.947183+03:00"
+    created: "2020-05-11T11:13:14.051915741+03:00"
     dependencies:
     - name: v3io-configs
       repository: https://v3io.github.io/helm-charts/stable
@@ -8466,7 +8489,7 @@ entries:
     version: 0.7.8
   - apiVersion: v1
     appVersion: ~1.7.0
-    created: "2020-05-07T14:12:45.946068+03:00"
+    created: "2020-05-11T11:13:14.051397265+03:00"
     dependencies:
     - name: v3io-configs
       repository: https://v3io.github.io/helm-charts/stable
@@ -8486,7 +8509,7 @@ entries:
     version: 0.7.7
   - apiVersion: v1
     appVersion: ~1.7.0
-    created: "2020-05-07T14:12:45.945173+03:00"
+    created: "2020-05-11T11:13:14.050879525+03:00"
     dependencies:
     - name: v3io-configs
       repository: https://v3io.github.io/helm-charts/stable
@@ -8506,7 +8529,7 @@ entries:
     version: 0.7.6
   - apiVersion: v1
     appVersion: ~1.7.0
-    created: "2020-05-07T14:12:45.944255+03:00"
+    created: "2020-05-11T11:13:14.050353921+03:00"
     dependencies:
     - name: v3io-configs
       repository: https://v3io.github.io/helm-charts/stable
@@ -8526,7 +8549,7 @@ entries:
     version: 0.7.5
   - apiVersion: v1
     appVersion: ~1.7.0
-    created: "2020-05-07T14:12:45.943305+03:00"
+    created: "2020-05-11T11:13:14.049851731+03:00"
     dependencies:
     - name: v3io-configs
       repository: https://v3io.github.io/helm-charts/stable
@@ -8546,7 +8569,7 @@ entries:
     version: 0.7.4
   - apiVersion: v1
     appVersion: ~1.7.0
-    created: "2020-05-07T14:12:45.942291+03:00"
+    created: "2020-05-11T11:13:14.049355292+03:00"
     dependencies:
     - name: v3io-configs
       repository: https://v3io.github.io/helm-charts/stable
@@ -8566,7 +8589,7 @@ entries:
     version: 0.7.3
   - apiVersion: v1
     appVersion: ~1.7.0
-    created: "2020-05-07T14:12:45.941366+03:00"
+    created: "2020-05-11T11:13:14.048857043+03:00"
     dependencies:
     - name: v3io-configs
       repository: https://v3io.github.io/helm-charts/stable
@@ -8586,7 +8609,7 @@ entries:
     version: 0.7.2
   - apiVersion: v1
     appVersion: ~1.7.0
-    created: "2020-05-07T14:12:45.940406+03:00"
+    created: "2020-05-11T11:13:14.048360543+03:00"
     dependencies:
     - name: v3io-configs
       repository: https://v3io.github.io/helm-charts/stable
@@ -8606,7 +8629,7 @@ entries:
     version: 0.7.1
   - apiVersion: v1
     appVersion: ~1.7.0
-    created: "2020-05-07T14:12:45.938802+03:00"
+    created: "2020-05-11T11:13:14.047866028+03:00"
     dependencies:
     - name: v3io-configs
       repository: https://v3io.github.io/helm-charts/stable
@@ -8626,7 +8649,7 @@ entries:
     version: 0.7.0
   - apiVersion: v1
     appVersion: ~1.7.0
-    created: "2020-05-07T14:12:45.93796+03:00"
+    created: "2020-05-11T11:13:14.047375156+03:00"
     dependencies:
     - name: v3io-configs
       repository: https://v3io.github.io/helm-charts/stable
@@ -8646,7 +8669,7 @@ entries:
     version: 0.6.7
   - apiVersion: v1
     appVersion: ~1.7.0
-    created: "2020-05-07T14:12:45.937041+03:00"
+    created: "2020-05-11T11:13:14.046650801+03:00"
     dependencies:
     - name: v3io-configs
       repository: https://v3io.github.io/helm-charts/stable
@@ -8666,7 +8689,7 @@ entries:
     version: 0.6.6
   - apiVersion: v1
     appVersion: ~1.7.0
-    created: "2020-05-07T14:12:45.93606+03:00"
+    created: "2020-05-11T11:13:14.045737181+03:00"
     dependencies:
     - name: v3io-configs
       repository: https://v3io.github.io/helm-charts/stable
@@ -8686,7 +8709,7 @@ entries:
     version: 0.6.5
   - apiVersion: v1
     appVersion: ~1.7.0
-    created: "2020-05-07T14:12:45.935066+03:00"
+    created: "2020-05-11T11:13:14.045231657+03:00"
     dependencies:
     - name: v3io-configs
       repository: https://v3io.github.io/helm-charts/stable
@@ -8706,7 +8729,7 @@ entries:
     version: 0.6.4
   - apiVersion: v1
     appVersion: ~1.7.0
-    created: "2020-05-07T14:12:45.93412+03:00"
+    created: "2020-05-11T11:13:14.044730954+03:00"
     dependencies:
     - name: v3io-configs
       repository: https://v3io.github.io/helm-charts/stable
@@ -8726,7 +8749,7 @@ entries:
     version: 0.6.3
   - apiVersion: v1
     appVersion: ~1.7.0
-    created: "2020-05-07T14:12:45.933205+03:00"
+    created: "2020-05-11T11:13:14.044131523+03:00"
     dependencies:
     - name: v3io-configs
       repository: https://v3io.github.io/helm-charts/stable
@@ -8746,7 +8769,7 @@ entries:
     version: 0.6.2
   - apiVersion: v1
     appVersion: ~1.7.0
-    created: "2020-05-07T14:12:45.932248+03:00"
+    created: "2020-05-11T11:13:14.043666282+03:00"
     dependencies:
     - name: v3io-configs
       repository: https://v3io.github.io/helm-charts/stable
@@ -8766,7 +8789,7 @@ entries:
     version: 0.6.1
   - apiVersion: v1
     appVersion: ~1.7.0
-    created: "2020-05-07T14:12:45.931398+03:00"
+    created: "2020-05-11T11:13:14.043198747+03:00"
     description: v3io WebAPI
     digest: 95fb691d526e74b1854ef5eed008acc7ba0fd1c4de3456cf37c555833a290bd6
     home: https://iguazio.com
@@ -8782,7 +8805,7 @@ entries:
     version: 0.6.0
   - apiVersion: v1
     appVersion: ~1.7.0
-    created: "2020-05-07T14:12:45.930887+03:00"
+    created: "2020-05-11T11:13:14.042944157+03:00"
     description: v3io WebAPI
     digest: 5f8c443e9fb3be22dd961dec75073aee8193ef14791adf2b076b1bada4645b70
     home: https://iguazio.com
@@ -8798,7 +8821,7 @@ entries:
     version: 0.5.0
   - apiVersion: v1
     appVersion: ~1.7.0
-    created: "2020-05-07T14:12:45.929919+03:00"
+    created: "2020-05-11T11:13:14.042404247+03:00"
     description: v3io WebAPI
     digest: 6a3de69dd973c615af861d11e15ba835cf0ce97255cc6f72a53278c6750c7b22
     home: https://iguazio.com
@@ -8814,7 +8837,7 @@ entries:
     version: 0.4.2
   - apiVersion: v1
     appVersion: ~1.7.0
-    created: "2020-05-07T14:12:45.929403+03:00"
+    created: "2020-05-11T11:13:14.042153873+03:00"
     description: v3io WebAPI
     digest: 057a1336e5dfe9143cf35acaa0df51c6b2f03dceb8e85c349b98e3a4fdca69b4
     home: https://iguazio.com
@@ -8830,7 +8853,7 @@ entries:
     version: 0.4.1
   - apiVersion: v1
     appVersion: ~1.7.0
-    created: "2020-05-07T14:12:45.930384+03:00"
+    created: "2020-05-11T11:13:14.04267773+03:00"
     description: v3io WebAPI
     digest: d756a53147ce6ecf5d9186797634d8ede356e5dbcaf8531efa26cbfa10ec091e
     home: https://iguazio.com
@@ -8846,7 +8869,7 @@ entries:
     version: "0.4"
   - apiVersion: v1
     appVersion: 1.7.0
-    created: "2020-05-07T14:12:45.928195+03:00"
+    created: "2020-05-11T11:13:14.041644859+03:00"
     description: v3io WebAPI
     digest: 30a991957b8c28a51e2ee17d9323ffa46de3e5711315ee5de5d32184af7eba50
     home: https://iguazio.com
@@ -8862,7 +8885,7 @@ entries:
     version: 0.3.1
   - apiVersion: v1
     appVersion: 1.7.0-b80
-    created: "2020-05-07T14:12:45.928868+03:00"
+    created: "2020-05-11T11:13:14.041889183+03:00"
     description: v3io WebAPI
     digest: 17d861da2a7aff11afdf460c9c829a00bc2b4273c95c476a17e61282b66b2d1f
     home: https://iguazio.com
@@ -8878,7 +8901,7 @@ entries:
     version: "0.3"
   - apiVersion: v1
     appVersion: 1.7_b2_20180620143303
-    created: "2020-05-07T14:12:45.927196+03:00"
+    created: "2020-05-11T11:13:14.04138992+03:00"
     description: v3io WebAPI
     digest: 843e39938dc7cf881b1cd6f601e755e9ba540a13d6f4d18bfa66c3d0d20f2196
     home: https://iguazio.com
@@ -8894,7 +8917,7 @@ entries:
     version: 0.2.0
   - apiVersion: v1
     appVersion: 1.5.2
-    created: "2020-05-07T14:12:45.926249+03:00"
+    created: "2020-05-11T11:13:14.040905848+03:00"
     description: V3IO WebAPI
     digest: 71172e0fe8c4cffcbab6f1462ac4af42719090ec03fb9172a299b2ab7c5cefc8
     home: https://iguazio.com
@@ -8909,7 +8932,7 @@ entries:
     - https://v3io.github.io/helm-charts/stable/v3io-webapi-0.1.1.tgz
     version: 0.1.1
   - apiVersion: v1
-    created: "2020-05-07T14:12:45.926744+03:00"
+    created: "2020-05-11T11:13:14.041146124+03:00"
     description: V3IO WebAPI
     digest: 10456be6b1c0888c33260ac144826d0caab7ad20809ea05afccdc0c42358b79a
     home: https://iguazio.com
@@ -8926,9 +8949,9 @@ entries:
   v3iod:
   - apiVersion: v1
     appVersion: '>=1.9.4'
-    created: "2020-05-07T14:12:45.959035+03:00"
+    created: "2020-05-11T11:13:14.058277058+03:00"
     description: v3io daemon
-    digest: 9da55231be215fae4a22c712d79151f6f99fafe382329eae8b6b52dfb6907514
+    digest: 898ba0d91ec95e6216898e6b99eeea6de43826eabf904aa0b0b920c76106b786
     home: https://iguazio.com
     icon: https://www.iguazio.com/wp-content/uploads/2017/09/iguazio_logo_2017_w_c.png
     maintainers:
@@ -8944,7 +8967,7 @@ entries:
     version: 0.12.1
   - apiVersion: v1
     appVersion: '>=1.9.4'
-    created: "2020-05-07T14:12:45.95837+03:00"
+    created: "2020-05-11T11:13:14.057845189+03:00"
     description: v3io daemon
     digest: 5652a4d6b3a81639ec55159c928cdcd882f7e964f3a2362eab52748f61f4edc4
     home: https://iguazio.com
@@ -8962,7 +8985,7 @@ entries:
     version: 0.12.0
   - apiVersion: v1
     appVersion: '>=1.9.4'
-    created: "2020-05-07T14:12:45.957402+03:00"
+    created: "2020-05-11T11:13:14.057455537+03:00"
     description: v3io daemon
     digest: 12f5e8d868ecc0aad98de461cafcafec29f2104c37323c052da14b783c135616
     home: https://iguazio.com
@@ -8980,7 +9003,7 @@ entries:
     version: 0.11.6
   - apiVersion: v1
     appVersion: '>=1.9.4'
-    created: "2020-05-07T14:12:45.956635+03:00"
+    created: "2020-05-11T11:13:14.057062105+03:00"
     description: v3io daemon
     digest: 475bb4300a6e4b6939f291a8865c56b487cbb678761f267e3df42ef8f3511758
     home: https://iguazio.com
@@ -8998,7 +9021,7 @@ entries:
     version: 0.11.5
   - apiVersion: v1
     appVersion: '>=1.9.4'
-    created: "2020-05-07T14:12:45.955933+03:00"
+    created: "2020-05-11T11:13:14.056677076+03:00"
     description: v3io daemon
     digest: 6cb3d735b855a373c89a8c5d4510c97c899696685576c24f2d65081e0727e34b
     home: https://iguazio.com
@@ -9016,7 +9039,7 @@ entries:
     version: 0.11.4
   - apiVersion: v1
     appVersion: '>=1.9.4'
-    created: "2020-05-07T14:12:45.955135+03:00"
+    created: "2020-05-11T11:13:14.056268757+03:00"
     description: v3io daemon
     digest: e41a7e9558f0da51629ab234c2852ead7c8da23e314febf547076bbfd25143c7
     home: https://iguazio.com
@@ -9034,7 +9057,7 @@ entries:
     version: 0.11.3
   - apiVersion: v1
     appVersion: '>=1.9.4'
-    created: "2020-05-07T14:12:45.954251+03:00"
+    created: "2020-05-11T11:13:14.055887722+03:00"
     description: v3io daemon
     digest: 7887833c0c4daa6331b58fd91eeb6f4ba36b7a77035b6ca364756a461134e04d
     home: https://iguazio.com
@@ -9052,7 +9075,7 @@ entries:
     version: 0.11.2
   - apiVersion: v1
     appVersion: '>=1.9.4'
-    created: "2020-05-07T14:12:45.953496+03:00"
+    created: "2020-05-11T11:13:14.055505292+03:00"
     description: v3io daemon
     digest: a5e6b85f5118edd8e208d4d09b56e0978dff8a1c1cb627141c9c3ff41caf255a
     home: https://iguazio.com
@@ -9070,7 +9093,7 @@ entries:
     version: 0.11.1
   - apiVersion: v1
     appVersion: '>=1.9.4'
-    created: "2020-05-07T14:12:45.95273+03:00"
+    created: "2020-05-11T11:13:14.055139797+03:00"
     description: v3io daemon
     digest: e120dba4c15108aa491dedcf4e630e9bc1594c63268491f632fa7c16904d0016
     home: https://iguazio.com
@@ -9088,7 +9111,7 @@ entries:
     version: 0.11.0
   - apiVersion: v1
     appVersion: '>=1.9.4'
-    created: "2020-05-07T14:12:45.951937+03:00"
+    created: "2020-05-11T11:13:14.054766116+03:00"
     description: v3io daemon
     digest: 8fc1e5b07c37e0d2f4f86e405f68757de96cd23d9d11900a80d5115bd61c066a
     home: https://iguazio.com
@@ -9106,7 +9129,7 @@ entries:
     version: 0.10.1
   - apiVersion: v1
     appVersion: '>=1.9.4'
-    created: "2020-05-07T14:12:45.950832+03:00"
+    created: "2020-05-11T11:13:14.054105458+03:00"
     description: v3io daemon
     digest: aadbcdc61e2227e40eab3a40d26eebb28e00b23cbab031c16c2c6248b147d805
     home: https://iguazio.com
@@ -9124,7 +9147,7 @@ entries:
     version: 0.10.0
   - apiVersion: v1
     appVersion: '>=1.9.4'
-    created: "2020-05-07T14:12:45.974901+03:00"
+    created: "2020-05-11T11:13:14.066672765+03:00"
     description: v3io daemon
     digest: 2a63819ac3d9c58b526a9defb466f4ff6820536cdfc6180a4a73a5fcf7c5769b
     home: https://iguazio.com
@@ -9142,7 +9165,7 @@ entries:
     version: 0.9.7
   - apiVersion: v1
     appVersion: '>=1.9.4'
-    created: "2020-05-07T14:12:45.973985+03:00"
+    created: "2020-05-11T11:13:14.066287791+03:00"
     description: v3io daemon
     digest: b7f5e973cd5c1ddc1b603c1ce09152ade346265799e519a70b10ab38c0411212
     home: https://iguazio.com
@@ -9160,7 +9183,7 @@ entries:
     version: 0.9.6
   - apiVersion: v1
     appVersion: '>=1.9.4'
-    created: "2020-05-07T14:12:45.973132+03:00"
+    created: "2020-05-11T11:13:14.065913638+03:00"
     description: v3io daemon
     digest: e3edc497efce6ea7f8b90d900eeacb94b749d02c57eab6c9f0f0da1afb98ebdd
     home: https://iguazio.com
@@ -9178,7 +9201,7 @@ entries:
     version: 0.9.5
   - apiVersion: v1
     appVersion: '>=1.9.4'
-    created: "2020-05-07T14:12:45.972215+03:00"
+    created: "2020-05-11T11:13:14.065541842+03:00"
     description: v3io daemon
     digest: 69e38201b73e065748ae88455806e9cd80a9605cd5cb472a0d607c99246a1140
     home: https://iguazio.com
@@ -9196,7 +9219,7 @@ entries:
     version: 0.9.4
   - apiVersion: v1
     appVersion: '>=1.9.4'
-    created: "2020-05-07T14:12:45.97142+03:00"
+    created: "2020-05-11T11:13:14.065176441+03:00"
     description: v3io daemon
     digest: e5117eee84eb16d77191ab37a4a930efeca9c219126c67c875febf23d3d31985
     home: https://iguazio.com
@@ -9214,7 +9237,7 @@ entries:
     version: 0.9.3
   - apiVersion: v1
     appVersion: '>=1.9.4'
-    created: "2020-05-07T14:12:45.970693+03:00"
+    created: "2020-05-11T11:13:14.064809711+03:00"
     description: v3io daemon
     digest: 1d63c4227acb47fe032719df9621641d63bf4e8562b2cd069c26cce1b2604a38
     home: https://iguazio.com
@@ -9232,7 +9255,7 @@ entries:
     version: 0.9.2
   - apiVersion: v1
     appVersion: '>=1.9.4'
-    created: "2020-05-07T14:12:45.970009+03:00"
+    created: "2020-05-11T11:13:14.064451934+03:00"
     description: v3io daemon
     digest: bb9f81991f9f61411d86f4c55ec5b75e61e9d36759759df65053bdfd06591ca1
     home: https://iguazio.com
@@ -9250,7 +9273,7 @@ entries:
     version: 0.9.1
   - apiVersion: v1
     appVersion: '>=1.9.4'
-    created: "2020-05-07T14:12:45.969305+03:00"
+    created: "2020-05-11T11:13:14.064073953+03:00"
     description: v3io daemon
     digest: f41735f4f3a8ea750d4e42af39e50683c867fd216d4d7b2ec31896b4f3a09540
     home: https://iguazio.com
@@ -9268,7 +9291,7 @@ entries:
     version: 0.9.0
   - apiVersion: v1
     appVersion: '>=1.9.4'
-    created: "2020-05-07T14:12:45.968585+03:00"
+    created: "2020-05-11T11:13:14.063709554+03:00"
     description: v3io daemon
     digest: 8f59c7d3c95e18673c523ecdb95eb6e9a8190b239bd5142e8a94d7668a17113a
     home: https://iguazio.com
@@ -9286,7 +9309,7 @@ entries:
     version: 0.8.0
   - apiVersion: v1
     appVersion: 1.7.0-b80
-    created: "2020-05-07T14:12:45.967897+03:00"
+    created: "2020-05-11T11:13:14.063352113+03:00"
     description: v3io daemon
     digest: 4631795d4e94fb855f1d4af08a42c4f9645fa430d6c2ffcd94e44d0c3e8ccc2e
     home: https://iguazio.com
@@ -9304,7 +9327,7 @@ entries:
     version: 0.7.0
   - apiVersion: v1
     appVersion: 1.7.0-b80
-    created: "2020-05-07T14:12:45.967208+03:00"
+    created: "2020-05-11T11:13:14.062962109+03:00"
     description: v3io daemon
     digest: 3d6e97c22e7670087ce8e8e1679d0c1c17ecea050233a44df028c02605cbece6
     home: https://iguazio.com
@@ -9322,7 +9345,7 @@ entries:
     version: "0.6"
   - apiVersion: v1
     appVersion: 1.7.0-b80
-    created: "2020-05-07T14:12:45.966507+03:00"
+    created: "2020-05-11T11:13:14.06236722+03:00"
     description: v3io daemon
     digest: eff8c3aec8b1926b9d25399d2573f0a2dfde230c6fafdd3c09196b573a6f7faa
     home: https://iguazio.com
@@ -9340,7 +9363,7 @@ entries:
     version: "0.5"
   - apiVersion: v1
     appVersion: 1.7.0-b80
-    created: "2020-05-07T14:12:45.965813+03:00"
+    created: "2020-05-11T11:13:14.061716174+03:00"
     description: v3io daemon
     digest: ca01c8a32acc28f9a1c2555c7f1e19edc549d8a463fc839b49f8f699cbe07e2a
     home: https://iguazio.com
@@ -9358,7 +9381,7 @@ entries:
     version: 0.4.1
   - apiVersion: v1
     appVersion: 1.7_b2_20180620143303
-    created: "2020-05-07T14:12:45.965034+03:00"
+    created: "2020-05-11T11:13:14.060848789+03:00"
     description: v3io daemon
     digest: 31c71036da1e8be89b037b9fa9c6ebf9db5e520bc5ae14c242f01f40345a7001
     home: https://iguazio.com
@@ -9376,7 +9399,7 @@ entries:
     version: 0.4.0
   - apiVersion: v1
     appVersion: 1.5.2
-    created: "2020-05-07T14:12:45.963772+03:00"
+    created: "2020-05-11T11:13:14.060248679+03:00"
     description: V3IO Daemon
     digest: eed57522ee403e64f16dff87668ca6428079f1fc9c396843e83a85d0e3108b1f
     home: https://iguazio.com
@@ -9392,7 +9415,7 @@ entries:
     version: 0.3.6
   - apiVersion: v1
     appVersion: 1.5.2
-    created: "2020-05-07T14:12:45.963037+03:00"
+    created: "2020-05-11T11:13:14.059963752+03:00"
     description: V3IO Daemon
     digest: 59017757cbc1c2e65c0ce7fe1b4ab0e1a898342adb663b11a9c1977f95135f71
     home: https://iguazio.com
@@ -9408,7 +9431,7 @@ entries:
     version: 0.3.5
   - apiVersion: v1
     appVersion: 1.5.2
-    created: "2020-05-07T14:12:45.961947+03:00"
+    created: "2020-05-11T11:13:14.05968663+03:00"
     description: V3IO Daemon
     digest: f642b445e4e95a3e928ed396209049f6839a81bf4b67701bcaa363f07e1fb0b5
     home: https://iguazio.com
@@ -9424,7 +9447,7 @@ entries:
     version: 0.3.4
   - apiVersion: v1
     appVersion: 1.5.1_b1
-    created: "2020-05-07T14:12:45.961339+03:00"
+    created: "2020-05-11T11:13:14.059412626+03:00"
     description: V3IO Daemon
     digest: 2e531ba8c850c19d5a72ef7f9d12c01734e9b65afdafe949fd4d72caca23d7a9
     home: https://iguazio.com
@@ -9440,7 +9463,7 @@ entries:
     version: 0.3.3
   - apiVersion: v1
     appVersion: 1.5.1_b1
-    created: "2020-05-07T14:12:45.960775+03:00"
+    created: "2020-05-11T11:13:14.059128679+03:00"
     description: V3IO Daemon
     digest: 7ffcc849e65393a7081a5d8cca5a99c64343adf5364b86f165e17aeacc684dbe
     home: https://iguazio.com
@@ -9456,7 +9479,7 @@ entries:
     version: 0.3.2
   - apiVersion: v1
     appVersion: 1.5.1_b1
-    created: "2020-05-07T14:12:45.96024+03:00"
+    created: "2020-05-11T11:13:14.058851741+03:00"
     description: V3IO Daemon
     digest: eeab686c44f76b9ebba3049ad02d513a56c9e78bcceda2dc7f7c4e3587a249ab
     home: https://iguazio.com
@@ -9472,7 +9495,7 @@ entries:
     version: 0.3.1
   - apiVersion: v1
     appVersion: 1.5.1_b1
-    created: "2020-05-07T14:12:45.964365+03:00"
+    created: "2020-05-11T11:13:14.060525474+03:00"
     description: V3IO Daemon
     digest: 9dd62e67778e20f6808675020c2785b4ea5174d4309f99c0947d95a07421b4a9
     home: https://iguazio.com
@@ -9487,7 +9510,7 @@ entries:
     - https://v3io.github.io/helm-charts/stable/v3iod-0.3.tgz
     version: "0.3"
   - apiVersion: v1
-    created: "2020-05-07T14:12:45.959542+03:00"
+    created: "2020-05-11T11:13:14.05855522+03:00"
     description: V3IO Daemon
     digest: e291f0ac3ac9f18633220b1d605593fbe9e3dc5e1ae1b394d2a055abd0f22d1e
     home: https://iguazio.com
@@ -9504,13 +9527,13 @@ entries:
   zeppelin:
   - apiVersion: v1
     appVersion: '>=2.0.0'
-    created: "2020-05-07T14:12:46.021138+03:00"
+    created: "2020-05-11T11:13:14.096346123+03:00"
     dependencies:
     - name: v3io-configs
       repository: https://v3io.github.io/helm-charts/stable
       version: 0.8.0
     description: Zeppelin
-    digest: 9de4c8399881802c0d1b5a7140f941e268eb0691095d397a7a93cb2f960a2fcb
+    digest: de92ff159cfbe18f49455449722e4ab01b01ac500ccb7f9aab5d85f2f903cbb7
     home: https://zeppelin.apache.org/
     icon: https://zeppelin.apache.org/assets/themes/zeppelin/img/zeppelin_logo.png
     maintainers:
@@ -9524,7 +9547,7 @@ entries:
     version: 0.4.2
   - apiVersion: v1
     appVersion: '>=2.0.0'
-    created: "2020-05-07T14:12:46.019458+03:00"
+    created: "2020-05-11T11:13:14.094482722+03:00"
     dependencies:
     - name: v3io-configs
       repository: https://v3io.github.io/helm-charts/stable
@@ -9544,7 +9567,7 @@ entries:
     version: 0.4.1
   - apiVersion: v1
     appVersion: '>=2.0.0'
-    created: "2020-05-07T14:12:46.017597+03:00"
+    created: "2020-05-11T11:13:14.093341655+03:00"
     dependencies:
     - name: v3io-configs
       repository: https://v3io.github.io/helm-charts/stable
@@ -9564,7 +9587,7 @@ entries:
     version: 0.4.0
   - apiVersion: v1
     appVersion: '>=2.0.0'
-    created: "2020-05-07T14:12:46.015855+03:00"
+    created: "2020-05-11T11:13:14.092194904+03:00"
     dependencies:
     - name: v3io-configs
       repository: https://v3io.github.io/helm-charts/stable
@@ -9584,7 +9607,7 @@ entries:
     version: 0.3.8
   - apiVersion: v1
     appVersion: '>=2.0.0'
-    created: "2020-05-07T14:12:46.014181+03:00"
+    created: "2020-05-11T11:13:14.091021308+03:00"
     dependencies:
     - name: v3io-configs
       repository: https://v3io.github.io/helm-charts/stable
@@ -9604,7 +9627,7 @@ entries:
     version: 0.3.7
   - apiVersion: v1
     appVersion: '>=2.0.0'
-    created: "2020-05-07T14:12:46.012405+03:00"
+    created: "2020-05-11T11:13:14.089897778+03:00"
     dependencies:
     - name: v3io-configs
       repository: https://v3io.github.io/helm-charts/stable
@@ -9624,7 +9647,7 @@ entries:
     version: 0.3.6
   - apiVersion: v1
     appVersion: '>=2.0.0'
-    created: "2020-05-07T14:12:46.009973+03:00"
+    created: "2020-05-11T11:13:14.08874038+03:00"
     dependencies:
     - name: v3io-configs
       repository: https://v3io.github.io/helm-charts/stable
@@ -9644,7 +9667,7 @@ entries:
     version: 0.3.5
   - apiVersion: v1
     appVersion: '>=2.0.0'
-    created: "2020-05-07T14:12:46.008345+03:00"
+    created: "2020-05-11T11:13:14.087612626+03:00"
     dependencies:
     - name: v3io-configs
       repository: https://v3io.github.io/helm-charts/stable
@@ -9664,7 +9687,7 @@ entries:
     version: 0.3.4
   - apiVersion: v1
     appVersion: '>=2.0.0'
-    created: "2020-05-07T14:12:46.006559+03:00"
+    created: "2020-05-11T11:13:14.085899811+03:00"
     dependencies:
     - name: v3io-configs
       repository: https://v3io.github.io/helm-charts/stable
@@ -9684,7 +9707,7 @@ entries:
     version: 0.3.3
   - apiVersion: v1
     appVersion: '>=2.0.0'
-    created: "2020-05-07T14:12:46.004273+03:00"
+    created: "2020-05-11T11:13:14.084776702+03:00"
     dependencies:
     - name: v3io-configs
       repository: https://v3io.github.io/helm-charts/stable
@@ -9704,7 +9727,7 @@ entries:
     version: 0.3.2
   - apiVersion: v1
     appVersion: '>=2.0.0'
-    created: "2020-05-07T14:12:46.002101+03:00"
+    created: "2020-05-11T11:13:14.083645815+03:00"
     dependencies:
     - name: v3io-configs
       repository: https://v3io.github.io/helm-charts/stable
@@ -9724,7 +9747,7 @@ entries:
     version: 0.3.1
   - apiVersion: v1
     appVersion: '>=2.0.0'
-    created: "2020-05-07T14:12:45.999669+03:00"
+    created: "2020-05-11T11:13:14.08251568+03:00"
     dependencies:
     - name: v3io-configs
       repository: https://v3io.github.io/helm-charts/stable
@@ -9744,7 +9767,7 @@ entries:
     version: 0.3.0
   - apiVersion: v1
     appVersion: '>=2.0.0'
-    created: "2020-05-07T14:12:45.998068+03:00"
+    created: "2020-05-11T11:13:14.081414049+03:00"
     dependencies:
     - name: v3io-configs
       repository: https://v3io.github.io/helm-charts/stable
@@ -9764,7 +9787,7 @@ entries:
     version: 0.2.8
   - apiVersion: v1
     appVersion: '>=2.0.0'
-    created: "2020-05-07T14:12:45.996526+03:00"
+    created: "2020-05-11T11:13:14.080312761+03:00"
     dependencies:
     - name: v3io-configs
       repository: https://v3io.github.io/helm-charts/stable
@@ -9784,7 +9807,7 @@ entries:
     version: 0.2.7
   - apiVersion: v1
     appVersion: '>=2.0.0'
-    created: "2020-05-07T14:12:45.994913+03:00"
+    created: "2020-05-11T11:13:14.079186975+03:00"
     dependencies:
     - name: v3io-configs
       repository: https://v3io.github.io/helm-charts/stable
@@ -9804,7 +9827,7 @@ entries:
     version: 0.2.6
   - apiVersion: v1
     appVersion: '>=2.0.0'
-    created: "2020-05-07T14:12:45.993237+03:00"
+    created: "2020-05-11T11:13:14.077343133+03:00"
     dependencies:
     - name: v3io-configs
       repository: https://v3io.github.io/helm-charts/stable
@@ -9824,7 +9847,7 @@ entries:
     version: 0.2.5
   - apiVersion: v1
     appVersion: '>=2.0.0'
-    created: "2020-05-07T14:12:45.991586+03:00"
+    created: "2020-05-11T11:13:14.076223896+03:00"
     dependencies:
     - name: v3io-configs
       repository: https://v3io.github.io/helm-charts/stable
@@ -9844,7 +9867,7 @@ entries:
     version: 0.2.4
   - apiVersion: v1
     appVersion: '>=2.0.0'
-    created: "2020-05-07T14:12:45.989334+03:00"
+    created: "2020-05-11T11:13:14.0751171+03:00"
     dependencies:
     - name: v3io-configs
       repository: https://v3io.github.io/helm-charts/stable
@@ -9864,7 +9887,7 @@ entries:
     version: 0.2.3
   - apiVersion: v1
     appVersion: '>=2.0.0'
-    created: "2020-05-07T14:12:45.986708+03:00"
+    created: "2020-05-11T11:13:14.07377187+03:00"
     dependencies:
     - name: v3io-configs
       repository: https://v3io.github.io/helm-charts/stable
@@ -9884,7 +9907,7 @@ entries:
     version: 0.2.2
   - apiVersion: v1
     appVersion: '>=2.0.0'
-    created: "2020-05-07T14:12:45.984947+03:00"
+    created: "2020-05-11T11:13:14.072686686+03:00"
     dependencies:
     - name: v3io-configs
       repository: https://v3io.github.io/helm-charts/stable
@@ -9904,7 +9927,7 @@ entries:
     version: 0.2.1
   - apiVersion: v1
     appVersion: '>=2.0.0'
-    created: "2020-05-07T14:12:45.983303+03:00"
+    created: "2020-05-11T11:13:14.071596444+03:00"
     dependencies:
     - name: v3io-configs
       repository: https://v3io.github.io/helm-charts/stable
@@ -9924,7 +9947,7 @@ entries:
     version: 0.2.0
   - apiVersion: v1
     appVersion: '>=2.0.0'
-    created: "2020-05-07T14:12:45.981581+03:00"
+    created: "2020-05-11T11:13:14.070478+03:00"
     dependencies:
     - name: v3io-configs
       repository: https://v3io.github.io/helm-charts/stable
@@ -9944,7 +9967,7 @@ entries:
     version: 0.1.2
   - apiVersion: v1
     appVersion: '>=2.0.0'
-    created: "2020-05-07T14:12:45.979545+03:00"
+    created: "2020-05-11T11:13:14.068833944+03:00"
     dependencies:
     - name: v3io-configs
       repository: https://v3io.github.io/helm-charts/stable
@@ -9964,7 +9987,7 @@ entries:
     version: 0.1.1
   - apiVersion: v1
     appVersion: '>=2.0.0'
-    created: "2020-05-07T14:12:45.977512+03:00"
+    created: "2020-05-11T11:13:14.067765437+03:00"
     dependencies:
     - name: v3io-configs
       repository: https://v3io.github.io/helm-charts/stable
@@ -9982,4 +10005,4 @@ entries:
     urls:
     - https://v3io.github.io/helm-charts/stable/zeppelin-0.1.0.tgz
     version: 0.1.0
-generated: "2020-05-07T14:12:45.31327+03:00"
+generated: "2020-05-11T11:13:13.661070783+03:00"
