@@ -183,7 +183,7 @@ data:
     fi
     mkdir -p ${PIP_USER_PATH}
     export IGZ_ORIG_PIP_PREFIX="${PIP_USER_PATH}"
-    export IGZ_ORIG_PYTHONPATH="${PIP_USER_PATH}/lib/python3.6/site-packages:${PYTHONPATH}"
+    export IGZ_ORIG_PYTHONPATH="${PIP_USER_PATH}/lib/python3.7/site-packages:${PYTHONPATH}"
     export PATH="${PATH}:${PIP_USER_PATH}/bin"
     unset PYTHONPATH
 
