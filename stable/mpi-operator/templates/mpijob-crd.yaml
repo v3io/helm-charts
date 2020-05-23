@@ -43,8 +43,4 @@ spec:
                     replicas:
                       type: integer
                       minimum: 1
-    additionalPrinterColumns:
-    - name: Age
-      type: date
-      jsonPath: .metadata.creationTimestamp
 {{- end }}
