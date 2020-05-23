@@ -9,6 +9,7 @@ metadata:
     chart: {{ template "mpi-operator.chart" . }}
     release: {{ .Release.Name }}
     heritage: {{ .Release.Service }}
+    crd-version: {{ .Values.crd.version }}
 spec:
   replicas: {{ .Values.deployment.replicas }}
   selector:
@@ -22,6 +23,7 @@ spec:
         release: {{ .Release.Name }}
         heritage: {{ .Release.Service }}
         component: mpi-operator
+        crd-version: {{ .Values.crd.version }}
     spec:
       serviceAccountName: {{ template "mpi-operator.serviceAccountName" . }}
       containers:
@@ -30,11 +32,11 @@ spec:
         imagePullPolicy: {{ .Values.image.pullPolicy }}
         args: [
           "-alsologtostderr",
-          "--gpus-per-node",
-          "{{ .Values.deployment.gpusPerNode }}",
           "--kubectl-delivery-image",
           "{{ .Values.image.kubectlDelivery.repository }}:{{ .Values.image.kubectlDelivery.tag }}",
           "--namespace",
+          "{{ .Release.Namespace }}",
+          "----lock-namespace",
           "{{ .Release.Namespace }}"
         ]
         env:
