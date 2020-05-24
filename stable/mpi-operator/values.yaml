@@ -12,7 +12,6 @@ rbac:
 
 deployment:
   create: true
-  gpusPerNode: 1  # for mpioperator 0.2.0
 
 image:
   deployment:
