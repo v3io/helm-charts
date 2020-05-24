@@ -25,6 +25,21 @@ job:
     executablePath: /home/iguazio/igz/clients/fuse/bin/v3io_adapters_fuse
     mountType: os
     v3ioFuse:
+      v3ioConfigJson:
+            {
+               "v3io": {
+                 "session": {
+                   "reconnect_wait_times_ms":  [0],
+                   "channel_lease_time_sec": 30
+                 } ,
+                 "connection": {
+                   "connect_timeout_sec": 60
+                 },
+                 "max_open_handles": 65536
+               }
+             }
+
+      v3ioConfigPath: /etc/v3io/fuse/fuse_v3io_config.json
       image:
         repository: quay.io/iguazio
         tag: latest
