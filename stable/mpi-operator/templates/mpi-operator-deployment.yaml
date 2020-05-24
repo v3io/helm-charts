@@ -36,7 +36,7 @@ spec:
           "{{ .Values.image.kubectlDelivery.repository }}:{{ .Values.image.kubectlDelivery.tag }}",
           "--namespace",
           "{{ .Release.Namespace }}",
-          "----lock-namespace",
+          "--lock-namespace",
           "{{ .Release.Namespace }}"
         ]
         env:
