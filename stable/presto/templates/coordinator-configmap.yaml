@@ -32,6 +32,7 @@ data:
     -XX:+ExplicitGCInvokesConcurrent
     -XX:+HeapDumpOnOutOfMemoryError
     -XX:+ExitOnOutOfMemoryError
+    -Dpresto-temporarily-allow-java8=true
 {{- end }}
 
   config.properties: |
