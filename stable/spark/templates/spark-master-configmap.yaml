@@ -23,6 +23,11 @@ data:
   run.sh: |
     #!/usr/bin/env bash
     set -e
+     { \
+      echo '# Enable Spark REST API server to support cluster mode.'; \
+      echo 'spark.master.rest.enabled=true'; \
+      echo 'spark.master.rest.port={{ .Values.master.restApi.servicePort }}'; \
+    } >> $SPARK_HOME/conf/spark-defaults.conf
 
     /spark-master \
       --service-port={{ .Values.master.servicePort }} \

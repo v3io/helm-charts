@@ -24,6 +24,8 @@ spec:
         release: {{ .Release.Name }}
         heritage: {{ .Release.Service }}
         component: spark-master
+      annotations:
+        srcd.host/create-headless-service: "true"
     spec:
       initContainers:
         - name: daemon-health
@@ -55,6 +57,7 @@ spec:
           ports:
             - containerPort: {{ .Values.master.containerPort }}
             - containerPort: {{ .Values.master.webAdmin.containerPort }}
+            - containerPort: {{ .Values.master.restApi.containerPort }}
           livenessProbe:
             exec:
               command:
