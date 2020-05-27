@@ -1,4 +1,4 @@
-{{ if .Values.installCrds }}
+{{ if .Values.crd.create }}
 apiVersion: batch/v1
 kind: Job
 metadata:

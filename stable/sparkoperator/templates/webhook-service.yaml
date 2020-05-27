@@ -1,4 +1,4 @@
-{{ if .Values.enableWebhook }}
+{{ if and (.Values.deployment.create) (.Values.enableWebhook) }}
 kind: Service
 apiVersion: v1
 metadata:
