@@ -16,11 +16,11 @@ deployment:
 image:
   deployment:
     replicas: 1
-    repository: quay.io/iguazio/mpi-operator
+    repository: mpioperator/mpi-operator
     tag: v0.2.3
     pullPolicy: IfNotPresent
   kubectlDelivery:
-    repository: quay.io/iguazio/kubectl-delivery
+    repository: mpioperator/kubectl-delivery
     tag: v0.2.3
 
 resources: {}
