@@ -13,7 +13,7 @@ data:
   v3io-spark.sh: |
     #!/usr/bin/env bash
     set -e
-
+    cp /igz/java/libs/v3io-*.jar /spark/jars
 {{ include "v3io-configs.script.lookupService" . | indent 4 }}
 
     /bin/bash /etc/config/spark/run.sh
