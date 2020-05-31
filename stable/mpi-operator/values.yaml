@@ -1,5 +1,6 @@
 crd:
   create: false
+  version: v1
 
 rbac:
   # serviceAccountName: service-account-name
@@ -11,17 +12,16 @@ rbac:
 
 deployment:
   create: true
-  gpusPerNode: 1  # for mpioperator 0.2.0
 
 image:
   deployment:
     replicas: 1
     repository: mpioperator/mpi-operator
-    tag: 0.2.0
+    tag: v0.2.3
     pullPolicy: IfNotPresent
   kubectlDelivery:
     repository: mpioperator/kubectl-delivery
-    tag: 0.2.0
+    tag: v0.2.3
 
 resources: {}
   # We usually recommend not to specify default resources and to leave this as a conscious
