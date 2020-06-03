@@ -24,6 +24,8 @@ spec:
         release: {{ .Release.Name }}
         heritage: {{ .Release.Service }}
         component: spark-worker
+      annotations:
+        srcd.host/create-headless-service: "true"
     spec:
       initContainers:
         - name: daemon-health
