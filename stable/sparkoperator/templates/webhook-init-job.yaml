@@ -1,4 +1,4 @@
-{{ if .Values.enableWebhook }}
+{{ if and (.Values.deployment.create) (.Values.enableWebhook) }}
 apiVersion: batch/v1
 kind: Job
 metadata:
@@ -13,7 +13,7 @@ spec:
   template:
     spec:
       serviceAccountName: {{ include "sparkoperator.serviceAccountName" . }}
-      restartPolicy: OnFailure
+      restartPolicy: Never
       imagePullSecrets:
 {{ toYaml .Values.imagePullSecrets | trim | indent 8 }}
       containers:

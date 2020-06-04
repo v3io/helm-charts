@@ -1,4 +1,4 @@
-{{ if .Values.enableWebhook }}
+{{ if and (.Values.deployment.create) (.Values.enableWebhook) }}
 apiVersion: batch/v1
 kind: Job
 metadata:
