@@ -21,10 +21,10 @@ rbac:
 
 serviceAccounts:
   spark:
-    create: true
+    create: false
     name:
   sparkoperator:
-    create: true
+    create: false
     name:
 
 sparkJobNamespace: ""
