@@ -83,7 +83,7 @@ spec:
               - --uri-path=/lab
               - --port={{ .Values.servicePort }}
             initialDelaySeconds: 90
-            periodSeconds: 1
+            periodSeconds: 10
           readinessProbe:
             exec:
               command:
@@ -92,7 +92,7 @@ spec:
               - --uri-path=/lab
               - --port={{ .Values.servicePort }}
             initialDelaySeconds: 5
-            periodSeconds: 1
+            periodSeconds: 10
           env:
             - name: SHELL
               value: /bin/bash
