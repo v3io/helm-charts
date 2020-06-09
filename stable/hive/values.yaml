@@ -44,14 +44,14 @@ metastore:
 ## ref: https://kubernetes.io/docs/tasks/configure-pod-container/configure-liveness-readiness-probes/#configure-probes)
 livenessProbe:
   initialDelaySeconds: 10
-  periodSeconds: 5
+  periodSeconds: 10
   timeoutSeconds: 5
   failureThreshold: 3
   successThreshold: 1
 
 readinessProbe:
   initialDelaySeconds: 10
-  periodSeconds: 5
+  periodSeconds: 10
   timeoutSeconds: 5
   failureThreshold: 3
   successThreshold: 1
