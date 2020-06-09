@@ -36,9 +36,8 @@ resources: {}
   #   cpu: 100m
   #   memory: 128Mi
 
-nodeSelector:
-  feature.node.kubernetes.io/pci-0302_10de.present: "true"
+gpuNodeSelectors:
+  - feature.node.kubernetes.io/pci-0302_10de.present
+  - feature.node.kubernetes.io/pci-0300_10de.present
 
 tolerations: []
-
-affinity: {}
