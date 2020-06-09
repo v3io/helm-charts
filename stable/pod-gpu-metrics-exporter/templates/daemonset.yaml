@@ -18,14 +18,17 @@ spec:
 {{ include "pod-gpu-metrics-exporter.labels" . | indent 8 }}
     spec:
       serviceAccountName: {{ template "pod-gpu-metrics-exporter.serviceAccountName" . }}
-    {{- with .Values.nodeSelector }}
-      nodeSelector:
-        {{- toYaml . | nindent 8 }}
-    {{- end }}
-    {{- with .Values.affinity }}
       affinity:
-        {{- toYaml . | nindent 8 }}
-    {{- end }}
+        nodeAffinity:
+          requiredDuringSchedulingIgnoredDuringExecution:
+            nodeSelectorTerms:
+              {{- range .Values.gpuNodeSelectors }}
+              - matchExpressions:
+                - key: {{ . }}
+                  operator: In
+                  values:
+                  - "true"
+              {{- end }}
     {{- with .Values.tolerations }}
       tolerations:
         {{- toYaml . | nindent 8 }}
