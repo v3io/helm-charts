@@ -31,10 +31,11 @@ data:
     chown -R {{ .Values.user.name }}:{{ .Values.user.name }} {{ .Values.installationPath }}/lib/logs
     chown -R {{ .Values.user.name }}:{{ .Values.user.name }} /var/crash
     chown -R {{ .Values.user.name }}:{{ .Values.user.name }} /root
+    chmod o+w /dev/stderr
 
     su --preserve-environment \
       --login {{ .Values.user.name }} \
-      --command "ulimit -c unlimited && {{ .Values.installationPath }}/bin/nginx -p {{ .Values.installationPath }}/lib -c /etc/iguazio/nginx/nginx.conf && tail -f {{ .Values.installationPath }}/lib/logs/v3io.log"
+      --command "ulimit -c unlimited && {{ .Values.installationPath }}/bin/nginx -p {{ .Values.installationPath }}/lib -c /etc/iguazio/nginx/nginx.conf && sleep infinity"
 
   health_check.sh: |
 {{ include "v3io-configs.script.httpHealthCheck" . | indent 4 }}
@@ -43,7 +44,7 @@ data:
     worker_processes {{ .Values.workerProcesses }};
     load_module ngx_http_v3io_module.so;
     worker_rlimit_nofile {{ .Values.workerRlimit }};
-    error_log {{ .Values.installationPath }}/lib/logs/v3io.log {{ .Values.logger.severity }};
+    error_log /dev/stderr {{ .Values.logger.severity }};
     events {
         use epoll;
         worker_connections  {{ .Values.workerConnections }};

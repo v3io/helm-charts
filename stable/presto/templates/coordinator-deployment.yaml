@@ -106,7 +106,7 @@ spec:
               - --uri-path=/v1/cluster
               - --port={{ .Values.server.properties.http.port }}
             initialDelaySeconds: 90
-            periodSeconds: 1
+            periodSeconds: 10
           readinessProbe:
             exec:
               command:
@@ -115,7 +115,7 @@ spec:
               - --uri-path=/v1/cluster
               - --port={{ .Values.server.properties.http.port }}
             initialDelaySeconds: 5
-            periodSeconds: 1
+            periodSeconds: 10
           resources:
 {{ toYaml .Values.resources | indent 12 }}
     {{- with .Values.nodeSelector }}
