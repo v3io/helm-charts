@@ -80,13 +80,6 @@ spec:
               - /etc/config/shell/health_check.sh
             initialDelaySeconds: {{ .Values.livenessProbe.initialDelaySeconds }}
             periodSeconds: {{ .Values.livenessProbe.periodSeconds }}
-          readinessProbe:
-            exec:
-              command:
-              - /bin/bash
-              - /etc/config/shell/health_check.sh
-            initialDelaySeconds: {{ .Values.readinessProbe.initialDelaySeconds }}
-            periodSeconds: {{ .Values.readinessProbe.periodSeconds }}
 {{- if or .Values.environment .Values.v3io.api }}
           env:
 {{- if .Values.environment }}
