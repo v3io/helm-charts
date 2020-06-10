@@ -26,4 +26,6 @@ spec:
           containerPort: 9090
         - name: envoy-admin
           containerPort: 9901
+        resources:
+{{ toYaml .Values.resources.metadataEnvoy | indent 10 }}
 {{- end }}
