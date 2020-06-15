@@ -52,14 +52,12 @@ spec:
             - containerPort: {{ .Values.sslHostPort }}
               name: v3io-webapi-ssl
           livenessProbe:
-            exec:
-              command:
-              - /bin/bash
-              - /etc/iguazio/nginx/health_check.sh
-              - --port={{ .Values.hostPort }}
-              - --http-method=OPTIONS
+            tcpSocket:
+              port: {{ .Values.hostPort }}
             initialDelaySeconds: 5
             periodSeconds: 1
+            timeoutSeconds: 3
+            failureThreshold: 3
           readinessProbe:
             exec:
               command:
@@ -68,7 +66,9 @@ spec:
               - --port={{ .Values.hostPort }}
               - --http-method=OPTIONS
             initialDelaySeconds: 1
-            periodSeconds: 1
+            periodSeconds: 3
+            timeoutSeconds: 4
+            failureThreshold: 3
           env:
             - name: CURRENT_NODE_IP
               valueFrom:
