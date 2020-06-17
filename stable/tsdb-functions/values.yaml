@@ -8,6 +8,13 @@ webapi:
     secretName: ""
 project:
   displayName: TSDB functions
+resources: {}
+  # limits:
+    # cpu: 1
+    # memory: "2Gi"
+  # requests:
+    # cpu: 1
+    # memory: "2Gi"
 functions:
     ingest:
       readinessTimeoutSeconds: 180
