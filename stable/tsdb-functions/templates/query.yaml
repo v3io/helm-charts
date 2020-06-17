@@ -17,6 +17,8 @@ spec:
   replicas: {{ .Values.functions.query.replicas }}
   runtime: golang
   readinessTimeoutSeconds: {{ .Values.functions.query.readinessTimeoutSeconds }}
+  resources:
+{{ toYaml .Values.resources | indent 12 }}
   env:
   - name: QUERY_V3IO_TSDB_PATH
     value: {{ .Values.tsdb.path }}
