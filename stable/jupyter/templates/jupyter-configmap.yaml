@@ -64,7 +64,7 @@ data:
     if [ ! -e "${HOME}/.jupyter/jupyter_notebook_config.py" ]; then
         mkdir -p ${HOME}/.jupyter
         touch ${HOME}/.jupyter/jupyter_notebook_config.py
-        echo "c.NotebookApp.contents_manager_class = 'jupyfm.jupyfm.jupyfm'" >> ${HOME}/.jupyter/jupyter_notebook_config.py
+        echo "c.NotebookApp.contents_manager_class = 'jupyfm.jupyfm.Jupyfm'" >> ${HOME}/.jupyter/jupyter_notebook_config.py
     fi
 
     if [ ! -e "${HOME}/.jupyter/custom/custom.css" ]; then
