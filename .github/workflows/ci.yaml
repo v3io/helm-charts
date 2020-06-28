@@ -1,0 +1,29 @@
+name: CI
+
+on: [push, pull_request]
+
+env:
+  HELM_REPO: "https://get.helm.sh"
+  HELM_BIN: "helm-v3.1.2-linux-amd64.tar.gz"
+
+jobs:
+
+  test:
+    name: Test charts
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - name: Install
+        run: |
+          wget -q ${HELM_REPO}/${HELM_BIN}
+          tar xzvf ${HELM_BIN}
+          PATH=$(pwd)/linux-amd64/:$PATH
+          helm repo add stable https://kubernetes-charts.storage.googleapis.com
+          helm repo add nuclio https://nuclio.github.io/nuclio/charts
+          helm repo add v3io-stable https://v3io.github.io/helm-charts/stable
+
+      - name: Test stable
+        run: make stable
+
+      - name: Test demo
+        run: make demo
