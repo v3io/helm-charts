@@ -1,0 +1,62 @@
+name: CI
+
+on: [push, pull_request]
+
+env:
+  HELM_REPO: "https://get.helm.sh"
+  HELM_BIN: "helm-v3.1.2-linux-amd64.tar.gz"
+
+install:
+  - wget -q ${HELM_REPO}/${HELM_BIN}
+  - tar xzvf ${HELM_BIN}
+  - PATH=$(pwd)/linux-amd64/:$PATH
+  - helm repo add stable https://kubernetes-charts.storage.googleapis.com
+  - helm repo add nuclio https://nuclio.github.io/nuclio/charts
+  - helm repo add v3io-stable https://v3io.github.io/helm-charts/stable
+
+script:
+  - make stable
+  - make demo
+
+jobs:
+
+  # This is a partial flow as opposed to make stable, might be more indicative
+  lint:
+    name: Lint
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v2
+
+    - name: Install
+      run: |
+        wget -q ${HELM_REPO}/${HELM_BIN}
+        tar xzvf ${HELM_BIN}
+        PATH=$(pwd)/linux-amd64/:$PATH
+
+    - name: Prepare
+      run: make repo-add
+
+    - name: Update chart requirements
+      run: make update-req
+
+    - name: Lint charts
+      run: make lint
+
+  check-charts:
+    name: Check charts
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - name: Install
+        run: |
+          wget -q ${HELM_REPO}/${HELM_BIN}
+          tar xzvf ${HELM_BIN}
+          PATH=$(pwd)/linux-amd64/:$PATH
+          helm repo add stable https://kubernetes-charts.storage.googleapis.com
+          helm repo add nuclio https://nuclio.github.io/nuclio/charts
+          helm repo add v3io-stable https://v3io.github.io/helm-charts/stable
+
+      - name: Check stable
+        run: make stable
+      - name: Check demo
+        run: make demo
