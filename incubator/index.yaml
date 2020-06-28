@@ -2,7 +2,22 @@ apiVersion: v1
 entries:
   flex-docker:
   - apiVersion: v1
-    created: "2020-06-25T17:50:08.583921619+03:00"
+    created: "2020-06-28T20:38:45.214964+03:00"
+    description: A Helm chart for installing Flex for Docker
+    digest: 563c9fb66bb5413c753c72b1c951c6576a91392e33372c6a8cac37fa16abf532
+    home: https://iguazio.com
+    icon: https://www.iguazio.com/wp-content/uploads/2019/10/Iguazio-Logo.png
+    maintainers:
+    - email: eliranb@iguazio.com
+      name: bivas
+    name: flex-docker
+    sources:
+    - https://github.com/v3io/flex-docker
+    urls:
+    - https://v3io.github.io/helm-charts/incubator/flex-docker-0.1.1.tgz
+    version: 0.1.1
+  - apiVersion: v1
+    created: "2020-06-28T20:38:45.214623+03:00"
     description: A Helm chart for installing Flex for Docker
     digest: 0ab3c3521954e2bbb77e9a15108eb450f6910f9fd8d47f027850ea9e779ed844
     home: https://iguazio.com
@@ -16,4 +31,4 @@ entries:
     urls:
     - https://v3io.github.io/helm-charts/incubator/flex-docker-0.1.0.tgz
     version: 0.1.0
-generated: "2020-06-25T17:50:08.583630516+03:00"
+generated: "2020-06-28T20:38:45.213837+03:00"
