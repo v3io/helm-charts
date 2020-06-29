@@ -124,16 +124,16 @@ data:
     found=false
     if [ -d ${PRESTO_HOME}/plugin/oracle ]; then
       for name in ${PRESTO_THIRD_PARTY_LIBS}/*; do
-      filename=`basename "$name"`
+        filename=`basename "$name"`
         if [[ $filename == {{ .Values.server.properties.thirdPartyLibs.oracleJdbcDriver }}/*.jar ]]; then
-         found=true
+          found=true
         fi
         ln -s $name ${PRESTO_HOME}/plugin/oracle/$filename
       done
     fi
-   if [ "$found" = false ]; then
-     rm -rf ${PRESTO_HOME}/plugin/oracle
-   fi
+    if [ "$found" = false ]; then
+      rm -rf ${PRESTO_HOME}/plugin/oracle
+    fi
 
 {{- if .Values.hive }}
     # append to Hive configuration
