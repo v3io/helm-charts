@@ -244,3 +244,14 @@ check-helm:
 		exit 2 ; \
 	fi
 	@echo "Helm command exists"
+
+.PHONY: lint
+lint:
+	@echo "Linting all charts"
+	./hack/scripts/lint.sh
+
+.PHONY: repo-add
+repo-add:
+	helm repo add stable https://kubernetes-charts.storage.googleapis.com
+	helm repo add nuclio https://nuclio.github.io/nuclio/charts
+	helm repo add v3io-stable https://v3io.github.io/helm-charts/stable
