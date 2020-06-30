@@ -125,13 +125,18 @@ data:
     if [ -d ${PRESTO_HOME}/plugin/oracle ]; then
       for name in ${PRESTO_THIRD_PARTY_LIBS}/*; do
         filename=`basename "$name"`
-        if [[ $filename == {{ .Values.server.properties.thirdPartyLibs.oracleJdbcDriver }}/*.jar ]]; then
+        echo filename $filename
+        echo "value" {{ .Values.server.properties.thirdPartyLibs.oracleJdbcDriver }}
+        if [[ "$filename" =~ ^{{ .Values.server.properties.thirdPartyLibs.oracleJdbcDriver }}.*\.jar$ ]]; then
           found=true
+          echo "found"
         fi
         ln -s $name ${PRESTO_HOME}/plugin/oracle/$filename
+        echo "linking" $name
       done
     fi
-    if [ "$found" = false ]; then
+    if [ $found == "false" ]; then
+      echo "deleted"
       rm -rf ${PRESTO_HOME}/plugin/oracle
     fi
 
