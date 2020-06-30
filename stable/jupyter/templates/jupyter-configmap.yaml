@@ -78,6 +78,8 @@ data:
         echo "}" >> ${HOME}/.jupyter/custom/custom.css
     fi
 
+    export JUPYTER_DATA_DIR=${HOME}/.local/share/jupyter/{{ template "jupyter.fullname" . }}
+    mkdir -p "${JUPYTER_DATA_DIR}"
 
 {{- if .Values.spark }}
     echo "spark.master=spark://{{ .Values.spark.hostname }}:{{ .Values.spark.port }}" >> ${SPARK_HOME}/conf/spark-defaults.conf
