@@ -120,14 +120,23 @@ data:
     cp {{ .Values.server.properties.catalogMapPath }}/*.properties $PRESTO_CONF_DIR/catalog
     cp {{ .Values.server.properties.thirdPartyMapPath }}/* ${PRESTO_THIRD_PARTY_LIBS}/
 
-    # make sure that oracle jdbc driver exists at the ap-node, otherwise remove oracle connector plugin from presto
-    if [[ -f ${PRESTO_THIRD_PARTY_LIBS}/{{ .Values.server.properties.thirdPartyLibs.oracleJdbcDriver }} ]]; then
-      # Create symbolic link to Oracle JDBC driver to enable Oracle connector
-      if [ -d ${PRESTO_HOME}/plugin/oracle ]; then
-        ln -s ${PRESTO_THIRD_PARTY_LIBS}/{{ .Values.server.properties.thirdPartyLibs.oracleJdbcDriver }} ${PRESTO_HOME}/plugin/oracle/{{ .Values.server.properties.thirdPartyLibs.oracleJdbcDriver }}
-      fi
-    else
-      # delete oracle connector plugin to make Presto server operational
+    # make sure that oracle jdbc driver exists at the app-node, otherwise remove oracle connector plugin from presto
+    found=false
+    if [ -d ${PRESTO_HOME}/plugin/oracle ]; then
+      for name in ${PRESTO_THIRD_PARTY_LIBS}/*; do
+        filename=`basename "$name"`
+        echo filename $filename
+        echo "value" {{ .Values.server.properties.thirdPartyLibs.oracleJdbcDriver }}
+        if [[ "$filename" =~ ^{{ .Values.server.properties.thirdPartyLibs.oracleJdbcDriver }}.*\.jar$ ]]; then
+          found=true
+          echo "found"
+        fi
+        ln -s $name ${PRESTO_HOME}/plugin/oracle/$filename
+        echo "linking" $name
+      done
+    fi
+    if [ $found == "false" ]; then
+      echo "deleted"
       rm -rf ${PRESTO_HOME}/plugin/oracle
     fi
 
