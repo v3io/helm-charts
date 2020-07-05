@@ -1,4 +1,4 @@
-{{- if and (.Values.rbac.create) (ne .Values.sparkJobNamespace "") }}
+{{- if and (.Values.rbac.namespaced.create) (ne .Values.sparkJobNamespace "") }}
 apiVersion: rbac.authorization.k8s.io/v1
 kind: Role
 metadata:

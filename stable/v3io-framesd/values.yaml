@@ -46,3 +46,6 @@ nodeSelector: {}
 tolerations: []
 
 affinity: {}
+
+environment:
+  template: v3io-configs.auth.env

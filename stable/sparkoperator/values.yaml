@@ -4,19 +4,30 @@ imagePullPolicy: IfNotPresent
 imagePullSecrets: []
 replicas: 1
 
+deployment:
+  create: false
+
+crd:
+  create: false
+
 rbac:
-  create: true
+  clusterResources:
+    create: false
+  clusterNamespaceResources:
+    create: false
+  namespaced:
+    create: false
+  clusterRoleName:
 
 serviceAccounts:
   spark:
-    create: true
+    create: false
     name:
   sparkoperator:
-    create: true
+    create: false
     name:
 
 sparkJobNamespace: ""
-installCrds: true
 controllerThreads: 10
 resyncInterval: 30
 ingressUrlFormat: ""

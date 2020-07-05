@@ -61,6 +61,12 @@ data:
         echo "}" >> ${HOME}/.jupyter/lab/user-settings/@jupyterlab/terminal-extension/plugin.jupyterlab-settings
     fi
 
+    if [ ! -e "${HOME}/.jupyter/jupyter_notebook_config.py" ]; then
+        mkdir -p ${HOME}/.jupyter
+        touch ${HOME}/.jupyter/jupyter_notebook_config.py
+        echo "c.NotebookApp.contents_manager_class = 'jupyfm.jupyfm.Jupyfm'" >> ${HOME}/.jupyter/jupyter_notebook_config.py
+    fi
+
     if [ ! -e "${HOME}/.jupyter/custom/custom.css" ]; then
         mkdir -p ${HOME}/.jupyter/custom
         touch ${HOME}/.jupyter/custom/custom.css
@@ -72,6 +78,8 @@ data:
         echo "}" >> ${HOME}/.jupyter/custom/custom.css
     fi
 
+    export JUPYTER_DATA_DIR=${HOME}/.local/share/jupyter/{{ template "jupyter.fullname" . }}
+    mkdir -p "${JUPYTER_DATA_DIR}"
 
 {{- if .Values.spark }}
     echo "spark.master=spark://{{ .Values.spark.hostname }}:{{ .Values.spark.port }}" >> ${SPARK_HOME}/conf/spark-defaults.conf
@@ -183,7 +191,7 @@ data:
     fi
     mkdir -p ${PIP_USER_PATH}
     export IGZ_ORIG_PIP_PREFIX="${PIP_USER_PATH}"
-    export IGZ_ORIG_PYTHONPATH="${PIP_USER_PATH}/lib/python3.6/site-packages:${PYTHONPATH}"
+    export IGZ_ORIG_PYTHONPATH="${PIP_USER_PATH}/lib/python3.7/site-packages:${PYTHONPATH}"
     export PATH="${PATH}:${PIP_USER_PATH}/bin"
     unset PYTHONPATH
 

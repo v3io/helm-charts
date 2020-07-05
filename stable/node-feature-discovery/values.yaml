@@ -35,6 +35,7 @@ nfdMaster:
 nfdWorker:
   extraArgs:
     - --sleep-interval=60s
+    - --options={"sources":{"pci":{"deviceLabelFields":["vendor"]}}}
 
 podSecurityContext: {}
   # fsGroup: 2000

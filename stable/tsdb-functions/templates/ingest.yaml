@@ -17,6 +17,8 @@ spec:
   replicas: {{ .Values.functions.ingest.replicas }}
   runtime: golang
   readinessTimeoutSeconds: {{ .Values.functions.ingest.readinessTimeoutSeconds }}
+  resources:
+{{ toYaml .Values.resources | indent 12 }}
   env:
   - name: INGEST_V3IO_TSDB_PATH
     value: {{ .Values.tsdb.path }}
