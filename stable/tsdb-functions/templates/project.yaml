@@ -7,6 +7,6 @@ metadata:
     chart: {{ template "tsdb-functions.chart" . }}
     release: {{ .Release.Name }}
     heritage: {{ .Release.Service }}
-	component: tsdb-functions
+    component: tsdb-functions
 spec:
   displayName: {{ .Values.project.displayName }}
