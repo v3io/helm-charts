@@ -3,11 +3,15 @@ kind: NuclioFunction
 metadata:
   name: {{ template "tsdb-functions.queryName" . }}
   labels:
+    app.kubernetes.io/name: {{ template "tsdb-functions.name" . }}
+    app.kubernetes.io/instance: {{ .Release.Name }}
+    app.kubernetes.io/part-of: "tsdb-functions"
     nuclio.io/project-name: {{ template "tsdb-functions.projectName" . }}
-    app: {{ template "tsdb-functions.name" . }}
+    app: {{ template "tsdb-functions.name" . }}  # TODO deprecate, use app.kubernetes.io/name instead
     chart: {{ template "tsdb-functions.chart" . }}
-    release: {{ .Release.Name }}
+    release: {{ .Release.Name }}  # TODO deprecate, use app.kubernetes.io/instance instead
     heritage: {{ .Release.Service }}
+    component: query
 spec:
   build:
     codeEntryType: image
