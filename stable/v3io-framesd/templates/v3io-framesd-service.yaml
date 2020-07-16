@@ -26,6 +26,13 @@ spec:
 {{- if .Values.service.grpcNodePort }}
       nodePort: {{ .Values.service.grpcNodePort }}
 {{- end }}
+    - port: {{ .Values.service.profiling }}
+      targetPort: http
+      protocol: TCP
+      name: profiling
+{{- if .Values.service.profilingNodePort }}
+      nodePort: {{ .Values.service.profilingNodePort }}
+{{- end }}
   selector:
     app: {{ template "v3io-framesd.name" . }}
     release: {{ .Release.Name }}
