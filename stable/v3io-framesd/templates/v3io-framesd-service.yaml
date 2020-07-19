@@ -27,7 +27,7 @@ spec:
       nodePort: {{ .Values.service.grpcNodePort }}
 {{- end }}
     - port: {{ .Values.service.profiling }}
-      targetPort: http
+      targetPort: {{ .Values.service.profiling }}
       protocol: TCP
       name: profiling
 {{- if .Values.service.profilingNodePort }}
