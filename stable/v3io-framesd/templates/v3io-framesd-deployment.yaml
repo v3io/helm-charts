@@ -40,6 +40,9 @@ spec:
             - name: grpc
               containerPort: {{ .Values.service.grpc }}
               protocol: TCP
+            - name: profiling
+              containerPort: {{ .Values.service.profiling }}
+              protocol: TCP
 {{- if .Values.environment }}
           env:
 {{ include .Values.environment.template . | indent 12 }}

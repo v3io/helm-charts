@@ -52,8 +52,6 @@ spec:
               secretKeyRef:
                 name: {{ .Release.Name }}-v3io-fuse
                 key: username
-          command: ["python", "-m", "mlrun", "db"]
-          args: []
           resources:
             {{- toYaml .Values.api.resources | nindent 12 }}
           volumeMounts:

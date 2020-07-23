@@ -7,7 +7,7 @@ api:
 
   image:
     repository: mlrun/mlrun-api
-    tag: 0.4.3
+    tag: 0.5.0
     pullPolicy: IfNotPresent
     pullSecrets: []
 
@@ -69,8 +69,8 @@ ui:
   replicaCount: 1
 
   image:
-    repository: quay.io/iguazio/mlrun-ui
-    tag: 0.1.0
+    repository: mlrun/mlrun-ui
+    tag: 0.5.0
     pullPolicy: IfNotPresent
     pullSecrets: []
 
@@ -138,8 +138,8 @@ serviceAccounts:
 v3io: {}
 
 httpDB:
-  dbType: "filerundb"
+  dbType: "sqldb"
   dirPath: "/mlrun/db"
-  dsn: "sqlite:///mlrun.sqlite3?check_same_thread=false"
+  dsn: "sqlite:////mlrun/db/mlrun.db?check_same_thread=false"
 
 defaultDockerRegistryURL: ""

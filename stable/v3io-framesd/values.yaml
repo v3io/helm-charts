@@ -28,6 +28,8 @@ service:
   httpNodePort:
   grpc: 8081
   grpcNodePort:
+  profiling: 8082
+  profilingNodePort:
 
 resources: {}
   # We usually recommend not to specify default resources and to leave this as a conscious
