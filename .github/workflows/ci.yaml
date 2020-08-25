@@ -4,7 +4,7 @@ on: [push, pull_request]
 
 env:
   HELM_REPO: "https://get.helm.sh"
-  HELM_BIN: "helm-v3.1.2-linux-amd64.tar.gz"
+  HELM_BIN: "helm-v3.2.0-linux-amd64.tar.gz"
 
 jobs:
 
@@ -12,18 +12,26 @@ jobs:
     name: Test charts
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v2
-      - name: Install
-        run: |
-          wget -q ${HELM_REPO}/${HELM_BIN}
-          tar xzvf ${HELM_BIN}
-          PATH=$(pwd)/linux-amd64/:$PATH
-          helm repo add stable https://kubernetes-charts.storage.googleapis.com
-          helm repo add nuclio https://nuclio.github.io/nuclio/charts
-          helm repo add v3io-stable https://v3io.github.io/helm-charts/stable
+    - name: Install Helm
+      run: |
+        wget -q ${HELM_REPO}/${HELM_BIN}
+        tar xzvf ${HELM_BIN}
+        chmod +x ./linux-amd64/helm
+        sudo mv ./linux-amd64/helm /usr/local/bin/
 
-      - name: Test stable
-        run: make stable
+    - name: helm version
+      run: helm version
 
-      - name: Test demo
-        run: make demo
+    - name: Add Helm repos
+      run: |
+        helm repo add stable https://kubernetes-charts.storage.googleapis.com
+        helm repo add nuclio https://nuclio.github.io/nuclio/charts
+        helm repo add v3io-stable https://v3io.github.io/helm-charts/stable
+
+    - uses: actions/checkout@v2
+
+    - name: Test stable
+      run: make stable
+
+    - name: Test demo
+      run: make demo
