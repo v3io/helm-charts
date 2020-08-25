@@ -20,7 +20,9 @@ jobs:
         curl -LO https://storage.googleapis.com/kubernetes-release/release/v1.15.5/bin/linux/amd64/kubectl
         chmod +x ./kubectl
         sudo mv ./kubectl /usr/local/bin/kubectl
-        kubectl version --client
+
+    - name: kubectl version
+      run: kubectl version --client
 
     - name: Install Helm
       run: |
@@ -30,6 +32,9 @@ jobs:
         helm repo add stable https://kubernetes-charts.storage.googleapis.com
         helm repo add nuclio https://nuclio.github.io/nuclio/charts
         helm repo add v3io-stable https://v3io.github.io/helm-charts/stable
+
+    - name: helm version
+      run: helm version
 
     - uses: actions/checkout@v2
 
