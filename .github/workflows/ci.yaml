@@ -16,7 +16,11 @@ jobs:
     # we need to control kubectl version, because newer versions (come pre-installed) change the linting rules of
     # of helm w.r.t deprecated resource kinds
     - name: Install kubectl 1.15.5
-      run: sudo apt-get install -y kubectl=v1.15.5
+      run: |
+        curl -LO https://storage.googleapis.com/kubernetes-release/release/v1.15.5/bin/linux/amd64/kubectl
+        chmod +x ./kubectl
+        sudo mv ./kubectl /usr/local/bin/kubectl
+        kubectl version --clienl
 
     - name: Install Helm
       run: |
