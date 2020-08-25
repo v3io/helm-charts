@@ -12,6 +12,9 @@ jobs:
     name: Test charts
     runs-on: ubuntu-latest
     steps:
+
+    # we need to control kubectl version, because newer versions (come pre-installed) change the linting rules of
+    # of helm w.r.t deprecated resource kinds
     - uses: azure/setup-kubectl@v1
       with:
         version: 1.15.5
