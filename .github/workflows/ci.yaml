@@ -15,10 +15,9 @@ jobs:
 
     # we need to control kubectl version, because newer versions (come pre-installed) change the linting rules of
     # of helm w.r.t deprecated resource kinds
-    - uses: azure/setup-kubectl@v1
+    - uses: actions-hub/kubectl@1.15.5
       with:
-        version: 1.15.5
-      id: install_kubectl
+        args: version
 
     - name: Install Helm
       run: |
