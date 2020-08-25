@@ -1,5 +1,5 @@
 # Helm Charts
-Helm Charts for iguazio V3IO Components
+Helm Charts for V3IO Components
 
 # Usage
 
