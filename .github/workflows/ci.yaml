@@ -12,23 +12,24 @@ jobs:
     name: Test charts
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v2
-      - name: kubectl version
-        run: kubectl version
-      - name: Install
-        run: |
-          wget -q ${HELM_REPO}/${HELM_BIN}
-          tar xzvf ${HELM_BIN}
-          PATH=$(pwd)/linux-amd64/:$PATH
-          helm repo add stable https://kubernetes-charts.storage.googleapis.com
-          helm repo add nuclio https://nuclio.github.io/nuclio/charts
-          helm repo add v3io-stable https://v3io.github.io/helm-charts/stable
+    - uses: azure/setup-kubectl@v1
+      with:
+        version: 1.15.5
+      id: install kubectl
 
-      - name: helm version
-        run: helm version
+    - name: Install Helm
+      run: |
+        wget -q ${HELM_REPO}/${HELM_BIN}
+        tar xzvf ${HELM_BIN}
+        PATH=$(pwd)/linux-amd64/:$PATH
+        helm repo add stable https://kubernetes-charts.storage.googleapis.com
+        helm repo add nuclio https://nuclio.github.io/nuclio/charts
+        helm repo add v3io-stable https://v3io.github.io/helm-charts/stable
 
-      - name: Test stable
-        run: make stable
+    - uses: actions/checkout@v2
 
-      - name: Test demo
-        run: make demo
+    - name: Test stable
+      run: make stable
+
+    - name: Test demo
+      run: make demo
