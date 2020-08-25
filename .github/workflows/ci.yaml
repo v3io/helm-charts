@@ -19,7 +19,7 @@ jobs:
       run: |
         curl -LO https://storage.googleapis.com/kubernetes-release/release/v1.15.5/bin/linux/amd64/kubectl
         chmod +x ./kubectl
-        sudo mv ./kubectl /usr/local/bin/kubectl
+        sudo mv ./kubectl /usr/local/bin/
 
     - name: kubectl version
       run: kubectl version --client
@@ -28,13 +28,17 @@ jobs:
       run: |
         wget -q ${HELM_REPO}/${HELM_BIN}
         tar xzvf ${HELM_BIN}
-        PATH=$(pwd)/linux-amd64/:$PATH
-        helm repo add stable https://kubernetes-charts.storage.googleapis.com
-        helm repo add nuclio https://nuclio.github.io/nuclio/charts
-        helm repo add v3io-stable https://v3io.github.io/helm-charts/stable
+        chmod +x ./linux-amd64/helm
+        sudo mv ./linux-amd64/helm /usr/local/bin/
 
     - name: helm version
       run: helm version
+
+    - name: Add Helm repos
+      run: |
+        helm repo add stable https://kubernetes-charts.storage.googleapis.com
+        helm repo add nuclio https://nuclio.github.io/nuclio/charts
+        helm repo add v3io-stable https://v3io.github.io/helm-charts/stable
 
     - uses: actions/checkout@v2
 
