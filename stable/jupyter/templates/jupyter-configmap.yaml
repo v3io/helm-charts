@@ -65,7 +65,6 @@ data:
         mkdir -p ${HOME}/.jupyter
         touch ${HOME}/.jupyter/jupyter_notebook_config.py
         echo "c.NotebookApp.contents_manager_class = 'jupyfm.jupyfm.Jupyfm'" >> ${HOME}/.jupyter/jupyter_notebook_config.py
-        echo "c.FileContentsManager.delete_to_trash = False" >> ${HOME}/.jupyter/jupyter_notebook_config.py
     fi
 
     if [ ! -e "${HOME}/.jupyter/custom/custom.css" ]; then
