@@ -146,4 +146,12 @@ data:
       echo "# ----- END KUBECTL AUTOCOMPLETION -----" >> ${HOME}/.bashrc
     fi
 
+{{- if .Values.sshService.enabled }}
+    cp /var/run/iguazio/secrets/ssh/* /igz/.ssh
+    chown iguazio:iguazio /igz/.ssh/*
+    chmod 0644 /igz/.ssh/*
+
+    service ssh restart
+{{- end }}
+
     ttyd bash

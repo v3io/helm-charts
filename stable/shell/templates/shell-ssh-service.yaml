@@ -1,0 +1,21 @@
+{{- if .Values.sshService.enabled }}
+apiVersion: v1
+kind: Service
+metadata:
+  name: {{ template "shell.fullname" . }}-ssh
+  labels:
+    app: {{ template "shell.name" . }}
+    chart: {{ template "shell.chart" . }}
+    release: {{ .Release.Name }}
+    heritage: {{ .Release.Service }}
+spec:
+  type: NodePort
+  ports:
+  - name: ssh
+    port: 22
+    targetPort: sshd
+  selector:
+    app: ssh
+    release: ssh
+  sessionAffinity: None
+{{- end }}
