@@ -35,7 +35,39 @@ job:
                  "connection": {
                    "connect_timeout_sec": 60
                  },
-                 "max_open_handles": 65536
+                 "max_open_handles": 65536,
+                 "slabs_config": [
+                   {
+                     "size": 256,
+                     "min": 256,
+                     "max": 8192,
+                     "grow": 256
+                   },
+                   {
+                     "size": 4096,
+                     "min": 256,
+                     "max": 8192,
+                     "grow": 256
+                   },
+                   {
+                     "size": 16384,
+                     "min": 16,
+                     "max": 16384,
+                     "grow": 64
+                   },
+                   {
+                     "size": 65536,
+                     "min": 0,
+                     "max": 16384,
+                     "grow": 32
+                   },
+                   {
+                     "size": 262144,
+                     "min": 0,
+                     "max": 8192,
+                     "grow": 16
+                   },
+                 ]
                }
              }
 
