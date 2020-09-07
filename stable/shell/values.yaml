@@ -61,6 +61,9 @@ daemon:
 sshServer:
   enabled: false
 
+  # can specifically set the port for the service NodePort (optional)
+  # port:
+
   # base64 encoded public key
   publicKey: ""
 

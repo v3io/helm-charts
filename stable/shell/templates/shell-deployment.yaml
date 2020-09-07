@@ -23,7 +23,7 @@ spec:
       serviceAccountName: {{ .Values.permissions.serviceAccount }}
 {{- end }}
       volumes:
-{{- if .Values.sshService.enabled }}
+{{- if .Values.sshServer.enabled }}
         - name: ssh-pub-key
           secret:
             defaultMode: 420
@@ -76,7 +76,7 @@ spec:
           command: ["/bin/bash", "{{ .Values.image.command }}"]
           workingDir: "/User"
           ports:
-{{- if .Values.sshService.enabled }}
+{{- if .Values.sshServer.enabled }}
             - name: sshd
               containerPort: 22
               protocol: TCP
@@ -108,7 +108,7 @@ spec:
 {{- end }}
 {{- end }}
           volumeMounts:
-{{- if .Values.sshService.enabled }}
+{{- if .Values.sshServer.enabled }}
             - mountPath: /var/run/iguazio/secrets/ssh
               readOnly: true
               name: ssh-pub-key
