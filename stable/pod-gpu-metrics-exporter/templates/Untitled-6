@@ -1,0 +1,79 @@
+#!/usr/bin/env bash
+set -ex
+
+export NAS=192.168.218.54
+export REPOSITORY=artifactory.iguazeng.com:6555
+export REPOSITORY_USER=iguazio
+export ZETA_PACKAGES_LOCATION=packages/bigdata
+export PRESTO_PACKAGES_LOCATION=packages/bigdata
+export BUILD_REGULAR=true
+export BUILD_ALPINE=true
+export BUILD_CUDA=
+
+if [[ ! -z $1 ]]; then
+    export IGZ_BUILD_VERSION=$1
+else
+    echo -n "Enter iguazio version to fetch > "
+    read IGZ_BUILD_VERSION
+    export IGZ_BUILD_VERSION=${IGZ_BUILD_VERSION}
+fi
+
+echo "Using iguazio version ${IGZ_BUILD_VERSION}"
+
+mkdir -p ${ZETA_PACKAGES_LOCATION} ${PRESTO_PACKAGES_LOCATION}
+sshpass -p 24tango rsync -avz iguazio@${NAS}:/mnt/nfs/offline_versions/${IGZ_BUILD_VERSION}/deploy/artifacts/zeta-packages/* ${ZETA_PACKAGES_LOCATION}
+sshpass -p 24tango rsync -avz iguazio@${NAS}:/mnt/nfs/offline_versions/${IGZ_BUILD_VERSION}/deploy/artifacts/presto-packages/* ${PRESTO_PACKAGES_LOCATION}
+export VERSION_HASH=`sshpass -p 24tango ssh iguazio@${NAS} "grep BigData: /mnt/nfs/offline_versions/${IGZ_BUILD_VERSION}/deploy/inventory/group_vars/all/020_packaging.yml|cut -d'\"' -f2"`
+
+# TODO:
+# for each file in ${ZETA_PACKAGES_LOCATION}, ${PRESTO_PACKAGES_LOCATION}
+# replace "hash" with "$IGZ_BUILD_VERSION"
+for filename in `ls ${ZETA_PACKAGES_LOCATION}`; do
+  if [[ $filename == *"${VERSION_HASH}"* ]]; then
+    new_filename="${filename/$VERSION_HASH/$IGZ_BUILD_VERSION}"
+    mv ${ZETA_PACKAGES_LOCATION}/$filename ${ZETA_PACKAGES_LOCATION}/$new_filename
+  fi
+done
+
+for filename in `ls ${PRESTO_PACKAGES_LOCATION}`; do
+  if [[ $filename == *"${VERSION_HASH}"* ]]; then
+    new_filename="${filename/$VERSION_HASH/$IGZ_BUILD_VERSION}"
+    mv ${PRESTO_PACKAGES_LOCATION}/$filename ${PRESTO_PACKAGES_LOCATION}/$new_filename
+  fi
+done
+
+#make build
+exit
+#make jupyter
+#docker build -t jupyter-conda:latest -f jupyter/Dockerfile.conda .
+#make hive
+#make jupyter-all
+#make jupyter-gpu
+#make shell
+#make build
+#make presto
+#make jupyter
+#make jupyter-all
+#make jupyter-gpu
+exit
+
+export BUILD_REGULAR=
+export BUILD_ALPINE=
+export BUILD_CUDA=true
+make version
+# make hadoop
+export BUILD_REGULAR=
+export BUILD_CUDA=
+export BUILD_ALPINE=true
+make version
+# make hadoop
+make presto
+make hive
+make shell
+#export BUILD_REGULAR=
+#export BUILD_ALPINE=
+#export BUILD_CUDA=false
+#make spark
+#make jupyter
+#make jupyter-all
+#make jupyter-gpu
