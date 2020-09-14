@@ -61,11 +61,11 @@ daemon:
 sshServer:
   enabled: false
 
-  # can specifically set the port for the service NodePort (optional)
-  # port:
+  # can specifically set the port for the ssh service NodePort (optional. when empty, a random port will be assigned)
+  # nodePort:
 
-  # base64 encoded public key
-  publicKey: ""
+  # base64 encoded public keys (can be more than one)
+  authorizedKeys: ""
 
 resources: {}
   # We usually recommend not to specify default resources and to leave this as a conscious

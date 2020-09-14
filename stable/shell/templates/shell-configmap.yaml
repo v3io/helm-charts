@@ -148,7 +148,7 @@ data:
 
 {{- if .Values.sshServer.enabled }}
     cp /var/run/iguazio/secrets/ssh/* ${IGUAZIO_HOME}/.ssh/authorized_keys
-    chmod 0644 ${IGUAZIO_HOME}/.ssh/*
+    chmod 0644 -R ${IGUAZIO_HOME}/.ssh/
 
     service ssh restart
 {{- end }}
