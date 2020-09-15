@@ -147,10 +147,10 @@ data:
     fi
 
 {{- if .Values.sshServer.enabled }}
-    cp /var/run/iguazio/secrets/ssh/* ${IGUAZIO_HOME}/.ssh/authorized_keys
-    chmod 0644 -R ${IGUAZIO_HOME}/.ssh/
+    cp /var/run/iguazio/secrets/ssh/* ${IGUAZIO_HOME}/.ssh
 
     service ssh restart
 {{- end }}
 
-    ttyd bash
+    # run ttyd as the container user - so it won't run as root
+    su ${CONTAINER_USER} --preserve-environment -c "ttyd bash"
