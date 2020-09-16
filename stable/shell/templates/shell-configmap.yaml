@@ -151,7 +151,7 @@ data:
 
     echo -e "PasswordAuthentication no
     PermitRootLogin no
-    Ciphers aes128-ctr" >> /etc/ssh/sshd_config
+    Ciphers chacha20-poly1305@openssh.com,aes128-ctr,aes192-ctr,aes256-ctr,aes128-gcm@openssh.com,aes256-gcm@openssh.com" >> /etc/ssh/sshd_config
 
     /usr/sbin/sshd -f /etc/ssh/sshd_config
 {{- end }}
