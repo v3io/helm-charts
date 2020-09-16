@@ -14,7 +14,7 @@ server:
           io.iguaz.v3io: INFO
       config: {}
       jvm:
-        maxHeapSize: "8G"
+        maxHeapSize: "16G"
         gcMethod:
           type: "UseG1GC"
           g1:
@@ -33,7 +33,7 @@ server:
           io.iguaz.v3io: INFO
       config: {}
       jvm:
-        maxHeapSize: "8G"
+        maxHeapSize: "16G"
         gcMethod:
           type: "UseG1GC"
           g1:
@@ -59,8 +59,9 @@ server:
         tag: 3.0.0
         pullPolicy: IfNotPresent
     query:
-      maxMemory: "4GB"
-      maxMemoryPerNode: "1GB"
+      maxMemory: "12GB"
+      maxMemoryPerNode: "3GB"
+      maxTotalMemoryPerNode: "4GB"
   catalog:
 hive:
   hostname: hive

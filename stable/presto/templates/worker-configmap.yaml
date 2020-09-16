@@ -52,6 +52,7 @@ data:
 {{- end }}
     query.max-memory={{ .Values.server.properties.query.maxMemory }}
     query.max-memory-per-node={{ .Values.server.properties.query.maxMemoryPerNode }}
+    query.max-total-memory-per-node={{ .Values.server.properties.query.maxTotalMemoryPerNode }}
     discovery.uri=http://{{ template "presto.fullname" . }}.{{ .Release.Namespace }}.svc:{{ .Values.server.properties.http.port }}
 {{- end }}
 

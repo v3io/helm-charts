@@ -32,6 +32,7 @@ data:
     connector.name=hive-hadoop2
     hive.metastore.uri=thrift://{{ .Values.hive.hostname }}:{{ .Values.hive.port }}
     hive.parquet.use-column-names=true
+    hive.allow-drop-table=true
 {{- end }}
 {{- end }}
 
