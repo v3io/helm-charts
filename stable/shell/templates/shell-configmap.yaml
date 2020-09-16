@@ -149,8 +149,11 @@ data:
 {{- if .Values.sshServer.enabled }}
     cp /var/run/iguazio/secrets/ssh/* ${IGUAZIO_HOME}/.ssh
 
-    service ssh restart
+    echo -e "PasswordAuthentication no
+    PermitRootLogin no
+    Ciphers aes128-ctr" >> /etc/ssh/sshd_config
+
+    /usr/sbin/sshd -f /etc/ssh/sshd_config
 {{- end }}
 
-    # run ttyd as the container user - so it won't run as root
-    su ${CONTAINER_USER} --preserve-environment -c "ttyd bash"
+    ttyd bash
