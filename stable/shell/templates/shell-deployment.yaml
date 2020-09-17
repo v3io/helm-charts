@@ -23,6 +23,12 @@ spec:
       serviceAccountName: {{ .Values.permissions.serviceAccount }}
 {{- end }}
       volumes:
+{{- if .Values.sshServer.enabled }}
+        - name: ssh-authorized-keys
+          secret:
+            defaultMode: 420
+            secretName: {{ template "shell.fullname" . }}-ssh-key
+{{- end }}
         - name: config-volume
           configMap:
             name: {{ template "shell.fullname" . }}
@@ -70,6 +76,11 @@ spec:
           command: ["/bin/bash", "{{ .Values.image.command }}"]
           workingDir: "/User"
           ports:
+{{- if .Values.sshServer.enabled }}
+            - name: sshd
+              containerPort: 22
+              protocol: TCP
+{{- end }}
             - name: ttyd
               containerPort: 7681
               protocol: TCP
@@ -97,6 +108,11 @@ spec:
 {{- end }}
 {{- end }}
           volumeMounts:
+{{- if .Values.sshServer.enabled }}
+            - mountPath: /var/run/iguazio/secrets/ssh
+              readOnly: true
+              name: ssh-authorized-keys
+{{- end }}
             - name: config-volume
               mountPath: /etc/config/shell
             - mountPath: /var/run/iguazio/daemon_health
