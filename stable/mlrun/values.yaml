@@ -29,6 +29,12 @@ api:
     #    hosts:
     #      - chart-example.local
 
+  # Extra env variables
+  extraEnv: []
+
+  # envFrom can be used to pass configmaps or secrets as environment
+  envFrom: []
+
   resources: {}
     # limits:
     #   cpu: 100m
@@ -91,6 +97,12 @@ ui:
     #  - secretName: chart-example-tls
     #    hosts:
     #      - chart-example.local
+
+  # Extra env variables
+  extraEnv: []
+
+  # envFrom can be used to pass configmaps or secrets as environment
+  envFrom: []
 
   resources: {}
     # limits:
