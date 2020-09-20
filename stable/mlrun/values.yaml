@@ -7,7 +7,7 @@ api:
 
   image:
     repository: mlrun/mlrun-api
-    tag: 0.5.0
+    tag: 0.5.2
     pullPolicy: IfNotPresent
     pullSecrets: []
 
@@ -28,6 +28,12 @@ api:
     #  - secretName: chart-example-tls
     #    hosts:
     #      - chart-example.local
+
+  # Extra env variables
+  extraEnv: []
+
+  # envFrom can be used to pass configmaps or secrets as environment
+  envFrom: []
 
   resources: {}
     # limits:
@@ -70,7 +76,7 @@ ui:
 
   image:
     repository: mlrun/mlrun-ui
-    tag: 0.5.0
+    tag: 0.5.2
     pullPolicy: IfNotPresent
     pullSecrets: []
 
@@ -91,6 +97,12 @@ ui:
     #  - secretName: chart-example-tls
     #    hosts:
     #      - chart-example.local
+
+  # Extra env variables
+  extraEnv: []
+
+  # envFrom can be used to pass configmaps or secrets as environment
+  envFrom: []
 
   resources: {}
     # limits:
