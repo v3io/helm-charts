@@ -33,6 +33,13 @@ spec:
           env:
           - name: MLRUN_API_PROXY_URL
             value: 'http://{{ include "mlrun.api.fullname" . }}:{{ .Values.api.service.port }}'
+          {{- if .Values.ui.extraEnv }}
+          {{ toYaml .Values.ui.extraEnv | nindent 10 }}
+          {{- end }}
+          {{- if .Values.ui.envFrom }}
+          envFrom:
+          {{ toYaml .Values.ui.envFrom | nindent 10 }}
+          {{- end }}
           resources:
             {{- toYaml .Values.ui.resources | nindent 12 }}
       {{- with .Values.ui.nodeSelector }}
