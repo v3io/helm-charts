@@ -7,7 +7,7 @@ api:
 
   image:
     repository: mlrun/mlrun-api
-    tag: 0.5.0
+    tag: 0.5.2
     pullPolicy: IfNotPresent
     pullSecrets: []
 
@@ -76,7 +76,7 @@ ui:
 
   image:
     repository: mlrun/mlrun-ui
-    tag: 0.5.0
+    tag: 0.5.2
     pullPolicy: IfNotPresent
     pullSecrets: []
 
