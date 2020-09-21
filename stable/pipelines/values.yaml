@@ -51,41 +51,41 @@ images:
   imagePullPolicy: IfNotPresent
   argoexec:
     repository: gcr.io/ml-pipeline/argoexec
-    tag: v2.3.0-igz
+    tag: v2.7.5-license-compliance
   workflowController:
     repository: gcr.io/ml-pipeline/workflow-controller
-    tag: v2.3.0-license-compliance
+    tag: v2.7.5-license-compliance
   apiServer:
     repository: gcr.io/ml-pipeline/api-server
-    tag: 0.2.5-igz
+    tag: 1.0.1
   persistenceagent:
     repository: gcr.io/ml-pipeline/persistenceagent
-    tag: 0.2.5
+    tag: 1.0.1
   scheduledworkflow:
     repository: gcr.io/ml-pipeline/scheduledworkflow
-    tag: 0.2.5
+    tag: 1.0.1
   ui:
-    repository: quay.io/iguazio/ml-pipeline-frontend-v3io
-    tag: 0.2.5-igz
+    repository: gcr.io/ml-pipeline/frontend
+    tag: 1.0.1
   viewerCrdController:
     repository: gcr.io/ml-pipeline/viewer-crd-controller
-    tag: 0.2.5
+    tag: 1.0.1
   visualizationServer:
     repository: gcr.io/ml-pipeline/visualization-server
-    tag: 0.2.5
+    tag: 1.0.1
   metadata:
     container:
       repository: gcr.io/tfx-oss-public/ml_metadata_store_server
-      tag: 0.21.1
+      tag: 0.22.1
     init:
       repository: imega/mysql-client
       tag: 10.4.12
   metadataEnvoy:
-    repository: gcr.io/ml-pipeline/envoy
-    tag: initial
+    repository: gcr.io/ml-pipeline/metadata-envoy
+    tag: 1.0.1
   metadataWriter:
     repository: gcr.io/ml-pipeline/metadata-writer
-    tag: 0.2.5
+    tag: 1.0.1
   mysql:
     repository: mysql
     tag: 5.6

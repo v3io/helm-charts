@@ -1,22 +1,22 @@
 {{- if .Values.deployment.create }}
-apiVersion: apps/v1beta2
+apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: metadata
+  name: metadata-grpc-deployment
   namespace: {{ .Release.Namespace }}
   labels:
-    component: metadata-server
+    component: metadata-grpc-server
 {{ include "pipelines.commonLabels" . | indent 4 }}
 spec:
   replicas: 1
   selector:
     matchLabels:
-      component: metadata-server
+      component: metadata-grpc-server
 {{ include "pipelines.commonLabels" . | indent 6 }}
   template:
     metadata:
       labels:
-        component: metadata-server
+        component: metadata-grpc-server
 {{ include "pipelines.commonLabels" . | indent 8 }}
     spec:
       initContainers:
@@ -87,8 +87,20 @@ spec:
 #          "--mysql_config_password=$(DBCONFIG_PASSWORD)"
         ]
         ports:
-        - name: md-backendapi
+        - name: grpc-api
           containerPort: 8080
+        livenessProbe:
+          tcpSocket:
+            port: grpc-api
+          initialDelaySeconds: 3
+          periodSeconds: 5
+          timeoutSeconds: 2
+        readinessProbe:
+          tcpSocket:
+            port: grpc-api
+          initialDelaySeconds: 3
+          periodSeconds: 5
+          timeoutSeconds: 2
         resources:
 {{ toYaml .Values.resources.metadata | indent 10 }}
 {{- end }}
