@@ -14,8 +14,8 @@ spec:
   - name: ssh
     port: 22
     targetPort: sshd
-{{- if .Values.sshServer.port }}
-    nodePort: {{ .Values.sshServer.port }}
+{{- if .Values.sshServer.nodePort }}
+    nodePort: {{ .Values.sshServer.nodePort }}
 {{- end }}
   selector:
     app: {{ template "shell.name" . }}
