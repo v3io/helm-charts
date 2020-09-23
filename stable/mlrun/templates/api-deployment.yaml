@@ -39,9 +39,12 @@ spec:
           - name: MLRUN_HTTPDB__DIRPATH
             value: {{ .Values.httpDB.dirPath }}
           - name: DEFAULT_DOCKER_REGISTRY
-            value: {{ .Values.defaultDockerRegistryURL }}
+            value: {{ template "mlrun.defaultDockerRegistry.url" . }}
+          - name: DEFAULT_DOCKER_SECRET
+            value: {{ template "mlrun.defaultDockerRegistry.secretName" . }}
           - name: MLRUN_HTTPDB__DSN
             value: {{ .Values.httpDB.dsn }}
+          {{- if .Values.v3io.enabled }}
           - name: V3IO_ACCESS_KEY
             valueFrom:
               secretKeyRef:
@@ -52,6 +55,7 @@ spec:
               secretKeyRef:
                 name: {{ .Release.Name }}-v3io-fuse
                 key: username
+          {{- end }}
           {{- if .Values.api.extraEnv }}
           {{ toYaml .Values.api.extraEnv | nindent 10 }}
           {{- end }}
@@ -66,6 +70,9 @@ spec:
               mountPath: {{ .Values.httpDB.dirPath }}
       volumes:
         - name: storage
+          {{- if .Values.api.volumes.storageOverride }}
+          {{- toYaml .Values.api.volumes.storageOverride | nindent 10 }}
+          {{- else }}
           flexVolume:
             driver: "v3io/fuse"
             options:
@@ -73,6 +80,7 @@ spec:
               subPath: /{{ .Values.v3io.username }}/.mlrun
             secretRef:
               name: {{ .Release.Name }}-v3io-fuse
+          {{- end }}
       {{- with .Values.api.nodeSelector }}
       nodeSelector:
         {{- toYaml . | nindent 8 }}
