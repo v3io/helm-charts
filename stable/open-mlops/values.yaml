@@ -34,6 +34,14 @@ mlrun:
     create: true
   defaultDockerRegistryURL:
 
+jupyterNotebook:
+  service:
+    nodePort: 30040
+  image:
+    repository: mlrun/jupyter
+    tag: 0.5.2
+    pullPolicy: IfNotPresent
+
 mpi-operator:
   nameOverride: mpi-operator
   crd:
@@ -46,13 +54,19 @@ mpi-operator:
   deployment:
     create: true
 
+## Customize PV spec used for nfs-server provisioner
+## ref: https://kubernetes.io/docs/concepts/storage/persistent-volumes/
+##
+nfsPv:
+  create: true
+  specOverride:
 
 nfs-server-provisioner:
-  nameOverride: nfs-server
+  nameOverride: nfs-server-provisioner
   persistence:
     enabled: true
-    storageClass: "-"
-    size: 2Gi
+    storageClass: "open-mlops-manual"
+    size: 5Gi
 
   storageClass:
     defaultClass: true

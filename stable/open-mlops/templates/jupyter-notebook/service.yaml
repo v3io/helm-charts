@@ -1,10 +1,10 @@
 kind: Service
 apiVersion: v1
 metadata:
-  name: jupyter-notebook
+  name: {{ template "open-mlops.jupyter.fullname" . }}
   labels:
     app.kubernetes.io/component: jupyter-notebook
-    app.kubernetes.io/name: open-mlops
+    app.kubernetes.io/name: {{ template "open-mlops.name" . }}
     app.kubernetes.io/instance: {{ .Release.Name }}
     app.kubernetes.io/managed-by: {{ .Release.Service }}
     helm.sh/chart: {{ .Chart.Name }}-{{ .Chart.Version | replace "+" "_" }}
@@ -15,6 +15,6 @@ spec:
     app: jupyter-notebook
   ports:
   - protocol: TCP
-    nodePort: 30040
+    nodePort: {{ .Values.jupyterNotebook.service.nodePort }}
     port: 8888
     targetPort: 8888
