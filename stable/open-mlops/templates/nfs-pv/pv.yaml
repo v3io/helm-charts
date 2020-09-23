@@ -9,11 +9,12 @@ metadata:
     app.kubernetes.io/managed-by: {{ .Release.Service }}
     helm.sh/chart: {{ .Chart.Name }}-{{ .Chart.Version | replace "+" "_" }}
 spec:
-  storageClassName: "open-mlops-manual"
+  storageClassName: {{- index .Values "nfs-server-provisioner" "persistence" "storageClass" }}
   capacity:
     storage: 10Gi
   accessModes:
   - ReadWriteOnce
+  persistentVolumeReclaimPolicy: Delete
   hostPath:
-    path: /tmp/{{ template "open-mlops.fullname" . }}
+    path: /tmp/{{ template "open-mlops.fullname" . }}-nfs
 {{- end -}}

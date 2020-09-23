@@ -1,3 +1,9 @@
+# We use global values scope to multiplex the docker-registry details to both mlrun and nuclio
+global:
+  registry:
+    url: mustprovide
+    secretName: mustprovide
+
 nuclio:
   nameOverride: nuclio
   controller:
@@ -32,13 +38,26 @@ mlrun:
   nameOverride: mlrun
   rbac:
     create: true
-  defaultDockerRegistryURL:
+  v3io:
+    enabled: false
+  api:
+    volumes:
+      storageOverride:
+        persistentVolumeClaim:
+          claimName: mlrun-pvc
+
+# mlrun persistency resources creation can be disabled if the user would like to provide their own PVC
+mlrunPersistency:
+  pv:
+    create: true
+  pvc:
+    create: true
 
 jupyterNotebook:
   service:
     nodePort: 30040
   image:
-    repository: mlrun/jupyter
+    repository: quay.io/mlrun/jupyter
     tag: 0.5.2
     pullPolicy: IfNotPresent
 
@@ -59,13 +78,13 @@ mpi-operator:
 ##
 nfsPv:
   create: true
-  specOverride:
+  specOverride: {}
 
 nfs-server-provisioner:
   nameOverride: nfs-server-provisioner
   persistence:
     enabled: true
-    storageClass: "open-mlops-manual"
+    storageClass: "open-mlops-nfs"
     size: 5Gi
 
   storageClass:
