@@ -13,12 +13,28 @@ The Open MLOPs chart includes the following stack:
 * MPI Operator - https://github.com/kubeflow/mpi-operator
 
 ## Installing the Chart
+Create a namespace for the deployed components:
+```bash
+$ kubectl create ns mlops
+```
 
-To install the chart with the release name `my-release`:
+Add the v3io-stable helm chart repo
+```bash
+$ helm repo add v3io-stable https://v3io.github.io/helm-charts/stable
+```
+
+To install the chart with the release name `my-mlops`:
 
 ```bash
-$ helm install --name my-release stable/open-mlops
+$ helm --namespace mlops install --name my-mlops v3io-stable/open-mlops
 ```
+
+Forward the nuclio dashboard port:
+```sh
+kubectl port-forward $(kubectl get pod -l nuclio.io/app=dashboard -o jsonpath='{.items[0].metadata.name}') 8070:8070
+```
+
+
 
 ## Configuration
 Configurable values are documented in the `values.yaml`, override those the usual way.
