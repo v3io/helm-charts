@@ -69,6 +69,10 @@ api:
   # runAsNonRoot: true
   # runAsUser: 1000
 
+  volumes:
+    storageOverride: {}
+
+
 ui:
   name: ui
 
@@ -138,6 +142,9 @@ ui:
   # runAsNonRoot: true
   # runAsUser: 1000
 
+v3io:
+  enabled: true
+
 rbac:
   create: true
 
@@ -155,3 +162,10 @@ httpDB:
   dsn: "sqlite:////mlrun/db/mlrun.db?check_same_thread=false"
 
 defaultDockerRegistryURL: ""
+defaultDockerRegistrySecretName: ""
+
+# global is a stanza that is used if this is used as a subchart. Ignore otherwise
+global:
+  registry:
+    url:
+    secretName:
