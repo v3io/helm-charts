@@ -142,9 +142,6 @@ ui:
   # runAsNonRoot: true
   # runAsUser: 1000
 
-v3io:
-  enabled: true
-
 rbac:
   create: true
 
@@ -154,7 +151,8 @@ serviceAccounts:
     # If not set and create is true, a name is generated using the fullname template
     name:
 
-v3io: {}
+v3io:
+  enabled: true
 
 httpDB:
   dbType: "sqldb"
