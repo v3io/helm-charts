@@ -50,14 +50,14 @@ configurations:
 images:
   imagePullPolicy: IfNotPresent
   argoexec:
-    repository: gcr.io/ml-pipeline/argoexec
-    tag: v2.7.5-license-compliance
+    repository: gcr.io/iguazio/argoexec
+    tag: v2.7.5-igz-license-compliance
   workflowController:
-    repository: gcr.io/ml-pipeline/workflow-controller
-    tag: v2.7.5-license-compliance
+    repository: gcr.io/iguazio/workflow-controller
+    tag: v2.7.5-igz-license-compliance
   apiServer:
-    repository: gcr.io/ml-pipeline/api-server
-    tag: 1.0.1
+    repository: gcr.io/iguazio/ml-pipeline-api-server
+    tag: 1.0.1-igz
   persistenceagent:
     repository: gcr.io/ml-pipeline/persistenceagent
     tag: 1.0.1
@@ -65,8 +65,8 @@ images:
     repository: gcr.io/ml-pipeline/scheduledworkflow
     tag: 1.0.1
   ui:
-    repository: gcr.io/ml-pipeline/frontend
-    tag: 1.0.1
+    repository: gcr.io/iguazio/ml-pipeline-frontend-v3io
+    tag: 1.0.1-igz
   viewerCrdController:
     repository: gcr.io/ml-pipeline/viewer-crd-controller
     tag: 1.0.1
