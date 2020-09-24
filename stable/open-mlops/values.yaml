@@ -77,15 +77,12 @@ mpi-operator:
 ## ref: https://kubernetes.io/docs/concepts/storage/persistent-volumes/
 ##
 nfsPv:
-  create: true
+  create: false
   specOverride: {}
 
 nfs-server-provisioner:
   nameOverride: nfs-server-provisioner
   persistence:
-    enabled: true
+    enabled: false
     storageClass: "open-mlops-nfs"
     size: 5Gi
-
-  storageClass:
-    defaultClass: true

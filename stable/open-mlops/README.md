@@ -15,7 +15,7 @@ The Open MLOPs chart includes the following stack:
 ## Installing the Chart
 Create a namespace for the deployed components:
 ```bash
-$ kubectl create ns mlops
+$ kubectl create namespace mlops
 ```
 
 Add the v3io-stable helm chart repo
@@ -23,26 +23,72 @@ Add the v3io-stable helm chart repo
 $ helm repo add v3io-stable https://v3io.github.io/helm-charts/stable
 ```
 
-To install the chart with the release name `my-mlops`:
+To work with the open MLOPS stack, you must an accessible docker-registry. The registry's URL and credentials
+are consumed by the applications via a pre-created secret
+
+To create a secret with your docker-registry details:
+```bash
+kubectl --namespace mlops create secret docker-registry registry-credentials \
+    --docker-username <registry-username> \
+    --docker-password <login-password> \
+    --docker-server <registry URL, e.g. https://index.docker.io/v1/ > \
+    --docker-email <user-email>
+```
+
+To install the chart with the release name `my-mlops` and refer it to the pre-created `registry-credentials` secret:
 
 ```bash
-$ helm --namespace mlops install my-mlops v3io-stable/open-mlops
+$ helm --namespace mlops \
+	install my-mlops \
+	--render-subchart-notes \
+    --set global.registry.url=quay.io/iguazio \
+    --set global.registry.secretName=registry-credentials \
+    v3io-stable/open-mlops
 ```
 
 Forward the nuclio dashboard port:
 ```sh
-kubectl port-forward $(kubectl get pod -l nuclio.io/app=dashboard -o jsonpath='{.items[0].metadata.name}') 8070:8070
+kubectl -n mlops port-forward $(kubectl get pods -n mlops -l nuclio.io/app=dashboard -o jsonpath='{.items[0].metadata.name}') 8070:8070
 ```
 
+Forward the mlrun dashboard port:
+```sh
+export POD_NAME=$(kubectl --namespace mlops get pods -l "app.kubernetes.io/name=mlrun,app.kubernetes.io/instance=my-mlops,app.kubernetes.io/component="ui"" -o jsonpath="{.items[0].metadata.name}")
+echo "Visit http://127.0.0.1:8080 to use your application"
+kubectl --namespace mlops port-forward $POD_NAME 8080:80
+```
 
-## Configuration
-Configurable values are documented in the `values.yaml`, override those the usual way.
-TBD - values of requirements?
+### Install Kubeflow
+
+MLRun enables you to run your functions while saving outputs and artifacts in a way that is visible to Kubeflow Pipelines.
+If you wish to use this capability you will need to install Kubeflow on your cluster.
+Refer to the [**Kubeflow documentation**](https://www.kubeflow.org/docs/started/getting-started/) for more information.
+
+### Usage
+Your applications are now available in your local browser:
+- nuclio - http://localhost:8070
+- mlrun - http://locahost:8080
+- jupyter-notebook - http://localhost:30040
+
+### Start Working
+
+- Open Jupyter Notebook on NodePort `30040` and run the code in the [**examples/mlrun_basics.ipynb**](https://github.com/mlrun/mlrun/blob/master/examples/mlrun_basics.ipynb) notebook.
+- Use the dashboard at NodePort `30068`.
+
+> **Note:**
+> - You can change the ports by editing the YAML files.
+> - You can select to use a Kubernetes Ingress for better security.
+
+
+## Advanced Chart Configuration
+Configurable values are documented in the `values.yaml`,
+override those [the usual way](https://helm.sh/docs/chart_template_guide/values_files/).
 
 ## Uninstalling the Chart
 ```bash
 $ helm --namespace mlops uninstall my-mlops
 ```
+
 #### Note on terminating pods and hanging resources
 It is important to note that this chart generates several persistent volume claims and also provisions an NFS
 provisioning server, to provide the user with persistency (via pvc) out of the box.
@@ -58,6 +104,10 @@ $ helm --namespace mlops delete pod --force --grace-period=0 <pod-name>
 ```
 
 Reclaim dangling persistency resources:
+
+| WARNING: This will result in data loss! |
+| --- |
+
 ```bash
 # To list PVCs
 $ helm --namespace mlops get pvc
@@ -73,5 +123,9 @@ $ helm --namespace mlops get pv
 
 # To remove a PVC
 $ helm --namespace mlops delete pvc <pv-name>
+
+# Remove hostpath(s) used for mlrun (and possibly nfs). Those will be created, by default under /tmp, and will contain
+# your release name, e.g.:
+$ rm -rf my-mlops-open-mlops-mlrun
 ...
 ```

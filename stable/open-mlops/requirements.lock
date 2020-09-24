@@ -1,0 +1,15 @@
+dependencies:
+- name: nuclio
+  repository: https://nuclio.github.io/nuclio/charts
+  version: 0.7.0
+- name: mlrun
+  repository: https://v3io.github.io/helm-charts/stable
+  version: 0.5.2
+- name: nfs-server-provisioner
+  repository: https://kubernetes-charts.storage.googleapis.com
+  version: 1.1.1
+- name: mpi-operator
+  repository: https://v3io.github.io/helm-charts/stable
+  version: 0.2.1
+digest: sha256:4361723ea55b7cef75e150eb2b14495f5e363a15bfb2921efc386424772619b0
+generated: "2020-09-24T03:05:08.935243+03:00"

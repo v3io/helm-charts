@@ -12,7 +12,9 @@ metadata:
 spec:
   type: NodePort
   selector:
-    app: jupyter-notebook
+    app.kubernetes.io/component: jupyter-notebook
+    app.kubernetes.io/name: {{ template "open-mlops.name" . }}
+    app.kubernetes.io/instance: {{ .Release.Name }}
   ports:
   - protocol: TCP
     nodePort: {{ .Values.jupyterNotebook.service.nodePort }}
