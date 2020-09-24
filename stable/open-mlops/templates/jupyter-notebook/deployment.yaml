@@ -50,9 +50,13 @@ spec:
         - name: JUPYTER_ENABLE_LAB
           value: "yes"
         - name: MLRUN_DBPATH
-          value: {{ printf "http://%s:%d" (include "open-mlops.mlrun.api.fullname" .) (include "open-mlops.mlrun.api.port" .) }}
+          value: {{ printf "http://%s:%s" (include "open-mlops.mlrun.api.fullname" .) (include "open-mlops.mlrun.api.port" .) }}
         - name: MLRUN_UI_URL
-          value: {{ printf "http://%s:%d" (include "open-mlops.mlrun.ui.fullname" .) (include "open-mlops.mlrun.ui.port" .) }}
+          value: {{ .Values.jupyterNotebook.mlrunUIURL }}
+        - name: MLRUN_NUCLIO_DASHBOARD_URL
+          value: {{ .Values.jupyterNotebook.nuclioDashboardURL }}
+        - name: MLRUN_MPIJOB_CRD_VERSION
+          value: {{ index .Values "mpi-operator" "crd" "version" }}
         - name: MLRUN_ARTIFACT_PATH
           value: "/home/jovyan/data"
         - name: CHOWN_HOME

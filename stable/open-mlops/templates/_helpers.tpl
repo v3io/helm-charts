@@ -60,10 +60,6 @@ Copied over from mlrun chart to duplicate the logic without constraining the val
 {{- .Values.mlrun.api.service.port | int -}}
 {{- end -}}
 
-{{- define "open-mlops.mlrun.ui.port" -}}
-{{- .Values.mlrun.ui.service.port | int -}}
-{{- end -}}
-
 {{/*
 Create chart name and version as used by the chart label.
 */}}

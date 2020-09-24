@@ -60,7 +60,8 @@ jupyterNotebook:
     repository: quay.io/mlrun/jupyter
     tag: 0.5.2
     pullPolicy: IfNotPresent
-
+  mlrunUIURL: "http://127.0.0.1:8080"
+  nuclioDashboardURL: "http://127.0.0.1:8070"
 mpi-operator:
   nameOverride: mpi-operator
   crd:

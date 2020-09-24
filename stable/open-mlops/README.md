@@ -31,17 +31,19 @@ To create a secret with your docker-registry details:
 kubectl --namespace mlops create secret docker-registry registry-credentials \
     --docker-username <registry-username> \
     --docker-password <login-password> \
-    --docker-server <registry URL, e.g. https://index.docker.io/v1/ > \
+    --docker-server <server URL, e.g. https://index.docker.io/v1/ > \
     --docker-email <user-email>
 ```
 
-To install the chart with the release name `my-mlops` and refer it to the pre-created `registry-credentials` secret:
+To install the chart with the release name `my-mlops` use the following command, 
+note the reference to the pre-created `registry-credentials` secret in `global.registry.secretName`, 
+and a `global.registry.url` with an appropriate registry URL which can be authenticated by this secret:
 
 ```bash
 $ helm --namespace mlops \
 	install my-mlops \
 	--render-subchart-notes \
-    --set global.registry.url=quay.io/iguazio \
+    --set global.registry.url=<registry URL e.g. index.docker.io/iguazio > \
     --set global.registry.secretName=registry-credentials \
     v3io-stable/open-mlops
 ```
@@ -72,17 +74,16 @@ Your applications are now available in your local browser:
 
 ### Start Working
 
-- Open Jupyter Notebook on NodePort `30040` and run the code in the [**examples/mlrun_basics.ipynb**](https://github.com/mlrun/mlrun/blob/master/examples/mlrun_basics.ipynb) notebook.
-- Use the dashboard at NodePort `30068`.
+- Open Jupyter Notebook on [**jupyter-notebook UI**](http://localhost:30040) and run the code in 
+[**examples/mlrun_basics.ipynb**](https://github.com/mlrun/mlrun/blob/master/examples/mlrun_basics.ipynb) notebook.
 
 > **Note:**
-> - You can change the ports by editing the YAML files.
-> - You can select to use a Kubernetes Ingress for better security.
-
+> - You can change the ports by providing values to the helm install command.
+> - You can add and configure a k8s ingress-controller for better security and control over external access.
 
 ## Advanced Chart Configuration
-Configurable values are documented in the `values.yaml`,
-override those [the usual way](https://helm.sh/docs/chart_template_guide/values_files/).
+Configurable values are documented in the `values.yaml`, and the `values.yaml` of all sub charts. 
+Override those [in the normal methods](https://helm.sh/docs/chart_template_guide/values_files/).
 
 ## Uninstalling the Chart
 ```bash
