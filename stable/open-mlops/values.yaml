@@ -1,0 +1,89 @@
+# We use global values scope to multiplex the docker-registry details to both mlrun and nuclio
+global:
+  registry:
+    url: mustprovide
+    secretName: mustprovide
+
+nuclio:
+  nameOverride: nuclio
+  controller:
+    enabled: true
+  dashboard:
+    enabled: true
+  autoscaler:
+    enabled: false
+  dlx:
+    enabled: false
+  rbac:
+    create: true
+    crdAccessMode: cluster
+  crd:
+    create: true
+  platform:
+    logger:
+      sinks:
+        myStdoutLoggerSink:
+          kind: stdout
+          attributes:
+            encoding: console
+            timeFieldName: time
+            timeFieldEncoding: iso8601
+      system:
+      - level: debug
+        sink: myStdoutLoggerSink
+      functions:
+      - level: debug
+        sink: myStdoutLoggerSink
+mlrun:
+  nameOverride: mlrun
+  rbac:
+    create: true
+  v3io:
+    enabled: false
+  api:
+    volumes:
+      storageOverride:
+        persistentVolumeClaim:
+          claimName: mlrun-pvc
+
+# mlrun persistency resources creation can be disabled if the user would like to provide their own PVC
+mlrunPersistency:
+  pv:
+    create: true
+  pvc:
+    create: true
+
+jupyterNotebook:
+  service:
+    nodePort: 30040
+  image:
+    repository: quay.io/mlrun/jupyter
+    tag: 0.5.2
+    pullPolicy: IfNotPresent
+  mlrunUIURL: "http://127.0.0.1:8080"
+  nuclioDashboardURL: "http://127.0.0.1:8070"
+mpi-operator:
+  nameOverride: mpi-operator
+  crd:
+    create: true
+  rbac:
+    clusterResources:
+      create: true
+    namespaced:
+      create: true
+  deployment:
+    create: true
+
+## Customize PV spec used for nfs-server provisioner
+## ref: https://kubernetes.io/docs/concepts/storage/persistent-volumes/
+##
+nfsPv:
+  create: false
+  specOverride: {}
+
+nfs-server-provisioner:
+  nameOverride: nfs-server-provisioner
+  persistence:
+    enabled: false
+    storageClass: "open-mlops-nfs"
+    size: 5Gi
