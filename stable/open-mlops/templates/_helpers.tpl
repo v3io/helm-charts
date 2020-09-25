@@ -24,6 +24,10 @@ Create fully qualified names.
 {{- printf "%s-jupyter"  (include "open-mlops.fullname" .) | trunc 63 | trimSuffix "-" -}}
 {{- end -}}
 
+{{- define "open-mlops.jupyter-pvc.fullname" -}}
+{{- printf "%s-pvc"  (include "open-mlops.jupyter.fullname" .) | trunc 63 | trimSuffix "-" -}}
+{{- end -}}
+
 {{/*
 Copied over from mlrun chart to duplicate the logic without constraining the values
 */}}

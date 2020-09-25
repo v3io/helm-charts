@@ -59,6 +59,8 @@ spec:
           value: {{ index .Values "mpi-operator" "crd" "version" }}
         - name: MLRUN_ARTIFACT_PATH
           value: "/home/jovyan/data"
+        - name: MLRUN_PVC_MOUNT
+          value: {{ printf "%s:/home/jovyan/data" (include "open-mlops.jupyter-pvc.fullname" .) }}
         - name: CHOWN_HOME
           value: "yes"
         - name: CHOWN_HOME_OPTS
