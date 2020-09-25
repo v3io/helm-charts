@@ -45,6 +45,9 @@ mlrun:
       storageOverride:
         persistentVolumeClaim:
           claimName: mlrun-pvc
+  ui:
+    image:
+      tag: 0.5.2-p1
 
 # mlrun persistency resources creation can be disabled if the user would like to provide their own PVC
 mlrunPersistency:
