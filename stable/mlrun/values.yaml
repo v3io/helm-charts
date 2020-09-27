@@ -160,3 +160,7 @@ httpDB:
   dsn: "sqlite:////mlrun/db/mlrun.db?check_same_thread=false"
 
 defaultDockerRegistryURL: ""
+
+# Fill this in order to enable working with Nuclio
+# Adding these default values as a hack to be able to use this feature systems without upgrading Provazio controller
+nuclioDashboardURL: 'http://nuclio-dashboard:8070'
