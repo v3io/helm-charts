@@ -34,7 +34,7 @@ spec:
           - name: MLRUN_API_PROXY_URL
             value: 'http://{{ include "mlrun.api.fullname" . }}:{{ .Values.api.service.port }}'
           {{- if .Values.nuclioDashboardURL }}
-          - name: NUCLIO_API_PROXY_URL
+          - name: NUCLIO_DASHBOARD_URL
             value: {{ .Values.nuclioDashboardURL }}
           {{- end }}
           {{- if .Values.ui.extraEnv }}
