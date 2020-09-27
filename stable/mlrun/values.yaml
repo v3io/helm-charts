@@ -163,7 +163,8 @@ defaultDockerRegistryURL: ""
 defaultDockerRegistrySecretName: ""
 
 # Fill this in order to enable working with Nuclio
-#nuclioDashboardURL:
+nuclioAPIURL: 'unknown'
+nuclioUIURL: 'unknown'
 
 # global is a stanza that is used if this is used as a subchart. Ignore otherwise
 global:
