@@ -60,6 +60,10 @@ spec:
                 name: {{ .Release.Name }}-v3io-fuse
                 key: username
           {{- end }}
+          {{- if .Values.nuclioAPIURL }}
+          - name: MLRUN_NUCLIO_DASHBOARD_URL
+            value: {{ .Values.nuclioAPIURL }}
+          {{- end }}
           {{- if .Values.api.extraEnv }}
           {{ toYaml .Values.api.extraEnv | nindent 10 }}
           {{- end }}
