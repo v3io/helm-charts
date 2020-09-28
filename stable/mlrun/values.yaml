@@ -83,7 +83,7 @@ api:
       command:
         - /bin/bash
         - -c
-        - ps -efw | grep "[m]lrun"
+        - pgrep -f mlrun
     initialDelaySeconds: 60
     timeoutSeconds: 10
 
