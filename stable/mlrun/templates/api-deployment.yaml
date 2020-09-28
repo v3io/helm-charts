@@ -69,11 +69,11 @@ spec:
           {{- end }}
           {{- if .Values.api.livenessProbe }}
           livenessProbe:
-          {{ toYaml .Values.api.livenessProbe | nindent 10 }}
+            {{ toYaml .Values.api.livenessProbe | nindent 12 }}
           {{- end }}
           {{- if .Values.api.readinessProbe }}
           readinessProbe:
-          {{ toYaml .Values.api.readinessProbe | nindent 10 }}
+            {{ toYaml .Values.api.readinessProbe | nindent 12 }}
           {{- end }}
           resources:
             {{- toYaml .Values.api.resources | nindent 12 }}
