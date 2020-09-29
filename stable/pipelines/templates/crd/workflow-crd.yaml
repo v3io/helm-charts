@@ -8,7 +8,6 @@ metadata:
 {{ include "pipelines.commonLabels" . | indent 4 }}
 spec:
   group: argoproj.io
-  version: v1beta1
   versions:
   - name: v1beta1
     served: true

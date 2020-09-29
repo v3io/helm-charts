@@ -11,7 +11,6 @@ metadata:
     component: crd
 spec:
   group: kubeflow.org
-  version: {{ .Values.crd.version }}
   versions:
   - name: {{ .Values.crd.version }}
     served: true
