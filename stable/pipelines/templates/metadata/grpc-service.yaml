@@ -14,6 +14,6 @@ spec:
     name: grpc-api
   type: ClusterIP
   selector:
-    component: metadata-grpc-service
+    component: metadata-grpc-server
 {{ include "pipelines.commonLabels" . | indent 4 }}
 {{- end }}

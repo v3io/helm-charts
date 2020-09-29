@@ -21,6 +21,7 @@ configurations:
   ports:
     nginxPort: 8081
   argo:
+    kfpContainerRuntimeExecutor: docker
     progressDeadlineSeconds: 600
     replicas: 1
     revisionHistoryLimit: 10

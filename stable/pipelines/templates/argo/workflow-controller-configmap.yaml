@@ -11,7 +11,7 @@ data:
     {
       namespace: {{ .Release.Namespace }},
       executorImage: {{ .Values.images.argoexec.repository }}:{{ .Values.images.argoexec.tag }},
-      containerRuntimeExecutor: $(kfp-container-runtime-executor),
+      containerRuntimeExecutor: {{ .Values.configurations.argo.kfpContainerRuntimeExecutor }},
       artifactRepository:
       {
           s3: {
