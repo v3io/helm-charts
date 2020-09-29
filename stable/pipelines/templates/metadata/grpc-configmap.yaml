@@ -7,6 +7,6 @@ metadata:
     component: metadata-grpc-server
 {{ include "pipelines.commonLabels" . | indent 4 }}
 data:
-  METADATA_GRPC_SERVICE_HOST: "metadata-grpc-server"
+  METADATA_GRPC_SERVICE_HOST: "metadata-grpc-service"
   METADATA_GRPC_SERVICE_PORT: "8080"
 {{- end }}
