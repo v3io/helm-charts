@@ -52,9 +52,9 @@ spec:
               secretKeyRef:
                 name: {{ .Release.Name }}-v3io-fuse
                 key: username
-          {{- if .Values.nuclioDashboardURL }}
+          {{- if .Values.nuclioAPIURL }}
           - name: MLRUN_NUCLIO_DASHBOARD_URL
-            value: {{ .Values.nuclioDashboardURL }}
+            value: {{ .Values.nuclioAPIURL }}
           {{- end }}
           {{- if .Values.api.extraEnv }}
           {{ toYaml .Values.api.extraEnv | nindent 10 }}

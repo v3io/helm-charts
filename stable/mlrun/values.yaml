@@ -161,6 +161,10 @@ httpDB:
 
 defaultDockerRegistryURL: ""
 
-# Fill this in order to enable working with Nuclio
 # Adding these default values as a hack to be able to use this feature systems without upgrading Provazio controller
-nuclioDashboardURL: 'http://nuclio-dashboard:8070'
+# Fill these in order to enable working with Nuclio
+# nuclioUIURL will be used by MLRun UI for showing links to Nuclio UI
+nuclioUIURL: 'disabled'
+# nuclioAPIURL will be used by MLRun UI for proxying Nuclio API to make it reachable from UI code and also by MLRun API
+# to create Nuclio resources
+nuclioAPIURL: 'http://nuclio-dashboard:8070'
