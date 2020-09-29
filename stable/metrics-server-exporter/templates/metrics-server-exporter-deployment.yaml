@@ -1,4 +1,4 @@
-apiVersion: extensions/v1beta1
+apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: {{ template "metrics-server-exporter.fullname" . }}
@@ -13,6 +13,11 @@ spec:
       maxSurge: 1
       maxUnavailable: 0
     type: RollingUpdate
+  selector:
+    matchLabels:
+      app: {{ template "metrics-server-exporter.name" . }}
+      chart: {{ template "metrics-server-exporter.chart" . }}
+      release: {{ .Release.Name }}
   template:
     metadata:
       labels:
