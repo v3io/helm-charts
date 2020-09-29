@@ -126,3 +126,14 @@ Create the name of the service account to use
     {{ default "default" .Values.serviceAccounts.api.name }}
 {{- end -}}
 {{- end -}}
+
+{{/*
+Resolve the effective docker registry url and secret Name allowing for global values
+*/}}
+{{- define "mlrun.defaultDockerRegistry.url" -}}
+{{ default .Values.defaultDockerRegistryURL .Values.global.registry.url }}
+{{- end -}}
+
+{{- define "mlrun.defaultDockerRegistry.secretName" -}}
+{{ default .Values.defaultDockerRegistrySecretName .Values.global.registry.secretName }}
+{{- end -}}
