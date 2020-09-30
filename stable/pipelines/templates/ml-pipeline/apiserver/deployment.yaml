@@ -21,8 +21,8 @@ spec:
       containers:
       - name: ml-pipeline-api-server
         env:
-#        - name: OBJECTSTORECONFIG_SECURE
-#          value: "false"
+        - name: OBJECTSTORECONFIG_SECURE
+          value: "false"
         - name: OBJECTSTORECONFIG_ACCESSKEY
           value: "{{ .Values.configurations.credentials.accessKey }}"
         - name: OBJECTSTORECONFIG_SECRETACCESSKEY
