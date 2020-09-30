@@ -1,3 +1,24 @@
 apiVersion: v1
-entries: ~
-generated: 2018-01-30T17:09:13.202782+02:00
+entries:
+  pipelines:
+  - apiVersion: v1
+    appVersion: '>=1.0.1'
+    created: "2020-09-30T11:51:15.299+03:00"
+    description: Kubeflow pipelines framework for machine learning
+    digest: 8092026ce635d329d94ae355b56f48b101354b2d01be9295bbd430cdac1cb778
+    home: https://www.kubeflow.org/
+    icon: https://github.com/kubeflow/marketing-materials/blob/master/logos/Raster/Kubeflow-Logo-RGB.png
+    maintainers:
+    - email: nirsagi1@gmail.com
+      name: Nir Sagi
+    - email: odedm@iguazio.com
+      name: Oded Messer
+    - email: adamm@iguazio.com
+      name: Adam Melnick
+    name: pipelines
+    sources:
+    - https://github.com/kubeflow/pipelines
+    urls:
+    - https://v3io.github.io/helm-charts/stable/pipelines-0.5.0.tgz
+    version: 0.5.0
+generated: "2020-09-30T11:51:15.297077+03:00"

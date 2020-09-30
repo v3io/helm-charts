@@ -8,10 +8,7 @@ metadata:
 {{ include "pipelines.commonLabels" . | indent 4 }}
 spec:
   group: argoproj.io
-  versions:
-  - name: v1alpha1
-    served: true
-    storage: true
+  version: v1alpha1
   scope: Namespaced
   names:
     kind: Workflow
@@ -45,10 +42,7 @@ spec:
     - clusterwftmpl
     - cwft
   scope: Cluster
-  versions:
-  - name: v1alpha1
-    served: true
-    storage: true
+  version: v1alpha1
 ---
 apiVersion: {{ template "crd.apiVersion" . }}
 kind: CustomResourceDefinition
@@ -66,10 +60,7 @@ spec:
     - cronwf
     - cwf
   scope: Namespaced
-  versions:
-  - name: v1alpha1
-    served: true
-    storage: true
+  version: v1alpha1
 ---
 apiVersion: {{ template "crd.apiVersion" . }}
 kind: CustomResourceDefinition
@@ -86,8 +77,5 @@ spec:
     shortNames:
     - wftmpl
   scope: Namespaced
-  versions:
-  - name: v1alpha1
-    served: true
-    storage: true
+  version: v1alpha1
 {{- end }}
