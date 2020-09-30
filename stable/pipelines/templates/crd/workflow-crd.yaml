@@ -8,14 +8,74 @@ metadata:
 {{ include "pipelines.commonLabels" . | indent 4 }}
 spec:
   group: argoproj.io
-  versions:
-  - name: v1beta1
-    served: true
-    storage: true
+  version: v1alpha1
   scope: Namespaced
   names:
     kind: Workflow
     plural: workflows
     shortNames:
     - wf
+  additionalPrinterColumns:
+  - JSONPath: .status.phase
+    description: Status of the workflow
+    name: Status
+    type: string
+  - JSONPath: .status.startedAt
+    description: When the workflow was started
+    format: date-time
+    name: Age
+    type: date
+---
+apiVersion: {{ template "crd.apiVersion" . }}
+kind: CustomResourceDefinition
+metadata:
+  name: clusterworkflowtemplates.argoproj.io
+  labels:
+    component: crd
+{{ include "pipelines.commonLabels" . | indent 4 }}
+spec:
+  group: argoproj.io
+  names:
+    kind: ClusterWorkflowTemplate
+    plural: clusterworkflowtemplates
+    shortNames:
+    - clusterwftmpl
+    - cwft
+  scope: Cluster
+  version: v1alpha1
+---
+apiVersion: {{ template "crd.apiVersion" . }}
+kind: CustomResourceDefinition
+metadata:
+  name: cronworkflows.argoproj.io
+  labels:
+    component: crd
+{{ include "pipelines.commonLabels" . | indent 4 }}
+spec:
+  group: argoproj.io
+  names:
+    kind: CronWorkflow
+    plural: cronworkflows
+    shortNames:
+    - cronwf
+    - cwf
+  scope: Namespaced
+  version: v1alpha1
+---
+apiVersion: {{ template "crd.apiVersion" . }}
+kind: CustomResourceDefinition
+metadata:
+  name: workflowtemplates.argoproj.io
+  labels:
+    component: crd
+{{ include "pipelines.commonLabels" . | indent 4 }}
+spec:
+  group: argoproj.io
+  names:
+    kind: WorkflowTemplate
+    plural: workflowtemplates
+    shortNames:
+    - wftmpl
+  scope: Namespaced
+  version: v1alpha1
 {{- end }}
