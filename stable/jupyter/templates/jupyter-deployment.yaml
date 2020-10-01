@@ -29,6 +29,12 @@ spec:
         iguazio.com/prometheus-pull-port: "{{ .Values.proxy.servicePort }}"
     spec:
       serviceAccountName: {{ template "jupyter.jobexecutor" . }}
+      {{- if .Values.securityContext }}
+      securityContext:
+      {{- range $securityPolicy, $value := .Values.securityContext }}
+        {{ $securityPolicy }}: {{ $value }}
+      {{- end }}
+      {{- end }}
       initContainers:
         - name: daemon-health
           image: "{{ .Values.daemon.image.repository }}:{{ .Values.daemon.image.tag }}"

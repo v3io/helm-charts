@@ -7,7 +7,7 @@ api:
 
   image:
     repository: mlrun/mlrun-api
-    tag: 0.5.0
+    tag: 0.5.2
     pullPolicy: IfNotPresent
     pullSecrets: []
 
@@ -28,6 +28,12 @@ api:
     #  - secretName: chart-example-tls
     #    hosts:
     #      - chart-example.local
+
+  # Extra env variables
+  extraEnv: []
+
+  # envFrom can be used to pass configmaps or secrets as environment
+  envFrom: []
 
   resources: {}
     # limits:
@@ -63,6 +69,10 @@ api:
   # runAsNonRoot: true
   # runAsUser: 1000
 
+  volumes:
+    storageOverride: {}
+
+
 ui:
   name: ui
 
@@ -70,7 +80,7 @@ ui:
 
   image:
     repository: mlrun/mlrun-ui
-    tag: 0.5.0
+    tag: 0.5.2
     pullPolicy: IfNotPresent
     pullSecrets: []
 
@@ -91,6 +101,12 @@ ui:
     #  - secretName: chart-example-tls
     #    hosts:
     #      - chart-example.local
+
+  # Extra env variables
+  extraEnv: []
+
+  # envFrom can be used to pass configmaps or secrets as environment
+  envFrom: []
 
   resources: {}
     # limits:
@@ -135,7 +151,8 @@ serviceAccounts:
     # If not set and create is true, a name is generated using the fullname template
     name:
 
-v3io: {}
+v3io:
+  enabled: true
 
 httpDB:
   dbType: "sqldb"
@@ -143,3 +160,17 @@ httpDB:
   dsn: "sqlite:////mlrun/db/mlrun.db?check_same_thread=false"
 
 defaultDockerRegistryURL: ""
+defaultDockerRegistrySecretName: ""
+
+# Fill these in order to enable working with Nuclio
+# nuclioUIURL will be used by MLRun UI for showing links to Nuclio UI
+nuclioUIURL: 'disabled'
+# nuclioAPIURL will be used by MLRun UI for proxying Nuclio API to make it reachable from UI code and also by MLRun API
+# to create Nuclio resources
+nuclioAPIURL: 'disabled'
+
+# global is a stanza that is used if this is used as a subchart. Ignore otherwise
+global:
+  registry:
+    url:
+    secretName:

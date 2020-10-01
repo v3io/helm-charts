@@ -8,7 +8,7 @@ metadata:
     {{- include "jupyterhub.labels" . | nindent 4 }}
 ---
 kind: Role
-apiVersion: rbac.authorization.k8s.io/v1beta1
+apiVersion: rbac.authorization.k8s.io/v1
 metadata:
   name: pod-culler
   labels:
@@ -25,7 +25,7 @@ rules:
     - watch
 ---
 kind: RoleBinding
-apiVersion: rbac.authorization.k8s.io/v1beta1
+apiVersion: rbac.authorization.k8s.io/v1
 metadata:
   name: pod-culler
   labels:

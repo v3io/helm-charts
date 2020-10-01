@@ -3,7 +3,7 @@
 # Allows access to the IguazioTenantAppServiceSet CRD.
 # This should be used by the platform-level controller
 
-apiVersion: rbac.authorization.k8s.io/v1beta1
+apiVersion: rbac.authorization.k8s.io/v1
 kind: ClusterRole
 metadata:
   name: iguaziotenantappserviceset-crd-admin
