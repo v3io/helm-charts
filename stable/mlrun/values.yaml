@@ -167,7 +167,7 @@ defaultDockerRegistrySecretName: ""
 nuclioUIURL: 'disabled'
 # nuclioAPIURL will be used by MLRun UI for proxying Nuclio API to make it reachable from UI code and also by MLRun API
 # to create Nuclio resources
-nuclioAPIURL: 'disabled'
+nuclioAPIURL:
 
 # global is a stanza that is used if this is used as a subchart. Ignore otherwise
 global:
