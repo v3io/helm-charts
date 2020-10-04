@@ -33,13 +33,17 @@ spec:
           env:
           - name: MLRUN_API_PROXY_URL
             value: 'http://{{ include "mlrun.api.fullname" . }}:{{ .Values.api.service.port }}'
-          {{- if .Values.nuclioUIURL }}
+          - name: MLRUN_NUCLIO_MODE
+            value: {{ .Values.nuclio.mode }}
+          {{- if eq .Values.nuclio.mode "enabled" }}
+          {{- if .Values.nuclio.uiURL }}
           - name: MLRUN_NUCLIO_UI_URL
-            value: {{ .Values.nuclioUIURL }}
+            value: {{ .Values.nuclio.uiURL }}
           {{- end }}
-          {{- if .Values.nuclioAPIURL }}
+          {{- if .Values.nuclio.apiURL }}
           - name: MLRUN_NUCLIO_API_URL
-            value: {{ .Values.nuclioAPIURL }}
+            value: {{ .Values.nuclio.apiURL }}
+          {{- end }}
           {{- end }}
           {{- if .Values.ui.extraEnv }}
           {{ toYaml .Values.ui.extraEnv | nindent 10 }}
