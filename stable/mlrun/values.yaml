@@ -162,7 +162,7 @@ httpDB:
 defaultDockerRegistryURL: ""
 defaultDockerRegistrySecretName: ""
 
-# Fill these in order to enable working with Nuclio
+# Fill these in order to enable working with Nuclio, by default integration is disabled
 # nuclioUIURL will be used by MLRun UI for showing links to Nuclio UI
 #nuclioUIURL:
 # nuclioAPIURL will be used by MLRun UI for proxying Nuclio API to make it reachable from UI code and also by MLRun API
