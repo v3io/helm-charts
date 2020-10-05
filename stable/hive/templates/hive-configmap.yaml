@@ -52,7 +52,7 @@ data:
       echo "Hive metastore schema already exists. Details:"
       schematool -dbType $HIVE_DB_TYPE -info
     fi
-
+    curl -i -X PUT {{ .Values.v3io.api.hostname }}.{{ .Release.Namespace }}.svc:{{ .Values.v3io.api.port }}{{ .Values.hive.defaultFolder }} -H X-v3io-session-key:{{ .Values.v3io.accessKey }}
   health_check.sh: |
 {{ include "v3io-configs.script.javaHealthCheck" . | indent 4 }}
 
