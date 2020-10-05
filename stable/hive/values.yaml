@@ -88,8 +88,12 @@ global:
 hive:
   logLevel: INFO
   configPath: /etc/config/hive
+  defaultFolder: /bigdata/user/hive/warehouse/
 
-v3io: {}
+v3io:
+  api:
+    hostname: v3io-webapi
+    port: 8081
 
 daemon:
   image:
