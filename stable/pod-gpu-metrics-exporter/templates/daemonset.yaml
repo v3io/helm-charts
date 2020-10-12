@@ -8,6 +8,9 @@ metadata:
     prometheus.io/path: /gpu/metrics
     prometheus.io/scrape: "true"
 spec:
+  selector:
+    matchLabels:
+{{ include "pod-gpu-metrics-exporter.labels" . | indent 8 }}
   template:
     metadata:
       name: pod-gpu-metrics-exporter
