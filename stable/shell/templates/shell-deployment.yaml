@@ -14,6 +14,8 @@ spec:
       release: {{ .Release.Name }}
   template:
     metadata:
+      annotations:
+        checksum/secret: {{ include (print $.Template.BasePath "/shell-ssh-key-secret.yaml") . | sha256sum }}
       labels:
         app: {{ template "shell.name" . }}
         release: {{ .Release.Name }}
