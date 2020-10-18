@@ -76,7 +76,7 @@ api:
     initialDelaySeconds: 10
     timeoutSeconds: 10
     periodSeconds: 15
-    failureThreshold: 10
+    failureThreshold: 4
 
   livenessProbe:
     httpGet:
@@ -85,7 +85,7 @@ api:
     initialDelaySeconds: 60
     timeoutSeconds: 10
     periodSeconds: 15
-    failureThreshold: 10
+    failureThreshold: 4
 
   volumes:
     storageOverride: {}
