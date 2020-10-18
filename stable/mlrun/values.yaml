@@ -79,13 +79,13 @@ api:
     failureThreshold: 10
 
   livenessProbe:
-    exec:
-      command:
-        - /bin/bash
-        - -c
-        - pgrep -f mlrun
+    httpGet:
+      path: /api/healthz
+      port: http
     initialDelaySeconds: 60
     timeoutSeconds: 10
+    periodSeconds: 15
+    failureThreshold: 10
 
   volumes:
     storageOverride: {}
