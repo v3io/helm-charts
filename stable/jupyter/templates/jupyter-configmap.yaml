@@ -197,4 +197,9 @@ data:
     unset PYTHONPATH
 
     source activate base
+
+    if [ -e "${HOME}/.igz/startup-hook.sh" ]; then
+        ${HOME}/.igz/startup-hook.sh || true
+    fi
+
     jupyter-notebook $@
