@@ -55,10 +55,10 @@ spec:
       volumes:
         - name: flexvolume-mount
           hostPath:
-            path: /usr/libexec/kubernetes/kubelet-plugins/volume/exec
+            path: "{{ .Values.job.flexVolume.hostPaths.v3ioFuse }}"
         - name: etc
           hostPath:
-            path: /etc/v3io/fuse
+            path: "{{ .Values.job.flexVolume.hostPaths.fuseConfig }}"
         - name: cfg
           configMap:
             name: {{ template "iguazio-system.flex-volume.name" . }}
