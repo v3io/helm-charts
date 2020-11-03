@@ -24,6 +24,9 @@ job:
       pullPolicy: IfNotPresent
     executablePath: /home/iguazio/igz/clients/fuse/bin/v3io_adapters_fuse
     mountType: os
+    hostPaths:
+      v3ioFuse: /usr/libexec/kubernetes/kubelet-plugins/volume/exec
+      fuseConfig: /etc/v3io/fuse
     v3ioFuse:
       v3ioConfigJson:
             {
