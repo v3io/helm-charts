@@ -56,12 +56,14 @@ spec:
     value: {{ .Values.tsdb.container }}
   triggers:
     web:
+      name: web
       kind: http
       annotations:
         nginx.ingress.kubernetes.io/rewrite-target: /
       attributes:
         port: {{ .Values.functions.query.port }}
         {{- if .Values.functions.query.ingress }}
+        serviceType: ClusterIP
         ingresses:
           http:
             host: {{ .Values.functions.query.ingress.host }}
