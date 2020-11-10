@@ -55,9 +55,10 @@ spec:
   - name: QUERY_V3IO_CONTAINER
     value: {{ .Values.tsdb.container }}
   triggers:
-    web:
-      name: web
+    default-http:
+      name: default-http
       kind: http
+      maxWorkers: 1
       annotations:
         nginx.ingress.kubernetes.io/rewrite-target: /
       attributes:
