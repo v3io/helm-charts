@@ -108,7 +108,9 @@ data:
     if [ "$(grep --count 'LOGO CONFIG' ${HOME}/.bashrc)" == "0" ]; then
       echo "# ----- LOGO CONFIG -----" >> ${HOME}/.bashrc
       echo "echo ''" >> ${HOME}/.bashrc
+      echo "printf '\033[?7l'" >> ${HOME}/.bashrc
       echo "echo {{ .Values.config.logo }} | base64 --decode" >> ${HOME}/.bashrc
+      echo "printf '\033[?7h'" >> ${HOME}/.bashrc
       echo "echo ''" >> ${HOME}/.bashrc
       echo "echo ''" >> ${HOME}/.bashrc
       echo "# --- END LOGO CONFIG ---" >> ${HOME}/.bashrc
