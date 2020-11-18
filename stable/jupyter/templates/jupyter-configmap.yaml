@@ -63,6 +63,9 @@ data:
       tar -C /tmp -xvf /tmp/jupyter-tutorials ${TUTORIALS_SCRIPT_FILE} --strip-components=1
       tar -C /tmp -xvf /tmp/jupyter-tutorials ${UPDATE_NOTEBOOK_FILE} --strip-components=1
       tar -C /tmp -xvf /tmp/jupyter-tutorials ${DEMOS_SCRIPT_FILE} --strip-components=1
+      chmod a+x /tmp/igz-tutorials-get.sh
+      chmod a+x /tmp/get-additional-demos.sh
+      chmod a+x /tmp/update-tutorials.ipynb
       if ! /tmp/igz-tutorials-get.sh; then
           tar -C ${HOME} -xvf /tmp/jupyter-tutorials  --strip-components=1
           rm -f /tmp/jupyter-tutorials
