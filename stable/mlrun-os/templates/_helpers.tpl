@@ -28,10 +28,6 @@ Create fully qualified names.
 {{- printf "%s-pvc"  (include "mlrun-os.jupyter.fullname" .) | trunc 63 | trimSuffix "-" -}}
 {{- end -}}
 
-{{- define "mlrun-os.nuclio.dashboardFullname" -}}
-{{- printf "%s-nuclio-dashboard"  (include "mlrun-os.fullname" .) | trunc 63 | trimSuffix "-" -}}
-{{- end -}}
-
 {{/*
 Copied over from mlrun chart to duplicate the logic without constraining the values
 */}}
