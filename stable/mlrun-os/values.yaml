@@ -10,6 +10,7 @@ nuclio:
     enabled: true
   dashboard:
     enabled: true
+    nodePort: 30060
   autoscaler:
     enabled: false
   dlx:
@@ -36,18 +37,26 @@ nuclio:
         sink: myStdoutLoggerSink
 mlrun:
   nameOverride: mlrun
+  nuclio:
+    mode: enabled
+    apiURL: "http://127.0.0.1:30060"
   rbac:
     create: true
   v3io:
     enabled: false
   api:
+    image:
+      tag: 0.5.5-rc1
     volumes:
       storageOverride:
         persistentVolumeClaim:
           claimName: mlrun-pvc
   ui:
+    service:
+      type: NodePort
+      nodePort: 30050
     image:
-      tag: 0.5.2-p1
+      tag: 0.5.4
 
 # mlrun persistency resources creation can be disabled if the user would like to provide their own PVC
 mlrunPersistency:
@@ -61,10 +70,10 @@ jupyterNotebook:
     nodePort: 30040
   image:
     repository: quay.io/mlrun/jupyter
-    tag: 0.5.2
+    tag: 0.5.5-rc1
     pullPolicy: IfNotPresent
-  mlrunUIURL: "http://127.0.0.1:8080"
-  nuclioDashboardURL: "http://127.0.0.1:8070"
+  mlrunUIURL: "http://127.0.0.1:30050"
+  nuclioDashboardURL: "http://127.0.0.1:30060"
 mpi-operator:
   nameOverride: mpi-operator
   crd:
@@ -88,5 +97,5 @@ nfs-server-provisioner:
   nameOverride: nfs-server-provisioner
   persistence:
     enabled: false
-    storageClass: "open-mlops-nfs"
+    storageClass: "mlrun-os-nfs"
     size: 5Gi

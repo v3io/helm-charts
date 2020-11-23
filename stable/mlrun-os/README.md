@@ -1,10 +1,10 @@
-# Open MLOPS: MLOPS Open Source bundle
+# MLRun OS: MLRun Open Source bundle for MLOps
 
 This Helm charts bundles open source software stack for advanced ML operations
 
 ## Chart Details
 
-The Open MLOPs chart includes the following stack:
+The Open source MLRun chart includes the following stack:
 
 * Nuclio - https://github.com/nuclio/nuclio
 * MLRun - https://github.com/mlrun/mlrun
@@ -15,7 +15,7 @@ The Open MLOPs chart includes the following stack:
 ## Installing the Chart
 Create a namespace for the deployed components:
 ```bash
-$ kubectl create namespace mlops
+$ kubectl create namespace mlrun
 ```
 
 Add the v3io-stable helm chart repo
@@ -23,41 +23,29 @@ Add the v3io-stable helm chart repo
 $ helm repo add v3io-stable https://v3io.github.io/helm-charts/stable
 ```
 
-To work with the open MLOPS stack, you must an accessible docker-registry. The registry's URL and credentials
+To work with the open source MLRun stack, you must an accessible docker-registry. The registry's URL and credentials
 are consumed by the applications via a pre-created secret
 
 To create a secret with your docker-registry details:
 ```bash
-kubectl --namespace mlops create secret docker-registry registry-credentials \
+kubectl --namespace mlrun create secret docker-registry registry-credentials \
     --docker-username <registry-username> \
     --docker-password <login-password> \
     --docker-server <server URL, e.g. https://index.docker.io/v1/ > \
     --docker-email <user-email>
 ```
 
-To install the chart with the release name `my-mlops` use the following command, 
+To install the chart with the release name `my-mlrun` use the following command, 
 note the reference to the pre-created `registry-credentials` secret in `global.registry.secretName`, 
 and a `global.registry.url` with an appropriate registry URL which can be authenticated by this secret:
 
 ```bash
-$ helm --namespace mlops \
-	install my-mlops \
-	--render-subchart-notes \
+$ helm --namespace mlrun \
+	install my-mlrun \
+	--wait \
     --set global.registry.url=<registry URL e.g. index.docker.io/iguazio > \
     --set global.registry.secretName=registry-credentials \
-    v3io-stable/open-mlops
-```
-
-Forward the nuclio dashboard port:
-```sh
-kubectl -n mlops port-forward $(kubectl get pods -n mlops -l nuclio.io/app=dashboard -o jsonpath='{.items[0].metadata.name}') 8070:8070
-```
-
-Forward the mlrun dashboard port:
-```sh
-export POD_NAME=$(kubectl --namespace mlops get pods -l "app.kubernetes.io/name=mlrun,app.kubernetes.io/instance=my-mlops,app.kubernetes.io/component="ui"" -o jsonpath="{.items[0].metadata.name}")
-echo "Visit http://127.0.0.1:8080 to use your application"
-kubectl --namespace mlops port-forward $POD_NAME 8080:80
+    v3io-stable/mlrun-os
 ```
 
 ### Install Kubeflow
@@ -68,9 +56,9 @@ Refer to the [**Kubeflow documentation**](https://www.kubeflow.org/docs/started/
 
 ### Usage
 Your applications are now available in your local browser:
-- nuclio - http://localhost:8070
-- mlrun - http://locahost:8080
 - jupyter-notebook - http://localhost:30040
+- nuclio - http://localhost:30050
+- mlrun - http://locahost:30060
 
 ### Start Working
 
@@ -87,7 +75,7 @@ Override those [in the normal methods](https://helm.sh/docs/chart_template_guide
 
 ## Uninstalling the Chart
 ```bash
-$ helm --namespace mlops uninstall my-mlops
+$ helm --namespace mlrun uninstall my-mlrun
 ```
 
 #### Note on terminating pods and hanging resources
@@ -101,7 +89,7 @@ And don't forget to clean the remaining PVCs and PVCs
 
 Handing stuck-at-terminating pods:
 ```bash
-$ helm --namespace mlops delete pod --force --grace-period=0 <pod-name>
+$ helm --namespace mlrun delete pod --force --grace-period=0 <pod-name>
 ```
 
 Reclaim dangling persistency resources:
@@ -111,22 +99,22 @@ Reclaim dangling persistency resources:
 
 ```bash
 # To list PVCs
-$ helm --namespace mlops get pvc
+$ kubectl --namespace mlrun get pvc
 ...
 
 # To remove a PVC
-$ helm --namespace mlops delete pvc <pvc-name>
+$ kubectl --namespace mlrun delete pvc <pvc-name>
 ...
 
 # To list PVs
-$ helm --namespace mlops get pv
+$ kubectl --namespace mlrun get pv
 ...
 
 # To remove a PVC
-$ helm --namespace mlops delete pvc <pv-name>
+$ kubectl --namespace mlrun delete pvc <pv-name>
 
 # Remove hostpath(s) used for mlrun (and possibly nfs). Those will be created, by default under /tmp, and will contain
 # your release name, e.g.:
-$ rm -rf my-mlops-open-mlops-mlrun
+$ rm -rf my-mlrun-mlrun-os-mlrun
 ...
 ```

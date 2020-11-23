@@ -1,9 +1,9 @@
 apiVersion: v1
 kind: PersistentVolumeClaim
 metadata:
-  name: {{ template "open-mlops.jupyter-pvc.fullname" . }}
+  name: {{ template "mlrun-os.jupyter-pvc.fullname" . }}
   labels:
-    app.kubernetes.io/name: {{ template "open-mlops.name" . }}
+    app.kubernetes.io/name: {{ template "mlrun-os.name" . }}
     app.kubernetes.io/instance: {{ .Release.Name }}
     app.kubernetes.io/managed-by: {{ .Release.Service }}
     helm.sh/chart: {{ .Chart.Name }}-{{ .Chart.Version | replace "+" "_" }}
