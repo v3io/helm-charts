@@ -4,7 +4,7 @@ kind: PersistentVolumeClaim
 metadata:
   name: {{ .Values.mlrun.api.volumes.storageOverride.persistentVolumeClaim.claimName }}
   labels:
-    app.kubernetes.io/name: {{ template "open-mlops.name" . }}
+    app.kubernetes.io/name: {{ template "mlrun-os.name" . }}
     app.kubernetes.io/instance: {{ .Release.Name }}
     app.kubernetes.io/managed-by: {{ .Release.Service }}
     helm.sh/chart: {{ .Chart.Name }}-{{ .Chart.Version | replace "+" "_" }}
