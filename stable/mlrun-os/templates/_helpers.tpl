@@ -3,15 +3,15 @@
 {{/*
 Create fully qualified names.
 */}}
-{{- define "open-mlops.name" -}}
+{{- define "mlrun-os.name" -}}
 {{- default .Chart.Name .Values.nameOverride | trunc 63 | trimSuffix "-" -}}
 {{- end -}}
 
-{{- define "open-mlops.fullname" -}}
+{{- define "mlrun-os.fullname" -}}
 {{- if .Values.fullnameOverride -}}
 {{- .Values.fullnameOverride | trunc 63 | trimSuffix "-" -}}
 {{- else -}}
-{{- $name := (include "open-mlops.name" .) -}}
+{{- $name := (include "mlrun-os.name" .) -}}
 {{- if contains $name .Release.Name -}}
 {{- .Release.Name | trunc 63 | trimSuffix "-" -}}
 {{- else -}}
@@ -20,18 +20,22 @@ Create fully qualified names.
 {{- end -}}
 {{- end -}}
 
-{{- define "open-mlops.jupyter.fullname" -}}
-{{- printf "%s-jupyter"  (include "open-mlops.fullname" .) | trunc 63 | trimSuffix "-" -}}
+{{- define "mlrun-os.jupyter.fullname" -}}
+{{- printf "%s-jupyter"  (include "mlrun-os.fullname" .) | trunc 63 | trimSuffix "-" -}}
 {{- end -}}
 
-{{- define "open-mlops.jupyter-pvc.fullname" -}}
-{{- printf "%s-pvc"  (include "open-mlops.jupyter.fullname" .) | trunc 63 | trimSuffix "-" -}}
+{{- define "mlrun-os.jupyter-pvc.fullname" -}}
+{{- printf "%s-pvc"  (include "mlrun-os.jupyter.fullname" .) | trunc 63 | trimSuffix "-" -}}
+{{- end -}}
+
+{{- define "mlrun-os.nuclio.dashboardFullname" -}}
+{{- printf "%s-nuclio-dashboard"  (include "mlrun-os.fullname" .) | trunc 63 | trimSuffix "-" -}}
 {{- end -}}
 
 {{/*
 Copied over from mlrun chart to duplicate the logic without constraining the values
 */}}
-{{- define "open-mlops.mlrun.api.fullname" -}}
+{{- define "mlrun-os.mlrun.api.fullname" -}}
 {{- if .Values.mlrun.api.fullnameOverride -}}
 {{- .Values.mlrun.api.fullnameOverride | trunc 63 | trimSuffix "-" -}}
 {{- else -}}
@@ -47,7 +51,7 @@ Copied over from mlrun chart to duplicate the logic without constraining the val
 {{/*
 Copied over from mlrun chart to duplicate the logic without constraining the values
 */}}
-{{- define "open-mlops.mlrun.ui.fullname" -}}
+{{- define "mlrun-os.mlrun.ui.fullname" -}}
 {{- if .Values.mlrun.ui.fullnameOverride -}}
 {{- .Values.mlrun.ui.fullnameOverride | trunc 63 | trimSuffix "-" -}}
 {{- else -}}
@@ -60,13 +64,13 @@ Copied over from mlrun chart to duplicate the logic without constraining the val
 {{- end -}}
 {{- end -}}
 
-{{- define "open-mlops.mlrun.api.port" -}}
+{{- define "mlrun-os.mlrun.api.port" -}}
 {{- .Values.mlrun.api.service.port | int -}}
 {{- end -}}
 
 {{/*
 Create chart name and version as used by the chart label.
 */}}
-{{- define "open-mlops.chart" -}}
+{{- define "mlrun-os.chart" -}}
 {{- printf "%s-%s" .Chart.Name .Chart.Version | replace "+" "_" | trunc 63 | trimSuffix "-" -}}
 {{- end -}}

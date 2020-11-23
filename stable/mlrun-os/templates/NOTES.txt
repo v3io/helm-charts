@@ -1,0 +1,8 @@
+1. Jupyter is available at:
+  http://localhost:{{ .Values.jupyterNotebook.service.nodePort }}
+
+2. Nuclio is available at:
+  http://localhost:{{ .Values.nuclio.dashboard.nodePort }}
+
+3. MLRun is available at:
+  http://localhost:{{ .Values.mlrun.ui.service.nodePort }}
