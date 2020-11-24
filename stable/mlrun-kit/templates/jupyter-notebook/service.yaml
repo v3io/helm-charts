@@ -1,10 +1,10 @@
 kind: Service
 apiVersion: v1
 metadata:
-  name: {{ template "mlrun-os.jupyter.fullname" . }}
+  name: {{ template "mlrun-kit.jupyter.fullname" . }}
   labels:
     app.kubernetes.io/component: jupyter-notebook
-    app.kubernetes.io/name: {{ template "mlrun-os.name" . }}
+    app.kubernetes.io/name: {{ template "mlrun-kit.name" . }}
     app.kubernetes.io/instance: {{ .Release.Name }}
     app.kubernetes.io/managed-by: {{ .Release.Service }}
     helm.sh/chart: {{ .Chart.Name }}-{{ .Chart.Version | replace "+" "_" }}
@@ -13,7 +13,7 @@ spec:
   type: NodePort
   selector:
     app.kubernetes.io/component: jupyter-notebook
-    app.kubernetes.io/name: {{ template "mlrun-os.name" . }}
+    app.kubernetes.io/name: {{ template "mlrun-kit.name" . }}
     app.kubernetes.io/instance: {{ .Release.Name }}
   ports:
   - protocol: TCP
