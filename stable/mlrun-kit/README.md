@@ -1,10 +1,10 @@
-# MLRun OS: MLRun Open Source bundle for MLOps
+# MLRun Kit: MLRun Open Source Kit for MLOps
 
 This Helm charts bundles open source software stack for advanced ML operations
 
 ## Chart Details
 
-The Open source MLRun chart includes the following stack:
+The Open source MLRun kit chart includes the following stack:
 
 * Nuclio - https://github.com/nuclio/nuclio
 * MLRun - https://github.com/mlrun/mlrun
@@ -45,7 +45,7 @@ $ helm --namespace mlrun \
 	--wait \
     --set global.registry.url=<registry URL e.g. index.docker.io/iguazio > \
     --set global.registry.secretName=registry-credentials \
-    v3io-stable/mlrun-os
+    v3io-stable/mlrun-kit
 ```
 
 ### Install Kubeflow
@@ -115,6 +115,6 @@ $ kubectl --namespace mlrun delete pvc <pv-name>
 
 # Remove hostpath(s) used for mlrun (and possibly nfs). Those will be created, by default under /tmp, and will contain
 # your release name, e.g.:
-$ rm -rf my-mlrun-mlrun-os-mlrun
+$ rm -rf my-mlrun-mlrun-kit-mlrun
 ...
 ```
