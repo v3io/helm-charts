@@ -97,5 +97,5 @@ nfs-server-provisioner:
   nameOverride: nfs-server-provisioner
   persistence:
     enabled: false
-    storageClass: "mlrun-os-nfs"
+    storageClass: "mlrun-kit-nfs"
     size: 5Gi

@@ -1,18 +1,17 @@
-{{- if .Values.mlrunPersistency.pvc.create -}}
 apiVersion: v1
 kind: PersistentVolumeClaim
 metadata:
-  name: {{ .Values.mlrun.api.volumes.storageOverride.persistentVolumeClaim.claimName }}
+  name: {{ template "mlrun-kit.jupyter-pvc.fullname" . }}
   labels:
-    app.kubernetes.io/name: {{ template "mlrun-os.name" . }}
+    app.kubernetes.io/name: {{ template "mlrun-kit.name" . }}
     app.kubernetes.io/instance: {{ .Release.Name }}
     app.kubernetes.io/managed-by: {{ .Release.Service }}
     helm.sh/chart: {{ .Chart.Name }}-{{ .Chart.Version | replace "+" "_" }}
 spec:
-  storageClassName: "mlrun-host-path"
+  storageClassName: "nfs"
   accessModes:
-  - ReadWriteOnce
+    - ReadWriteMany
   resources:
     requests:
-      storage: 2Gi
-{{- end -}}
+      storage: 1Gi
+

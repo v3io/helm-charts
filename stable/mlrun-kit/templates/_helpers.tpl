@@ -3,15 +3,15 @@
 {{/*
 Create fully qualified names.
 */}}
-{{- define "mlrun-os.name" -}}
+{{- define "mlrun-kit.name" -}}
 {{- default .Chart.Name .Values.nameOverride | trunc 63 | trimSuffix "-" -}}
 {{- end -}}
 
-{{- define "mlrun-os.fullname" -}}
+{{- define "mlrun-kit.fullname" -}}
 {{- if .Values.fullnameOverride -}}
 {{- .Values.fullnameOverride | trunc 63 | trimSuffix "-" -}}
 {{- else -}}
-{{- $name := (include "mlrun-os.name" .) -}}
+{{- $name := (include "mlrun-kit.name" .) -}}
 {{- if contains $name .Release.Name -}}
 {{- .Release.Name | trunc 63 | trimSuffix "-" -}}
 {{- else -}}
@@ -20,18 +20,18 @@ Create fully qualified names.
 {{- end -}}
 {{- end -}}
 
-{{- define "mlrun-os.jupyter.fullname" -}}
-{{- printf "%s-jupyter"  (include "mlrun-os.fullname" .) | trunc 63 | trimSuffix "-" -}}
+{{- define "mlrun-kit.jupyter.fullname" -}}
+{{- printf "%s-jupyter"  (include "mlrun-kit.fullname" .) | trunc 63 | trimSuffix "-" -}}
 {{- end -}}
 
-{{- define "mlrun-os.jupyter-pvc.fullname" -}}
-{{- printf "%s-pvc"  (include "mlrun-os.jupyter.fullname" .) | trunc 63 | trimSuffix "-" -}}
+{{- define "mlrun-kit.jupyter-pvc.fullname" -}}
+{{- printf "%s-pvc"  (include "mlrun-kit.jupyter.fullname" .) | trunc 63 | trimSuffix "-" -}}
 {{- end -}}
 
 {{/*
 Copied over from mlrun chart to duplicate the logic without constraining the values
 */}}
-{{- define "mlrun-os.mlrun.api.fullname" -}}
+{{- define "mlrun-kit.mlrun.api.fullname" -}}
 {{- if .Values.mlrun.api.fullnameOverride -}}
 {{- .Values.mlrun.api.fullnameOverride | trunc 63 | trimSuffix "-" -}}
 {{- else -}}
@@ -47,7 +47,7 @@ Copied over from mlrun chart to duplicate the logic without constraining the val
 {{/*
 Copied over from mlrun chart to duplicate the logic without constraining the values
 */}}
-{{- define "mlrun-os.mlrun.ui.fullname" -}}
+{{- define "mlrun-kit.mlrun.ui.fullname" -}}
 {{- if .Values.mlrun.ui.fullnameOverride -}}
 {{- .Values.mlrun.ui.fullnameOverride | trunc 63 | trimSuffix "-" -}}
 {{- else -}}
@@ -60,13 +60,13 @@ Copied over from mlrun chart to duplicate the logic without constraining the val
 {{- end -}}
 {{- end -}}
 
-{{- define "mlrun-os.mlrun.api.port" -}}
+{{- define "mlrun-kit.mlrun.api.port" -}}
 {{- .Values.mlrun.api.service.port | int -}}
 {{- end -}}
 
 {{/*
 Create chart name and version as used by the chart label.
 */}}
-{{- define "mlrun-os.chart" -}}
+{{- define "mlrun-kit.chart" -}}
 {{- printf "%s-%s" .Chart.Name .Chart.Version | replace "+" "_" | trunc 63 | trimSuffix "-" -}}
 {{- end -}}
