@@ -137,3 +137,14 @@ Resolve the effective docker registry url and secret Name allowing for global va
 {{- define "mlrun.defaultDockerRegistry.secretName" -}}
 {{ default .Values.defaultDockerRegistrySecretName .Values.global.registry.secretName }}
 {{- end -}}
+
+{{/*
+Resolve the nuclio api address (for mlrun-kit)
+*/}}
+{{- define "mlrun.nuclio.apiURL" -}}
+{{- if .Values.nuclio.apiURL -}}
+{{- printf .Values.nuclio.apiURL -}}
+{{- else -}}
+{{- printf "http://%s-nuclio-dashboard:8070" .Release.Name  | trunc 63 | trimSuffix "-" -}}
+{{- end -}}
+{{- end -}}
