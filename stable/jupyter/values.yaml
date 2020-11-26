@@ -66,13 +66,6 @@ resources: {}
     # cpu: 1
     # memory: "2Gi"
 
-initCommands:
-  - name: getting-started
-    command: |
-      git clone https://github.com/v3io/tutorials /tmp/tutorials
-      cp -r /tmp/tutorials/* ${HOME}
-      rm -rf /tmp/tutorials
-
 pip:
   profile:
 
