@@ -41,8 +41,8 @@ and a `global.registry.url` with an appropriate registry URL which can be authen
 
 ```bash
 $ helm --namespace mlrun \
-	install my-mlrun \
-	--wait \
+    install my-mlrun \
+    --wait \
     --set global.registry.url=<registry URL e.g. index.docker.io/iguazio > \
     --set global.registry.secretName=registry-credentials \
     v3io-stable/mlrun-kit
@@ -85,11 +85,11 @@ Because of the persistency of PV/PVC resources, after installing this chart, PVs
 And upon uninstallation, any hanging / terminating pods will hold the PVCs and PVs respectively, as those
 Prevent their safe removal.
 Because pods stuck in terminating state seem to be a never-ending plague in k8s, please note this,
-And don't forget to clean the remaining PVCs and PVCs
+And don't forget to clean the remaining PVCs and PVs
 
 Handing stuck-at-terminating pods:
 ```bash
-$ helm --namespace mlrun delete pod --force --grace-period=0 <pod-name>
+$ kubectl --namespace mlrun delete pod --force --grace-period=0 <pod-name>
 ```
 
 Reclaim dangling persistency resources:
