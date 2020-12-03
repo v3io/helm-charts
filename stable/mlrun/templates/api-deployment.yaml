@@ -65,6 +65,8 @@ spec:
           {{- if eq .Values.nuclio.mode "enabled" }}
           - name: MLRUN_NUCLIO_DASHBOARD_URL
             value: {{ template "mlrun.nuclio.apiURL" . }}
+          - name: MLRUN_HTTPDB__PROJECTS__FOLLOWERS
+            value: nuclio
           {{- end }}
           {{- if .Values.api.extraEnv }}
           {{ toYaml .Values.api.extraEnv | nindent 10 }}
