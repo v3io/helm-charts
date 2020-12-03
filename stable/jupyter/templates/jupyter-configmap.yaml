@@ -228,6 +228,15 @@ data:
     export IGZ_ORIG_PIP_PREFIX="${PIP_USER_PATH}"
     export IGZ_ORIG_PYTHONPATH="${PIP_USER_PATH}/lib/python3.7/site-packages:${PYTHONPATH}"
     export PATH="${PATH}:${PIP_USER_PATH}/bin"
+
+    if [ "$(grep --count 'JUPYTER TERMINAL PATH SUPPORT' ${HOME}/.bashrc)" == "0" ]; then
+      echo "# ----- JUPYTER TERMINAL PATH SUPPORT -----" >> ${HOME}/.bashrc
+      echo "if [ ! -z JUPYTER_SERVER_ROOT ]; then" >> ${HOME}/.bashrc
+      echo " export PATH=${PATH}" >> ${HOME}/.bashrc
+      echo "fi" >> ${HOME}/.bashrc
+      echo "# ----- END JUPYTER TERMINAL PATH SUPPORT -----" >> ${HOME}/.bashrc
+    fi
+
     unset PYTHONPATH
 
     source activate base
