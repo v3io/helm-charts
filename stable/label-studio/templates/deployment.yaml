@@ -28,8 +28,10 @@ spec:
         args:
           - start
           - "{{ .Values.deployment.project.name }}"
+        {{- if .Values.deployment.project.initialize }}
           - --init
-        {{- if .Values.deployment.project.forceInit }}
+        {{- end }}
+        {{- if .Values.deployment.project.forceInitialize }}
           - --force
         {{- end }}
         ports:
