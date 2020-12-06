@@ -1,0 +1,47 @@
+{{- if .Values.deployment.create }}
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ template "label-studio.fullname" . }}
+  namespace: {{ .Release.Namespace }}
+  labels:
+    {{- include "label-studio.common.labels" . | nindent 4 }}
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+{{- include "label-studio.common.selectorLabels" . | nindent 6 }}
+  template:
+    metadata:
+      labels:
+{{- include "label-studio.common.labels" . | nindent 8 }}
+    spec:
+      serviceAccountName: {{ template "label-studio.serviceAccountName" . }}
+      containers:
+      - name: label-studio
+        image: "{{ .Values.deployment.image.repository }}:{{ .Values.deployment.image.tag }}"
+        imagePullPolicy: {{ .Values.deployment.image.pullPolicy }}
+        env:
+        - name: PROJECT_NAME
+          value: "{{ .Values.deployment.project.name }}"
+        command: ["label-studio"]
+        args:
+          - start
+          - "{{ .Values.deployment.project.name }}"
+          - --init
+        {{- if .Values.deployment.project.forceInit }}
+          - --force
+        {{- end }}
+        ports:
+        - name: http
+          containerPort: 8080
+          protocol: TCP
+        volumeMounts:
+        - mountPath: "/label-studio/{{ .Values.deployment.project.name }}"
+          name: project-data
+        resources:
+{{ toYaml .Values.resources | indent 10 }}
+      volumes:
+        - name: project-data
+          emptyDir: {}
+{{- end }}
