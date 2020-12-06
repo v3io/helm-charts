@@ -7,7 +7,7 @@ Provides installation of the Label Studio service
 To install the chart with the release name `my-release`:
 
 ```bash
-$ helm install --name my-release v3io-stable/label-studio
+$ helm install my-release v3io-stable/label-studio
 ```
 
 ## Configuration
@@ -20,6 +20,12 @@ Alternatively, a YAML file that specifies the values for the parameters can be p
 
 ```bash
 $ helm install --name my-release -f values.yaml v3io-stable/label-studio
+```
+
+
+Example of installing the chart and setting a node port:
+```bash
+$ helm install my-release --set service.type=NodePort --set service.nodePort=30030 v3io-stable/label-studio
 ```
 
 > **Tip**: You can use the default [values.yaml](values.yaml)
