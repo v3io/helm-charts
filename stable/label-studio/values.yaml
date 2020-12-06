@@ -5,7 +5,8 @@ deployment:
   create: true
   project:
     name: "my_project"
-    forceInit: false
+    initialize: true
+    forceInitialize: false
   image:
     repository: "heartexlabs/label-studio"
     tag: 0.8.2
