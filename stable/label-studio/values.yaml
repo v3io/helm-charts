@@ -12,6 +12,23 @@ deployment:
     tag: 0.8.2
     pullPolicy: IfNotPresent
 
+  readinessProbe:
+    httpGet:
+      path: /api/health
+      port: 8080
+    initialDelaySeconds: 5
+    periodSeconds: 5
+    timeoutSeconds: 10
+
+  livenessProbe:
+    httpGet:
+      path: /api/health
+      port: 8080
+    initialDelaySeconds: 60
+    timeoutSeconds: 30
+    periodSeconds: 10
+    failureThreshold: 10
+
 service:
   type: ClusterIP
   port: 8080
