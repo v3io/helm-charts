@@ -44,9 +44,9 @@ spec:
             value: http://{{ include "mlrun.api.fullname" . }}:{{ .Values.api.service.port }}
           - name: MLRUN_HTTPDB__DIRPATH
             value: {{ .Values.httpDB.dirPath }}
-          - name: DEFAULT_DOCKER_REGISTRY
+          - name: MLRUN_HTTPDB__BUILDER__DOCKER_REGISTRY
             value: {{ template "mlrun.defaultDockerRegistry.url" . }}
-          - name: DEFAULT_DOCKER_SECRET
+          - name: MLRUN_HTTPDB__BUILDER__DOCKER_REGISTRY_SECRET
             value: {{ template "mlrun.defaultDockerRegistry.secretName" . }}
           - name: MLRUN_HTTPDB__DSN
             value: {{ .Values.httpDB.dsn }}
