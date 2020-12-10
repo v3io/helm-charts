@@ -16,10 +16,14 @@ Configurable values are documented in the `values.yaml`.
 
 Specify each parameter using the `--set key=value[,key=value]` argument to `helm install`.
 
+```bash
+$ helm install my-release --set project.name=project_a v3io-stable/label-studio
+```
+
 Alternatively, a YAML file that specifies the values for the parameters can be provided while installing the chart. For example,
 
 ```bash
-$ helm install --name my-release -f values.yaml v3io-stable/label-studio
+$ helm install my-release -f values.yaml v3io-stable/label-studio
 ```
 
 
