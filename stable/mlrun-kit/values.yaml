@@ -49,7 +49,7 @@ mlrun:
     enabled: false
   api:
     image:
-      tag: 0.5.5-rc2
+      tag: 0.5.5-rc3
     volumes:
       storageOverride:
         persistentVolumeClaim:
@@ -59,7 +59,7 @@ mlrun:
       type: NodePort
       nodePort: 30050
     image:
-      tag: 0.5.5-rc2
+      tag: 0.5.5-rc3
 
 # mlrun persistency resources creation can be disabled if the user would like to provide their own PVC
 mlrunPersistency:
@@ -73,7 +73,7 @@ jupyterNotebook:
     nodePort: 30040
   image:
     repository: quay.io/mlrun/jupyter
-    tag: 0.5.5-rc2
+    tag: 0.5.5-rc3
     pullPolicy: IfNotPresent
   mlrunUIURL: "http://127.0.0.1:30050"
 
