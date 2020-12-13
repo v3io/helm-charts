@@ -39,6 +39,11 @@ master:
         # cpu: 1
         # memory: "128Mi"
 
+submit:
+  executorCores: 1
+  executorMemory: 2G
+  maxApplicationCores: 4
+
 worker:
   image:
     repository: "iguaziodocker/spark"
