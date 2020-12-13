@@ -125,9 +125,15 @@ data:
     fi
 {{- end }}
 
+    conda config --set always_softlink False
+    conda config --set always_copy True
+    conda config --add envs_dirs ${HOME}/.conda/envs
+    conda init bash 2>&1
+    mkdir -p ${HOME}/.conda/envs
+
     mkdir -p ${HOME}/.pythonlibs
-    export PIP_PREFIX="${HOME}/.pythonlibs"
-    export PYTHONPATH="${HOME}/.pythonlibs/lib/python3.6/site-packages:${PYTHONPATH}"
+    export IGZ_ORIG_PIP_PREFIX="${HOME}/.pythonlibs"
+    export IGZ_ORIG_PYTHONPATH="${HOME}/.pythonlibs/lib/python3.7/site-packages:${PYTHONPATH}"
     export PATH="${PATH}:${HOME}/.pythonlibs/bin"
 
     if [ "$(grep --count 'IGUAZIO CONFIG' ${HOME}/.bashrc)" == "0" ]; then
@@ -157,5 +163,17 @@ data:
 
     /usr/sbin/sshd -f /etc/ssh/sshd_config
 {{- end }}
+
+    unset PYTHONPATH
+    env | egrep -v "^HOME" | awk -F"=" '{printf("export %s=\"%s\"\n",$1,$2)}' > /User/.ssh_environment
+    echo "source /User/.ssh_environment" >> /igz/.profile
+    echo "conda config --set always_softlink False" >> /igz/.profile
+    echo "conda config --set always_copy True" >> /igz/.profile
+    echo "conda config --add envs_dirs ${HOME}/.conda/envs" >> /igz/.profile
+    echo "conda init bash 2>&1 > /dev/null" >> /igz/.profile
+
+    echo "source activate base" >> /igz/.profile
+
+    source activate base
 
     ttyd bash
