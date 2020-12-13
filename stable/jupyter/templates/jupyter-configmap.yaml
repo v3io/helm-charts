@@ -56,16 +56,16 @@ data:
     ALIGN_MLRUN_SCRIPT="${HOME}/align_mlrun.sh"
     if [ ! -e ${ALIGN_MLRUN_SCRIPT} ]; then
       touch ${ALIGN_MLRUN_SCRIPT}
-      echo "CLIENT_MLRUN_VERSION=\`pip show mlrun | grep Version | awk '{print \$2}'\`\n" >> ${ALIGN_MLRUN_SCRIPT}
-      echo "SERVER_MLRUN_VERSION=\`curl -s \${IGZ_MLRUN_API_ENDPOINT}/api/healthz | python3 -c \"import sys, json; print(json.load(sys.stdin)['version'])\"\`\n" >> ${ALIGN_MLRUN_SCRIPT}
-      echo "if [ \${CLIENT_MLRUN_VERSION} == \${SERVER_MLRUN_VERSION} ]; then\n" >> ${ALIGN_MLRUN_SCRIPT}
-      echo "  echo \"Both server & client are aligned (\${CLIENT_MLRUN_VERSION}).\"\n" >> ${ALIGN_MLRUN_SCRIPT}
-      echo "else\n" >> ${ALIGN_MLRUN_SCRIPT}
-      echo "  if [ \${CLIENT_MLRUN_VERSION} ]; then\n" >> ${ALIGN_MLRUN_SCRIPT}
-      echo "    pip uninstall -y mlrun\n" >> ${ALIGN_MLRUN_SCRIPT}
-      echo "  fi\n" >> ${ALIGN_MLRUN_SCRIPT}
-      echo "  pip install mlrun==\${SERVER_MLRUN_VERSION}\n" >> ${ALIGN_MLRUN_SCRIPT}
-      echo "fi\n" >> ${ALIGN_MLRUN_SCRIPT}
+      echo "CLIENT_MLRUN_VERSION=\`pip show mlrun | grep Version | awk '{print \$2}'\`" >> ${ALIGN_MLRUN_SCRIPT}
+      echo "SERVER_MLRUN_VERSION=\`curl -s \${IGZ_MLRUN_API_ENDPOINT}/api/healthz | python3 -c \"import sys, json; print(json.load(sys.stdin)['version'])\"\`" >> ${ALIGN_MLRUN_SCRIPT}
+      echo "if [ \"\${CLIENT_MLRUN_VERSION}\" = \"\${SERVER_MLRUN_VERSION}\" ] || [ \"\${CLIENT_MLRUN_VERSION}\" = \"\${SERVER_MLRUN_VERSION//-}\" ]; then" >> ${ALIGN_MLRUN_SCRIPT}
+      echo "  echo \"Both server & client are aligned (\${CLIENT_MLRUN_VERSION}).\"" >> ${ALIGN_MLRUN_SCRIPT}
+      echo "else" >> ${ALIGN_MLRUN_SCRIPT}
+      echo "  if [ \${CLIENT_MLRUN_VERSION} ]; then" >> ${ALIGN_MLRUN_SCRIPT}
+      echo "    pip uninstall -y mlrun" >> ${ALIGN_MLRUN_SCRIPT}
+      echo "  fi" >> ${ALIGN_MLRUN_SCRIPT}
+      echo "  pip install mlrun==\${SERVER_MLRUN_VERSION}" >> ${ALIGN_MLRUN_SCRIPT}
+      echo "fi" >> ${ALIGN_MLRUN_SCRIPT}
       chmod a+x ${ALIGN_MLRUN_SCRIPT}
     fi
 
