@@ -12,5 +12,3 @@ metadata:
     release: {{ .Release.Name }}  # TODO deprecate, use app.kubernetes.io/instance instead
     heritage: {{ .Release.Service }}
     component: project
-spec:
-  displayName: {{ .Values.project.displayName }}
