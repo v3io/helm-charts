@@ -22,5 +22,5 @@ Create chart name and version as used by the chart label.
 {{- end -}}
 
 {{- define "tsdb-functions.projectName" -}}
-{{- printf "tsdb-nuclio-functions-%s" .Release.Name | trunc 63 | trimSuffix "-" -}}
+{{- printf "tsdb-functions-%s" .Release.Name | trunc 63 | trimSuffix "-" -}}
 {{- end -}}
