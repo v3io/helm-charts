@@ -1,15 +1,15 @@
 dependencies:
 - name: prometheus
-  repository: https://kubernetes-charts.storage.googleapis.com/
+  repository: https://charts.helm.sh/stable
   version: 4.6.13
 - name: grafana
-  repository: https://kubernetes-charts.storage.googleapis.com/
+  repository: https://charts.helm.sh/stable
   version: 0.5.4
 - name: fluent-bit
-  repository: https://kubernetes-charts.storage.googleapis.com/
+  repository: https://charts.helm.sh/stable
   version: 0.16.1
 - name: tenant
   repository: https://v3io.github.io/helm-charts/stable
   version: 0.4.0
-digest: sha256:7b0f5715c1219baf728e399603301c0ece6ad5496949541a662df990d21db790
-generated: "2020-08-31T00:51:25.877978+03:00"
+digest: sha256:3c302d51be8c544c14a9476a5c9a61c9fc87e952e086fae6bd3ea7d10dfdda91
+generated: "2020-12-21T18:43:05.631677+02:00"

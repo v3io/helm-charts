@@ -252,6 +252,6 @@ lint:
 
 .PHONY: repo-add
 repo-add:
-	helm repo add stable https://kubernetes-charts.storage.googleapis.com
+	helm repo add stable https://charts.helm.sh/stable
 	helm repo add nuclio https://nuclio.github.io/nuclio/charts
 	helm repo add v3io-stable https://v3io.github.io/helm-charts/stable
