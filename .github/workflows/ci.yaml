@@ -22,13 +22,10 @@ jobs:
     - name: helm version
       run: helm version
 
-    - name: Add Helm repos
-      run: |
-        helm repo add stable https://kubernetes-charts.storage.googleapis.com
-        helm repo add nuclio https://nuclio.github.io/nuclio/charts
-        helm repo add v3io-stable https://v3io.github.io/helm-charts/stable
-
     - uses: actions/checkout@v2
+
+    - name: Add Helm repos
+      run: make repo-add
 
     - name: Test stable
       run: make stable
