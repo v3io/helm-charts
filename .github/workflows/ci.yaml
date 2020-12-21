@@ -22,10 +22,10 @@ jobs:
     - name: helm version
       run: helm version
 
+    - uses: actions/checkout@v2
+
     - name: Add Helm repos
       run: make repo-add
-
-    - uses: actions/checkout@v2
 
     - name: Test stable
       run: make stable
