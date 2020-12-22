@@ -37,6 +37,7 @@ spec:
       securityContext:
         runAsUser: 0
         fsGroup: 0
+      terminationGracePeriodSeconds: 20
       containers:
         - name: v3iod
           image: {{ .Values.v3iod.image.repository }}:{{ .Values.v3iod.image.tag }}
