@@ -74,13 +74,13 @@ data:
       curl -L ${IGZ_JUPYTER_TUTORIALS_URL} -o /tmp/jupyter-tutorials
       curl -L ${IGZ_MLRUN_DEMOS_URL} -o /tmp/mlrun-demos
       TUTORIALS_SCRIPT_FILE=`tar --list --file=/tmp/jupyter-tutorials|grep igz-tutorials-get.sh`
-      DEMOS_SCRIPT_FILE=`tar --list --file=/tmp/jupyter-tutorials|grep get-additional-demos.sh`
+      DEMOS_SCRIPT_FILE=`tar --list --file=/tmp/jupyter-tutorials|grep update-demos.sh`
       UPDATE_NOTEBOOK_FILE=`tar --list --file=/tmp/jupyter-tutorials|grep update-tutorials.ipynb`
       tar -C /tmp -xvf /tmp/jupyter-tutorials ${TUTORIALS_SCRIPT_FILE} --strip-components=1
       tar -C /tmp -xvf /tmp/jupyter-tutorials ${UPDATE_NOTEBOOK_FILE} --strip-components=1
       tar -C /tmp -xvf /tmp/jupyter-tutorials ${DEMOS_SCRIPT_FILE} --strip-components=1
       chmod a+x /tmp/igz-tutorials-get.sh
-      chmod a+x /tmp/get-additional-demos.sh
+      chmod a+x /tmp/update-demos.sh
       chmod a+x /tmp/update-tutorials.ipynb
       if ! /tmp/igz-tutorials-get.sh; then
           tar -C ${HOME} -xvf /tmp/jupyter-tutorials  --strip-components=1
@@ -88,14 +88,14 @@ data:
       else
           cp /tmp/igz-tutorials-get.sh ${HOME}
           cp /tmp/update-tutorials.ipynb ${HOME}
-          cp /tmp/get-additional-demos.sh ${HOME}
+          cp /tmp/update-demos.sh ${HOME}
       fi
-      if ! /tmp/get-additional-demos.sh --mlrun-ver `curl -s ${IGZ_MLRUN_API_ENDPOINT}/api/healthz | python3 -c "import sys, json; print(json.load(sys.stdin)['version'])"`; then
+      if ! /tmp/update-demos.sh --mlrun-ver `curl -s ${IGZ_MLRUN_API_ENDPOINT}/api/healthz | python3 -c "import sys, json; print(json.load(sys.stdin)['version'])"`; then
           mkdir -p ${HOME}/demos
           tar -C ${HOME}/demos -xvf /tmp/mlrun-demos  --strip-components=1
           rm -f /tmp/mlrun-demos
       fi
-      rm -f  /tmp/igz-tutorials-get.sh /tmp/get-additional-demos.sh /tmp/update-tutorials.ipynb
+      rm -f  /tmp/igz-tutorials-get.sh /tmp/update-demos.sh /tmp/update-tutorials.ipynb
 
       touch ${HOME}/.igz/.getting-started
     fi
