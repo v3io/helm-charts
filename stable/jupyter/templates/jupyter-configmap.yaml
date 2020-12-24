@@ -64,7 +64,7 @@ data:
       echo "  if [ \${CLIENT_MLRUN_VERSION} ]; then" >> ${ALIGN_MLRUN_SCRIPT}
       echo "    pip uninstall -y mlrun" >> ${ALIGN_MLRUN_SCRIPT}
       echo "  fi" >> ${ALIGN_MLRUN_SCRIPT}
-      echo "  pip install mlrun==\${SERVER_MLRUN_VERSION}" >> ${ALIGN_MLRUN_SCRIPT}
+      echo "  pip install mlrun[complete]==\${SERVER_MLRUN_VERSION}" >> ${ALIGN_MLRUN_SCRIPT}
       echo "fi" >> ${ALIGN_MLRUN_SCRIPT}
       chmod a+x ${ALIGN_MLRUN_SCRIPT}
     fi
