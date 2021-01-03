@@ -4,14 +4,15 @@
 
 scaler:
   image:
-    repository: iguaziodocker/autoscaler
-    tag: 0.1.1
+    repository: gcr.io/iguazio/autoscaler
+    tag: 0.4.0
     pullPolicy: IfNotPresent
     command: autoscaler
 
     # args
     scaleInterval: 1m
-    metricsGroupKind: Deployment
+    metricsResourceKind: Deployment
+    metricsResourceGroup: apps
 
 general:
   image:
@@ -19,8 +20,8 @@ general:
 
 dlx:
   image:
-    repository: iguaziodocker/dlx
-    tag: 0.1.1
+    repository: gcr.io/iguazio/dlx
+    tag: 0.4.0
     pullPolicy: IfNotPresent
     command: dlx
 
