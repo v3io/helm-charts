@@ -39,4 +39,5 @@ spec:
           args:
             - --namespace={{ .Release.Namespace }}
             - --scale-interval={{ .Values.scaler.image.scaleInterval }}
-            - --metrics-group-kind={{ .Values.scaler.image.metricsGroupKind }}
+            - --metrics-resource-kind={{ .Values.scaler.image.metricsResourceKind }}
+            - --metrics-resource-group={{ .Values.scaler.image.metricsResourceGroup }}
