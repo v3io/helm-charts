@@ -102,17 +102,21 @@ data:
 
     # Check only if the directory found.
     if [[ $? -eq 0 ]]; then
-      for i in *; do
-        case "$DashboardNamesString" in
-          *,$i,*)
-            echo "Not Deleting: $i"
-            ;;
-          *)
-            echo "Deleting: $i"
-            rm "$i"
-            ;;
-        esac
-      done
+      if [ -z "$(ls -A .)" ]; then
+        echo "Empty folder, no dashboard files to delete"
+      else
+        for i in *; do
+          case "$DashboardNamesString" in
+            *,$i,*)
+              echo "Not Deleting dashboard file: $i"
+              ;;
+            *)
+              echo "Deleting dashboard file: $i"
+              rm "$i"
+              ;;
+          esac
+        done
+      fi
     fi
 
       {{- end }}
