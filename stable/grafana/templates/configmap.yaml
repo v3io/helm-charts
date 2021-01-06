@@ -73,6 +73,7 @@ data:
 
   rm_obsolete_provisioned_dashboards.sh: |
     #!/usr/bin/env sh
+    set -x
     cd /var/lib/grafana/dashboards
 
     # Exit if the directory isn't found.
