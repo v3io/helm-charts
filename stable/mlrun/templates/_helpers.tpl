@@ -58,6 +58,22 @@ We truncate at 63 chars because some Kubernetes name fields are limited to this 
 {{- end -}}
 {{- end -}}
 
+{{- define "mlrun.ui.nuclio.uiURL" -}}
+{{- if .Values.nuclio.uiURL -}}
+{{- .Values.nuclio.uiURL -}}
+{{- else -}}
+{{- end -}}
+
+{{/*
+Auto-resolve to allow dynamic behavior for open-source mlrun-kit
+*/}}
+{{- define "mlrun.ui.nuclio.apiURL" -}}
+{{- if .Values.nuclio.apiURL }}
+{{- else -}}
+{{- printf "http://%s.%s.svc.cluster.local:8070" (include "nuclio.dashboardName" .) .Release.Namespace -}}
+{{- end -}}
+{{- end -}}
+
 {{/*
 Create chart name and version as used by the chart label.
 */}}

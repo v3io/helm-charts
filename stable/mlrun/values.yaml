@@ -183,12 +183,12 @@ defaultDockerRegistrySecretName: ""
 # Fill these in order to enable working with Nuclio, by default integration is disabled
 nuclio:
   mode: disabled
-  # Used by MLRun UI for showing links to Nuclio UI
-  uiURL: http://example-nuclio-ui:8070
+  # Used by MLRun UI for showing links to Nuclio UI. e.g. http://example-nuclio-ui:8070
+  uiURL:
 
   # Used by MLRun API/UI to access nuclio API to manipulate nuclio resources
   # This is resolved automatically for mlrun-kit or can be overridden explicitly
-  # Must be fully qualified domain name (FQDN) e.g. http://nuclio-dashboard.tenant-name.svc.cluster.local:8070
+  # Must be fully qualified domain name (FQDN) e.g. http://nuclio-dashboard.namespace.svc.cluster.local:8070
   apiURL:
 
 # global is a stanza that is used if this is used as a subchart. Ignore otherwise
