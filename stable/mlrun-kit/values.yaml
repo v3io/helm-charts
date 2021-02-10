@@ -5,7 +5,7 @@ global:
     secretName: mustprovide
 
 nuclio:
-  nameOverride: nuclio
+  fullnameOverride: mlrun-nuclio
   controller:
     enabled: true
     image:
@@ -43,13 +43,15 @@ mlrun:
   nameOverride: mlrun
   nuclio:
     mode: enabled
+    apiURL: http://mlrun-nuclio-dashboard.{{ .Release.Namespace }}.svc.cluster.local:8070
+    uiURL: http://localhost:30060
   rbac:
     create: true
   v3io:
     enabled: false
   api:
     image:
-      tag: 0.5.5-rc3
+      tag: 0.6.0
     volumes:
       storageOverride:
         persistentVolumeClaim:
@@ -59,7 +61,7 @@ mlrun:
       type: NodePort
       nodePort: 30050
     image:
-      tag: 0.5.5-rc3
+      tag: 0.6.0
 
 # mlrun persistency resources creation can be disabled if the user would like to provide their own PVC
 mlrunPersistency:
@@ -73,7 +75,7 @@ jupyterNotebook:
     nodePort: 30040
   image:
     repository: quay.io/mlrun/jupyter
-    tag: 0.5.5-rc3
+    tag: 0.6.0
     pullPolicy: IfNotPresent
   mlrunUIURL: "http://127.0.0.1:30050"
 
