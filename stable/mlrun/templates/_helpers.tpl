@@ -58,10 +58,13 @@ We truncate at 63 chars because some Kubernetes name fields are limited to this 
 {{- end -}}
 {{- end -}}
 
-{{- define "mlrun.ui.nuclio.uiURL" -}}
-{{- if .Values.nuclio.uiURL -}}
-{{- .Values.nuclio.uiURL -}}
-{{- else -}}
+
+{{/*
+This is to couple nuclio and mlrun charts, and comes to workaround the fact that the same
+template (nameOverride and others) get different values between the subcharts in mlrun-kit scenario
+*/}}
+{{- define "mlrun.nuclio.dashboardName" -}}
+{{- printf "nuclio-dashboard" -}}
 {{- end -}}
 
 {{/*
@@ -69,8 +72,9 @@ Auto-resolve to allow dynamic behavior for open-source mlrun-kit
 */}}
 {{- define "mlrun.ui.nuclio.apiURL" -}}
 {{- if .Values.nuclio.apiURL }}
+{{- .Values.nuclio.apiURL -}}
 {{- else -}}
-{{- printf "http://%s.%s.svc.cluster.local:8070" (include "nuclio.dashboardName" .) .Release.Namespace -}}
+{{- printf "http://%s.%s.svc.cluster.local:8070" (include "mlrun.nuclio.dashboardName" .) .Release.Namespace -}}
 {{- end -}}
 {{- end -}}
 
@@ -161,6 +165,6 @@ Resolve the nuclio api address (for mlrun-kit)
 {{- if .Values.nuclio.apiURL -}}
 {{- printf .Values.nuclio.apiURL -}}
 {{- else -}}
-{{- printf "http://%s-nuclio-dashboard:8070" .Release.Name  | trunc 63 | trimSuffix "-" -}}
+{{- printf "http://%s:8070" (include "mlrun.nuclio.dashboardName" .) | trunc 63 | trimSuffix "-" -}}
 {{- end -}}
 {{- end -}}

@@ -1,5 +1,10 @@
+# possible release name overrides
+nameOverride:
+fullnameOverride:
+
 api:
   name: api
+  fullnameOverride:
 
   logLevel: INFO
 
@@ -93,6 +98,7 @@ api:
 
 ui:
   name: ui
+  fullnameOverride:
 
   replicaCount: 1
 
