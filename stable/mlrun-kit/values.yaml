@@ -5,16 +5,18 @@ global:
     secretName: mustprovide
 
 nuclio:
-  nameOverride: nuclio
+
+  # coupled with mlrun.nuclio.dashboardName template in mlrun chart
+  fullnameOverride: nuclio
   controller:
     enabled: true
     image:
-      tag: 1.5.6-amd64
+      tag: 1.5.16-amd64
   dashboard:
     enabled: true
     nodePort: 30060
     image:
-      tag: 1.5.6-amd64
+      tag: 1.5.16-amd64
   autoscaler:
     enabled: false
   dlx:
@@ -40,26 +42,29 @@ nuclio:
       - level: debug
         sink: myStdoutLoggerSink
 mlrun:
-  nameOverride: mlrun
+  fullnameOverride: mlrun
   nuclio:
     mode: enabled
+    uiURL: http://localhost:30060
   rbac:
     create: true
   v3io:
     enabled: false
   api:
+    fullnameOverride: mlrun-api
     image:
-      tag: 0.5.5-rc3
+      tag: 0.6.0
     volumes:
       storageOverride:
         persistentVolumeClaim:
           claimName: mlrun-pvc
   ui:
+    fullnameOverride: mlrun-ui
     service:
       type: NodePort
       nodePort: 30050
     image:
-      tag: 0.5.5-rc3
+      tag: 0.6.0
 
 # mlrun persistency resources creation can be disabled if the user would like to provide their own PVC
 mlrunPersistency:
@@ -73,7 +78,7 @@ jupyterNotebook:
     nodePort: 30040
   image:
     repository: quay.io/mlrun/jupyter
-    tag: 0.5.5-rc3
+    tag: 0.6.0
     pullPolicy: IfNotPresent
   mlrunUIURL: "http://127.0.0.1:30050"
 
