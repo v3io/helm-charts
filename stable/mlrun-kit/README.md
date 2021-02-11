@@ -48,11 +48,22 @@ $ helm --namespace mlrun \
     v3io-stable/mlrun-kit
 ```
 
-### Install Kubeflow
+## Installing MLRun-kit on minikube
+MLRun-kit is configured to expose various services to the user via node ports, for simplicity and an out-of-the-box
+experience - so you can install the chart and start working right away!
+However, if your kubernetes cluster is running inside a VM, as is the case when using minikube, the kubernetes 
+services won't be available on their node ports on the local interface but on the virtual machine's interface.
+If you're using the kit in this scenario, use the following command to adjust the UI links:
 
-MLRun enables you to run your functions while saving outputs and artifacts in a way that is visible to Kubeflow Pipelines.
-If you wish to use this capability you will need to install Kubeflow on your cluster.
-Refer to the [**Kubeflow documentation**](https://www.kubeflow.org/docs/started/getting-started/) for more information.
+```bash
+$ helm --namespace mlrun \
+    install my-mlrun \
+    --wait \
+    --set global.registry.url=<registry URL e.g. index.docker.io/iguazio > \
+    --set global.registry.secretName=registry-credentials \
+    v3io-stable/mlrun-kit
+```
+
 
 ### Usage
 Your applications are now available in your local browser:
@@ -68,6 +79,7 @@ Your applications are now available in your local browser:
 > **Note:**
 > - You can change the ports by providing values to the helm install command.
 > - You can add and configure a k8s ingress-controller for better security and control over external access.
+
 
 ## Advanced Chart Configuration
 Configurable values are documented in the `values.yaml`, and the `values.yaml` of all sub charts. 
@@ -118,3 +130,9 @@ $ kubectl --namespace mlrun delete pvc <pv-name>
 $ rm -rf my-mlrun-mlrun-kit-mlrun
 ...
 ```
+
+### Using Kubeflow Pipelines
+
+MLRun enables you to run your functions while saving outputs and artifacts in a way that is visible to Kubeflow Pipelines.
+If you wish to use this capability you will need to install Kubeflow on your cluster.
+Refer to the [**Kubeflow documentation**](https://www.kubeflow.org/docs/started/getting-started/) for more information.

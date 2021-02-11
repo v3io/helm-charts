@@ -1,5 +1,6 @@
 # We use global values scope to multiplex the docker-registry details to both mlrun and nuclio
 global:
+  nodeAddress: localhost
   registry:
     url: mustprovide
     secretName: mustprovide
