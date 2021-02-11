@@ -5,7 +5,9 @@ global:
     secretName: mustprovide
 
 nuclio:
-  fullnameOverride: mlrun-nuclio
+
+  # coupled with mlrun.nuclio.dashboardName template in mlrun chart
+  fullnameOverride: nuclio
   controller:
     enabled: true
     image:
@@ -40,16 +42,16 @@ nuclio:
       - level: debug
         sink: myStdoutLoggerSink
 mlrun:
-  nameOverride: mlrun
+  fullnameOverride: mlrun
   nuclio:
     mode: enabled
-    apiURL: http://mlrun-nuclio-dashboard.{{ .Release.Namespace }}.svc.cluster.local:8070
     uiURL: http://localhost:30060
   rbac:
     create: true
   v3io:
     enabled: false
   api:
+    fullnameOverride: mlrun-api
     image:
       tag: 0.6.0
     volumes:
@@ -57,6 +59,7 @@ mlrun:
         persistentVolumeClaim:
           claimName: mlrun-pvc
   ui:
+    fullnameOverride: mlrun-ui
     service:
       type: NodePort
       nodePort: 30050

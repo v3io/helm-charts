@@ -35,7 +35,6 @@ spec:
             value: 'http://{{ include "mlrun.api.fullname" . }}.{{ .Release.Namespace }}.svc.cluster.local:{{ .Values.api.service.port }}'
           - name: MLRUN_NUCLIO_MODE
             value: {{ .Values.nuclio.mode }}
-
           {{- if eq .Values.nuclio.mode "enabled" }}
           - name: MLRUN_NUCLIO_UI_URL
             value: {{ .Values.nuclio.uiURL }}
