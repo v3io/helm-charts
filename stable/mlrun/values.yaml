@@ -1,5 +1,10 @@
+# possible release name overrides
+nameOverride:
+fullnameOverride:
+
 api:
   name: api
+  fullnameOverride:
 
   logLevel: INFO
 
@@ -93,6 +98,7 @@ api:
 
 ui:
   name: ui
+  fullnameOverride:
 
   replicaCount: 1
 
@@ -188,7 +194,7 @@ nuclio:
 
   # Used by MLRun API/UI to access nuclio API to manipulate nuclio resources
   # This is resolved automatically for mlrun-kit or can be overridden explicitly
-  # Must be fully qualified domain name (FQDN) e.g. http://nuclio-dashboard.tenant-name.svc.cluster.local:8070
+  # Must be fully qualified domain name (FQDN) e.g. http://nuclio-dashboard.namespace.svc.cluster.local:8070
   apiURL:
 
 # global is a stanza that is used if this is used as a subchart. Ignore otherwise

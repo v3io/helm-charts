@@ -36,15 +36,12 @@ spec:
           - name: MLRUN_NUCLIO_MODE
             value: {{ .Values.nuclio.mode }}
           {{- if eq .Values.nuclio.mode "enabled" }}
-          {{- if .Values.nuclio.uiURL }}
           - name: MLRUN_NUCLIO_UI_URL
             value: {{ .Values.nuclio.uiURL }}
-          {{- end }}
-          {{- if .Values.nuclio.apiURL }}
           - name: MLRUN_NUCLIO_API_URL
-            value: {{ .Values.nuclio.apiURL }}
+            value: {{ include "mlrun.ui.nuclio.apiURL" . }}
           {{- end }}
-          {{- end }}
+
           {{- if .Values.ui.extraEnv }}
           {{ toYaml .Values.ui.extraEnv | nindent 10 }}
           {{- end }}
