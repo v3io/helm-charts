@@ -8,7 +8,7 @@ global:
     secretName: mustprovide
   nuclio:
     dashboard:
-      nodePort: 30060
+      nodePort: 30050
 
 nuclio:
 
@@ -20,7 +20,7 @@ nuclio:
       tag: 1.5.16-amd64
   dashboard:
     enabled: true
-    nodePort: 30060
+    nodePort: 30050
     image:
       tag: 1.5.16-amd64
   autoscaler:
@@ -59,6 +59,9 @@ mlrun:
     fullnameOverride: mlrun-api
     image:
       tag: 0.6.0
+    service:
+      type: NodePort
+      nodePort: 30070
     volumes:
       storageOverride:
         persistentVolumeClaim:
@@ -67,7 +70,7 @@ mlrun:
     fullnameOverride: mlrun-ui
     service:
       type: NodePort
-      nodePort: 30050
+      nodePort: 30060
     image:
       tag: 0.6.0
 

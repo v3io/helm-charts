@@ -32,7 +32,7 @@ Create fully qualified names.
 {{- if .Values.jupyterNotebook.mlrunUIURL -}}
 {{- .Values.jupyterNotebook.mlrunUIURL -}}
 {{- else -}}
-{{- printf "%s:%s" .Values.global.externalHostAddress (.Values.mlrun.ui.service.nodePort | toString) -}}
+{{- printf "http://%s:%s" .Values.global.externalHostAddress (.Values.mlrun.ui.service.nodePort | toString) -}}
 {{- end -}}
 {{- end -}}
 
