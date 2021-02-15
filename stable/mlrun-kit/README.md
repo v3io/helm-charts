@@ -52,7 +52,7 @@ $ helm --namespace mlrun \
 If your kubernetes cluster is running inside a VM, as is the case when using minikube, the kubernetes 
 services won't be available on their node ports (which are used by default for simplicity) on the local interfaces 
 but on the virtual machine's interface. If you're using the kit inside a minikube cluster, pass the VM address
-in the `global.externalAddress` chart value like so:
+in the `global.externalHostAddress` chart value like so:
 
 ```bash
 $ helm --namespace mlrun \
@@ -60,7 +60,7 @@ $ helm --namespace mlrun \
     --wait \
     --set global.registry.url=<registry URL e.g. index.docker.io/iguazio > \
     --set global.registry.secretName=registry-credentials \
-    --set global.externalAddress=$(minikube ip) \
+    --set global.externalHostAddress=$(minikube ip) \
     v3io-stable/mlrun-kit
 ```
 
