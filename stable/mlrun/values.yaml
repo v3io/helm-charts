@@ -201,7 +201,10 @@ nuclio:
 
 # global is a stanza that is used if this is used as a subchart. Ignore otherwise
 global:
-  externalAddress: localhost
+  externalHostAddress:
   registry:
     url:
     secretName:
+  nuclio:
+    dashboard:
+      nodePort:

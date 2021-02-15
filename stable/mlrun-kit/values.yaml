@@ -1,9 +1,14 @@
 # We use global values scope to multiplex the docker-registry details to both mlrun and nuclio
 global:
-  externalAddress: localhost
+
+  # External host/ip to reach the k8s node. This might take various values if k8s is run in a VM or a cloud env
+  externalHostAddress: localhost
   registry:
     url: mustprovide
     secretName: mustprovide
+  nuclio:
+    dashboard:
+      nodePort: 30060
 
 nuclio:
 
@@ -46,7 +51,6 @@ mlrun:
   fullnameOverride: mlrun
   nuclio:
     mode: enabled
-    uiURL: http://localhost:30060
   rbac:
     create: true
   v3io:
@@ -81,8 +85,9 @@ jupyterNotebook:
     repository: quay.io/mlrun/jupyter
     tag: 0.6.0
     pullPolicy: IfNotPresent
-  # use this to override mlrunUIURL, by default it will auto resolve to externalAddress and node port
-  # mlrunUIURL:
+  # use this to override mlrunUIURL, by default it will be auto-resolved to externalHostAddress and
+  # mlrun UI's node port
+  mlrunUIURL:
 
 mpi-operator:
   nameOverride: mpi-operator

@@ -81,11 +81,10 @@ Auto-resolve to allow dynamic behavior for open-source mlrun-kit
 {{- define "mlrun.ui.nuclio.uiURL" -}}
 {{- if .Values.nuclio.uiURL }}
 {{- .Values.nuclio.uiURL -}}
-{{/* Note .Values.nuclio.dashboard.nodePort is referring directly to nuclio chart values */}}
-{{- else if and .Values.global.externalAddress .Values.nuclio.dashboard.nodePort -}}
-{{- printf "http://%s:%s" .Values.global.externalAddress .Values.nuclio.dashboard.nodePort -}}
+{{- else if and .Values.global.externalHostAddress .Values.global.nuclio.dashboard.nodePort -}}
+{{- printf "http://%s:%s" .Values.global.externalHostAddress (.Values.global.nuclio.dashboard.nodePort | toString) -}}
 {{- else -}}
-{{- printf "http://example-nuclio-ui:1234" .Values.global.externalAddress .Values.nuclio.dashboard.nodePort -}}
+{{- printf "http://example-nuclio-ui:8070" -}}
 {{- end -}}
 {{- end -}}
 
