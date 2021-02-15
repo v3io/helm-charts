@@ -81,7 +81,6 @@ jupyterNotebook:
     repository: quay.io/mlrun/jupyter
     tag: 0.6.0
     pullPolicy: IfNotPresent
-  mlrunUIURL: "http://127.0.0.1:30050"
 
 mpi-operator:
   nameOverride: mpi-operator
