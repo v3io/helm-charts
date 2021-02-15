@@ -49,10 +49,11 @@ $ helm --namespace mlrun \
 ```
 
 ## Installing MLRun-kit on minikube
-If your kubernetes cluster is running inside a VM, as is the case when using minikube, the kubernetes 
-services won't be available on their node ports (which are used by default for simplicity) on the local interfaces 
-but on the virtual machine's interface. If you're using the kit inside a minikube cluster, pass the VM address
-in the `global.externalHostAddress` chart value like so:
+The Open source MLRun kit uses node ports for simplicity. If your kubernetes cluster is running inside a VM, 
+as is the case when using minikube, the kubernetes services exposed over node ports would not be available on 
+your local interface, but instead, on the virtual machine's interface.
+To accommodate for this For this, use the `global.externalHostAddress` value on the chart. For example, if 
+you're using the kit inside a minikube cluster, pass the VM address in the chart installation command like so:
 
 ```bash
 $ helm --namespace mlrun \
@@ -69,7 +70,11 @@ $ helm --namespace mlrun \
 Your applications are now available in your local browser:
 - jupyter-notebook - http://localhost:30040
 - nuclio - http://localhost:30050
-- mlrun - http://locahost:30060
+- mlrun UI - http://locahost:30060
+- mlrun API (external) - http://locahost:30060
+> **Note:**
+> The above links assume your Kuberenetes cluster is exposed on localhost.
+> If that's not the case, the different components will be available on `externalHostAddress`
 
 ### Start Working
 
