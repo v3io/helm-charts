@@ -28,6 +28,15 @@ Create fully qualified names.
 {{- printf "%s-pvc"  (include "mlrun-kit.jupyter.fullname" .) | trunc 63 | trimSuffix "-" -}}
 {{- end -}}
 
+{{- define "mlrun-kit.jupyter.mlrunUIURL" -}}
+{{- if .Values.jupyterNotebook.mlrunUIURL -}}
+{{- .Values.jupyterNotebook.mlrunUIURL -}}
+{{- else -}}
+{{- printf "%s:%s" .Values.global.externalAddress .Values.mlrun.ui.service.nodePort -}}
+{{- end -}}
+{{- end -}}
+
+
 {{/*
 Copied over from mlrun chart to duplicate the logic without constraining the values
 */}}
@@ -69,12 +78,4 @@ Create chart name and version as used by the chart label.
 */}}
 {{- define "mlrun-kit.chart" -}}
 {{- printf "%s-%s" .Chart.Name .Chart.Version | replace "+" "_" | trunc 63 | trimSuffix "-" -}}
-{{- end -}}
-
-{{- define "mlrun-kit.jupyterNotebook.mlrunUIURL" -}}
-{{- if .Values.jupyterNotebook.mlrunUIURL -}}
-{{- .Values.jupyterNotebook.mlrunUIURL -}}
-{{- else -}}
-{{- printf "%s:%s" .Values.global.nodeAddress .Values.mlrun.ui.service.nodePort -}}
-{{- end -}}
 {{- end -}}

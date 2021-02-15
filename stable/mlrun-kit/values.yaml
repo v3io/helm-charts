@@ -1,6 +1,6 @@
 # We use global values scope to multiplex the docker-registry details to both mlrun and nuclio
 global:
-  nodeAddress: localhost
+  externalAddress: localhost
   registry:
     url: mustprovide
     secretName: mustprovide
@@ -81,6 +81,8 @@ jupyterNotebook:
     repository: quay.io/mlrun/jupyter
     tag: 0.6.0
     pullPolicy: IfNotPresent
+  # use this to override mlrunUIURL, by default it will auto resolve to externalAddress and node port
+  # mlrunUIURL:
 
 mpi-operator:
   nameOverride: mpi-operator
@@ -94,7 +96,7 @@ mpi-operator:
   deployment:
     create: true
 
-## Customize PV spec used for nfs-server provisioner
+## customize PV spec used for nfs-server provisioner
 ## ref: https://kubernetes.io/docs/concepts/storage/persistent-volumes/
 ##
 nfsPv:

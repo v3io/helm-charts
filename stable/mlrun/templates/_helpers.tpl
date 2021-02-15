@@ -78,6 +78,17 @@ Auto-resolve to allow dynamic behavior for open-source mlrun-kit
 {{- end -}}
 {{- end -}}
 
+{{- define "mlrun.ui.nuclio.uiURL" -}}
+{{- if .Values.nuclio.uiURL }}
+{{- .Values.nuclio.uiURL -}}
+{{/* Note .Values.nuclio.dashboard.nodePort is referring directly to nuclio chart values */}}
+{{- else if and .Values.global.externalAddress .Values.nuclio.dashboard.nodePort -}}
+{{- printf "http://%s:%s" .Values.global.externalAddress .Values.nuclio.dashboard.nodePort -}}
+{{- else -}}
+{{- printf "http://example-nuclio-ui:1234" .Values.global.externalAddress .Values.nuclio.dashboard.nodePort -}}
+{{- end -}}
+{{- end -}}
+
 {{/*
 Create chart name and version as used by the chart label.
 */}}

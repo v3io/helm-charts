@@ -37,7 +37,7 @@ spec:
             value: {{ .Values.nuclio.mode }}
           {{- if eq .Values.nuclio.mode "enabled" }}
           - name: MLRUN_NUCLIO_UI_URL
-            value: {{ .Values.nuclio.uiURL }}
+            value: {{ include "mlrun.ui.nuclio.uiURL" . }}
           - name: MLRUN_NUCLIO_API_URL
             value: {{ include "mlrun.ui.nuclio.apiURL" . }}
           {{- end }}
