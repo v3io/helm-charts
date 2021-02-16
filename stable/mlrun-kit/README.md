@@ -52,8 +52,8 @@ $ helm --namespace mlrun \
 The Open source MLRun kit uses node ports for simplicity. If your kubernetes cluster is running inside a VM, 
 as is the case when using minikube, the kubernetes services exposed over node ports would not be available on 
 your local interface, but instead, on the virtual machine's interface.
-To accommodate for this For this, use the `global.externalHostAddress` value on the chart. For example, if 
-you're using the kit inside a minikube cluster, pass the VM address in the chart installation command like so:
+To accommodate for this, use the `global.externalHostAddress` value on the chart. For example, if you're using 
+the kit inside a minikube cluster, pass the VM address in the chart installation command like so:
 
 ```bash
 $ helm --namespace mlrun \
