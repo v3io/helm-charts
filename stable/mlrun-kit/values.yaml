@@ -1,14 +1,8 @@
 # We use global values scope to multiplex the docker-registry details to both mlrun and nuclio
 global:
-
-  # External host/ip to reach the k8s node. This might take various values if k8s is run in a VM or a cloud env
-  externalHostAddress: localhost
   registry:
     url: mustprovide
     secretName: mustprovide
-  nuclio:
-    dashboard:
-      nodePort: 30050
 
 nuclio:
 
@@ -20,7 +14,7 @@ nuclio:
       tag: 1.5.16-amd64
   dashboard:
     enabled: true
-    nodePort: 30050
+    nodePort: 30060
     image:
       tag: 1.5.16-amd64
   autoscaler:
@@ -51,6 +45,7 @@ mlrun:
   fullnameOverride: mlrun
   nuclio:
     mode: enabled
+    uiURL: http://localhost:30060
   rbac:
     create: true
   v3io:
@@ -59,9 +54,6 @@ mlrun:
     fullnameOverride: mlrun-api
     image:
       tag: 0.6.0
-    service:
-      type: NodePort
-      nodePort: 30070
     volumes:
       storageOverride:
         persistentVolumeClaim:
@@ -70,7 +62,7 @@ mlrun:
     fullnameOverride: mlrun-ui
     service:
       type: NodePort
-      nodePort: 30060
+      nodePort: 30050
     image:
       tag: 0.6.0
 
@@ -88,9 +80,7 @@ jupyterNotebook:
     repository: quay.io/mlrun/jupyter
     tag: 0.6.0
     pullPolicy: IfNotPresent
-  # use this to override mlrunUIURL, by default it will be auto-resolved to externalHostAddress and
-  # mlrun UI's node port
-  mlrunUIURL:
+  mlrunUIURL: "http://127.0.0.1:30050"
 
 mpi-operator:
   nameOverride: mpi-operator
@@ -104,7 +94,7 @@ mpi-operator:
   deployment:
     create: true
 
-## customize PV spec used for nfs-server provisioner
+## Customize PV spec used for nfs-server provisioner
 ## ref: https://kubernetes.io/docs/concepts/storage/persistent-volumes/
 ##
 nfsPv:

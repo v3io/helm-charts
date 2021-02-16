@@ -52,7 +52,7 @@ spec:
         - name: MLRUN_DBPATH
           value: {{ printf "http://%s:%s" (include "mlrun-kit.mlrun.api.fullname" .) (include "mlrun-kit.mlrun.api.port" .) }}
         - name: MLRUN_UI_URL
-          value: {{ template "mlrun-kit.jupyter.mlrunUIURL" . }}
+          value: {{ .Values.jupyterNotebook.mlrunUIURL }}
         - name: MLRUN_MPIJOB_CRD_VERSION
           value: {{ index .Values "mpi-operator" "crd" "version" }}
         - name: MLRUN_ARTIFACT_PATH
