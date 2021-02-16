@@ -190,7 +190,9 @@ defaultDockerRegistrySecretName: ""
 nuclio:
   mode: disabled
   # Used by MLRun UI for showing links to Nuclio UI
-  uiURL: http://example-nuclio-ui:8070
+  # This is resolved automatically for mlrun-kit or can be overridden explicitly
+  # example: http://example-nuclio-ui:8070
+  uiURL:
 
   # Used by MLRun API/UI to access nuclio API to manipulate nuclio resources
   # This is resolved automatically for mlrun-kit or can be overridden explicitly
@@ -199,6 +201,10 @@ nuclio:
 
 # global is a stanza that is used if this is used as a subchart. Ignore otherwise
 global:
+  externalHostAddress:
   registry:
     url:
     secretName:
+  nuclio:
+    dashboard:
+      nodePort:
