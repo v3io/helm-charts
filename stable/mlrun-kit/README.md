@@ -48,17 +48,33 @@ $ helm --namespace mlrun \
     v3io-stable/mlrun-kit
 ```
 
-### Install Kubeflow
+## Installing MLRun-kit on minikube
+The Open source MLRun kit uses node ports for simplicity. If your kubernetes cluster is running inside a VM, 
+as is the case when using minikube, the kubernetes services exposed over node ports would not be available on 
+your local interface, but instead, on the virtual machine's interface.
+To accommodate for this, use the `global.externalHostAddress` value on the chart. For example, if you're using 
+the kit inside a minikube cluster, pass the VM address in the chart installation command like so:
 
-MLRun enables you to run your functions while saving outputs and artifacts in a way that is visible to Kubeflow Pipelines.
-If you wish to use this capability you will need to install Kubeflow on your cluster.
-Refer to the [**Kubeflow documentation**](https://www.kubeflow.org/docs/started/getting-started/) for more information.
+```bash
+$ helm --namespace mlrun \
+    install my-mlrun \
+    --wait \
+    --set global.registry.url=<registry URL e.g. index.docker.io/iguazio > \
+    --set global.registry.secretName=registry-credentials \
+    --set global.externalHostAddress=$(minikube ip) \
+    v3io-stable/mlrun-kit
+```
+
 
 ### Usage
 Your applications are now available in your local browser:
 - jupyter-notebook - http://localhost:30040
 - nuclio - http://localhost:30050
-- mlrun - http://locahost:30060
+- mlrun UI - http://locahost:30060
+- mlrun API (external) - http://locahost:30070
+> **Note:**
+> The above links assume your Kubernetes cluster is exposed on localhost.
+> If that's not the case, the different components will be available on `externalHostAddress`
 
 ### Start Working
 
@@ -68,6 +84,7 @@ Your applications are now available in your local browser:
 > **Note:**
 > - You can change the ports by providing values to the helm install command.
 > - You can add and configure a k8s ingress-controller for better security and control over external access.
+
 
 ## Advanced Chart Configuration
 Configurable values are documented in the `values.yaml`, and the `values.yaml` of all sub charts. 
@@ -118,3 +135,9 @@ $ kubectl --namespace mlrun delete pvc <pv-name>
 $ rm -rf my-mlrun-mlrun-kit-mlrun
 ...
 ```
+
+### Using Kubeflow Pipelines
+
+MLRun enables you to run your functions while saving outputs and artifacts in a way that is visible to Kubeflow Pipelines.
+If you wish to use this capability you will need to install Kubeflow on your cluster.
+Refer to the [**Kubeflow documentation**](https://www.kubeflow.org/docs/started/getting-started/) for more information.
