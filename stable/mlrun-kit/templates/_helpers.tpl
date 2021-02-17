@@ -28,6 +28,15 @@ Create fully qualified names.
 {{- printf "%s-pvc"  (include "mlrun-kit.jupyter.fullname" .) | trunc 63 | trimSuffix "-" -}}
 {{- end -}}
 
+{{- define "mlrun-kit.jupyter.mlrunUIURL" -}}
+{{- if .Values.jupyterNotebook.mlrunUIURL -}}
+{{- .Values.jupyterNotebook.mlrunUIURL -}}
+{{- else -}}
+{{- printf "http://%s:%s" .Values.global.externalHostAddress (.Values.mlrun.ui.service.nodePort | toString) -}}
+{{- end -}}
+{{- end -}}
+
+
 {{/*
 Copied over from mlrun chart to duplicate the logic without constraining the values
 */}}
