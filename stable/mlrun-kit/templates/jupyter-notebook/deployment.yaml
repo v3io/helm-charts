@@ -28,6 +28,7 @@ spec:
         runAsGroup: 100
         fsGroup: 100
       initContainers:
+{{- if .Values.jupyterNotebook.persistency.enabled }}
       - name: init-chown-data
         # jupyter default NB user: uid=1000(jovyan) gid=100(users) groups=100(users)
         command: ["chown", "-R", "1000:100", "/home/jovyan/data"]
@@ -38,6 +39,7 @@ spec:
         volumeMounts:
         - mountPath: /home/jovyan/data
           name: notebooks
+{{- end }}
       containers:
       - name: jupyter-notebook
         image: "{{ .Values.jupyterNotebook.image.repository }}:{{ .Values.jupyterNotebook.image.tag }}"
@@ -63,9 +65,11 @@ spec:
           value: "yes"
         - name: CHOWN_HOME_OPTS
           value: "-R"
+{{- if .Values.jupyterNotebook.persistency.enabled }}
         volumeMounts:
         - mountPath: /home/jovyan/data
           name: notebooks
+{{- end }}
         ports:
         - containerPort: 8888
         command: [ "start-notebook.sh" ]
@@ -75,7 +79,9 @@ spec:
         - --NotebookApp.token=''
         - --NotebookApp.password=''
         - --NotebookApp.default_url="/lab"
+{{- if .Values.jupyterNotebook.persistency.enabled }}
       volumes:
       - name: notebooks
         persistentVolumeClaim:
           claimName: {{ template "mlrun-kit.jupyter-pvc.fullname" . }}
+{{- end }}
