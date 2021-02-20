@@ -91,6 +91,17 @@ jupyterNotebook:
   # use this to override mlrunUIURL, by default it will be auto-resolved to externalHostAddress and
   # mlrun UI's node port
   mlrunUIURL:
+  persistency:
+    enabled: true
+    pvc:
+      create: true
+      spec:
+        storageClassName: nfs
+        accessModes:
+        - ReadWriteMany
+        resources:
+          requests:
+            storage: 1Gi
 
 mpi-operator:
   nameOverride: mpi-operator
