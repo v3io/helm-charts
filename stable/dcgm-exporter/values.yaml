@@ -14,8 +14,8 @@ imagePullSecrets: []
 nameOverride: ""
 fullnameOverride: ""
 
-# A string representing which metrics to collect (a CSV according to DCGM's standard format)
-customExporterMetrics: ""
+# A boolean, determines whether to use the custom exporter metrics (when false, exports DCGM's default metrics)
+customExporterMetrics: true
 
 serviceAccount:
   # Specifies whether a service account should be created
