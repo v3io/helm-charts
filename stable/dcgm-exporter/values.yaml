@@ -14,8 +14,8 @@ imagePullSecrets: []
 nameOverride: ""
 fullnameOverride: ""
 
-# When true - export only custom metrics (defined on a configmap inside /templates)
-exportCustomMetrics: true
+# DCGM exporter metrics config that describes which metrics to export (use default config when empty)
+customExporterMetrics:
 
 serviceAccount:
   # Specifies whether a service account should be created

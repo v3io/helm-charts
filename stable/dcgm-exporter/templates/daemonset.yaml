@@ -25,10 +25,6 @@ spec:
         {{- toYaml . | nindent 8 }}
       {{- end }}
       serviceAccountName: {{ include "dcgm-exporter.serviceAccountName" . }}
-      {{- if .Values.securityContext }}
-      securityContext:
-        {{- toYaml .Values.securityContext | nindent 8 }}
-      {{- end }}
       affinity:
         nodeAffinity:
           requiredDuringSchedulingIgnoredDuringExecution:
@@ -52,7 +48,7 @@ spec:
       - name: "pod-gpu-resources"
         hostPath:
           path: "/var/lib/kubelet/pod-resources"
-      {{- if .Values.exportCustomMetrics }}
+      {{- if .Values.customExporterMetrics }}
       - name: "custom-exporter-metrics"
         configMap:
           name: {{ include "dcgm-exporter.fullname" . }}-custom-exporter-metrics
@@ -64,8 +60,10 @@ spec:
       {{- end }}
       containers:
       - name: exporter
+        {{- if .Values.securityContext }}
         securityContext:
           {{- toYaml .Values.securityContext | nindent 10 }}
+        {{- end }}
         {{- if .Values.image.tag }}
         image: "{{ .Values.image.repository }}:{{ .Values.image.tag }}"
         {{- else }}
@@ -73,7 +71,7 @@ spec:
         {{- end }}
         imagePullPolicy: "{{ .Values.image.pullPolicy }}"
         args:
-        {{- if .Values.exportCustomMetrics }}
+        {{- if .Values.customExporterMetrics }}
         - "-f"
         - "/etc/dcgm-exporter/custom-exporter-metrics.csv"
         {{- else }}
@@ -96,7 +94,7 @@ spec:
         - name: "pod-gpu-resources"
           readOnly: true
           mountPath: "/var/lib/kubelet/pod-resources"
-        {{- if .Values.exportCustomMetrics }}
+        {{- if .Values.customExporterMetrics }}
         - name: "custom-exporter-metrics"
           mountPath: "/etc/dcgm-exporter/"
         {{- end }}
