@@ -1,4 +1,5 @@
-{{- if .Values.customExporterMetrics }}
+{{- if .Values.exportCustomMetrics }}
+
 apiVersion: v1
 kind: ConfigMap
 metadata:
