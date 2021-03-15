@@ -1,0 +1,13 @@
+{{- if .Values.customExporterMetrics }}
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: {{ include "dcgm-exporter.fullname" . }}-custom-exporter-metrics
+  namespace: {{ .Release.Namespace }}
+  labels:
+    {{- include "dcgm-exporter.labels" . | nindent 4 }}
+    app.kubernetes.io/component: "dcgm-exporter"
+data:
+  custom-exporter-metrics.csv: |
+{{ .Values.customExporterMetrics | indent 4 }}
+{{- end }}
