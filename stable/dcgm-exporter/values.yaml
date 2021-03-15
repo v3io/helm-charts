@@ -1,0 +1,73 @@
+image:
+  repository: nvcr.io/nvidia/k8s/dcgm-exporter
+  pullPolicy: IfNotPresent
+  # Image tag defaults to AppVersion, but you can use the tag key
+  # for the image tag, e.g:
+  tag: 2.1.4-2.3.1-ubuntu18.04
+
+# Comment the following line to stop profiling metrics from DCGM
+arguments: ["-f", "/etc/dcgm-exporter/dcp-metrics-included.csv"]
+# Use "-r", "<HOST>:<PORT>" to connect to an already running hostengine
+# Example arguments: ["-r", "host123:5555"]
+
+imagePullSecrets: []
+nameOverride: ""
+fullnameOverride: ""
+
+# DCGM exporter metrics config that describes which metrics to export (use default config when empty)
+customExporterMetrics:
+
+serviceAccount:
+  # Specifies whether a service account should be created
+  create: true
+  # Annotations to add to the service account
+  annotations: {}
+  # The name of the service account to use.
+  # If not set and create is true, a name is generated using the fullname template
+  name:
+
+gpuNodeSelectors:
+  - feature.node.kubernetes.io/pci-10de.present
+
+securityContext:
+  runAsNonRoot: false
+  runAsUser: 0
+  capabilities:
+     add: ["SYS_ADMIN"]
+  # readOnlyRootFilesystem: true
+
+service:
+  type: ClusterIP
+  port: 9400
+  address: ":9400"
+  # Annotations to add to the service
+  annotations: {}
+
+resources: {}
+  # limits:
+  #   cpu: 100m
+  #   memory: 128Mi
+  # requests:
+  #   cpu: 100m
+  #   memory: 128Mi
+
+mapPodsMetrics: false
+
+nodeSelector: {}
+  #node: gpu
+
+tolerations: []
+#- operator: Exists
+
+extraHostVolumes: []
+#- name: host-binaries
+#  hostPath: /opt/bin
+
+extraVolumeMounts: []
+#- name: host-binaries
+#  mountPath: /opt/bin
+#  readOnly: true
+
+extraEnv: []
+#- name: EXTRA_VAR
+#  value: "TheStringValue"
