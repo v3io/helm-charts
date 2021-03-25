@@ -169,6 +169,9 @@ ui:
 rbac:
   create: true
 
+  # A list of namespaces that the api will also get resources access to
+  additionalManagedNamespaces: []
+
 serviceAccounts:
   api:
     create: true
