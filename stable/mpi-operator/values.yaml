@@ -10,6 +10,9 @@ rbac:
   namespaced:
     create: true
 
+  # A list of namespaces that the operator will also get resources access to
+  additionalManagedNamespaces: []
+
 deployment:
   create: true
 
