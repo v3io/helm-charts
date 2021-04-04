@@ -17,6 +17,9 @@ rbac:
     create: false
   namespaced:
     create: false
+
+  # A list of namespaces that the operator will also get resources access to
+  additionalManagedNamespaces: []
   clusterRoleName:
 
 serviceAccounts:

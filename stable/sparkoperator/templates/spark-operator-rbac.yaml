@@ -16,10 +16,9 @@ rules:
 ---
 {{- if .Values.rbac.namespaced.create }}
 apiVersion: rbac.authorization.k8s.io/v1
-kind: Role
+kind: ClusterRole
 metadata:
-  name: {{ include "sparkoperator.fullname" . }}-r
-  namespace: {{ .Release.Namespace }}
+  name: {{ include "sparkoperator.fullname" . }}
   labels:
     app.kubernetes.io/name: {{ include "sparkoperator.name" . }}
     helm.sh/chart: {{ include "sparkoperator.chart" . }}
@@ -60,10 +59,13 @@ rules:
   verbs: ["*"]
   {{- end }}
 ---
+# append empty namespace so a role binding to current namespace will always be created
+{{- range (append .Values.rbac.additionalManagedNamespaces "") }}
 apiVersion: rbac.authorization.k8s.io/v1
 kind: RoleBinding
 metadata:
   name: {{ include "sparkoperator.fullname" . }}-rb
+  namespace: {{ . }}
   labels:
     app.kubernetes.io/name: {{ include "sparkoperator.name" . }}
     helm.sh/chart: {{ include "sparkoperator.chart" . }}
@@ -72,11 +74,12 @@ metadata:
 subjects:
   - kind: ServiceAccount
     name: {{ include "sparkoperator.serviceAccountName" . }}
-    namespace: {{ .Release.Namespace }}
+    namespace: {{ . }}
 roleRef:
-  kind: Role
-  name: {{ include "sparkoperator.fullname" . }}-r
+  kind: ClusterRole
+  name: {{ include "sparkoperator.fullname" . }}
   apiGroup: rbac.authorization.k8s.io
+{{- end }}
 {{- end }}
 ---
 {{- if .Values.rbac.clusterNamespaceResources.create }}
