@@ -1,5 +1,4 @@
 {{- if .Values.rbac.namespaced.create }}
-
 # append empty namespace for the current namespace
 {{- range (append .Values.rbac.additionalManagedNamespaces "") }}
 kind: RoleBinding
@@ -22,5 +21,4 @@ subjects:
   namespace: {{ $.Release.Namespace }}
 ---
 {{- end }}
-
 {{- end }}
