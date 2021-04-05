@@ -1,22 +1,20 @@
 {{- if .Values.rbac.create -}}
-
 # append empty namespace for the current namespace
 {{- range (append .Values.rbac.additionalManagedNamespaces "") }}
 apiVersion: rbac.authorization.k8s.io/v1
 kind: RoleBinding
 metadata:
-  name: {{ template "mlrun.api.fullname" . }}
+  name: {{ include "mlrun.api.fullname" $ }}
   namespace: {{ . }}
   labels:
-{{ include "mlrun.api.labels" . | nindent 4 }}
+{{ include "mlrun.api.labels" $ | nindent 4 }}
 roleRef:
   apiGroup: rbac.authorization.k8s.io
   kind: ClusterRole
-  name: {{ template "mlrun.api.fullname" . }}
+  name: {{ include "mlrun.api.fullname" $ }}
 subjects:
 - kind: ServiceAccount
-  name: {{ template "mlrun.serviceAccountName.api" . }}
+  name: {{ include "mlrun.serviceAccountName.api" $ }}
 ---
 {{- end }}
-
 {{- end -}}
