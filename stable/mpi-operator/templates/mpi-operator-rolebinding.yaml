@@ -1,32 +1,25 @@
 {{- if .Values.rbac.namespaced.create }}
-{{- $releaseName := .Release.Name }}
-{{- $releaseNamespace := .Release.Namespace }}
-{{- $releaseService := .Release.Service }}
-{{- $mpiOperatorName := include "mpi-operator.name" . }}
-{{- $mpiOperatorChart := include "mpi-operator.chart" . }}
-{{- $mpiOperatorClusterRoleName := include "mpi-operator.clusterRoleName" . }}
-{{- $mpiOperatorServiceAccountName := include "mpi-operator.serviceAccountName" . }}
 
 # append empty namespace for the current namespace
 {{- range (append .Values.rbac.additionalManagedNamespaces "") }}
 kind: RoleBinding
 apiVersion: rbac.authorization.k8s.io/v1
 metadata:
-  name: {{ $releaseName }}
+  name: {{ $.Release.Name }}
   namespace: {{ . }}
   labels:
-    app: {{ $mpiOperatorName }}
-    chart: {{ $mpiOperatorChart }}
-    release: {{ $releaseName }}
-    heritage: {{ $releaseService }}
+    app: {{ include "mpi-operator.name" $ }}
+    chart: {{ include "mpi-operator.chart" $ }}
+    release: {{ $.Release.Name }}
+    heritage: {{ $.Release.Service }}
 roleRef:
   apiGroup: rbac.authorization.k8s.io
   kind: ClusterRole
-  name: {{ $mpiOperatorClusterRoleName }}
+  name: {{ include "mpi-operator.clusterRoleName" $ }}
 subjects:
 - kind: ServiceAccount
-  name: {{ $mpiOperatorServiceAccountName }}
-  namespace: {{ $releaseNamespace }}
+  name: {{ include "mpi-operator.serviceAccountName" $ }}
+  namespace: {{ $.Release.Namespace }}
 ---
 {{- end }}
 
