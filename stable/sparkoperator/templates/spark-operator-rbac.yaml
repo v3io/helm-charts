@@ -12,9 +12,7 @@ rules:
 - apiGroups: ["admissionregistration.k8s.io"]
   resources: ["mutatingwebhookconfigurations", "validatingwebhookconfigurations"]
   verbs: ["create", "get", "update", "delete"]
-{{- end }}
 ---
-{{- if .Values.rbac.namespaced.create }}
 apiVersion: rbac.authorization.k8s.io/v1
 kind: ClusterRole
 metadata:
@@ -58,7 +56,9 @@ rules:
   resources: ["podgroups"]
   verbs: ["*"]
   {{- end }}
+{{- end }}
 ---
+{{- if .Values.rbac.namespaced.create }}
 # append empty namespace for the current namespace
 {{- range (append .Values.rbac.additionalManagedNamespaces "") }}
 apiVersion: rbac.authorization.k8s.io/v1
