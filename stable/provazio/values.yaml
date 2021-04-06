@@ -112,6 +112,11 @@ controller:
 
   controlAccessKey: ""
 
+  rbac:
+
+    # list of namespaces that the api will also get resources access to
+    additionalManagedNamespaces: []
+
   crd:
     create: true
     kinds:

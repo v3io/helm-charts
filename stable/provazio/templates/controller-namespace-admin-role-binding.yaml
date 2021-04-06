@@ -5,22 +5,26 @@
 # helm charts which are under the namespace's tiller service account. This binds the service
 # account to the role allowing this
 
+# append empty namespace for the current namespace
+{{- range (append .Values.rbac.additionalManagedNamespaces "") }}
 kind: RoleBinding
 apiVersion: rbac.authorization.k8s.io/v1
 metadata:
-  name: {{ template "provazio.controller.name" . }}-namespace-admin
+  name: {{ include "provazio.controller.name" $ }}-namespace-admin
+  namespace: {{ . }}
   labels:
-    app: {{ template "provazio.name" . }}
-    chart: {{ template "provazio.chart" . }}
+    app: {{ include "provazio.name" $ }}
+    chart: {{ include "provazio.chart" $ }}
     release: {{ .Release.Name }}
     heritage: {{ .Release.Service }}
     component: controller
 subjects:
 - kind: ServiceAccount
-  name: {{ template "provazio.controller.name" . }}
+  name: {{ include "provazio.controller.name" $ }}
 roleRef:
-  kind: Role
-  name: {{ template "provazio.controller.name" . }}-namespace-admin
+  kind: ClusterRole
+  name: {{ include "provazio.controller.name" $ }}-namespace-admin
   apiGroup: rbac.authorization.k8s.io
+{{- end }}
 
 {{- end }}
