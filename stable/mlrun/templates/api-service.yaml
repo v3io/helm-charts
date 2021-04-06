@@ -1,3 +1,4 @@
+{{- if .Values.service.create }}
 apiVersion: v1
 kind: Service
 metadata:
@@ -36,3 +37,4 @@ spec:
 {{ end }}
   selector:
     {{- include "mlrun.api.selectorLabels" . | nindent 4 }}
+{{- end }}

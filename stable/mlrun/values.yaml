@@ -166,8 +166,17 @@ ui:
   # runAsNonRoot: true
   # runAsUser: 1000
 
-rbac:
+service:
   create: true
+
+deployment:
+  create: true
+
+rbac:
+  clusterResources:
+    create: false
+  namespaced:
+    create: true
 
   # A list of namespaces that the api will also get resources access to
   additionalManagedNamespaces: []
