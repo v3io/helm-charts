@@ -6,7 +6,7 @@
 # account to the role allowing this
 
 # append empty namespace for the current namespace
-{{- range (append .Values.rbac.additionalManagedNamespaces "") }}
+{{- range (append .Values.controller.rbac.additionalManagedNamespaces "") }}
 kind: RoleBinding
 apiVersion: rbac.authorization.k8s.io/v1
 metadata:
@@ -15,8 +15,8 @@ metadata:
   labels:
     app: {{ include "provazio.name" $ }}
     chart: {{ include "provazio.chart" $ }}
-    release: {{ .Release.Name }}
-    heritage: {{ .Release.Service }}
+    release: {{ $.Release.Name }}
+    heritage: {{ $.Release.Service }}
     component: controller
 subjects:
 - kind: ServiceAccount
