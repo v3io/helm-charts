@@ -21,7 +21,7 @@ metadata:
 subjects:
 - kind: ServiceAccount
   name: {{ include "provazio.controller.name" $ }}
-  release: {{ $.Release.Namespace }}
+  namespace: {{ $.Release.Namespace }}
 roleRef:
   kind: ClusterRole
   name: {{ include "provazio.controller.name" $ }}-namespace-admin
