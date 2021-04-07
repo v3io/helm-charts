@@ -15,6 +15,7 @@ roleRef:
 subjects:
 - kind: ServiceAccount
   name: {{ include "mlrun.serviceAccountName.api" $ }}
+  namespace: $.Release.Namespace
 ---
 {{- end }}
 {{- end -}}
