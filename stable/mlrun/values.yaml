@@ -113,6 +113,9 @@ ui:
     port: 80
     targetPort: 80
 
+  deployment:
+    enabled: false
+
   ingress:
     enabled: false
     annotations: {}
