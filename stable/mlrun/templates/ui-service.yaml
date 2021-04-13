@@ -38,3 +38,4 @@ spec:
   selector:
     {{- include "mlrun.ui.selectorLabels" . | nindent 4 }}
 {{- end }}
+
