@@ -11,7 +11,7 @@
 
 
 # append empty namespace for the current namespace
-{{- range (append .Values.rbac.additionalManagedNamespaces "") }}
+{{- range $managedNamespaces }}
 apiVersion: rbac.authorization.k8s.io/v1
 kind: RoleBinding
 metadata:
