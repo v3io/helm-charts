@@ -1,6 +1,16 @@
 {{- if .Values.rbac.namespaced.create }}
+
+# create a full list of managed namesapces (append current namespace with additionalManagedNamespaces)
+# done this way as a workaround for the helm bug, which translates {}->{""} when passing empty list on cli
+{{- $managedNamespaces := list }}
+{{- if and (eq (len .Values.rbac.additionalManagedNamespaces) 1) (has "" .Values.rbac.additionalManagedNamespaces) }}
+{{- $managedNamespaces = list .Release.Namespace }}
+{{- else }}
+{{- $managedNamespaces = append .Values.rbac.additionalManagedNamespaces .Release.Namespace }}
+{{- end }}
+
 # append empty namespace for the current namespace
-{{- range (append .Values.rbac.additionalManagedNamespaces "") }}
+{{- range $managedNamespaces }}
 kind: RoleBinding
 apiVersion: rbac.authorization.k8s.io/v1
 metadata:
