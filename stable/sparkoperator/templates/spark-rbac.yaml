@@ -29,8 +29,17 @@ rules:
   - "*"
 {{- end }}
 {{- if and (.Values.rbac.namespaced.create) (ne .Values.sparkJobNamespace "") }}
-# append empty namespace so a role binding to current namespace will always be created
-{{- range (append .Values.rbac.additionalManagedNamespaces "") }}
+
+# create a full list of managed namesapces (append current namespace with additionalManagedNamespaces)
+# done this way as a workaround for the helm bug, which translates {}->{""} when passing empty list on cli
+{{- $managedNamespaces := list }}
+{{- if and (eq (len .Values.rbac.additionalManagedNamespaces) 1) (has "" .Values.rbac.additionalManagedNamespaces) }}
+{{- $managedNamespaces = list .Release.Namespace }}
+{{- else }}
+{{- $managedNamespaces = append .Values.rbac.additionalManagedNamespaces .Release.Namespace }}
+{{- end }}
+
+{{- range $managedNamespaces }}
 ---
 apiVersion: rbac.authorization.k8s.io/v1
 kind: RoleBinding
