@@ -79,10 +79,10 @@ spec:
           ports:
             - containerPort: {{ .Values.servicePort }}
               name: jupyter
-      resources:
+          resources:
 {{ toYaml .Values.resources | indent 8 }}
 {{- if .Values.nodeSelector }}
-          nodeSelector:
+      nodeSelector:
 {{ toYaml .Values.nodeSelector | indent 8 }}
 {{- end }}
 {{- if .Values.affinity }}
