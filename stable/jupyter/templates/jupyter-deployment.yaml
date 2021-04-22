@@ -80,7 +80,7 @@ spec:
             - containerPort: {{ .Values.servicePort }}
               name: jupyter
           resources:
-{{ toYaml .Values.resources | indent 8 }}
+{{ toYaml .Values.resources | indent 12 }}
 {{- if .Values.nodeSelector }}
       nodeSelector:
 {{ toYaml .Values.nodeSelector | indent 8 }}
