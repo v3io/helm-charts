@@ -81,6 +81,18 @@ spec:
               name: jupyter
           resources:
 {{ toYaml .Values.resources | indent 12 }}
+{{- if .Values.nodeSelector }}
+          nodeSelector:
+{{ toYaml .Values.nodeSelector | indent 12 }}
+{{- end }}
+{{- if .Values.affinity }}
+          affinity:
+{{ toYaml .Values.affinity | indent 12 }}
+{{- end }}
+{{- if .Values.tolerations }}
+          tolerations:
+{{ toYaml .Values.tolerations | indent 12 }}
+{{- end }}
           livenessProbe:
             exec:
               command:
