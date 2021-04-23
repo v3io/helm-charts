@@ -27,13 +27,6 @@ spec:
         # a failure.  This annotation works in tandem with the toleration below.
         scheduler.alpha.kubernetes.io/critical-pod: ""
     spec:
-      tolerations:
-      - key: node-role.kubernetes.io/master
-        effect: NoSchedule
-      # Allow this pod to be rescheduled while the node is in "critical add-ons only" mode.
-      # This, along with the annotation above marks this pod as a critical add-on.
-      - key: CriticalAddonsOnly
-        operator: Exists
       securityContext:
         runAsUser: 0
         fsGroup: 0
@@ -101,3 +94,15 @@ spec:
         - name: core-dump
           hostPath:
             path: /var/crash/{{ .Release.Namespace }}
+{{- with .Values.v3iod.nodeSelector }}
+      nodeSelector:
+{{ toYaml . | indent 8 }}
+{{- end }}
+{{- with .Values.v3iod.tolerations }}
+      tolerations:
+{{ toYaml . | indent 8 }}
+{{- end }}
+{{- with .Values.v3iod.affinity }}
+      affinity:
+{{ toYaml . | indent 8 }}
+{{- end }}

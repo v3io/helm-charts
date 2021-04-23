@@ -43,3 +43,15 @@ spec:
               valueFrom:
                 fieldRef:
                   fieldPath: metadata.namespace
+{{- with .Values.locator.nodeSelector }}
+      nodeSelector:
+{{ toYaml . | indent 8 }}
+{{- end }}
+{{- with .Values.locator.tolerations }}
+      tolerations:
+{{ toYaml . | indent 8 }}
+{{- end }}
+{{- with .Values.locator.affinity }}
+      affinity:
+{{ toYaml . | indent 8 }}
+{{- end }}
