@@ -125,6 +125,10 @@ locator:
     tag: 3.0.0
     pullPolicy: IfNotPresent
 
+  resources:
+    requests:
+      memory: "100Mi"
+
   ## Node labels for pod assignment
   ## Ref: https://kubernetes.io/docs/user-guide/node-selection/
   ##
