@@ -21,4 +21,17 @@ spec:
         image: {{ .Values.operatorImageName }}:{{ .Values.operatorVersion }}
         imagePullPolicy: {{ .Values.imagePullPolicy }}
         command: ["/usr/bin/gencerts.sh", "-n", "{{ .Release.Namespace }}", "-s", "{{ .Release.Name }}-webhook", "-p"]
-{{ end }}
+            {{- if .Values.resources }}
+      {{- with .Values.affinity }}
+      nodeSelector:
+{{ toYaml .Values.nodeSelector | indent 8 }}
+      {{- end }}
+      {{- with .Values.affinity }}
+      affinity:
+{{ toYaml . | indent 8 }}
+      {{- end }}
+      {{- with .Values.tolerations }}
+      tolerations:
+{{ toYaml . | indent 8 }}
+      {{- end }}
+{{- end }}
