@@ -26,6 +26,9 @@ spec:
         component: vault
       annotations:
         checksum/env-spec: {{ include (print $.Template.BasePath "/vault-env-spec-configmap.yaml") . | sha256sum }}
+{{- with .Values.vault.podAnnotations }}
+{{ toYaml . | trim | indent 8 }}
+{{- end }}
     spec:
       serviceAccountName: {{ template "provazio.vault.name" . }}
       containers:
@@ -43,6 +46,10 @@ spec:
           name: {{ template "provazio.vault.name" . }}-env-spec
         - mountPath: /var/provazio/vault
           name: {{ template "provazio.vault.name" . }}-persistency
+{{- with .Values.vault.resources }}
+        resources:
+{{ toYaml . | indent 10 }}
+{{- end }}
       volumes:
       - name: {{ template "provazio.vault.name" . }}-env-spec
         configMap:
@@ -54,5 +61,16 @@ spec:
 {{- else }}
         emptyDir: {}
 {{- end }}
-
+{{- with .Values.vault.nodeSelector }}
+      nodeSelector:
+{{ toYaml . | indent 8 }}
+{{- end }}
+{{- with .Values.vault.affinity }}
+      affinity:
+{{ toYaml . | indent 8 }}
+{{- end }}
+{{- with .Values.vault.tolerations }}
+      tolerations:
+{{ toYaml . | indent 8 }}
+{{- end }}
 {{- end }}

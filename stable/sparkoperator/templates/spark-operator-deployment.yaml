@@ -104,9 +104,9 @@ spec:
         resources:
 {{ toYaml .Values.resources | indent 10 }}
         {{- end }}
-      {{- if .Values.nodeSelector }}
+      {{- with .Values.nodeSelector }}
       nodeSelector:
-{{ toYaml .Values.nodeSelector | indent 8 }}
+{{ toYaml . | indent 8 }}
       {{- end }}
       {{- with .Values.affinity }}
       affinity:

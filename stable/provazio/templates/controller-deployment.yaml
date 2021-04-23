@@ -27,6 +27,9 @@ spec:
       annotations:
         checksum/system-config: {{ include (print $.Template.BasePath "/controller-system-config-configmap.yaml") . | sha256sum }}
         checksum/artifact-version-manifest: {{ include (print $.Template.BasePath "/controller-artifact-version-manifest-configmap.yaml") . | sha256sum }}
+{{- with .Values.controller.podAnnotations }}
+{{ toYaml . | trim | indent 8 }}
+{{- end }}
     spec:
       serviceAccountName: {{ template "provazio.controller.name" . }}
       containers:
@@ -60,6 +63,10 @@ spec:
             name: system-config
 {{- end }}
 {{- end }}
+{{- with .Values.controller.resources }}
+        resources:
+{{ toYaml . | indent 10 }}
+{{- end }}
 
 {{- if or .Values.controller.artifactVersionManifestContents .Values.controller.systemConfigContents }}
       volumes:
@@ -73,6 +80,19 @@ spec:
           configMap:
             name: {{ template "provazio.controller.name" . }}-system-config
 {{- end }}
+{{- end }}
+
+{{- with .Values.controller.nodeSelector }}
+      nodeSelector:
+{{ toYaml . | indent 8 }}
+{{- end }}
+{{- with .Values.controller.affinity }}
+      affinity:
+{{ toYaml . | indent 8 }}
+{{- end }}
+{{- with .Values.controller.tolerations }}
+      tolerations:
+{{ toYaml . | indent 8 }}
 {{- end }}
 
 {{- end }}
