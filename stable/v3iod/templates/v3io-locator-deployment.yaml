@@ -36,10 +36,21 @@ spec:
           ports:
             - containerPort: 8080
           resources:
-            requests:
-              memory: "100Mi"
+{{ toYaml .Values.v3iod.resources | indent 12 }}
           env:
             - name: CURRENT_NAMESPACE
               valueFrom:
                 fieldRef:
                   fieldPath: metadata.namespace
+{{- with .Values.locator.nodeSelector }}
+      nodeSelector:
+{{ toYaml . | indent 8 }}
+{{- end }}
+{{- with .Values.locator.tolerations }}
+      tolerations:
+{{ toYaml . | indent 8 }}
+{{- end }}
+{{- with .Values.locator.affinity }}
+      affinity:
+{{ toYaml . | indent 8 }}
+{{- end }}
