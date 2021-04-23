@@ -41,3 +41,15 @@ spec:
             - --scale-interval={{ .Values.scaler.image.scaleInterval }}
             - --metrics-resource-kind={{ .Values.scaler.image.metricsResourceKind }}
             - --metrics-resource-group={{ .Values.scaler.image.metricsResourceGroup }}
+{{- with .Values.nodeSelector }}
+      nodeSelector:
+{{ toYaml . | indent 8 }}
+{{- end }}
+{{- with .Values.tolerations }}
+      tolerations:
+{{ toYaml . | indent 8 }}
+{{- end }}
+{{- with .Values.affinity }}
+      affinity:
+{{ toYaml . | indent 8 }}
+{{- end }}

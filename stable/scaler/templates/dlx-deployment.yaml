@@ -43,3 +43,15 @@ spec:
             - --target-port={{ .Values.dlx.image.targetPort }}
             - --listen-address={{ .Values.dlx.image.listenAddress }}
             - --resource-readiness-timeout={{ .Values.dlx.image.resourceReadinessTimeout }}
+{{- with .Values.nodeSelector }}
+      nodeSelector:
+{{ toYaml . | indent 8 }}
+{{- end }}
+{{- with .Values.tolerations }}
+      tolerations:
+{{ toYaml . | indent 8 }}
+{{- end }}
+{{- with .Values.affinity }}
+      affinity:
+{{ toYaml . | indent 8 }}
+{{- end }}
