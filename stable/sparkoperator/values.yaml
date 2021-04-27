@@ -3,6 +3,7 @@ operatorVersion: v16
 imagePullPolicy: IfNotPresent
 imagePullSecrets: []
 replicas: 1
+hostNetwork: false
 
 deployment:
   create: false
