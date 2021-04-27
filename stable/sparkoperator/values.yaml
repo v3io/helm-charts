@@ -4,6 +4,9 @@ imagePullPolicy: IfNotPresent
 imagePullSecrets: []
 replicas: 1
 
+hostNetwork:
+  enabled: false
+
 deployment:
   create: false
 
