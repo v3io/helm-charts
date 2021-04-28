@@ -21,27 +21,9 @@ spec:
         type: object
         properties:
           spec:
-            type: object
-            properties:
-              slotsPerWorker:
-                type: integer
-                minimum: 1
-              mpiReplicaSpecs:
-                type: object
-                properties:
-                  Launcher:
-                    type: object
-                    properties:
-                      replicas:
-                        type: integer
-                        minimum: 1
-                        maximum: 1
-                  Worker:
-                    type: object
-                    properties:
-                      replicas:
-                        type: integer
-                        minimum: 1
+            x-kubernetes-preserve-unknown-fields: true
+          status:
+            x-kubernetes-preserve-unknown-fields: true
 {{- end }}
   scope: Namespaced
   names:
