@@ -114,10 +114,6 @@ mpi-operator:
       create: true
   deployment:
     create: true
-  image:
-    deployment:
-      repository: gcr.io/iguazio/mpi-operator
-      tag: v0.2.3-igz
 
 ## customize PV spec used for nfs-server provisioner
 ## ref: https://kubernetes.io/docs/concepts/storage/persistent-volumes/
