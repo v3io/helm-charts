@@ -96,6 +96,37 @@ spec:
           volumeMounts:
             - name: storage
               mountPath: {{ .Values.httpDB.dirPath }}
+        {{- if .Values.api.opa.enabled }}
+        - name: {{ template "mlrun.name" . }}-{{ .Values.api.opa.name }}
+          securityContext:
+            {{- toYaml .Values.api.opa.securityContext | nindent 12 }}
+          image: "{{ .Values.api.opa.image.repository }}:{{ .Values.api.opa.image.tag }}"
+          imagePullPolicy: {{ .Values.api.opa.image.pullPolicy }}
+          ports:
+            - name: http
+              containerPort: 8181
+          {{- if .Values.api.opa.livenessProbe }}
+          livenessProbe:
+            {{ toYaml .Values.api.opa.livenessProbe | nindent 12 }}
+          {{- end }}
+          {{- if .Values.api.opa.readinessProbe }}
+          readinessProbe:
+            {{ toYaml .Values.api.opa.readinessProbe | nindent 12 }}
+          {{- end }}
+          resources:
+            {{- toYaml .Values.api.opa.resources | nindent 12 }}
+          args:
+            - "run"
+            - "--server"
+            - "--config-file=/config/config.yaml"
+            - "--log-level={{ .Values.api.opa.logLevel }}"
+            - "--log-format={{ .Values.api.opa.logFormat }}"
+            - "--ignore=.*"
+          volumeMounts:
+            - readOnly: true
+              mountPath: /config
+              name: config
+        {{- end }}
       volumes:
         - name: storage
           {{- if .Values.api.volumes.storageOverride }}
@@ -109,6 +140,11 @@ spec:
             secretRef:
               name: {{ .Release.Name }}-v3io-fuse
           {{- end }}
+        {{- if .Values.api.opa.enabled }}
+        - name: config
+          secret:
+            secretName: {{ template "mlrun.api.opa.fullname" . }}
+        {{- end }}
       {{- with .Values.api.nodeSelector }}
       nodeSelector:
         {{- toYaml . | nindent 8 }}
