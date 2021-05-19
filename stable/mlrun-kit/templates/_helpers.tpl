@@ -26,6 +26,7 @@ Create fully qualified names.
 {{- else -}}
 {{- printf "%s-shared-pvc"  (include "mlrun-kit.fullname" .) | trunc 63 | trimSuffix "-" -}}
 {{- end -}}
+{{- end -}}
 
 {{- define "mlrun-kit.jupyter.fullname" -}}
 {{- printf "%s-jupyter"  (include "mlrun-kit.fullname" .) | trunc 63 | trimSuffix "-" -}}
