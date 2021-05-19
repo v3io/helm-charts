@@ -66,6 +66,11 @@ mlrun:
       storageOverride:
         persistentVolumeClaim:
           claimName: mlrun-pvc
+    extraEnv:
+      - name: MLRUN_HTTPDB__DATA_VOLUME
+        value: "/home/jovyan/data"
+      - name: MLRUN_HTTPDB__REAL_PATH
+        value: "/data"
     extraPersistentVolumeMounts:
       - name: data-volume
         mountPath: /data
