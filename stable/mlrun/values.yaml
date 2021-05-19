@@ -95,6 +95,14 @@ api:
   volumes:
     storageOverride: {}
 
+  # Defines additional volume mounts from existing persistent volume claims.
+  extraPersistentVolumeMounts: []
+    # - name: extra-volume
+    #   mountPath: /mnt/volume
+    #   subPath: /sub/path
+    #   readOnly: true
+    #   existingClaim: volume-claim
+
   opa:
     enabled: false
     name: opa-server

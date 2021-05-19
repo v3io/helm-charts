@@ -96,6 +96,12 @@ spec:
           volumeMounts:
             - name: storage
               mountPath: {{ .Values.httpDB.dirPath }}
+            {{- range .Values.api.extraPersistentVolumeMounts }}
+            - name: {{ .name }}
+              mountPath: {{ .mountPath }}
+              subPath: {{ .subPath | default "" }}
+              readOnly: {{ .readOnly }}
+            {{- end }}
         {{- if .Values.api.opa.enabled }}
         - name: {{ template "mlrun.name" . }}-{{ .Values.api.opa.name }}
           securityContext:
@@ -140,6 +146,11 @@ spec:
             secretRef:
               name: {{ .Release.Name }}-v3io-fuse
           {{- end }}
+        {{- range .Values.api.extraPersistentVolumeMounts }}
+        - name: {{ .name }}
+          persistentVolumeClaim:
+            claimName: {{ .existingClaim }}
+        {{- end }}
         {{- if .Values.api.opa.enabled }}
         - name: config
           secret:
