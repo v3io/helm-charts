@@ -66,6 +66,11 @@ mlrun:
       storageOverride:
         persistentVolumeClaim:
           claimName: mlrun-pvc
+    extraPersistentVolumeMounts:
+      - name: data-volume
+        mountPath: /data
+        readOnly: false
+        existingClaim: mlrun-kit-shared-pvc
   ui:
     fullnameOverride: mlrun-ui
     service:
@@ -80,6 +85,17 @@ mlrunPersistency:
     create: true
   pvc:
     create: true
+
+sharedStorage:
+  pvc:
+    create: true
+    spec:
+      storageClassName: nfs
+      accessModes:
+        - ReadWriteMany
+      resources:
+        requests:
+          storage: 1Gi
 
 jupyterNotebook:
   service:
