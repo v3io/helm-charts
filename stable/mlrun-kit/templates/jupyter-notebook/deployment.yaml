@@ -60,7 +60,7 @@ spec:
         - name: MLRUN_ARTIFACT_PATH
           value: "/home/jovyan/data"
         - name: MLRUN_PVC_MOUNT
-          value: {{ printf "%s:/home/jovyan/data" (include "mlrun-kit.jupyter-pvc.fullname" .) }}
+          value: {{ printf "%s:/home/jovyan/data" (include "mlrun-kit.shared-persistency-pvc.fullname" .) }}
         - name: CHOWN_HOME
           value: "yes"
         - name: CHOWN_HOME_OPTS
@@ -83,5 +83,5 @@ spec:
       volumes:
       - name: notebooks
         persistentVolumeClaim:
-          claimName: {{ template "mlrun-kit.jupyter-pvc.fullname" . }}
+          claimName: {{ template "mlrun-kit.shared-persistency-pvc.fullname" . }}
 {{- end }}
