@@ -20,7 +20,7 @@ Create fully qualified names.
 {{- end -}}
 {{- end -}}
 
-{{- define "mlrun-kit.shared-storage-pvc.fullname" -}}
+{{- define "mlrun-kit.shared-persistency-pvc.fullname" -}}
 {{- if (index .Values.mlrun.api.extraPersistentVolumeMounts 0).existingClaim -}}
 {{- (index .Values.mlrun.api.extraPersistentVolumeMounts 0).existingClaim -}}
 {{- else -}}
