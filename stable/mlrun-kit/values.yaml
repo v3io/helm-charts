@@ -66,6 +66,16 @@ mlrun:
       storageOverride:
         persistentVolumeClaim:
           claimName: mlrun-pvc
+    extraEnv:
+      - name: MLRUN_HTTPDB__DATA_VOLUME
+        value: "/home/jovyan/data"
+      - name: MLRUN_HTTPDB__REAL_PATH
+        value: "/data"
+    extraPersistentVolumeMounts:
+      - name: data-volume
+        mountPath: /data
+        readOnly: false
+        existingClaim: mlrun-kit-shared-pvc
   ui:
     fullnameOverride: mlrun-ui
     service:
@@ -80,6 +90,17 @@ mlrunPersistency:
     create: true
   pvc:
     create: true
+
+sharedPersistency:
+  pvc:
+    create: true
+    spec:
+      storageClassName: nfs
+      accessModes:
+        - ReadWriteMany
+      resources:
+        requests:
+          storage: 1Gi
 
 jupyterNotebook:
   service:
