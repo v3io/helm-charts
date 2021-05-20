@@ -20,12 +20,16 @@ Create fully qualified names.
 {{- end -}}
 {{- end -}}
 
-{{- define "mlrun-kit.jupyter.fullname" -}}
-{{- printf "%s-jupyter"  (include "mlrun-kit.fullname" .) | trunc 63 | trimSuffix "-" -}}
+{{- define "mlrun-kit.shared-persistency-pvc.fullname" -}}
+{{- if (index .Values.mlrun.api.extraPersistentVolumeMounts 0).existingClaim -}}
+{{- (index .Values.mlrun.api.extraPersistentVolumeMounts 0).existingClaim -}}
+{{- else -}}
+{{- printf "%s-shared-pvc"  (include "mlrun-kit.fullname" .) | trunc 63 | trimSuffix "-" -}}
+{{- end -}}
 {{- end -}}
 
-{{- define "mlrun-kit.jupyter-pvc.fullname" -}}
-{{- printf "%s-pvc"  (include "mlrun-kit.jupyter.fullname" .) | trunc 63 | trimSuffix "-" -}}
+{{- define "mlrun-kit.jupyter.fullname" -}}
+{{- printf "%s-jupyter"  (include "mlrun-kit.fullname" .) | trunc 63 | trimSuffix "-" -}}
 {{- end -}}
 
 {{- define "mlrun-kit.jupyter.mlrunUIURL" -}}
