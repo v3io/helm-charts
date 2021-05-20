@@ -1,4 +1,4 @@
-{{- if .Values.sharedStorage.pvc.create }}
+{{- if .Values.sharedPersistency.pvc.create }}
 apiVersion: v1
 kind: PersistentVolumeClaim
 metadata:
@@ -9,5 +9,5 @@ metadata:
     app.kubernetes.io/managed-by: {{ .Release.Service }}
     helm.sh/chart: {{ .Chart.Name }}-{{ .Chart.Version | replace "+" "_" }}
 spec:
-{{ toYaml .Values.sharedStorage.pvc.spec | indent 2 }}
+{{ toYaml .Values.sharedPersistency.pvc.spec | indent 2 }}
 {{- end }}

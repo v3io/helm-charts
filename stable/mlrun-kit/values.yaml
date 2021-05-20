@@ -91,7 +91,7 @@ mlrunPersistency:
   pvc:
     create: true
 
-sharedStorage:
+sharedPersistency:
   pvc:
     create: true
     spec:
