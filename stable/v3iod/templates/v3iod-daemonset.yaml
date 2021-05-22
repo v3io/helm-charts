@@ -49,6 +49,12 @@ spec:
               valueFrom:
                 fieldRef:
                   fieldPath: status.hostIP
+{{- if .Values.v3iod.environment.extra }}
+{{- range $name, $val := .Values.v3iod.environment.extra }}
+            - name: {{ $name }}
+              value: {{ $val | quote }}
+{{- end }}
+{{- end }}
           volumeMounts:
             - mountPath: /dev/shm
               name: v3iod-shm
