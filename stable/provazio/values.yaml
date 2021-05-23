@@ -1,8 +1,8 @@
+# list of namespaces that the api will also get resources access to
+additionalManagedNamespaces: []
+
 dashboard:
   enabled: false
-
-  # list of namespaces that the api will also get resources access to
-  additionalManagedNamespaces: []
 
   image:
     repository: quay.io/iguazio/provazio-dashboard
