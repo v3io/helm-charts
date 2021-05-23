@@ -3,10 +3,10 @@
 # create a full list of managed namesapces (append current namespace with additionalManagedNamespaces)
 # done this way as a workaround for the helm bug, which translates {}->{""} when passing empty list on cli
 {{- $managedNamespaces := list }}
-{{- if and (eq (len .Values.controller.rbac.additionalManagedNamespaces) 1) (has "" .Values.controller.rbac.additionalManagedNamespaces) }}
+{{- if and (eq (len .Values.additionalManagedNamespaces) 1) (has "" .Values.additionalManagedNamespaces) }}
 {{- $managedNamespaces = list .Release.Namespace }}
 {{- else }}
-{{- $managedNamespaces = append .Values.controller.rbac.additionalManagedNamespaces .Release.Namespace }}
+{{- $managedNamespaces = append .Values.additionalManagedNamespaces .Release.Namespace }}
 {{- end }}
 
 # If the controller is enabled and responsible for IguazioTenantAppServiceSet, it will need the ability

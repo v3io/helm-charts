@@ -1,6 +1,9 @@
 dashboard:
   enabled: false
 
+  # list of namespaces that the api will also get resources access to
+  additionalManagedNamespaces: []
+
   image:
     repository: quay.io/iguazio/provazio-dashboard
     tag: 0.10.11
@@ -111,11 +114,6 @@ controller:
   systemConfigContents: ""
 
   controlAccessKey: ""
-
-  rbac:
-
-    # list of namespaces that the api will also get resources access to
-    additionalManagedNamespaces: []
 
   crd:
     create: true
