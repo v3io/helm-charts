@@ -43,6 +43,13 @@ spec:
         - name: v3io-fuse
           image: {{ .Values.job.flexVolume.image.repository }}:{{ .Values.job.flexVolume.image.tag }}
           imagePullPolicy: {{ .Values.job.flexVolume.image.pullPolicy | quote }}
+          env:
+{{- if .Values.job.flexVolume.environment.extra }}
+{{- range $name, $val := .Values.job.flexVolume.environment.extra }}
+            - name: {{ $name }}
+              value: {{ $val | quote }}
+{{- end }}
+{{- end }}
           volumeMounts:
             - mountPath: /flexmnt
               name: flexvolume-mount
