@@ -58,7 +58,7 @@ mlrun:
   api:
     fullnameOverride: mlrun-api
     image:
-      tag: 0.6.4-rc1
+      tag: 0.6.4-rc6
     service:
       type: NodePort
       nodePort: 30070
@@ -82,7 +82,7 @@ mlrun:
       type: NodePort
       nodePort: 30060
     image:
-      tag: 0.6.4-rc1
+      tag: 0.6.4-rc6
 
 # mlrun persistency resources creation can be disabled if the user would like to provide their own PVC
 mlrunPersistency:
@@ -107,7 +107,7 @@ jupyterNotebook:
     nodePort: 30040
   image:
     repository: quay.io/mlrun/jupyter
-    tag: 0.6.4-rc1
+    tag: 0.6.4-rc6
     pullPolicy: IfNotPresent
   # use this to override mlrunUIURL, by default it will be auto-resolved to externalHostAddress and
   # mlrun UI's node port
