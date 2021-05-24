@@ -1,3 +1,6 @@
+# A list of namespaces that the operator will also get resources access to
+additionalManagedNamespaces: []
+
 crd:
   create: false
   version: v1
