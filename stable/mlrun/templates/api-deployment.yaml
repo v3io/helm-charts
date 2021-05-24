@@ -96,6 +96,12 @@ spec:
           volumeMounts:
             - name: storage
               mountPath: {{ .Values.httpDB.dirPath }}
+            {{- range .Values.api.extraPersistentVolumeMounts }}
+            - name: {{ .name }}
+              mountPath: {{ .mountPath }}
+              subPath: {{ .subPath | default "" }}
+              readOnly: {{ .readOnly }}
+            {{- end }}
       volumes:
         - name: storage
           {{- if .Values.api.volumes.storageOverride }}
@@ -109,6 +115,11 @@ spec:
             secretRef:
               name: {{ .Release.Name }}-v3io-fuse
           {{- end }}
+        {{- range .Values.api.extraPersistentVolumeMounts }}
+        - name: {{ .name }}
+          persistentVolumeClaim:
+            claimName: {{ .existingClaim }}
+        {{- end }}
       {{- with .Values.api.nodeSelector }}
       nodeSelector:
         {{- toYaml . | nindent 8 }}

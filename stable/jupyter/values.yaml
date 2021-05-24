@@ -66,6 +66,12 @@ resources: {}
     # cpu: 1
     # memory: "2Gi"
 
+nodeSelector: {}
+
+tolerations: []
+
+affinity: {}
+
 pip:
   profile:
 
