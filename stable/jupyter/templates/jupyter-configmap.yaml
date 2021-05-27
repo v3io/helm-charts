@@ -221,11 +221,13 @@ data:
       echo "# ----- END KUBECTL AUTOCOMPLETION -----" >> ${HOME}/.bashrc
     fi
 
-    conda config --set always_softlink False
-    conda config --set always_copy True
-    conda config --add envs_dirs ${HOME}/.conda/envs
-    conda init bash 2>&1
-    mkdir -p ${HOME}/.conda/envs
+    if [ ! -e "${HOME}/.condarc" ]; then
+      conda config --set always_softlink False
+      conda config --set always_copy True
+      conda config --add envs_dirs ${HOME}/.conda/envs
+      conda init bash 2>&1
+      mkdir -p ${HOME}/.conda/envs
+    fi
 
     echo "source ${HOME}/.bashrc" > ${HOME}/.bash_profile
 

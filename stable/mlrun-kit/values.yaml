@@ -58,7 +58,7 @@ mlrun:
   api:
     fullnameOverride: mlrun-api
     image:
-      tag: 0.6.0
+      tag: 0.6.4-rc7
     service:
       type: NodePort
       nodePort: 30070
@@ -66,13 +66,23 @@ mlrun:
       storageOverride:
         persistentVolumeClaim:
           claimName: mlrun-pvc
+    extraEnv:
+      - name: MLRUN_HTTPDB__DATA_VOLUME
+        value: "/home/jovyan/data"
+      - name: MLRUN_HTTPDB__REAL_PATH
+        value: "/data"
+    extraPersistentVolumeMounts:
+      - name: data-volume
+        mountPath: /data
+        readOnly: false
+        existingClaim: mlrun-kit-shared-pvc
   ui:
     fullnameOverride: mlrun-ui
     service:
       type: NodePort
       nodePort: 30060
     image:
-      tag: 0.6.0
+      tag: 0.6.4-rc7
 
 # mlrun persistency resources creation can be disabled if the user would like to provide their own PVC
 mlrunPersistency:
@@ -81,12 +91,23 @@ mlrunPersistency:
   pvc:
     create: true
 
+sharedPersistency:
+  pvc:
+    create: true
+    spec:
+      storageClassName: nfs
+      accessModes:
+        - ReadWriteMany
+      resources:
+        requests:
+          storage: 1Gi
+
 jupyterNotebook:
   service:
     nodePort: 30040
   image:
     repository: quay.io/mlrun/jupyter
-    tag: 0.6.0
+    tag: 0.6.4-rc7
     pullPolicy: IfNotPresent
   # use this to override mlrunUIURL, by default it will be auto-resolved to externalHostAddress and
   # mlrun UI's node port

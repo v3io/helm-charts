@@ -100,3 +100,9 @@ livenessProbe:
 readinessProbe:
   initialDelaySeconds: 5
   periodSeconds: 10
+
+nodeSelector: {}
+
+tolerations: []
+
+affinity: {}
