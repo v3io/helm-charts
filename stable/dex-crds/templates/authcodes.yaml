@@ -1,4 +1,4 @@
-apiVersion: {{ template "crd.apiVersion" . }}
+apiVersion: apiextensions.k8s.io/v1
 kind: CustomResourceDefinition
 metadata:
   name: authcodes.dex.coreos.com
@@ -6,12 +6,20 @@ metadata:
     {{- include "dex-crds.labels" . | nindent 4 }}
 spec:
   group: dex.coreos.com
-  versions:
-  - name: v1
-    served: true
-    storage: true
   scope: Namespaced
   names:
     plural: authcodes
     singular: authcode
     kind: AuthCode
+  versions:
+  - name: v1
+    served: true
+    storage: true
+    schema:
+      openAPIV3Schema:
+        type: object
+        properties:
+          spec:
+            x-kubernetes-preserve-unknown-fields: true
+          status:
+            x-kubernetes-preserve-unknown-fields: true
