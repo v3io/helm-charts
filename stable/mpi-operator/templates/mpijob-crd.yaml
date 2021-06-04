@@ -20,7 +20,7 @@ spec:
     - mj
     - mpij
   versions:
-  - name: {{ .Values.crd.version }}
+  - name: v1
     served: true
     storage: true
     subresources:
