@@ -1,5 +1,5 @@
 {{- if .Values.crd.create }}
-apiVersion: {{ template "crd.apiVersion" . }}
+apiVersion: apiextensions.k8s.io/v1
 kind: CustomResourceDefinition
 metadata:
   name: mpijobs.kubeflow.org
@@ -11,11 +11,18 @@ metadata:
     component: crd
 spec:
   group: kubeflow.org
+  scope: Namespaced
+  names:
+    plural: mpijobs
+    singular: mpijob
+    kind: MPIJob
+    shortNames:
+    - mj
+    - mpij
   versions:
   - name: {{ .Values.crd.version }}
     served: true
     storage: true
-{{- if eq (include "crd.apiVersion" .) "apiextensions.k8s.io/v1" }}
     subresources:
       status: {}
     schema:
@@ -26,38 +33,4 @@ spec:
             x-kubernetes-preserve-unknown-fields: true
           status:
             x-kubernetes-preserve-unknown-fields: true
-{{- end }}
-  scope: Namespaced
-  names:
-    plural: mpijobs
-    singular: mpijob
-    kind: MPIJob
-    shortNames:
-    - mj
-    - mpij
-{{- if eq (include "crd.apiVersion" .) "apiextensions.k8s.io/v1beta1" }}
-  subresources:
-    status: {}
-  validation:
-    openAPIV3Schema:
-      properties:
-        spec:
-          properties:
-            slotsPerWorker:
-              type: integer
-              minimum: 1
-            mpiReplicaSpecs:
-              properties:
-                Launcher:
-                  properties:
-                    replicas:
-                      type: integer
-                      minimum: 1
-                      maximum: 1
-                Worker:
-                  properties:
-                    replicas:
-                      type: integer
-                      minimum: 1
-{{- end }}
 {{- end }}
