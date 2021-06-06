@@ -20,14 +20,3 @@ chart: {{ include "pipelines.chart" . }}
 release: {{ .Release.Name }}
 heritage: {{ .Release.Service }}
 {{- end -}}
-
-{{/*
-Return the appropriate apiVersion for CRD APIs.
-*/}}
-{{- define "crd.apiVersion" -}}
-{{- if semverCompare ">=1.19-0" .Capabilities.KubeVersion.GitVersion -}}
-{{- print "apiextensions.k8s.io/v1" }}
-{{- else -}}
-{{- print "apiextensions.k8s.io/v1beta1" }}
-{{- end -}}
-{{- end -}}
