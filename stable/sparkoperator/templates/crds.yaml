@@ -4,6 +4,10 @@ kind: CustomResourceDefinition
 metadata:
   creationTimestamp: null
   name: sparkapplications.sparkoperator.k8s.io
+  annotations:
+
+    # this should be the PR that approved it to kubernetes.io but...STFU
+    "api-approved.kubernetes.io": "https://github.com/GoogleCloudPlatform/spark-on-k8s-operator/issues/1043"
 spec:
   group: sparkoperator.k8s.io
   names:
@@ -2553,6 +2557,10 @@ kind: CustomResourceDefinition
 metadata:
   creationTimestamp: null
   name: scheduledsparkapplications.sparkoperator.k8s.io
+  annotations:
+
+    # this should be the PR that approved it to kubernetes.io but...STFU
+    "api-approved.kubernetes.io": "https://github.com/GoogleCloudPlatform/spark-on-k8s-operator/issues/1043"
 spec:
   group: sparkoperator.k8s.io
   names:
