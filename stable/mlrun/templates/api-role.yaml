@@ -7,7 +7,7 @@ metadata:
 {{ include "mlrun.api.labels" . | nindent 4 }}
 rules:
 - apiGroups:      ['']
-  resources:      ['pods', 'pods/exec', 'pods/log', 'services']
+  resources:      ['pods', 'pods/exec', 'pods/log', 'services', 'secrets']
   verbs:          ['*']
 - apiGroups:      ['kubeflow.org']
   resources:      ['mpijobs']
