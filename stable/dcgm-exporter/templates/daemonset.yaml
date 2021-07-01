@@ -25,17 +25,10 @@ spec:
         {{- toYaml . | nindent 8 }}
       {{- end }}
       serviceAccountName: {{ include "dcgm-exporter.serviceAccountName" . }}
+      {{- if .Values.affinity }}
       affinity:
-        nodeAffinity:
-          requiredDuringSchedulingIgnoredDuringExecution:
-            nodeSelectorTerms:
-              {{- range .Values.gpuNodeSelectors }}
-              - matchExpressions:
-                - key: {{ . }}
-                  operator: In
-                  values:
-                  - "true"
-              {{- end }}
+        {{- toYaml .Values.affinity | nindent 8 }}
+      {{- end }}
       {{- if .Values.nodeSelector }}
       nodeSelector:
         {{- toYaml .Values.nodeSelector | nindent 8 }}
