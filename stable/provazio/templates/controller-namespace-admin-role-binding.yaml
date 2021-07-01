@@ -1,26 +1,35 @@
 {{- if and (.Values.controller.enabled) (has "IguazioTenantAppServiceSet" .Values.controller.crd.kinds) }}
 
+# create a full list of managed namesapces (append current namespace with additionalManagedNamespaces)
+# use "without" to remove empty namespace from being there when an empty list is passed
+{{- $managedNamespaces := append (without .Values.additionalManagedNamespaces "") .Release.Namespace | uniq | sortAlpha }}
+
 # If the controller is enabled and responsible for IguazioTenantAppServiceSet, it will need the ability
 # to create resources like ingressess, secrets, etc. Things that are not created by the service
 # helm charts which are under the namespace's tiller service account. This binds the service
 # account to the role allowing this
 
+{{- range $managedNamespaces }}
 kind: RoleBinding
 apiVersion: rbac.authorization.k8s.io/v1
 metadata:
-  name: {{ template "provazio.controller.name" . }}-namespace-admin
+  name: {{ template "provazio.controller.name" $ }}-namespace-admin
+  namespace: {{ . }}
   labels:
-    app: {{ template "provazio.name" . }}
-    chart: {{ template "provazio.chart" . }}
-    release: {{ .Release.Name }}
-    heritage: {{ .Release.Service }}
+    app: {{ template "provazio.name" $ }}
+    chart: {{ template "provazio.chart" $ }}
+    release: {{ $.Release.Name }}
+    heritage: {{ $.Release.Service }}
     component: controller
 subjects:
 - kind: ServiceAccount
-  name: {{ template "provazio.controller.name" . }}
+  name: {{ template "provazio.controller.name" $ }}
+  namespace: {{ $.Release.Namespace }}
 roleRef:
-  kind: Role
-  name: {{ template "provazio.controller.name" . }}-namespace-admin
+  kind: ClusterRole
+  name: {{ template "provazio.controller.name" $ }}-namespace-admin
   apiGroup: rbac.authorization.k8s.io
+---
+{{- end }}
 
 {{- end }}

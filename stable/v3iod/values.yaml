@@ -7,6 +7,10 @@ v3iod:
     tag: 2.0.0
     pullPolicy: IfNotPresent
 
+  environment:
+    extra: {}
+
+
   user:
     # create new user when running (new username must not match iguazio and must have UID gt 1000)
     create: false

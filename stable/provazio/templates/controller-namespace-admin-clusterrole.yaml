@@ -1,11 +1,11 @@
-{{- if and (.Values.controller.enabled) (has "IguazioTenantAppServiceSet" .Values.controller.crd.kinds) }}
+{{- if and (.Values.controller.enabled) (has "IguazioTenant" .Values.controller.crd.kinds) }}
 
 # If the controller is enabled and responsible for IguazioTenantAppServiceSet, it will need the ability
 # to create resources like ingressess, secrets, etc. Things that are not created by the service
-# helm charts which are under the namespace's tiller service account. This creates a role
-# granting namespaced permission to these resources
+# helm charts which are under the namespace's tiller service account. This creates a ClusterRole
+# granting namespaced permission to these resources (to be used by each managed namespace)
 
-kind: Role
+kind: ClusterRole
 apiVersion: rbac.authorization.k8s.io/v1
 metadata:
   name: {{ template "provazio.controller.name" . }}-namespace-admin

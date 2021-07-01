@@ -22,6 +22,8 @@ job:
       repository: iguaziodocker/flex-fuse
       tag: 2.0.0-0.6.0
       pullPolicy: IfNotPresent
+    environment:
+      extra: {}
     executablePath: /home/iguazio/igz/clients/fuse/bin/v3io_adapters_fuse
     mountType: os
     hostPaths:
