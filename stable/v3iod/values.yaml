@@ -53,6 +53,9 @@ v3iod:
   numOfWorkers: 1
   boostSizeInBytes: 536870912
   disableRDMA: false
+  probe:
+    delayedStart: 3
+    probePort: 1967
   heaps: |
     {
       "kind": "mempool",

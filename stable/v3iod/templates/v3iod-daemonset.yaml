@@ -44,6 +44,9 @@ spec:
             - containerPort: {{ .Values.v3iod.cdiPort }}
               protocol: UDP
               name: cdi-port
+            - containerPort: {{ .Values.v3iod.probe.probePort }}
+              protocol: TCP
+              name: probe-port
           env:
             - name: CURRENT_NODE_IP
               valueFrom:

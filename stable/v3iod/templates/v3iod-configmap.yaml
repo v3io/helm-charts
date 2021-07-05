@@ -64,6 +64,10 @@ data:
         "xio_severity": "{{ .Values.v3iod.logger.xio_severity }}",
         "path": "/var/log/iguazio"
       },
+      "probe": {
+        "delayed_start" : {{ .Values.v3iod.probe.delayedStart }},
+        "listen_addr": "0.0.0.0:{{ .Values.v3iod.probe.probePort }}"
+      },
       "paths": {
         "fifo": "/var/run/iguazio/dayman",
         "uds": "/var/run/iguazio/dayman",
