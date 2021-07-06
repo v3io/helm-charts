@@ -26,9 +26,6 @@ serviceAccount:
   # If not set and create is true, a name is generated using the fullname template
   name:
 
-gpuNodeSelectors:
-  - feature.node.kubernetes.io/pci-10de.present
-
 securityContext:
   runAsNonRoot: false
   runAsUser: 0
@@ -52,6 +49,16 @@ resources: {}
   #   memory: 128Mi
 
 mapPodsMetrics: false
+
+affinity:
+  nodeAffinity:
+    requiredDuringSchedulingIgnoredDuringExecution:
+      nodeSelectorTerms:
+        - matchExpressions:
+          - key: feature.node.kubernetes.io/pci-10de.present
+            operator: In
+            values:
+            - "true"
 
 nodeSelector: {}
   #node: gpu
