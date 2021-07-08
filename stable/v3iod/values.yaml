@@ -1,6 +1,7 @@
 v3iod:
   logger:
-    severity: debug
+    v3io_severity: debug
+    xio_severity: info
 
   image:
     repository: iguaziodocker/v3io_dayman

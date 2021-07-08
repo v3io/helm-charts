@@ -1,5 +1,7 @@
 logger:
-  severity: info
+  nginx_severity: info
+  v3io_severity: debug
+  xio_severity: info
   enableAccessLog: false
 
 image: 
