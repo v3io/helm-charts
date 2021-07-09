@@ -77,6 +77,12 @@ spec:
           {{- if .Values.api.extraEnv }}
           {{ toYaml .Values.api.extraEnv | nindent 10 }}
           {{- end }}
+          {{- if .Values.api.extraEnvKeyValue }}
+          {{- range $name, $value := .Values.api.extraEnvKeyValue }}
+          - name: {{ $name }}
+            value: {{ $value | quote }}
+          {{- end }}
+          {{- end }}
           {{- if .Values.api.envFrom }}
           envFrom:
           {{ toYaml .Values.api.envFrom | nindent 10 }}

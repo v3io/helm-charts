@@ -34,8 +34,21 @@ api:
     #    hosts:
     #      - chart-example.local
 
-  # Extra env variables
+  # Extra env variables - passed as is to the api pod env section therefore can be used to any kind of env var
   extraEnv: []
+#    - name: simple_env_var
+#      value: env_var_value
+#    - name: env_var_from_secret
+#      valueFrom:
+#        secretKeyRef:
+#          name: some_secret_name
+#          key: secret_key
+
+  # Extra env variables - each key value is creating a simple env var in the pod - unlike extraEnv, here env var with
+  # numeric values can be passed
+  extraEnvKeyValue: {}
+#    env_var_key: env_var_value
+#    env_var_key_2: env_var_value_2
 
   # envFrom can be used to pass configmaps or secrets as environment
   envFrom: []
