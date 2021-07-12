@@ -60,7 +60,8 @@ data:
       },
       "logger": {
         "mode": "direct",
-        "severity": "{{ .Values.v3iod.logger.severity }}",
+        "v3io_severity": "{{ .Values.v3iod.logger.v3io_severity }}",
+        "xio_severity": "{{ .Values.v3iod.logger.xio_severity }}",
         "path": "/var/log/iguazio"
       },
       "paths": {
