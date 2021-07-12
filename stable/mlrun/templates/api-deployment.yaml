@@ -77,6 +77,12 @@ spec:
           {{- if .Values.api.extraEnv }}
           {{ toYaml .Values.api.extraEnv | nindent 10 }}
           {{- end }}
+          {{- if .Values.api.extraEnvKeyValue }}
+          {{- range $name, $value := .Values.api.extraEnvKeyValue }}
+          - name: {{ $name }}
+            value: {{ $value | quote }}
+          {{- end }}
+          {{- end }}
           {{- if .Values.api.envFrom }}
           envFrom:
           {{ toYaml .Values.api.envFrom | nindent 10 }}
@@ -100,6 +106,37 @@ spec:
               subPath: {{ .subPath | default "" }}
               readOnly: {{ .readOnly }}
             {{- end }}
+        {{- if .Values.api.opa.enabled }}
+        - name: {{ template "mlrun.name" . }}-{{ .Values.api.opa.name }}
+          securityContext:
+            {{- toYaml .Values.api.opa.securityContext | nindent 12 }}
+          image: "{{ .Values.api.opa.image.repository }}:{{ .Values.api.opa.image.tag }}"
+          imagePullPolicy: {{ .Values.api.opa.image.pullPolicy }}
+          ports:
+            - name: http
+              containerPort: 8181
+          {{- if .Values.api.opa.livenessProbe }}
+          livenessProbe:
+            {{ toYaml .Values.api.opa.livenessProbe | nindent 12 }}
+          {{- end }}
+          {{- if .Values.api.opa.readinessProbe }}
+          readinessProbe:
+            {{ toYaml .Values.api.opa.readinessProbe | nindent 12 }}
+          {{- end }}
+          resources:
+            {{- toYaml .Values.api.opa.resources | nindent 12 }}
+          args:
+            - "run"
+            - "--server"
+            - "--config-file=/config/config.yaml"
+            - "--log-level={{ .Values.api.opa.logLevel }}"
+            - "--log-format={{ .Values.api.opa.logFormat }}"
+            - "--ignore=.*"
+          volumeMounts:
+            - readOnly: true
+              mountPath: /config
+              name: config
+        {{- end }}
       volumes:
         - name: storage
           {{- if .Values.api.volumes.storageOverride }}
@@ -117,6 +154,11 @@ spec:
         - name: {{ .name }}
           persistentVolumeClaim:
             claimName: {{ .existingClaim }}
+        {{- end }}
+        {{- if .Values.api.opa.enabled }}
+        - name: config
+          secret:
+            secretName: {{ template "mlrun.api.opa.fullname" . }}
         {{- end }}
       {{- with .Values.api.nodeSelector }}
       nodeSelector:
