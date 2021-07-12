@@ -44,7 +44,7 @@ data:
     worker_processes {{ .Values.workerProcesses }};
     load_module ngx_http_v3io_module.so;
     worker_rlimit_nofile {{ .Values.workerRlimit }};
-    error_log /dev/stderr {{ .Values.logger.severity }};
+    error_log /dev/stderr {{ .Values.logger.nginx_severity }};
     events {
         use epoll;
         worker_connections  {{ .Values.workerConnections }};
@@ -130,6 +130,8 @@ data:
 {{- end }}
                     v3io_md5_mode   disable;
                     v3io_config_path    /etc/iguazio/nginx/nginx_v3io_config.json;
+                    v3io_log_severity    {{ .Values.logger.v3io_severity }};
+                    xio_log_severity     {{ .Values.logger.xio_severity }};
                 }
                 # OPTIONS (pre-flight) request from allowed
                 # CORS domain. return response directly
