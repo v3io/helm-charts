@@ -1,10 +1,10 @@
-{{ if .Values.webhook.enable }}
+{{ if and (.Values.webhook.enable) (.Values.deployment.create) }}
 apiVersion: batch/v1
 kind: Job
 metadata:
   name: {{ include "spark-operator.fullname" . }}-webhook-cleanup
   annotations:
-    "helm.sh/hook": pre-delete, pre-upgrade
+    "helm.sh/hook": pre-delete
     "helm.sh/hook-delete-policy": hook-succeeded
   labels:
     {{- include "spark-operator.labels" . | nindent 4 }}

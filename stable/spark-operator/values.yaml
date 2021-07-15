@@ -23,19 +23,32 @@ nameOverride: ""
 # -- String to override release name
 fullnameOverride: ""
 
+hostNetwork:
+  enabled: false
+
+deployment:
+  create: false
+
+crd:
+  create: false
+
 rbac:
-  # -- Create and use `rbac` resources
-  create: true
+  clusterResources:
+    create: false
+  clusterNamespaceResources:
+    create: false
+  namespaced:
+    create: false
 
 serviceAccounts:
   spark:
     # -- Create a service account for spark apps
-    create: true
+    create: false
     # -- Optional name for the spark service account
     name: ""
   sparkoperator:
     # -- Create a service account for the operator
-    create: true
+    create: false
     # -- Optional name for the operator service account
     name: ""
 
@@ -136,3 +149,8 @@ leaderElection:
 istio:
   # -- When using `istio`, spark jobs need to run without a sidecar to properly terminate
   enabled: false
+
+global:
+  v3io:
+    configMountPath: /etc/config/v3io
+

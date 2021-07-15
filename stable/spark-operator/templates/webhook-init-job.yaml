@@ -1,4 +1,4 @@
-{{ if .Values.webhook.enable }}
+{{ if and (.Values.webhook.enable) (.Values.deployment.create) }}
 apiVersion: batch/v1
 kind: Job
 metadata:
@@ -27,4 +27,16 @@ spec:
         securityContext:
           {{- toYaml .Values.securityContext | nindent 10 }}
         command: ["/usr/bin/gencerts.sh", "-n", "{{ .Release.Namespace }}", "-s", "{{ include "spark-operator.fullname" . }}-webhook", "-p"]
+      {{- with .Values.nodeSelector }}
+      nodeSelector:
+      {{ toYaml . | nindent 8 }}
+      {{- end }}
+      {{- with .Values.affinity }}
+      affinity:
+      {{ toYaml . | nindent 8 }}
+      {{- end }}
+      {{- with .Values.tolerations }}
+      tolerations:
+      {{ toYaml . | nindent 8 }}
+      {{- end }}
 {{ end }}

@@ -1,8 +1,45 @@
-{{- if .Values.rbac.create }}
+{{- if .Values.rbac.clusterResources.create }}
 apiVersion: rbac.authorization.k8s.io/v1
 kind: ClusterRole
 metadata:
-  name: {{ include "spark-operator.fullname" . }}
+  name: {{ include "spark-operator.fullname" . }}-cr
+  labels:
+    {{- include "spark-operator.labels" . | nindent 4 }}
+rules:
+- apiGroups:
+  - admissionregistration.k8s.io
+  resources:
+  - mutatingwebhookconfigurations
+  - validatingwebhookconfigurations
+  verbs:
+  - create
+  - get
+  - update
+  - delete
+{{- end }}
+---
+{{- if .Values.rbac.clusterNamespaceResources.create }}
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRoleBinding
+metadata:
+  name: {{ include "spark-operator.fullname" . }}-crb
+  labels:
+    {{- include "spark-operator.labels" . | nindent 4 }}
+subjects:
+  - kind: ServiceAccount
+    name: {{ include "spark-operator.serviceAccountName" . }}
+    namespace: {{ .Release.Namespace }}
+roleRef:
+  kind: ClusterRole
+  name: {{ .Values.rbac.clusterRoleName }}
+  apiGroup: rbac.authorization.k8s.io
+
+{{- end }}
+{{- if .Values.rbac.namespaced.create }}
+apiVersion: rbac.authorization.k8s.io/v1
+kind: Role
+metadata:
+  name: {{ include "spark-operator.fullname" . }}-r
   labels:
     {{- include "spark-operator.labels" . | nindent 4 }}
 rules:
@@ -64,16 +101,6 @@ rules:
   - update
   - delete
 - apiGroups:
-  - admissionregistration.k8s.io
-  resources:
-  - mutatingwebhookconfigurations
-  - validatingwebhookconfigurations
-  verbs:
-  - create
-  - get
-  - update
-  - delete
-- apiGroups:
   - sparkoperator.k8s.io
   resources:
   - sparkapplications
@@ -105,9 +132,9 @@ rules:
 ---
 
 apiVersion: rbac.authorization.k8s.io/v1
-kind: ClusterRoleBinding
+kind: RoleBinding
 metadata:
-  name: {{ include "spark-operator.fullname" . }}
+  name: {{ include "spark-operator.fullname" . }}-rb
   labels:
     {{- include "spark-operator.labels" . | nindent 4 }}
 subjects:
@@ -115,7 +142,7 @@ subjects:
     name: {{ include "spark-operator.serviceAccountName" . }}
     namespace: {{ .Release.Namespace }}
 roleRef:
-  kind: ClusterRole
-  name: {{ include "spark-operator.fullname" . }}
+  kind: Role
+  name: {{ include "spark-operator.fullname" . }}-r
   apiGroup: rbac.authorization.k8s.io
 {{- end }}
