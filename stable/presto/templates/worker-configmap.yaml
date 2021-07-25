@@ -85,7 +85,7 @@ data:
     IP=$(hostname -i)
     echo "IP=$IP"
     CURL_TIMEOUT={{ default 10 .Values.server.properties.http.timeout }}
-    CURL_CMD="curl --disable --silent --fail --connect-timeout $CURL_TIMEOUT {{ template "presto.fullname" . }}.{{ .Release.Namespace }}.svc:{{ .Values.server.properties.http.port }}/v1/node"
+    CURL_CMD="curl --disable --silent --fail --connect-timeout $CURL_TIMEOUT {{ template "presto.fullname" . }}.{{ .Release.Namespace }}.svc:{{ .Values.server.properties.http.port }}/v1/status"
     echo "Curl command: $CURL_CMD"
     CURL_OUT=$($CURL_CMD)
     RC=$?
