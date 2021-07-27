@@ -162,7 +162,7 @@ data:
 {{- end }}
 
 {{- if .Values.hive }}
-    echo alias hive=\"${HIVE_HOME}/bin/hive -hiveconf hive.exec.scratchdir={{ .Values.hive.scratchDirPrefix }}/${V3IO_USERNAME}/hive -hiveconf hive.metastore.uris=thrift://{{ .Values.hive.metastore.hostname }}:{{ .Values.hive.metastore.port }} \$@\" >> ${IGUAZIO_HOME}/.hive_alias
+    echo alias hive=\"JAVA_HOME=${IGUAZIO_HOME}/jdk-8u181 ${HIVE_HOME}/bin/hive -hiveconf hive.exec.scratchdir={{ .Values.hive.scratchDirPrefix }}/${V3IO_USERNAME}/hive -hiveconf hive.metastore.uris=thrift://{{ .Values.hive.metastore.hostname }}:{{ .Values.hive.metastore.port }} \$@\" >> ${IGUAZIO_HOME}/.hive_alias
 
     if [ "$(grep --count 'HIVE CONFIG' ${HOME}/.bashrc)" == "0" ]; then
       echo "# ----- HIVE CONFIG -----" >> ${HOME}/.bashrc
@@ -249,7 +249,7 @@ data:
 
     if [ "$(grep --count 'JUPYTER TERMINAL PATH SUPPORT' ${HOME}/.bashrc)" == "0" ]; then
       echo "# ----- JUPYTER TERMINAL PATH SUPPORT -----" >> ${HOME}/.bashrc
-      echo "if [ ! -z JUPYTER_SERVER_ROOT ]; then" >> ${HOME}/.bashrc
+      echo 'if [ ! -z $JUPYTER_SERVER_ROOT ]; then' >> ${HOME}/.bashrc
       echo " export PATH=${PATH}" >> ${HOME}/.bashrc
       echo "fi" >> ${HOME}/.bashrc
       echo "# ----- END JUPYTER TERMINAL PATH SUPPORT -----" >> ${HOME}/.bashrc
