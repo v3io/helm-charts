@@ -71,6 +71,8 @@ mlrun:
         value: "/home/jovyan/data"
       - name: MLRUN_HTTPDB__REAL_PATH
         value: "/data"
+      - name: MLRUN_HTTPDB__PROJECTS__FOLLOWERS
+        value: nuclio
     extraPersistentVolumeMounts:
       - name: data-volume
         mountPath: /data
