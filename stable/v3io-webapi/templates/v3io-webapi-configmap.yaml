@@ -57,53 +57,21 @@ data:
         tcp_nopush          on;
         tcp_nodelay         on;
         keepalive_timeout   65;
+
+        map $server_port  $StrictTransportSecurityHeaderValue {
+            {{ .Values.sslHostPort }}     'max-age=31536000; includeSubDomains';
+            default  '';
+        }
+
         server {
-            listen       {{ .Values.sslHostPort }} ssl;
+            listen                    {{ .Values.hostPort }};
+            listen                    {{ .Values.sslHostPort }} ssl;
+            server_name               localhost;
             server_tokens off;
 
             ssl_certificate        {{ .Values.installationPath }}/crt/iguazio-nginx.crt;
             ssl_certificate_key    {{ .Values.installationPath }}/crt/iguazio-nginx.key;
             ssl_protocols 		   TLSv1.1 TLSv1.2;
-
-            client_body_buffer_size   10M;
-            client_max_body_size      5G;
-{{- if .Values.logger.enableAccessLog }}
-            access_log on;
-{{- else }}
-            access_log off;
-{{- end }}  
-            location / {
-                set $cors "1";
-                if ($request_method = 'OPTIONS') {
-                    set $cors "${cors}o";
-                }
-                if ($cors = "1") {
-                    add_header      'Access-Control-Allow-Origin' '$http_origin';
-                    add_header      'Access-Control-Allow-Credentials' 'true';
-                    add_header    'Strict-Transport-Security' 'max-age=31536000; includeSubDomains';
-
-                    root            /root/ctnr;
-                    set $v3io_key   "$uri?$args";
-{{- range $index, $datanode := .Values.datanodes }}
-                    v3io_pass       {{ $datanode.uri | quote }};
-{{- end }}
-                    v3io_md5_mode   disable;
-                }
-                if ($cors = "1o") {
-                    add_header 'Access-Control-Allow-Origin' '$http_origin';
-                    add_header 'Access-Control-Allow-Methods' 'GET, POST, OPTIONS, PUT, DELETE';
-                    add_header 'Access-Control-Allow-Credentials' 'true';
-                    add_header 'Access-Control-Allow-Headers' 'Origin,Content-Type,Content-Disposition,Accept,Cache-Control,X-v3io-function,X-v3io-session-key,Access-Control-Allow-Origin';
-                    add_header 'Content-Length' '0';
-                    add_header 'Content-Type' 'text/plain';
-                    return 204;
-                }
-            }
-        }
-        server {
-            listen                    {{ .Values.hostPort }};
-            server_name               localhost;
-            server_tokens off;
 
             client_body_buffer_size   10M;
             client_max_body_size      5G;
@@ -121,6 +89,7 @@ data:
                 # Append CORS headers to any request from
                 # allowed CORS domain, except OPTIONS
                 if ($cors = "1") {
+                    add_header     'Strict-Transport-Security' $StrictTransportSecurityHeaderValue;
                     add_header     'Access-Control-Allow-Origin' '$http_origin';
                     add_header     'Access-Control-Allow-Credentials' 'true';
                     root            /root/ctnr;
