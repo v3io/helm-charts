@@ -60,6 +60,8 @@ data:
     discovery-server.enabled=true
     discovery.uri=http://{{ template "presto.fullname" . }}.{{ .Release.Namespace }}.svc:{{ .Values.server.properties.http.port }}
     node.internal-address={{ template "presto.fullname" . }}.{{ .Release.Namespace }}.svc
+    web-ui.authentication.type=fixed
+    web-ui.user=admin
 {{- end }}
 
 {{- if .Values.server.properties.https }}
