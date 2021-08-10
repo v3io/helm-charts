@@ -32,7 +32,6 @@ data:
     -XX:+ExplicitGCInvokesConcurrent
     -XX:+HeapDumpOnOutOfMemoryError
     -XX:+ExitOnOutOfMemoryError
-    -Dpresto-temporarily-allow-java8=true
 {{- end }}
 
   config.properties: |
@@ -53,6 +52,7 @@ data:
     http-server.https.keystore.path={{ .Values.server.properties.https.keystore }}
     http-server.https.keystore.key={{ .Values.server.properties.https.passphrase }}
     http-server.authentication.type=PASSWORD
+    http-server.authentication.password.user-mapping.file=/presto/etc/user-mapping.json
 {{- end }}
     query.max-memory={{ .Values.server.properties.query.maxMemory }}
     query.max-memory-per-node={{ .Values.server.properties.query.maxMemoryPerNode }}
@@ -60,6 +60,20 @@ data:
     discovery-server.enabled=true
     discovery.uri=http://{{ template "presto.fullname" . }}.{{ .Release.Namespace }}.svc:{{ .Values.server.properties.http.port }}
     node.internal-address={{ template "presto.fullname" . }}.{{ .Release.Namespace }}.svc
+{{- end }}
+
+{{- if .Values.server.properties.https }}
+  user-mapping.json: |
+    {
+      "rules": [
+        {
+          "pattern": "V3IOPrincipal\\{user:=([^,]*).*"
+        },
+        {
+          "pattern": "(.*)"
+        }
+      ]
+    }
 {{- end }}
 
 {{ if .Values.server.properties.https }}
