@@ -100,7 +100,7 @@ api:
     httpGet:
       path: /api/healthz
       port: http
-    initialDelaySeconds: 240
+    initialDelaySeconds: 1000
     timeoutSeconds: 10
     periodSeconds: 15
     failureThreshold: 4
@@ -353,7 +353,16 @@ v3io:
 httpDB:
   dbType: "sqldb"
   dirPath: "/mlrun/db"
-  dsn: "mysql+mysqlconnector://root@mlrun-db:3306/mlrun"
+
+  sqlDBType: "sqlite"
+  dsn: "sqlite:////mlrun/db/mlrun.db?check_same_thread=false"
+
+  # sqlite database dsn from which to migrate if using mysql database
+  oldDsn: ""
+
+  # Values to insert if mysql database is needed
+  # dsn: "mysql+pymysql://root@mlrun-db:3306/mlrun"
+  # oldDsn: "sqlite:////mlrun/db/mlrun.db?check_same_thread=false"
 
 defaultDockerRegistryURL: ""
 defaultDockerRegistrySecretName: ""

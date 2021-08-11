@@ -1,3 +1,4 @@
+{{- if eq .Values.httpDB.sqlDBType "mysql" }}
 apiVersion: v1
 kind: ConfigMap
 metadata:
@@ -11,3 +12,4 @@ data:
     GRANT ALL PRIVILEGES ON *.* TO 'root'@'%';
     FLUSH PRIVILEGES;
     CREATE DATABASE IF NOT EXISTS mlrun;
+{{- end }}
