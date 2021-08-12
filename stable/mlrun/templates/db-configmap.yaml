@@ -1,5 +1,4 @@
 {{- if eq .Values.httpDB.sqlDBType "mysql" }}
-{{- if .Values.rbac.create }}
 apiVersion: v1
 kind: ConfigMap
 metadata:
@@ -54,5 +53,4 @@ data:
     echo "Starting MySQL ..."
     # Note, "--user=root" flag allows running server as user root (default user)
     mysqld --user=root --sql_mode=""
-{{- end }}
 {{- end }}
