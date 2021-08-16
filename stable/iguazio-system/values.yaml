@@ -95,6 +95,7 @@ job:
       #   dataUrls: 
       #     - tcp://1.1.1.1:1234
       #     - tcp://2.2.2.2:1234
+    priorityClassName: ""
   namespaceTag:
     enabled: true
     image:
