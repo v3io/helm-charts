@@ -69,4 +69,5 @@ spec:
         - name: cfg
           configMap:
             name: {{ template "iguazio-system.flex-volume.name" . }}
+      priorityClassName: {{ .Values.job.flexVolume.priorityClassName | quote }}
 {{- end -}}
