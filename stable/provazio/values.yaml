@@ -118,6 +118,8 @@ dashboard:
   ##
   resources: {}
 
+  priorityClassName: ""
+
 controller:
   enabled: false
 
@@ -167,6 +169,8 @@ controller:
   ##
   resources: {}
 
+  priorityClassName: ""
+
 vault:
   enabled: false
 
@@ -215,4 +219,6 @@ vault:
   ## Ref: https://kubernetes.io/docs/concepts/configuration/manage-compute-resources-container/
   ##
   resources: {}
+
+  priorityClassName: ""
 
