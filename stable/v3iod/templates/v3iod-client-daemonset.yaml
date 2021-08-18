@@ -61,4 +61,7 @@ spec:
       affinity:
 {{ toYaml . | indent 8 }}
 {{- end }}
+{{- if .Values.benchmark.v3ioClient.priorityClassName }}
+      priorityClassName: {{ .Values.benchmark.v3ioClient.priorityClassName | quote }}
+{{- end }}
 {{- end }}
