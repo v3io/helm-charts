@@ -85,6 +85,8 @@ tolerations: []
 
 affinity: {}
 
+priorityClassName: ""
+
 environment:
   template: v3io-configs.deployment-with-home.env
   extra: {}

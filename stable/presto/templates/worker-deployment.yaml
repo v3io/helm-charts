@@ -121,5 +121,7 @@ spec:
       tolerations:
 {{ toYaml . | indent 8 }}
     {{- end }}
-
+{{- if .Values.priorityClassName }}
+      priorityClassName: {{ .Values.priorityClassName | quote }}
+{{- end }}
 {{- end }}

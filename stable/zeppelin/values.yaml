@@ -48,6 +48,8 @@ tolerations: []
 ## ref: https://kubernetes.io/docs/concepts/configuration/assign-pod-node/#affinity-and-anti-affinity
 affinity: {}
 
+priorityClassName: ""
+
 preloadNotebooks:
   enabled: true
   notebooks: 
