@@ -54,3 +54,6 @@ spec:
       affinity:
 {{ toYaml . | indent 8 }}
 {{- end }}
+{{- if .Values.locator.priorityClassName }}
+      priorityClassName: {{ .Values.locator.priorityClassName | quote }}
+{{- end }}

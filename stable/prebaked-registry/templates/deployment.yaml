@@ -37,7 +37,7 @@ spec:
 {{ toYaml .Values.imagePullSecrets | indent 8 }}
       {{- end }}
 {{- if .Values.priorityClassName }}
-      priorityClassName: "{{ .Values.priorityClassName }}"
+      priorityClassName: {{ .Values.priorityClassName | quote }}
 {{- end }}
 {{- if .Values.securityContext.enabled }}
       securityContext:

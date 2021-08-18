@@ -49,5 +49,7 @@ tolerations: []
 
 affinity: {}
 
+priorityClassName: ""
+
 environment:
   template: v3io-configs.auth.env

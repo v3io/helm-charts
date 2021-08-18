@@ -112,3 +112,6 @@ spec:
       affinity:
 {{ toYaml . | indent 8 }}
 {{- end }}
+{{- if .Values.v3iod.priorityClassName }}
+      priorityClassName: {{ .Values.v3iod.priorityClassName | quote }}
+{{- end }}

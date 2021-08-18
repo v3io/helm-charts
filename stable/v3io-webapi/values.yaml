@@ -37,6 +37,8 @@ tolerations: []
 ## ref: https://kubernetes.io/docs/concepts/configuration/assign-pod-node/#affinity-and-anti-affinity
 affinity: {}
 
+priorityClassName: ""
+
 numHugePages: 0
 hostPort: 8081
 serviceHostPort: 8081
