@@ -26,5 +26,8 @@ spec:
           - kubectl label namespace --overwrite {{ $.Values.tenant.name }} owner={{ $val }} app.iguazio.com/managed-by={{ $val }} ;
 {{- end }}
       restartPolicy: "Never"
+      {{- if .Values.job.namespaceTag.priorityClassName }}
+      priorityClassName: {{ .Values.job.namespaceTag.priorityClassName | quote }}
+      {{- end }}
   backoffLimit: 1
 {{- end -}}
