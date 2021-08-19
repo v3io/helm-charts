@@ -118,6 +118,9 @@ api:
     #   readOnly: true
     #   existingClaim: volume-claim
 
+  # Define extra initContainers for the api deployment
+  extraInitContainers: []
+
   opa:
     enabled: false
     name: opa-server
@@ -257,6 +260,9 @@ ui:
     # readOnlyRootFilesystem: true
   # runAsNonRoot: true
   # runAsUser: 1000
+
+  # Define extra initContainers to the ui deployment
+  extraInitContainers: []
 
 rbac:
   create: true
