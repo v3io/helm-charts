@@ -85,7 +85,7 @@ data:
     IP=$(hostname -i)
     echo "IP=$IP"
     CURL_TIMEOUT={{ default 10 .Values.server.properties.http.timeout }}
-    CURL_CMD="curl --disable --silent --fail --connect-timeout $CURL_TIMEOUT {{ template "presto.fullname" . }}.{{ .Release.Namespace }}.svc:{{ .Values.server.properties.http.port }}/v1/node"
+    CURL_CMD="curl --disable --silent --fail --connect-timeout $CURL_TIMEOUT {{ template "presto.fullname" . }}.{{ .Release.Namespace }}.svc:{{ .Values.server.properties.http.port }}/v1/status"
     echo "Curl command: $CURL_CMD"
     CURL_OUT=$($CURL_CMD)
     RC=$?
@@ -132,35 +132,14 @@ data:
     cp {{ .Values.server.properties.mapPath }}/*.config $PRESTO_CONF_DIR
     cp {{ .Values.server.properties.mapPath }}/*.json $PRESTO_CONF_DIR
     cp {{ .Values.server.properties.catalogMapPath }}/*.properties $PRESTO_CONF_DIR/catalog
-    cp {{ .Values.server.properties.thirdPartyMapPath }}/* ${PRESTO_THIRD_PARTY_LIBS}/
-
-    # make sure that oracle jdbc driver exists at the app-node, otherwise remove oracle connector plugin from presto
-    found=false
-    if [ -d ${PRESTO_HOME}/plugin/oracle ]; then
-      for name in ${PRESTO_THIRD_PARTY_LIBS}/*; do
-        filename=`basename "$name"`
-        echo filename $filename
-        echo "value" {{ .Values.server.properties.thirdPartyLibs.oracleJdbcDriver }}
-        if [[ "$filename" =~ ^{{ .Values.server.properties.thirdPartyLibs.oracleJdbcDriver }}.*\.jar$ ]]; then
-          found=true
-          echo "found"
-        fi
-        ln -s $name ${PRESTO_HOME}/plugin/oracle/$filename
-        echo "linking" $name
-      done
-    fi
-    if [ $found == "false" ]; then
-      echo "deleted"
-      rm -rf ${PRESTO_HOME}/plugin/oracle
-    fi
 
 {{- if .Values.hive }}
     # append to Hive configuration
     echo hive.config.resources=${HADOOP_CONF_DIR}/core-site.xml,${HADOOP_CONF_DIR}/hdfs-site.xml >> $PRESTO_CONF_DIR/catalog/hive.properties
 
     # Hive dependencies
-    ln -s ${PRESTO_HOME}/plugin/v3io/v3io-hcfs_${SCALA_MAJOR_VERSION}.jar ${PRESTO_HOME}/plugin/hive-hadoop2/v3io-hcfs_${SCALA_MAJOR_VERSION}.jar
-    ln -s ${PRESTO_HOME}/plugin/v3io/scala-library-${SCALA_VERSION}.jar ${PRESTO_HOME}/plugin/hive-hadoop2/scala-library-${SCALA_VERSION}.jar
+    ln -s ${PRESTO_HOME}/plugin/v3io/v3io-hcfs_${SCALA_MAJOR_VERSION}.jar ${PRESTO_HOME}/plugin/hive/v3io-hcfs_${SCALA_MAJOR_VERSION}.jar
+    ln -s ${PRESTO_HOME}/plugin/v3io/scala-library-${SCALA_VERSION}.jar ${PRESTO_HOME}/plugin/hive/scala-library-${SCALA_VERSION}.jar
 {{- end }}
 
     launcher run

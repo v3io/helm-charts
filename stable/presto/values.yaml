@@ -10,7 +10,7 @@ server:
         dataDir: /presto/etc/data
       log:
         categories:
-          io.prestosql: INFO
+          io.trino: INFO
           io.iguaz.v3io: INFO
       config: {}
       jvm:
@@ -29,7 +29,7 @@ server:
         dataDir: /presto/etc/data
       log:
         categories:
-          io.prestosql: INFO
+          io.trino: INFO
           io.iguaz.v3io: INFO
       config: {}
       jvm:
@@ -43,9 +43,6 @@ server:
     catalogs: {}
     mapPath: /etc/config/presto
     catalogMapPath: /etc/config/presto/catalog
-    thirdPartyMapPath: /etc/config/presto/lib/third-party
-    thirdPartyLibs:
-      oracleJdbcDriver: "ojdbc"
     path: /presto/etc
     http:
       port: 8080
