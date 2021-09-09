@@ -1,0 +1,41 @@
+image:
+  repository: ""
+  tag: ""
+  pullPolicy: IfNotPresent
+  command: /etc/config/shs/shs.sh
+
+sparkHistoryServer:
+  path: ""
+
+volumes:
+  volumesTemplate: v3io-configs.deployment.mount-with-fuse
+  volumeMountsTemplate: v3io-configs.deployment.volumeMounts-with-fuse
+
+livenessProbe:
+  initialDelaySeconds: 5
+  periodSeconds: 5
+
+global:
+  v3io:
+    homeContainer:
+
+v3io:
+  username:
+
+config:
+  hostname:
+
+environment:
+  template: ""
+  extra: {}
+
+resources: {}
+
+nodeSelector: {}
+
+tolerations: []
+
+affinity: {}
+
+priorityClassName: ""
+
