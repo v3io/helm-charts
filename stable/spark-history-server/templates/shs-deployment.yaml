@@ -1,0 +1,74 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ template "spark-history-server.fullname" . }}
+  labels:
+    app: {{ template "spark-history-server.name" . }}
+    chart: {{ template "spark-history-server.chart" . }}
+    release: {{ .Release.Name }}
+    heritage: {{ .Release.Service }}
+spec:
+  selector:
+    matchLabels:
+      app: {{ template "spark-history-server.name" . }}
+      release: {{ .Release.Name }}
+  template:
+    metadata:
+      labels:
+        app: {{ template "spark-history-server.name" . }}
+        release: {{ .Release.Name }}
+    spec:
+{{- if .Values.volumes }}
+      volumes:
+{{ include .Values.volumes.volumesTemplate . | indent 8 }}
+{{- end }}
+{{- if .Values.config.hostname }}
+      hostname: {{ .Values.config.hostname }}
+{{- end }}
+      containers:
+        - name: spark-history-server
+          image: "{{ .Values.image.repository }}:{{ .Values.image.tag }}"
+          imagePullPolicy: {{ .Values.image.pullPolicy }}
+          command: ["/bin/bash", "{{ .Values.image.command }}"]
+          workingDir: "/User"
+          ports:
+          - containerPort: 18080
+            name: shs
+            protocol: TCP
+          livenessProbe:
+            httpGet:
+              path: /
+              port: shs
+            initialDelaySeconds: {{ .Values.livenessProbe.initialDelaySeconds }}
+            periodSeconds: {{ .Values.livenessProbe.periodSeconds }}
+{{- if .Values.environment }}
+          env:
+{{- range $name, $val := .Values.environment.extra }}
+            - name: {{ $name }}
+              value: {{ $val }}
+{{ end -}}
+{{- if .Values.environment.template }}
+{{ include .Values.environment.template . | indent 12 }}
+{{- end }}
+{{- end }}
+{{- if .Values.volumes }}
+          volumeMounts:
+{{ include .Values.volumes.volumeMountsTemplate . | indent 12 }}
+{{- end }}
+          resources:
+{{ toYaml .Values.resources | indent 12 }}
+    {{- with .Values.nodeSelector }}
+      nodeSelector:
+{{ toYaml . | indent 8 }}
+    {{- end }}
+    {{- with .Values.affinity }}
+      affinity:
+{{ toYaml . | indent 8 }}
+    {{- end }}
+    {{- with .Values.tolerations }}
+      tolerations:
+{{ toYaml . | indent 8 }}
+    {{- end }}
+{{- if .Values.priorityClassName }}
+      priorityClassName: {{ .Values.priorityClassName | quote }}
+{{- end }}
