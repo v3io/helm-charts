@@ -18,8 +18,11 @@ spec:
         app: {{ template "spark-history-server.name" . }}
         release: {{ .Release.Name }}
     spec:
-{{- if .Values.volumes }}
       volumes:
+        - name: config-volume
+          configMap:
+            name: {{ template "spark-history-server.fullname" . }}
+{{- if .Values.volumes }}
 {{ include .Values.volumes.volumesTemplate . | indent 8 }}
 {{- end }}
 {{- if .Values.config.hostname }}
@@ -51,8 +54,10 @@ spec:
 {{ include .Values.environment.template . | indent 12 }}
 {{- end }}
 {{- end }}
-{{- if .Values.volumes }}
           volumeMounts:
+            - name: config-volume
+              mountPath: /etc/config/shs
+{{- if .Values.volumes }}
 {{ include .Values.volumes.volumeMountsTemplate . | indent 12 }}
 {{- end }}
           resources:
