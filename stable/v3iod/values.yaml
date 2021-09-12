@@ -134,7 +134,8 @@ locator:
 
   resources:
     requests:
-      memory: "100Mi"
+      cpu: "20m"
+      memory: "10Mi"
 
   ## Node labels for pod assignment
   ## Ref: https://kubernetes.io/docs/user-guide/node-selection/
