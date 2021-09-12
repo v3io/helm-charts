@@ -36,7 +36,7 @@ spec:
           ports:
             - containerPort: 8080
           resources:
-{{ toYaml .Values.v3iod.resources | indent 12 }}
+{{ toYaml .Values.locator.resources | indent 12 }}
           env:
             - name: CURRENT_NAMESPACE
               valueFrom:
