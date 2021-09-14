@@ -156,13 +156,13 @@ api:
       pullPolicy: IfNotPresent
       pullSecrets: []
 
-    resources: {}
-      # limits:
-      #   cpu: 100m
-    #   memory: 128Mi
-    # requests:
-    #   cpu: 100m
-    #   memory: 128Mi
+    resources:
+     limits:
+       cpu: 100m
+       memory: 10Mi
+     requests:
+       cpu: 3
+       memory: 200Mi
 
     securityContext: {}
       # capabilities:
