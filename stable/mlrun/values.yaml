@@ -12,7 +12,7 @@ api:
 
   image:
     repository: mlrun/mlrun-api
-    tag: 0.6.5
+    tag: 0.7.0
     pullPolicy: IfNotPresent
     pullSecrets: []
 
@@ -156,13 +156,13 @@ api:
       pullPolicy: IfNotPresent
       pullSecrets: []
 
-    resources: {}
-      # limits:
-      #   cpu: 100m
-    #   memory: 128Mi
-    # requests:
-    #   cpu: 100m
-    #   memory: 128Mi
+    resources:
+     limits:
+       cpu: 100m
+       memory: 10Mi
+     requests:
+       cpu: 3
+       memory: 200Mi
 
     securityContext: {}
       # capabilities:
@@ -197,7 +197,7 @@ ui:
 
   image:
     repository: mlrun/mlrun-ui
-    tag: 0.6.5
+    tag: 0.7.0
     pullPolicy: IfNotPresent
     pullSecrets: []
 
