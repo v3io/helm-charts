@@ -157,10 +157,10 @@ api:
       pullSecrets: []
 
     resources:
-     limits:
+     requests:
        cpu: 100m
        memory: 10Mi
-     requests:
+     limits:
        cpu: 3
        memory: 200Mi
 
