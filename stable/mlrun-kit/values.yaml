@@ -69,6 +69,8 @@ mlrun:
     extraEnv:
       - name: MLRUN_HTTPDB__DATA_VOLUME
         value: "/home/jovyan/data"
+      - name: MLRUN_ARTIFACT_PATH
+        value: "/home/jovyan/data"
       - name: MLRUN_HTTPDB__REAL_PATH
         value: "/data"
       - name: MLRUN_HTTPDB__PROJECTS__FOLLOWERS
