@@ -83,6 +83,9 @@ spec:
         - -leader-election-lock-namespace={{ default .Release.Namespace .Values.leaderElection.lockNamespace }}
         - -leader-election-lock-name={{ .Values.leaderElection.lockName }}
         {{- end }}
+        env:
+        - name: SPARK_USER
+          value: iguazio
         resources:
           {{- toYaml .Values.resources | nindent 10 }}
       {{- if .Values.webhook.enable }}
