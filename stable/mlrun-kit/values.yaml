@@ -75,6 +75,10 @@ mlrun:
         value: "/data"
       - name: MLRUN_HTTPDB__PROJECTS__FOLLOWERS
         value: nuclio
+      - name: MLRUN_STORAGE__AUTO_MOUNT_TYPE
+        value: pvc
+      - name: MLRUN_STORAGE__AUTO_MOUNT_PARAMS
+        value: "pvc_name=mlrun-kit-shared-pvc,volume_mount_path=/home/jovyan/data,volume_name=shared-persistency"
     extraPersistentVolumeMounts:
       - name: data-volume
         mountPath: /data
