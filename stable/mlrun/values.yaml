@@ -102,7 +102,7 @@ api:
     httpGet:
       path: /api/healthz
       port: http
-    initialDelaySeconds: 60
+    initialDelaySeconds: 1000
     timeoutSeconds: 10
     periodSeconds: 15
     failureThreshold: 4
@@ -188,6 +188,90 @@ api:
       timeoutSeconds: 10
       periodSeconds: 15
       failureThreshold: 4
+
+db:
+  name: db
+  fullnameOverride:
+
+  replicaCount: 1
+
+  image:
+    repository: mysql
+    tag: 5.7
+    pullPolicy: IfNotPresent
+    pullSecrets: []
+
+  service:
+    type: ClusterIP
+    port: 3306
+
+  # Extra env variables
+  extraEnv: []
+
+  # envFrom can be used to pass configmaps or secrets as environment
+  envFrom: []
+
+  resources: {}
+    # limits:
+    #   cpu: 100m
+    #   memory: 128Mi
+    # requests:
+  #   cpu: 100m
+  #   memory: 128Mi
+
+  ## Node labels for pod assignment
+  ## ref: https://kubernetes.io/docs/user-guide/node-selection/
+  ##
+  nodeSelector: {}
+
+  ## Tolerations for pod assignment
+  ## ref: https://kubernetes.io/docs/concepts/configuration/taint-and-toleration/
+  ##
+  tolerations: []
+
+  ## Affinity for pod assignment
+  ## ref: https://kubernetes.io/docs/concepts/configuration/assign-pod-node/#affinity-and-anti-affinity
+  ##
+  affinity: {}
+
+  podSecurityContext: {}
+  # fsGroup: 2000
+
+  securityContext: {}
+    # capabilities:
+    #   drop:
+    #   - ALL
+    # readOnlyRootFilesystem: true
+  # runAsNonRoot: true
+  # runAsUser: 1000
+
+  readinessProbe:
+    exec:
+      command: ["/bin/bash", "/etc/config/mysql/health_check.sh"]
+    initialDelaySeconds: 10
+    timeoutSeconds: 1
+    periodSeconds: 10
+    failureThreshold: 3
+
+  livenessProbe:
+    exec:
+      command: ["/bin/bash", "/etc/config/mysql/health_check.sh"]
+    initialDelaySeconds: 30
+    timeoutSeconds: 1
+    periodSeconds: 10
+    failureThreshold: 3
+
+  volumes:
+    storageOverride: {}
+
+  # Defines additional volume mounts from existing persistent volume claims.
+  extraPersistentVolumeMounts: []
+    # - name: extra-volume
+    #   mountPath: /mnt/volume
+    #   subPath: /sub/path
+    #   readOnly: true
+    #   existingClaim: volume-claim
+
 
 ui:
   name: ui
@@ -279,7 +363,16 @@ v3io:
 httpDB:
   dbType: "sqldb"
   dirPath: "/mlrun/db"
+
+  sqlDBType: "sqlite"
   dsn: "sqlite:////mlrun/db/mlrun.db?check_same_thread=false"
+
+  # sqlite database dsn from which to migrate if using mysql database
+  oldDsn: ""
+
+  # Values to insert if mysql database is needed
+  # dsn: "mysql+pymysql://root@mlrun-db:3306/mlrun"
+  # oldDsn: "sqlite:////mlrun/db/mlrun.db?check_same_thread=false"
 
 defaultDockerRegistryURL: ""
 defaultDockerRegistrySecretName: ""
