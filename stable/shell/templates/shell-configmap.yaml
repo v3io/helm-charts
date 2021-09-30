@@ -78,14 +78,18 @@ data:
 
 {{- if .Values.presto }}
     rm -rf ${IGUAZIO_HOME}/.presto_alias
-    touch ${IGUAZIO_HOME}/.presto_history
+    touch ${IGUAZIO_HOME}/.trino_history
 {{- if .Values.presto.keystoreBinary }}
-    echo alias prestojks=\"PRESTO_PASSWORD=$V3IO_ACCESS_KEY presto-cli --truststore-path {{ .Values.presto.secretsMountPath }}/tls.jks --truststore-password {{ .Values.presto.passphrase }} --user $V3IO_USERNAME --password \$@\" >> ${IGUAZIO_HOME}/.presto_alias
+    echo alias prestojks=\"TRINO_PASSWORD=$V3IO_ACCESS_KEY presto-cli --truststore-path {{ .Values.presto.secretsMountPath }}/tls.jks --truststore-password {{ .Values.presto.passphrase }} --user $V3IO_USERNAME --password \$@\" >> ${IGUAZIO_HOME}/.presto_alias
+    echo alias trinojks=\"prestojks \$@\" >> ${IGUAZIO_HOME}/.presto_alias
     echo alias prestow=\"prestojks --server https://{{ .Values.presto.hostname }} \$@\" >> ${IGUAZIO_HOME}/.presto_alias
+    echo alias trinow=\"prestow \$@\" >> ${IGUAZIO_HOME}/.presto_alias
 {{- else  }}
     echo alias prestow=\"presto-cli --server http://{{ .Values.presto.hostname }}.{{ .Release.Namespace }}.svc:{{ .Values.presto.port }} \$@\" >> ${IGUAZIO_HOME}/.presto_alias
+    echo alias trinow=\"prestow \$@\" >> ${IGUAZIO_HOME}/.presto_alias
 {{- end }}
     echo alias presto=\"prestow --catalog={{ .Values.presto.catalog }} \$@\" >> ${IGUAZIO_HOME}/.presto_alias
+    echo alias trino=\"presto \$@\" >> ${IGUAZIO_HOME}/.presto_alias
     if [ "$(grep --count 'PRESTO CONFIG' ${HOME}/.bashrc)" == "0" ]; then
       echo "# ----- PRESTO CONFIG -----" >> ${HOME}/.bashrc
       echo "source ${IGUAZIO_HOME}/.presto_alias" >> ${HOME}/.bashrc
@@ -94,7 +98,7 @@ data:
 {{- end }}
 
 {{- if .Values.hive }}
-    echo alias hive=\"${HIVE_HOME}/bin/hive -hiveconf hive.exec.scratchdir={{ .Values.hive.scratchDirPrefix }}/${V3IO_USERNAME}/hive -hiveconf hive.metastore.uris=thrift://{{ .Values.hive.metastore.hostname }}:{{ .Values.hive.metastore.port }} \$@\" >> ${IGUAZIO_HOME}/.hive_alias
+    echo alias hive=\"JAVA_HOME=${IGUAZIO_HOME}/jdk-8u181 ${HIVE_HOME}/bin/hive -hiveconf hive.exec.scratchdir={{ .Values.hive.scratchDirPrefix }}/${V3IO_USERNAME}/hive -hiveconf hive.metastore.uris=thrift://{{ .Values.hive.metastore.hostname }}:{{ .Values.hive.metastore.port }} \$@\" >> ${IGUAZIO_HOME}/.hive_alias
 
     if [ "$(grep --count 'HIVE CONFIG' ${HOME}/.bashrc)" == "0" ]; then
       echo "# ----- HIVE CONFIG -----" >> ${HOME}/.bashrc

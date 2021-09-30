@@ -46,6 +46,8 @@ v3iod:
   ## ref: https://kubernetes.io/docs/concepts/configuration/assign-pod-node/#affinity-and-anti-affinity
   affinity: {}
 
+  priorityClassName: ""
+
   cdiPort: 1967
   maxInFlightRequests: 4096
   maxChannelInactivitySeconds: 180
@@ -132,7 +134,8 @@ locator:
 
   resources:
     requests:
-      memory: "100Mi"
+      cpu: "20m"
+      memory: "10Mi"
 
   ## Node labels for pod assignment
   ## Ref: https://kubernetes.io/docs/user-guide/node-selection/
@@ -149,6 +152,8 @@ locator:
   ## Affinity
   ## ref: https://kubernetes.io/docs/concepts/configuration/assign-pod-node/#affinity-and-anti-affinity
   affinity: {}
+
+  priorityClassName: ""
 
 benchmark:
   enabled: false
@@ -173,3 +178,5 @@ benchmark:
     ## Affinity
     ## ref: https://kubernetes.io/docs/concepts/configuration/assign-pod-node/#affinity-and-anti-affinity
     affinity: {}
+
+    priorityClassName: ""

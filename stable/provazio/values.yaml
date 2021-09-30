@@ -5,7 +5,7 @@ dashboard:
   enabled: false
 
   image:
-    repository: quay.io/iguazio/provazio-dashboard
+    repository: gcr.io/iguazio/provazio-dashboard
     tag: 0.10.11
     pullPolicy: IfNotPresent
 
@@ -118,11 +118,13 @@ dashboard:
   ##
   resources: {}
 
+  priorityClassName: ""
+
 controller:
   enabled: false
 
   image:
-    repository: quay.io/iguazio/provazio-controller
+    repository: gcr.io/iguazio/provazio-controller
     tag: 0.10.11
     pullPolicy: IfNotPresent
 
@@ -167,11 +169,13 @@ controller:
   ##
   resources: {}
 
+  priorityClassName: ""
+
 vault:
   enabled: false
 
   image:
-    repository: quay.io/iguazio/provazio-vault
+    repository: gcr.io/iguazio/provazio-vault
     tag: 0.10.11
     pullPolicy: IfNotPresent
 
@@ -215,4 +219,6 @@ vault:
   ## Ref: https://kubernetes.io/docs/concepts/configuration/manage-compute-resources-container/
   ##
   resources: {}
+
+  priorityClassName: ""
 

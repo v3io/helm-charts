@@ -20,6 +20,10 @@ spec:
     {{- end }}
       securityContext:
         {{- toYaml .Values.ui.podSecurityContext | nindent 8 }}
+      {{- if .Values.ui.extraInitContainers }}
+      initContainers:
+        {{- toYaml .Values.ui.extraInitContainers | nindent 8 }}
+      {{- end }}
       containers:
         - name: {{ template "mlrun.name" . }}-{{ .Values.ui.name }}
           securityContext:
@@ -62,4 +66,7 @@ spec:
     {{- with .Values.ui.tolerations }}
       tolerations:
         {{- toYaml . | nindent 8 }}
+    {{- end }}
+    {{- if .Values.ui.priorityClassName }}
+      priorityClassName: {{ .Values.ui.priorityClassName | quote }}
     {{- end }}

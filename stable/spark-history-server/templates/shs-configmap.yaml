@@ -1,0 +1,19 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: {{ template "spark-history-server.fullname" . }}
+  labels:
+    app: {{ template "spark-history-server.name" . }}
+    chart: {{ template "spark-history-server.chart" . }}
+    release: {{ .Release.Name }}
+    heritage: {{ .Release.Service }}
+data:
+  shs.sh: |
+    #!/usr/bin/env bash
+    set -e
+    
+    mkdir -p {{ .Values.sparkHistoryServer.path }}
+    chmod 777 {{ .Values.sparkHistoryServer.path }}
+
+    /usr/bin/tini -s -- /spark/bin/spark-class -Dspark.history.fs.logDirectory=file://{{ .Values.sparkHistoryServer.path }} org.apache.spark.deploy.history.HistoryServer
+

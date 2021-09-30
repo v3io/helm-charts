@@ -32,7 +32,6 @@ data:
     -XX:+ExplicitGCInvokesConcurrent
     -XX:+HeapDumpOnOutOfMemoryError
     -XX:+ExitOnOutOfMemoryError
-    -Dpresto-temporarily-allow-java8=true
 {{- end }}
 
   config.properties: |
@@ -53,6 +52,7 @@ data:
     http-server.https.keystore.path={{ .Values.server.properties.https.keystore }}
     http-server.https.keystore.key={{ .Values.server.properties.https.passphrase }}
     http-server.authentication.type=PASSWORD
+    http-server.authentication.password.user-mapping.file=/presto/etc/user-mapping.json
 {{- end }}
     query.max-memory={{ .Values.server.properties.query.maxMemory }}
     query.max-memory-per-node={{ .Values.server.properties.query.maxMemoryPerNode }}
@@ -60,6 +60,22 @@ data:
     discovery-server.enabled=true
     discovery.uri=http://{{ template "presto.fullname" . }}.{{ .Release.Namespace }}.svc:{{ .Values.server.properties.http.port }}
     node.internal-address={{ template "presto.fullname" . }}.{{ .Release.Namespace }}.svc
+    web-ui.authentication.type=fixed
+    web-ui.user=admin
+{{- end }}
+
+{{- if .Values.server.properties.https }}
+  user-mapping.json: |
+    {
+      "rules": [
+        {
+          "pattern": "V3IOPrincipal\\{user:=([^,]*).*"
+        },
+        {
+          "pattern": "(.*)"
+        }
+      ]
+    }
 {{- end }}
 
 {{ if .Values.server.properties.https }}
@@ -119,35 +135,14 @@ data:
     cp {{ .Values.server.properties.mapPath }}/*.config $PRESTO_CONF_DIR
     cp {{ .Values.server.properties.mapPath }}/*.json $PRESTO_CONF_DIR
     cp {{ .Values.server.properties.catalogMapPath }}/*.properties $PRESTO_CONF_DIR/catalog
-    cp {{ .Values.server.properties.thirdPartyMapPath }}/* ${PRESTO_THIRD_PARTY_LIBS}/
-
-    # make sure that oracle jdbc driver exists at the app-node, otherwise remove oracle connector plugin from presto
-    found=false
-    if [ -d ${PRESTO_HOME}/plugin/oracle ]; then
-      for name in ${PRESTO_THIRD_PARTY_LIBS}/*; do
-        filename=`basename "$name"`
-        echo filename $filename
-        echo "value" {{ .Values.server.properties.thirdPartyLibs.oracleJdbcDriver }}
-        if [[ "$filename" =~ ^{{ .Values.server.properties.thirdPartyLibs.oracleJdbcDriver }}.*\.jar$ ]]; then
-          found=true
-          echo "found"
-        fi
-        ln -s $name ${PRESTO_HOME}/plugin/oracle/$filename
-        echo "linking" $name
-      done
-    fi
-    if [ $found == "false" ]; then
-      echo "deleted"
-      rm -rf ${PRESTO_HOME}/plugin/oracle
-    fi
 
 {{- if .Values.hive }}
     # append to Hive configuration
     echo hive.config.resources=${HADOOP_CONF_DIR}/core-site.xml,${HADOOP_CONF_DIR}/hdfs-site.xml >> $PRESTO_CONF_DIR/catalog/hive.properties
 
     # Hive dependencies
-    ln -s ${PRESTO_HOME}/plugin/v3io/v3io-hcfs_${SCALA_MAJOR_VERSION}.jar ${PRESTO_HOME}/plugin/hive-hadoop2/v3io-hcfs_${SCALA_MAJOR_VERSION}.jar
-    ln -s ${PRESTO_HOME}/plugin/v3io/scala-library-${SCALA_VERSION}.jar ${PRESTO_HOME}/plugin/hive-hadoop2/scala-library-${SCALA_VERSION}.jar
+    ln -s ${PRESTO_HOME}/plugin/v3io/v3io-hcfs_${SCALA_MAJOR_VERSION}.jar ${PRESTO_HOME}/plugin/hive/v3io-hcfs_${SCALA_MAJOR_VERSION}.jar
+    ln -s ${PRESTO_HOME}/plugin/v3io/scala-library-${SCALA_VERSION}.jar ${PRESTO_HOME}/plugin/hive/scala-library-${SCALA_VERSION}.jar
 {{- end }}
 
     launcher run

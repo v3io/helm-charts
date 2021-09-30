@@ -21,6 +21,10 @@ spec:
       serviceAccountName: {{ include "mlrun.serviceAccountName.api" . }}
       securityContext:
         {{- toYaml .Values.api.podSecurityContext | nindent 8 }}
+      {{- if .Values.api.extraInitContainers }}
+      initContainers:
+        {{- toYaml .Values.api.extraInitContainers | nindent 8 }}
+      {{- end }}
       containers:
         - name: {{ template "mlrun.name" . }}-{{ .Values.api.name }}
           securityContext:
@@ -173,4 +177,7 @@ spec:
     {{- with .Values.api.tolerations }}
       tolerations:
         {{- toYaml . | nindent 8 }}
+    {{- end }}
+    {{- if .Values.api.priorityClassName }}
+      priorityClassName: {{ .Values.api.priorityClassName | quote }}
     {{- end }}

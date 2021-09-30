@@ -76,5 +76,5 @@ spec:
       tolerations:
 {{ toYaml . | indent 8 }}
 {{- end }}
-
+      priorityClassName: {{ .Values.dashboard.priorityClassName | quote }}
 {{- end }}
