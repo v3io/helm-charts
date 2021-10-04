@@ -1,4 +1,4 @@
-{{- if eq .Values.httpDB.sqlDBType "mysql" }}
+{{- if eq .Values.httpDB.dbType "mysql" }}
 apiVersion: v1
 kind: ConfigMap
 metadata:

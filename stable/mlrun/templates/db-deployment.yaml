@@ -1,4 +1,4 @@
-{{- if eq .Values.httpDB.sqlDBType "mysql" }}
+{{- if eq .Values.httpDB.dbType "mysql" }}
 apiVersion: apps/v1
 kind: Deployment
 metadata:
