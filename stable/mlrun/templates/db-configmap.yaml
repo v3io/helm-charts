@@ -38,7 +38,7 @@ data:
     LOCK_FILE=/var/lib/mysql/.allow-remote-access-complete
     if [ ! -f $LOCK_FILE ]
     then
-      MYSQL_CONFIG=/etc/mysql/my.cnf
+      MYSQL_CONFIG=/etc/my.cnf
       INIT_SCRIPT="/etc/config/mysql/init-scripts/enable-root-remote-access.sql"
 
       # Call init script on startup
