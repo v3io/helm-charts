@@ -361,10 +361,9 @@ v3io:
   enabled: true
 
 httpDB:
-  dbType: "sqldb"
+  dbType: "sqlite"
   dirPath: "/mlrun/db"
 
-  sqlDBType: "sqlite"
   dsn: "sqlite:////mlrun/db/mlrun.db?check_same_thread=false"
 
   # sqlite database dsn from which to migrate if using mysql database
