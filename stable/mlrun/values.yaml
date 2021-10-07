@@ -93,16 +93,17 @@ api:
     httpGet:
       path: /api/healthz
       port: http
-    initialDelaySeconds: 10
+
+    # allow time for DB data to be initialized/migrated before readiness
+    initialDelaySeconds: 1000
     timeoutSeconds: 10
     periodSeconds: 15
     failureThreshold: 4
 
   livenessProbe:
-    httpGet:
-      path: /api/healthz
-      port: http
-    initialDelaySeconds: 1000
+    exec:
+      command: [ "/bin/bash", "/mlrun/automation/scripts/liveness_probe.sh" ]
+    initialDelaySeconds: 10
     timeoutSeconds: 10
     periodSeconds: 15
     failureThreshold: 4
