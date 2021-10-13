@@ -21,7 +21,7 @@ spec:
         - name: tensorboard
           image: {{ .Values.deployment.image.repository }}:{{ .Values.deployment.image.tag }}
           imagePullPolicy: {{ .Values.deployment.pullPolicy }}
-          command: ["tensorboard"]
+          command: ["/bin/sh", "-c"]
           ports:
             - containerPort: 6006
               name: http
@@ -39,9 +39,7 @@ spec:
               value: {{ $val | quote }}
 {{- end }}
 {{- end }}
-          args:
-            - "--host 0.0.0.0"
-            - "--logdir {{ .Values.deployment.logDir }}"
+          args: ["tensorboard --host 0.0.0.0 --logdir {{ .Values.deployment.logDir }}"]
       volumes:
         - name: storage
 {{- if .Values.v3io }}
