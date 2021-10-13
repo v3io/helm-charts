@@ -1,0 +1,69 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ template "tensorboard.name" . }}
+  labels:
+    {{- include "tensorboard.labels" . | nindent 4 }}
+    app.kubernetes.io/component: "tensorboard"
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      {{- include "tensorboard.selectorLabels" . | nindent 6 }}
+      app.kubernetes.io/component: "tensorboard"
+  template:
+    metadata:
+      labels:
+        {{- include "tensorboard.selectorLabels" . | nindent 8 }}
+        app.kubernetes.io/component: "tensorboard"
+    spec:
+      containers:
+        - name: tensorboard
+          image: {{ .Values.deployment.image.repository }}:{{ .Values.deployment.image.tag }}
+          imagePullPolicy: {{ .Values.deployment.pullPolicy }}
+          command: ["tensorboard"]
+          ports:
+            - containerPort: 6006
+              name: http
+              protocol: TCP
+          volumeMounts:
+            - name: storage
+              mountPath: {{ .Values.deployment.volumeMounts.mountPath }}
+{{- if .Values.v3io }}
+              subPath: "{{ default "users" .Values.global.v3io.homeContainer }}/{{ default "" .Values.global.v3io.homePrefix }}/{{ .Values.v3io.username }}"
+{{- end }}
+          env:
+{{- if .Values.deployment.environment }}
+{{- range $name, $val := .Values.deployment.environment.extra }}
+            - name: {{ $name }}
+              value: {{ $val | quote }}
+{{- end }}
+{{- end }}
+          args:
+            - "--host 0.0.0.0"
+            - "--logdir {{ .Values.deployment.logDir }}"
+      volumes:
+        - name: storage
+{{- if .Values.v3io }}
+          flexVolume:
+            driver: "v3io/fuse"
+            secretRef:
+              name: {{ .Release.Name }}-v3io-fuse
+{{- else }}
+          emptyDir: {}
+{{- end }}
+{{- with .Values.nodeSelector }}
+      nodeSelector:
+{{ toYaml . | indent 8 }}
+{{- end }}
+{{- with .Values.tolerations }}
+      tolerations:
+{{ toYaml . | indent 8 }}
+{{- end }}
+{{- with .Values.affinity }}
+      affinity:
+{{ toYaml . | indent 8 }}
+{{- end }}
+{{- if .Values.priorityClassName }}
+      priorityClassName: {{ .Values.priorityClassName | quote }}
+{{- end }}

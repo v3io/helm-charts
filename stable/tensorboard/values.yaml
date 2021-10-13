@@ -1,0 +1,24 @@
+nameOverride:
+fullnameOverride:
+
+deployment:
+  image:
+    repository: tensorflow/tensorflow
+    tag: 2.6.0
+    pullPolicy: IfNotPresent
+  logDir: "/User/tensorboard"
+  environment:
+    extra: {}
+  volumeMounts:
+    mountPath: "/User"
+
+# providing v3io.username v3io.accessKey will request a fuseMount for the deployment
+v3io: {}
+
+nodeSelector: {}
+
+tolerations: []
+
+affinity: {}
+
+priorityClassName: ""
