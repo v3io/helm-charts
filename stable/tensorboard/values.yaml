@@ -6,11 +6,12 @@ deployment:
     repository: tensorflow/tensorflow
     tag: 2.6.0
     pullPolicy: IfNotPresent
-  logDir: "/User/tensorboard"
+  logDir: "/User/.tensorboard"
   environment:
     extra: {}
   volumeMounts:
-    mountPath: "/User"
+    # fill if v3io mount is provided, e.g. "users//<username/.tensorboard"
+    v3ioSubPath: ""
 
 # providing v3io.username v3io.accessKey will request a fuseMount for the deployment
 v3io: {}

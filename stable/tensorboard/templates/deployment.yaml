@@ -20,17 +20,18 @@ spec:
       containers:
         - name: tensorboard
           image: {{ .Values.deployment.image.repository }}:{{ .Values.deployment.image.tag }}
-          imagePullPolicy: {{ .Values.deployment.pullPolicy }}
+          imagePullPolicy: {{ .Values.deployment.image.pullPolicy }}
           command: ["/bin/sh", "-c"]
+          args: ["tensorboard --host 0.0.0.0 --logdir {{ .Values.deployment.logDir }}"]
           ports:
             - containerPort: 6006
               name: http
               protocol: TCP
           volumeMounts:
             - name: storage
-              mountPath: {{ .Values.deployment.volumeMounts.mountPath }}
+              mountPath: {{ .Values.deployment.logDir }}
 {{- if .Values.v3io }}
-              subPath: "{{ default "users" .Values.global.v3io.homeContainer }}/{{ default "" .Values.global.v3io.homePrefix }}/{{ .Values.v3io.username }}"
+              subPath: {{ .Values.deployment.volumeMounts.v3ioSubPath }}
 {{- end }}
           env:
 {{- if .Values.deployment.environment }}
@@ -39,7 +40,6 @@ spec:
               value: {{ $val | quote }}
 {{- end }}
 {{- end }}
-          args: ["tensorboard --host 0.0.0.0 --logdir {{ .Values.deployment.logDir }}"]
       volumes:
         - name: storage
 {{- if .Values.v3io }}
