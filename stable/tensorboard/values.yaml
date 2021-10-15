@@ -6,7 +6,7 @@ deployment:
     repository: tensorflow/tensorflow
     tag: 2.6.0
     pullPolicy: IfNotPresent
-  logDir: "/User/.tensorboard"
+  logDir: "/tensorboard"
   environment:
     extra: {}
   volumeMounts:
