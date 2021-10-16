@@ -23,16 +23,6 @@ spec:
           imagePullPolicy: {{ .Values.deployment.image.pullPolicy }}
           command: ["/bin/sh", "-c"]
           args: ["tensorboard --host 0.0.0.0 --logdir {{ .Values.deployment.logDir }}"]
-          ports:
-            - containerPort: 6006
-              name: http
-              protocol: TCP
-          volumeMounts:
-            - name: storage
-              mountPath: {{ .Values.deployment.logDir }}
-{{- if .Values.v3io }}
-              subPath: {{ .Values.deployment.volumeMounts.v3ioSubPath }}
-{{- end }}
           env:
 {{- if .Values.deployment.environment }}
 {{- range $name, $val := .Values.deployment.environment.extra }}
@@ -40,6 +30,13 @@ spec:
               value: {{ $val | quote }}
 {{- end }}
 {{- end }}
+          ports:
+            - containerPort: 6006
+              name: http
+              protocol: TCP
+          volumeMounts:
+            - name: storage
+              mountPath: {{ .Values.deployment.volumeMounts.mountPath }}
       volumes:
         - name: storage
 {{- if .Values.v3io }}
@@ -47,6 +44,9 @@ spec:
             driver: "v3io/fuse"
             secretRef:
               name: {{ .Release.Name }}-v3io-fuse
+            options:
+              dirsToCreate: '[{"name": "{{ .Values.deployment.volumes.v3io.dirToCreate }}", "permissions": 488}]'
+
 {{- else }}
           emptyDir: {}
 {{- end }}

@@ -10,8 +10,11 @@ deployment:
   environment:
     extra: {}
   volumeMounts:
-    # fill if v3io mount is provided, e.g. "users//<username/.tensorboard"
-    v3ioSubPath: ""
+    mountPath: "/tensorboard"
+  volumes:
+    v3io:
+      dirToCreate: ""
+
 
 # providing v3io.username v3io.accessKey will request a fuseMount for the deployment
 v3io: {}
