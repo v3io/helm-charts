@@ -20,18 +20,9 @@ spec:
       containers:
         - name: tensorboard
           image: {{ .Values.deployment.image.repository }}:{{ .Values.deployment.image.tag }}
-          imagePullPolicy: {{ .Values.deployment.pullPolicy }}
+          imagePullPolicy: {{ .Values.deployment.image.pullPolicy }}
           command: ["/bin/sh", "-c"]
-          ports:
-            - containerPort: 6006
-              name: http
-              protocol: TCP
-          volumeMounts:
-            - name: storage
-              mountPath: {{ .Values.deployment.volumeMounts.mountPath }}
-{{- if .Values.v3io }}
-              subPath: "{{ default "users" .Values.global.v3io.homeContainer }}/{{ default "" .Values.global.v3io.homePrefix }}/{{ .Values.v3io.username }}"
-{{- end }}
+          args: ["tensorboard --host 0.0.0.0 --logdir {{ .Values.deployment.logDir }}"]
           env:
 {{- if .Values.deployment.environment }}
 {{- range $name, $val := .Values.deployment.environment.extra }}
@@ -39,7 +30,13 @@ spec:
               value: {{ $val | quote }}
 {{- end }}
 {{- end }}
-          args: ["tensorboard --host 0.0.0.0 --logdir {{ .Values.deployment.logDir }}"]
+          ports:
+            - containerPort: 6006
+              name: http
+              protocol: TCP
+          volumeMounts:
+            - name: storage
+              mountPath: {{ .Values.deployment.volumeMounts.mountPath }}
       volumes:
         - name: storage
 {{- if .Values.v3io }}
@@ -47,6 +44,10 @@ spec:
             driver: "v3io/fuse"
             secretRef:
               name: {{ .Release.Name }}-v3io-fuse
+            options:
+{{- if .Values.deployment.volumes.v3io.dirToCreate.name }}
+              dirsToCreate: '[{"name": "{{ .Values.deployment.volumes.v3io.dirToCreate.name }}", "permissions": {{ .Values.deployment.volumes.v3io.dirToCreate.name }}}]'
+{{- end }}
 {{- else }}
           emptyDir: {}
 {{- end }}
