@@ -45,8 +45,9 @@ spec:
             secretRef:
               name: {{ .Release.Name }}-v3io-fuse
             options:
-              dirsToCreate: '[{"name": "{{ .Values.deployment.volumes.v3io.dirToCreate }}", "permissions": 488}]'
-
+{{- if .Values.deployment.volumes.v3io.dirToCreate.name }}
+              dirsToCreate: '[{"name": "{{ .Values.deployment.volumes.v3io.dirToCreate.name }}", "permissions": {{ .Values.deployment.volumes.v3io.dirToCreate.name }}}]'
+{{- end }}
 {{- else }}
           emptyDir: {}
 {{- end }}

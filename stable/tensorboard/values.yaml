@@ -13,7 +13,9 @@ deployment:
     mountPath: "/tensorboard"
   volumes:
     v3io:
-      dirToCreate: ""
+      dirToCreate:
+        name: ""
+        permissions: 488
 
 
 # providing v3io.username v3io.accessKey will request a fuseMount for the deployment
