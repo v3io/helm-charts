@@ -1,25 +1,3 @@
 apiVersion: v1
-entries:
-  tensorboard:
-  - apiVersion: v1
-    appVersion: 2.6.0
-    created: "2021-10-16T21:24:04.263347+03:00"
-    dependencies:
-    - name: v3io-configs
-      repository: https://v3io.github.io/helm-charts/stable
-      version: 0.9.0
-    description: A Helm chart creating the tensorboard service, based on tensorflow
-      image
-    digest: e6d6387081a709bed98f964cc1b6a616cc21b6af0cebcda276f4407f831591b3
-    home: https://iguazio.com
-    icon: https://www.iguazio.com/wp-content/uploads/2019/10/Iguazio-Logo.png
-    maintainers:
-    - email: odedm@iguazio.com
-      name: odedm
-    name: tensorboard
-    sources:
-    - https://github.com/v3io
-    urls:
-    - https://v3io.github.io/helm-charts/stable/tensorboard-0.0.1.tgz
-    version: 0.0.1
-generated: "2021-10-16T21:24:04.260874+03:00"
+entries: ~
+generated: 2018-01-30T17:09:13.202782+02:00
