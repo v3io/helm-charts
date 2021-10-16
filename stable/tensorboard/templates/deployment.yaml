@@ -1,7 +1,7 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: {{ template "tensorboard.name" . }}
+  name: {{ template "tensorboard.fullname" . }}
   labels:
     {{- include "tensorboard.labels" . | nindent 4 }}
     app.kubernetes.io/component: "tensorboard"
