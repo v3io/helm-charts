@@ -117,6 +117,8 @@ tolerations: []
 # affinity -- Affinity for pod assignment
 affinity: {}
 
+priorityClassName: ""
+
 # podAnnotations -- Additional annotations to add to the pod
 podAnnotations: {}
 
