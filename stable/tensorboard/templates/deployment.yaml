@@ -46,7 +46,7 @@ spec:
               name: {{ .Release.Name }}-v3io-fuse
             options:
 {{- if .Values.deployment.volumes.v3io.dirToCreate.name }}
-              dirsToCreate: '[{"name": "{{ .Values.deployment.volumes.v3io.dirToCreate.name }}", "permissions": {{ .Values.deployment.volumes.v3io.dirToCreate.name }}}]'
+              dirsToCreate: '[{"name": "{{ .Values.deployment.volumes.v3io.dirToCreate.name }}", "permissions": {{ .Values.deployment.volumes.v3io.dirToCreate.permissions }}}]'
 {{- end }}
 {{- else }}
           emptyDir: {}
