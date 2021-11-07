@@ -5,7 +5,7 @@ global:
   externalHostAddress: localhost
   registry:
     url: mustprovide
-    secretName: mustprovide
+    secretName:
   nuclio:
     dashboard:
       nodePort: 30050
