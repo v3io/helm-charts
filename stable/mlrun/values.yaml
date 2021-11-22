@@ -102,7 +102,7 @@ db:
   replicaCount: 1
 
   image:
-    repository: mysql
+    repository: gcr.io/iguazio/mlrun-mysql
     tag: 5.7
     pullPolicy: IfNotPresent
     pullSecrets: []
