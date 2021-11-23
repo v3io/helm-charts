@@ -1,0 +1,56 @@
+{{- if eq .Values.httpDB.dbType "mysql" }}
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: {{ include "mlrun.db.fullname" . }}
+  labels:
+    {{- include "mlrun.db.labels" . | nindent 4 }}
+data:
+
+  health_check.sh: |
+    mysql -h 127.0.0.1 -e 'SELECT 1'
+
+  init-v3io-mysql.sh: |
+    #!/usr/bin/env bash
+    set -e
+
+    echo "Current user -> $(whoami)"
+    LOCK_FILE=/var/lib/mysql/.init-complete
+    if [ -f $LOCK_FILE ]
+    then
+      echo "MySQL has already been initialized. Skipping..."
+    else
+      echo "Initializing MySQL..."
+
+      mysqld --initialize-insecure --user=mysql --basedir=/usr --datadir=/tmp/mysql
+      # and then copy the init files into real working directory (on Fuse mount)
+      cp -R /tmp/mysql /var/lib/
+
+      touch $LOCK_FILE
+    fi
+
+  v3io-mysql.sh: |
+    #!/usr/bin/env bash
+    set -e
+
+    echo "Current user -> $(whoami)"
+
+    LOCK_FILE=/var/lib/mysql/.allow-remote-access-complete
+    if [ ! -f $LOCK_FILE ]
+    then
+      MYSQL_CONFIG=/etc/my.cnf
+      MYSQL_SOCKET_FILE=/var/run/mysqld/mysql.sock
+      INIT_SCRIPT="/etc/config/mysql/init-scripts/enable-root-remote-access.sql"
+
+      # Call init script on startup
+      echo "Adding $INIT_SCRIPT to $MYSQL_CONFIG ..."
+      echo "" >> $MYSQL_CONFIG
+      echo "init-file=$INIT_SCRIPT" >> $MYSQL_CONFIG
+
+      touch $LOCK_FILE
+    fi
+
+    echo "Starting MySQL ..."
+    # Note, "--user=root" flag allows running server as user root (default user)
+    mysqld --user=root --sql_mode="" --socket=$MYSQL_SOCKET_FILE
+{{- end }}

@@ -42,6 +42,23 @@ We truncate at 63 chars because some Kubernetes name fields are limited to this 
 {{- end -}}
 
 {{/*
+Create a fully qualified db name.
+We truncate at 63 chars because some Kubernetes name fields are limited to this (by the DNS naming spec).
+*/}}
+{{- define "mlrun.db.fullname" -}}
+{{- if .Values.db.fullnameOverride -}}
+{{- .Values.db.fullnameOverride | trunc 63 | trimSuffix "-" -}}
+{{- else -}}
+{{- $name := default .Chart.Name .Values.nameOverride -}}
+{{- if contains $name .Release.Name -}}
+{{- printf "%s-%s" .Release.Name .Values.db.name | trunc 63 | trimSuffix "-" -}}
+{{- else -}}
+{{- printf "%s-%s-%s" .Release.Name $name .Values.db.name | trunc 63 | trimSuffix "-" -}}
+{{- end -}}
+{{- end -}}
+{{- end -}}
+
+{{/*
 Create a fully qualified ui name.
 We truncate at 63 chars because some Kubernetes name fields are limited to this (by the DNS naming spec).
 */}}
@@ -58,6 +75,13 @@ We truncate at 63 chars because some Kubernetes name fields are limited to this 
 {{- end -}}
 {{- end -}}
 
+{{/*
+Create a fully qualified db configmap name.
+We truncate at 63 chars because some Kubernetes name fields are limited to this (by the DNS naming spec).
+*/}}
+{{- define "mlrun.db.initConfigMapName" -}}
+{{- printf "%s-init" (include "mlrun.db.fullname" .) | trunc 63 | trimSuffix "-" -}}
+{{- end -}}
 
 {{/*
 This is to couple nuclio and mlrun charts, and comes to workaround the fact that the same
@@ -128,6 +152,22 @@ API selector labels
 {{- define "mlrun.api.selectorLabels" -}}
 {{ include "mlrun.common.selectorLabels" . }}
 app.kubernetes.io/component: {{ .Values.api.name | quote }}
+{{- end -}}
+
+{{/*
+DB labels
+*/}}
+{{- define "mlrun.db.labels" -}}
+{{ include "mlrun.common.labels" . }}
+{{ include "mlrun.db.selectorLabels" . }}
+{{- end -}}
+
+{{/*
+DB selector labels
+*/}}
+{{- define "mlrun.db.selectorLabels" -}}
+{{ include "mlrun.common.selectorLabels" . }}
+app.kubernetes.io/component: {{ .Values.db.name | quote }}
 {{- end -}}
 
 {{/*

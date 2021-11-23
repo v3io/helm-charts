@@ -39,7 +39,11 @@ spec:
           - name: MLRUN_LOG_LEVEL
             value: {{ .Values.api.logLevel }}
           - name: MLRUN_HTTPDB__DB_TYPE
-            value: {{ .Values.httpDB.dbType }}
+            {{- if or (eq .Values.httpDB.dbType "mysql") (eq .Values.httpDB.dbType "sqlite") }}
+            value: "sqldb"
+            {{- else }}
+            value: "filedb"
+            {{- end }}
           - name: MLRUN_HTTPDB__API_URL
             value: http://{{ include "mlrun.api.fullname" . }}:{{ .Values.api.service.port }}
           - name: MLRUN_HTTPDB__DIRPATH
@@ -56,6 +60,8 @@ spec:
             value: {{ template "mlrun.defaultDockerRegistry.secretName" . }}
           - name: MLRUN_HTTPDB__DSN
             value: {{ .Values.httpDB.dsn }}
+          - name: MLRUN_HTTPDB__OLD_DSN
+            value: {{ .Values.httpDB.oldDsn }}
           {{- if .Values.v3io.enabled }}
           - name: V3IO_ACCESS_KEY
             valueFrom:
