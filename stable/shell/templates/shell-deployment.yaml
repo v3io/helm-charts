@@ -93,6 +93,7 @@ spec:
               - /etc/config/shell/health_check.sh
             initialDelaySeconds: {{ .Values.livenessProbe.initialDelaySeconds }}
             periodSeconds: {{ .Values.livenessProbe.periodSeconds }}
+            timeoutSeconds: 5
 {{- if or .Values.environment .Values.v3io.api }}
           env:
 {{- if .Values.environment }}

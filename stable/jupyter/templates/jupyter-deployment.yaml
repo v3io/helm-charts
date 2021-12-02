@@ -90,6 +90,7 @@ spec:
               - --port={{ .Values.servicePort }}
             initialDelaySeconds: 90
             periodSeconds: 10
+            timeoutSeconds: 5
           readinessProbe:
             exec:
               command:
@@ -99,6 +100,7 @@ spec:
               - --port={{ .Values.servicePort }}
             initialDelaySeconds: 5
             periodSeconds: 10
+            timeoutSeconds: 5
           env:
 {{- if .Values.config.jsonLogging }}
             - name: JUPYTER_ENABLE_JSON_LOGGING
