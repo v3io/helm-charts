@@ -64,6 +64,7 @@ spec:
               - --port={{ .Values.master.webAdmin.containerPort }}
             initialDelaySeconds: {{ .Values.livenessProbe.initialDelaySeconds }}
             periodSeconds: {{ .Values.livenessProbe.periodSeconds }}
+            timeoutSeconds: 5
           readinessProbe:
             exec:
               command:
@@ -72,6 +73,7 @@ spec:
               - --port={{ .Values.master.webAdmin.containerPort }}
             initialDelaySeconds: {{ .Values.readinessProbe.initialDelaySeconds }}
             periodSeconds: {{ .Values.readinessProbe.periodSeconds }}
+            timeoutSeconds: 5
           resources:
 {{ toYaml .Values.worker.resources | indent 12 }}
 {{- if .Values.environment }}
