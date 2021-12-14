@@ -166,7 +166,7 @@ data:
 {{- end }}
 
 {{- if .Values.hive }}
-    echo alias hive=\"JAVA_HOME=${IGUAZIO_HOME}/jdk-8u181 ${HIVE_HOME}/bin/hive -hiveconf hive.exec.scratchdir={{ .Values.hive.scratchDirPrefix }}/${V3IO_USERNAME}/hive -hiveconf hive.metastore.uris=thrift://{{ .Values.hive.metastore.hostname }}:{{ .Values.hive.metastore.port }} \$@\" >> ${IGUAZIO_HOME}/.hive_alias
+    echo alias hive=\"JAVA_HOME=${IGUAZIO_HOME}/jdk-8u181 LOG4J_FORMAT_MSG_NO_LOOKUPS=true ${HIVE_HOME}/bin/hive -hiveconf hive.exec.scratchdir={{ .Values.hive.scratchDirPrefix }}/${V3IO_USERNAME}/hive -hiveconf hive.metastore.uris=thrift://{{ .Values.hive.metastore.hostname }}:{{ .Values.hive.metastore.port }} \$@\" >> ${IGUAZIO_HOME}/.hive_alias
 
     if [ "$(grep --count 'HIVE CONFIG' ${HOME}/.bashrc)" == "0" ]; then
       echo "# ----- HIVE CONFIG -----" >> ${HOME}/.bashrc
