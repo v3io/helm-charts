@@ -105,6 +105,7 @@ spec:
               - --port={{ .Values.server.properties.http.port }}
             initialDelaySeconds: 90
             periodSeconds: 10
+            timeoutSeconds: 5
           readinessProbe:
             exec:
               command:
@@ -114,6 +115,7 @@ spec:
               - --port={{ .Values.server.properties.http.port }}
             initialDelaySeconds: 5
             periodSeconds: 10
+            timeoutSeconds: 5
           resources:
 {{ toYaml .Values.resources | indent 12 }}
     {{- with .Values.nodeSelector }}
