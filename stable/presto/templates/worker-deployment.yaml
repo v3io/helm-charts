@@ -98,6 +98,7 @@ spec:
               - {{ .Values.server.properties.mapPath }}/health_check.sh
             initialDelaySeconds: 30
             periodSeconds: 10
+            timeoutSeconds: 5
           readinessProbe:
             exec:
               command:
@@ -105,6 +106,7 @@ spec:
               - {{ .Values.server.properties.mapPath }}/health_check.sh
             initialDelaySeconds: 10
             periodSeconds: 10
+            timeoutSeconds: 5
           resources:
 {{ toYaml .Values.resources | indent 12 }}
     {{- with .Values.nodeSelector }}
