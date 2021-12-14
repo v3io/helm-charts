@@ -32,6 +32,11 @@ spec:
       # This, along with the annotation above marks this pod as a critical add-on.
       - key: CriticalAddonsOnly
         operator: Exists
+      # Allow this pod to be scheduled on gpu nodes (e.g.: GKE taints GPU nodes with nvidia.com/gpu)
+      - key: nvidia.com/gpu
+        effect: NoSchedule
+        operator: Equal
+        value: present
       securityContext:
         runAsUser: 0
         fsGroup: 0
