@@ -52,5 +52,5 @@ data:
 
     echo "Starting MySQL ..."
     # Note, "--user=root" flag allows running server as user root (default user)
-    mysqld --user=root --sql_mode="" --socket=$MYSQL_SOCKET_FILE
+    mysqld --user=root --sql_mode="" --innodb-adaptive-hash-index-parts=128 --socket=$MYSQL_SOCKET_FILE
 {{- end }}
