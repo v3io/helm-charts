@@ -78,6 +78,9 @@ spec:
               value: {{ .Values.metastore.database.hostname }}
             - name: HIVE_METASTORE_USER
               value: {{ .Values.metastore.database.username }}
+            # CVE-2021-44228 mitigation
+            - nameL: LOG4J_FORMAT_MSG_NO_LOOKUPS
+              value: true
             - name: HIVE_METASTORE_PASSWORD
               valueFrom:
                 secretKeyRef:
@@ -136,6 +139,9 @@ spec:
               value: {{ .Values.metastore.database.hostname }}
             - name: HIVE_METASTORE_USER
               value: {{ .Values.metastore.database.username }}
+            # CVE-2021-44228 mitigation
+            - nameL: LOG4J_FORMAT_MSG_NO_LOOKUPS
+              value: true
             - name: HIVE_METASTORE_PASSWORD
               valueFrom:
                 secretKeyRef:

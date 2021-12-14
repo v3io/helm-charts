@@ -133,6 +133,12 @@ data:
       </property>
 {{ end }}
 
+      # CVE-2021-44228
+      <property>
+        <name>log4j2.formatMsgNoLookups</name>
+        <value>true</value>
+      </property>
+
       <property>
         <name>javax.jdo.option.ConnectionUserName</name>
         <value>{{ .Values.metastore.database.username }}</value>
