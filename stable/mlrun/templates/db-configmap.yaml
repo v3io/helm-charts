@@ -35,11 +35,11 @@ data:
 
     echo "Current user -> $(whoami)"
 
+    MYSQL_SOCKET_FILE=/var/run/mysqld/mysql.sock
     LOCK_FILE=/var/lib/mysql/.allow-remote-access-complete
     if [ ! -f $LOCK_FILE ]
     then
       MYSQL_CONFIG=/etc/my.cnf
-      MYSQL_SOCKET_FILE=/var/run/mysqld/mysql.sock
       INIT_SCRIPT="/etc/config/mysql/init-scripts/enable-root-remote-access.sql"
 
       # Call init script on startup
