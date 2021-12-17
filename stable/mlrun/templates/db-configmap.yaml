@@ -53,11 +53,11 @@ data:
     echo "Starting MySQL ..."
     # Note, "--user=root" flag allows running server as user root (default user)
     mysqld \
-          --user=root \
-          --sql_mode="" \
-          --innodb-adaptive-hash-index-parts=128 \
-          --innodb-buffer-pool-size=1073741824 \
-          --innodb-buffer-pool-instances=8 \
-          --innodb-page-cleaners=4 \
-          --socket=$MYSQL_SOCKET_FILE
+      --user=root \
+      --sql_mode="" \
+      --innodb-adaptive-hash-index-parts=128 \
+      --innodb-buffer-pool-size=1073741824 \
+      --innodb-buffer-pool-instances=8 \
+      --innodb-page-cleaners=4 \
+      --socket=$MYSQL_SOCKET_FILE
 {{- end }}
