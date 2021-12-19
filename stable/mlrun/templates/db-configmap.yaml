@@ -55,7 +55,10 @@ data:
     mysqld \
       --user=root \
       --sql_mode="" \
-      --innodb-adaptive-hash-index-parts=128 \
+      --innodb-adaptive-hash-index=0 \
+      --innodb-read-io-threads=32 \
+      --innodb-write-io-threads=32 \
+      --innodb-purge-threads=16 \
       --innodb-buffer-pool-size=1073741824 \
       --innodb-buffer-pool-instances=8 \
       --innodb-page-cleaners=4 \
