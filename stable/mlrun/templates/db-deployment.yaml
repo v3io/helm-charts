@@ -119,8 +119,7 @@ spec:
             type: DirectoryOrCreate
             path: /home/iguazio/mlrun-db
       nodeSelector:
-        {{- toYaml . | nindent 8 }}
-      {{- end }}
+        kubernetes.io/hostname: k8s-node2
     {{- with .Values.db.affinity }}
       affinity:
         {{- toYaml . | nindent 8 }}
