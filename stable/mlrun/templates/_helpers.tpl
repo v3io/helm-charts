@@ -75,6 +75,19 @@ We truncate at 63 chars because some Kubernetes name fields are limited to this 
 {{- end -}}
 {{- end -}}
 
+{{- define "mlrun.db.exporter.fullname" -}}
+{{- if .Values.db.exporter.fullnameOverride -}}
+{{- .Values.db.exporter.fullnameOverride | trunc 63 | trimSuffix "-" -}}
+{{- else -}}
+{{- $name := default .Chart.Name .Values.nameOverride -}}
+{{- if contains $name .Release.Name -}}
+{{- printf "%s-%s" .Release.Name .Values.db.exporter.name | trunc 63 | trimSuffix "-" -}}
+{{- else -}}
+{{- printf "%s-%s-%s" .Release.Name $name .Values.db.exporter.name | trunc 63 | trimSuffix "-" -}}
+{{- end -}}
+{{- end -}}
+{{- end -}}
+
 {{/*
 Create a fully qualified ui name.
 We truncate at 63 chars because some Kubernetes name fields are limited to this (by the DNS naming spec).
