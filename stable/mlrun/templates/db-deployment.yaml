@@ -76,6 +76,7 @@ spec:
             mountPath: /etc/config/mysql
           - name: mysql-init-scripts
             mountPath: /etc/config/mysql/init-scripts
+        {{- if .Values.db.exporter.enabled }}
         - name: {{ template "mlrun.name" . }}-{{ .Values.db.name }}-exporter
           image: "{{ .Values.db.exporter.image.repository }}:{{ .Values.db.exporter.image.tag }}"
           imagePullPolicy: {{ .Values.db.exporter.image.pullPolicy }}
@@ -105,6 +106,7 @@ spec:
             httpGet:
               path: /
               port: {{ .Values.db.exporter.service.internalPort }}
+        {{- end }}
       volumes:
         - name: mysql-init-scripts
           configMap:
