@@ -75,6 +75,10 @@ We truncate at 63 chars because some Kubernetes name fields are limited to this 
 {{- end -}}
 {{- end -}}
 
+{{/*
+Create a fully qualified db exporter name.
+We truncate at 63 chars because some Kubernetes name fields are limited to this (by the DNS naming spec).
+*/}}
 {{- define "mlrun.db.exporter.fullname" -}}
 {{- if .Values.db.exporter.fullnameOverride -}}
 {{- .Values.db.exporter.fullnameOverride | trunc 63 | trimSuffix "-" -}}
