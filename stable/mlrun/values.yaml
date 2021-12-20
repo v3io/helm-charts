@@ -279,6 +279,9 @@ db:
     name: db-exporter
     fullnameOverride:
 
+    # cannot use dsn, as we need the dsn without the protocol prefix - mysql+pymysql://
+    dataSource: root@mlrun-db:3306/mlrun
+
     image:
       repository: "prom/mysqld-exporter"
       tag: "v0.11.0"

@@ -95,7 +95,7 @@ spec:
           {{- end }}
           env:
             - name: DATA_SOURCE_NAME
-              value: {{ .Values.httpDB.dsn }}
+              value: {{ .Values.db.exporter.dataSource }}
           ports:
             - containerPort: {{ .Values.db.exporter.service.internalPort }}
           livenessProbe:
