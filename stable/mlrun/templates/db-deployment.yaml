@@ -76,6 +76,37 @@ spec:
             mountPath: /etc/config/mysql
           - name: mysql-init-scripts
             mountPath: /etc/config/mysql/init-scripts
+        {{- if .Values.db.exporter.enabled }}
+        - name: {{ template "mlrun.name" . }}-{{ .Values.db.name }}-exporter
+          image: "{{ .Values.db.exporter.image.repository }}:{{ .Values.db.exporter.image.tag }}"
+          imagePullPolicy: {{ .Values.db.exporter.image.pullPolicy }}
+          {{- with .Values.db.exporter.collectors }}
+          args: [
+            {{- range $index, $element := . }}
+            {{- if and (typeIs "bool" $element) $element }}
+            {{ printf "--collect.%s" $index | quote | indent 12 }},
+            {{- else if and (typeIs "bool" $element) (not $element) }}
+            {{ printf "--no-collect.%s" $index | quote | indent 12 }},
+            {{- else }}
+            {{ printf "--collect.%s" $index | quote | indent 12 }}, {{ $element | quote }},
+            {{- end }}
+            {{- end }}
+          ]
+          {{- end }}
+          env:
+            - name: DATA_SOURCE_NAME
+              value: {{ .Values.db.exporter.dataSource }}
+          ports:
+            - containerPort: {{ .Values.db.exporter.service.internalPort }}
+          livenessProbe:
+            httpGet:
+              path: /
+              port: {{ .Values.db.exporter.service.internalPort }}
+          readinessProbe:
+            httpGet:
+              path: /
+              port: {{ .Values.db.exporter.service.internalPort }}
+        {{- end }}
       volumes:
         - name: mysql-init-scripts
           configMap:
