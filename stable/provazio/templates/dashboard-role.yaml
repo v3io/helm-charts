@@ -13,7 +13,7 @@ metadata:
 rules:
 - apiGroups: [""]
   resources: ["configmaps"]	
-  verbs: ["get", "list", "create", "delete"]
+  verbs: ["get", "list", "create", "delete", "update"]
 - apiGroups: ["batch", "extensions"]
   resources: ["jobs"]
   verbs: ["get", "list", "create", "delete"]
