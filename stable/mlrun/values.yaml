@@ -261,13 +261,13 @@ v3io:
   enabled: true
 
 httpDB:
-  dbType: "sqlite"
+  dbType: "mysql"
   dirPath: "/mlrun/db"
 
-  dsn: "sqlite:////mlrun/db/mlrun.db?check_same_thread=false"
+  dsn: "mysql+pymysql://root@mlrun-db:3306/mlrun"
 
   # sqlite database dsn from which to migrate if using mysql database
-#  oldDsn: "sqlite:////mlrun/db/mlrun.db?check_same_thread=false"
+  oldDsn: "sqlite:////mlrun/db/mlrun.db?check_same_thread=false"
 
 defaultDockerRegistryURL: ""
 defaultDockerRegistrySecretName: ""
