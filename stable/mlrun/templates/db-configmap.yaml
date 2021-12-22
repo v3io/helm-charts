@@ -61,6 +61,8 @@ data:
       --innodb-purge-threads=16 \
       --innodb-buffer-pool-size=1073741824 \
       --innodb-buffer-pool-instances=8 \
-      --innodb-page-cleaners=4 \
+      --innodb-page-cleaners=8 \
+      --innodb-io-capacity=10000 \
+      --innodb-flush-neighbors=0 \
       --socket=$MYSQL_SOCKET_FILE
 {{- end }}
