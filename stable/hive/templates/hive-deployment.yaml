@@ -45,7 +45,7 @@ spec:
           image: "{{ .Values.createHiveUserMariaDbImage.repository }}:{{ .Values.createHiveUserMariaDbImage.tag }}"
           imagePullPolicy: {{ .Values.createHiveUserMariaDbImage.pullPolicy }}
           resources:
-  {{ toYaml .Values.resources | indent 10 }}
+            {{- toYaml .Values.resources | nindent 12 }}
           env:
             - name: HIVE_METASTORE_ADMIN_PASSWORD
               valueFrom:
@@ -70,7 +70,7 @@ spec:
           image: "{{ .Values.image.repository }}:{{ .Values.image.tag }}"
           imagePullPolicy: {{ .Values.image.pullPolicy }}
           resources:
-        {{ toYaml .Values.resources | indent 10 }}
+            {{- toYaml .Values.resources | nindent 12 }}
           env:
             - name: HIVE_DB_TYPE
               value: {{ .Values.metastore.database.type }}
@@ -161,18 +161,18 @@ spec:
 {{ include .Values.volumes.volumeMountsTemplate . | indent 12 }}
 {{- end }}
           resources:
-{{ toYaml .Values.resources | indent 12 }}
+            {{- toYaml .Values.resources | nindent 12 }}
     {{- with .Values.nodeSelector }}
       nodeSelector:
-{{ toYaml . | indent 8 }}
+        {{- toYaml . | nindent 8 }}
     {{- end }}
     {{- with .Values.affinity }}
       affinity:
-{{ toYaml . | indent 8 }}
+        {{- toYaml . | nindent 8 }}
     {{- end }}
     {{- with .Values.tolerations }}
       tolerations:
-{{ toYaml . | indent 8 }}
+        {{- toYaml . | nindent 8 }}
     {{- end }}
     {{- if .Values.priorityClassName }}
       priorityClassName: {{ .Values.priorityClassName | quote }}
