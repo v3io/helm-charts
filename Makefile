@@ -10,7 +10,7 @@ CHART_NAME := $(if $(CHART_NAME),$(CHART_NAME),chart-name)
 CHART_VERSION_OVERRIDE := $(if $(CHART_VERSION_OVERRIDE),$(CHART_VERSION_OVERRIDE),none)
 
 
-#### Some exmamples:
+#### Some examples:
 # make print-versions
 # make helm-publish - release all changes from development
 # GITHUB_BRANCH_OVERRIDE=integ_2.8 make helm-publish - release all changes from integ_2.8

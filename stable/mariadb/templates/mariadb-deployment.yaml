@@ -42,7 +42,7 @@ spec:
           image: "{{ .Values.initializationImage.repository }}:{{ .Values.initializationImage.tag }}"
           imagePullPolicy: {{ .Values.initializationImage.pullPolicy }}
           resources:
-  {{ toYaml .Values.resources | indent 10 }}
+            {{- toYaml .Values.resources | nindent 12 }}
           env:
             - name: MYSQL_ROOT_PASSWORD
               valueFrom:
@@ -115,18 +115,18 @@ spec:
             - name: {{ .Release.Name }}-init-scripts
               mountPath: {{ .Values.configMountPath }}/init-scripts
           resources:
-{{ toYaml .Values.resources | indent 12 }}
+            {{- toYaml .Values.resources | nindent 12 }}
     {{- with .Values.nodeSelector }}
       nodeSelector:
-{{ toYaml . | indent 8 }}
+        {{- toYaml . | nindent 8 }}
     {{- end }}
     {{- with .Values.affinity }}
       affinity:
-{{ toYaml . | indent 8 }}
+        {{- toYaml . | nindent 8 }}
     {{- end }}
     {{- with .Values.tolerations }}
       tolerations:
-{{ toYaml . | indent 8 }}
+        {{- toYaml . | nindent 8 }}
     {{- end }}
 {{- if .Values.priorityClassName }}
       priorityClassName: {{ .Values.priorityClassName | quote }}
