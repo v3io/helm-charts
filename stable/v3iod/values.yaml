@@ -48,6 +48,12 @@ v3iod:
     operator: Equal
     value: present
 
+  # Allow this pod to be scheduled on AKS spot nodes (AKS taints spot nodes with kubernetes.azure.com/scalesetpriority=spot:NoSchedule)
+  - key: kubernetes.azure.com/scalesetpriority
+    effect: NoSchedule
+    operator: Equal
+    value: spot
+
   ## Affinity
   ## ref: https://kubernetes.io/docs/concepts/configuration/assign-pod-node/#affinity-and-anti-affinity
   affinity: {}
