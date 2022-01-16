@@ -8,7 +8,7 @@ metadata:
 data:
 
   health_check.sh: |
-    mysql -h 127.0.0.1 -e 'SELECT 1'
+    mysql -S /var/run/mysqld/mysql.sock -e 'SELECT 1'
 
   init-v3io-mysql.sh: |
     #!/usr/bin/env bash
@@ -36,25 +36,14 @@ data:
     echo "Current user -> $(whoami)"
 
     MYSQL_SOCKET_FILE=/var/run/mysqld/mysql.sock
-    LOCK_FILE=/var/lib/mysql/.allow-remote-access-complete
-    if [ ! -f $LOCK_FILE ]
-    then
-      MYSQL_CONFIG=/etc/my.cnf
-      INIT_SCRIPT="/etc/config/mysql/init-scripts/enable-root-remote-access.sql"
-
-      # Call init script on startup
-      echo "Adding $INIT_SCRIPT to $MYSQL_CONFIG ..."
-      echo "" >> $MYSQL_CONFIG
-      echo "init-file=$INIT_SCRIPT" >> $MYSQL_CONFIG
-
-      touch $LOCK_FILE
-    fi
+    INIT_SCRIPT="/etc/config/mysql/init-scripts/enable-root-remote-access.sql"
 
     echo "Starting MySQL ..."
     # Note, "--user=root" flag allows running server as user root (default user)
     mysqld \
       --user=root \
       --sql_mode="" \
+      --init-file=$INIT_SCRIPT \
       --innodb-adaptive-hash-index=0 \
       --innodb-read-io-threads=32 \
       --innodb-write-io-threads=32 \
