@@ -8,7 +8,7 @@ metadata:
 data:
   enable-root-remote-access.sql: |
     -- Allow passwordless (insecure) access to root user from anywhere
-    UPDATE mysql.user SET host='%' WHERE user='root';
+    CREATE USER IF NOT EXISTS 'root'@'%';
     GRANT ALL PRIVILEGES ON *.* TO 'root'@'%';
     FLUSH PRIVILEGES;
     CREATE DATABASE IF NOT EXISTS mlrun;
