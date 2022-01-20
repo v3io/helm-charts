@@ -10,6 +10,10 @@ data:
   health_check.sh: |
     mysql -h 127.0.0.1 -e 'SELECT 1'
 
+  graceful_shutdown.sh: |
+    mysql -S /var/run/mysqld/mysql.sock -e 'SET GLOBAL innodb_fast_shutdown = 0; FLUSH TABLES WITH READ LOCK;'
+    mysqladmin -S /var/run/mysqld/mysql.sock shutdown
+
   init-v3io-mysql.sh: |
     #!/usr/bin/env bash
     set -e
