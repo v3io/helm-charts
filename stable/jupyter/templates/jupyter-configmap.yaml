@@ -130,6 +130,11 @@ data:
     export JUPYTER_DATA_DIR=${HOME}/.local/share/jupyter/{{ template "jupyter.fullname" . }}
     mkdir -p "${JUPYTER_DATA_DIR}"
 
+    # IG-9854
+    if [ "$(grep --count Slf4jLogger /hadoop/etc/hadoop/log4j.properties)" == "0" ]; then
+        echo "\nlog4j.logger.vendor.akka.event.slf_4j.Slf4jLogger=WARN" >> /hadoop/etc/hadoop/log4j.properties
+    fi
+
 {{- if .Values.spark }}
     echo "spark.master=spark://{{ .Values.spark.hostname }}:{{ .Values.spark.port }}" >> ${SPARK_HOME}/conf/spark-defaults.conf
     echo spark.driver.host=$(hostname -i) >> ${SPARK_HOME}/conf/spark-defaults.conf

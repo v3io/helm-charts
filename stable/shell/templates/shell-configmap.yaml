@@ -58,6 +58,11 @@ data:
     fi
 {{- end }}
 
+    # IG-9854
+    if [ "$(grep --count Slf4jLogger /hadoop/etc/hadoop/log4j.properties)" == "0" ]; then
+        echo "\nlog4j.logger.vendor.akka.event.slf_4j.Slf4jLogger=WARN" >> /hadoop/etc/hadoop/log4j.properties
+    fi
+
     # Create /tmp in default container if not exists and set premissions to 777 (See: IG-11583)
     hadoop fs -test -e {{ .Values.hive.scratchDirPrefix }} || hadoop fs -mkdir {{ .Values.hive.scratchDirPrefix }}
     hadoop fs -chmod 777 {{ .Values.hive.scratchDirPrefix }}
