@@ -1,0 +1,30 @@
+nameOverride:
+fullnameOverride:
+
+name: registry-creds-handler
+
+logLevel: DEBUG
+
+replicaCount: 1
+
+image:
+  repository: v3io/registry-creds-handler
+  tag: unstable
+  pullPolicy: IfNotPresent
+  pullSecrets: []
+
+resources: {}
+  # limits:
+    # cpu: 1
+    # memory: "2Gi"
+  # requests:
+    # cpu: 1
+    # memory: "2Gi"
+
+nodeSelector: {}
+
+tolerations: []
+
+affinity: {}
+
+priorityClassName: ""
