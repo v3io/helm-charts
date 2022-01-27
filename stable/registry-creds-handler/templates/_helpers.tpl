@@ -32,3 +32,22 @@ Create chart name and version as used by the chart label.
 {{- define "registry-creds-handler.chart" -}}
 {{- printf "%s-%s" .Chart.Name .Chart.Version | replace "+" "_" | trunc 63 | trimSuffix "-" -}}
 {{- end -}}
+
+{{/*
+Common labels
+*/}}
+{{- define "registry-creds-handler.labels" -}}
+helm.sh/chart: {{ include "registry-creds-handler.chart" . }}
+{{- if .Chart.AppVersion }}
+app.kubernetes.io/version: {{ .Chart.AppVersion | quote }}
+{{- end }}
+app.kubernetes.io/managed-by: {{ .Release.Service }}
+{{- end -}}
+
+{{/*
+Common selector labels
+*/}}
+{{- define "registry-creds-handler.selectorLabels" -}}
+app.kubernetes.io/name: {{ include "registry-creds-handler.name" . }}
+app.kubernetes.io/instance: {{ .Release.Name }}
+{{- end -}}

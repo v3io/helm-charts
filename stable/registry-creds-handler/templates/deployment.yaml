@@ -6,7 +6,13 @@ metadata:
     {{- include "registry-creds-handler.labels" . | nindent 4 }}
 spec:
   replicas: {{ .Values.replicaCount }}
+  selector:
+    matchLabels:
+      {{- include "registry-creds-handler.selectorLabels" . | nindent 6 }}
   template:
+    metadata:
+      labels:
+        {{- include "registry-creds-handler.selectorLabels" . | nindent 8 }}
     spec:
     {{- with .Values.image.pullSecrets }}
       imagePullSecrets:

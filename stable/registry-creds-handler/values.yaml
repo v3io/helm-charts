@@ -8,7 +8,7 @@ logLevel: DEBUG
 replicaCount: 1
 
 image:
-  repository: v3io/registry-creds-handler
+  repository: gcr.io/iguazio/registry-creds-handler
   tag: unstable
   pullPolicy: IfNotPresent
   pullSecrets: []
