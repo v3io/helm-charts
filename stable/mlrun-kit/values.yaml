@@ -17,12 +17,12 @@ nuclio:
   controller:
     enabled: true
     image:
-      tag: 1.6.15-amd64
+      tag: 1.7.5-amd64
   dashboard:
     enabled: true
     # nodePort - taken from global.nuclio.dashboard.nodePort for re-usability
     image:
-      tag: 1.6.15-amd64
+      tag: 1.7.5-amd64
   autoscaler:
     enabled: false
   dlx:
@@ -58,7 +58,7 @@ mlrun:
   api:
     fullnameOverride: mlrun-api
     image:
-      tag: 0.7.1
+      tag: 0.9.3
     service:
       type: NodePort
       nodePort: 30070
@@ -90,7 +90,7 @@ mlrun:
       type: NodePort
       nodePort: 30060
     image:
-      tag: 0.7.1
+      tag: 0.9.3
 
 # mlrun persistency resources creation can be disabled if the user would like to provide their own PVC
 mlrunPersistency:
@@ -115,7 +115,7 @@ jupyterNotebook:
     nodePort: 30040
   image:
     repository: quay.io/mlrun/jupyter
-    tag: 0.7.1
+    tag: 0.9.3
     pullPolicy: IfNotPresent
   # use this to override mlrunUIURL, by default it will be auto-resolved to externalHostAddress and
   # mlrun UI's node port
