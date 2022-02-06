@@ -3,6 +3,23 @@ fullnameOverride:
 
 name: registry-creds-handler
 
+# provide to allow application to create and refresh a docker registry auth secret
+registry:
+  secretName: example-secret-name
+  kind: ecr
+#  namespace: default
+#  creds: ""
+#  extraArgs:
+#    - --refresh-rate=60
+#    - --registry-uri=""
+#    - --kubeconfig-path=""
+#    - --verbose=false
+#    - --logs-format=humanreadable
+
+## The name of a secret in the same kubernetes namespace which contain values to be added to the environment
+## This can be useful for auth tokens, etc
+envFromSecret: ""
+
 logLevel: DEBUG
 
 replicaCount: 1
@@ -14,12 +31,12 @@ image:
   pullSecrets: []
 
 resources: {}
-  # limits:
-    # cpu: 1
-    # memory: "2Gi"
-  # requests:
-    # cpu: 1
-    # memory: "2Gi"
+ # limits:
+ #   cpu: 100m
+ #   memory: 128Mi
+ # requests:
+ #   cpu: 100m
+ #   memory: 128Mi
 
 nodeSelector: {}
 

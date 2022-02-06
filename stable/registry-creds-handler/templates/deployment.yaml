@@ -22,6 +22,25 @@ spec:
         - name: {{ template "registry-creds-handler.name" . }}-{{ .Values.name }}
           image: '{{ .Values.image.repository }}:{{ .Values.image.tag }}'
           imagePullPolicy: {{ .Values.image.pullPolicy }}
+          {{- if .Values.envFromSecret }}
+          envFrom:
+            - secretRef:
+                name: {{ .Values.envFromSecret }}
+          {{- end }}
+          {{- with .Values.registry }}
+          args:
+            - --secret-name={{ .secretName }}
+            - --registry-kind={{ .kind }}
+            {{- if .namespace }}
+            - --namespace={{ .namespace }}
+            {{- end }}
+            {{- if .creds }}
+            - --creds={{ .creds }}
+            {{- end }}
+            {{- if .extraArgs }}
+            {{ toYaml .extraArgs | indent 12 }}
+            {{- end }}
+          {{- end }}
 
       {{- with .Values.nodeSelector }}
       nodeSelector:
