@@ -27,8 +27,8 @@ spec:
             - secretRef:
                 name: {{ .Values.envFromSecret }}
           {{- end }}
-          {{- with .Values.registry }}
           args:
+          {{- with .Values.registry }}
             - --secret-name={{ .secretName }}
             - --registry-kind={{ .kind }}
             {{- if .namespace }}
@@ -37,8 +37,15 @@ spec:
             {{- if .creds }}
             - --creds={{ .creds }}
             {{- end }}
-            {{- if .extraArgs }}
-            {{ toYaml .extraArgs | nindent 12 }}
+            {{- if .registryUri }}
+            - --registry-uri={{ .registryUri }}
+            {{- end }}
+          {{- end }}
+          {{- range $key, $value := .Values.extraArgs }}
+            {{- if $value }}
+            - --{{ $key }}={{ $value }}
+            {{- else }}
+            - --{{ $key }}
             {{- end }}
           {{- end }}
 
