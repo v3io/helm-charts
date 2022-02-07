@@ -38,7 +38,7 @@ spec:
             - --creds={{ .creds }}
             {{- end }}
             {{- if .extraArgs }}
-            {{ toYaml .extraArgs | indent 12 }}
+            {{ toYaml .extraArgs | nindent 12 }}
             {{- end }}
           {{- end }}
 
