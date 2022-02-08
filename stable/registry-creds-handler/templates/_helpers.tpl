@@ -51,3 +51,14 @@ Common selector labels
 app.kubernetes.io/name: {{ include "registry-creds-handler.name" . }}
 app.kubernetes.io/instance: {{ .Release.Name }}
 {{- end -}}
+
+{{/*
+Create the name of the service account to use
+*/}}
+{{- define "registry-creds-handler.serviceAccountName" -}}
+{{- if .Values.serviceAccounts.create -}}
+    {{ default (include "registry-creds-handler.fullname" .) .Values.serviceAccounts.name }}
+{{- else -}}
+    {{ default "default" .Values.serviceAccounts.name }}
+{{- end -}}
+{{- end -}}
