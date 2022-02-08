@@ -5,11 +5,11 @@ name: registry-creds-handler
 
 # provide to allow application to create and refresh a docker registry auth secret
 #registry:
-#  secretName: example-secret-name
+#  secretName: ""
 #  kind: ecr
 #  namespace: default
+#  registryUri: ""
 #  creds: ""
-#  registryUri: example.ecr.us-east-1.amazonaws.com/my-repo-name
 
 ## The name of a secret in the same kubernetes namespace which contain values to be added to the environment
 ## This can be useful for auth tokens, etc
