@@ -18,7 +18,7 @@ spec:
       imagePullSecrets:
         {{- toYaml . | nindent 8 }}
     {{- end }}
-      serviceAccountName: { { include "registry-creds-handler.serviceAccountName" . } }
+      serviceAccountName: {{ include "registry-creds-handler.serviceAccountName" . }}
       containers:
         - name: {{ template "registry-creds-handler.name" . }}-{{ .Values.name }}
           image: '{{ .Values.image.repository }}:{{ .Values.image.tag }}'
