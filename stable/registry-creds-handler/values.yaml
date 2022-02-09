@@ -8,7 +8,7 @@ name: registry-creds-handler
 #  secretName: ""
 #  kind: ecr
 #  namespace: default
-#  registryUri: ""
+#  registryUri: "<aws_account_id>.dkr.ecr.<region>.amazonaws.com"
 #  creds: ""
 
 ## The name of a secret in the same kubernetes namespace which contain values to be added to the environment
