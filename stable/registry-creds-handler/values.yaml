@@ -1,0 +1,52 @@
+nameOverride:
+fullnameOverride:
+
+name: registry-creds-handler
+
+# provide to allow application to create and refresh a docker registry auth secret
+#registry:
+#  secretName: ""
+#  kind: ecr
+#  registryUri: "<aws_account_id>.dkr.ecr.<region>.amazonaws.com"
+#  namespace: default
+## JSON cloud credentials, keys must be lowerCamelCase. Leave empty to use env.
+## "{\"accessKeyID\":\"...\",\"secretAccessKey\":\"...\",\"region\":\"...\"}"
+#  creds: ""
+
+## The name of a secret in the same kubernetes namespace which contain values to be added to the environment
+## This can be useful for auth tokens, etc
+envFromSecret: ""
+
+extraArgs: {}
+
+replicaCount: 1
+
+image:
+  repository: gcr.io/iguazio/registry-creds-handler
+  tag: unstable
+  pullPolicy: IfNotPresent
+  pullSecrets: []
+
+resources: {}
+ # limits:
+ #   cpu: 100m
+ #   memory: 128Mi
+ # requests:
+ #   cpu: 100m
+ #   memory: 128Mi
+
+nodeSelector: {}
+
+tolerations: []
+
+affinity: {}
+
+priorityClassName: ""
+
+rbac:
+  create: true
+
+serviceAccounts:
+  create: true
+  # If not set and create is true, a name is generated using the fullname template
+  name:
