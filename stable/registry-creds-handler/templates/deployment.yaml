@@ -23,6 +23,8 @@ spec:
         - name: {{ template "registry-creds-handler.name" . }}-{{ .Values.name }}
           image: '{{ .Values.image.repository }}:{{ .Values.image.tag }}'
           imagePullPolicy: {{ .Values.image.pullPolicy }}
+          resources:
+            {{- toYaml .Values.resources | nindent 12 }}
           {{- if .Values.envFromSecret }}
           envFrom:
             - secretRef:
