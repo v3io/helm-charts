@@ -34,14 +34,12 @@ spec:
           {{- with .Values.registry }}
             - --secret-name={{ .secretName }}
             - --registry-kind={{ .kind }}
+            - --registry-uri={{ .registryUri }}
             {{- if .namespace }}
             - --namespace={{ .namespace }}
             {{- end }}
             {{- if .creds }}
             - --creds={{ .creds }}
-            {{- end }}
-            {{- if .registryUri }}
-            - --registry-uri={{ .registryUri }}
             {{- end }}
           {{- end }}
           {{- range $key, $value := .Values.extraArgs }}

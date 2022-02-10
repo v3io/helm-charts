@@ -7,8 +7,8 @@ name: registry-creds-handler
 #registry:
 #  secretName: ""
 #  kind: ecr
-#  namespace: default
 #  registryUri: "<aws_account_id>.dkr.ecr.<region>.amazonaws.com"
+#  namespace: default
 ## JSON cloud credentials, keys must be lowerCamelCase. Leave empty to use env.
 ## "{\"accessKeyID\":\"...\",\"secretAccessKey\":\"...\",\"region\":\"...\"}"
 #  creds: ""
