@@ -23,7 +23,7 @@ replicaCount: 1
 
 image:
   repository: gcr.io/iguazio/registry-creds-handler
-  tag: unstable
+  tag: 0.0.1
   pullPolicy: IfNotPresent
   pullSecrets: []
 
