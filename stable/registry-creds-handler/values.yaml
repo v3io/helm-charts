@@ -19,8 +19,6 @@ envFromSecret: ""
 
 extraArgs: {}
 
-replicaCount: 1
-
 image:
   repository: gcr.io/iguazio/registry-creds-handler
   tag: 0.0.1
