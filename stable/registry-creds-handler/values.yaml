@@ -10,7 +10,7 @@ name: registry-creds-handler
 #  registryUri: "<aws_account_id>.dkr.ecr.<region>.amazonaws.com"
 #  namespace: default
 ## JSON cloud credentials, keys must be lowerCamelCase and base64 encoded. Leave empty to use env.
-## "{\"accessKeyID\":\"...\",\"secretAccessKey\":\"...\",\"region\":\"...\"}"
+## "{"accessKeyID":"...","secretAccessKey":"...","region":"..."}"
 #  creds: ""
 
 ## The name of a secret in the same kubernetes namespace which contain values to be added to the environment
