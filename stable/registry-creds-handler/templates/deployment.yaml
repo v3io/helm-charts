@@ -19,7 +19,7 @@ spec:
     {{- end }}
       serviceAccountName: {{ include "registry-creds-handler.serviceAccountName" . }}
       containers:
-        - name: {{ template "registry-creds-handler.name" . }}-{{ .Values.name }}
+        - name: {{ template "registry-creds-handler.name" . }}
           image: '{{ .Values.image.repository }}:{{ .Values.image.tag }}'
           imagePullPolicy: {{ .Values.image.pullPolicy }}
           resources:
@@ -38,7 +38,7 @@ spec:
             - --namespace={{ .namespace }}
             {{- end }}
             {{- if .creds }}
-            - --creds={{ .creds }}
+            - --creds={{ .creds | b64dec }}
             {{- end }}
           {{- end }}
           {{- range $key, $value := .Values.extraArgs }}
