@@ -137,6 +137,14 @@ spec:
     {{- with .Values.db.affinity }}
       affinity:
         {{- toYaml . | nindent 8 }}
+    {{- else }}
+      affinity:
+        podAffinity:
+          requiredDuringSchedulingIgnoredDuringExecution:
+            - labelSelector:
+                matchLabels:
+                  {{- include "mlrun.api.selectorLabels" . | nindent 18 }}
+              topologyKey: "kubernetes.io/hostname"
     {{- end }}
     {{- with .Values.db.tolerations }}
       tolerations:

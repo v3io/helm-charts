@@ -5,7 +5,6 @@ metadata:
   labels:
     {{- include "registry-creds-handler.labels" . | nindent 4 }}
 spec:
-  replicas: {{ .Values.replicaCount }}
   selector:
     matchLabels:
       {{- include "registry-creds-handler.selectorLabels" . | nindent 6 }}
