@@ -142,13 +142,8 @@ spec:
         podAffinity:
           requiredDuringSchedulingIgnoredDuringExecution:
             - labelSelector:
-                {{- range $key, $value := mlrun.api.selectorLabels }}
-                matchExpressions:
-                  - key: {{ $key }}
-                    operator: In
-                    values:
-                      - {{ $value }}
-                {{- end }}
+                matchLabels:
+                  {{- include "mlrun.api.selectorLabels" . | nindent 18 }}
               topologyKey: "kubernetes.io/hostname"
     {{- end }}
     {{- with .Values.db.tolerations }}
