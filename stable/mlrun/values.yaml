@@ -157,12 +157,12 @@ api:
       pullSecrets: []
 
     resources:
-     requests:
-       cpu: 100m
-       memory: 10Mi
-     limits:
-       cpu: 3
-       memory: 200Mi
+#     requests:
+#       cpu: 100m
+#       memory: 10Mi
+#     limits:
+#       cpu: 3
+#       memory: 200Mi
 
     securityContext: {}
       # capabilities:
@@ -233,6 +233,8 @@ db:
   ## ref: https://kubernetes.io/docs/concepts/configuration/assign-pod-node/#affinity-and-anti-affinity
   ##
   affinity: {}
+
+  priorityClassName: ""
 
   podSecurityContext: {}
   # fsGroup: 2000
