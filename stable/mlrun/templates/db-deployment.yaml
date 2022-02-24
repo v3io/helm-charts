@@ -150,4 +150,7 @@ spec:
       tolerations:
         {{- toYaml . | nindent 8 }}
     {{- end }}
+    {{- if .Values.api.priorityClassName }}
+      priorityClassName: {{ .Values.api.priorityClassName | quote }}
+    {{- end }}
 {{- end }}
