@@ -45,6 +45,16 @@ spec:
         runAsUser: 0
         fsGroup: 0
       containers:
+
+        # holds the image for us
+        - name: v3io-fuse-img-holder
+          image: {{ .Values.job.flexVolume.v3ioFuse.image.repository }}:{{ .Values.job.flexVolume.v3ioFuse.image.tag }}
+          imagePullPolicy: {{ .Values.job.flexVolume.image.pullPolicy | quote }}
+          command:
+          - /bin/sh
+          args:
+          - -c
+          - while true; do sleep 3600; done
         - name: v3io-fuse
           image: {{ .Values.job.flexVolume.image.repository }}:{{ .Values.job.flexVolume.image.tag }}
           imagePullPolicy: {{ .Values.job.flexVolume.image.pullPolicy | quote }}
