@@ -45,7 +45,7 @@ spec:
       volumes:
         - name: v3iod-shm
           hostPath:
-            path: /var/run/iguazio/dayman-shm
+            path: /dev/shm
         - name: v3iod-comm
           hostPath:
             path: /var/run/iguazio/dayman/{{ .Release.Namespace }}
