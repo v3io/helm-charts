@@ -1,7 +1,7 @@
 {{- define "v3io-configs.deployment.mount" -}}
 - name: shm
   hostPath:
-    path: "/dev/shm/{{ .Release.Namespace }}"
+    path: "/var/run/iguazio/dayman-shm/{{ .Release.Namespace }}"
 - name: v3iod-comm
   hostPath:
     path: "/var/run/iguazio/dayman/{{ .Release.Namespace }}"
