@@ -1,4 +1,4 @@
-{{- if or .Values.rbac.create .Values.rbac.createClusterRole }}
+{{- if .Values.rbac.clusterResources.create }}
 apiVersion: rbac.authorization.k8s.io/v1
 kind: ClusterRole
 metadata:
