@@ -17,12 +17,12 @@ nuclio:
   controller:
     enabled: true
     image:
-      tag: 1.7.4-amd64
+      tag: 1.7.11-amd64
   dashboard:
     enabled: true
     # nodePort - taken from global.nuclio.dashboard.nodePort for re-usability
     image:
-      tag: 1.7.4-amd64
+      tag: 1.7.11-amd64
   autoscaler:
     enabled: false
   dlx:
