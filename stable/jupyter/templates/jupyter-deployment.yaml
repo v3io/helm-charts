@@ -99,8 +99,8 @@ spec:
               - --uri-path=/lab
               - --port={{ .Values.servicePort }}
             initialDelaySeconds: 5
-            periodSeconds: 15
-            timeoutSeconds: 10
+            periodSeconds: 10
+            timeoutSeconds: 5
           env:
 {{- if .Values.config.jsonLogging }}
             - name: JUPYTER_ENABLE_JSON_LOGGING

@@ -130,9 +130,12 @@ spec:
               subPath: /{{ .Values.v3io.username }}/.mlrun/mysql
             secretRef:
               name: {{ .Release.Name }}-v3io-fuse
-      {{- with .Values.db.nodeSelector }}
+      {{- if .Values.db.nodeSelector }}
       nodeSelector:
-        {{- toYaml . | nindent 8 }}
+        {{- toYaml .Values.db.nodeSelector | nindent 8 }}
+      {{- else if .Values.api.nodeSelector }}
+      nodeSelector:
+        {{- toYaml .Values.api.nodeSelector | nindent 8 }}
       {{- end }}
     {{- with .Values.db.affinity }}
       affinity:
@@ -152,5 +155,7 @@ spec:
     {{- end }}
     {{- if .Values.db.priorityClassName }}
       priorityClassName: {{ .Values.db.priorityClassName | quote }}
+    {{- else if .Values.api.priorityClassName }}
+      priorityClassName: {{ .Values.api.priorityClassName | quote }}
     {{- end }}
 {{- end }}
