@@ -2,7 +2,6 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: {{ include "coredns-updater.fullname" . }}
-  namespace: iguazio-platform
   labels:
     {{- include "coredns-updater.labels" . | nindent 4 }}
 spec:
@@ -32,16 +31,17 @@ spec:
         {{- toYaml .Values.podSecurityContext | nindent 8 }}
       containers:
       - name: {{ .Chart.Name }}
-        image: "{{ .Values.image.repository }}:{{ .Values.image.tag | default .Chart.AppVersion }}"
+        image: "{{ .Values.image.repository }}:{{ .Values.image.tag  }}"
         imagePullPolicy: {{ .Values.image.pullPolicy }}
+        # specify on which node we're running, same code can run on data node as well
         args: ["-n", "app" ]
         livenessProbe:
-          exec:
-            command:
-              - python
-              - health_check.py
-            initialDelaySeconds: 30
-            periodSeconds: 600
+          httpGet:
+            path: /healthz/live
+            port: 5012
+          initialDelaySeconds: 5
+          periodSeconds: 30
+          timeoutSeconds: 3
       dnsPolicy: ClusterFirst
       restartPolicy: Always
       serviceAccount: coredns-updater
