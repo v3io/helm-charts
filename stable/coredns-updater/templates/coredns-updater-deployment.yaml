@@ -20,7 +20,6 @@ spec:
       labels:
         {{- include "coredns-updater.selectorLabels" . | nindent 8 }}
       name: coredns-update
-      namespace: iguazio-platform
     spec:
       {{- with .Values.imagePullSecrets }}
       imagePullSecrets:
