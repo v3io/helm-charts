@@ -79,9 +79,6 @@ data:
       tar -C /tmp -xvf /tmp/jupyter-tutorials ${TUTORIALS_SCRIPT_FILE} --strip-components=1
       tar -C /tmp -xvf /tmp/jupyter-tutorials ${UPDATE_NOTEBOOK_FILE} --strip-components=1
       tar -C /tmp -xvf /tmp/jupyter-tutorials ${DEMOS_SCRIPT_FILE} --strip-components=1
-      chmod a+x /tmp/igz-tutorials-get.sh
-      chmod a+x /tmp/update-demos.sh
-      chmod a+x /tmp/update-tutorials.ipynb
       if ! /tmp/igz-tutorials-get.sh; then
           tar -C ${HOME} -xvf /tmp/jupyter-tutorials  --strip-components=1
           rm -f /tmp/jupyter-tutorials
@@ -90,11 +87,12 @@ data:
           cp /tmp/update-tutorials.ipynb ${HOME}
           cp /tmp/update-demos.sh ${HOME}
       fi
-      if ! /tmp/update-demos.sh --mlrun-ver `curl -s ${IGZ_MLRUN_API_ENDPOINT}/api/healthz | python3 -c "import sys, json; print(json.load(sys.stdin)['version'])"`; then
+      if ! bash /tmp/update-demos.sh --mlrun-ver `curl -s ${IGZ_MLRUN_API_ENDPOINT}/api/healthz | python3 -c "import sys, json; print(json.load(sys.stdin)['version'])"`; then
           mkdir -p ${HOME}/demos
           tar -C ${HOME}/demos -xvf /tmp/mlrun-demos  --strip-components=1
           rm -f /tmp/mlrun-demos
       fi
+      chmod a+x ${HOME}/igz-tutorials-get.sh ${HOME}/update-demos.sh
       rm -f  /tmp/igz-tutorials-get.sh /tmp/update-demos.sh /tmp/update-tutorials.ipynb
 
       touch ${HOME}/.igz/.getting-started
