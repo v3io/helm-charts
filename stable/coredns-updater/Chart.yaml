@@ -1,0 +1,11 @@
+apiVersion: v2
+version: 0.0.1
+type: application
+appVersion: "0.4.1"
+name: coredns-updater
+description: Updates Coredns zone file with A records upon RegisteredNode / RemovingNode events
+sources:
+  - https://github.com/iguazio/coredns-updater
+maintainers:
+  - name: alexp
+    email: alexp@iguazio.com
