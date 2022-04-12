@@ -32,15 +32,24 @@ spec:
       tolerations:
       - key: node-role.kubernetes.io/master
         effect: NoSchedule
+
       # Allow this pod to be rescheduled while the node is in "critical add-ons only" mode.
       # This, along with the annotation above marks this pod as a critical add-on.
       - key: CriticalAddonsOnly
         operator: Exists
+
+      # Allow this pod to be scheduled on AKS spot nodes (AKS taints spot nodes with kubernetes.azure.com/scalesetpriority=spot:NoSchedule)
+      - key: kubernetes.azure.com/scalesetpriority
+        effect: NoSchedule
+        operator: Equal
+        value: spot
+
       # Allow this pod to be scheduled on gpu nodes (e.g.: GKE taints GPU nodes with nvidia.com/gpu)
       - key: nvidia.com/gpu
         effect: NoSchedule
         operator: Equal
         value: present
+
       securityContext:
         runAsUser: 0
         fsGroup: 0
