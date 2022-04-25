@@ -62,6 +62,10 @@ controllerThreads: 10
 # unrealted to this setting
 resyncInterval: 30
 
+uiService:
+  # -- Enable UI service creation for Spark application
+  enable: true
+
 # -- Ingress URL format
 ingressUrlFormat: ""
 
