@@ -14,6 +14,7 @@ CHART_VERSION_OVERRIDE := $(if $(CHART_VERSION_OVERRIDE),$(CHART_VERSION_OVERRID
 
 #### Some examples:
 # make print-versions
+# make helm-publish-all - release all charts from current branch
 # make helm-publish - release all changes from development
 # GITHUB_BRANCH_OVERRIDE=integ_2.8 make helm-publish - release all changes from integ_2.8
 # GITHUB_BRANCH_OVERRIDE=integ_2.8 CHART_NAME=pipelines make helm-publish-stable-specific - release only pipelines from integ_2.8
@@ -63,8 +64,7 @@ helm-publish-all:
 	@INDEX_DIR=/tmp/v3io-helm-charts HELM_PACKAGE_ARGS="-d /tmp/v3io-helm-charts/demo" make demo
 	@INDEX_DIR=/tmp/v3io-helm-charts HELM_PACKAGE_ARGS="-d /tmp/v3io-helm-charts/incubator" make incubator
 
-	@GIT_REMOTE_STREAM_NAME=$$(git remote -v | grep "v3io/helm-charts" | cut -f1 | head -1) && \
-		REF_SHA=$$(git rev-parse $$GIT_REMOTE_STREAM_NAME/$(GITHUB_BRANCH)) && \
+	@REF_SHA=$$(git rev-parse HEAD) && \
 		cd /tmp/v3io-helm-charts && \
 		git add --force stable/*tgz && \
 		git add stable/* && \
