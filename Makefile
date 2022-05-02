@@ -5,6 +5,8 @@ HELM ?= helm
 HELM_REPO_DEFAULT := https://v3io.github.io/helm-charts
 HELM_REPO_ROOT := $(if $(HELM_REPO_OVERRIDE),$(HELM_REPO_OVERRIDE),$(HELM_REPO_DEFAULT))
 WORKDIR := stable
+HELM_PACKAGE_ARGS ?=
+INDEX_DIR ?= 
 HELM_REPO := $(HELM_REPO_ROOT)/$(WORKDIR)
 CHART_NAME := $(if $(CHART_NAME),$(CHART_NAME),chart-name)
 CHART_VERSION_OVERRIDE := $(if $(CHART_VERSION_OVERRIDE),$(CHART_VERSION_OVERRIDE),none)
@@ -51,6 +53,34 @@ cleanup-tmp-workspace:
 	@rm -rf /tmp/v3io-helm-charts*
 	@echo "Cleaned up /tmp/v3io-helm-charts"
 
+
+.PHONY: helm-publish-all
+helm-publish-all: check-helm cleanup-tmp-workspace
+helm-publish-all:
+	@echo "Preparing to release a new index from $(GITHUB_BRANCH)"
+	@git clone -b gh-pages --single-branch git@github.com:v3io/helm-charts /tmp/v3io-helm-charts
+	@INDEX_DIR=/tmp/v3io-helm-charts HELM_PACKAGE_ARGS="-d /tmp/v3io-helm-charts/stable" make stable
+	@INDEX_DIR=/tmp/v3io-helm-charts HELM_PACKAGE_ARGS="-d /tmp/v3io-helm-charts/demo" make demo
+	@INDEX_DIR=/tmp/v3io-helm-charts HELM_PACKAGE_ARGS="-d /tmp/v3io-helm-charts/incubator" make incubator
+
+	@GIT_REMOTE_STREAM_NAME=$$(git remote -v | grep "v3io/helm-charts" | cut -f1 | head -1) && \
+		REF_SHA=$$(git rev-parse $$GIT_REMOTE_STREAM_NAME/$(GITHUB_BRANCH)) && \
+		cd /tmp/v3io-helm-charts && \
+		git add --force stable/*tgz && \
+		git add stable/* && \
+		git commit --message "Merging stable commit $$REF_SHA" && \
+		git add --force demo/*tgz && \
+		git add demo/* && \
+		git commit --message "Merging demo commit $$REF_SHA" && \
+		git add --force incubator/*tgz && \
+		git add incubator/* && \
+		git commit --message "Merging incubator commit $$REF_SHA" && \
+		git push
+	@echo "New index released!"
+helm-publish-all: cleanup-tmp-workspace
+
+
+# wont work, use helm-publish-all
 .PHONY: helm-publish
 helm-publish: check-helm cleanup-tmp-workspace
 helm-publish:
@@ -182,7 +212,7 @@ package-all: check-helm
 			echo "Chart $$chart failed lint" ; \
 			exit 101 ; \
 		fi ; \
-		$(HELM) package $$chart ; \
+		$(HELM) package $(HELM_PACKAGE_ARGS) $$chart ; \
 		if [ "$$?" != "0" ]; then \
 			echo "Chart $$chart failed package" ; \
 			exit 102 ; \
@@ -220,6 +250,9 @@ package-specific: check-helm
 .PHONY: index
 index:
 	@echo "Generating index.yaml"
+	if [ "$(INDEX_DIR)" != "" ]; then \
+       cd $(INDEX_DIR); \
+    fi ; \
 	$(HELM) repo index --merge $(WORKDIR)/index.yaml --url $(HELM_REPO_ROOT)/$(WORKDIR) $(WORKDIR)
 	@if [ "$$?" != "0" ]; then \
 		echo "Failed repo index" ; \
