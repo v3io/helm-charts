@@ -1,7 +1,7 @@
 GITHUB_BRANCH_DEFAULT := development
 GITHUB_BRANCH := $(if $(GITHUB_BRANCH_OVERRIDE),$(GITHUB_BRANCH_OVERRIDE),$(GITHUB_BRANCH_DEFAULT))
 
-HELM=helm
+HELM ?= helm
 HELM_REPO_DEFAULT := https://v3io.github.io/helm-charts
 HELM_REPO_ROOT := $(if $(HELM_REPO_OVERRIDE),$(HELM_REPO_OVERRIDE),$(HELM_REPO_DEFAULT))
 WORKDIR := stable
@@ -248,7 +248,7 @@ check-helm:
 .PHONY: lint
 lint:
 	@echo "Linting all charts"
-	./hack/scripts/lint.sh
+	@HELM=$(HELM) ./hack/scripts/lint.sh
 
 .PHONY: repo-add
 repo-add:
