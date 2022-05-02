@@ -11,7 +11,7 @@ jobs:
 
     - uses: azure/setup-helm@v1
       with:
-        version: '3.8.2'
+        version: '3.3.4'
 
     - name: helm version
       run: helm version
