@@ -251,8 +251,8 @@ package-specific: check-helm
 index:
 	@echo "Generating index.yaml"
 	if [ "$(INDEX_DIR)" != "" ]; then \
-       cd $(INDEX_DIR); \
-    fi ; \
+		cd $(INDEX_DIR); \
+	fi ; \
 	$(HELM) repo index --merge $(WORKDIR)/index.yaml --url $(HELM_REPO_ROOT)/$(WORKDIR) $(WORKDIR)
 	@if [ "$$?" != "0" ]; then \
 		echo "Failed repo index" ; \
