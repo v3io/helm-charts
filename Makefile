@@ -1,10 +1,12 @@
 GITHUB_BRANCH_DEFAULT := development
 GITHUB_BRANCH := $(if $(GITHUB_BRANCH_OVERRIDE),$(GITHUB_BRANCH_OVERRIDE),$(GITHUB_BRANCH_DEFAULT))
 
-HELM=helm
+HELM ?= helm
 HELM_REPO_DEFAULT := https://v3io.github.io/helm-charts
 HELM_REPO_ROOT := $(if $(HELM_REPO_OVERRIDE),$(HELM_REPO_OVERRIDE),$(HELM_REPO_DEFAULT))
 WORKDIR := stable
+HELM_PACKAGE_ARGS ?=
+INDEX_DIR ?= 
 HELM_REPO := $(HELM_REPO_ROOT)/$(WORKDIR)
 CHART_NAME := $(if $(CHART_NAME),$(CHART_NAME),chart-name)
 CHART_VERSION_OVERRIDE := $(if $(CHART_VERSION_OVERRIDE),$(CHART_VERSION_OVERRIDE),none)
@@ -12,6 +14,7 @@ CHART_VERSION_OVERRIDE := $(if $(CHART_VERSION_OVERRIDE),$(CHART_VERSION_OVERRID
 
 #### Some examples:
 # make print-versions
+# make helm-publish-all - release all charts from current branch
 # make helm-publish - release all changes from development
 # GITHUB_BRANCH_OVERRIDE=integ_2.8 make helm-publish - release all changes from integ_2.8
 # GITHUB_BRANCH_OVERRIDE=integ_2.8 CHART_NAME=pipelines make helm-publish-stable-specific - release only pipelines from integ_2.8
@@ -51,6 +54,33 @@ cleanup-tmp-workspace:
 	@rm -rf /tmp/v3io-helm-charts*
 	@echo "Cleaned up /tmp/v3io-helm-charts"
 
+
+.PHONY: helm-publish-all
+helm-publish-all: check-helm cleanup-tmp-workspace
+helm-publish-all:
+	@echo "Preparing to release a new index from $(GITHUB_BRANCH)"
+	@git clone -b gh-pages --single-branch git@github.com:v3io/helm-charts /tmp/v3io-helm-charts
+	@INDEX_DIR=/tmp/v3io-helm-charts HELM_PACKAGE_ARGS="-d /tmp/v3io-helm-charts/stable" make stable
+	@INDEX_DIR=/tmp/v3io-helm-charts HELM_PACKAGE_ARGS="-d /tmp/v3io-helm-charts/demo" make demo
+	@INDEX_DIR=/tmp/v3io-helm-charts HELM_PACKAGE_ARGS="-d /tmp/v3io-helm-charts/incubator" make incubator
+
+	@REF_SHA=$$(git rev-parse HEAD) && \
+		cd /tmp/v3io-helm-charts && \
+		git add --force stable/*tgz && \
+		git add stable/* && \
+		git commit --message "Merging stable commit $$REF_SHA" && \
+		git add --force demo/*tgz && \
+		git add demo/* && \
+		git commit --message "Merging demo commit $$REF_SHA" && \
+		git add --force incubator/*tgz && \
+		git add incubator/* && \
+		git commit --message "Merging incubator commit $$REF_SHA" && \
+		git push
+	@echo "New index released!"
+helm-publish-all: cleanup-tmp-workspace
+
+
+# wont work, use helm-publish-all
 .PHONY: helm-publish
 helm-publish: check-helm cleanup-tmp-workspace
 helm-publish:
@@ -182,7 +212,7 @@ package-all: check-helm
 			echo "Chart $$chart failed lint" ; \
 			exit 101 ; \
 		fi ; \
-		$(HELM) package $$chart ; \
+		$(HELM) package $(HELM_PACKAGE_ARGS) $$chart ; \
 		if [ "$$?" != "0" ]; then \
 			echo "Chart $$chart failed package" ; \
 			exit 102 ; \
@@ -220,6 +250,9 @@ package-specific: check-helm
 .PHONY: index
 index:
 	@echo "Generating index.yaml"
+	if [ "$(INDEX_DIR)" != "" ]; then \
+		cd $(INDEX_DIR); \
+	fi ; \
 	$(HELM) repo index --merge $(WORKDIR)/index.yaml --url $(HELM_REPO_ROOT)/$(WORKDIR) $(WORKDIR)
 	@if [ "$$?" != "0" ]; then \
 		echo "Failed repo index" ; \
@@ -248,7 +281,7 @@ check-helm:
 .PHONY: lint
 lint:
 	@echo "Linting all charts"
-	./hack/scripts/lint.sh
+	@HELM=$(HELM) ./hack/scripts/lint.sh
 
 .PHONY: repo-add
 repo-add:
