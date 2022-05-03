@@ -19,7 +19,7 @@ spec:
         component: metadata-grpc-server
 {{ include "pipelines.commonLabels" . | indent 8 }}
     spec:
-      initContainers:
+      initContainers: # TOMER - this whole section doesn't exist
       - name: metadata-init
         env:
         - name: MYSQL_DATABASE
@@ -54,28 +54,28 @@ spec:
 #        - name: DBCONFIG_USER
 #          valueFrom:
 #            secretKeyRef:
-#              name: mysql-credential
+#              name: mysql-secret
 #              key: username
 #        - name: DBCONFIG_PASSWORD
 #          valueFrom:
 #            secretKeyRef:
-#              name: mysql-credential
+#              name: mysql-secret
 #              key: password
         - name: MYSQL_DATABASE
           valueFrom:
             configMapKeyRef:
-              name: metadata-mysql-configmap
-              key: MYSQL_DATABASE
+              name: pipeline-install-config
+              key: mlmdDb
         - name: MYSQL_HOST
           valueFrom:
             configMapKeyRef:
-              name: metadata-mysql-configmap
-              key: MYSQL_HOST
+              name: pipeline-install-config
+              key: dbHost
         - name: MYSQL_PORT
           valueFrom:
             configMapKeyRef:
-              name: metadata-mysql-configmap
-              key: MYSQL_PORT
+              name: pipeline-install-config
+              key: dbPort
         command: ["/bin/metadata_store_server"]
         args: [
           "--enable_database_upgrade",
@@ -103,6 +103,7 @@ spec:
           timeoutSeconds: 2
         resources:
 {{ toYaml .Values.resources.metadata | indent 10 }}
+      serviceAccountName: metadata-grpc-server
 {{- with .Values.nodeSelector }}
       nodeSelector:
 {{ toYaml . | indent 8 }}

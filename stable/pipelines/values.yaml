@@ -46,47 +46,54 @@ configurations:
               initialDelaySeconds: 20
               failureThreshold: 3
               periodSeconds: 10
+  kfpDefaultPipelineRoot:
+    objref:
+      kind: ConfigMap
+      name: pipeline-install-config
+      apiVersion: v1
+      fieldref:
+        fieldpath: data.defaultPipelineRoot
 
 # updated versions can be taken from here: https://github.com/kubeflow/pipelines/blob/master/manifests/kustomize/base/kustomization.yaml
 images:
   imagePullPolicy: IfNotPresent
   argoexec:
     repository: gcr.io/iguazio/argoexec
-    tag: v2.7.5-igz-license-compliance
+    tag: v3.2.3-igz-license-compliance
   workflowController:
     repository: gcr.io/iguazio/workflow-controller
-    tag: v2.7.5-igz-license-compliance
+    tag: v3.2.3-igz-license-compliance
   apiServer:
-    repository: gcr.io/iguazio/ml-pipeline-api-server
-    tag: 1.0.1-igz
+    repository: gcr.io/iguazio/api-server
+    tag: 1.8.1-igz
   persistenceagent:
     repository: gcr.io/ml-pipeline/persistenceagent
-    tag: 1.0.1
+    tag: 1.8.1
   scheduledworkflow:
     repository: gcr.io/ml-pipeline/scheduledworkflow
-    tag: 1.0.1
+    tag: 1.8.1
   ui:
     repository: gcr.io/iguazio/ml-pipeline-frontend-v3io
-    tag: 1.0.1-igz
+    tag: 1.8.1-igz
   viewerCrdController:
     repository: gcr.io/ml-pipeline/viewer-crd-controller
-    tag: 1.0.1
+    tag: 1.8.1
   visualizationServer:
     repository: gcr.io/ml-pipeline/visualization-server
-    tag: 1.0.1
+    tag: 1.8.1
   metadata:
     container:
       repository: gcr.io/tfx-oss-public/ml_metadata_store_server
-      tag: 0.22.1
+      tag: 1.5.0
     init:
       repository: imega/mysql-client
       tag: 10.4.12
   metadataEnvoy:
     repository: gcr.io/ml-pipeline/metadata-envoy
-    tag: 1.0.1
+    tag: 1.8.1
   metadataWriter:
     repository: gcr.io/ml-pipeline/metadata-writer
-    tag: 1.0.1
+    tag: 1.8.1
   mysql:
     repository: mysql
     tag: 5.6

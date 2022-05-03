@@ -7,6 +7,9 @@ metadata:
     component: workflow-controller
 {{ include "pipelines.commonLabels" . | indent 4 }}
 data:
+  # emissary executor is a more portable default, see https://github.com/kubeflow/pipelines/issues/1654.
+  containerRuntimeExecutor: emissary
+
   config: |
     {
       namespace: {{ .Release.Namespace }},
