@@ -78,7 +78,7 @@ spec:
               key: dbPort
         command: ["/bin/metadata_store_server"]
         args: [
-          "--enable_database_upgrade",
+          "--enable_database_upgrade=true",
           "--grpc_port=8080",
           "--mysql_config_database=$(MYSQL_DATABASE)",
           "--mysql_config_host=$(MYSQL_HOST)",
