@@ -32,7 +32,8 @@ spec:
           "--configmap",
           "workflow-controller-configmap",
           "--executor-image",
-          "{{ .Values.images.argoexec.repository }}:{{ .Values.images.argoexec.tag }}"
+          "{{ .Values.images.argoexec.repository }}:{{ .Values.images.argoexec.tag }}",
+          "--namespaced"
         ]
         command:
         - workflow-controller
