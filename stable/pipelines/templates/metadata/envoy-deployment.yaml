@@ -16,8 +16,6 @@ spec:
       labels:
         component: metadata-envoy
 {{ include "pipelines.commonLabels" . | indent 8 }}
-      annotations:
-        sidecar.istio.io/inject: "false"  # TOMER - NEW - check if can put in values.yaml
     spec:
       containers:
       - name: container

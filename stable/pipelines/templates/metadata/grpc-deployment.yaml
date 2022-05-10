@@ -19,7 +19,7 @@ spec:
         component: metadata-grpc-server
 {{ include "pipelines.commonLabels" . | indent 8 }}
     spec:
-      initContainers: # TOMER - this whole section doesn't exist
+      initContainers:
       - name: metadata-init
         env:
         - name: MYSQL_DATABASE

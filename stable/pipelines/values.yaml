@@ -53,6 +53,9 @@ configurations:
       apiVersion: v1
       fieldref:
         fieldpath: data.defaultPipelineRoot
+  persistenceagent:
+    ttlSecondsAfterWorkflowFinish: 86400
+    numWorkers: 2
 
 # updated versions can be taken from here: https://github.com/kubeflow/pipelines/blob/master/manifests/kustomize/base/kustomization.yaml
 images:
@@ -64,7 +67,7 @@ images:
     repository: gcr.io/iguazio/workflow-controller
     tag: v3.2.3-igz-license-compliance
   apiServer:
-    repository: gcr.io/iguazio/api-server
+    repository: gcr.io/iguazio/ml-pipeline-api-server
     tag: 1.8.1-igz
   persistenceagent:
     repository: gcr.io/ml-pipeline/persistenceagent
