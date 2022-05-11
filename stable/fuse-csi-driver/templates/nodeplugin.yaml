@@ -30,8 +30,8 @@ spec:
             capabilities:
               add: ["SYS_ADMIN"]
             allowPrivilegeEscalation: true
-          image: datanode-registry.iguazio-platform.app.dev31.lab.iguazeng.com:80/iguazio/v3io-fuse:3.4.0-shayp.debug.b3558.20220306220846
-          imagePullPolicy: IfNotPresent
+          image: {{ .Values.csi.v3ioFuse.image.repository }}:{{ .Values.csi.v3ioFuse.image.tag }}
+          imagePullPolicy: {{ .Values.csi.v3ioFuse.image.pullPolicy | quote }}
           command: ["/bin/fuse-csi"]
           args:
             - "--endpoint=$(CSI_ENDPOINT)"

@@ -9,6 +9,11 @@ csi:
   registrar:
     image: quay.io/k8scsi/csi-node-driver-registrar:v2.1.0
 
+  v3ioFuse:
+      image:
+        repository: quay.io/iguazio
+        tag: latest
+        pullPolicy: IfNotPresent
 # Override the default app name using nameOverride
 # nameOverride: some-other-name
 
