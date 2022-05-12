@@ -62,6 +62,9 @@ spec:
             - name: v31o-config
               mountPath: /etc/v3io/fuse 
               mountPropagation: Bidirectional
+            - name: v3io-log
+              mountPath: /etc/v3io/fuse_v3io_log
+              mountPropagation: Bidirectional
         - name: registrar
           image: "{{ .Values.csi.registrar.image }}"
           args:
@@ -107,3 +110,8 @@ spec:
           hostPath:  
             path: /etc/v3io/fuse
             type: Directory
+        - name: v3io-log
+          hostPath:
+            path: /etc/v3io/fuse_v3io_log
+            type: DirectoryOrCreate
+

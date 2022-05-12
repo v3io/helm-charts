@@ -1,8 +1,6 @@
 csi:
   plugin:
     name: fuse-csi
-    image: fuse-csi:latest
-
     # Attempt to restore FUSE mounts. Doesn't work.
     restoreMounts: true
 
