@@ -95,8 +95,8 @@ images:
     repository: gcr.io/ml-pipeline/metadata-envoy
     tag: 1.8.1
   metadataWriter:
-    repository: gcr.io/ml-pipeline/metadata-writer
-    tag: 1.8.1
+    repository: gcr.io/iguazio/ml-pipeline-metadata-writer
+    tag: 1.8.1-igz
   mysql:
     repository: mysql
     tag: 5.6
