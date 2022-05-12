@@ -11,8 +11,8 @@ csi:
 
   v3ioFuse:
       image:
-        repository: quay.io/iguazio
-        tag: latest
+        repository: gcr.io/iguazio/v3io-fuse
+        tag: 3.6.0-b8495.20220511182230
         pullPolicy: IfNotPresent
 # Override the default app name using nameOverride
 # nameOverride: some-other-name
