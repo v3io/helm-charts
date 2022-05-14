@@ -14,10 +14,11 @@ CHART_VERSION_OVERRIDE := $(if $(CHART_VERSION_OVERRIDE),$(CHART_VERSION_OVERRID
 
 #### Some examples:
 # make print-versions
-# make helm-publish-all - release all charts from current branch
-# make helm-publish - release all changes from development
-# GITHUB_BRANCH_OVERRIDE=integ_2.8 make helm-publish - release all changes from integ_2.8
-# GITHUB_BRANCH_OVERRIDE=integ_2.8 CHART_NAME=pipelines make helm-publish-stable-specific - release only pipelines from integ_2.8
+# make helm-publish-all 																	- release all charts from current branch
+# CHART_NAME=presto make helm-publish-stable-specific-v2 									- release specific chart from current branch
+# DEPRECATED - make helm-publish 															- release all changes from development
+# GITHUB_BRANCH_OVERRIDE=integ_2.8 make helm-publish 										- release all changes from integ_2.8
+# GITHUB_BRANCH_OVERRIDE=integ_2.8 CHART_NAME=pipelines make helm-publish-stable-specific 	- release only pipelines from integ_2.8
 
 .PHONY: stable
 stable: WORKDIR = stable
@@ -146,6 +147,21 @@ helm-publish-incubator-specific:
 	@echo "New index released!"
 helm-publish-incubator-specific: cleanup-tmp-workspace
 
+.PHONY: helm-publish-stable-specific-v2
+helm-publish-stable-specific-v2: cleanup-tmp-workspace
+helm-publish-stable-specific-v2:
+	@echo "Preparing to release a new stable index for $(CHART_NAME) from $(GITHUB_BRANCH)"
+	#@git clone -b gh-pages --single-branch git@github.com:v3io/helm-charts /tmp/v3io-helm-charts
+	@INDEX_DIR=/tmp/v3io-helm-charts HELM_PACKAGE_ARGS="-d /tmp/v3io-helm-charts/stable" make stable-specific
+	@REF_SHA=$$(git rev-parse HEAD) && \
+		cd /tmp/v3io-helm-charts && \
+		git add --force stable/$(CHART_NAME)*tgz && \
+		git add stable/index.yaml && \
+		git commit --message "Merging $$CHART_NAME from $$REF_SHA" && \
+		echo git push
+	@echo "New index released!"
+helm-publish-stable-specific-v2: cleanup-tmp-workspace
+
 .PHONY: helm-publish-stable-specific
 helm-publish-stable-specific: cleanup-tmp-workspace
 helm-publish-stable-specific:
@@ -236,7 +252,7 @@ package-specific: check-helm
         fi ; \
         exit 103 ; \
     fi ; \
-    $(HELM) package $(CHART_NAME) && if [ "$$?" != "0" ]; then \
+    $(HELM) package $(HELM_PACKAGE_ARGS) $(CHART_NAME) && if [ "$$?" != "0" ]; then \
         echo "Chart $(CHART_NAME) failed package" ; \
         if [ "$(CHART_VERSION_OVERRIDE)" != "none" ]; then \
             mv $(CHART_NAME)/Chart.yaml.old $(CHART_NAME)/Chart.yaml; \
@@ -250,7 +266,7 @@ package-specific: check-helm
 .PHONY: index
 index:
 	@echo "Generating index.yaml"
-	if [ "$(INDEX_DIR)" != "" ]; then \
+	@if [ "$(INDEX_DIR)" != "" ]; then \
 		cd $(INDEX_DIR); \
 	fi ; \
 	$(HELM) repo index --merge $(WORKDIR)/index.yaml --url $(HELM_REPO_ROOT)/$(WORKDIR) $(WORKDIR)
