@@ -1,8 +1,8 @@
 csi:
   plugin:
     name: fuse-csi
-    # Attempt to restore FUSE mounts. Doesn't work.
-    restoreMounts: true
+    namespace: default-tenant
+    
 
   registrar:
     image: quay.io/k8scsi/csi-node-driver-registrar:v2.1.0
@@ -10,7 +10,7 @@ csi:
   v3ioFuse:
       image:
         repository: gcr.io/iguazio/v3io-fuse
-        tag: 3.6.0-b8509.20220515062234
+        tag: 3.6.0-b8513.20220516062230
         pullPolicy: IfNotPresent
 # Override the default app name using nameOverride
 # nameOverride: some-other-name
