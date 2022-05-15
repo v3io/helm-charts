@@ -32,14 +32,11 @@ spec:
             allowPrivilegeEscalation: true
           image: {{ .Values.csi.v3ioFuse.image.repository }}:{{ .Values.csi.v3ioFuse.image.tag }}
           imagePullPolicy: {{ .Values.csi.v3ioFuse.image.pullPolicy | quote }}
-          command: ["/bin/fuse-csi"]
+          command: ["/bin/v3io-fuse-csi"]
           args:
             - "--endpoint=$(CSI_ENDPOINT)"
             - "--nodeid=$(NODE_ID)"
             - "--name=$(DRIVER_NAME)"
-            {{- if .Values.csi.plugin.restoreMounts }}
-            - "--mount-cache-path=/csi/mountcache"
-            {{- end }}
           env:
             - name: DRIVER_NAME
               value: {{ .Values.csi.plugin.name }}
@@ -84,11 +81,7 @@ spec:
               mountPath: /registration
       
       hostNetwork: true
-      hostPID: true
       terminationGracePeriodSeconds: 30
-      securityContext:
-        fsGroup: 0
-        runAsUser: 0
       volumes:
         - name: socket-dir
           hostPath:
