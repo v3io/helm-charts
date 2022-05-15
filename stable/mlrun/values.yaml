@@ -8,7 +8,13 @@ api:
 
   logLevel: INFO
 
-  replicaCount: 1
+  chief:
+    fullnameOverride:
+    # auto-scaling is currently not supported and the min value is treated as the fixed value
+    minReplicaCount: 1
+  worker:
+    # auto-scaling is currently not supported and the min value is treated as the fixed value
+    minReplicaCount: 0
 
   image:
     repository: mlrun/mlrun-api

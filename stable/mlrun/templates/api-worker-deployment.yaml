@@ -1,18 +1,19 @@
+{{- if .Values.api.worker.minReplicaCount -}}
 apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: {{ include "mlrun.api.fullname" . }}
   labels:
-    {{- include "mlrun.api.labels" . | nindent 4 }}
+    {{- include "mlrun.api.worker.labels" . | nindent 4 }}
 spec:
-  replicas: {{ .Values.api.replicaCount }}
+  replicas: {{ .Values.api.worker.minReplicaCount }}
   selector:
     matchLabels:
-      {{- include "mlrun.api.selectorLabels" . | nindent 6 }}
+      {{- include "mlrun.api.worker.selectorLabels" . | nindent 6 }}
   template:
     metadata:
       labels:
-        {{- include "mlrun.api.selectorLabels" . | nindent 8 }}
+        {{- include "mlrun.api.worker.selectorLabels" . | nindent 8 }}
     spec:
     {{- with .Values.api.image.pullSecrets }}
       imagePullSecrets:
@@ -40,6 +41,8 @@ spec:
             valueFrom:
               fieldRef:
                 fieldPath: metadata.namespace
+          - name: MLRUN_HTTPDB__CLUSTERIZATION__ROLE
+            value: "worker"
           - name: MLRUN_LOG_LEVEL
             value: {{ .Values.api.logLevel }}
           - name: MLRUN_HTTPDB__DB_TYPE
@@ -185,3 +188,4 @@ spec:
     {{- if .Values.api.priorityClassName }}
       priorityClassName: {{ .Values.api.priorityClassName | quote }}
     {{- end }}
+{{- end -}}
