@@ -2,7 +2,7 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: {{ include "mlrun.api.fullname" . }}
+  name: {{ include "mlrun.api.worker.fullname" . }}
   labels:
     {{- include "mlrun.api.worker.labels" . | nindent 4 }}
 spec:

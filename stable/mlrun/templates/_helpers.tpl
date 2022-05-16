@@ -54,6 +54,18 @@ We truncate at 63 chars because some Kubernetes name fields are limited to this 
 {{- end -}}
 {{- end -}}
 
+{{/*
+Create a fully qualified api worker name.
+We truncate at 63 chars because some Kubernetes name fields are limited to this (by the DNS naming spec).
+*/}}
+{{- define "mlrun.api.worker.fullname" -}}
+{{- if .Values.api.worker.fullnameOverride -}}
+{{- .Values.api.worker.fullnameOverride | trunc 63 | trimSuffix "-" -}}
+{{- else -}}
+{{- printf "%s-worker" (include "mlrun.api.fullname" .) | trunc 63 | trimSuffix "-" -}}
+{{- end -}}
+{{- end -}}
+
 
 {{/*
 Create a fully qualified api opa name.
