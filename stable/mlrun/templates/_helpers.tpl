@@ -41,6 +41,32 @@ We truncate at 63 chars because some Kubernetes name fields are limited to this 
 {{- end -}}
 {{- end -}}
 
+
+{{/*
+Create a fully qualified api chief name.
+We truncate at 63 chars because some Kubernetes name fields are limited to this (by the DNS naming spec).
+*/}}
+{{- define "mlrun.api.chief.fullname" -}}
+{{- if .Values.api.chief.fullnameOverride -}}
+{{- .Values.api.chief.fullnameOverride | trunc 63 | trimSuffix "-" -}}
+{{- else -}}
+{{- printf "%s-chief" (include "mlrun.api.fullname" .) | trunc 63 | trimSuffix "-" -}}
+{{- end -}}
+{{- end -}}
+
+{{/*
+Create a fully qualified api worker name.
+We truncate at 63 chars because some Kubernetes name fields are limited to this (by the DNS naming spec).
+*/}}
+{{- define "mlrun.api.worker.fullname" -}}
+{{- if .Values.api.worker.fullnameOverride -}}
+{{- .Values.api.worker.fullnameOverride | trunc 63 | trimSuffix "-" -}}
+{{- else -}}
+{{- printf "%s-worker" (include "mlrun.api.fullname" .) | trunc 63 | trimSuffix "-" -}}
+{{- end -}}
+{{- end -}}
+
+
 {{/*
 Create a fully qualified api opa name.
 We truncate at 63 chars because some Kubernetes name fields are limited to this (by the DNS naming spec).
@@ -182,11 +208,43 @@ API labels
 {{- end -}}
 
 {{/*
+API chief labels
+*/}}
+{{- define "mlrun.api.chief.labels" -}}
+{{ include "mlrun.common.labels" . }}
+{{ include "mlrun.api.chief.selectorLabels" . }}
+{{- end -}}
+
+{{/*
+API worker labels
+*/}}
+{{- define "mlrun.api.worker.labels" -}}
+{{ include "mlrun.common.labels" . }}
+{{ include "mlrun.api.worker.selectorLabels" . }}
+{{- end -}}
+
+{{/*
 API selector labels
 */}}
 {{- define "mlrun.api.selectorLabels" -}}
 {{ include "mlrun.common.selectorLabels" . }}
 app.kubernetes.io/component: {{ .Values.api.name | quote }}
+{{- end -}}
+
+{{/*
+API chief selector labels
+*/}}
+{{- define "mlrun.api.chief.selectorLabels" -}}
+{{ include "mlrun.api.selectorLabels" . }}
+app.kubernetes.io/sub-component: "chief"
+{{- end -}}
+
+{{/*
+API worker selector labels
+*/}}
+{{- define "mlrun.api.worker.selectorLabels" -}}
+{{ include "mlrun.api.selectorLabels" . }}
+app.kubernetes.io/sub-component: "worker"
 {{- end -}}
 
 {{/*
