@@ -1,4 +1,4 @@
-{{- if .Values.api.worker.minReplicaCount -}}
+{{- if .Values.api.worker.minReplicas -}}
 apiVersion: apps/v1
 kind: Deployment
 metadata:
@@ -6,7 +6,7 @@ metadata:
   labels:
     {{- include "mlrun.api.worker.labels" . | nindent 4 }}
 spec:
-  replicas: {{ .Values.api.worker.minReplicaCount }}
+  replicas: {{ .Values.api.worker.minReplicas }}
   selector:
     matchLabels:
       {{- include "mlrun.api.worker.selectorLabels" . | nindent 6 }}

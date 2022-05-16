@@ -1,4 +1,4 @@
-{{- if .Values.api.worker.minReplicaCount -}}
+{{- if .Values.api.worker.minReplicas -}}
 apiVersion: v1
 kind: Service
 metadata:
