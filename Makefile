@@ -158,7 +158,7 @@ helm-publish-stable-specific-v2:
 		git add --force stable/$(CHART_NAME)*tgz && \
 		git add stable/index.yaml && \
 		git commit --message "Merging $$CHART_NAME from $$REF_SHA" && \
-		echo git push
+		git push
 	@echo "New index released!"
 helm-publish-stable-specific-v2: cleanup-tmp-workspace
 
