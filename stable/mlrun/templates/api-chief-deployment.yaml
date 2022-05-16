@@ -1,18 +1,24 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: {{ include "mlrun.api.fullname" . }}
+  name: {{ include "mlrun.api.chief.fullname" . }}
   labels:
-    {{- include "mlrun.api.labels" . | nindent 4 }}
+    {{- include "mlrun.api.chief.labels" . | nindent 4 }}
 spec:
+  # .api.chief.minReplicas replaced .api.replicaCount, keeping support for backwards compatibility
+  # kindIs is the way to differentiate between empty and 0 (if replicaCount is 0 we do want to use it)
+  {{- if not (kindIs "invalid" .Values.api.replicaCount) }}
   replicas: {{ .Values.api.replicaCount }}
+  {{- else }}
+  replicas: {{ .Values.api.chief.minReplicas }}
+  {{- end }}
   selector:
     matchLabels:
-      {{- include "mlrun.api.selectorLabels" . | nindent 6 }}
+      {{- include "mlrun.api.chief.selectorLabels" . | nindent 6 }}
   template:
     metadata:
       labels:
-        {{- include "mlrun.api.selectorLabels" . | nindent 8 }}
+        {{- include "mlrun.api.chief.selectorLabels" . | nindent 8 }}
     spec:
     {{- with .Values.api.image.pullSecrets }}
       imagePullSecrets:
@@ -40,6 +46,8 @@ spec:
             valueFrom:
               fieldRef:
                 fieldPath: metadata.namespace
+          - name: MLRUN_HTTPDB__CLUSTERIZATION__ROLE
+            value: "chief"
           - name: MLRUN_LOG_LEVEL
             value: {{ .Values.api.logLevel }}
           - name: MLRUN_HTTPDB__DB_TYPE
