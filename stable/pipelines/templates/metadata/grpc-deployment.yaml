@@ -54,12 +54,12 @@ spec:
 #        - name: DBCONFIG_USER
 #          valueFrom:
 #            secretKeyRef:
-#              name: mysql-credential
+#              name: mysql-secret
 #              key: username
 #        - name: DBCONFIG_PASSWORD
 #          valueFrom:
 #            secretKeyRef:
-#              name: mysql-credential
+#              name: mysql-secret
 #              key: password
         - name: MYSQL_DATABASE
           valueFrom:
@@ -78,7 +78,7 @@ spec:
               key: MYSQL_PORT
         command: ["/bin/metadata_store_server"]
         args: [
-          "--enable_database_upgrade",
+          "--enable_database_upgrade=true",
           "--grpc_port=8080",
           "--mysql_config_database=$(MYSQL_DATABASE)",
           "--mysql_config_host=$(MYSQL_HOST)",
@@ -103,6 +103,7 @@ spec:
           timeoutSeconds: 2
         resources:
 {{ toYaml .Values.resources.metadata | indent 10 }}
+      serviceAccountName: metadata-grpc-server
 {{- with .Values.nodeSelector }}
       nodeSelector:
 {{ toYaml . | indent 8 }}
