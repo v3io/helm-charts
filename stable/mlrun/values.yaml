@@ -11,7 +11,7 @@ api:
   chief:
     fullnameOverride:
     # auto-scaling is currently not supported and the min value is treated as the fixed value
-    minReplicaCount: 1
+    minReplicas: 1
 
     service:
       type: ClusterIP
@@ -33,7 +33,7 @@ api:
   worker:
     fullnameOverride:
     # auto-scaling is currently not supported and the min value is treated as the fixed value
-    minReplicaCount: 0
+    minReplicas: 0
 
   image:
     repository: mlrun/mlrun-api
