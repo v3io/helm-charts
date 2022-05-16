@@ -5,18 +5,18 @@ metadata:
   name: metadata-writer
   namespace: {{ .Release.Namespace }}
   labels:
-    component: metadata-writer-server
+    component: metadata-writer
 {{ include "pipelines.commonLabels" . | indent 4 }}
 spec:
   replicas: 1
   selector:
     matchLabels:
-      component: metadata-writer-server
+      component: metadata-writer
 {{ include "pipelines.commonLabels" . | indent 6 }}
   template:
     metadata:
       labels:
-        component: metadata-writer-server
+        component: metadata-writer
 {{ include "pipelines.commonLabels" . | indent 8 }}
     spec:
       containers:

@@ -5,7 +5,7 @@ metadata:
   name: ml-pipeline-scheduledworkflow-role
   namespace: {{ .Release.Namespace }}
   labels:
-    component: ml-pipeline-scheduledworkflow
+    component: ml-pipeline-scheduledworkflow-role
 {{ include "pipelines.commonLabels" . | indent 4 }}
 rules:
 - apiGroups:
@@ -24,6 +24,7 @@ rules:
   - kubeflow.org
   resources:
   - scheduledworkflows
+  - scheduledworkflows/finalizers
   verbs:
   - create
   - get

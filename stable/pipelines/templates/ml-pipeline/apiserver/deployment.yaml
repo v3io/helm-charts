@@ -37,6 +37,8 @@ spec:
           value: "true"
         - name: OBJECTSTORECONFIG_FORCEV2SIGNATURE
           value: "true"
+        - name: AUTO_UPDATE_PIPELINE_DEFAULT_VERSION
+          value: "false"
         - name: POD_NAMESPACE
           valueFrom:
             fieldRef:

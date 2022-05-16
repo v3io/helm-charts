@@ -28,7 +28,9 @@ spec:
               fieldRef:
                 fieldPath: metadata.namespace
           - name: TTL_SECONDS_AFTER_WORKFLOW_FINISH
-            value: "86400"
+            value: {{ .Values.configurations.persistenceagent.ttlSecondsAfterWorkflowFinish | quote }}
+          - name: NUM_WORKERS
+            value: {{ .Values.configurations.persistenceagent.numWorkers | quote }}
         resources:
 {{ toYaml .Values.resources.persistenceAgent | indent 10 }}
       serviceAccountName: ml-pipeline-persistenceagent
