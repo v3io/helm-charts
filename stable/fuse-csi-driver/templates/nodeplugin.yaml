@@ -1,0 +1,111 @@
+kind: DaemonSet
+apiVersion: apps/v1
+metadata:
+  name: {{ include "fuse-csi.name.nodeplugin" . }}
+  namespace: {{ .Values.csi.plugin.namespace }}
+  labels:
+    app: {{ include "fuse-csi.name" . }}
+    component: nodeplugin
+    chart: {{ include "fuse-csi.chart" . }}
+    release: {{ .Release.Name }}
+    heritage: {{ .Release.Service }}
+spec:
+  selector:
+    matchLabels:
+      app: {{ include "fuse-csi.name" . }}
+      component: nodeplugin
+      release: {{ .Release.Name }}
+  template:
+    metadata:
+      labels:
+        app: {{ include "fuse-csi.name" . }}
+        component: nodeplugin
+        chart: {{ include "fuse-csi.chart" . }}
+        release: {{ .Release.Name }}
+        heritage: {{ .Release.Service }}
+    spec:
+      containers:
+        - name: nodeplugin
+          securityContext:
+            privileged: true
+            capabilities:
+              add: ["SYS_ADMIN"]
+            allowPrivilegeEscalation: true
+          image: {{ .Values.csi.v3ioFuse.image.repository }}:{{ .Values.csi.v3ioFuse.image.tag }}
+          imagePullPolicy: {{ .Values.csi.v3ioFuse.image.pullPolicy | quote }}
+          command: ["/bin/v3io-fuse-csi"]
+          args:
+            - "--endpoint=$(CSI_ENDPOINT)"
+            - "--nodeid=$(NODE_ID)"
+            - "--name=$(DRIVER_NAME)"
+          env:
+            - name: DRIVER_NAME
+              value: {{ .Values.csi.plugin.name }}
+            - name: NODE_ID
+              valueFrom:
+                fieldRef:
+                  fieldPath: spec.nodeName
+            - name: CSI_ENDPOINT
+              value: "unix:///csi/csi.sock"
+          volumeMounts:
+            - name: socket-dir
+              mountPath: /csi
+            - name: plugins-dir
+              mountPath: /var/lib/kubelet/plugins
+              mountPropagation: Bidirectional
+            - name: pod-mounts
+              mountPath: /var/lib/kubelet/pods
+              mountPropagation: Bidirectional
+              volumeMounts:
+            - name: v31o-config
+              mountPath: /etc/v3io/fuse 
+              mountPropagation: Bidirectional
+            - name: v3io-log
+              mountPath: /fuse-log
+              mountPropagation: Bidirectional
+        - name: registrar
+          image: "{{ .Values.csi.registrar.image }}"
+          args:
+            - "--v=5"
+            - "--csi-address=/csi/csi.sock"
+            - "--kubelet-registration-path=/var/lib/kubelet/plugins/{{ .Values.csi.plugin.name }}/csi.sock"
+          env:
+            - name: KUBE_NODE_NAME
+              valueFrom:
+                fieldRef:
+                  fieldPath: spec.nodeName
+          imagePullPolicy: IfNotPresent
+          volumeMounts:
+            - name: socket-dir
+              mountPath: /csi
+            - name: registration-dir
+              mountPath: /registration
+      
+      hostNetwork: true
+      terminationGracePeriodSeconds: 30
+      volumes:
+        - name: socket-dir
+          hostPath:
+            path: "/var/lib/kubelet/plugins/{{ .Values.csi.plugin.name }}"
+            type: DirectoryOrCreate
+        - name: registration-dir
+          hostPath:
+            path: /var/lib/kubelet/plugins_registry
+            type: Directory
+        - name: plugins-dir
+          hostPath:
+            path: /var/lib/kubelet/plugins
+            type: DirectoryOrCreate
+        - name: pod-mounts
+          hostPath:
+            path: /var/lib/kubelet/pods
+            type: Directory
+        - name: v31o-config
+          hostPath:  
+            path: /etc/v3io/fuse
+            type: Directory
+        - name: v3io-log
+          hostPath:
+            path: /var/log/iguazio_fuse/{{ .Values.csi.plugin.namespace }}
+            type: DirectoryOrCreate
+
