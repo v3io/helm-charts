@@ -2,8 +2,7 @@ apiVersion: storage.k8s.io/v1
 kind: CSIDriver
 metadata:
   name: {{ .Values.csi.plugin.name }}
-  namespace: {{ .Values.csi.plugin.namespace }}
-  # namespace: default
+  namespace: {{ .Release.Namespace }}
 spec:
   attachRequired: false
   podInfoOnMount: true
