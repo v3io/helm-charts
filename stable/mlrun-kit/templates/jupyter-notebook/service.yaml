@@ -10,13 +10,18 @@ metadata:
     helm.sh/chart: {{ .Chart.Name }}-{{ .Chart.Version | replace "+" "_" }}
 
 spec:
+{{- if .Values.jupyterNotebook.service.nodePort }}
   type: NodePort
+{{- end }}
   selector:
     app.kubernetes.io/component: jupyter-notebook
     app.kubernetes.io/name: {{ template "mlrun-kit.name" . }}
     app.kubernetes.io/instance: {{ .Release.Name }}
   ports:
-  - protocol: TCP
-    nodePort: {{ .Values.jupyterNotebook.service.nodePort }}
+  - name: admin
+    protocol: TCP
     port: 8888
     targetPort: 8888
+{{- if .Values.jupyterNotebook.service.nodePort }}
+    nodePort: {{ .Values.jupyterNotebook.service.nodePort }}
+{{- end }}
