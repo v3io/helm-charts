@@ -2,7 +2,7 @@ kind: DaemonSet
 apiVersion: apps/v1
 metadata:
   name: {{ include "fuse-csi.name.nodeplugin" . }}
-  namespace: {{ .Values.csi.plugin.namespace }}
+  namespace: {{ .Release.Namespace }}
   labels:
     app: {{ include "fuse-csi.name" . }}
     component: nodeplugin
@@ -106,6 +106,6 @@ spec:
             type: Directory
         - name: v3io-log
           hostPath:
-            path: /var/log/iguazio_fuse/{{ .Values.csi.plugin.namespace }}
+            path: /var/log/iguazio_fuse/{{ .Release.Namespace }}
             type: DirectoryOrCreate
 
