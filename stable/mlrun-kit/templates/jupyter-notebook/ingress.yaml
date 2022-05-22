@@ -1,0 +1,46 @@
+{{- if .Values.jupyterNotebook.ingress.enabled -}}
+{{- if not .Values.jupyterNotebook.nodePort -}}
+{{- $fullName := include "mlrun-kit.jupyter.fullname" . -}}
+{{- if semverCompare ">=1.14-0" .Capabilities.KubeVersion.GitVersion -}}
+apiVersion: networking.k8s.io/v1beta1
+{{- else -}}
+apiVersion: extensions/v1beta1
+{{- end }}
+kind: Ingress
+metadata:
+  name: {{ $fullName }}
+  labels:
+    app.kubernetes.io/component: jupyter-notebook
+    app.kubernetes.io/name: {{ template "mlrun-kit.name" . }}
+    app.kubernetes.io/instance: {{ .Release.Name }}
+    app.kubernetes.io/managed-by: {{ .Release.Service }}
+    helm.sh/chart: {{ .Chart.Name }}-{{ .Chart.Version | replace "+" "_" }}
+  {{- with .Values.jupyterNotebook.ingress.annotations }}
+  annotations:
+    {{- toYaml . | nindent 4 }}
+  {{- end }}
+spec:
+{{- if .Values.jupyterNotebook.ingress.tls }}
+  tls:
+  {{- range .Values.jupyterNotebook.ingress.tls }}
+    - hosts:
+      {{- range .hosts }}
+        - {{ . | quote }}
+      {{- end }}
+      secretName: {{ .secretName }}
+  {{- end }}
+{{- end }}
+  rules:
+  {{- range .Values.jupyterNotebook.ingress.hosts }}
+    - host: {{ .host | quote }}
+      http:
+        paths:
+        {{- range .paths }}
+          - path: {{ . }}
+            backend:
+              serviceName: {{ $fullName }}
+              servicePort: admin
+        {{- end }}
+  {{- end }}
+{{- end }}
+{{- end }}
