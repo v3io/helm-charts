@@ -10,10 +10,12 @@ metadata:
     {{- include "spark-operator.labels" . | nindent 4 }}
 rules:
 - apiGroups:
+  - "*"
   - admissionregistration.k8s.io
   resources:
   - mutatingwebhookconfigurations
   - validatingwebhookconfigurations
+  - secrets
   verbs:
   - create
   - get
@@ -50,7 +52,7 @@ metadata:
     {{- include "spark-operator.labels" . | nindent 4 }}
 rules:
 - apiGroups:
-  - ""
+  - "*"
   resources:
   - pods
   verbs:
