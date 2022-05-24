@@ -8,10 +8,10 @@ replicaCount: 1
 
 image:
   # -- Image repository
-  repository: gcr.io/spark-operator/spark-operator
+  repository: ghcr.io/googlecloudplatform/spark-operator
   # -- Image pull policy
   pullPolicy: IfNotPresent
-  # -- Overrides the image tag whose default is the chart appVersion.
+  # -- if set, override the image tag whose default is the chart appVersion.
   tag: ""
 
 # -- Image pull secrets
@@ -46,11 +46,15 @@ serviceAccounts:
     create: false
     # -- Optional name for the spark service account
     name: ""
+    # -- Optional annotations for the spark service account
+    annotations: {}
   sparkoperator:
     # -- Create a service account for the operator
     create: false
     # -- Optional name for the operator service account
     name: ""
+    # -- Optional annotations for the operator service account
+    annotations: {}
 
 # -- Set this if running spark jobs in a different namespace than the operator
 sparkJobNamespace: ""
@@ -59,10 +63,15 @@ sparkJobNamespace: ""
 controllerThreads: 10
 
 # -- Operator resync interval. Note that the operator will respond to events (e.g. create, update)
-# unrealted to this setting
+# unrelated to this setting
 resyncInterval: 30
 
-# -- Ingress URL format
+uiService:
+  # -- Enable UI service creation for Spark application
+  enable: true
+
+# -- Ingress URL format.
+# Requires the UI service to be enabled by setting `uiService.enable` to true.
 ingressUrlFormat: ""
 
 # -- Set higher levels for more verbose logging
@@ -74,6 +83,12 @@ podSecurityContext: {}
 # securityContext -- Operator container security context
 securityContext: {}
 
+# volumes - Operator volumes
+volumes: []
+
+# volumeMounts - Operator volumeMounts
+volumeMounts: []
+
 webhook:
   # -- Enable webhook server
   enable: false
@@ -82,9 +97,19 @@ webhook:
   # -- The webhook server will only operate on namespaces with this label, specified in the form key1=value1,key2=value2.
   # Empty string (default) will operate on all namespaces
   namespaceSelector: ""
+  # -- The annotations applied to init job, required to restore certs deleted by the cleanup job during upgrade
+  initAnnotations:
+    "helm.sh/hook": pre-install, pre-upgrade
+    "helm.sh/hook-weight": "50"
+  # -- The annotations applied to the cleanup job, required for helm lifecycle hooks
+  cleanupAnnotations:
+    "helm.sh/hook": pre-delete, pre-upgrade
+    "helm.sh/hook-delete-policy": hook-succeeded
+  # -- Webhook Timeout in seconds
+  timeout: 30
 
 metrics:
-  # -- Enable prometheus mertic scraping
+  # -- Enable prometheus metric scraping
   enable: true
   # -- Metrics port
   port: 10254
@@ -122,7 +147,13 @@ priorityClassName: ""
 # podAnnotations -- Additional annotations to add to the pod
 podAnnotations: {}
 
+# podLabels -- Additional labels to add to the pod
+podLabels: {}
+
 # resources -- Pod resource requests and limits
+# Note, that each job submission will spawn a JVM within the Spark Operator Pod using "/usr/local/openjdk-11/bin/java -Xmx128m".
+# Kubernetes may kill these Java processes at will to enforce resource limits. When that happens, you will see the following error:
+# 'failed to run spark-submit for SparkApplication [...]: signal: killed' - when this happens, you may want to increase memory limits.
 resources: {}
   # limits:
   #   cpu: 100m
@@ -152,7 +183,9 @@ istio:
   # -- When using `istio`, spark jobs need to run without a sidecar to properly terminate
   enabled: false
 
+# labelSelectorFilter -- A comma-separated list of key=value, or key labels to filter resources during watch and list based on the specified labels.
+labelSelectorFilter: ""
+
 global:
   v3io:
     configMountPath: /etc/config/v3io
-

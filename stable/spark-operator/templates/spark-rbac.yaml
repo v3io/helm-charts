@@ -29,6 +29,7 @@ rules:
   - ""
   resources:
   - persistentvolumeclaims
+  - configmaps
   verbs:
   - "*"
 ---
