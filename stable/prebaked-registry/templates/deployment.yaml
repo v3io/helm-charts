@@ -164,7 +164,7 @@ spec:
               mountPath: /auth
               readOnly: true
 {{- end }}
-{{- if and ( (.Values.fileSystemMount.enabled) (eq .Values.storage "filesystem")) }}
+{{- if and .Values.fileSystemMount.enabled (eq .Values.storage "filesystem") }}
             - name: data
               mountPath: /var/lib/registry/
 {{- end }}

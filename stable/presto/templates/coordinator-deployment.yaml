@@ -36,6 +36,14 @@ spec:
         - name: third-party-volume
           hostPath:
             path: "/home/iguazio/igz/bigdata/libs/third-party"
+        - name: spill-disk
+{{- if .Values.server.properties.spillPath }}
+          hostPath:
+            path: {{ .Values.server.properties.spillPath }}
+            type: DirectoryOrCreate
+{{- else }}
+          emptyDir: {}
+{{- end }}
 {{- if .Values.server.properties.https }}
         - name: java-cert
           emptyDir: {}

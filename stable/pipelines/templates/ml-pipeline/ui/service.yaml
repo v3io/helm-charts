@@ -9,7 +9,9 @@ metadata:
 {{ include "pipelines.commonLabels" . | indent 4 }}
 spec:
   ports:
-  - port: 80
+  - name: http
+    protocol: TCP
+    port: 80
     targetPort: 3000
   selector:
     component: ml-pipeline-ui

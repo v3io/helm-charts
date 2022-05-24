@@ -1,10 +1,10 @@
+{{- if .Values.deployment.create }}
+
 # If the admission webhook is enabled, then a post-install step is required
 # to generate and install the secret in the operator namespace.
 
 # In the post-install hook, the token corresponding to the operator service account
 # is used to authenticate with the Kubernetes API server to install the secret bundle.
-
-{{- if .Values.deployment.create }}
 
 apiVersion: apps/v1
 kind: Deployment
