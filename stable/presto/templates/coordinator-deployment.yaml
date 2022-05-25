@@ -30,7 +30,7 @@ spec:
             name: {{ template "presto.coordinator" . }}
         - name: catalog-config-volume
           configMap:
-            name: presto-catalog
+            name: {{ template "presto.catalog" . }}
         - name: daemon-health
           emptyDir: {}
         - name: third-party-volume
