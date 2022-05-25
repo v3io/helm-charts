@@ -150,3 +150,4 @@ roleRef:
   name: {{ include "spark-operator.fullname" . }}-r
   apiGroup: rbac.authorization.k8s.io
 {{- end }}
+
