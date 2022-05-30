@@ -60,6 +60,7 @@ server:
       maxMemoryPerNode: "3GB"
       maxTotalMemoryPerNode: "4GB"
     spillPath: ""
+    spillMountPath: ""
   catalog:
 hive:
   hostname: hive
