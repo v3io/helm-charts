@@ -217,7 +217,7 @@ initChownData:
   ##
   image:
     repository: busybox
-    tag: "stable"
+    tag: "1.35"
     pullPolicy: IfNotPresent
 
   ## initChownData resource requests and limits
