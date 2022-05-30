@@ -1,0 +1,16 @@
+csi:
+  plugin:
+    name: fuse-csi
+    
+
+  registrar:
+    image: quay.io/k8scsi/csi-node-driver-registrar:v2.1.0
+
+  v3ioFuse:
+      image:
+        repository: gcr.io/iguazio/v3io-fuse
+        tag: 3.6.0-b8513.20220516062230
+        pullPolicy: IfNotPresent
+# Override the default app name using nameOverride
+# nameOverride: some-other-name
+

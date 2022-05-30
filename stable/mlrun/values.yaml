@@ -8,11 +8,36 @@ api:
 
   logLevel: INFO
 
-  replicaCount: 1
+  chief:
+    fullnameOverride:
+    # auto-scaling is currently not supported and the min value is treated as the fixed value
+    minReplicas: 1
+
+    service:
+      type: ClusterIP
+      port: 8080
+      targetPort: 8080
+
+    ingress:
+      enabled: false
+      annotations: { }
+      # kubernetes.io/ingress.class: nginx
+      # kubernetes.io/tls-acme: "true"
+      hosts:
+        - host: chart-example.local
+          paths: [ ]
+      tls: [ ]
+      #  - secretName: chart-example-tls
+      #    hosts:
+      #      - chart-example.local
+  worker:
+    fullnameOverride:
+    # auto-scaling is currently not supported and the min value is treated as the fixed value
+    minReplicas: 0
 
   image:
     repository: mlrun/mlrun-api
-    tag: 0.7.0
+    tag: 1.0.1
     pullPolicy: IfNotPresent
     pullSecrets: []
 
@@ -343,7 +368,7 @@ ui:
 
   image:
     repository: mlrun/mlrun-ui
-    tag: 0.7.0
+    tag: 1.0.1
     pullPolicy: IfNotPresent
     pullSecrets: []
 

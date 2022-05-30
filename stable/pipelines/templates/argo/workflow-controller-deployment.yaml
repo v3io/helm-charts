@@ -32,12 +32,18 @@ spec:
           "--configmap",
           "workflow-controller-configmap",
           "--executor-image",
-          "{{ .Values.images.argoexec.repository }}:{{ .Values.images.argoexec.tag }}"
+          "{{ .Values.images.argoexec.repository }}:{{ .Values.images.argoexec.tag }}",
+          "--namespaced"
         ]
         command:
         - workflow-controller
         env:
         - name: ARGO_NAMESPACE
+          valueFrom:
+            fieldRef:
+              apiVersion: v1
+              fieldPath: metadata.namespace
+        - name: LEADER_ELECTION_IDENTITY
           valueFrom:
             fieldRef:
               apiVersion: v1
@@ -49,6 +55,19 @@ spec:
 {{ toYaml .Values.resources.workflowController | indent 10 }}
         terminationMessagePath: /dev/termination-log
         terminationMessagePolicy: File
+        ports:
+          - name: metrics
+            containerPort: 9090
+          - containerPort: 6060
+        livenessProbe:
+          httpGet:
+            port: 6060
+            path: /healthz
+          # Require three failures to tolerate transient errors.
+          failureThreshold: 3
+          initialDelaySeconds: 90
+          periodSeconds: 60
+          timeoutSeconds: 30
       dnsPolicy: ClusterFirst
       restartPolicy: Always
       schedulerName: default-scheduler

@@ -7,18 +7,20 @@ metadata:
     {{- include "spark-operator.labels" . | nindent 4 }}
 rules:
 - apiGroups:
+  - ""
   - admissionregistration.k8s.io
   resources:
   - mutatingwebhookconfigurations
   - validatingwebhookconfigurations
+  - secrets
   verbs:
   - create
   - get
   - update
   - delete
 {{- end }}
----
 {{- if .Values.rbac.clusterNamespaceResources.create }}
+---
 apiVersion: rbac.authorization.k8s.io/v1
 kind: ClusterRoleBinding
 metadata:
@@ -40,6 +42,7 @@ apiVersion: rbac.authorization.k8s.io/v1
 kind: Role
 metadata:
   name: {{ include "spark-operator.fullname" . }}-r
+  annotations:
   labels:
     {{- include "spark-operator.labels" . | nindent 4 }}
 rules:
@@ -135,6 +138,7 @@ apiVersion: rbac.authorization.k8s.io/v1
 kind: RoleBinding
 metadata:
   name: {{ include "spark-operator.fullname" . }}-rb
+  annotations:
   labels:
     {{- include "spark-operator.labels" . | nindent 4 }}
 subjects:
@@ -146,3 +150,4 @@ roleRef:
   name: {{ include "spark-operator.fullname" . }}-r
   apiGroup: rbac.authorization.k8s.io
 {{- end }}
+
