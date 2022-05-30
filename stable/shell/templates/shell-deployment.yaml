@@ -15,6 +15,7 @@ spec:
   template:
     metadata:
       annotations:
+        cluster-autoscaler.kubernetes.io/safe-to-evict: "true"
         checksum/secret: {{ include (print $.Template.BasePath "/shell-ssh-key-secret.yaml") . | sha256sum }}
       labels:
         app: {{ template "shell.name" . }}
