@@ -36,12 +36,6 @@ spec:
         - name: third-party-volume
           hostPath:
             path: "/home/iguazio/igz/bigdata/libs/third-party"
-{{- if .Values.server.properties.spillPath }}
-        - name: spill-disk
-          hostPath:
-            path: {{ .Values.server.properties.spillPath }}
-            type: DirectoryOrCreate
-{{- end }}
 {{- if .Values.server.properties.https }}
         - name: java-cert
           emptyDir: {}
@@ -89,10 +83,6 @@ spec:
 {{- if .Values.server.properties.https }}
             - mountPath: /var/run/iguazio/java/cert
               name: java-cert
-{{- end }}
-{{- if .Values.server.properties.spillPath }}
-            - mountPath: {{ .Values.server.properties.spillMountPath }}
-              name: spill-disk
 {{- end }}
 {{- if .Values.server.properties.coordinator.volumes }}
 {{ include .Values.server.properties.coordinator.volumes.volumeMountsTemplate . | indent 12 }}
