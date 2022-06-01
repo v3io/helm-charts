@@ -42,7 +42,7 @@ spec:
         - name: spill-disk
           hostPath:
             path: {{ .Values.server.properties.spillPath }}
-            type: DirectoryOrCreate
+            type: Directory
 {{- end }}
 {{- if .Values.server.properties.https }}
         - name: java-cert
