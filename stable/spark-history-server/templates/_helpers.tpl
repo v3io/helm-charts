@@ -31,3 +31,14 @@ Create chart name and version as used by the chart label.
 {{- printf "%s-%s" .Chart.Name .Chart.Version | replace "+" "_" | trunc 63 | trimSuffix "-" -}}
 {{- end -}}
 
+
+{{/*
+Define spark history custom executor log url parameter
+*/}}
+{{- define "sparkHistoryCustomExecutorLogURL" -}}
+{{- if .Values.sparkHistoryServer.logURL -}}
+{{- printf "-Dspark.history.custom.executor.log.url=%s" .Values.sparkHistoryServer.logURL -}}
+{{- else -}}
+{{- printf "" -}}
+{{- end -}}
+{{- end -}}
