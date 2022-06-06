@@ -111,6 +111,7 @@ sharedPersistency:
           storage: 1Gi
 
 jupyterNotebook:
+  enabled: true
   service:
     nodePort: 30040
   image:
