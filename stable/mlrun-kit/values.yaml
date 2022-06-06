@@ -111,9 +111,12 @@ sharedPersistency:
           storage: 1Gi
 
 jupyterNotebook:
+  name: jupyter-notebook
   enabled: true
   service:
+    type: NodePort
     nodePort: 30040
+    port: 8888
   image:
     repository: quay.io/mlrun/jupyter
     tag: 0.10.0

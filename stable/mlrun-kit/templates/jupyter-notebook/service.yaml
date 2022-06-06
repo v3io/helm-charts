@@ -1,24 +1,40 @@
 {{- if .Values.jupyterNotebook.enabled -}}
-kind: Service
 apiVersion: v1
+kind: Service
 metadata:
-  name: {{ template "mlrun-kit.jupyter.fullname" . }}
+  name: {{ include "mlrun-kit.jupyter.fullname" . }}
   labels:
-    app.kubernetes.io/component: jupyter-notebook
-    app.kubernetes.io/name: {{ template "mlrun-kit.name" . }}
-    app.kubernetes.io/instance: {{ .Release.Name }}
-    app.kubernetes.io/managed-by: {{ .Release.Service }}
-    helm.sh/chart: {{ .Chart.Name }}-{{ .Chart.Version | replace "+" "_" }}
-
+    {{- include "mlrun-kit.jupyter.labels" . | nindent 4 }}
 spec:
-  type: NodePort
-  selector:
-    app.kubernetes.io/component: jupyter-notebook
-    app.kubernetes.io/name: {{ template "mlrun-kit.name" . }}
-    app.kubernetes.io/instance: {{ .Release.Name }}
+{{- if (or (eq .Values.jupyterNotebook.service.type "ClusterIP") (empty .Values.jupyterNotebook.service.type)) }}
+  type: ClusterIP
+  {{- if .Values.jupyterNotebook.service.clusterIP }}
+  clusterIP: {{ .Values.jupyterNotebook.service.clusterIP }}
+  {{end}}
+{{- else if eq .Values.jupyterNotebook.service.type "LoadBalancer" }}
+  type: {{ .Values.jupyterNotebook.service.type }}
+  {{- if .Values.jupyterNotebook.service.loadBalancerIP }}
+  loadBalancerIP: {{ .Values.jupyterNotebook.service.loadBalancerIP }}
+  {{- end }}
+  {{- if .Values.jupyterNotebook.service.loadBalancerSourceRanges }}
+  loadBalancerSourceRanges:
+{{ toYaml .Values.jupyterNotebook.service.loadBalancerSourceRanges | indent 4 }}
+  {{- end -}}
+{{- else }}
+  type: {{ .Values.jupyterNotebook.service.type }}
+{{- end }}
+{{- if .Values.jupyterNotebook.service.externalIPs }}
+  externalIPs:
+{{ toYaml .Values.jupyterNotebook.service.externalIPs | indent 4 }}
+{{- end }}
   ports:
-  - protocol: TCP
-    nodePort: {{ .Values.jupyterNotebook.service.nodePort }}
-    port: 8888
-    targetPort: 8888
+    - name: http
+      port: {{ .Values.jupyterNotebook.service.port }}
+      protocol: TCP
+      targetPort: http
+{{ if (and (eq .Values.jupyterNotebook.service.type "NodePort") (not (empty .Values.jupyterNotebook.service.nodePort))) }}
+      nodePort: {{.Values.jupyterNotebook.service.nodePort}}
+{{ end }}
+  selector:
+    {{- include "mlrun-kit.jupyterNotebook.selectorLabels" . | nindent 4 }}
 {{- end -}}
