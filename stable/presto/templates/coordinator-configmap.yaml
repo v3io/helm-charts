@@ -37,7 +37,6 @@ data:
   config.properties: |
 {{- if .Values.server.properties.coordinator.config.custom }}
 {{ .Values.server.properties.coordinator.config.custom | indent 4 }}
-{{- println "coordinator=true" }}
 {{- else }}
     coordinator=true
 {{- if gt (int .Values.server.workers) 0 }}
