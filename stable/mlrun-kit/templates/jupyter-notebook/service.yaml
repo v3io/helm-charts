@@ -36,5 +36,5 @@ spec:
       nodePort: {{.Values.jupyterNotebook.service.nodePort}}
 {{ end }}
   selector:
-    {{- include "mlrun-kit.jupyterNotebook.selectorLabels" . | nindent 4 }}
+    {{- include "mlrun-kit.jupyter.selectorLabels" . | nindent 4 }}
 {{- end -}}
