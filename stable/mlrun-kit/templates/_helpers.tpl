@@ -83,3 +83,39 @@ Create chart name and version as used by the chart label.
 {{- define "mlrun-kit.chart" -}}
 {{- printf "%s-%s" .Chart.Name .Chart.Version | replace "+" "_" | trunc 63 | trimSuffix "-" -}}
 {{- end -}}
+
+
+{{/*
+Common labels
+*/}}
+{{- define "mlrun-kit.common.labels" -}}
+helm.sh/chart: {{ include "mlrun-kit.chart" . }}
+{{- if .Chart.AppVersion }}
+app.kubernetes.io/version: {{ .Chart.AppVersion | quote }}
+{{- end }}
+app.kubernetes.io/managed-by: {{ .Release.Service }}
+{{- end -}}
+
+{{/*
+Common selector labels
+*/}}
+{{- define "mlrun-kit.common.selectorLabels" -}}
+app.kubernetes.io/name: {{ include "mlrun-kit.name" . }}
+app.kubernetes.io/instance: {{ .Release.Name }}
+{{- end -}}
+
+{{/*
+Jupyter selector labels
+*/}}
+{{- define "mlrun-kit.jupyter.selectorLabels" -}}
+{{ include "mlrun-kit.common.selectorLabels" . }}
+app.kubernetes.io/component: {{ .Values.jupyterNotebook.name | quote }}
+{{- end -}}
+
+{{/*
+Jupyter labels
+*/}}
+{{- define "mlrun-kit.jupyter.labels" -}}
+{{ include "mlrun-kit.common.labels" . }}
+{{ include "mlrun-kit.jupyter.selectorLabels" . }}
+{{- end -}}
