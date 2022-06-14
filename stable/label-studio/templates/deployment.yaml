@@ -41,6 +41,8 @@ spec:
         volumeMounts:
         - mountPath: "/label-studio/{{ .Values.deployment.project.name }}"
           name: project-data
+        - mountPath: "/label-studio/{{ .Values.deployment.project.name }}-data"
+          name: user-data
         livenessProbe:
 {{ toYaml .Values.deployment.livenessProbe | indent 10 }}
         readinessProbe:
@@ -49,6 +51,8 @@ spec:
 {{ toYaml .Values.resources | indent 10 }}
       volumes:
         - name: project-data
+          emptyDir: {}
+        - name: user-data
           emptyDir: {}
 {{- with .Values.nodeSelector }}
       nodeSelector:
