@@ -39,7 +39,7 @@
 {{- include "v3io-configs.deployment.mount" . }}
  - name: v3io-fuse
     csi:
-      driver: fuse-csi
+      driver: fuse-csi-{{ .Release.Namespace }}
       nodePublishSecretRef:
         name: {{ .Release.Name }}-v3io-fuse
       volumeAttributes:
