@@ -67,23 +67,19 @@ mlrun:
         persistentVolumeClaim:
           claimName: mlrun-pvc
     extraEnv:
-      - name: MLRUN_HTTPDB__DATA_VOLUME
-        value: "/home/jovyan/data"
-      - name: MLRUN_ARTIFACT_PATH
-        value: "/home/jovyan/data"
-      - name: MLRUN_HTTPDB__REAL_PATH
-        value: "/data"
       - name: MLRUN_HTTPDB__PROJECTS__FOLLOWERS
         value: nuclio
-      - name: MLRUN_STORAGE__AUTO_MOUNT_TYPE
-        value: pvc
-      - name: MLRUN_STORAGE__AUTO_MOUNT_PARAMS
-        value: "pvc_name=mlrun-kit-shared-pvc,volume_mount_path=/home/jovyan/data,volume_name=shared-persistency"
-    extraPersistentVolumeMounts:
-      - name: data-volume
-        mountPath: /data
-        readOnly: false
-        existingClaim: mlrun-kit-shared-pvc
+      - name: S3_ENDPOINT_URL
+        value: http://minio.mlrun.svc.cluster.local:9000
+      - name: AWS_SECRET_ACCESS_KEY
+        value: minio123
+      - name: AWS_ACCESS_KEY_ID
+        value: minio
+      - name: MLRUN_HTTPDB__REAL_PATH
+        value: s3://
+      - name: MLRUN_ARTIFACT_PATH
+        value: s3://mlrun-kit/
+    extraPersistentVolumeMounts: ~
   ui:
     fullnameOverride: mlrun-ui
     service:
@@ -101,7 +97,7 @@ mlrunPersistency:
 
 sharedPersistency:
   pvc:
-    create: true
+    create: false
     spec:
       storageClassName: nfs
       accessModes:
@@ -112,7 +108,7 @@ sharedPersistency:
 
 jupyterNotebook:
   name: jupyter-notebook
-  enabled: true
+  enabled: false
   service:
     type: NodePort
     nodePort: 30040
@@ -151,14 +147,14 @@ jupyterNotebook:
 mpi-operator:
   nameOverride: mpi-operator
   crd:
-    create: true
+    create: false
   rbac:
     clusterResources:
-      create: true
+      create: false
     namespaced:
-      create: true
+      create: false
   deployment:
-    create: true
+    create: false
 
 ## customize PV spec used for nfs-server provisioner
 ## ref: https://kubernetes.io/docs/concepts/storage/persistent-volumes/
@@ -168,11 +164,39 @@ nfsPv:
   specOverride: {}
 
 nfs-server-provisioner:
+  replicaCount: 0
+  storageClass:
+    create: false
+  rbac:
+    create: false
   nameOverride: nfs-server-provisioner
   persistence:
     enabled: false
     storageClass: "mlrun-kit-nfs"
     size: 5Gi
 
+
 minio:
-  enabled: false
+  enabled: true
+  rootUser: minio
+  rootPassword: minio123
+  replicas: 4
+  resources:
+    requests:
+      memory: 0.5Gi
+  service:
+    type: NodePort
+    port: 9000
+    nodePort: 30080
+  consoleService:
+    type: NodePort
+    port: 9001
+    nodePort: 30090
+  persistence:
+    size: 1Gi
+  fullnameOverride: minio
+  buckets:
+    - name: mlrun-kit
+      policy: none
+      purge: false
+      versioning: false
