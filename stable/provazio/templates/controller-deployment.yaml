@@ -33,7 +33,7 @@ spec:
     spec:
       serviceAccountName: {{ template "provazio.controller.name" . }}
       securityContext:
-        {{ - toYaml .Values.controller.securityContext | nindent 8 }}
+        {{- toYaml .Values.controller.securityContext | nindent 8 }}
       containers:
       - env:
         - name: PROVAZIO_CONTROLLER_RESOURCES
