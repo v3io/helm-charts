@@ -78,7 +78,7 @@ mlrun:
       - name: MLRUN_HTTPDB__REAL_PATH
         value: s3://
       - name: MLRUN_ARTIFACT_PATH
-        value: s3://mlrun-kit/
+        value: s3://mlrun/
     extraPersistentVolumeMounts: ~
   ui:
     fullnameOverride: mlrun-ui
@@ -196,7 +196,7 @@ minio:
     size: 1Gi
   fullnameOverride: minio
   buckets:
-    - name: mlrun-kit
+    - name: mlrun
       policy: none
       purge: false
       versioning: false
