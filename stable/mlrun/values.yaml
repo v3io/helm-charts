@@ -33,7 +33,7 @@ api:
   worker:
     fullnameOverride:
     # auto-scaling is currently not supported and the min value is treated as the fixed value
-    minReplicas: 0
+    minReplicas: 1
 
   image:
     repository: mlrun/mlrun-api
