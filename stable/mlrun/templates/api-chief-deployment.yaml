@@ -192,10 +192,12 @@ spec:
       affinity:
         podAntiAffinity:
           preferredDuringSchedulingIgnoredDuringExecution:
-            - labelSelector:
-                matchLabels:
-                  {{- include "mlrun.api.selectorLabels" . | nindent 18 }}
-              topologyKey: "kubernetes.io/hostname"
+            - weight: 1
+              podAffinityTerm:
+                labelSelector:
+                  matchLabels:
+                    {{- include "mlrun.api.selectorLabels" . | nindent 20 }}
+                topologyKey: "kubernetes.io/hostname"
     {{- end }}
     {{- with .Values.api.tolerations }}
       tolerations:
