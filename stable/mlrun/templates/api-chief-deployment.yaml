@@ -182,9 +182,20 @@ spec:
       nodeSelector:
         {{- toYaml . | nindent 8 }}
       {{- end }}
-    {{- with .Values.api.affinity }}
+    {{- if .Values.api.chief.affinity }}
       affinity:
-        {{- toYaml . | nindent 8 }}
+        {{- toYaml .Values.api.chief.affinity | nindent 8 }}
+    {{- else if .Values.api.affinity }}
+      affinity:
+        {{- toYaml .Values.api.affinity | nindent 8 }}
+    {{- else }}
+      affinity:
+        podAntiAffinity:
+          preferredDuringSchedulingIgnoredDuringExecution:
+            - labelSelector:
+                matchLabels:
+                  {{- include "mlrun.api.selectorLabels" . | nindent 18 }}
+              topologyKey: "kubernetes.io/hostname"
     {{- end }}
     {{- with .Values.api.tolerations }}
       tolerations:

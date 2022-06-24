@@ -30,10 +30,27 @@ api:
       #  - secretName: chart-example-tls
       #    hosts:
       #      - chart-example.local
+
+    ## Affinity for pod assignment
+    ## ref: https://kubernetes.io/docs/concepts/configuration/assign-pod-node/#affinity-and-anti-affinity
+    ##
+    # Setting the affinity here has precedence over api.affinity
+    # Note that by default we're assigning affinity to make the chief/worker pods to run on different nodes, if you're
+    # overriding the affinity it's your responsibility to keep applying this behavior
+    affinity: { }
+
   worker:
     fullnameOverride:
     # auto-scaling is currently not supported and the min value is treated as the fixed value
     minReplicas: 0
+
+    ## Affinity for pod assignment
+    ## ref: https://kubernetes.io/docs/concepts/configuration/assign-pod-node/#affinity-and-anti-affinity
+    ##
+    # Setting the affinity here has precedence over api.affinity
+    # Note that by default we're assigning affinity to make the chief/worker pods to run on different nodes, if you're
+    # overriding the affinity it's your responsibility to keep applying this behavior
+    affinity: { }
 
   image:
     repository: mlrun/mlrun-api
@@ -99,6 +116,10 @@ api:
   ## Affinity for pod assignment
   ## ref: https://kubernetes.io/docs/concepts/configuration/assign-pod-node/#affinity-and-anti-affinity
   ##
+  # Setting the affinity here will apply to both the chief and worker deployments, the specific affinity fields
+  # (api.chief/worker.affinity) has precedence over this on.
+  # Note that by default we're assigning affinity to make the chief/worker pods to run on different nodes, if you're
+  # overriding the affinity it's your responsibility to keep applying this behavior
   affinity: {}
 
   priorityClassName: ""
