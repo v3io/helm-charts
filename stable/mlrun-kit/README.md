@@ -86,6 +86,9 @@ Your applications are now available in your local browser:
 - nuclio - http://localhost:30050
 - mlrun UI - http://locahost:30060
 - mlrun API (external) - http://locahost:30070
+- minio API (external) - http://locahost:30080
+- minio UI - http://locahost:30090
+
 > **Note:**
 > The above links assume your Kubernetes cluster is exposed on localhost.
 > If that's not the case, the different components will be available on `externalHostAddress`
