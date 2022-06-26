@@ -12,4 +12,12 @@ You're up and running !
 4. MLRun API is exposed externally at:
   http://{{ .Values.global.externalHostAddress }}:{{ .Values.mlrun.api.service.nodePort }}
 
-Happy MLOPSing !!! :]
+{{- if .Values.minio.enabled }}
+
+5. Minio API is exposed externally at:
+  http://{{ .Values.global.externalHostAddress }}:{{ .Values.minio.service.nodePort }}
+
+6. Minio UI is available at:
+  http://{{ .Values.global.externalHostAddress }}:{{ .Values.minio.consoleService.nodePort }}
+
+{{- end }}
