@@ -62,7 +62,8 @@ server:
     spillPath: ""
     spillMountPath: ""
 #    hostPathVolumes:
-#      pathOnHost: pathOnContainer
+#    - hostPath: pathOnHost
+#      mountPath: pathOnContainer
   catalog:
 hive:
   hostname: hive

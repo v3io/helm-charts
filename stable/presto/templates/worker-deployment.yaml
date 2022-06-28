@@ -40,10 +40,10 @@ spec:
             path: "/home/iguazio/igz/bigdata/libs/third-party"
 {{- if .Values.server.properties.hostPathVolumes }}
 {{- $i := 0 | int }}
-{{- range $hostPath, $mountPath := .Values.server.properties.hostPathVolumes}}
+{{- range $hostPathVolume := .Values.server.properties.hostPathVolumes }}
         - name: {{ $volumeName := print "host-path-volume-" $i }}{{ $volumeName }}
           hostPath:
-            path: {{ $hostPath }}
+            path: {{ $hostPathVolume.hostPath }}
             type: Directory
 {{- $i = add1 $i }}
 {{- end }}
@@ -109,8 +109,8 @@ spec:
 {{- end }}
 {{- if .Values.server.properties.hostPathVolumes }}
 {{- $i := 0 | int }}
-{{- range $hostPath, $mountPath := .Values.server.properties.hostPathVolumes}}
-            - mountPath: {{ $mountPath }}
+{{- range $hostPathVolume := .Values.server.properties.hostPathVolumes }}
+            - mountPath: {{ $hostPathVolume.mountPath }}
               name: {{ $mountName := print "host-path-volume-" $i }}{{ $mountName }}
 {{- $i = add1 $i }}
 {{- end }}
