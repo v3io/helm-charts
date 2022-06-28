@@ -61,6 +61,9 @@ server:
       maxTotalMemoryPerNode: "4GB"
     spillPath: ""
     spillMountPath: ""
+#    hostPathVolumes:
+#    - hostPath: pathOnHost
+#      mountPath: pathOnContainer
   catalog:
 hive:
   hostname: hive
