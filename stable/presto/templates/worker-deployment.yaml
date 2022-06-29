@@ -38,6 +38,16 @@ spec:
         - name: third-party-volume
           hostPath:
             path: "/home/iguazio/igz/bigdata/libs/third-party"
+{{- if .Values.server.properties.hostPathVolumes }}
+{{- $i := 0 | int }}
+{{- range $hostPathVolume := .Values.server.properties.hostPathVolumes }}
+        - name: {{ $volumeName := print "host-path-volume-" $i }}{{ $volumeName }}
+          hostPath:
+            path: {{ $hostPathVolume.hostPath }}
+            type: Directory
+{{- $i = add1 $i }}
+{{- end }}
+{{- end }}
 {{- if .Values.server.properties.spillPath }}
 {{- $spillPaths := splitList "," .Values.server.properties.spillPath }}
 {{- range $index, $path := $spillPaths}}
@@ -96,6 +106,14 @@ spec:
 {{- if .Values.server.properties.https }}
             - mountPath: /var/run/iguazio/java/cert
               name: java-cert
+{{- end }}
+{{- if .Values.server.properties.hostPathVolumes }}
+{{- $i := 0 | int }}
+{{- range $hostPathVolume := .Values.server.properties.hostPathVolumes }}
+            - mountPath: {{ $hostPathVolume.mountPath }}
+              name: {{ $mountName := print "host-path-volume-" $i }}{{ $mountName }}
+{{- $i = add1 $i }}
+{{- end }}
 {{- end }}
 {{- if .Values.server.properties.spillPath }}
 {{- $spillMountPaths := splitList "," .Values.server.properties.spillMountPath }}
