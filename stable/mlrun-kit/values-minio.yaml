@@ -180,7 +180,8 @@ minio:
   enabled: true
   rootUser: minio
   rootPassword: minio123
-  replicas: 4
+  mode: standalone  
+  replicas: 1
   resources:
     requests:
       memory: 0.5Gi
@@ -199,4 +200,3 @@ minio:
     - name: mlrun
       policy: none
       purge: false
-      versioning: false
