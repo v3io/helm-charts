@@ -194,7 +194,7 @@ minio:
     port: 9001
     nodePort: 30090
   persistence:
-    size: 1Gi
+    enabled: false
   fullnameOverride: minio
   buckets:
     - name: mlrun
