@@ -167,6 +167,9 @@ api:
   # Define extra initContainers for the api deployment
   extraInitContainers: []
 
+  # secret from aws credentials file for pushing images to ECR
+  # awsSecretName: ""
+
   opa:
     enabled: false
     name: opa-server

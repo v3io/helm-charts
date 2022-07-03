@@ -65,6 +65,10 @@ spec:
             value: {{ template "mlrun.defaultDockerRegistry.url" . }}
           - name: MLRUN_HTTPDB__BUILDER__DOCKER_REGISTRY_SECRET
             value: {{ template "mlrun.defaultDockerRegistry.secretName" . }}
+          {{- if .Values.api.awsSecretName }}
+          - name: MLRUN_HTTPDB__BUILDER__AWS_SECRET
+            value: {{ .Values.api.awsSecretName | quote }}
+          {{- end }}
           - name: MLRUN_HTTPDB__DSN
             value: {{ .Values.httpDB.dsn }}
           - name: MLRUN_HTTPDB__OLD_DSN
