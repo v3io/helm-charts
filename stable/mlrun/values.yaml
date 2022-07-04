@@ -170,7 +170,7 @@ api:
   # builder:
     # auth secret to attach to kaniko pod for off cluster registries
     # for example: aws-secret in https://github.com/GoogleContainerTools/kaniko#pushing-to-amazon-ecr
-    # kanikoOffClusterRegistryAuthSecret: ""
+    # kanikoRegistryProviderAuthSecret: ""
 
   opa:
     enabled: false

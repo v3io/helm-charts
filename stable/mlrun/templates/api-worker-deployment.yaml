@@ -65,9 +65,9 @@ spec:
             value: {{ template "mlrun.defaultDockerRegistry.url" . }}
           - name: MLRUN_HTTPDB__BUILDER__DOCKER_REGISTRY_SECRET
             value: {{ template "mlrun.defaultDockerRegistry.secretName" . }}
-          {{- if .Values.api.builder.kanikoOffClusterRegistryAuthSecret }}
-          - name: MLRUN_HTTPDB__BUILDER__KANIKO_OFF_CLUSTER_REGISTRY_AUTH_SECRET
-            value: {{ .Values.api.builder.kanikoOffClusterRegistryAuthSecret | quote }}
+          {{- if .Values.api.builder.kanikoRegistryProviderAuthSecret }}
+          - name: MLRUN_HTTPDB__BUILDER__KANIKO_REGISTRY_PROVIDER_AUTH_SECRET
+            value: {{ .Values.api.builder.kanikoRegistryProviderAuthSecret | quote }}
           {{- end }}
           - name: MLRUN_HTTPDB__DSN
             value: {{ .Values.httpDB.dsn }}
