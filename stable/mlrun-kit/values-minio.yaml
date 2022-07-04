@@ -108,7 +108,7 @@ sharedPersistency:
 
 jupyterNotebook:
   name: jupyter-notebook
-  enabled: false
+  enabled: true
   service:
     type: NodePort
     nodePort: 30040
@@ -133,7 +133,7 @@ jupyterNotebook:
   # mlrun UI's node port
   mlrunUIURL:
   persistency:
-    enabled: true
+    enabled: false
     pvc:
       create: true
       spec:
