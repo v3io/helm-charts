@@ -167,8 +167,10 @@ api:
   # Define extra initContainers for the api deployment
   extraInitContainers: []
 
-  # secret from aws credentials file for pushing images to ECR
-  # awsSecretName: ""
+  # builder:
+    # auth secret to attach to kaniko pod for off cluster registries
+    # for example: aws-secret in https://github.com/GoogleContainerTools/kaniko#pushing-to-amazon-ecr
+    # kanikoOffClusterRegistryAuthSecret: ""
 
   opa:
     enabled: false
