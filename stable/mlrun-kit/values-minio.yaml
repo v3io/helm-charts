@@ -175,6 +175,11 @@ nfs-server-provisioner:
     storageClass: "mlrun-kit-nfs"
     size: 5Gi
 
+minioPersistencyStandalone:
+  pv:
+    create: true
+  pvc:
+    create: true
 
 minio:
   enabled: true
@@ -193,8 +198,11 @@ minio:
     type: NodePort
     port: 9001
     nodePort: 30090
+  securityContext:
+    enabled: true
+    runAsUser: 0
   persistence:
-    enabled: false
+    existingClaim: minio-pvc    
   fullnameOverride: minio
   buckets:
     - name: mlrun
