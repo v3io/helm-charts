@@ -173,6 +173,15 @@ nfs-server-provisioner:
     enabled: false
     storageClass: "mlrun-kit-nfs"
     size: 5Gi
-    
+
+minioPersistencyStandalone:
+  pv:
+    create: false
+  pvc:
+    create: false
+
+
+
 minio:
   enabled: false     
+
