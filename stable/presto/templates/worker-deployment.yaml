@@ -48,15 +48,6 @@ spec:
 {{- $i = add1 $i }}
 {{- end }}
 {{- end }}
-{{- if .Values.server.properties.spillPath }}
-{{- $spillPaths := splitList "," .Values.server.properties.spillPath }}
-{{- range $index, $path := $spillPaths}}
-        - name: {{ $volumeName := print "spill-disk-" $index }}{{ $volumeName }}
-          hostPath:
-            path: {{ $path }}
-            type: Directory
-{{- end }}
-{{- end }}
 {{- if .Values.server.properties.https }}
         - name: java-cert
           emptyDir: {}
@@ -113,13 +104,6 @@ spec:
             - mountPath: {{ $hostPathVolume.mountPath }}
               name: {{ $mountName := print "host-path-volume-" $i }}{{ $mountName }}
 {{- $i = add1 $i }}
-{{- end }}
-{{- end }}
-{{- if .Values.server.properties.spillPath }}
-{{- $spillMountPaths := splitList "," .Values.server.properties.spillMountPath }}
-{{- range $index, $path := $spillMountPaths}}
-            - mountPath: {{ $path }}
-              name: {{ $mountName := print "spill-disk-" $index }}{{ $mountName }}
 {{- end }}
 {{- end }}
 {{- if .Values.server.properties.worker.volumes }}
