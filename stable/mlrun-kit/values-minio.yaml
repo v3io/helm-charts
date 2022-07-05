@@ -106,6 +106,13 @@ sharedPersistency:
         requests:
           storage: 1Gi
 
+jupyterPersistencyStandalone:
+  pv:
+    create: true
+  pvc:
+    create: true
+
+
 jupyterNotebook:
   name: jupyter-notebook
   enabled: true
