@@ -4,10 +4,7 @@ kind: PersistentVolumeClaim
 metadata:
   name: jupyter-pvc
   labels:
-    app.kubernetes.io/name: {{ template "mlrun-kit.name" . }}
-    app.kubernetes.io/instance: {{ .Release.Name }}
-    app.kubernetes.io/managed-by: {{ .Release.Service }}
-    helm.sh/chart: {{ .Chart.Name }}-{{ .Chart.Version | replace "+" "_" }}
+    {{- include "mlrun-kit.jupyter.labels" . | nindent 4 }}  
 spec:
   storageClassName: "jupyter-host-path"
   accessModes:
