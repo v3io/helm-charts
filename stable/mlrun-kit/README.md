@@ -11,7 +11,7 @@ The Open source MLRun kit chart includes the following stack:
 * Jupyter - https://github.com/jupyter/notebook (+MLRun integrated)
 * NFS - https://github.com/kubernetes-retired/external-storage/tree/master/nfs
 * MPI Operator - https://github.com/kubeflow/mpi-operator
-* Minio - https://github.com/minio/minio/tree/master/helm/minio
+* MinIO - https://github.com/minio/minio/tree/master/helm/minio
 
 ## Installing the Chart
 Create a namespace for the deployed components:
