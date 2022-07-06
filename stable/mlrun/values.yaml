@@ -167,10 +167,10 @@ api:
   # Define extra initContainers for the api deployment
   extraInitContainers: []
 
-  builder:
-    # auth secret to attach to kaniko pod for off cluster registries
-    # for example: aws-secret in https://github.com/GoogleContainerTools/kaniko#pushing-to-amazon-ecr
-    kanikoRegistryProviderAuthSecret: ""
+  function:
+    spec:
+      image_pull_secret:
+        default: ""
 
   opa:
     enabled: false
