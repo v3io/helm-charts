@@ -17,14 +17,12 @@ nuclio:
   controller:
     enabled: true
     image:
-      tag: 1.9.0-amd64
+      tag: 1.8.14-amd64
   dashboard:
     enabled: true
     # nodePort - taken from global.nuclio.dashboard.nodePort for re-usability
     image:
-      tag: 1.9.0-amd64
-    # k8s has deprecated docker support since v1.20
-    containerBuilderKind: kaniko
+      tag: 1.8.14-amd64
   autoscaler:
     enabled: false
   dlx:
@@ -60,7 +58,7 @@ mlrun:
   api:
     fullnameOverride: mlrun-api
     image:
-      tag: 1.0.4
+      tag: 1.0.3
     service:
       type: NodePort
       nodePort: 30070
@@ -69,30 +67,26 @@ mlrun:
         persistentVolumeClaim:
           claimName: mlrun-pvc
     extraEnv:
-      - name: MLRUN_HTTPDB__DATA_VOLUME
-        value: "/home/jovyan/data"
-      - name: MLRUN_ARTIFACT_PATH
-        value: "/home/jovyan/data"
-      - name: MLRUN_HTTPDB__REAL_PATH
-        value: "/data"
       - name: MLRUN_HTTPDB__PROJECTS__FOLLOWERS
         value: nuclio
-      - name: MLRUN_STORAGE__AUTO_MOUNT_TYPE
-        value: pvc
-      - name: MLRUN_STORAGE__AUTO_MOUNT_PARAMS
-        value: "pvc_name=mlrun-kit-shared-pvc,volume_mount_path=/home/jovyan/data,volume_name=shared-persistency"
-    extraPersistentVolumeMounts:
-      - name: data-volume
-        mountPath: /data
-        readOnly: false
-        existingClaim: mlrun-kit-shared-pvc
+      - name: S3_ENDPOINT_URL
+        value: http://minio.mlrun.svc.cluster.local:9000
+      - name: AWS_SECRET_ACCESS_KEY
+        value: minio123
+      - name: AWS_ACCESS_KEY_ID
+        value: minio
+      - name: MLRUN_HTTPDB__REAL_PATH
+        value: s3://
+      - name: MLRUN_ARTIFACT_PATH
+        value: s3://mlrun/
+    extraPersistentVolumeMounts: ~
   ui:
     fullnameOverride: mlrun-ui
     service:
       type: NodePort
       nodePort: 30060
     image:
-      tag: 1.0.4
+      tag: 1.0.3
 
 # mlrun persistency resources creation can be disabled if the user would like to provide their own PVC
 mlrunPersistency:
@@ -103,7 +97,7 @@ mlrunPersistency:
 
 sharedPersistency:
   pvc:
-    create: true
+    create: false
     spec:
       storageClassName: nfs
       accessModes:
@@ -112,12 +106,11 @@ sharedPersistency:
         requests:
           storage: 1Gi
 
-
 jupyterPersistencyStandalone:
   pv:
-    create: false
+    create: true
   pvc:
-    create: false
+    create: true
 
 
 jupyterNotebook:
@@ -141,15 +134,13 @@ jupyterNotebook:
     #      - chart-example.local
   image:
     repository: quay.io/mlrun/jupyter
-
-    # TODO: 1.0.4 is broken right now. Bump to 1.0.4 when fixed or 1.0.5 when released.
     tag: 1.0.3
     pullPolicy: IfNotPresent
   # use this to override mlrunUIURL, by default it will be auto-resolved to externalHostAddress and
   # mlrun UI's node port
   mlrunUIURL:
   persistency:
-    enabled: true
+    enabled: false
     pvc:
       create: true
       spec:
@@ -163,14 +154,14 @@ jupyterNotebook:
 mpi-operator:
   nameOverride: mpi-operator
   crd:
-    create: true
+    create: false
   rbac:
     clusterResources:
-      create: true
+      create: false
     namespaced:
-      create: true
+      create: false
   deployment:
-    create: true
+    create: false
 
 ## customize PV spec used for nfs-server provisioner
 ## ref: https://kubernetes.io/docs/concepts/storage/persistent-volumes/
@@ -180,6 +171,11 @@ nfsPv:
   specOverride: {}
 
 nfs-server-provisioner:
+  replicaCount: 0
+  storageClass:
+    create: false
+  rbac:
+    create: false
   nameOverride: nfs-server-provisioner
   persistence:
     enabled: false
@@ -188,12 +184,34 @@ nfs-server-provisioner:
 
 minioPersistencyStandalone:
   pv:
-    create: false
+    create: true
   pvc:
-    create: false
-
-
+    create: true
 
 minio:
-  enabled: false     
-
+  enabled: true
+  rootUser: minio
+  rootPassword: minio123
+  mode: standalone  
+  replicas: 1
+  resources:
+    requests:
+      memory: 0.5Gi
+  service:
+    type: NodePort
+    port: 9000
+    nodePort: 30080
+  consoleService:
+    type: NodePort
+    port: 9001
+    nodePort: 30090
+  securityContext:
+    enabled: true
+    runAsUser: 0
+  persistence:
+    existingClaim: minio-pvc    
+  fullnameOverride: minio
+  buckets:
+    - name: mlrun
+      policy: none
+      purge: false

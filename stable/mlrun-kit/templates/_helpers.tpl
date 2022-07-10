@@ -119,3 +119,21 @@ Jupyter labels
 {{ include "mlrun-kit.common.labels" . }}
 {{ include "mlrun-kit.jupyter.selectorLabels" . }}
 {{- end -}}
+
+
+{{/*
+Minio selector labels
+*/}}
+{{- define "mlrun-kit.minio.selectorLabels" -}}
+{{ include "mlrun-kit.common.selectorLabels" . }}
+app.kubernetes.io/component: {{ .Values.minio.fullnameOverride | quote }}
+{{- end -}}
+
+{{/*
+Minio labels
+*/}}
+{{- define "mlrun-kit.minio.labels" -}}
+{{ include "mlrun-kit.common.labels" . }}
+{{ include "mlrun-kit.minio.selectorLabels" . }}
+{{- end -}}
+
