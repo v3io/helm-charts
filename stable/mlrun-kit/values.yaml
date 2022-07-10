@@ -112,14 +112,6 @@ sharedPersistency:
         requests:
           storage: 1Gi
 
-
-jupyterPersistencyStandalone:
-  pv:
-    create: false
-  pvc:
-    create: false
-
-
 jupyterNotebook:
   name: jupyter-notebook
   enabled: true
@@ -185,15 +177,3 @@ nfs-server-provisioner:
     enabled: false
     storageClass: "mlrun-kit-nfs"
     size: 5Gi
-
-minioPersistencyStandalone:
-  pv:
-    create: false
-  pvc:
-    create: false
-
-
-
-minio:
-  enabled: false     
-
