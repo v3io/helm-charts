@@ -65,6 +65,10 @@ spec:
             value: {{ template "mlrun.defaultDockerRegistry.url" . }}
           - name: MLRUN_HTTPDB__BUILDER__DOCKER_REGISTRY_SECRET
             value: {{ template "mlrun.defaultDockerRegistry.secretName" . }}
+          {{- if .Values.api.function.spec.image_pull_secret.default }}
+          - name: MLRUN_FUNCTION__SPEC__IMAGE_PULL_SECRET__DEFAULT
+            value: {{ .Values.api.function.spec.image_pull_secret.default | quote }}
+          {{- end }}
           - name: MLRUN_HTTPDB__DSN
             value: {{ .Values.httpDB.dsn }}
           - name: MLRUN_HTTPDB__OLD_DSN
