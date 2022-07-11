@@ -2,12 +2,11 @@
 kind: PersistentVolumeClaim
 apiVersion: v1
 metadata:
-  name: mlrun-db-pvc
+  name: {{ .Values.mlrun.db.volumes.storageOverride.persistentVolumeClaim.claimName }}
   labels:
-    app: {{ template "mlrun-kit.mlrun.db.fullname" . }}
-    chart: "{{ .Chart.Name }}-{{ .Chart.Version }}"
-    release: "{{ .Release.Name }}"
-    heritage: "{{ .Release.Service }}"
+    {{- include "mlrun-kit.mlrun.db.labels" . | nindent 4 }}  
+  annotations:
+    "helm.sh/resource-policy": "keep"
 spec:
   accessModes:
     - {{ .Values.mlrun.db.persistence.accessMode | quote }}

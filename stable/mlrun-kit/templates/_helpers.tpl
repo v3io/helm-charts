@@ -122,6 +122,50 @@ Create chart name and version as used by the chart label.
 
 
 {{/*
+Mlrun DB labels
+*/}}
+{{- define "mlrun-kit.mlrun.db.labels" -}}
+{{ include "mlrun-kit.common.labels" . }}
+{{ include "mlrun-kit.mlrun.db.selectorLabels" . }}
+{{- end -}}
+
+{{/*
+Mlrun DB selector labels
+*/}}
+{{- define "mlrun-kit.mlrun.db.selectorLabels" -}}
+{{ include "mlrun-kit.common.selectorLabels" . }}
+app.kubernetes.io/component: {{ .Values.mlrun.db.name | quote }}
+{{- end -}}
+
+
+
+{{/*
+Mlrun API labels
+*/}}
+{{- define "mlrun-kit.mlrun.api.labels" -}}
+{{ include "mlrun-kit.common.labels" . }}
+{{ include "mlrun-kit.mlrun.api.selectorLabels" . }}
+{{- end -}}
+
+
+
+
+{{/*
+Mlrun API selector labels
+*/}}
+{{- define "mlrun-kit.mlrun.api.selectorLabels" -}}
+{{ include "mlrun-kit.common.selectorLabels" . }}
+app.kubernetes.io/component: {{ .Values.mlrun.api.name | quote }}
+{{- end -}}
+
+
+
+
+
+
+
+
+{{/*
 Common labels
 */}}
 {{- define "mlrun-kit.common.labels" -}}

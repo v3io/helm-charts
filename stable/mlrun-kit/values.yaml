@@ -88,11 +88,8 @@ mlrun:
       enabled: true
       existingClaim:
       storageClass:
-  #    annotations: {}
-   #   labels: {}
       accessMode: "ReadWriteOnce"
       size: "8Gi"
-    #  volumes:
     extraEnv:
       - name: MLRUN_HTTPDB__PROJECTS__FOLLOWERS
         value: nuclio
@@ -118,9 +115,6 @@ mlrun:
   db:
     name: db
     fullnameOverride: mlrun-db
-#    podSecurityContext:
-#      runAsUser: 0
-#      fsGroup: 1000
     volumes:
       storageOverride:
         persistentVolumeClaim:
@@ -129,8 +123,6 @@ mlrun:
       enabled: true
       existingClaim:
       storageClass:
-#      annotations: {}
-#      labels: {}
       accessMode: "ReadWriteOnce"
       size: "8Gi"
 
@@ -176,23 +168,9 @@ jupyterNotebook:
     enabled: true
     existingClaim:
     storageClass:
-#    annotations: {}
-#    labels: {}
     accessMode: "ReadWriteOnce"
     size: "8Gi"
-#    volumes:
 
-#  persistency:
-#    enabled: true
-#    pvc:
-#      create: true
-#      spec:
-#        storageClassName: nfs
-#        accessModes:
-#        - ReadWriteMany
-#        resources:
-#          requests:
-#            storage: 1Gi
 
 mpi-operator:
   fullnameOverride: mpi-operator
@@ -228,7 +206,6 @@ minio:
   persistence:
     enabled: true
     size: 1Gi
-#    existingClaim: minio-pvc
   fullnameOverride: minio
   buckets:
     - name: mlrun

@@ -4,10 +4,9 @@ apiVersion: v1
 metadata:
   name: {{ template "mlrun-kit.jupyter.fullname" . }}
   labels:
-    app: {{ template "mlrun-kit.jupyter.fullname" . }}
-    chart: "{{ .Chart.Name }}-{{ .Chart.Version }}"
-    release: "{{ .Release.Name }}"
-    heritage: "{{ .Release.Service }}"
+    {{- include "mlrun-kit.jupyter.labels" . | nindent 4 }}  
+  annotations:
+    "helm.sh/resource-policy": "keep"
 spec:
   accessModes:
     - {{ .Values.jupyterNotebook.persistence.accessMode | quote }}
