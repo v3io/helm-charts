@@ -167,6 +167,11 @@ api:
   # Define extra initContainers for the api deployment
   extraInitContainers: []
 
+  function:
+    spec:
+      image_pull_secret:
+        default: ""
+
   opa:
     enabled: false
     name: opa-server
