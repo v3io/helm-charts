@@ -1,0 +1,416 @@
+apiVersion: v1
+entries:
+  coredns-updater:
+  - apiVersion: v2
+    appVersion: 0.4.1
+    created: "2022-07-11T11:27:46.725673+03:00"
+    description: Updates Coredns zone file with A records upon RegisteredNode / RemovingNode
+      events
+    digest: c6b6ff9357020e62cf730392266c2b69f8ac5f5c5531e552b8e9c1320b23c79b
+    maintainers:
+    - email: alexp@iguazio.com
+      name: alexp
+    name: coredns-updater
+    sources:
+    - https://github.com/iguazio/coredns-updater
+    type: application
+    urls:
+    - https://v3io.github.io/helm-charts/stable/coredns-updater-0.1.0.tgz
+    version: 0.1.0
+  dcgm-exporter:
+  - apiVersion: v2
+    appVersion: 2.3.1
+    created: "2022-07-11T11:27:46.726414+03:00"
+    description: A Helm chart for DCGM exporter
+    digest: eb1be9dc71734f13bbd99c91f3a7d258daee3d6615ab4abacefa57839b9e64e7
+    home: https://github.com/nvidia/gpu-monitoring-tools/
+    maintainers:
+    - email: sahare@iguazio.com
+      name: sahare
+    name: dcgm-exporter
+    sources:
+    - https://gitlab.com/nvidia/container-toolkit/gpu-monitoring-tools
+    urls:
+    - https://v3io.github.io/helm-charts/stable/dcgm-exporter-0.3.0.tgz
+    version: 0.3.0
+  dex-crds:
+  - apiVersion: v2
+    appVersion: 2.30.0
+    created: "2022-07-11T11:27:46.726802+03:00"
+    description: A Helm chart for deploying Dex's CRDs
+    digest: f80cc9ba97a7d8ab8e96c8568e58a1a8d4921e139c8dd4d59d550ec1779658d3
+    icon: https://di5r923elu32w2e633ofbxj9-wpengine.netdna-ssl.com/wp-content/uploads/2019/10/Iguazio-Logo.png
+    maintainers:
+    - email: hedii@iguazio.com
+      name: hedingber
+    name: dex-crds
+    sources:
+    - https://github.com/dexidp/dex
+    type: application
+    urls:
+    - https://v3io.github.io/helm-charts/stable/dex-crds-0.6.0.tgz
+    version: 0.6.0
+  empty:
+  - apiVersion: v1
+    appVersion: '>=1.9.4'
+    created: "2022-07-11T11:27:46.727078+03:00"
+    description: An empty chart
+    digest: bf2e7427280b1a8603f933ef396a3d2c2b3ebab94e71a1b93c8480afdfacead2
+    home: https://iguazio.com
+    icon: https://www.iguazio.com/wp-content/uploads/2019/10/Iguazio-Logo.png
+    maintainers:
+    - email: eliranb@iguazio.com
+      name: bivas
+    - email: hedii@iguazio.com
+      name: Hedi Ingber
+    name: empty
+    urls:
+    - https://v3io.github.io/helm-charts/stable/empty-0.3.0.tgz
+    version: 0.3.0
+  fuse-csi-driver:
+  - apiVersion: v2
+    appVersion: ~3.6.0
+    created: "2022-07-11T11:27:46.727469+03:00"
+    description: fuse csi driver
+    digest: b6a117f87c43b8e030168254316dd1a9e96ee79bae4f026b08e5af77f620a40a
+    home: https://iguazio.com
+    icon: https://www.iguazio.com/wp-content/uploads/2019/10/Iguazio-Logo.png
+    maintainers:
+    - email: shayp@iguazio.com
+      name: shay
+    name: fuse-csi-driver
+    sources:
+    - https://github.com/iguazio/zeek/
+    urls:
+    - https://v3io.github.io/helm-charts/stable/fuse-csi-driver-0.1.1.tgz
+    version: 0.1.1
+  gpu-feature-discovery:
+  - apiVersion: v1
+    appVersion: 1.0.0-beta
+    created: "2022-07-11T11:27:46.727866+03:00"
+    description: A Helm chart for Kubernetes
+    digest: 68859608e58817c8492115926cdce12d7cb5866489dac7cb16cd627f0c94e3e2
+    maintainers:
+    - email: vladimirs@iguazio.com
+      name: Vladimir Syromyatnikov
+    name: gpu-feature-discovery
+    urls:
+    - https://v3io.github.io/helm-charts/stable/gpu-feature-discovery-0.4.0.tgz
+    version: 0.4.0
+  grafana:
+  - apiVersion: v1
+    appVersion: 6.5.2
+    created: "2022-07-11T11:27:46.731502+03:00"
+    dependencies:
+    - name: v3io-configs
+      repository: https://v3io.github.io/helm-charts/stable
+      version: 0.11.3
+    description: The leading tool for querying and visualizing time series and metrics.
+    digest: 78bbfe2659a3723e0fbfd1027aefe3c22cd6d8ca75f1e4bf7e4912b6a65e1ff6
+    home: https://grafana.net
+    icon: https://raw.githubusercontent.com/grafana/grafana/master/public/img/logo_transparent_400x.png
+    kubeVersion: ^1.8.0-0
+    maintainers:
+    - email: hedii@iguazio.com
+      name: hedingber
+    name: grafana
+    sources:
+    - https://github.com/grafana/grafana
+    urls:
+    - https://v3io.github.io/helm-charts/stable/grafana-5.0.1.tgz
+    version: 5.0.1
+  hive:
+  - apiVersion: v1
+    appVersion: '>=2.0.0'
+    created: "2022-07-11T11:27:46.732638+03:00"
+    dependencies:
+    - name: v3io-configs
+      repository: https://v3io.github.io/helm-charts/stable
+      version: 0.11.3
+    description: Hive metastore service
+    digest: 1311746bdc90263c7403c79ea13a8e2e53ed9e880f22d581f15ddba45810ed27
+    home: https://iguazio.com
+    icon: https://www.iguazio.com/wp-content/uploads/2019/10/Iguazio-Logo.png
+    maintainers:
+    - email: igorm@iguazio.com
+      name: imakhlin
+    name: hive
+    sources:
+    - https://github.com/iguazio/kubeops/
+    urls:
+    - https://v3io.github.io/helm-charts/stable/hive-0.7.0.tgz
+    version: 0.7.0
+  iguazio-system:
+  - apiVersion: v1
+    created: "2022-07-11T11:27:46.73787+03:00"
+    dependencies:
+    - condition: prometheus.enabled
+      name: prometheus
+      repository: https://charts.helm.sh/stable
+      version: 4.6.13
+    - condition: grafana.enabled
+      name: grafana
+      repository: https://charts.helm.sh/stable
+      version: 0.5.4
+    - alias: fluent
+      condition: fluent.enabled
+      name: fluent-bit
+      repository: https://charts.helm.sh/stable
+      version: 0.16.1
+    - name: tenant
+      repository: https://v3io.github.io/helm-charts/stable
+      version: 0.4.0
+    description: A Helm chart for creating iguazio-system namespace and jobs
+    digest: 32e5512cebbf8bfaaf5b318d6a9f2182204430744f77940bc64c5a326ca30e6e
+    home: https://iguazio.com
+    icon: https://www.iguazio.com/wp-content/uploads/2019/10/Iguazio-Logo.png
+    maintainers:
+    - email: liranb@iguazio.com
+      name: liranb
+    name: iguazio-system
+    sources:
+    - https://github.com/v3io
+    urls:
+    - https://v3io.github.io/helm-charts/stable/iguazio-system-0.9.0.tgz
+    version: 0.9.0
+  jupyter:
+  - apiVersion: v1
+    appVersion: '>=2.0.0'
+    created: "2022-07-11T11:27:46.739229+03:00"
+    dependencies:
+    - name: v3io-configs
+      repository: https://v3io.github.io/helm-charts/stable
+      version: 0.11.3
+    - name: pvc
+      repository: https://v3io.github.io/helm-charts/stable
+      version: 0.2.0
+    description: Jupyter
+    digest: 1d9b75b9a2ae786cafdc6836d1d9107c8d410a8d922eab5849beaa7f069d6e7a
+    home: https://jupyter.org/
+    icon: https://jupyter.org/assets/nav_logo.svg
+    maintainers:
+    - email: eliranb@iguazio.com
+      name: bivas
+    name: jupyter
+    sources:
+    - https://github.com/jupyter
+    urls:
+    - https://v3io.github.io/helm-charts/stable/jupyter-0.13.1.tgz
+    version: 0.13.1
+  jupyterhub:
+  - apiVersion: v1
+    appVersion: 0.9.2
+    created: "2022-07-11T11:27:46.742008+03:00"
+    dependencies:
+    - name: v3io-configs
+      repository: https://v3io.github.io/helm-charts/stable
+      version: 0.11.3
+    description: Multi-user Jupyter installation
+    digest: eb9f8c0263fe2c2a0fde48a6c891ae0cbb915810b02f937bb8f3ebf10c2ae5eb
+    home: https://z2jh.jupyter.org
+    icon: https://jupyter.org/assets/hublogo.svg
+    kubeVersion: '>=1.8.0-0'
+    name: jupyterhub
+    sources:
+    - https://github.com/jupyterhub/zero-to-jupyterhub-k8s
+    urls:
+    - https://v3io.github.io/helm-charts/stable/jupyterhub-0.9.0.tgz
+    version: 0.9.0
+  k8s-pod-headless-service-operator:
+  - apiVersion: v1
+    appVersion: "1.0"
+    created: "2022-07-11T11:27:46.742444+03:00"
+    description: A Helm chart for k8s-pod-headless-service-operator
+    digest: a29fa76545d050adc69c89863a020fe8db98625ebe6f8f0397b9e0b135aeda2d
+    home: https://github.com/src-d/k8s-pod-headless-service-operator
+    maintainers:
+    - email: liranb@iguazio.com
+      name: Liran BG
+    - email: infra@sourced.tech
+      name: Infrastructure Team
+    name: k8s-pod-headless-service-operator
+    urls:
+    - https://v3io.github.io/helm-charts/stable/k8s-pod-headless-service-operator-0.2.0.tgz
+    version: 0.2.0
+  label-studio:
+  - apiVersion: v1
+    appVersion: 0.8.2
+    created: "2022-07-11T11:27:46.742996+03:00"
+    description: A swiss army knife of data labeling and annotation tools
+    digest: a5982a91bb9f8b65484f7801d06e25e98824fba70d9252b2d7c8cf1be90e96fc
+    home: https://labelstud.io/
+    icon: https://labelstud.io/images/ls_logo.png
+    maintainers:
+    - email: odedm@iguazio.com
+      name: odedm
+    name: label-studio
+    sources:
+    - https://github.com/heartexlabs/label-studio
+    urls:
+    - https://v3io.github.io/helm-charts/stable/label-studio-0.3.1.tgz
+    version: 0.3.1
+  mariadb:
+  - apiVersion: v1
+    appVersion: '>=2.0.0'
+    created: "2022-07-11T11:27:46.74392+03:00"
+    dependencies:
+    - name: v3io-configs
+      repository: https://v3io.github.io/helm-charts/stable
+      version: 0.11.3
+    description: MariaDB (MySQL) service
+    digest: b766b6edd00d2091125df23b7b16fe38f8370f57c9272deda73f6eb5d567837e
+    home: https://iguazio.com
+    icon: https://www.iguazio.com/wp-content/uploads/2019/10/Iguazio-Logo.png
+    maintainers:
+    - email: igorm@iguazio.com
+      name: imakhlin
+    name: mariadb
+    sources:
+    - https://github.com/iguazio/kubeops/
+    urls:
+    - https://v3io.github.io/helm-charts/stable/mariadb-0.7.0.tgz
+    version: 0.7.0
+  metrics-server-exporter:
+  - apiVersion: v1
+    appVersion: '>=2.0.0'
+    created: "2022-07-11T11:27:46.744331+03:00"
+    description: K8s metrics exporter in prometheus format
+    digest: d3174e7bd04773642d9ce0f30163b8101d4bc4d012d7197466541e9446f3716f
+    home: https://iguazio.com
+    icon: https://www.iguazio.com/wp-content/uploads/2019/10/Iguazio-Logo.png
+    maintainers:
+    - email: odedm@iguazio.com
+      name: odedm
+    - email: sahare@iguazio.com
+      name: sahare
+    name: metrics-server-exporter
+    sources:
+    - https://github.com/iguazio/zapp/
+    urls:
+    - https://v3io.github.io/helm-charts/stable/metrics-server-exporter-0.7.0.tgz
+    version: 0.7.0
+  mlrun:
+  - apiVersion: v1
+    appVersion: 1.0.4
+    created: "2022-07-11T11:27:46.745922+03:00"
+    dependencies:
+    - name: v3io-configs
+      repository: https://v3io.github.io/helm-charts/stable
+      version: 0.11.3
+    description: Machine Learning automation and tracking
+    digest: 17885fdaa93353ded17db9ea8362542e32346505067bc683b5dbd57af4ebac3b
+    icon: https://di5r923elu32w2e633ofbxj9-wpengine.netdna-ssl.com/wp-content/uploads/2019/10/Iguazio-Logo.png
+    maintainers:
+    - email: hedii@iguazio.com
+      name: hedingber
+    name: mlrun
+    sources:
+    - https://github.com/mlrun/mlrun
+    urls:
+    - https://v3io.github.io/helm-charts/stable/mlrun-0.8.3.tgz
+    version: 0.8.3
+  mlrun-kit:
+  - apiVersion: v1
+    created: "2022-07-11T11:27:46.757219+03:00"
+    dependencies:
+    - name: nuclio
+      repository: https://nuclio.github.io/nuclio/charts
+      version: 0.14.0
+    - name: mlrun
+      repository: https://v3io.github.io/helm-charts/stable
+      version: 0.8.3
+    - name: nfs-server-provisioner
+      repository: https://charts.helm.sh/stable
+      version: 1.1.1
+    - name: mpi-operator
+      repository: https://v3io.github.io/helm-charts/stable
+      version: 0.6.0
+    description: MLRUn Open Source Stack
+    digest: 89a7bb7ce954c2d9bf44066348096e2d60d7bcc6b35952191530ed0b56aac43d
+    home: https://iguazio.com
+    icon: https://www.iguazio.com/wp-content/uploads/2019/10/Iguazio-Logo.png
+    maintainers:
+    - email: adamm@iguazio.com
+      name: Adam Melnick
+    name: mlrun-kit
+    urls:
+    - https://v3io.github.io/helm-charts/stable/mlrun-kit-0.4.0.tgz
+    version: 0.4.0
+  - apiVersion: v1
+    created: "2022-07-11T11:27:46.752171+03:00"
+    dependencies:
+    - name: nuclio
+      repository: https://nuclio.github.io/nuclio/charts
+      version: 0.13.1
+    - name: mlrun
+      repository: https://v3io.github.io/helm-charts/stable
+      version: 0.8.3
+    - name: nfs-server-provisioner
+      repository: https://charts.helm.sh/stable
+      version: 1.1.1
+    - name: mpi-operator
+      repository: https://v3io.github.io/helm-charts/stable
+      version: 0.6.0
+    description: MLRUn Open Source Stack
+    digest: 4c007526fcd0c385204df30b596f01c0f0eb770ad619ce59efc16c393138f6ce
+    home: https://iguazio.com
+    icon: https://www.iguazio.com/wp-content/uploads/2019/10/Iguazio-Logo.png
+    maintainers:
+    - email: odedm@iguazio.com
+      name: Oded Messer
+    name: mlrun-kit
+    urls:
+    - https://v3io.github.io/helm-charts/stable/mlrun-kit-0.3.3.tgz
+    version: 0.3.3
+  mpi-operator:
+  - apiVersion: v1
+    appVersion: ==0.2.0
+    created: "2022-07-11T11:27:46.757781+03:00"
+    description: Kubeflow MPI job operator
+    digest: 7423c677214081de991677fdc757a1f29c940311c7e19db43123a9134f48cd2b
+    home: https://www.kubeflow.org/
+    icon: https://github.com/kubeflow/marketing-materials/blob/master/logos/Raster/Kubeflow-Logo-RGB.png
+    maintainers:
+    - email: odedm@iguazio.com
+      name: odedm
+    - email: sahare@iguazio.com
+      name: sahare
+    name: mpi-operator
+    sources:
+    - https://github.com/kubeflow/mpi-operator
+    urls:
+    - https://v3io.github.io/helm-charts/stable/mpi-operator-0.6.0.tgz
+    version: 0.6.0
+  node-feature-discovery:
+  - apiVersion: v1
+    appVersion: 0.5.0
+    created: "2022-07-11T11:27:46.758242+03:00"
+    description: A Helm chart for Kubernetes
+    digest: afbc3107cdc5aba717241e883b065722cfc35c87aefecf6497ee6d55636a606d
+    maintainers:
+    - email: vladimirs@iguazio.com
+      name: Vladimir Syromyatnikov
+    name: node-feature-discovery
+    urls:
+    - https://v3io.github.io/helm-charts/stable/node-feature-discovery-0.6.0.tgz
+    version: 0.6.0
+  pipelines:
+  - apiVersion: v1
+    appVersion: '>=1.8.1'
+    created: "2022-07-11T11:27:46.759442+03:00"
+    description: Kubeflow pipelines framework for machine learning
+    digest: 5ea16c1232eba6fc02001cc683575684974689b44eec16805f83cfebb53fba8e
+    home: https://www.kubeflow.org/
+    icon: https://github.com/kubeflow/marketing-materials/blob/master/logos/Raster/Kubeflow-Logo-RGB.png
+    maintainers:
+    - email: tomers@iguazio.com
+      name: Tomer Shor
+    - email: adamm@iguazio.com
+      name: Adam Melnick
+    name: pipelines
+    sources:
+    - https://github.com/kubeflow/pipelines
+    urls:
+    - https://v3io.github.io/helm-charts/stable/pipelines-0.9.1.tgz
+    version: 0.9.1
+generated: "2022-07-11T11:27:46.723313+03:00"
