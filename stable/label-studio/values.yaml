@@ -3,6 +3,7 @@
 
 deployment:
   create: true
+  local_files_serving_enabled: true
   project:
     name: "my_project"
     initialize: true
@@ -43,7 +44,8 @@ v3io: {}
 
 environment:
   template: v3io-configs.deployment-with-home.env
-  extra: {}
+  extra:
+    LABEL_STUDIO_LOCAL_FILES_DOCUMENT_ROOT: "$(HOME)"
 
 volumes:
   volumesTemplate: v3io-configs.deployment.mount-with-fuse
