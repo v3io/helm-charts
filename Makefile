@@ -304,3 +304,4 @@ repo-add:
 	helm repo add stable https://charts.helm.sh/stable
 	helm repo add nuclio https://nuclio.github.io/nuclio/charts
 	helm repo add v3io-stable https://v3io.github.io/helm-charts/stable
+	helm repo add minio https://charts.min.io/
