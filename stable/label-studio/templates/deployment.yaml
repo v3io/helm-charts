@@ -24,16 +24,14 @@ spec:
         env:
         - name: PROJECT_NAME
           value: "{{ .Values.deployment.project.name }}"
-        - name: LABEL_STUDIO_LOCAL_FILES_SERVING_ENABLED
-          value: {{ .Values.deployment.local_files_serving_enabled | quote }}
 {{- if .Values.environment }}
-{{- if .Values.environment.template }}
-{{ include .Values.environment.template . | indent 8 }}
-{{- end }}
 {{- range $name, $val := .Values.environment.extra }}
         - name: {{ $name }}
           value: {{ $val | quote }}
 {{ end -}}
+{{- if .Values.environment.template }}
+{{ include .Values.environment.template . | indent 8 }}
+{{- end }}
 {{- end }}
         command: ["label-studio"]
         args:
@@ -67,6 +65,8 @@ spec:
 {{ toYaml .Values.resources | indent 10 }}
       volumes:
         - name: project-data
+          emptyDir: {}
+        - name: user-data
           emptyDir: {}
 {{- if .Values.volumes }}
 {{ include .Values.volumes.volumesTemplate . | indent 8 }}
