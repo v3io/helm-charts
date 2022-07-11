@@ -65,19 +65,6 @@ $ helm --namespace mlrun \
     --set global.externalHostAddress=$(minikube ip) \
     v3io-stable/mlrun-kit
 ```
-## Installing MLRun-kit with minio
-In Order to install mlrun-kit with minio , storage class with label "default"  need to be created.
-
-```bash
-$ helm --namespace mlrun \
-    install my-mlrun \
-    --wait \
-    --set global.registry.url=<registry URL e.g. index.docker.io/iguazio > \
-    --set global.registry.secretName=registry-credentials \
-    --set global.externalHostAddress=$(minikube ip) \
-    -f values-minio.yaml
-    v3io-stable/mlrun-kit
-```
 
 
 ### Usage
