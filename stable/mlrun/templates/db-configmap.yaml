@@ -8,7 +8,7 @@ metadata:
 data:
 
   health_check.sh: |
-    mysql -S /var/run/mysqld/mysql.sock -e 'SELECT 1'
+    mysql -u root -S /var/run/mysqld/mysql.sock -e 'SELECT 1'
 
   graceful_shutdown.sh: |
     mysql -S /var/run/mysqld/mysql.sock -e 'SET GLOBAL innodb_fast_shutdown = 0; FLUSH TABLES WITH READ LOCK;'
@@ -26,7 +26,7 @@ data:
     else
       echo "Initializing MySQL..."
 
-      mysqld --initialize-insecure --user=mysql --basedir=/usr --datadir=/tmp/mysql
+      mysqld --initialize-insecure --user={{- .Values.db.securityContext.runAsUser }} --basedir=/usr --datadir=/tmp/mysql
       # and then copy the init files into real working directory (on Fuse mount)
       cp -R /tmp/mysql /var/lib/
 
@@ -43,9 +43,10 @@ data:
     INIT_SCRIPT="/etc/config/mysql/init-scripts/enable-root-remote-access.sql"
 
     echo "Starting MySQL ..."
-    # Note, "--user=root" flag allows running server as user root (default user)
+    
+    # TODO: review the innodb flags, they might not be needed anymore
     mysqld \
-      --user=root \
+      --user={{- .Values.db.securityContext.runAsUser }} \
       --sql_mode="" \
       --init-file=$INIT_SCRIPT \
       --innodb-adaptive-hash-index=0 \
