@@ -11,6 +11,7 @@ The Open source MLRun kit chart includes the following stack:
 * Jupyter - https://github.com/jupyter/notebook (+MLRun integrated)
 * NFS - https://github.com/kubernetes-retired/external-storage/tree/master/nfs
 * MPI Operator - https://github.com/kubeflow/mpi-operator
+* Minio - https://github.com/minio/minio/tree/master/helm/minio
 
 ## Installing the Chart
 Create a namespace for the deployed components:
@@ -64,6 +65,19 @@ $ helm --namespace mlrun \
     --set global.externalHostAddress=$(minikube ip) \
     v3io-stable/mlrun-kit
 ```
+## Installing MLRun-kit with minio
+In Order to install mlrun-kit with minio , storage class with label "default"  need to be created.
+
+```bash
+$ helm --namespace mlrun \
+    install my-mlrun \
+    --wait \
+    --set global.registry.url=<registry URL e.g. index.docker.io/iguazio > \
+    --set global.registry.secretName=registry-credentials \
+    --set global.externalHostAddress=$(minikube ip) \
+    -f values-minio.yaml
+    v3io-stable/mlrun-kit
+```
 
 
 ### Usage
@@ -72,6 +86,9 @@ Your applications are now available in your local browser:
 - nuclio - http://localhost:30050
 - mlrun UI - http://locahost:30060
 - mlrun API (external) - http://locahost:30070
+- minio API (external) - http://locahost:30080
+- minio UI - http://locahost:30090
+
 > **Note:**
 > The above links assume your Kubernetes cluster is exposed on localhost.
 > If that's not the case, the different components will be available on `externalHostAddress`

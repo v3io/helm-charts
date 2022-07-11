@@ -28,9 +28,25 @@ Create fully qualified names.
 {{- end -}}
 {{- end -}}
 
+
+
+{{/*
+Copied over from mlrun chart to duplicate the logic without constraining the values
+*/}}
 {{- define "mlrun-kit.jupyter.fullname" -}}
-{{- printf "%s-jupyter"  (include "mlrun-kit.fullname" .) | trunc 63 | trimSuffix "-" -}}
+{{- if .Values.jupyterNotebook.fullnameOverride -}}
+{{- .Values.jupyterNotebook.fullnameOverride | trunc 63 | trimSuffix "-" -}}
+{{- else -}}
+{{- $name := default .Chart.Name .Values.jupyterNotebook.nameOverride -}}
+{{- if contains $name .Release.Name -}}
+{{- .Release.Name | trunc 63 | trimSuffix "-" -}}
+{{- else -}}
+{{- printf "%s-%s" .Release.Name $name | trunc 63 | trimSuffix "-" -}}
 {{- end -}}
+{{- end -}}
+{{- end -}}
+
+
 
 {{- define "mlrun-kit.jupyter.mlrunUIURL" -}}
 {{- if .Values.jupyterNotebook.mlrunUIURL -}}
@@ -56,6 +72,26 @@ Copied over from mlrun chart to duplicate the logic without constraining the val
 {{- end -}}
 {{- end -}}
 {{- end -}}
+
+
+{{/*
+Copied over from mlrun chart to duplicate the logic without constraining the values
+*/}}
+
+{{- define "mlrun-kit.mlrun.db.fullname" -}}
+{{- if .Values.mlrun.db.fullnameOverride -}}
+{{- .Values.mlrun.db.fullnameOverride | trunc 63 | trimSuffix "-" -}}
+{{- else -}}
+{{- $name := default .Chart.Name .Values.mlrun.nameOverride -}}
+{{- if contains $name .Release.Name -}}
+{{- printf "%s-%s" .Release.Name .Values.mlrun.db.name | trunc 63 | trimSuffix "-" -}}
+{{- else -}}
+{{- printf "%s-%s-%s" .Release.Name $name .Values.mlrun.db.name | trunc 63 | trimSuffix "-" -}}
+{{- end -}}
+{{- end -}}
+{{- end -}}
+
+
 
 {{/*
 Copied over from mlrun chart to duplicate the logic without constraining the values
