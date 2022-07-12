@@ -1,6 +1,5 @@
 # We use global values scope to multiplex the docker-registry details to both mlrun and nuclio
 global:
-
   # External host/ip to reach the k8s node. This might take various values if k8s is run in a VM or a cloud env
   externalHostAddress: localhost
   registry:
@@ -9,9 +8,7 @@ global:
   nuclio:
     dashboard:
       nodePort: 30050
-
 nuclio:
-
   # coupled with mlrun.nuclio.dashboardName template in mlrun chart
   fullnameOverride: nuclio
   controller:
@@ -50,8 +47,6 @@ nuclio:
       - level: debug
         sink: myStdoutLoggerSink
 
-
-
 mlrun:
   # set the type of filesystem to use: filesystem, s3
   storage: filesystem
@@ -65,7 +60,6 @@ mlrun:
     bucket: mlrun
     encrypt: false
     secure: true
-
   fullnameOverride: mlrun
   nuclio:
     mode: enabled
@@ -111,7 +105,6 @@ mlrun:
       nodePort: 30060
     image:
       tag: 1.0.4
-
   db:
     name: db
     fullnameOverride: mlrun-db
@@ -125,16 +118,10 @@ mlrun:
       storageClass:
       accessMode: "ReadWriteOnce"
       size: "8Gi"
-
-
-
-
   httpDB:
     dbType: mysql
     dsn: mysql+pymysql://root@mlrun-db:3306/mlrun
     oldDsn: sqlite:////mlrun/db/mlrun.db?check_same_thread=false
-
-
 jupyterNotebook:
   fullnameOverride: mlrun-jupyter
   name: jupyter-notebook
@@ -170,8 +157,6 @@ jupyterNotebook:
     storageClass:
     accessMode: "ReadWriteOnce"
     size: "8Gi"
-
-
 mpi-operator:
   fullnameOverride: mpi-operator
   crd:
@@ -183,9 +168,6 @@ mpi-operator:
       create: true
   deployment:
     create: true
-
-
-
 minio:
   enabled: true
   rootUser: minio
