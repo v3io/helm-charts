@@ -108,6 +108,10 @@ mlrun:
   db:
     name: db
     fullnameOverride: mlrun-db
+    securityContext:
+      enabled: true
+      runAsUser: 999
+      fsGroup: 999    
     volumes:
       storageOverride:
         persistentVolumeClaim:
