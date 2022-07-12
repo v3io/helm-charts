@@ -159,12 +159,6 @@ app.kubernetes.io/component: {{ .Values.mlrun.api.name | quote }}
 {{- end -}}
 
 
-
-
-
-
-
-
 {{/*
 Common labels
 */}}
