@@ -6,6 +6,7 @@ metadata:
   annotations:
     "helm.sh/hook": pre-delete
     "helm.sh/hook-delete-policy": hook-succeeded
+    {{- toYaml .Values.webhook.cleanupAnnotations | nindent 4 }}
   labels:
     {{- include "spark-operator.labels" . | nindent 4 }}
 spec:
