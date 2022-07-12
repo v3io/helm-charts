@@ -28,8 +28,6 @@ Create fully qualified names.
 {{- end -}}
 {{- end -}}
 
-
-
 {{/*
 Copied over from mlrun chart to duplicate the logic without constraining the values
 */}}
@@ -45,8 +43,6 @@ Copied over from mlrun chart to duplicate the logic without constraining the val
 {{- end -}}
 {{- end -}}
 {{- end -}}
-
-
 
 {{- define "mlrun-kit.jupyter.mlrunUIURL" -}}
 {{- if .Values.jupyterNotebook.mlrunUIURL -}}
@@ -90,8 +86,6 @@ Copied over from mlrun chart to duplicate the logic without constraining the val
 {{- end -}}
 {{- end -}}
 {{- end -}}
-
-
 
 {{/*
 Copied over from mlrun chart to duplicate the logic without constraining the values
@@ -137,8 +131,6 @@ Mlrun DB selector labels
 app.kubernetes.io/component: {{ .Values.mlrun.db.name | quote }}
 {{- end -}}
 
-
-
 {{/*
 Mlrun API labels
 */}}
@@ -146,8 +138,6 @@ Mlrun API labels
 {{ include "mlrun-kit.common.labels" . }}
 {{ include "mlrun-kit.mlrun.api.selectorLabels" . }}
 {{- end -}}
-
-
 
 
 {{/*
