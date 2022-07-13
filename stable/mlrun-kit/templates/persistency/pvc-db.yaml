@@ -1,4 +1,4 @@
-{{- if .Values.mlrun.db.persistence.enabled -}}
+{{- if and (.Values.mlrun.db.persistence.enabled) (eq "mysql" .Values.mlrun.httpDB.dbType) }}
 kind: PersistentVolumeClaim
 apiVersion: v1
 metadata:
