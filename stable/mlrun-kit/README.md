@@ -76,7 +76,7 @@ $ helm --namespace mlrun \
     --set global.registry.url=<registry URL e.g. index.docker.io/iguazio > \
     --set global.registry.secretName=registry-credentials \
     --set global.externalHostAddress=$(minikube ip) \
-    -f  override-lite.yaml
+    -f  override-lite.yaml \ 
     v3io-stable/mlrun-kit
 
 
