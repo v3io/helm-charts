@@ -39,6 +39,19 @@ rbac:
   # serviceAccountName:
   # roleName:
 
+v3io: {}
+
+environment:
+  template: v3io-configs.deployment-with-home.env
+  extra: {}
+
+volumes:
+  volumesTemplate: v3io-configs.deployment.mount-with-fuse
+  volumeMountsTemplate: v3io-configs.deployment.volumeMounts-with-fuse-and-home
+
+global:
+  v3io:
+    configMountPath: /etc/config/v3io
 
 resources: {}
   # We usually recommend not to specify default resources and to leave this as a conscious
