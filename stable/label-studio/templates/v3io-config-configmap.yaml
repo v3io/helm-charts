@@ -1,0 +1,12 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: {{ .Release.Name }}-v3io-config
+  labels:
+    app: {{ template "label-studio.name" . }}
+    chart: {{ template "label-studio.chart" . }}
+    release: {{ .Release.Name }}
+    heritage: {{ .Release.Service }}
+data:
+{{ include "v3io-configs.java.configMap" . | indent 2 }}
+
