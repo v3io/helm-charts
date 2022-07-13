@@ -5,8 +5,9 @@ metadata:
   name: {{ template "mlrun-kit.jupyter.fullname" . }}
   labels:
     {{- include "mlrun-kit.jupyter.labels" . | nindent 4 }}  
-  annotations:
-    "helm.sh/resource-policy": "keep"
+{{- with .Values.jupyterNotebook.persistence.annotations }}
+  annotations: {{ toYaml . | nindent 4 }}
+{{- end }}
 spec:
   accessModes:
     - {{ .Values.jupyterNotebook.persistence.accessMode | quote }}

@@ -84,6 +84,8 @@ mlrun:
       storageClass:
       accessMode: "ReadWriteOnce"
       size: "8Gi"
+      annotations:
+        helm.sh/resource-policy: "keep"
     extraEnv:
       - name: MLRUN_HTTPDB__PROJECTS__FOLLOWERS
         value: nuclio
@@ -122,6 +124,9 @@ mlrun:
       storageClass:
       accessMode: "ReadWriteOnce"
       size: "8Gi"
+      annotations:
+        helm.sh/resource-policy: "keep"
+
   httpDB:
     dbType: mysql
     dsn: mysql+pymysql://root@mlrun-db:3306/mlrun
@@ -161,6 +166,9 @@ jupyterNotebook:
     storageClass:
     accessMode: "ReadWriteOnce"
     size: "8Gi"
+    annotations:
+      helm.sh/resource-policy: "keep"
+
 mpi-operator:
   fullnameOverride: mpi-operator
   crd:
@@ -181,8 +189,30 @@ minio:
   resources:
     requests:
       memory: 0.5Gi
+  ingress:
+    enabled: true
+    # ingressClassName: ""
+    labels: {}
+      # node-role.kubernetes.io/ingress: platform
+
+    annotations:
+      kubernetes.io/ingress.class: nginx
+      kubernetes.io/tls-acme: "true"
+  #     kubernetes.io/ingress.allow-http: "false"
+  #     kubernetes.io/ingress.global-static-ip-name: ""
+      nginx.ingress.kubernetes.io/secure-backends: "true"
+      nginx.ingress.kubernetes.io/backend-protocol: "HTTPS"
+      nginx.ingress.kubernetes.io/whitelist-source-range: 0.0.0.0/0
+    path: /
+    hosts:
+      - minio-example.local
+    tls: []
+    #  - secretName: chart-example-tls
+    #    hosts:
+    #      - chart-example.local
+
   service:
-    type: NodePort
+    type: ClusterIP
     port: 9000
     nodePort: 30080
   consoleService:

@@ -5,6 +5,9 @@ metadata:
   name: {{ .Values.mlrun.db.volumes.storageOverride.persistentVolumeClaim.claimName }}
   labels:
     {{- include "mlrun-kit.mlrun.db.labels" . | nindent 4 }}  
+{{- with .Values.mlrun.db.persistence.annotations }}
+  annotations: {{ toYaml . | nindent 4 }}
+{{- end }}
   annotations:
     "helm.sh/resource-policy": "keep"
 spec:
