@@ -8,8 +8,6 @@ metadata:
 {{- with .Values.mlrun.db.persistence.annotations }}
   annotations: {{ toYaml . | nindent 4 }}
 {{- end }}
-  annotations:
-    "helm.sh/resource-policy": "keep"
 spec:
   accessModes:
     - {{ .Values.mlrun.db.persistence.accessMode | quote }}
