@@ -73,7 +73,7 @@ Your applications are now available in your local browser:
 - nuclio - http://localhost:30050
 - mlrun UI - http://locahost:30060
 - mlrun API (external) - http://locahost:30070
-- minio API (external) - http://locahost:30080
+- minio API - http://locahost:30080
 - minio UI - http://locahost:30090
 
 > **Note:**
