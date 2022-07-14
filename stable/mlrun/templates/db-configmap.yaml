@@ -50,14 +50,14 @@ data:
       --sql_mode="" \
       --init-file=$INIT_SCRIPT \
       --max-connections={{- .Values.db.dbConfiguration.maxConnections }} \
-      --innodb-adaptive-hash-index={{- .Values.db.dbConfiguration.adaptiveHashIndex }} \
-      --innodb-read-io-threads={{- .Values.db.dbConfiguration.readIOThreads }} \
-      --innodb-write-io-threads={{- .Values.db.dbConfiguration.writeIOThreads }} \
-      --innodb-purge-threads={{- .Values.db.dbConfiguration.purgeThreads }} \
-      --innodb-buffer-pool-size={{- .Values.db.dbConfiguration.bufferPoolSize }} \
-      --innodb-buffer-pool-instances={{- .Values.db.dbConfiguration.bufferPoolInstances }} \
-      --innodb-page-cleaners={{- .Values.db.dbConfiguration.pageCleaners }} \
-      --innodb-io-capacity={{- .Values.db.dbConfiguration.IOCapacity }} \
-      --innodb-flush-neighbors=0 \
+      --innodb-adaptive-hash-index={{- .Values.db.dbConfiguration.innodb.adaptiveHashIndex }} \
+      --innodb-read-io-threads={{- .Values.db.dbConfiguration.innodb.readIOThreads }} \
+      --innodb-write-io-threads={{- .Values.db.dbConfiguration.innodb.writeIOThreads }} \
+      --innodb-purge-threads={{- .Values.db.dbConfiguration.innodb.purgeThreads }} \
+      --innodb-buffer-pool-size={{- .Values.db.dbConfiguration.innodb.bufferPoolSize }} \
+      --innodb-buffer-pool-instances={{- .Values.db.dbConfiguration.innodb.bufferPoolInstances }} \
+      --innodb-page-cleaners={{- .Values.db.dbConfiguration.innodb.pageCleaners }} \
+      --innodb-io-capacity={{- .Values.db.dbConfiguration.innodb.IOCapacity }} \
+      --innodb-flush-neighbors={{- .Values.db.dbConfiguration.innodb.flushNeighbors }} \
       --socket=$MYSQL_SOCKET_FILE
 {{- end }}
