@@ -11,22 +11,36 @@ The Open source MLRun kit chart includes the following stack:
 * Jupyter - https://github.com/jupyter/notebook (+MLRun integrated)
 * NFS - https://github.com/kubernetes-retired/external-storage/tree/master/nfs
 * MPI Operator - https://github.com/kubeflow/mpi-operator
+* Minio - https://github.com/minio/minio/tree/master/helm/minio
+
+## Prerequisites
+
+- Helm >=3.6 installed from [here](https://helm.sh/docs/intro/install/)
+
+- Preprovisioned Kubernetes StorageClass
+  
+> In case your Kubernetes flavor is not shipped with a default StorageClass, you may use [local-path by Rancher](https://github.com/rancher/local-path-provisioner)
+> 1. Install it via [this link](https://github.com/rancher/local-path-provisioner#installation)  
+> 2. Set as default by executing `kubectl patch storageclass local-path -p '{"metadata": {"annotations":{"storageclass.kubernetes.io/is-default-class":"true"}}}'`
+
 
 ## Installing the Chart
+
 Create a namespace for the deployed components:
 ```bash
-$ kubectl create namespace mlrun
+kubectl create namespace mlrun
 ```
 
 Add the v3io-stable helm chart repo
 ```bash
-$ helm repo add v3io-stable https://v3io.github.io/helm-charts/stable
+helm repo add v3io-stable https://v3io.github.io/helm-charts/stable
 ```
 
 To work with the open source MLRun stack, you must an accessible docker-registry. The registry's URL and credentials
 are consumed by the applications via a pre-created secret
 
 To create a secret with your docker-registry details:
+
 ```bash
 kubectl --namespace mlrun create secret docker-registry registry-credentials \
     --docker-username <registry-username> \
@@ -40,7 +54,7 @@ note the reference to the pre-created `registry-credentials` secret in `global.r
 and a `global.registry.url` with an appropriate registry URL which can be authenticated by this secret:
 
 ```bash
-$ helm --namespace mlrun \
+helm --namespace mlrun \
     install my-mlrun \
     --wait \
     --set global.registry.url=<registry URL e.g. index.docker.io/iguazio > \
@@ -49,29 +63,31 @@ $ helm --namespace mlrun \
 ```
 
 ## Installing MLRun-kit on minikube
+
 The Open source MLRun kit uses node ports for simplicity. If your kubernetes cluster is running inside a VM, 
 as is the case when using minikube, the kubernetes services exposed over node ports would not be available on 
 your local interface, but instead, on the virtual machine's interface.
 To accommodate for this, use the `global.externalHostAddress` value on the chart. For example, if you're using 
-the kit inside a minikube cluster, pass the VM address in the chart installation command like so:
+the kit inside a minikube cluster, add `--set global.externalHostAddress=$(minikube ip)` to the helm install command.
 
-```bash
-$ helm --namespace mlrun \
-    install my-mlrun \
-    --wait \
-    --set global.registry.url=<registry URL e.g. index.docker.io/iguazio > \
-    --set global.registry.secretName=registry-credentials \
-    --set global.externalHostAddress=$(minikube ip) \
-    v3io-stable/mlrun-kit
-```
+## Advanced Chart Configuration
+
+Configurable values are documented in the `values.yaml`, and the `values.yaml` of all sub charts. 
+Override those [in the normal methods](https://helm.sh/docs/chart_template_guide/values_files/).
+
+To use the light version, override the helm install command using `-f override-lite.yaml`
 
 
 ### Usage
+
 Your applications are now available in your local browser:
-- jupyter-notebook - http://localhost:30040
-- nuclio - http://localhost:30050
-- mlrun UI - http://locahost:30060
-- mlrun API (external) - http://locahost:30070
+- jupyter-notebook - http://nodeipaddress:30040
+- nuclio - http://nodeipaddress:30050
+- mlrun UI - http://nodeipaddress:30060
+- mlrun API (external) - http://nodeipaddress:30070
+- minio API - http://nodeipaddress:30080
+- minio UI - http://nodeipaddress:30090
+
 > **Note:**
 > The above links assume your Kubernetes cluster is exposed on localhost.
 > If that's not the case, the different components will be available on `externalHostAddress`
@@ -86,13 +102,9 @@ Your applications are now available in your local browser:
 > - You can add and configure a k8s ingress-controller for better security and control over external access.
 
 
-## Advanced Chart Configuration
-Configurable values are documented in the `values.yaml`, and the `values.yaml` of all sub charts. 
-Override those [in the normal methods](https://helm.sh/docs/chart_template_guide/values_files/).
-
 ## Uninstalling the Chart
 ```bash
-$ helm --namespace mlrun uninstall my-mlrun
+helm --namespace mlrun uninstall my-mlrun
 ```
 
 #### Note on terminating pods and hanging resources
@@ -106,7 +118,7 @@ And don't forget to clean the remaining PVCs and PVs
 
 Handing stuck-at-terminating pods:
 ```bash
-$ kubectl --namespace mlrun delete pod --force --grace-period=0 <pod-name>
+kubectl --namespace mlrun delete pod --force --grace-period=0 <pod-name>
 ```
 
 Reclaim dangling persistency resources:

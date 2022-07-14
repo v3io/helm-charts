@@ -1,3 +1,4 @@
+
 # We use global values scope to multiplex the docker-registry details to both mlrun and nuclio
 global:
 
@@ -9,7 +10,6 @@ global:
   nuclio:
     dashboard:
       nodePort: 30050
-
 nuclio:
 
   # coupled with mlrun.nuclio.dashboardName template in mlrun chart
@@ -20,9 +20,11 @@ nuclio:
       tag: 1.9.0-amd64
   dashboard:
     enabled: true
+
     # nodePort - taken from global.nuclio.dashboard.nodePort for re-usability
     image:
       tag: 1.9.0-amd64
+
     # k8s has deprecated docker support since v1.20
     containerBuilderKind: kaniko
   autoscaler:
@@ -49,7 +51,21 @@ nuclio:
       functions:
       - level: debug
         sink: myStdoutLoggerSink
+
 mlrun:
+
+  # set the type of filesystem to use: filesystem, s3
+  storage: filesystem
+  secrets:
+    s3:
+      accessKey: ""
+      secretKey: ""
+  s3:
+    region: us-east-1
+    regionEndpoint: s3.us-east-1.amazonaws.com
+    bucket: mlrun
+    encrypt: false
+    secure: true
   fullnameOverride: mlrun
   nuclio:
     mode: enabled
@@ -67,25 +83,29 @@ mlrun:
     volumes:
       storageOverride:
         persistentVolumeClaim:
-          claimName: mlrun-pvc
+          claimName: mlrun-api-pvc
+    persistence:
+      enabled: true
+      existingClaim:
+      storageClass:
+      accessMode: "ReadWriteOnce"
+      size: "8Gi"
+      annotations:
+        helm.sh/resource-policy: "keep"
     extraEnv:
-      - name: MLRUN_HTTPDB__DATA_VOLUME
-        value: "/home/jovyan/data"
-      - name: MLRUN_ARTIFACT_PATH
-        value: "/home/jovyan/data"
-      - name: MLRUN_HTTPDB__REAL_PATH
-        value: "/data"
       - name: MLRUN_HTTPDB__PROJECTS__FOLLOWERS
         value: nuclio
-      - name: MLRUN_STORAGE__AUTO_MOUNT_TYPE
-        value: pvc
-      - name: MLRUN_STORAGE__AUTO_MOUNT_PARAMS
-        value: "pvc_name=mlrun-kit-shared-pvc,volume_mount_path=/home/jovyan/data,volume_name=shared-persistency"
-    extraPersistentVolumeMounts:
-      - name: data-volume
-        mountPath: /data
-        readOnly: false
-        existingClaim: mlrun-kit-shared-pvc
+      - name: S3_ENDPOINT_URL
+        value: http://minio.mlrun.svc.cluster.local:9000
+      - name: AWS_SECRET_ACCESS_KEY
+        value: minio123
+      - name: AWS_ACCESS_KEY_ID
+        value: minio
+      - name: MLRUN_HTTPDB__REAL_PATH
+        value: s3://
+      - name: MLRUN_ARTIFACT_PATH
+        value: s3://mlrun/
+    extraPersistentVolumeMounts: ~
   ui:
     fullnameOverride: mlrun-ui
     service:
@@ -93,26 +113,33 @@ mlrun:
       nodePort: 30060
     image:
       tag: 1.0.4
+  db:
+    name: db
+    fullnameOverride: mlrun-db
+    securityContext: 
+      runAsUser: 999
+    podSecurityContext:
+      runAsUser: 999
+      fsGroup: 999    
+    volumes:
+      storageOverride:
+        persistentVolumeClaim:
+          claimName: mlrun-db-pvc
+    persistence:
+      enabled: true
+      existingClaim:
+      storageClass:
+      accessMode: "ReadWriteOnce"
+      size: "8Gi"
+      annotations:
+        helm.sh/resource-policy: "keep"
 
-# mlrun persistency resources creation can be disabled if the user would like to provide their own PVC
-mlrunPersistency:
-  pv:
-    create: true
-  pvc:
-    create: true
-
-sharedPersistency:
-  pvc:
-    create: true
-    spec:
-      storageClassName: nfs
-      accessModes:
-        - ReadWriteMany
-      resources:
-        requests:
-          storage: 1Gi
-
+  httpDB:
+    dbType: mysql
+    dsn: mysql+pymysql://root@mlrun-db:3306/mlrun
+    oldDsn: sqlite:////mlrun/db/mlrun.db?check_same_thread=false
 jupyterNotebook:
+  fullnameOverride: mlrun-jupyter
   name: jupyter-notebook
   enabled: true
   service:
@@ -122,12 +149,14 @@ jupyterNotebook:
   ingress:
     enabled: false
     annotations: { }
+
     # kubernetes.io/ingress.class: nginx
     # kubernetes.io/tls-acme: "true"
     hosts:
       - host: chart-example.local
         paths: [ ]
     tls: [ ]
+
     #  - secretName: chart-example-tls
     #    hosts:
     #      - chart-example.local
@@ -137,23 +166,21 @@ jupyterNotebook:
     # TODO: 1.0.4 is broken right now. Bump to 1.0.4 when fixed or 1.0.5 when released.
     tag: 1.0.3
     pullPolicy: IfNotPresent
+
   # use this to override mlrunUIURL, by default it will be auto-resolved to externalHostAddress and
   # mlrun UI's node port
   mlrunUIURL:
-  persistency:
+  persistence:
     enabled: true
-    pvc:
-      create: true
-      spec:
-        storageClassName: nfs
-        accessModes:
-        - ReadWriteMany
-        resources:
-          requests:
-            storage: 1Gi
+    existingClaim:
+    storageClass:
+    accessMode: "ReadWriteOnce"
+    size: "8Gi"
+    annotations:
+      helm.sh/resource-policy: "keep"
 
 mpi-operator:
-  nameOverride: mpi-operator
+  fullnameOverride: mpi-operator
   crd:
     create: true
   rbac:
@@ -163,17 +190,28 @@ mpi-operator:
       create: true
   deployment:
     create: true
-
-## customize PV spec used for nfs-server provisioner
-## ref: https://kubernetes.io/docs/concepts/storage/persistent-volumes/
-##
-nfsPv:
-  create: false
-  specOverride: {}
-
-nfs-server-provisioner:
-  nameOverride: nfs-server-provisioner
+minio:
+  enabled: true
+  rootUser: minio
+  rootPassword: minio123
+  mode: distributed
+  replicas: 4
+  resources:
+    requests:
+      memory: 0.5Gi
+  service:
+    type: NodePort
+    port: 9000
+    nodePort: 30080
+  consoleService:
+    type: NodePort
+    port: 9001
+    nodePort: 30090
   persistence:
-    enabled: false
-    storageClass: "mlrun-kit-nfs"
-    size: 5Gi
+    enabled: true
+    size: 1Gi
+  fullnameOverride: minio
+  buckets:
+    - name: mlrun
+      policy: none
+      purge: false
