@@ -124,9 +124,10 @@ api:
 
   priorityClassName: ""
 
-  securityContext: {}
-
   podSecurityContext: {}
+  # runAsUser: 1000
+
+  securityContext: {}
     # capabilities:
     #   drop:
     #   - ALL
@@ -445,15 +446,13 @@ ui:
 
   priorityClassName: ""
 
-
-  securityContext: {}
-
   podSecurityContext: {}
     # default UID & GID of unprivileged nginx image
     # https://github.com/nginxinc/docker-nginx-unprivileged/blob/main/Dockerfile-alpine.template
     # runAsUser: 101
     # runAsGroup: 101
 
+  securityContext: {}
     # capabilities:
     #   drop:
     #   - ALL
