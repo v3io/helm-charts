@@ -110,8 +110,7 @@ mlrun:
   db:
     name: db
     fullnameOverride: mlrun-db
-    securityContext:
-      enabled: true
+    podSecurityContext:
       runAsUser: 999
       fsGroup: 999    
     volumes:

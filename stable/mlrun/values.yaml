@@ -291,10 +291,12 @@ db:
   # fsGroup: 2000
 
   securityContext:
-    enabled: true
     runAsUser: 1001
-    fsGroup: 1001
-
+    # capabilities:
+    #   drop:
+    #   - ALL
+    # readOnlyRootFilesystem: true
+  # runAsNonRoot: true
 
   readinessProbe:
     exec:
