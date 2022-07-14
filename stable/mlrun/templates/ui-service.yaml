@@ -30,7 +30,7 @@ spec:
     - name: http
       port: {{ .Values.ui.service.port }}
       protocol: TCP
-      targetPort: http
+      targetPort: {{ .Values.ui.service.targetPort }}
 {{ if (and (eq .Values.ui.service.type "NodePort") (not (empty .Values.ui.service.nodePort))) }}
       nodePort: {{.Values.ui.service.nodePort}}
 {{ end }}
