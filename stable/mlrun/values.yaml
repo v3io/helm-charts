@@ -379,6 +379,28 @@ db:
       # heartbeat.database: heartbeat
       # heartbeat.table: heartbeat
 
+  # use this https://www.mysqlcalculator.com/ to evaluate the resource usage of the DB
+  dbConfiguration:
+    # mysql default is 151, we raised the connection number to handle the scale of MLRun multi instance architecture
+    # ideally should be calculated by : <number-of-mlrun-instances> * <max-workers> + 1 ( for SUPER account )
+    # SUPER is a MySQL privilege that grants admin rights to the user.
+    maxConnections: 512
+
+    innodb:
+      # refer to https://github.com/v3io/helm-charts/pull/674
+      adaptiveHashIndex: 0
+      readIOThreads: 32
+      writeIOThreads: 32
+      purgeThreads: 16
+
+      # refer to https://github.com/v3io/helm-charts/pull/671
+      bufferPoolSize: "1073741824"
+      bufferPoolInstances: 8
+
+      # refer to https://github.com/v3io/helm-charts/pull/680
+      pageCleaners: 8
+      IOCapacity: 10000
+      flushNeighbors: 0
 
 ui:
   name: ui
