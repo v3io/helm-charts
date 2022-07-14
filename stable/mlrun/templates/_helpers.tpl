@@ -192,6 +192,18 @@ app.kubernetes.io/managed-by: {{ .Release.Service }}
 {{- end -}}
 
 {{/*
+DB run user
+*/}}
+{{- define "mlrun.db.DBRunUser" -}}
+{{- if .Values.db.podSecurityContext.runAsUser }}
+{{- .Values.db.podSecurityContext.runAsUser -}}
+{{- else -}}
+{{- print "root" -}}
+{{- end -}}
+{{- end -}}
+
+
+{{/*
 Common selector labels
 */}}
 {{- define "mlrun.common.selectorLabels" -}}

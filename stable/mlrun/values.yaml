@@ -125,7 +125,7 @@ api:
   priorityClassName: ""
 
   podSecurityContext: {}
-  # fsGroup: 2000
+  # runAsUser: 1000
 
   securityContext: {}
     # capabilities:
@@ -287,11 +287,10 @@ db:
 
   priorityClassName: ""
 
-  podSecurityContext: {}
-  # fsGroup: 2000
-
-  securityContext:
+  podSecurityContext:
     runAsUser: 1001
+
+  securityContext: {}
     # capabilities:
     #   drop:
     #   - ALL
@@ -423,7 +422,7 @@ ui:
   service:
     type: ClusterIP
     port: 80
-    targetPort: 80
+    targetPort: http
 
   ingress:
     enabled: false
@@ -470,7 +469,10 @@ ui:
   priorityClassName: ""
 
   podSecurityContext: {}
-  # fsGroup: 2000
+  # default UID & GID of unprivileged nginx image
+  # https://github.com/nginxinc/docker-nginx-unprivileged/blob/main/Dockerfile-alpine.template
+  # runAsUser: 101
+  # runAsGroup: 101
 
   securityContext: {}
     # capabilities:

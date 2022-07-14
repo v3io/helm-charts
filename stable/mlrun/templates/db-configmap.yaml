@@ -11,8 +11,8 @@ data:
     mysql -u root -S /var/run/mysqld/mysql.sock -e 'SELECT 1'
 
   graceful_shutdown.sh: |
-    mysql -S /var/run/mysqld/mysql.sock -e 'SET GLOBAL innodb_fast_shutdown = 0; FLUSH TABLES WITH READ LOCK;'
-    mysqladmin -S /var/run/mysqld/mysql.sock shutdown
+    mysql -u root -S /var/run/mysqld/mysql.sock -e 'SET GLOBAL innodb_fast_shutdown = 0; FLUSH TABLES WITH READ LOCK;'
+    mysqladmin -u root -S /var/run/mysqld/mysql.sock shutdown
 
   init-v3io-mysql.sh: |
     #!/usr/bin/env bash
@@ -26,7 +26,7 @@ data:
     else
       echo "Initializing MySQL..."
 
-      mysqld --initialize-insecure --user={{- .Values.db.securityContext.runAsUser }} --basedir=/usr --datadir=/tmp/mysql
+      mysqld --initialize-insecure --user={{- include "mlrun.db.DBRunUser" . }} --basedir=/usr --datadir=/tmp/mysql
       # and then copy the init files into real working directory (on Fuse mount)
       cp -R /tmp/mysql /var/lib/
 
@@ -46,7 +46,7 @@ data:
     
     # TODO: review the innodb flags, they might not be needed anymore
     mysqld \
-      --user={{- .Values.db.securityContext.runAsUser }} \
+      --user={{- include "mlrun.db.DBRunUser" . }} \
       --sql_mode="" \
       --init-file=$INIT_SCRIPT \
       --max-connections={{- .Values.db.dbConfiguration.maxConnections }} \
