@@ -116,6 +116,8 @@ mlrun:
   db:
     name: db
     fullnameOverride: mlrun-db
+    securityContext: 
+      runAsUser: 999
     podSecurityContext:
       runAsUser: 999
       fsGroup: 999    
