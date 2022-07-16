@@ -7234,33 +7234,6 @@ entries:
     version: 0.1.0
   mlrun-kit:
   - apiVersion: v1
-    created: "2022-07-14T20:59:15.413619+03:00"
-    dependencies:
-    - name: nuclio
-      repository: https://nuclio.github.io/nuclio/charts
-      version: 0.14.0
-    - name: mlrun
-      repository: https://v3io.github.io/helm-charts/stable
-      version: 0.8.7
-    - name: mpi-operator
-      repository: https://v3io.github.io/helm-charts/stable
-      version: 0.6.0
-    - condition: minio.enabled
-      name: minio
-      repository: https://charts.min.io/
-      version: 4.0.2
-    description: MLRUn Open Source Stack
-    digest: 35605edb6908e6d1f3c6745128a68bec4f5dda35fcf5605fb37a26405db3b995
-    home: https://iguazio.com
-    icon: https://www.iguazio.com/wp-content/uploads/2019/10/Iguazio-Logo.png
-    maintainers:
-    - email: adamm@iguazio.com
-      name: Adam Melnick
-    name: mlrun-kit
-    urls:
-    - https://v3io.github.io/helm-charts/stable/mlrun-kit-0.5.0.tgz
-    version: 0.5.0
-  - apiVersion: v1
     created: "2022-07-14T20:59:15.40783+03:00"
     dependencies:
     - name: nuclio
