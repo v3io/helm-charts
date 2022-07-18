@@ -8,11 +8,11 @@ metadata:
 data:
 
   health_check.sh: |
-    mysql -S /var/run/mysqld/mysql.sock -e 'SELECT 1'
+    mysql -u root -S /var/run/mysqld/mysql.sock -e 'SELECT 1'
 
   graceful_shutdown.sh: |
-    mysql -S /var/run/mysqld/mysql.sock -e 'SET GLOBAL innodb_fast_shutdown = 0; FLUSH TABLES WITH READ LOCK;'
-    mysqladmin -S /var/run/mysqld/mysql.sock shutdown
+    mysql -u root -S /var/run/mysqld/mysql.sock -e 'SET GLOBAL innodb_fast_shutdown = 0; FLUSH TABLES WITH READ LOCK;'
+    mysqladmin -u root -S /var/run/mysqld/mysql.sock shutdown
 
   init-v3io-mysql.sh: |
     #!/usr/bin/env bash
@@ -26,7 +26,7 @@ data:
     else
       echo "Initializing MySQL..."
 
-      mysqld --initialize-insecure --user=mysql --basedir=/usr --datadir=/tmp/mysql
+      mysqld --initialize-insecure --user={{- include "mlrun.db.DBRunUser" . }} --basedir=/usr --datadir=/tmp/mysql
       # and then copy the init files into real working directory (on Fuse mount)
       cp -R /tmp/mysql /var/lib/
 
@@ -43,19 +43,21 @@ data:
     INIT_SCRIPT="/etc/config/mysql/init-scripts/enable-root-remote-access.sql"
 
     echo "Starting MySQL ..."
-    # Note, "--user=root" flag allows running server as user root (default user)
+    
+    # TODO: review the innodb flags, they might not be needed anymore
     mysqld \
-      --user=root \
+      --user={{- include "mlrun.db.DBRunUser" . }} \
       --sql_mode="" \
       --init-file=$INIT_SCRIPT \
-      --innodb-adaptive-hash-index=0 \
-      --innodb-read-io-threads=32 \
-      --innodb-write-io-threads=32 \
-      --innodb-purge-threads=16 \
-      --innodb-buffer-pool-size=1073741824 \
-      --innodb-buffer-pool-instances=8 \
-      --innodb-page-cleaners=8 \
-      --innodb-io-capacity=10000 \
-      --innodb-flush-neighbors=0 \
+      --max-connections={{- .Values.db.dbConfiguration.maxConnections }} \
+      --innodb-adaptive-hash-index={{- .Values.db.dbConfiguration.innodb.adaptiveHashIndex }} \
+      --innodb-read-io-threads={{- .Values.db.dbConfiguration.innodb.readIOThreads }} \
+      --innodb-write-io-threads={{- .Values.db.dbConfiguration.innodb.writeIOThreads }} \
+      --innodb-purge-threads={{- .Values.db.dbConfiguration.innodb.purgeThreads }} \
+      --innodb-buffer-pool-size={{- .Values.db.dbConfiguration.innodb.bufferPoolSize }} \
+      --innodb-buffer-pool-instances={{- .Values.db.dbConfiguration.innodb.bufferPoolInstances }} \
+      --innodb-page-cleaners={{- .Values.db.dbConfiguration.innodb.pageCleaners }} \
+      --innodb-io-capacity={{- .Values.db.dbConfiguration.innodb.IOCapacity }} \
+      --innodb-flush-neighbors={{- .Values.db.dbConfiguration.innodb.flushNeighbors }} \
       --socket=$MYSQL_SOCKET_FILE
 {{- end }}

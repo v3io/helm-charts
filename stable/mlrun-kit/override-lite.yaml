@@ -1,0 +1,34 @@
+mlrun:
+  # set the type of filesystem to use: filesystem, s3
+  storage: filesystem
+  api:
+    fullnameOverride: mlrun-api
+    persistence:
+      enabled: true
+      annotations: ~
+  db:
+    persistence:
+      enabled: true
+      annotations: ~
+
+  httpDB:
+    dbType: "sqlite"
+    dirPath: "/mlrun/db"
+    dsn: "sqlite:////mlrun/db/mlrun.db?check_same_thread=false"
+    oldDsn: ""
+
+jupyterNotebook:
+  persistence:
+    enabled: true
+    annotations: ~
+minio:
+  enabled: true
+  rootUser: minio
+  rootPassword: minio123
+  mode: standalone
+  replicas: 1
+  resources:
+    requests:
+      memory: 0.5Gi
+
+

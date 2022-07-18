@@ -42,7 +42,6 @@ apiVersion: rbac.authorization.k8s.io/v1
 kind: Role
 metadata:
   name: {{ include "spark-operator.fullname" . }}-r
-  annotations:
   labels:
     {{- include "spark-operator.labels" . | nindent 4 }}
 rules:
@@ -138,7 +137,6 @@ apiVersion: rbac.authorization.k8s.io/v1
 kind: RoleBinding
 metadata:
   name: {{ include "spark-operator.fullname" . }}-rb
-  annotations:
   labels:
     {{- include "spark-operator.labels" . | nindent 4 }}
 subjects:

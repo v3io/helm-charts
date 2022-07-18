@@ -35,7 +35,7 @@ spec:
               value: "true"
           command: ["/bin/bash", "/etc/config/mysql/init-v3io-mysql.sh"]
           securityContext:
-            runAsUser: 1001
+            {{- toYaml .Values.db.securityContext | nindent 12 }}
           volumeMounts:
             - name: mysql-fuse
               mountPath: "/var/lib/mysql"
@@ -123,6 +123,9 @@ spec:
             name: {{ include "mlrun.db.fullname" . }}
         # Add MySQL data mount (Fuse)
         - name: mysql-fuse
+          {{- if .Values.db.volumes.storageOverride }}
+          {{- toYaml .Values.db.volumes.storageOverride | nindent 10 }}
+          {{- else }}
           flexVolume:
             driver: "v3io/fuse"
             options:
@@ -130,6 +133,7 @@ spec:
               subPath: /{{ .Values.v3io.username }}/.mlrun/mysql
             secretRef:
               name: {{ .Release.Name }}-v3io-fuse
+          {{- end }}
       {{- with .Values.db.nodeSelector }}
       nodeSelector:
         {{- toYaml . | nindent 8 }}
