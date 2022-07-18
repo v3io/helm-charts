@@ -474,6 +474,9 @@ ui:
   # runAsUser: 101
   # runAsGroup: 101
 
+  ports:
+    HTTPContainerPort: 80
+
   securityContext: {}
     # capabilities:
     #   drop:

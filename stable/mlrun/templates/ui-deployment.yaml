@@ -32,7 +32,7 @@ spec:
           imagePullPolicy: {{ .Values.ui.image.pullPolicy }}
           ports:
             - name: http
-              containerPort: 80
+              containerPort: {{ .Values.ui.ports.HTTPContainerPort }}
               protocol: TCP
           env:
           - name: MLRUN_API_PROXY_URL
