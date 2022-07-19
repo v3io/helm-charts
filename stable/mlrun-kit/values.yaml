@@ -93,6 +93,10 @@ mlrun:
       annotations:
         helm.sh/resource-policy: "keep"
     extraEnv:
+      - name: MLRUN_STORAGE__AUTO_MOUNT_TYPE
+        value: s3
+      - name: MLRUN_STORAGE__AUTO_MOUNT_PARAMS
+        value: "aws_access_key=minio,aws_secret_key=minio123,endpoint_url=http://minio.mlrun.svc.cluster.local:9000"    
       - name: MLRUN_HTTPDB__PROJECTS__FOLLOWERS
         value: nuclio
       - name: S3_ENDPOINT_URL
