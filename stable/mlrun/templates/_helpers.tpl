@@ -202,6 +202,16 @@ DB run user
 {{- end -}}
 {{- end -}}
 
+{{/*
+UI container port
+*/}}
+{{- define "mlrun.ui.HTTPContainerPort" -}}
+{{- if semverCompare ">1.0.4" .Values.ui.image.tag -}}
+{{- print "8090" -}}
+{{- else -}}
+{{- print "80" -}}
+{{- end -}}
+{{- end -}}
 
 {{/*
 Common selector labels
