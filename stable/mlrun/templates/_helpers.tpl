@@ -203,10 +203,14 @@ DB run user
 {{- end -}}
 
 {{/*
-UI container port
+UI container port -
+In 1.0.5 we introduced a non backwards compatible change which we changed the port from 80 to 8090
+To Support running system tests we have to add condition to handle the images,
+the images are created in the following format "<latest-version-released>-commit-id" which currently generates image like "1.0.4-sa1asd1"
+which actually represents newer changes after 1.0.4
 */}}
 {{- define "mlrun.ui.HTTPContainerPort" -}}
-{{- if semverCompare ">1.0.4" .Values.ui.image.tag -}}
+{{- if and (semverCompare "!=1.0.4" .Values.ui.image.tag) (semverCompare ">1.0.3" .Values.ui.image.tag) -}}
 {{- print "8090" -}}
 {{- else -}}
 {{- print "80" -}}
