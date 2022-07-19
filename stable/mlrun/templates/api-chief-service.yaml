@@ -1,4 +1,5 @@
 {{- if .Values.api.worker.minReplicas -}}
+{{- if semverCompare ">=1.1.0" .Values.api.image.tag -}}
 apiVersion: v1
 kind: Service
 metadata:
@@ -37,4 +38,5 @@ spec:
 {{ end }}
   selector:
     {{- include "mlrun.api.chief.selectorLabels" . | nindent 4 }}
+{{- end -}}
 {{- end -}}
