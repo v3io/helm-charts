@@ -76,7 +76,7 @@ mlrun:
   api:
     fullnameOverride: mlrun-api
     image:
-      tag: 1.0.4
+      tag: 1.1.0-rc14
     service:
       type: NodePort
       nodePort: 30070
@@ -116,7 +116,7 @@ mlrun:
       type: NodePort
       nodePort: 30060
     image:
-      tag: 1.0.4
+      tag: 1.1.0-rc14
   db:
     name: db
     fullnameOverride: mlrun-db
@@ -168,7 +168,7 @@ jupyterNotebook:
     repository: quay.io/mlrun/jupyter
 
     # TODO: 1.0.4 is broken right now. Bump to 1.0.4 when fixed or 1.0.5 when released.
-    tag: 1.0.3
+    tag: 1.1.0-rc14
     pullPolicy: IfNotPresent
 
   # use this to override mlrunUIURL, by default it will be auto-resolved to externalHostAddress and
