@@ -1,4 +1,5 @@
 {{- if .Values.api.worker.minReplicas -}}
+{{- if semverCompare ">=1.1.0" .Values.api.image.tag -}}
 apiVersion: apps/v1
 kind: Deployment
 metadata:
@@ -205,4 +206,5 @@ spec:
     {{- if .Values.api.priorityClassName }}
       priorityClassName: {{ .Values.api.priorityClassName | quote }}
     {{- end }}
+{{- end -}}
 {{- end -}}
