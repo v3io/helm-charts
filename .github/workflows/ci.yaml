@@ -50,7 +50,7 @@ jobs:
       with:
         files: |
           .github/workflows/ci.yaml
-          ${{ matrix.chart }}/
+          stable/${{ matrix.chart }}/
 
     - name: Freeing up disk space
       if: steps.chart_changed.outputs.any_changed == 'true'
