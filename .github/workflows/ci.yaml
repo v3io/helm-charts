@@ -5,7 +5,7 @@ on: [push, pull_request]
 jobs:
 
   test:
-    name: Test charts
+    name: Test Charts
     runs-on: ubuntu-latest
     steps:
 
@@ -42,25 +42,25 @@ jobs:
     - uses: actions/checkout@v2
 
     - name: Check if chart changed
-      id: ${{ matrix.chart }}_changed
+      id: chart_changed
       uses: tj-actions/changed-files@v23.1
       with:
         files: |
           ${{ matrix.chart }}/
 
     - name: Freeing up disk space
-      if: steps.${{ matrix.chart }}_changed.outputs.any_changed == 'true'
+      if: steps.chart_changed.outputs.any_changed == 'true'
       run: |
         chmod +x "${GITHUB_WORKSPACE}/hack/scripts/ci/free_space.sh"
         "${GITHUB_WORKSPACE}/hack/scripts/ci/free_space.sh"
 
     - uses: azure/setup-helm@v1
-      if: steps.${{ matrix.chart }}_changed.outputs.any_changed == 'true'
+      if: steps.chart_changed.outputs.any_changed == 'true'
       with:
         version: "v3.9.1"
 
     - uses: manusa/actions-setup-minikube@v2.4.2
-      if: steps.${{ matrix.chart }}_changed.outputs.any_changed == 'true'
+      if: steps.chart_changed.outputs.any_changed == 'true'
       with:
         minikube version: "v1.26.0"
         kubernetes version: "v1.23.9"
@@ -68,14 +68,14 @@ jobs:
         github token: ${{ github.token }}
 
     - name: Get latest chart dependencies
-      if: steps.${{ matrix.chart }}_changed.outputs.any_changed == 'true'
+      if: steps.chart_changed.outputs.any_changed == 'true'
       run: |
-        cd ${{ matrix.chart }}
+        cd stable/${{ matrix.chart }}
         helm dependency update
         cd -
 
     - name: Install MLRun Kit helm chart
-      if: steps.${{ matrix.chart }}_changed.outputs.any_changed == 'true'
+      if: steps.chart_changed.outputs.any_changed == 'true'
       # the --devel flag is needed to install the latest unstable version of the chart
       run: |
         helm install ${{ matrix.chart }} \
@@ -83,7 +83,7 @@ jobs:
             --devel \
             --wait \
             --timeout 600s \
-            v3io-stable/${{ matrix.chart }}
+            ./stable/${{ matrix.chart }}
 
     - name: Output some logs in case of failure
       if: ${{ failure() }}
