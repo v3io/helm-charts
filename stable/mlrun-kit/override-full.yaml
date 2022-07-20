@@ -14,10 +14,10 @@ mlrun:
         helm.sh/resource-policy: "keep"
 
   httpDB:
-    dbType: "sqlite"
-    dirPath: "/mlrun/db"
-    dsn: "sqlite:////mlrun/db/mlrun.db?check_same_thread=false"
-    oldDsn: ""
+    dbType: mysql
+    dsn: mysql+pymysql://root@mlrun-db:3306/mlrun
+    oldDsn: sqlite:////mlrun/db/mlrun.db?check_same_thread=false
+
 
 jupyterNotebook:
   persistence:
