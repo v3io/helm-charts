@@ -76,7 +76,7 @@ mlrun:
   api:
     fullnameOverride: mlrun-api
     image:
-      tag: 1.0.4
+      tag: 1.1.0-rc14
     service:
       type: NodePort
       nodePort: 30070
@@ -93,6 +93,10 @@ mlrun:
       annotations:
         helm.sh/resource-policy: "keep"
     extraEnv:
+      - name: MLRUN_STORAGE__AUTO_MOUNT_TYPE
+        value: s3
+      - name: MLRUN_STORAGE__AUTO_MOUNT_PARAMS
+        value: "aws_access_key=minio,aws_secret_key=minio123,endpoint_url=http://minio.mlrun.svc.cluster.local:9000"    
       - name: MLRUN_HTTPDB__PROJECTS__FOLLOWERS
         value: nuclio
       - name: S3_ENDPOINT_URL
@@ -112,7 +116,7 @@ mlrun:
       type: NodePort
       nodePort: 30060
     image:
-      tag: 1.0.4
+      tag: 1.1.0-rc14
   db:
     name: db
     fullnameOverride: mlrun-db
@@ -164,7 +168,7 @@ jupyterNotebook:
     repository: quay.io/mlrun/jupyter
 
     # TODO: 1.0.4 is broken right now. Bump to 1.0.4 when fixed or 1.0.5 when released.
-    tag: 1.0.3
+    tag: 1.1.0-rc14
     pullPolicy: IfNotPresent
 
   # use this to override mlrunUIURL, by default it will be auto-resolved to externalHostAddress and
