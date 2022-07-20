@@ -29,3 +29,78 @@ jobs:
 
     - name: Test demo
       run: make demo
+
+  helm-install-sanity:
+    name: Helm Chart Install Sanity
+    runs-on: ubuntu-latest
+
+    strategy:
+        matrix:
+            chart: ["mlrun-kit"]
+
+    steps:
+    - uses: actions/checkout@v2
+
+    - name: Check if chart changed
+      id: chart_changed
+      uses: tj-actions/changed-files@v23.1
+      with:
+        files: |
+          .github/workflows/ci.yaml
+          stable/${{ matrix.chart }}/
+
+    - name: Freeing up disk space
+      if: steps.chart_changed.outputs.any_changed == 'true'
+      run: |
+        chmod +x "${GITHUB_WORKSPACE}/hack/scripts/ci/free_space.sh"
+        "${GITHUB_WORKSPACE}/hack/scripts/ci/free_space.sh"
+
+    - uses: azure/setup-helm@v1
+      if: steps.chart_changed.outputs.any_changed == 'true'
+      with:
+        version: "v3.9.1"
+
+    - uses: manusa/actions-setup-minikube@v2.4.2
+      if: steps.chart_changed.outputs.any_changed == 'true'
+      with:
+        minikube version: "v1.26.0"
+        kubernetes version: "v1.23.9"
+        driver: docker
+        github token: ${{ github.token }}
+
+    - name: Get latest chart dependencies
+      if: steps.chart_changed.outputs.any_changed == 'true'
+      run: |
+        cd stable/${{ matrix.chart }}
+        helm dependency update
+        cd -
+
+    - name: Install Helm Chart
+      if: steps.chart_changed.outputs.any_changed == 'true'
+      # the --devel flag is needed to install the latest unstable version of the chart
+      run: |
+        helm install ${{ matrix.chart }} \
+            --debug \
+            --devel \
+            --wait \
+            --timeout 600s \
+            ./stable/${{ matrix.chart }}
+
+    - name: Output some logs in case of failure
+      if: ${{ failure() }}
+      # add set -x to print commands before executing to make logs reading easier
+      run: |
+        set -x
+        minikube ip
+        minikube logs
+        minikube kubectl -- --namespace ${NAMESPACE} logs -l app.kubernetes.io/component=api,app.kubernetes.io/name=mlrun --tail=-1
+        minikube kubectl -- --namespace ${NAMESPACE} get all
+        minikube kubectl -- --namespace ${NAMESPACE} get all -o yaml
+        minikube kubectl -- --namespace ${NAMESPACE} describe pods
+        minikube kubectl -- --namespace ${NAMESPACE} get cm
+        minikube kubectl -- --namespace ${NAMESPACE} get cm -o yaml
+        minikube kubectl -- --namespace ${NAMESPACE} get secrets
+        minikube kubectl -- --namespace ${NAMESPACE} get secrets -o yaml
+        minikube kubectl -- --namespace ${NAMESPACE} get pvc
+        minikube kubectl -- --namespace ${NAMESPACE} get pv
+        set +x
