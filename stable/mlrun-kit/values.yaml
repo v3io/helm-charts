@@ -90,8 +90,7 @@ mlrun:
       storageClass:
       accessMode: "ReadWriteOnce"
       size: "8Gi"
-      annotations:
-        helm.sh/resource-policy: "keep"
+      annotations: ~
     extraEnv:
       - name: MLRUN_STORAGE__AUTO_MOUNT_TYPE
         value: s3
@@ -135,8 +134,7 @@ mlrun:
       storageClass:
       accessMode: "ReadWriteOnce"
       size: "8Gi"
-      annotations:
-        helm.sh/resource-policy: "keep"
+      annotations: ~
 
   httpDB:
     dbType: mysql
@@ -180,8 +178,7 @@ jupyterNotebook:
     storageClass:
     accessMode: "ReadWriteOnce"
     size: "8Gi"
-    annotations:
-      helm.sh/resource-policy: "keep"
+    annotations: ~
 
 mpi-operator:
   fullnameOverride: mpi-operator
@@ -198,8 +195,8 @@ minio:
   enabled: true
   rootUser: minio
   rootPassword: minio123
-  mode: distributed
-  replicas: 4
+  mode: standalone
+  replicas: 1
   resources:
     requests:
       memory: 0.5Gi
