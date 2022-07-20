@@ -211,7 +211,7 @@ The non GA images are created in the following format "<latest-version-released>
 which actually represents newer changes after 1.0.4.
 */}}
 {{- define "mlrun.ui.HTTPContainerPort" -}}
-{{- if and (semverCompare "!=1.0.4" .Values.ui.image.tag) (semverCompare ">1.0.3x" .Values.ui.image.tag) -}}
+{{- if and (semverCompare "!=1.0.4" .Values.ui.image.tag) (semverCompare ">1.0.3-x" .Values.ui.image.tag) -}}
 {{- print "8090" -}}
 {{- else -}}
 {{- print "80" -}}
