@@ -192,6 +192,33 @@ app.kubernetes.io/managed-by: {{ .Release.Service }}
 {{- end -}}
 
 {{/*
+DB run user
+*/}}
+{{- define "mlrun.db.DBRunUser" -}}
+{{- if .Values.db.podSecurityContext.runAsUser }}
+{{- .Values.db.podSecurityContext.runAsUser -}}
+{{- else -}}
+{{- print "root" -}}
+{{- end -}}
+{{- end -}}
+
+{{/*
+UI container port -
+In 1.0.5 we introduced a backwards incompatible change to run images rootless (including the mlrun-ui image).
+This means nginx cannot use port 80 and now uses 8090 instead.
+In order to support system tests, we need a special condition to decide which port to use.
+The non GA images are created in the following format "<latest-version-released>-commit-id", e.g. - "1.0.4-sa1asd1"
+which actually represents newer changes after 1.0.4.
+*/}}
+{{- define "mlrun.ui.HTTPContainerPort" -}}
+{{- if and (semverCompare "!=1.0.4" .Values.ui.image.tag) (semverCompare ">1.0.3" .Values.ui.image.tag) -}}
+{{- print "8090" -}}
+{{- else -}}
+{{- print "80" -}}
+{{- end -}}
+{{- end -}}
+
+{{/*
 Common selector labels
 */}}
 {{- define "mlrun.common.selectorLabels" -}}

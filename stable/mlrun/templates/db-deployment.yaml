@@ -35,7 +35,7 @@ spec:
               value: "true"
           command: ["/bin/bash", "/etc/config/mysql/init-v3io-mysql.sh"]
           securityContext:
-            runAsUser: 1001
+            {{- toYaml .Values.db.securityContext | nindent 12 }}
           volumeMounts:
             - name: mysql-fuse
               mountPath: "/var/lib/mysql"
