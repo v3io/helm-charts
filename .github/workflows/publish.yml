@@ -1,0 +1,23 @@
+name: Publish Helm Chart
+
+on:
+  workflow_dispatch:
+    inputs:
+      chart_name:
+        description: 'The chart to publish'
+        required: true
+
+jobs:
+  publish-to-gh-pages:
+    name: Publish helm chart to github pages
+    runs-on: ubuntu-latest
+    steps:
+      - uses: azure/setup-helm@v1
+        with:
+          version: "v3.9.1"
+
+      - uses: actions/checkout@v2
+
+      - name: Build & push to github pages
+        run: |
+          CHART_NAME=${{ github.event.inputs.chart_name }} make helm-publish-stable-specific-v2
