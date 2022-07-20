@@ -20,4 +20,4 @@ jobs:
 
       - name: Build & push to github pages
         run: |
-          echo CHART_NAME=${{ github.event.inputs.chart_name }} make helm-publish-stable-specific-v
+          CHART_NAME=${{ github.event.inputs.chart_name }} make helm-publish-stable-specific-v2
