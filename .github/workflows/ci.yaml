@@ -5,7 +5,7 @@ on: [push, pull_request]
 jobs:
 
   test:
-    name: Test Charts
+    name: Test charts
     runs-on: ubuntu-latest
     steps:
 
