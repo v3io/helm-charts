@@ -5,11 +5,13 @@ mlrun:
     fullnameOverride: mlrun-api
     persistence:
       enabled: true
-      annotations: ~
+      annotations:
+        helm.sh/resource-policy: "keep"      
   db:
     persistence:
       enabled: true
-      annotations: ~
+      annotations:
+        helm.sh/resource-policy: "keep"
 
   httpDB:
     dbType: "sqlite"
@@ -20,13 +22,14 @@ mlrun:
 jupyterNotebook:
   persistence:
     enabled: true
-    annotations: ~
+    annotations:
+      helm.sh/resource-policy: "keep"    
 minio:
   enabled: true
   rootUser: minio
   rootPassword: minio123
-  mode: standalone
-  replicas: 1
+  mode: distributed
+  replicas: 4
   resources:
     requests:
       memory: 0.5Gi
