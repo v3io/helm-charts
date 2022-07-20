@@ -46,7 +46,7 @@ jobs:
       uses: tj-actions/changed-files@v23.1
       with:
         files: |
-          .github/
+          .github/workflows/ci.yaml
           ${{ matrix.chart }}/
 
     - name: Freeing up disk space
@@ -75,7 +75,7 @@ jobs:
         helm dependency update
         cd -
 
-    - name: Install MLRun Kit helm chart
+    - name: Install Helm Chart
       if: steps.chart_changed.outputs.any_changed == 'true'
       # the --devel flag is needed to install the latest unstable version of the chart
       run: |
