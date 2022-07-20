@@ -57,6 +57,9 @@ spec:
           value: "yes"
         - name: CHOWN_HOME_OPTS
           value: "-R"
+        {{- if .Values.jupyterNotebook.extraEnv }}
+        {{ toYaml .Values.jupyterNotebook.extraEnv | nindent 8 }}
+        {{- end }}
         volumeMounts:
         - mountPath: /home/jovyan/data
           name: notebooks

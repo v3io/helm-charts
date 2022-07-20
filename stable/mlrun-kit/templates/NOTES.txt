@@ -20,5 +20,9 @@ You're up and running !
 6. Minio UI is available at:
   http://{{ .Values.global.externalHostAddress }}:{{ .Values.minio.consoleService.nodePort }}
 
+  Credentials:
+    username: {{ .Values.minio.rootUser }}
+    password: {{ .Values.minio.rootPassword }}
+
 {{- end }}
 Happy MLOPSing !!! :]
