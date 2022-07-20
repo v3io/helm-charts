@@ -46,6 +46,7 @@ jobs:
       uses: tj-actions/changed-files@v23.1
       with:
         files: |
+          .github/
           ${{ matrix.chart }}/
 
     - name: Freeing up disk space
