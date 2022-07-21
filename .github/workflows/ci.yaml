@@ -36,7 +36,48 @@ jobs:
 
     strategy:
         matrix:
-            chart: ["mlrun-kit"]
+            chart:
+              - coredns-updater
+              - dcgm-exporter
+              - dex-crds
+              - empty
+              - fuse-csi-driver
+              - gpu-feature-discovery
+              - grafana
+              - hive
+              - iguazio-system
+              - jupyter
+              - jupyterhub
+              - k8s-pod-headless-service-operator
+              - label-studio
+              - mariadb
+              - metrics-server-exporter
+              - mlrun
+              - mlrun-kit
+              - mpi-operator
+              - node-feature-discovery
+              - pipelines
+              - pod-gpu-metrics-exporter
+              - prebaked-registry
+              - presto
+              - provazio
+              - pvc
+              - registry-creds-handler
+              - scaler
+              - shell
+              - spark
+              - spark-history-server
+              - spark-operator
+              - sparkoperator
+              - tenant
+              - tenant-creator
+              - tensorboard
+              - tsdb-functions
+              - v3io-configs
+              - v3io-framesd
+              - v3io-webapi
+              - v3iod
+              - zeppelin
 
     steps:
     - uses: actions/checkout@v2
