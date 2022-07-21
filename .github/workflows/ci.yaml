@@ -35,8 +35,53 @@ jobs:
     runs-on: ubuntu-latest
 
     strategy:
-        matrix:
-            chart: ["mlrun-kit"]
+      matrix:
+        chart:
+          - coredns-updater
+          - dcgm-exporter
+          - dex-crds
+          - empty
+          - fuse-csi-driver
+          - gpu-feature-discovery
+          - iguazio-system
+          - mlrun-kit
+          - mpi-operator
+          - node-feature-discovery
+          - pod-gpu-metrics-exporter
+          - prebaked-registry
+          - provazio
+          - pvc
+          - scaler
+          - spark-operator
+          - sparkoperator
+          - tenant
+          - tenant-creator
+          - tensorboard
+          - v3io-configs
+          - v3io-webapi
+          - v3iod
+
+          # Charts that require v3io storage driver to be installed
+          # - grafana
+          # - hive
+          # - jupyter
+          # - jupyterhub
+          # - label-studio
+          # - mariadb
+          # - metrics-server-exporter
+          # - mlrun
+          # - pipelines
+          # - presto
+          # - registry-creds-handler
+          # - shell
+          # - spark
+          # - spark-history-server
+          # - v3io-framesd
+          # - zeppelin
+
+          # Other Problematic Charts
+          # - k8s-pod-headless-service-operator # requires manual setting image tag
+          # - tsdb-functions # requires nuclio CRDs to be installed
 
     steps:
     - uses: actions/checkout@v2
