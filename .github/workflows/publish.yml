@@ -18,6 +18,12 @@ jobs:
 
       - uses: actions/checkout@v2
 
+      - name: Get latest chart dependencies
+        run: |
+          cd stable/${{ github.event.inputs.chart_name }}
+          helm dependency update
+          cd -
+
       - name: Build & push to github pages
         run: |
           CHART_NAME=${{ github.event.inputs.chart_name }} make helm-publish-stable-specific-v2
