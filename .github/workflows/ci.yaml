@@ -43,12 +43,12 @@ jobs:
               - empty
               - fuse-csi-driver
               - gpu-feature-discovery
-              - grafana
+              # - grafana # requires v3io storage driver
               - hive
               - iguazio-system
               - jupyter
               - jupyterhub
-              - k8s-pod-headless-service-operator
+              # - k8s-pod-headless-service-operator # requires manual setting image tag
               - label-studio
               - mariadb
               - metrics-server-exporter
