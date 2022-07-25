@@ -9,7 +9,6 @@ The Open source MLRun kit chart includes the following stack:
 * Nuclio - https://github.com/nuclio/nuclio
 * MLRun - https://github.com/mlrun/mlrun
 * Jupyter - https://github.com/jupyter/notebook (+MLRun integrated)
-* NFS - https://github.com/kubernetes-retired/external-storage/tree/master/nfs
 * MPI Operator - https://github.com/kubeflow/mpi-operator
 * Minio - https://github.com/minio/minio/tree/master/helm/minio
 * Spark Operator - https://googlecloudplatform.github.io/spark-on-k8s-operator/
