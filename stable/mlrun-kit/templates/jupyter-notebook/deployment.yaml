@@ -47,8 +47,6 @@ spec:
           value: {{ template "mlrun-kit.jupyter.mlrunUIURL" . }}
         - name: MLRUN_MPIJOB_CRD_VERSION
           value: {{ index .Values "mpi-operator" "crd" "version" }}
-        - name: MLRUN_ARTIFACT_PATH
-          value: "/home/jovyan/data"
 {{- if  .Values.jupyterNotebook.persistence.enabled }}
         - name: MLRUN_PVC_MOUNT
           value: {{ printf "%s:/home/jovyan/data" (include "mlrun-kit.jupyter.fullname" .) }}
@@ -57,6 +55,9 @@ spec:
           value: "yes"
         - name: CHOWN_HOME_OPTS
           value: "-R"
+        {{- if .Values.jupyterNotebook.extraEnv }}
+        {{ toYaml .Values.jupyterNotebook.extraEnv | nindent 8 }}
+        {{- end }}
         volumeMounts:
         - mountPath: /home/jovyan/data
           name: notebooks

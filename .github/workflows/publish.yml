@@ -1,0 +1,35 @@
+name: Publish Helm Chart
+
+on:
+  workflow_dispatch:
+    inputs:
+      chart_name:
+        description: 'The chart to publish'
+        required: true
+
+jobs:
+  publish-to-gh-pages:
+    name: Publish helm chart to github pages
+    runs-on: ubuntu-latest
+    steps:
+      - uses: azure/setup-helm@v1
+        with:
+          version: "v3.9.1"
+
+      - uses: actions/checkout@v2
+
+      - name: Add Helm Repos
+        run: |
+          chmod +x "${GITHUB_WORKSPACE}/hack/scripts/ci/helm_repo_add.sh"
+          "${GITHUB_WORKSPACE}/hack/scripts/ci/helm_repo_add.sh"
+
+      - name: Configure Git Author as Workflow Actor
+        run: |
+          git config --global user.email "${{ github.actor }}@users.noreply.github.com"
+          git config --global user.name "${{ github.actor }}"
+
+      - name: Build Helm Chart & Push to Github Pages
+        run: |
+          export CHART_NAME=${{ github.event.inputs.chart_name }}
+          export PUBLISH_CREDS=${{ github.actor }}:${{ github.token }}
+          make helm-publish-stable-specific-v2

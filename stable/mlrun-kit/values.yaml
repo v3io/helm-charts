@@ -90,8 +90,7 @@ mlrun:
       storageClass:
       accessMode: "ReadWriteOnce"
       size: "8Gi"
-      annotations:
-        helm.sh/resource-policy: "keep"
+      annotations: ~
     extraEnv:
       - name: MLRUN_STORAGE__AUTO_MOUNT_TYPE
         value: s3
@@ -135,13 +134,14 @@ mlrun:
       storageClass:
       accessMode: "ReadWriteOnce"
       size: "8Gi"
-      annotations:
-        helm.sh/resource-policy: "keep"
+      annotations: ~
 
   httpDB:
-    dbType: mysql
-    dsn: mysql+pymysql://root@mlrun-db:3306/mlrun
-    oldDsn: sqlite:////mlrun/db/mlrun.db?check_same_thread=false
+    dbType: "sqlite"
+    dirPath: "/mlrun/db"
+    dsn: "sqlite:////mlrun/db/mlrun.db?check_same_thread=false"
+    oldDsn: ""
+
 jupyterNotebook:
   fullnameOverride: mlrun-jupyter
   name: jupyter-notebook
@@ -174,14 +174,24 @@ jupyterNotebook:
   # use this to override mlrunUIURL, by default it will be auto-resolved to externalHostAddress and
   # mlrun UI's node port
   mlrunUIURL:
+
+  extraEnv:
+    - name: MLRUN_ARTIFACT_PATH
+      value: s3://mlrun/
+    - name: S3_ENDPOINT_URL
+      value: http://minio.mlrun.svc.cluster.local:9000
+    - name: AWS_SECRET_ACCESS_KEY
+      value: minio123
+    - name: AWS_ACCESS_KEY_ID
+      value: minio
+
   persistence:
     enabled: true
     existingClaim:
     storageClass:
     accessMode: "ReadWriteOnce"
     size: "8Gi"
-    annotations:
-      helm.sh/resource-policy: "keep"
+    annotations: ~
 
 mpi-operator:
   fullnameOverride: mpi-operator
@@ -198,8 +208,8 @@ minio:
   enabled: true
   rootUser: minio
   rootPassword: minio123
-  mode: distributed
-  replicas: 4
+  mode: standalone
+  replicas: 1
   resources:
     requests:
       memory: 0.5Gi
