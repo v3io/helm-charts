@@ -18,6 +18,11 @@ jobs:
 
       - uses: actions/checkout@v2
 
+      - name: Add helm repos
+        run: |
+          chmod +x "${GITHUB_WORKSPACE}/hack/scripts/ci/helm_repo_add.sh"
+          "${GITHUB_WORKSPACE}/hack/scripts/ci/helm_repo_add.sh"
+
       - name: Get latest chart dependencies
         run: |
           cd stable/${{ github.event.inputs.chart_name }}
