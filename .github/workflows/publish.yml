@@ -23,6 +23,11 @@ jobs:
           chmod +x "${GITHUB_WORKSPACE}/hack/scripts/ci/helm_repo_add.sh"
           "${GITHUB_WORKSPACE}/hack/scripts/ci/helm_repo_add.sh"
 
+      - name: Configure Git
+        run: |
+          git config --global user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git config --global user.name "github-actions[bot]"
+
       - name: Get latest chart dependencies
         run: |
           cd stable/${{ github.event.inputs.chart_name }}
