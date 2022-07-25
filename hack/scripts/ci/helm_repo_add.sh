@@ -8,5 +8,5 @@ declare -A REPOS=(
 )
 
 for repo in "${!REPOS[@]}"; do
-  echo helm repo add "$repo" "${REPOS[$repo]}"
+  helm repo add "$repo" "${REPOS[$repo]}"
 done
