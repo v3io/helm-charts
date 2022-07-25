@@ -151,7 +151,7 @@ helm-publish-incubator-specific: cleanup-tmp-workspace
 .PHONY: helm-publish-stable-specific-v2
 helm-publish-stable-specific-v2: cleanup-tmp-workspace
 helm-publish-stable-specific-v2:
-	@echo "Preparing to release a new stable index for $(CHART_NAME) from $(GITHUB_BRANCH)"
+	@echo "Preparing to release a new stable index for $(CHART_NAME) from $(GITHUB_BRANCH) ($(PUBLISH_REPO))"
 	@git clone -b gh-pages --single-branch $(PUBLISH_REPO) /tmp/v3io-helm-charts
 	@INDEX_DIR=/tmp/v3io-helm-charts HELM_PACKAGE_ARGS="-d /tmp/v3io-helm-charts/stable" make stable-specific
 	@REF_SHA=$$(git rev-parse HEAD) && \
