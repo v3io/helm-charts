@@ -10,7 +10,7 @@ INDEX_DIR ?=
 HELM_REPO := $(HELM_REPO_ROOT)/$(WORKDIR)
 CHART_NAME := $(if $(CHART_NAME),$(CHART_NAME),chart-name)
 CHART_VERSION_OVERRIDE := $(if $(CHART_VERSION_OVERRIDE),$(CHART_VERSION_OVERRIDE),none)
-PUBLISH_REPO := $(if $(PUBLISH_CREDS),https://$(PUBLISH_CREDS)@github.com/quaark/helm-charts.git,git@github.com:v3io/helm-charts)
+PUBLISH_REPO := $(if $(PUBLISH_CREDS),https://$(PUBLISH_CREDS)@github.com/v3io/helm-charts.git,git@github.com:v3io/helm-charts)
 
 
 #### Some examples:
