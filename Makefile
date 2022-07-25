@@ -10,6 +10,7 @@ INDEX_DIR ?=
 HELM_REPO := $(HELM_REPO_ROOT)/$(WORKDIR)
 CHART_NAME := $(if $(CHART_NAME),$(CHART_NAME),chart-name)
 CHART_VERSION_OVERRIDE := $(if $(CHART_VERSION_OVERRIDE),$(CHART_VERSION_OVERRIDE),none)
+PUBLISH_REPO := $(if $(PUBLISH_CREDS),https://$(PUBLISH_CREDS)@github.com/quaark/helm-charts.git,git@github.com:v3io/helm-charts)
 
 
 #### Some examples:
@@ -151,7 +152,7 @@ helm-publish-incubator-specific: cleanup-tmp-workspace
 helm-publish-stable-specific-v2: cleanup-tmp-workspace
 helm-publish-stable-specific-v2:
 	@echo "Preparing to release a new stable index for $(CHART_NAME) from $(GITHUB_BRANCH)"
-	@git clone -b gh-pages --single-branch https://github.com/quaark/helm-charts.git /tmp/v3io-helm-charts
+	@git clone -b gh-pages --single-branch $(PUBLISH_REPO) /tmp/v3io-helm-charts
 	@INDEX_DIR=/tmp/v3io-helm-charts HELM_PACKAGE_ARGS="-d /tmp/v3io-helm-charts/stable" make stable-specific
 	@REF_SHA=$$(git rev-parse HEAD) && \
 		cd /tmp/v3io-helm-charts && \
