@@ -37,3 +37,8 @@ minio:
     enabled: true
     size: 1Gi
 
+spark-operator:
+  enabled: true
+  fullnameOverride: spark-operator
+  webhook:
+     enable: true
