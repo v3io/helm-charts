@@ -1,4 +1,4 @@
-#!/usr/bin/env sh
+#!/bin/bash
 
 declare -A REPOS=(
   [helm]=https://charts.helm.sh/stable
