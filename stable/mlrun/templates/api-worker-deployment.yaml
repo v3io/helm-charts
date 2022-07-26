@@ -1,5 +1,5 @@
 {{- if .Values.api.worker.minReplicas -}}
-{{- if semverCompare ">=1.1.0" .Values.api.image.tag -}}
+{{- if semverCompare ">=1.1.0-X" .Values.api.image.tag -}}
 apiVersion: apps/v1
 kind: Deployment
 metadata:
