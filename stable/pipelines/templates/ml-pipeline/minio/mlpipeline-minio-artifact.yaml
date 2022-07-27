@@ -1,0 +1,16 @@
+{{- if not  .Values.iguazio }}
+apiVersion: v1
+data:
+  accesskey: {{ .Values.minio.accessKey | b64enc }}
+  secretkey: {{ .Values.minio.secretKey | b64enc }}
+kind: Secret
+metadata:
+  annotations:
+    meta.helm.sh/release-name: my-mlrun
+    meta.helm.sh/release-namespace: mlrun
+  labels:
+    app: pipelines
+  name: mlpipeline-minio-artifact
+  namespace: mlrun
+type: Opaque
+{{- end -}}

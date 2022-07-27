@@ -23,6 +23,7 @@ spec:
         env:
         - name: OBJECTSTORECONFIG_SECURE
           value: "false"
+        {{- if .Values.iguazio }}
         - name: OBJECTSTORECONFIG_ACCESSKEY
           value: "{{ .Values.configurations.credentials.accessKey }}"
         - name: OBJECTSTORECONFIG_SECRETACCESSKEY
@@ -33,6 +34,33 @@ spec:
           value: "{{ .Values.configurations.ports.nginxPort }}"
         - name: OBJECTSTORECONFIG_HOST
           value: v3io-webapi
+        {{- else }}
+        - name: OBJECTSTORECONFIG_ACCESSKEY
+          valueFrom:
+            secretKeyRef:
+              name: mlpipeline-minio-artifact
+              key: accesskey
+        - name: OBJECTSTORECONFIG_SECRETACCESSKEY
+          valueFrom:
+            secretKeyRef:
+              name: mlpipeline-minio-artifact
+              key: secretkey
+        - name: OBJECTSTORECONFIG_BUCKETNAME
+          valueFrom:
+            configMapKeyRef:
+              name: pipeline-install-config
+              key: minioDefaultBucket
+        - name: OBJECTSTORECONFIG_PORT
+          valueFrom:
+            configMapKeyRef:
+              name: pipeline-install-config
+              key: minioServicePort
+        - name: OBJECTSTORECONFIG_HOST
+          valueFrom:
+            configMapKeyRef:
+              name: pipeline-install-config
+              key: minioServiceHost
+        {{- end }}
         - name: OBJECTSTORECONFIG_MULTIPART_DISABLE
           value: "true"
         - name: OBJECTSTORECONFIG_FORCEV2SIGNATURE

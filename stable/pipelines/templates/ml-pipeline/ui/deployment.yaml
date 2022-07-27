@@ -35,6 +35,7 @@ spec:
         env:
           - name: VIEWER_TENSORBOARD_POD_TEMPLATE_SPEC_PATH
             value: /etc/config/viewer-pod-template.json
+        {{- if .Values.iguazio }}
           - name: MINIO_V3IO
             value: "1"
           - name: MINIO_PORT
@@ -51,6 +52,29 @@ spec:
             valueFrom:
               fieldRef:
                 fieldPath: metadata.namespace
+        {{- else }}
+          - name: MINIO_PORT
+            valueFrom:
+              configMapKeyRef:
+                name: pipeline-install-config
+                key: minioDefaultBucket
+          - name: MINIO_HOST
+            valueFrom:
+              configMapKeyRef:
+                name: pipeline-install-config
+                key: minioServiceHost
+          - name: AWS_ACCESS_KEY_ID
+            valueFrom:
+              secretKeyRef:
+                name: mlpipeline-minio-artifact
+                key: accesskey
+          - name: AWS_SECRET_ACCESS_KEY
+            valueFrom:
+              secretKeyRef:
+                name: mlpipeline-minio-artifact
+                key: secretkey
+          - name: MINIO_NAMESPACE
+        {{- end }}
           - name: DISABLE_GKE_METADATA
             value: "true"
           - name: ALLOW_CUSTOM_VISUALIZATIONS

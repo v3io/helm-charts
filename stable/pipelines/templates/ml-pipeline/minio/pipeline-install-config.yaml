@@ -1,0 +1,11 @@
+{{- if not  .Values.iguazio }}
+apiVersion: v1
+data:
+  minioServiceHost:  "{{ .Values.minio.minioServiceHost }}"
+  minioServicePort: "{{ .Values.minio.minioServicePort }}"
+  minioDefaultBucket: "{{ .Values.minio.minioDefaultBucket }}"
+kind: ConfigMap
+metadata:
+  labels:
+  name: pipeline-install-config
+{{- end -}}
