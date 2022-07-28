@@ -14,6 +14,8 @@ storage:
   metadata:
     containerName: users
     subPath: /mlpipeline/mysql-kf
+    volumes:
+      storageOverride: {}
 
 configurations:
   credentials:
@@ -143,3 +145,10 @@ tolerations: []
 affinity: {}
 
 priorityClassName: ""
+
+storageMode:
+  kind:
+    v3io:
+      enabled: true
+    minio:
+      enabled: false
