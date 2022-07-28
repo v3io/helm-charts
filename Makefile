@@ -306,3 +306,4 @@ repo-add:
 	helm repo add nuclio https://nuclio.github.io/nuclio/charts
 	helm repo add v3io-stable https://v3io.github.io/helm-charts/stable
 	helm repo add minio https://charts.min.io/
+	helm repo add spark-operator https://googlecloudplatform.github.io/spark-on-k8s-operator
