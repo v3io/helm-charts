@@ -11,5 +11,11 @@ dependencies:
 - name: minio
   repository: https://charts.min.io/
   version: 4.0.2
-digest: sha256:94f294dab7138494c11c8d3392df89274d53c9bcda2a6f8e7c2f6815a7a070ec
-generated: "2022-07-20T19:22:11.429372+03:00"
+- name: pipelines
+  repository: https://v3io.github.io/helm-charts/stable
+  version: 0.10.0
+- name: spark-operator
+  repository: https://googlecloudplatform.github.io/spark-on-k8s-operator
+  version: 1.1.25
+digest: sha256:914a18e01b1b950b95f7d6308d80f17edca5a39a5d0b06a1241b95c81d81a170
+generated: "2022-07-28T13:34:28.773259325+03:00"

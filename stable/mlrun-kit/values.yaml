@@ -229,3 +229,12 @@ minio:
     - name: mlrun
       policy: none
       purge: false
+
+spark-operator:
+  enabled: false
+
+pipelines:
+  enabled: false
+  persistence:
+    enabled: false
+
