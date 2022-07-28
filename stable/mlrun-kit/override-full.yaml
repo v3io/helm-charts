@@ -1,3 +1,11 @@
+global:
+
+  # External host/ip to reach the k8s node. This might take various values if k8s is run in a VM or a cloud env
+  externalHostAddress: localhost
+  registry:
+    url: mustprovide
+    secretName: secretNameofcontainerregistrymustprovide
+
 mlrun:
   # set the type of filesystem to use: filesystem, s3
   storage: filesystem
@@ -6,7 +14,7 @@ mlrun:
     persistence:
       enabled: true
       annotations:
-        helm.sh/resource-policy: "keep"      
+        helm.sh/resource-policy: "keep"
     extraEnv:
       - name: MLRUN_STORAGE__AUTO_MOUNT_TYPE
         value: s3
@@ -44,7 +52,7 @@ jupyterNotebook:
   persistence:
     enabled: true
     annotations:
-      helm.sh/resource-policy: "keep"    
+      helm.sh/resource-policy: "keep"
 minio:
   enabled: true
   rootUser: minio
@@ -66,7 +74,6 @@ spark-operator:
 
 
 pipelines:
-  iguazio: false
   enabled: true
   name: pipelines
   fullnameOverride: pipelines
@@ -113,10 +120,15 @@ pipelines:
     metadataWriter:
       repository: gcr.io/ml-pipeline/metadata-writer
       tag: 1.8.2
-  minio:
-    enabled: true
-    accessKey: minio
-    secretKey: minio123
-    minioServiceHost: minio.mlrun.svc.cluster.local
-    minioServicePort: "9000"
-    minioDefaultBucket: "mlrun"
+
+  storageMode:
+    kind:
+      v3io:
+        enabled: false
+      minio:
+        enabled: true
+        accessKey: minio
+        secretKey: minio123
+        ServiceHost: minio.mlrun.svc.cluster.local
+        ServicePort: "9000"
+        DefaultBucket: "mlrun"
