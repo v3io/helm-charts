@@ -1,9 +1,9 @@
-{{- if not  .Values.iguazio }}
+{{- if .Values.storageMode.kind.minio.enabled }}
 apiVersion: v1
 data:
-  minioServiceHost:  "{{ .Values.minio.minioServiceHost }}"
-  minioServicePort: "{{ .Values.minio.minioServicePort }}"
-  minioDefaultBucket: "{{ .Values.minio.minioDefaultBucket }}"
+  minioServiceHost:  "{{ .Values.storageMode.kind.minio.ServiceHost }}"
+  minioServicePort: "{{ .Values.storageMode.kind.minio.ServicePort }}"
+  minioDefaultBucket: "{{ .Values.storageMode.kind.minio.DefaultBucket }}"
 kind: ConfigMap
 metadata:
   labels:

@@ -25,7 +25,7 @@ spec:
         env:
         - name: MAX_NUM_VIEWERS
           value: "50"
-{{- if .Values.iguazio }}
+{{- if .Values.storageMode.kind.v3io.enabled }}
        - name: MINIO_NAMESPACE
          valueFrom:
            fieldRef:

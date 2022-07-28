@@ -23,7 +23,7 @@ spec:
         env:
         - name: OBJECTSTORECONFIG_SECURE
           value: "false"
-        {{- if .Values.iguazio }}
+        {{- if .Values.storageMode.kind.v3io.enabled }}
         - name: OBJECTSTORECONFIG_ACCESSKEY
           value: "{{ .Values.configurations.credentials.accessKey }}"
         - name: OBJECTSTORECONFIG_SECRETACCESSKEY
@@ -34,7 +34,8 @@ spec:
           value: "{{ .Values.configurations.ports.nginxPort }}"
         - name: OBJECTSTORECONFIG_HOST
           value: v3io-webapi
-        {{- else }}
+        {{- end  }}
+        {{- if .Values.storageMode.kind.minio.enabled }}
         - name: OBJECTSTORECONFIG_ACCESSKEY
           valueFrom:
             secretKeyRef:

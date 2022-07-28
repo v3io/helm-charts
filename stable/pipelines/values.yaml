@@ -146,4 +146,9 @@ affinity: {}
 
 priorityClassName: ""
 
-iguazio: true
+storageMode:
+  kind:
+    v3io:
+      enabled: true
+    minio:
+      enabled: false
