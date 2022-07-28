@@ -1,3 +1,11 @@
+global:
+
+  # External host/ip to reach the k8s node. This might take various values if k8s is run in a VM or a cloud env
+  externalHostAddress: localhost
+  registry:
+    url: mustprovide
+    secretName: secretNameofcontainerregistrymustprovide
+
 mlrun:
   # set the type of filesystem to use: filesystem, s3
   storage: filesystem
@@ -6,7 +14,28 @@ mlrun:
     persistence:
       enabled: true
       annotations:
-        helm.sh/resource-policy: "keep"      
+        helm.sh/resource-policy: "keep"
+    extraEnv:
+      - name: MLRUN_STORAGE__AUTO_MOUNT_TYPE
+        value: s3
+      - name: MLRUN_STORAGE__AUTO_MOUNT_PARAMS
+        value: "aws_access_key=minio,aws_secret_key=minio123,endpoint_url=http://minio.mlrun.svc.cluster.local:9000"
+      - name: MLRUN_HTTPDB__PROJECTS__FOLLOWERS
+        value: nuclio
+      - name: S3_ENDPOINT_URL
+        value: http://minio.mlrun.svc.cluster.local:9000
+      - name: AWS_SECRET_ACCESS_KEY
+        value: minio123
+      - name: AWS_ACCESS_KEY_ID
+        value: minio
+      - name: MLRUN_HTTPDB__REAL_PATH
+        value: s3://
+      - name: MLRUN_ARTIFACT_PATH
+        value: s3://mlrun/
+      - name: MLRUN_SPARK_APP_IMAGE
+        value: gcr.io/iguazio/spark-app
+      - name: MLRUN_SPARK_APP_IMAGE_TAG
+        value: v3.2.1-mlk
   db:
     persistence:
       enabled: true
@@ -23,7 +52,7 @@ jupyterNotebook:
   persistence:
     enabled: true
     annotations:
-      helm.sh/resource-policy: "keep"    
+      helm.sh/resource-policy: "keep"
 minio:
   enabled: true
   rootUser: minio
@@ -37,3 +66,69 @@ minio:
     enabled: true
     size: 1Gi
 
+spark-operator:
+  enabled: true
+  fullnameOverride: spark-operator
+  webhook:
+     enable: true
+
+
+pipelines:
+  enabled: true
+  name: pipelines
+  fullnameOverride: pipelines
+  storage:
+    metadata:
+      volumes:
+        storageOverride:
+          persistentVolumeClaim:
+            claimName: pipelines-db-pvc
+  persistence:
+    enabled: true
+    existingClaim:
+    storageClass:
+    accessMode: "ReadWriteOnce"
+    size: "9Gi"
+    annotations: ~
+  crd:
+    create: true
+  images:
+    workflowController:
+      repository: gcr.io/ml-pipeline/workflow-controller
+      tag: v3.2.3-license-compliance
+    apiServer:
+      repository: gcr.io/ml-pipeline/api-server
+      tag: 1.8.2
+    persistenceagent:
+      repository: gcr.io/ml-pipeline/persistenceagent
+      tag: 1.8.2
+    scheduledworkflow:
+      repository: gcr.io/ml-pipeline/scheduledworkflow
+      tag: 1.8.2
+    ui:
+      repository: gcr.io/ml-pipeline/frontend
+      tag: 1.8.2
+    viewerCrdController:
+      repository: gcr.io/ml-pipeline/viewer-crd-controller
+      tag: 1.8.2
+    visualizationServer:
+      repository: gcr.io/ml-pipeline/visualization-server
+      tag: 1.8.2
+    metadataEnvoy:
+      repository: gcr.io/ml-pipeline/metadata-envoy
+      tag: 1.8.2
+    metadataWriter:
+      repository: gcr.io/ml-pipeline/metadata-writer
+      tag: 1.8.2
+
+  storageMode:
+    kind:
+      v3io:
+        enabled: false
+      minio:
+        enabled: true
+        accessKey: minio
+        secretKey: minio123
+        ServiceHost: minio.mlrun.svc.cluster.local
+        ServicePort: "9000"
+        DefaultBucket: "mlrun"

@@ -1,0 +1,25 @@
+{{- if and (.Values.pipelines.persistence.enabled)  (.Values.pipelines.enabled) }}
+kind: PersistentVolumeClaim
+apiVersion: v1
+metadata:
+  name: {{ .Values.pipelines.storage.metadata.volumes.storageOverride.persistentVolumeClaim.claimName }}
+  labels:
+    {{- include "mlrun-kit.pipelines.labels" . | nindent 4 }}  
+{{- with .Values.pipelines.persistence.annotations }}
+  annotations: {{ toYaml . | nindent 4 }}
+{{- end }}
+spec:
+  accessModes:
+    - {{ .Values.pipelines.persistence.accessMode | quote }}
+  resources:
+    requests:
+      storage: {{ .Values.pipelines.persistence.size | quote }}
+{{- if .Values.pipelines.persistence.storageClass }}
+{{- if (eq "-" .Values.pipelines.persistence.storageClass) }}
+  storageClassName: ""
+{{- else }}
+  storageClassName: "{{ .Values.pipelines.persistency.storageClass }}"
+{{- end }}
+{{- end }}
+{{- end -}}
+
