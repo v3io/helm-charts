@@ -27,12 +27,16 @@ spec:
             name: mysql-kf
         # Add MySQL data mount (Fuse)
         - name: mysql-fuse
+          {{- if .Values.storage.metadata.volumes.storageOverride }}
+          {{- toYaml .Values.storage.metadata.volumes.storageOverride | nindent 10 }}
+          {{- else }}
           flexVolume:
             driver: "v3io/fuse"
             options:
               container: {{ .Values.storage.metadata.containerName }}
               subPath: {{ .Values.storage.metadata.subPath }}
               accessKey: {{ .Values.configurations.credentials.accessKey }}
+          {{- end }}
       initContainers:
         - name: init-mysql
           image: {{ .Values.images.mysql.repository }}:{{ .Values.images.mysql.tag }}
