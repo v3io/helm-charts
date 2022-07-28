@@ -14,7 +14,7 @@ dependencies:
   condition: minio.enabled
 - name: pipelines
   repository: "https://v3io.github.io/helm-charts/stable"
-  version: "0.9.1"
+  version: "0.9.2"
   condition: pipelines.enabled
 - name: spark-operator
   repository: "https://googlecloudplatform.github.io/spark-on-k8s-operator"

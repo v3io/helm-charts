@@ -183,3 +183,23 @@ Jupyter labels
 {{ include "mlrun-kit.common.labels" . }}
 {{ include "mlrun-kit.jupyter.selectorLabels" . }}
 {{- end -}}
+
+
+
+
+{{/*
+Pipelines selector labels
+*/}}
+{{- define "mlrun-kit.pipelines.selectorLabels" -}}
+{{ include "mlrun-kit.common.selectorLabels" . }}
+app.kubernetes.io/component: {{ .Values.pipelines.name | quote }}
+{{- end -}}
+
+{{/*
+Pipelines labels
+*/}}
+{{- define "mlrun-kit.pipelines.labels" -}}
+{{ include "mlrun-kit.common.labels" . }}
+{{ include "mlrun-kit.pipelines.selectorLabels" . }}
+{{- end -}}
+
