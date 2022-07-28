@@ -11,7 +11,8 @@ The Open source MLRun kit chart includes the following stack:
 * Jupyter - https://github.com/jupyter/notebook (+MLRun integrated)
 * MPI Operator - https://github.com/kubeflow/mpi-operator
 * Minio - https://github.com/minio/minio/tree/master/helm/minio
-* Spark Operator - https://googlecloudplatform.github.io/spark-on-k8s-operator/
+* Spark Operator - https://github.com/GoogleCloudPlatform/spark-on-k8s-operator
+* Pipelines - https://github.com/kubeflow/pipelines
 
 ## Prerequisites
 
