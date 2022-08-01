@@ -10,7 +10,7 @@ metadata:
 data:
 
   health_check.sh: |
-    mysql -u root -S /var/run/mysqld/mysql.sock -e 'SELECT 1'
+    mysqladmin status
 
   init-v3io-mysql.sh: |
     #!/usr/bin/env bash
@@ -38,7 +38,6 @@ data:
 
     echo "Current user -> $(whoami)"
 
-    MYSQL_SOCKET_FILE=/var/run/mysqld/mysql.sock
     INIT_SCRIPT="/etc/config/mysql/init-scripts/enable-root-remote-access.sql"
 
     echo "Starting MySQL ..."
@@ -46,7 +45,6 @@ data:
     mysqld \
       --user={{- include "pipelines.db.DBRunUser" . }} \
       --sql_mode="" \
-      --init-file=$INIT_SCRIPT \
-      --socket=$MYSQL_SOCKET_FILE
+      --init-file=$INIT_SCRIPT 
 
 {{- end }}
