@@ -31,28 +31,19 @@ data:
       touch $LOCK_FILE
     fi
 
+
   v3io-mysql.sh: |
     #!/usr/bin/env bash
     set -e
 
     echo "Current user -> $(whoami)"
 
-    LOCK_FILE=/var/lib/mysql/.allow-remote-access-complete
-    if [ ! -f $LOCK_FILE ]
-    then
-      MYSQL_CONFIG=/etc/mysql/my.cnf
-      INIT_SCRIPT="/etc/config/mysql/init-scripts/enable-root-remote-access.sql"
-
-      # Call init script on startup
-      echo "Adding $INIT_SCRIPT to $MYSQL_CONFIG ..."
-      echo "" >> $MYSQL_CONFIG
-      echo "[mysqld]" >> $MYSQL_CONFIG
-      echo "init-file=$INIT_SCRIPT" >> $MYSQL_CONFIG
-
-      touch $LOCK_FILE
-    fi
+    INIT_SCRIPT="/etc/config/mysql/init-scripts/enable-root-remote-access.sql"
 
     echo "Starting MySQL ..."
-    # Note, "--user=root" flag allows running server as user root (default user)
-    mysqld --user=root
+
+    mysqld \
+      --user={{- include "pipelines.db.DBRunUser" . }} \
+      --init-file=$INIT_SCRIPT 
+
 {{- end }}
