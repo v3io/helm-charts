@@ -44,7 +44,6 @@ data:
 
     mysqld \
       --user={{- include "pipelines.db.DBRunUser" . }} \
-      --sql_mode="" \
       --init-file=$INIT_SCRIPT 
 
 {{- end }}
