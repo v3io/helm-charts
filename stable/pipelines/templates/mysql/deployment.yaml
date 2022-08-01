@@ -18,6 +18,8 @@ spec:
         component: mysql-kf
 {{ include "pipelines.commonLabels" . | indent 8 }}
     spec:
+      securityContext:
+        {{- toYaml .Values.db.podSecurityContext | nindent 8 }}
       volumes:
         - name: mysql-init-scripts
           configMap:
@@ -48,7 +50,7 @@ spec:
               value: "true"
           command: ["/bin/bash", "/etc/config/mysql/init-v3io-mysql.sh"]
           securityContext:
-            runAsUser: 1001
+            {{- toYaml .Values.db.securityContext | nindent 12 }}
           volumeMounts:
             - name: mysql-fuse
               mountPath: "/var/lib/mysql"
@@ -56,6 +58,8 @@ spec:
               mountPath: /etc/config/mysql
       containers:
       - name: {{ .Values.configurations.mysql.spec.template.spec.containers.name }}
+        securityContext:
+          {{- toYaml .Values.db.securityContext | nindent 10 }}
         image: {{ .Values.images.mysql.repository }}:{{ .Values.images.mysql.tag }}
         imagePullPolicy: {{ .Values.images.imagePullPolicy }}
         command: ["/bin/bash", "/etc/config/mysql/v3io-mysql.sh"]

@@ -152,3 +152,14 @@ storageMode:
       enabled: true
     minio:
       enabled: false
+
+db:
+  podSecurityContext:
+    runAsUser: 1001
+
+  securityContext: {}
+    # capabilities:
+    #   drop:
+    #   - ALL
+    # readOnlyRootFilesystem: true
+  # runAsNonRoot: true
