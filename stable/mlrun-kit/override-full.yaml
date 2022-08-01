@@ -36,6 +36,8 @@ mlrun:
         value: gcr.io/iguazio/spark-app
       - name: MLRUN_SPARK_APP_IMAGE_TAG
         value: v3.2.1-mlk
+      - name: MLRUN_KFP_URL
+        value: http://ml-pipeline.mlrun.svc.cluster.local:8888
   db:
     persistence:
       enabled: true
@@ -132,3 +134,9 @@ pipelines:
         ServiceHost: minio.mlrun.svc.cluster.local
         ServicePort: "9000"
         DefaultBucket: "mlrun"
+  db:
+    securityContext:
+      runAsUser: 999
+    podSecurityContext:
+      runAsUser: 999
+      fsGroup: 999
