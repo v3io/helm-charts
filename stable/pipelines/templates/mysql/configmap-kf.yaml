@@ -43,7 +43,6 @@ data:
 
     echo "Starting MySQL ..."
 
-    # TODO: review the innodb flags, they might not be needed anymore
     mysqld \
       --user={{- include "pipelines.db.DBRunUser" . }} \
       --sql_mode="" \
