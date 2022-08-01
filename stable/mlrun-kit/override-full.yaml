@@ -91,7 +91,8 @@ pipelines:
     storageClass:
     accessMode: "ReadWriteOnce"
     size: "9Gi"
-    annotations: ~
+    annotations:
+      helm.sh/resource-policy: "keep"
   crd:
     create: true
   images:
