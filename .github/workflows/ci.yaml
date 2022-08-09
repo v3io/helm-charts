@@ -152,3 +152,8 @@ jobs:
         minikube kubectl -- --namespace ${NAMESPACE} get pvc
         minikube kubectl -- --namespace ${NAMESPACE} get pv
         set +x
+
+    # Enable tmate debugging of manually-triggered workflows if the input option was provided
+    - name: Setup tmate session
+      uses: mxschmitt/action-tmate@v3
+      if: ${{ failure() }}
