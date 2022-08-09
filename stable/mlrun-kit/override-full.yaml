@@ -44,17 +44,12 @@ mlrun:
       annotations:
         helm.sh/resource-policy: "keep"
 
-  httpDB:
-    dbType: mysql
-    dsn: mysql+pymysql://root@mlrun-db:3306/mlrun
-    oldDsn: sqlite:////mlrun/db/mlrun.db?check_same_thread=false
-
-
 jupyterNotebook:
   persistence:
     enabled: true
     annotations:
       helm.sh/resource-policy: "keep"
+
 minio:
   enabled: true
   rootUser: minio
@@ -73,7 +68,6 @@ spark-operator:
   fullnameOverride: spark-operator
   webhook:
      enable: true
-
 
 pipelines:
   enabled: true
