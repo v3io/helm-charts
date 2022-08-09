@@ -105,12 +105,6 @@ jobs:
       with:
         version: "v3.9.1"
 
-    - name: Configure FW for minikube storage provider
-      if: steps.chart_changed.outputs.any_changed == 'true'
-      run: |
-        sudo ufw allow in on docker0
-        sudo ufw allow out on docker0
-
     - uses: manusa/actions-setup-minikube@v2.4.2
       if: steps.chart_changed.outputs.any_changed == 'true'
       with:
