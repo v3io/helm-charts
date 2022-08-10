@@ -92,6 +92,8 @@ mlrun:
       size: "8Gi"
       annotations: ~
     extraEnv:
+      - name: MLRUN_KFP_URL
+        value: http://ml-pipeline.mlrun.svc.cluster.local:8888
       - name: MLRUN_STORAGE__AUTO_MOUNT_TYPE
         value: s3
       - name: MLRUN_STORAGE__AUTO_MOUNT_PARAMS
@@ -137,10 +139,10 @@ mlrun:
       annotations: ~
 
   httpDB:
-    dbType: "sqlite"
-    dirPath: "/mlrun/db"
-    dsn: "sqlite:////mlrun/db/mlrun.db?check_same_thread=false"
-    oldDsn: ""
+    dbType: mysql
+    dsn: mysql+pymysql://root@mlrun-db:3306/mlrun
+    oldDsn: sqlite:////mlrun/db/mlrun.db?check_same_thread=false
+
 
 jupyterNotebook:
   fullnameOverride: mlrun-jupyter

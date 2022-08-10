@@ -6,6 +6,7 @@ global:
     url: mustprovide
     secretName: secretNameofcontainerregistrymustprovide
 
+
 mlrun:
   # set the type of filesystem to use: filesystem, s3
   storage: filesystem
@@ -78,66 +79,3 @@ spark-operator:
 pipelines:
   enabled: true
   name: pipelines
-  fullnameOverride: pipelines
-  storage:
-    metadata:
-      volumes:
-        storageOverride:
-          persistentVolumeClaim:
-            claimName: pipelines-db-pvc
-  persistence:
-    enabled: true
-    existingClaim:
-    storageClass:
-    accessMode: "ReadWriteOnce"
-    size: "9Gi"
-    annotations:
-      helm.sh/resource-policy: "keep"
-  crd:
-    create: true
-  images:
-    workflowController:
-      repository: gcr.io/ml-pipeline/workflow-controller
-      tag: v3.2.3-license-compliance
-    apiServer:
-      repository: gcr.io/ml-pipeline/api-server
-      tag: 1.8.2
-    persistenceagent:
-      repository: gcr.io/ml-pipeline/persistenceagent
-      tag: 1.8.2
-    scheduledworkflow:
-      repository: gcr.io/ml-pipeline/scheduledworkflow
-      tag: 1.8.2
-    ui:
-      repository: gcr.io/ml-pipeline/frontend
-      tag: 1.8.2
-    viewerCrdController:
-      repository: gcr.io/ml-pipeline/viewer-crd-controller
-      tag: 1.8.2
-    visualizationServer:
-      repository: gcr.io/ml-pipeline/visualization-server
-      tag: 1.8.2
-    metadataEnvoy:
-      repository: gcr.io/ml-pipeline/metadata-envoy
-      tag: 1.8.2
-    metadataWriter:
-      repository: gcr.io/ml-pipeline/metadata-writer
-      tag: 1.8.2
-
-  storageMode:
-    kind:
-      v3io:
-        enabled: false
-      minio:
-        enabled: true
-        accessKey: minio
-        secretKey: minio123
-        ServiceHost: minio.mlrun.svc.cluster.local
-        ServicePort: "9000"
-        DefaultBucket: "mlrun"
-  db:
-    securityContext:
-      runAsUser: 999
-    podSecurityContext:
-      runAsUser: 999
-      fsGroup: 999

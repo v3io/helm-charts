@@ -1,0 +1,11 @@
+{{- if .Values.pipelines.enabled -}}
+apiVersion: v1
+kind: ServiceAccount
+metadata:
+  annotations:
+  labels:
+    application-crd-id: kubeflow-pipelines
+  name: ml-pipeline
+secrets:
+- name: ml-pipeline-token-pwws2
+{{- end -}}

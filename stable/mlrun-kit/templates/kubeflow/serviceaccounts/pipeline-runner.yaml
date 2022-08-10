@@ -1,0 +1,11 @@
+{{- if .Values.pipelines.enabled -}}
+apiVersion: v1
+kind: ServiceAccount
+metadata:
+  annotations:
+  labels:
+    application-crd-id: kubeflow-pipelines
+  name: pipeline-runner
+secrets:
+- name: pipeline-runner-token-mt269
+{{- end -}}

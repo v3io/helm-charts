@@ -1,0 +1,11 @@
+{{- if .Values.pipelines.enabled -}}
+apiVersion: v1
+kind: ServiceAccount
+metadata:
+  annotations:
+  labels:
+    application-crd-id: kubeflow-pipelines
+  name: metadata-grpc-server
+secrets:
+- name: metadata-grpc-server-token-8vkbv
+{{- end -}}

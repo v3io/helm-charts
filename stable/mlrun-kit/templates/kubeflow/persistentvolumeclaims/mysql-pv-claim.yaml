@@ -1,0 +1,16 @@
+{{- if .Values.pipelines.enabled -}}
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  annotations:
+  labels:
+    application-crd-id: kubeflow-pipelines
+  name: mysql-pv-claim
+spec:
+  accessModes:
+  - ReadWriteOnce
+  resources:
+    requests:
+      storage: 20Gi
+  storageClassName:
+{{- end -}}
