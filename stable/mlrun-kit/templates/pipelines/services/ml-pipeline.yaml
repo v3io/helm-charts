@@ -10,12 +10,6 @@ metadata:
     application-crd-id: kubeflow-pipelines
   name: ml-pipeline
 spec:
-  clusterIP: 10.196.85.160
-  clusterIPs:
-  - 10.196.85.160
-  ipFamilies:
-  - IPv4
-  ipFamilyPolicy: SingleStack
   ports:
   - name: http
     port: 8888
