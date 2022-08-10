@@ -42,7 +42,7 @@ spec:
           value: "86400"
         - name: NUM_WORKERS
           value: "2"
-        image: gcr.io/ml-pipeline/persistenceagent:1.8.3
+        image: {{ .Values.pipelines.images.persistenceagent.repository }}:{{ .Values.pipelines.images.persistenceagent.tag }}
         imagePullPolicy: IfNotPresent
         name: ml-pipeline-persistenceagent
         resources:

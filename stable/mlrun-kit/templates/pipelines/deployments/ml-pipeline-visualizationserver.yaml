@@ -32,7 +32,7 @@ spec:
         application-crd-id: kubeflow-pipelines
     spec:
       containers:
-      - image: gcr.io/ml-pipeline/visualization-server:1.8.3
+      - image: {{ .Values.pipelines.images.visualizationServer.repository }}:{{ .Values.pipelines.images.visualizationServer.tag }}
         imagePullPolicy: IfNotPresent
         livenessProbe:
           exec:

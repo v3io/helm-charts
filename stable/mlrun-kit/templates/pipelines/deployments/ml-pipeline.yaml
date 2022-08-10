@@ -43,7 +43,6 @@ spec:
             fieldRef:
               apiVersion: v1
               fieldPath: metadata.namespace
-         #eliyahu
         - name: OBJECTSTORECONFIG_SECURE
           value: "false"
         - name: OBJECTSTORECONFIG_HOST
@@ -98,7 +97,7 @@ spec:
             secretKeyRef:
               key: secretkey
               name: mlpipeline-minio-artifact
-        image: gcr.io/ml-pipeline/api-server:1.8.3
+        image: {{ .Values.pipelines.images.apiServer.repository }}:{{ .Values.pipelines.images.apiServer.tag }}
         imagePullPolicy: IfNotPresent
         livenessProbe:
           exec:

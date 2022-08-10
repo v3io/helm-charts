@@ -31,15 +31,14 @@ spec:
         app: ml-pipeline-ui
         application-crd-id: kubeflow-pipelines
     spec:
-      ## eliyahu
       containers:
       - env:
         - name: VIEWER_TENSORBOARD_POD_TEMPLATE_SPEC_PATH
           value: /etc/config/viewer-pod-template.json
         - name: MINIO_HOST
-          value: "minio.mlrun.svc.cluster.local"
+          value: "{{ .Values.pipelines.minio.endpoint }}"
         - name: MINIO_PORT
-          value: "9000"
+          value: "{{ .Values.pipelines.minio.endpointPort }}"
         - name: MINIO_NAMESPACE
           valueFrom:
             fieldRef:
@@ -57,7 +56,7 @@ spec:
               name: mlpipeline-minio-artifact
         - name: ALLOW_CUSTOM_VISUALIZATIONS
           value: "true"
-        image: gcr.io/ml-pipeline/frontend:1.8.3
+        image: {{ .Values.pipelines.images.ui.repository }}:{{ .Values.pipelines.images.ui.tag }}
         imagePullPolicy: IfNotPresent
         livenessProbe:
           exec:

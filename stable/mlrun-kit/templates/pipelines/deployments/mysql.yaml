@@ -6,48 +6,59 @@ metadata:
     deployment.kubernetes.io/revision: "1"
   generation: 1
   labels:
+    app: mysql
     application-crd-id: kubeflow-pipelines
-    component: metadata-envoy
-  name: metadata-envoy-deployment
+  name: mysql
 spec:
   progressDeadlineSeconds: 600
   replicas: 1
   revisionHistoryLimit: 10
   selector:
     matchLabels:
+      app: mysql
       application-crd-id: kubeflow-pipelines
-      component: metadata-envoy
   strategy:
-    rollingUpdate:
-      maxSurge: 25%
-      maxUnavailable: 25%
-    type: RollingUpdate
+    type: Recreate
   template:
     metadata:
-      annotations:
-        sidecar.istio.io/inject: "false"
       creationTimestamp: null
       labels:
+        app: mysql
         application-crd-id: kubeflow-pipelines
-        component: metadata-envoy
     spec:
       containers:
-      - image: gcr.io/ml-pipeline/metadata-envoy:1.8.3
+      - args:
+        - --ignore-db-dir=lost+found
+        - --datadir
+        - /var/lib/mysql
+        env:
+        - name: MYSQL_ALLOW_EMPTY_PASSWORD
+          value: "true"
+        image: {{ .Values.pipelines.images.mysql.repository }}:{{ .Values.pipelines.images.mysql.tag }}
         imagePullPolicy: IfNotPresent
-        name: container
+        name: mysql
         ports:
-        - containerPort: 9090
-          name: md-envoy
+        - containerPort: 3306
+          name: mysql
           protocol: TCP
-        - containerPort: 9901
-          name: envoy-admin
-          protocol: TCP
-        resources: {}
+        resources:
+          requests:
+            cpu: 100m
+            memory: 800Mi
         terminationMessagePath: /dev/termination-log
         terminationMessagePolicy: File
+        volumeMounts:
+        - mountPath: /var/lib/mysql
+          name: mysql-persistent-storage
       dnsPolicy: ClusterFirst
       restartPolicy: Always
       schedulerName: default-scheduler
       securityContext: {}
+      serviceAccount: mysql
+      serviceAccountName: mysql
       terminationGracePeriodSeconds: 30
+      volumes:
+      - name: mysql-persistent-storage
+        persistentVolumeClaim:
+          claimName: mysql-pv-claim
 {{- end -}}

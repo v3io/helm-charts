@@ -13,6 +13,5 @@ roleRef:
 subjects:
 - kind: ServiceAccount
   name: ml-pipeline-viewer-crd-service-account
-  # eliyahu
-  namespace: mlrun
+  namespace: {{ .Release.Namespace }}
 {{- end -}}

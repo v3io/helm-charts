@@ -33,7 +33,7 @@ spec:
         - --configmap
         - workflow-controller-configmap
         - --executor-image
-        - gcr.io/ml-pipeline/argoexec:v3.3.8-license-compliance
+        - {{ .Values.pipelines.images.argoexec.repository }}:{{ .Values.pipelines.images.argoexec.tag }}
         - --namespaced
         command:
         - workflow-controller
@@ -43,7 +43,7 @@ spec:
             fieldRef:
               apiVersion: v1
               fieldPath: metadata.name
-        image: gcr.io/ml-pipeline/workflow-controller:v3.3.8-license-compliance
+        image: {{ .Values.pipelines.images.workflowController.repository }}:{{ .Values.pipelines.images.workflowController.tag }}
         imagePullPolicy: IfNotPresent
         livenessProbe:
           failureThreshold: 3

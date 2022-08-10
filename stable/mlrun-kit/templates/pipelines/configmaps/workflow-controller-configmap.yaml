@@ -4,11 +4,8 @@ data:
   artifactRepository: |
     archiveLogs: true
     s3:
-      ##eliyahu
-      endpoint: "minio.mlrun.svc.cluster.local:9000"
-      #endpoint: "minio-service.kubeflow:9000"
-      #bucket: "mlpipeline"
-      bucket: "mlrun"
+      endpoint: "{{ .Values.pipelines.minio.endpoint }}:{{ .Values.pipelines.minio.endpointPort }}"
+      bucket: "{{ .Values.pipelines.minio.bucket }}"
       insecure: true
       accessKeySecret:
         name: mlpipeline-minio-artifact
