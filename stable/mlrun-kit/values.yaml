@@ -144,7 +144,6 @@ mlrun:
     dsn: "sqlite:////mlrun/db/mlrun.db?check_same_thread=false"
     oldDsn: ""
 
-
 jupyterNotebook:
   fullnameOverride: mlrun-jupyter
   name: jupyter-notebook

@@ -36,10 +36,6 @@ spec:
         - name: MAX_NUM_VIEWERS
           value: "50"
         - name: MINIO_NAMESPACE
-#          valueFrom:
-#            fieldRef:
-#              apiVersion: v1
-#              fieldPath: metadata.namespace
         image: {{ .Values.pipelines.images.viewerCrdController.repository }}:{{ .Values.pipelines.images.viewerCrdController.tag }}
         imagePullPolicy: Always
         name: ml-pipeline-viewer-crd
