@@ -60,7 +60,7 @@ mlrun:
   api:
     fullnameOverride: mlrun-api
     image:
-      tag: 1.0.4
+      tag: 1.0.5
     service:
       type: NodePort
       nodePort: 30070
@@ -92,7 +92,7 @@ mlrun:
       type: NodePort
       nodePort: 30060
     image:
-      tag: 1.0.4
+      tag: 1.0.5
 
 # mlrun persistency resources creation can be disabled if the user would like to provide their own PVC
 mlrunPersistency:
@@ -133,9 +133,7 @@ jupyterNotebook:
     #      - chart-example.local
   image:
     repository: quay.io/mlrun/jupyter
-
-    # TODO: 1.0.4 is broken right now. Bump to 1.0.4 when fixed or 1.0.5 when released.
-    tag: 1.0.3
+    tag: 1.0.5
     pullPolicy: IfNotPresent
   # use this to override mlrunUIURL, by default it will be auto-resolved to externalHostAddress and
   # mlrun UI's node port
