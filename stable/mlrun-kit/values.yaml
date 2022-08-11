@@ -10,6 +10,7 @@ global:
   nuclio:
     dashboard:
       nodePort: 30050
+
 nuclio:
 
   # coupled with mlrun.nuclio.dashboardName template in mlrun chart
@@ -137,10 +138,10 @@ mlrun:
       annotations: ~
 
   httpDB:
-    dbType: "sqlite"
+    dbType: mysql
     dirPath: "/mlrun/db"
-    dsn: "sqlite:////mlrun/db/mlrun.db?check_same_thread=false"
-    oldDsn: ""
+    dsn: mysql+pymysql://root@mlrun-db:3306/mlrun
+    oldDsn: sqlite:////mlrun/db/mlrun.db?check_same_thread=false
 
 jupyterNotebook:
   fullnameOverride: mlrun-jupyter
@@ -204,6 +205,7 @@ mpi-operator:
       create: true
   deployment:
     create: true
+
 minio:
   enabled: true
   rootUser: minio
