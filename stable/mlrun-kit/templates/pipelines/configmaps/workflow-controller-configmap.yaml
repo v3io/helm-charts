@@ -13,7 +13,7 @@ data:
       secretKeySecret:
         name: mlpipeline-minio-artifact
         key: secretkey
-  containerRuntimeExecutor: pns
+  containerRuntimeExecutor: emissary
   executor: |
     imagePullPolicy: IfNotPresent
     resources:
