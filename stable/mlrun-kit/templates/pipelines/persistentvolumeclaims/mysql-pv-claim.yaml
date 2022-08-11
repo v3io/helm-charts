@@ -2,7 +2,9 @@
 apiVersion: v1
 kind: PersistentVolumeClaim
 metadata:
-  annotations:
+{{- with .Values.pipelines.persistence.annotations }}
+  annotations: {{ toYaml . | nindent 4 }}
+{{- end }}
   labels:
     application-crd-id: kubeflow-pipelines
   name: mysql-pv-claim

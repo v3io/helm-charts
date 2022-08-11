@@ -78,6 +78,10 @@ spark-operator:
 pipelines:
   enabled: true
   name: pipelines
+  persistence:
+    enabled: true
+    annotations:
+      helm.sh/resource-policy: "keep"
   db:
     username: root
   minio:
