@@ -6,6 +6,4 @@ metadata:
   labels:
     application-crd-id: kubeflow-pipelines
   name: kubeflow-pipelines-container-builder
-secrets:
-- name: kubeflow-pipelines-container-builder-token-sbn6b
 {{- end -}}

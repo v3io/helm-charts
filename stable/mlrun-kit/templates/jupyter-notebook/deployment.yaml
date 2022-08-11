@@ -15,6 +15,9 @@ spec:
       labels:
         {{- include "mlrun-kit.jupyter.selectorLabels" . | nindent 8 }}
     spec:
+{{- if  .Values.jupyterNotebook.awsInstall }}
+      serviceAccount: {{ .Values.jupyterNotebook.serviceAccount }}
+{{- end }}      
       securityContext:
         runAsUser: 1000
         runAsGroup: 100

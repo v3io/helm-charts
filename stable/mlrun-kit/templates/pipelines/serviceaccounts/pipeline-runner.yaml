@@ -6,6 +6,4 @@ metadata:
   labels:
     application-crd-id: kubeflow-pipelines
   name: pipeline-runner
-secrets:
-- name: pipeline-runner-token-mt269
 {{- end -}}

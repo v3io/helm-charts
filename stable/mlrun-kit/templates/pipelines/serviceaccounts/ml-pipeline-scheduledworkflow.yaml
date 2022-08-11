@@ -6,6 +6,4 @@ metadata:
   labels:
     application-crd-id: kubeflow-pipelines
   name: ml-pipeline-scheduledworkflow
-secrets:
-- name: ml-pipeline-scheduledworkflow-token-2lsmj
 {{- end -}}

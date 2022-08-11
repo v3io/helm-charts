@@ -145,6 +145,7 @@ mlrun:
     oldDsn: ""
 
 jupyterNotebook:
+  awsInstall: false
   fullnameOverride: mlrun-jupyter
   name: jupyter-notebook
   enabled: true

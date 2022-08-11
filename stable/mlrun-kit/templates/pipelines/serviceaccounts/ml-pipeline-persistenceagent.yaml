@@ -6,6 +6,4 @@ metadata:
   labels:
     application-crd-id: kubeflow-pipelines
   name: ml-pipeline-persistenceagent
-secrets:
-- name: ml-pipeline-persistenceagent-token-5gvv2
 {{- end -}}

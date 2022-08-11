@@ -6,6 +6,4 @@ metadata:
   labels:
     application-crd-id: kubeflow-pipelines
   name: ml-pipeline-visualizationserver
-secrets:
-- name: ml-pipeline-visualizationserver-token-zt8bf
 {{- end -}}

@@ -6,6 +6,4 @@ metadata:
   labels:
     application-crd-id: kubeflow-pipelines
   name: mysql
-secrets:
-- name: mysql-token-ztdvg
 {{- end -}}

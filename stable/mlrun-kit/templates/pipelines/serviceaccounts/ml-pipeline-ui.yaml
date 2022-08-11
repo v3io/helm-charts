@@ -6,6 +6,4 @@ metadata:
   labels:
     application-crd-id: kubeflow-pipelines
   name: ml-pipeline-ui
-secrets:
-- name: ml-pipeline-ui-token-gnw2b
 {{- end -}}
