@@ -80,6 +80,10 @@ pipelines:
   name: pipelines
   persistence:
     enabled: true
+    existingClaim:
+    storageClass:
+    accessMode: "ReadWriteOnce"
+    size: "20Gi"
     annotations:
       helm.sh/resource-policy: "keep"
   db:

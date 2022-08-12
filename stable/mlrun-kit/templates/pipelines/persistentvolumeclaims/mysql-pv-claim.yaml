@@ -1,18 +1,25 @@
 {{- if .Values.pipelines.enabled -}}
-apiVersion: v1
 kind: PersistentVolumeClaim
+apiVersion: v1
 metadata:
+  name: "mysql-pv-claim"
+  labels:
+    {{- include "mlrun-kit.pipelines.labels" . | nindent 4 }}
+    application-crd-id: kubeflow-pipelines
 {{- with .Values.pipelines.persistence.annotations }}
   annotations: {{ toYaml . | nindent 4 }}
 {{- end }}
-  labels:
-    application-crd-id: kubeflow-pipelines
-  name: mysql-pv-claim
 spec:
   accessModes:
-  - ReadWriteOnce
+    - {{ .Values.pipelines.persistence.accessMode | quote }}
   resources:
     requests:
-      storage: 20Gi
-  storageClassName:
+      storage: {{ .Values.pipelines.persistence.size | quote }}
+{{- if .Values.pipelines.persistence.storageClass }}
+{{- if (eq "-" .Values.pipelines.persistence.storageClass) }}
+  storageClassName: ""
+{{- else }}
+  storageClassName: "{{ .Values.pipelines.persistency.storageClass }}"
+{{- end }}
+{{- end }}
 {{- end -}}
