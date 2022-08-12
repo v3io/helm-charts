@@ -72,66 +72,61 @@ spark-operator:
 pipelines:
   enabled: true
   name: pipelines
-  fullnameOverride: pipelines
-  storage:
-    metadata:
-      volumes:
-        storageOverride:
-          persistentVolumeClaim:
-            claimName: pipelines-db-pvc
   persistence:
     enabled: true
     existingClaim:
     storageClass:
     accessMode: "ReadWriteOnce"
-    size: "9Gi"
+    size: "20Gi"
     annotations:
       helm.sh/resource-policy: "keep"
-  crd:
-    create: true
+  db:
+    username: root
+  minio:
+    enabled: true
+    accessKey: "minio"
+    secretKey: "minio123"
+    endpoint: "minio.mlrun.svc.cluster.local"
+    endpointPort: "9000"
+    bucket: "mlrun"
   images:
+    argoexec:
+      repository: gcr.io/ml-pipeline/argoexec
+      tag: v3.3.8-license-compliance
     workflowController:
       repository: gcr.io/ml-pipeline/workflow-controller
-      tag: v3.2.3-license-compliance
+      tag: v3.3.8-license-compliance
     apiServer:
       repository: gcr.io/ml-pipeline/api-server
-      tag: 1.8.2
+      tag: 1.8.3
     persistenceagent:
       repository: gcr.io/ml-pipeline/persistenceagent
-      tag: 1.8.2
+      tag: 1.8.3
     scheduledworkflow:
       repository: gcr.io/ml-pipeline/scheduledworkflow
-      tag: 1.8.2
+      tag: 1.8.3
     ui:
       repository: gcr.io/ml-pipeline/frontend
-      tag: 1.8.2
+      tag: 1.8.3
     viewerCrdController:
       repository: gcr.io/ml-pipeline/viewer-crd-controller
-      tag: 1.8.2
+      tag: 1.8.3
     visualizationServer:
       repository: gcr.io/ml-pipeline/visualization-server
-      tag: 1.8.2
+      tag: 1.8.3
+    metadata:
+      container:
+        repository: gcr.io/tfx-oss-public/ml_metadata_store_server
+        tag: 1.5.0
     metadataEnvoy:
       repository: gcr.io/ml-pipeline/metadata-envoy
-      tag: 1.8.2
+      tag: 1.8.3
     metadataWriter:
       repository: gcr.io/ml-pipeline/metadata-writer
-      tag: 1.8.2
-
-  storageMode:
-    kind:
-      v3io:
-        enabled: false
-      minio:
-        enabled: true
-        accessKey: minio
-        secretKey: minio123
-        ServiceHost: minio.mlrun.svc.cluster.local
-        ServicePort: "9000"
-        DefaultBucket: "mlrun"
-  db:
-    securityContext:
-      runAsUser: 999
-    podSecurityContext:
-      runAsUser: 999
-      fsGroup: 999
+      tag: 1.8.3
+    mysql:
+      repository: mysql
+      tag: 5.7-debian
+    cacheImage:
+      repository: gcr.io/google-containers/busybox
+      tag: latest
