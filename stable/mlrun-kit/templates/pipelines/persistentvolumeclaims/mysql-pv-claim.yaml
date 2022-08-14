@@ -1,10 +1,11 @@
-{{- if and (.Values.pipelines.persistence.enabled)  (.Values.pipelines.enabled) }}
+{{- if .Values.pipelines.enabled -}}
 kind: PersistentVolumeClaim
 apiVersion: v1
 metadata:
-  name: {{ .Values.pipelines.storage.metadata.volumes.storageOverride.persistentVolumeClaim.claimName }}
+  name: "mysql-pv-claim"
   labels:
-    {{- include "mlrun-kit.pipelines.labels" . | nindent 4 }}  
+    {{- include "mlrun-kit.pipelines.labels" . | nindent 4 }}
+    application-crd-id: kubeflow-pipelines
 {{- with .Values.pipelines.persistence.annotations }}
   annotations: {{ toYaml . | nindent 4 }}
 {{- end }}
@@ -22,4 +23,3 @@ spec:
 {{- end }}
 {{- end }}
 {{- end -}}
-
