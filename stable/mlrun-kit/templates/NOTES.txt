@@ -25,4 +25,22 @@ You're up and running !
     password: {{ .Values.minio.rootPassword }}
 
 {{- end }}
+
+{{- if .Values.pipelines.enabled }}
+
+7. Pipelines UI is available at:
+  http://{{ .Values.global.externalHostAddress }}:30100
+{{- end }}
+
+{{- if index .Values "kube-prometheus-stack" "enabled" }}
+
+8. Grafana UI is available at:
+  http://{{ .Values.global.externalHostAddress }}:30110
+
+  Credentials:
+    username: {{ (index .Values "kube-prometheus-stack" "grafana" "adminUser") }}
+    password: {{ (index .Values "kube-prometheus-stack" "grafana" "adminPassword") }}
+{{- end }}
+
+
 Happy MLOPSing !!! :]

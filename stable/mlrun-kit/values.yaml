@@ -243,3 +243,7 @@ pipelines:
   persistence:
     enabled: false
     annotations: ~
+
+kube-prometheus-stack:
+  fullnameOverride: monitoring
+  enabled: false

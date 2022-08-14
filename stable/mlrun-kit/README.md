@@ -13,6 +13,7 @@ The Open source MLRun kit chart includes the following stack:
 * Minio - https://github.com/minio/minio/tree/master/helm/minio
 * Spark Operator - https://github.com/GoogleCloudPlatform/spark-on-k8s-operator
 * Pipelines - https://github.com/kubeflow/pipelines
+* Prometheus stack - https://github.com/prometheus-community/helm-charts
 
 ## Prerequisites
 
@@ -88,6 +89,9 @@ Your applications are now available in your local browser:
 - mlrun API (external) - http://nodeipaddress:30070
 - minio API - http://nodeipaddress:30080
 - minio UI - http://nodeipaddress:30090
+- pipeline UI - http://nodeipaddress:30100
+- grafana UI - http://nodeipaddress:30110
+
 
 > **Note:**
 > The above links assume your Kubernetes cluster is exposed on localhost.
