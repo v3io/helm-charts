@@ -130,3 +130,23 @@ pipelines:
     cacheImage:
       repository: gcr.io/google-containers/busybox
       tag: latest
+
+kube-prometheus-stack:
+  fullnameOverride: monitoring
+  enabled: true
+  alertmanager:
+    enabled: false
+  grafana:
+    adminUser: "admin"
+    adminPassword: "admin-passw123"
+    fullnameOverride: grafana
+    enabled: true
+    service:
+      type: NodePort
+      nodePort: 30110
+  prometheus:
+    enabled: true
+  kube-state-metrics:
+    fullnameOverride: state-metrics
+  prometheus-node-exporter:
+    fullnameOverride: node-exporter
