@@ -16,6 +16,8 @@ mlrun:
       annotations:
         helm.sh/resource-policy: "keep"
     extraEnv:
+      - name: MLRUN_SPARK_OPERATOR_VERSION
+        value: spark-3
       - name: MLRUN_STORAGE__AUTO_MOUNT_TYPE
         value: s3
       - name: MLRUN_STORAGE__AUTO_MOUNT_PARAMS
