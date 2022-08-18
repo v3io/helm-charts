@@ -71,7 +71,7 @@ data:
 
             ssl_certificate        {{ .Values.installationPath }}/crt/iguazio-nginx.crt;
             ssl_certificate_key    {{ .Values.installationPath }}/crt/iguazio-nginx.key;
-            ssl_protocols 		   TLSv1.1 TLSv1.2;
+            ssl_protocols 		   TLSv1.2;
 
             client_body_buffer_size   10M;
             client_max_body_size      5G;
