@@ -59,12 +59,10 @@ spec:
               name: java-cert
 {{- end }}
 {{- end }}
-{{- if .Values.image.imagePullSecrets }}
+      {{- with .Values.image.imagePullSecrets }}
       imagePullSecrets:
-{{- range $val := .Values.image.imagePullSecrets }}
-        - name={{ $val }}
-{{ end -}}
-{{- end }}
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
       containers:
         - name: jupyter
           image: {{ .Values.image.repository }}:{{ .Values.image.tag }}
