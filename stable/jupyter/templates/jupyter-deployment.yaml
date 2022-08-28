@@ -28,7 +28,7 @@ spec:
         cluster-autoscaler.kubernetes.io/safe-to-evict: "true"
         iguazio.com/prometheus-pull: "true"
         iguazio.com/prometheus-pull-port: "{{ .Values.proxy.servicePort }}"
-        checksum/secret: {{ include (print $.Template.BasePath "/shell-ssh-key-secret.yaml") . | sha256sum }}
+        checksum/secret: {{ include (print $.Template.BasePath "/jupyter-ssh-key-secret.yaml") . | sha256sum }}
     spec:
       serviceAccountName: {{ template "jupyter.jobexecutor" . }}
       {{- if .Values.securityContext }}
