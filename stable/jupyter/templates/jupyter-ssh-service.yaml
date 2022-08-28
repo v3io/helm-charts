@@ -1,0 +1,24 @@
+{{- if .Values.sshServer.enabled }}
+apiVersion: v1
+kind: Service
+metadata:
+  name: {{ template "jupyter.fullname" . }}-ssh
+  labels:
+    app: {{ template "jupyter.name" . }}
+    chart: {{ template "jupyter.chart" . }}
+    release: {{ .Release.Name }}
+    heritage: {{ .Release.Service }}
+spec:
+  type: NodePort
+  ports:
+  - name: ssh
+    port: 22
+    targetPort: sshd
+{{- if .Values.sshServer.nodePort }}
+    nodePort: {{ .Values.sshServer.nodePort }}
+{{- end }}
+  selector:
+    app: {{ template "jupyter.name" . }}
+    release: {{ .Release.Name }}
+  sessionAffinity: None
+{{- end }}
