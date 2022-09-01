@@ -23,3 +23,8 @@ rules:
 - apiGroups: ["extensions"]
   resources: ["ingresses"]
   verbs: ["list", "get"]
+  
+#  allow users to create secrets from the jupter shell as shell service is deprecated
+- apiGroups: [""]
+  resources: ["secrets"]
+  verbs: ["create"]
