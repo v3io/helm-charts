@@ -59,7 +59,7 @@ def get_charts():
     return chart_versions
 
 
-def align_versions(latest_chart, against_chart, autofix):
+def align_versions(against_chart, latest_chart, autofix):
 
     # compare charts versions
     aligned = False
@@ -88,11 +88,11 @@ def run():
     try:
         current_git_branch = get_current_git_branch_name()
 
-        # target branch charts (e.g.: integ_3.5)
+        # e.g.: integ_3.5 charts
         git_checkout(args.against_branch)
         against_charts = get_charts()
 
-        # development charts
+        # e.g. development charts
         git_checkout(args.latest_branch)
         latest_charts = get_charts()
     finally:
