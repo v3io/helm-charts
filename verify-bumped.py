@@ -64,6 +64,9 @@ def align_versions(against_chart, latest_chart, autofix):
     # compare charts versions
     aligned = False
     for chart in against_chart:
+        if chart not in latest_chart:
+            print("Chart {} is most likely deprecated and is not on latest chart list".format(chart))
+            continue
         latest_version = semver.VersionInfo.parse(latest_chart[chart]["version"])
         against_version = semver.VersionInfo.parse(against_chart[chart]["version"])
         if not latest_version.compare(against_version):
