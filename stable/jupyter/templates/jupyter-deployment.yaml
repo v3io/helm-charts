@@ -28,6 +28,7 @@ spec:
         cluster-autoscaler.kubernetes.io/safe-to-evict: "true"
         iguazio.com/prometheus-pull: "true"
         iguazio.com/prometheus-pull-port: "{{ .Values.proxy.servicePort }}"
+        checksum/secret: {{ include (print $.Template.BasePath "/jupyter-ssh-key-secret.yaml") . | sha256sum }}
     spec:
       serviceAccountName: {{ template "jupyter.jobexecutor" . }}
       {{- if .Values.securityContext }}
@@ -78,6 +79,11 @@ spec:
             - --debug
 {{- end }}
           ports:
+{{- if .Values.sshServer.enabled }}
+            - name: sshd
+              containerPort: 22
+              protocol: TCP
+{{- end }}
             - containerPort: {{ .Values.servicePort }}
               name: jupyter
           resources:
@@ -136,6 +142,11 @@ spec:
 {{- end }}
 {{- end }}
           volumeMounts:
+{{- if .Values.sshServer.enabled }}
+            - mountPath: /var/run/iguazio/secrets/ssh
+              readOnly: true
+              name: ssh-authorized-keys
+{{- end }}
             - mountPath: /User/v3io
               name: v3io-fuse
             - mountPath: /etc/config/jupyter
@@ -173,6 +184,12 @@ spec:
             - containerPort: {{ .Values.proxy.servicePort }}
               name: sidecar-proxy
       volumes:
+{{- if .Values.sshServer.enabled }}
+        - name: ssh-authorized-keys
+          secret:
+            defaultMode: 420
+            secretName: {{ template "jupyter.fullname" . }}-ssh-key
+{{- end }}
         - name: config-volume
           configMap:
             name: {{ template "jupyter.fullname" . }}
