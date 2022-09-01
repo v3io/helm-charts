@@ -59,27 +59,30 @@ def get_charts():
     return chart_versions
 
 
-def align_versions(against_chart, latest_chart, autofix):
+def align_versions(against_charts, latest_charts, autofix):
 
     # compare charts versions
     aligned = False
-    for chart in against_chart:
-        if chart not in latest_chart:
-            print("Chart {} is most likely deprecated and is not on latest chart list".format(chart))
+    for chart_name in against_charts:
+        if chart_name not in latest_charts:
+            print("Chart {} is removed and is not on latest chart list".format(chart_name))
             continue
-        latest_version = semver.VersionInfo.parse(latest_chart[chart]["version"])
-        against_version = semver.VersionInfo.parse(against_chart[chart]["version"])
+        elif latest_charts[chart_name].get("deprecated"):
+            print("Chart {} is deprecated. not checking".format(chart_name))
+            continue
+        latest_version = semver.VersionInfo.parse(latest_charts[chart_name]["version"])
+        against_version = semver.VersionInfo.parse(against_charts[chart_name]["version"])
         if not latest_version.compare(against_version):
             print(
                 "Chart {} is not bumped - {} >= {}".format(
-                    chart, latest_version, against_version
+                    chart_name, latest_version, against_version
                 )
             )
             if autofix:
                 aligned = True
                 print(
                     subprocess.getoutput(
-                        " ".join(["/bin/sh", f"{os.getcwd()}/bump.sh {chart}"])
+                        " ".join(["/bin/sh", f"{os.getcwd()}/bump.sh {chart_name}"])
                     )
                 )
     return aligned
