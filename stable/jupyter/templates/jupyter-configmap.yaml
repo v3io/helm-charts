@@ -229,6 +229,19 @@ data:
       echo "# ----- END KUBECTL AUTOCOMPLETION -----" >> ${HOME}/.bashrc
     fi
 
+{{- if .Values.sshServer.enabled }}
+    cp /var/run/iguazio/secrets/ssh/* ${IGUAZIO_HOME}/.ssh
+
+    echo -e "PasswordAuthentication no
+    PermitRootLogin no
+    Ciphers chacha20-poly1305@openssh.com,aes128-ctr,aes192-ctr,aes256-ctr,aes128-gcm@openssh.com,aes256-gcm@openssh.com" >> /etc/ssh/sshd_config
+
+    /usr/sbin/sshd -f /etc/ssh/sshd_config
+{{- end }}
+
+    env | egrep -v "^HOME" | awk -F"=" '{printf("export %s=\"%s\"\n",$1,$2)}' > /User/.ssh_environment
+    echo "source /User/.ssh_environment" >> /igz/.profile
+
     if [ ! -e "${HOME}/.condarc" ]; then
       conda config --set always_softlink False
       conda config --set always_copy True
