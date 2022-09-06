@@ -280,8 +280,12 @@ data:
 
     source activate base
 
+    if [ -e "/igz/startup-hook.sh" ]; then
+        /bin/bash /igz/startup-hook.sh || true
+    fi
+
     if [ -e "${HOME}/.igz/startup-hook.sh" ]; then
-        ${HOME}/.igz/startup-hook.sh || true
+        /bin/bash ${HOME}/.igz/startup-hook.sh || true
     fi
 
     jupyter-notebook $@
