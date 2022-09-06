@@ -4,7 +4,7 @@ on:
   workflow_dispatch:
     inputs:
       chart_name:
-        description: 'The chart to publish'
+        description: 'The chart to publish (use * to publish all charts)'
         required: true
 
 jobs:
