@@ -9,7 +9,7 @@ sparkHistoryServer:
   logURL: ""
 
 volumes:
-  volumesTemplate: v3io-configs.deployment.mount-with-fuse
+  volumesTemplate: v3io-configs.deployment.mount-with-fuse-csi
   volumeMountsTemplate: v3io-configs.deployment.volumeMounts-with-fuse
 
 livenessProbe:

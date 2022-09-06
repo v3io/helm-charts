@@ -192,7 +192,7 @@ singleuser:
   storage:
     type: none
     extraVolumes: []
-    extraVolumesTemplate: v3io-configs.deployment.mount-with-fuse
+    extraVolumesTemplate: v3io-configs.deployment.mount-with-fuse-csi
     extraVolumeMounts: []
     extraVolumeMountsTemplate: v3io-configs.deployment.volumeMounts-with-fuse
     static:
