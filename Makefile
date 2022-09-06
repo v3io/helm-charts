@@ -1,5 +1,6 @@
 GITHUB_BRANCH_DEFAULT := development
 GITHUB_BRANCH := $(if $(GITHUB_BRANCH_OVERRIDE),$(GITHUB_BRANCH_OVERRIDE),$(GITHUB_BRANCH_DEFAULT))
+GITHUB_REPO ?= github.com/v3io/helm-charts
 
 HELM ?= helm
 HELM_REPO_DEFAULT := https://v3io.github.io/helm-charts
@@ -10,7 +11,7 @@ INDEX_DIR ?=
 HELM_REPO := $(HELM_REPO_ROOT)/$(WORKDIR)
 CHART_NAME := $(if $(CHART_NAME),$(CHART_NAME),chart-name)
 CHART_VERSION_OVERRIDE := $(if $(CHART_VERSION_OVERRIDE),$(CHART_VERSION_OVERRIDE),none)
-PUBLISH_REPO := $(if $(PUBLISH_CREDS),https://$(PUBLISH_CREDS)@github.com/v3io/helm-charts.git,git@github.com:v3io/helm-charts)
+PUBLISH_REPO := $(if $(PUBLISH_CREDS),https://$(PUBLISH_CREDS)@$(GITHUB_REPO).git,git@$(GITHUB_REPO))
 
 
 #### Some examples:
@@ -61,7 +62,7 @@ cleanup-tmp-workspace:
 helm-publish-all: check-helm cleanup-tmp-workspace
 helm-publish-all:
 	@echo "Preparing to release a new index from $(GITHUB_BRANCH)"
-	@git clone -b gh-pages --single-branch git@github.com:v3io/helm-charts /tmp/v3io-helm-charts
+	@git clone -b gh-pages --single-branch $(PUBLISH_REPO) /tmp/v3io-helm-charts
 	@INDEX_DIR=/tmp/v3io-helm-charts HELM_PACKAGE_ARGS="-d /tmp/v3io-helm-charts/stable" make stable
 	@INDEX_DIR=/tmp/v3io-helm-charts HELM_PACKAGE_ARGS="-d /tmp/v3io-helm-charts/demo" make demo
 	@INDEX_DIR=/tmp/v3io-helm-charts HELM_PACKAGE_ARGS="-d /tmp/v3io-helm-charts/incubator" make incubator
@@ -87,7 +88,7 @@ helm-publish-all: cleanup-tmp-workspace
 helm-publish: check-helm cleanup-tmp-workspace
 helm-publish:
 	@echo "Preparing to release a new index from $(GITHUB_BRANCH)"
-	@git clone git@github.com:v3io/helm-charts /tmp/v3io-helm-charts
+	@git clone $(PUBLISH_REPO) /tmp/v3io-helm-charts
 	@cd /tmp/v3io-helm-charts && \
 		git checkout $(GITHUB_BRANCH) && \
 		git checkout gh-pages && \
@@ -113,7 +114,7 @@ helm-publish: cleanup-tmp-workspace
 helm-publish-demo-specific: cleanup-tmp-workspace
 helm-publish-demo-specific:
 	@echo "Preparing to release a new demo index for $(CHART_NAME) from $(GITHUB_BRANCH)"
-	@git clone git@github.com:v3io/helm-charts /tmp/v3io-helm-charts
+	@git clone $(PUBLISH_REPO) /tmp/v3io-helm-charts
 	@cd /tmp/v3io-helm-charts && \
 		git checkout $(GITHUB_BRANCH) && \
 		git checkout gh-pages && \
@@ -133,7 +134,7 @@ helm-publish-incubator-specific: cleanup-tmp-workspace
 helm-publish-incubator-specific:
 	@echo "Preparing to release a new incubator index for $(CHART_NAME) from $(GITHUB_BRANCH)"
 	@rm -rf /tmp/v3io-helm-charts
-	@git clone git@github.com:v3io/helm-charts /tmp/v3io-helm-charts
+	@git clone $(PUBLISH_REPO) /tmp/v3io-helm-charts
 	@cd /tmp/v3io-helm-charts && \
 		git checkout $(GITHUB_BRANCH) && \
 		git checkout gh-pages && \
@@ -167,7 +168,7 @@ helm-publish-stable-specific-v2: cleanup-tmp-workspace
 helm-publish-stable-specific: cleanup-tmp-workspace
 helm-publish-stable-specific:
 	@echo "Preparing to release a new stable index for $(CHART_NAME) from $(GITHUB_BRANCH)"
-	@git clone git@github.com:v3io/helm-charts /tmp/v3io-helm-charts
+	@git clone $(PUBLISH_REPO) /tmp/v3io-helm-charts
 	@cp -r /tmp/v3io-helm-charts /tmp/v3io-helm-charts-2
 	@cd /tmp/v3io-helm-charts-2 && \
 		git checkout $(GITHUB_BRANCH) && \
