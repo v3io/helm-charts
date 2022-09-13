@@ -20,7 +20,11 @@ spec:
       imagePullSecrets:
         {{- toYaml . | nindent 8 }}
     {{- end }}
+    {{- if .Values.serviceAccounts.serviceAccountName }}
+      serviceAccountName: {{ .Values.serviceAccounts.serviceAccountName }}
+    {{- else }}
       serviceAccountName: {{ include "mlrun.serviceAccountName.api" . }}
+    {{- end }}
       securityContext:
         {{- toYaml .Values.api.podSecurityContext | nindent 8 }}
       {{- if .Values.api.extraInitContainers }}
