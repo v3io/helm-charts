@@ -35,40 +35,44 @@ spec:
       securityContext:
         {{- toYaml .Values.controller.securityContext | nindent 8 }}
       containers:
-      - env:
-        - name: PROVAZIO_CONTROLLER_RESOURCES
-          value: {{ join "," .Values.controller.crd.kinds | quote }}
-{{- if .Values.controller.controlAccessKey }}
-        - name: PROVAZIO_CONTROLLER_CONTROL_ACCESS_KEY
-          value: {{ .Values.controller.controlAccessKey }}
-{{- end }}
-{{- if .Values.controller.artifactVersionManifestContents }}
-        - name: PROVAZIO_CONTROLLER_ARTIFACT_VERSION_RESOLVER_MANIFEST_PATH
-          value: {{ .Values.controller.artifactVersionManifestDir }}/artifact-version-manifest.json
-{{- end }}
-{{- if .Values.controller.systemConfigContents }}
-        - name: PROVAZIO_CONTROLLER_SYSTEM_CONFIG_PATH
-          value: {{ .Values.controller.systemConfigDir }}/system-config.json
-{{- end }}
+      - name: {{ template "provazio.controller.name" . }}
         image: {{ .Values.controller.image.repository }}:{{ .Values.controller.image.tag }}
         imagePullPolicy: {{ .Values.controller.image.pullPolicy | quote }}
-        name: {{ template "provazio.controller.name" . }}
-
-{{- if or .Values.controller.artifactVersionManifestContents .Values.controller.systemConfigContents }}
+        {{- if .Values.controller.envFromSecret }}
+        envFrom:
+          - secretRef:
+              name: {{ .Values.controller.envFromSecret }}
+        {{- end }}
+        env:
+          - name: PROVAZIO_CONTROLLER_RESOURCES
+            value: {{ join "," .Values.controller.crd.kinds | quote }}
+          {{- if .Values.controller.controlAccessKey }}
+          - name: PROVAZIO_CONTROLLER_CONTROL_ACCESS_KEY
+            value: {{ .Values.controller.controlAccessKey }}
+          {{- end }}
+          {{- if .Values.controller.artifactVersionManifestContents }}
+          - name: PROVAZIO_CONTROLLER_ARTIFACT_VERSION_RESOLVER_MANIFEST_PATH
+            value: {{ .Values.controller.artifactVersionManifestDir }}/artifact-version-manifest.json
+          {{- end }}
+          {{- if .Values.controller.systemConfigContents }}
+          - name: PROVAZIO_CONTROLLER_SYSTEM_CONFIG_PATH
+            value: {{ .Values.controller.systemConfigDir }}/system-config.json
+          {{- end }}
+          {{- if or .Values.controller.artifactVersionManifestContents .Values.controller.systemConfigContents }}
         volumeMounts:
-{{- if .Values.controller.artifactVersionManifestContents }}
+          {{- if .Values.controller.artifactVersionManifestContents }}
           - mountPath: {{ .Values.controller.artifactVersionManifestDir | quote }}
             name: artifact-version-manifest
-{{- end }}
-{{- if .Values.controller.systemConfigContents }}
+          {{- end }}
+          {{- if .Values.controller.systemConfigContents }}
           - mountPath: {{ .Values.controller.systemConfigDir | quote }}
             name: system-config
-{{- end }}
-{{- end }}
-{{- with .Values.controller.resources }}
+          {{- end }}
+        {{- end }}
+        {{- with .Values.controller.resources }}
         resources:
-{{ toYaml . | indent 10 }}
-{{- end }}
+        {{ toYaml . | indent 10 }}
+        {{- end }}
 
 {{- if or .Values.controller.artifactVersionManifestContents .Values.controller.systemConfigContents }}
       volumes:
