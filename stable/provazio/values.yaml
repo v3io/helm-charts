@@ -6,7 +6,7 @@ dashboard:
 
   image:
     repository: gcr.io/iguazio/provazio-dashboard
-    tag: 0.10.11
+    tag: 0.24.90
     pullPolicy: IfNotPresent
 
   # port: 8060
@@ -125,7 +125,7 @@ controller:
 
   image:
     repository: gcr.io/iguazio/provazio-controller
-    tag: 0.10.11
+    tag: 0.24.90
     pullPolicy: IfNotPresent
 
   # if artifactVersionManifestContents is set, a configuration file will be created and passed
@@ -139,6 +139,9 @@ controller:
   systemConfigContents: ""
 
   controlAccessKey: ""
+
+  # secret name for the controller to use for extra environment variables
+  envFromSecret: ""
 
   crd:
     create: true
