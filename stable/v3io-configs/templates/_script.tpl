@@ -114,3 +114,22 @@ set -e
 {{ include "v3io-configs.script.httpHealthCheck" . }}
 {{ include "v3io-configs.script.javaHealthCheckTest" . }}
 {{- end -}}
+
+{{- define "v3io-configs.script.v3ioDaemonHealthCheck" -}}
+CONFIGURED_V3IOD=$(grep "socket.host" $IGZ_DATA_CONFIG_FILE | cut -f2 -d"=")
+if [ "${CONFIGURED_V3IOD}" != "CURRENT_NODE_IP" ]; then
+  run_id_file=/tmp/v3iod_run_id
+  run_id=`/var/run/iguazio/daemon_health/healthz --host ${CONFIGURED_V3IOD}`
+  if [ -n "$run_id" ]; then
+    if test -f "$run_id_file"; then
+      saved_run_id=`cat /tmp/v3iod_run_id`
+      if [ "$run_id" != "$saved_run_id" ]; then
+        echo "v3iod run ID ($run_id) did not match previously received run ID ($saved_run_id)"
+        exit 1
+      fi
+    else
+      echo "$run_id" > /tmp/v3iod_run_id
+    fi
+  fi
+fi
+{{- end -}}
