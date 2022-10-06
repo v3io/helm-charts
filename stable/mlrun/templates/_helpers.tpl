@@ -224,6 +224,7 @@ Common selector labels
 {{- define "mlrun.common.selectorLabels" -}}
 app.kubernetes.io/name: {{ include "mlrun.name" . }}
 app.kubernetes.io/instance: {{ .Release.Name }}
+release: {{ .Release.Name }}
 {{- end -}}
 
 {{/*
