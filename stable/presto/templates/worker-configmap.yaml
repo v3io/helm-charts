@@ -103,10 +103,7 @@ data:
     echo "Connectivity check passed. RC=$RC"
 
     set -e
-    CONFIGURED_V3IOD=$(grep "socket.host" $IGZ_DATA_CONFIG_FILE | cut -f2 -d"=")
-    if [ "${CONFIGURED_V3IOD}" != "CURRENT_NODE_IP" ]; then
-      /var/run/iguazio/daemon_health/healthz --host ${CONFIGURED_V3IOD}
-    fi
+{{ include "v3io-configs.script.v3ioDaemonHealthCheck" . | indent 4 }}
 
   daemon-health.sh: |
     #!/usr/bin/env bash
