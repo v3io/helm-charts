@@ -12,9 +12,11 @@ spec:
     - port: {{ .Values.serviceHostPort }}
       targetPort: {{ .Values.hostPort }}
       name: web-api-http
+{{- if .Values.exposeHttpsPort }}
     - port: {{ .Values.serviceSSLHostPort }}
       targetPort: {{ .Values.sslHostPort }}
       name: web-api-https
+{{- end }}
   selector:
     app: {{ template "v3io-webapi.name" . }}
     release: {{ .Release.Name }}

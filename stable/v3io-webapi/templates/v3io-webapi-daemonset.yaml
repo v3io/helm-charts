@@ -42,8 +42,10 @@ spec:
           ports:
             - containerPort: {{ .Values.hostPort }}
               name: v3io-webapi
+{{- if .Values.exposeHttpsPort }}
             - containerPort: {{ .Values.sslHostPort }}
               name: v3io-webapi-ssl
+{{- end }}
           livenessProbe:
             tcpSocket:
               port: {{ .Values.hostPort }}
