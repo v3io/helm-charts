@@ -47,7 +47,7 @@ serviceSSLHostPort: 8443
 workerRlimit : 8192
 workerProcesses: auto
 workerConnections: 1024
-exposeHttpsPort: false
+useHostNetwork: false
 
 nginxV3ioConfig:
   jsonConf:
