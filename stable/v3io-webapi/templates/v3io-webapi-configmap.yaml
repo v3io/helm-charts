@@ -58,18 +58,14 @@ data:
         tcp_nodelay         on;
         keepalive_timeout   65;
 
-{{- if .Values.exposeHttpsPort }}
         map $server_port  $StrictTransportSecurityHeaderValue {
             {{ .Values.sslHostPort }}     'max-age=31536000; includeSubDomains';
             default  '';
         }
-{{- end }}
 
         server {
             listen                    {{ .Values.hostPort }};
-{{- if .Values.exposeHttpsPort }}
             listen                    {{ .Values.sslHostPort }} ssl;
-{{- end }}
             server_name               localhost;
             server_tokens off;
 
@@ -93,9 +89,7 @@ data:
                 # Append CORS headers to any request from
                 # allowed CORS domain, except OPTIONS
                 if ($cors = "1") {
-{{- if .Values.exposeHttpsPort }}
                     add_header     'Strict-Transport-Security' $StrictTransportSecurityHeaderValue;
-{{- end }}
                     add_header     'Access-Control-Allow-Origin' '$http_origin';
                     add_header     'Access-Control-Allow-Credentials' 'true';
                     root            /root/ctnr;
