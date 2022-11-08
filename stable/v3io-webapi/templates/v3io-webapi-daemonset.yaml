@@ -26,7 +26,11 @@ spec:
         checksum/config: {{ include (print $.Template.BasePath "/v3io-webapi-configmap.yaml") . | sha256sum }}
     spec:
       hostPID: true
+{{- if .Values.exposeHttpsPort }}
       hostNetwork: true
+{{- else }}
+      hostNetwork: false
+{{- end }}
       securityContext:
         runAsUser: 0
         fsGroup: 0
