@@ -37,7 +37,11 @@ data:
 
 {{ include "v3io-configs.script.lookupService" . | indent 4 }}
 
-    test -e ${HOME}/.bashrc || touch ${HOME}/.bashrc
+    # reset .bashrc on revision update
+    if ! $(grep -q IGZ_BASHRC_REV_1 ${HOME}/.bashrc); then
+      echo -e '#IGZ_BASHRC_REV_1\n' > ${HOME}/.bashrc
+    fi
+    
 {{- if and .Values.v3io.downloadBinaries }}
 {{- range $binary, $url := .Values.v3io.downloadBinaries }}
     curl --disable -sSL -o ${IGUAZIO_HOME}/bin/{{ $binary }} {{ $url }}
@@ -105,7 +109,6 @@ data:
 
 {{- if .Values.hive }}
     echo alias hive=\"JAVA_HOME=${IGUAZIO_HOME}/jdk-8u181 ${HIVE_HOME}/bin/hive -hiveconf hive.exec.scratchdir={{ .Values.hive.scratchDirPrefix }}/${V3IO_USERNAME}/hive -hiveconf hive.metastore.uris=thrift://{{ .Values.hive.metastore.hostname }}:{{ .Values.hive.metastore.port }} \$@\" >> ${IGUAZIO_HOME}/.hive_alias
-
     if [ "$(grep --count 'HIVE CONFIG' ${HOME}/.bashrc)" == "0" ]; then
       echo "# ----- HIVE CONFIG -----" >> ${HOME}/.bashrc
       echo "test -e ${IGUAZIO_HOME}/.hive_alias" && echo "source ${IGUAZIO_HOME}/.hive_alias" >> ${HOME}/.bashrc
@@ -113,7 +116,6 @@ data:
     fi
 {{- end }}
 
-    echo "echo ''" >> ${HOME}/.bashrc
 {{- if .Values.config.logo }}
     if [ "$(grep --count 'LOGO CONFIG' ${HOME}/.bashrc)" == "0" ]; then
       echo "# ----- LOGO CONFIG -----" >> ${HOME}/.bashrc
@@ -122,10 +124,10 @@ data:
       echo "echo {{ .Values.config.logo }} | base64 --decode" >> ${HOME}/.bashrc
       echo "printf '\033[?7h'" >> ${HOME}/.bashrc
       echo "echo ''" >> ${HOME}/.bashrc
-      echo "echo ''" >> ${HOME}/.bashrc
       echo "# --- END LOGO CONFIG ---" >> ${HOME}/.bashrc
     fi
 {{- end }}
+
 {{- if .Values.config.welcome }}
     if [ "$(grep --count 'WELCOME CONFIG' ${HOME}/.bashrc)" == "0" ]; then
       echo "# ----- WELCOME CONFIG -----" >> ${HOME}/.bashrc
@@ -135,24 +137,12 @@ data:
     fi
 {{- end }}
 
-    if [ ! -e "${HOME}/.condarc" ]; then
-      conda config --set always_softlink False
-      conda config --set always_copy True
-      conda config --add envs_dirs ${HOME}/.conda/envs
-      conda init bash 2>&1
-      mkdir -p ${HOME}/.conda/envs
-    fi
-
-    mkdir -p ${HOME}/.pythonlibs
-    export IGZ_ORIG_PIP_PREFIX="${HOME}/.pythonlibs"
-    export IGZ_ORIG_PYTHONPATH="${HOME}/.pythonlibs/lib/python3.7/site-packages:${PYTHONPATH}"
-    export PATH="${PATH}:${HOME}/.pythonlibs/bin"
-
-    if [ "$(grep --count 'IGUAZIO CONFIG' ${HOME}/.bashrc)" == "0" ]; then
-      echo "# ----- IGUAZIO CONFIG -----" >> ${HOME}/.bashrc
+    if [ "$(grep --count 'IGUAZIO PROMPT CONFIG' ${HOME}/.bashrc)" == "0" ]; then
+      cp ${CONDA_HOME}/.bash_prompt.sh ${HOME}
+      echo "# ----- IGUAZIO PROMPT CONFIG -----" >> ${HOME}/.bashrc
       echo alias ll=\"ls -lah --color\" >> ${HOME}/.bashrc
-      echo "source ${IGUAZIO_HOME}/bash-it.sh" >> ${HOME}/.bashrc
-      echo "# --- END IGUAZIO CONFIG ---" >> ${HOME}/.bashrc
+      echo "source ${HOME}/.bash_prompt.sh" >> ${HOME}/.bashrc
+      echo "# --- END IGUAZIO PROMPT CONFIG ---" >> ${HOME}/.bashrc
     fi
 
     if [ "$(grep --count 'KUBECTL AUTOCOMPLETION' ${HOME}/.bashrc)" == "0" ]; then
@@ -166,6 +156,63 @@ data:
       echo "# ----- END KUBECTL AUTOCOMPLETION -----" >> ${HOME}/.bashrc
     fi
 
+    # populate .condarc, create conda env dir (fuse) and init
+    if [ ! -e "${HOME}/.condarc" ]; then
+      cp /conda/.condarc ${HOME}/
+    fi
+    if [ ! -d "${HOME}/.conda/envs" ]; then 
+      mkdir -p ${HOME}/.conda/envs
+    fi
+    if [ "$(grep --count '>>> conda initialize >>>' ${HOME}/.bashrc)" == "0" ]; then
+      conda init bash 2>&1
+    fi
+
+    echo "source ${HOME}/.bashrc" > ${HOME}/.bash_profile
+
+    touch ${HOME}/.viminfo
+    chmod a+w ${HOME}/.viminfo
+
+    # Remove term= line from .vimrc - setting causes some keys (for ex. del) not to work
+    if [ -e "${HOME}/.vimrc" ]; then
+      sed -i '/:set term=builtin_ansi/d' ${HOME}/.vimrc
+    fi
+
+    # disable pip user (local) installations
+    export PYTHONNOUSERSITE=False
+
+    # Prevent git from failing on fuse mount (not owned by iguazio user)
+    # https://stackoverflow.com/questions/72978485/ubuntu-20-04-git-submodule-update-failed-with-fatal-detected-dubious-ownershi
+    if [ "$(git config --global --get safe.directory)" != "*" ]; then
+      git config --global --add safe.directory '*'
+    fi    
+
+    # https://github.com/conda/conda/issues/7791
+    if [ "$(grep --count 'BLOCK INSTALL ON CONDA BASE' ${HOME}/.bashrc)" == "0" ]; then
+      echo '# ----- BLOCK INSTALL ON CONDA BASE -----' >> ${HOME}/.bashrc
+      echo 'function pip(){' >> ${HOME}/.bashrc
+      echo '  if [ "${CONDA_DEFAULT_ENV-}" = "base" ] && [ "$1" = "install" ]; then' >> ${HOME}/.bashrc
+      echo '    echo "Not allowed in conda (base) environment where package updates are not persistent."' >> ${HOME}/.bashrc
+      echo '    echo "Please create or activate another conda environment."' >> ${HOME}/.bashrc
+      echo '  else' >> ${HOME}/.bashrc
+      echo '    command pip "$@"' >> ${HOME}/.bashrc
+      echo '  fi' >> ${HOME}/.bashrc
+      echo '}' >> ${HOME}/.bashrc
+      echo '' >> ${HOME}/.bashrc
+      echo 'function extended_conda(){' >> ${HOME}/.bashrc
+      echo '  if [ "${CONDA_DEFAULT_ENV-}" = "base" ] && [ "$1" = "install" ]; then' >> ${HOME}/.bashrc
+      echo '    echo "Not allowed in conda (base) environment where package updates are not persistent."' >> ${HOME}/.bashrc
+      echo '    echo "Please create or activate another conda environment."' >> ${HOME}/.bashrc
+      echo '  elif [[ ${CONDA_DEFAULT_ENV-} =~ jupyter|mlrun-base|mlrun-extended ]] && [ "$1" = "install" ]; then' >> ${HOME}/.bashrc
+      echo '    echo "Conda installs to (${CONDA_DEFAULT_ENV}) environment are not persistent."' >> ${HOME}/.bashrc
+      echo '    echo "Either use PIP which is persistent or create/activate another conda environment."' >> ${HOME}/.bashrc      
+      echo '  else' >> ${HOME}/.bashrc
+      echo '    conda "$@"' >> ${HOME}/.bashrc
+      echo '  fi' >> ${HOME}/.bashrc
+      echo '}' >> ${HOME}/.bashrc
+      echo 'alias conda=extended_conda' >> ${HOME}/.bashrc
+      echo '# ----- END BLOCK INSTALL ON CONDA BASE -----' >> ${HOME}/.bashrc
+    fi
+
 {{- if .Values.sshServer.enabled }}
     cp /var/run/iguazio/secrets/ssh/* ${IGUAZIO_HOME}/.ssh
 
@@ -176,16 +223,13 @@ data:
     /usr/sbin/sshd -f /etc/ssh/sshd_config
 {{- end }}
 
-    unset PYTHONPATH
-    env | egrep -v "^HOME" | awk -F"=" '{printf("export %s=\"%s\"\n",$1,$2)}' > /User/.ssh_environment
-    echo "source /User/.ssh_environment" >> /igz/.profile
-    echo "conda config --set always_softlink False" >> /igz/.profile
-    echo "conda config --set always_copy True" >> /igz/.profile
-    echo "conda config --add envs_dirs ${HOME}/.conda/envs" >> /igz/.profile
-    echo "conda init bash 2>&1 > /dev/null" >> /igz/.profile
-
-    echo "source activate base" >> /igz/.profile
+    # fix ssh env (ssh default home is /igz)
+    if [ ! -e "${HOME}/.ssh_environment" ]; then
+      echo "source ${HOME}/.ssh_environment" > /igz/.profile
+      echo "cd ${HOME}" > /igz/.profile
+      echo "source ${HOME}/.bashrc" >> /igz/.profile
+    fi
+    env | awk -F"=" '{printf("export %s=\"%s\"\n",$1,$2)}' > ${HOME}/.ssh_environment
 
     source activate base
-
     ttyd bash
