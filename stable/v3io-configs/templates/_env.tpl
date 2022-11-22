@@ -1,6 +1,6 @@
 {{- define "v3io-configs.auth-only.secret" -}}
 {{- if .Values.v3io.username }}
-username: {{ .Values.v3io.username | b64enc | quote }}
+username: {{ .Values.v3io.username | toString | b64enc | quote }}
 {{- end  }}
 {{- if .Values.v3io.tenant }}
 tenant: {{ .Values.v3io.tenant | b64enc | quote }}
