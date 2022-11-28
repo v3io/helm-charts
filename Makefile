@@ -59,7 +59,7 @@ cleanup-tmp-workspace:
 
 
 .PHONY: helm-publish-all
-helm-publish-all: check-helm cleanup-tmp-workspace
+helm-publish-all: check-helm update-req cleanup-tmp-workspace
 helm-publish-all:
 	@echo "Preparing to release a new index from $(GITHUB_BRANCH)"
 	@git clone -b gh-pages --single-branch $(PUBLISH_REPO) /tmp/v3io-helm-charts
