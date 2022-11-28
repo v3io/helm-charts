@@ -35,17 +35,6 @@
       dirsToCreate: '[{"name": "{{ default "users" .Values.global.v3io.homeContainer }}/{{ default "" .Values.global.v3io.homePrefix }}/{{ .Values.v3io.username }}", "permissions": 488}]'
 {{- end -}}
 
-{{- define "v3io-configs.deployment.mount-with-fuse-csi" -}}
-{{- include "v3io-configs.deployment.mount" . }}
-- name: v3io-fuse
-  csi:
-    driver: fuse-csi-{{ .Release.Namespace }}
-    nodePublishSecretRef:
-      name: {{ .Release.Name }}-v3io-fuse
-    volumeAttributes:
-      dirsToCreate: '[{"name": "{{ default "users" .Values.global.v3io.homeContainer }}/{{ default "" .Values.global.v3io.homePrefix }}/{{ .Values.v3io.username }}", "permissions": 488}]'
-{{- end -}}
-
 {{- define "v3io-configs.deployment.volumeMounts-with-fuse" -}}
 {{- include "v3io-configs.deployment.volumeMounts" . }}
 - name: v3io-fuse
