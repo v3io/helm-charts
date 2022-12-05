@@ -56,6 +56,7 @@ data:
     ALIGN_MLRUN_SCRIPT="${HOME}/align_mlrun.sh"
     if [ ! -e ${ALIGN_MLRUN_SCRIPT} ]; then
       touch ${ALIGN_MLRUN_SCRIPT}
+      echo "$CONDA_HOME/bin/pip install --upgrade pip~=22.3.1" >> ${ALIGN_MLRUN_SCRIPT}
       echo "CLIENT_MLRUN_VERSION=\`pip show mlrun | grep Version | awk '{print \$2}'\`" >> ${ALIGN_MLRUN_SCRIPT}
       echo "SERVER_MLRUN_VERSION=\`curl -s \${IGZ_MLRUN_API_ENDPOINT}/api/healthz | python3 -c \"import sys, json; print(json.load(sys.stdin)['version'])\"\`" >> ${ALIGN_MLRUN_SCRIPT}
       echo "if [ \"\${CLIENT_MLRUN_VERSION}\" = \"\${SERVER_MLRUN_VERSION}\" ] || [ \"\${CLIENT_MLRUN_VERSION}\" = \"\${SERVER_MLRUN_VERSION//-}\" ]; then" >> ${ALIGN_MLRUN_SCRIPT}
