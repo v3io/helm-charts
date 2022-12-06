@@ -273,6 +273,12 @@ data:
     export IGZ_ORIG_PYTHONPATH="${PIP_USER_PATH}/lib/python3.7/site-packages:${PYTHONPATH}"
     export PATH="${PATH}:${PIP_USER_PATH}/bin"
 
+    # Prevent git from failing on fuse mount (not owned by iguazio user)
+    # https://stackoverflow.com/questions/72978485/ubuntu-20-04-git-submodule-update-failed-with-fatal-detected-dubious-ownershi
+    if [ "$(git config --global --get safe.directory)" != "*" ]; then
+      git config --global --add safe.directory '*'
+    fi
+
     if [ "$(grep --count 'JUPYTER TERMINAL PATH SUPPORT' ${HOME}/.bashrc)" == "0" ]; then
       echo "# ----- JUPYTER TERMINAL PATH SUPPORT -----" >> ${HOME}/.bashrc
       echo 'if [ ! -z $JUPYTER_SERVER_ROOT ]; then' >> ${HOME}/.bashrc
