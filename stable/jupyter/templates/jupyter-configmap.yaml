@@ -56,6 +56,11 @@ data:
     ALIGN_MLRUN_SCRIPT="${HOME}/align_mlrun.sh"
     if [ ! -e ${ALIGN_MLRUN_SCRIPT} ]; then
       touch ${ALIGN_MLRUN_SCRIPT}
+      echo "PIP_VERSION=\`pip --version | awk '{print \$2}'\`" >> ${ALIGN_MLRUN_SCRIPT}
+      echo "if [ \"\${PIP_VERSION}\" == \"\" ] || dpkg --compare-versions \"\${PIP_VERSION}\" \"lt\" \"22.0.4\" ; then" >> ${ALIGN_MLRUN_SCRIPT}
+      echo "  echo \"Upgrading pip to 22.0.4 ...\"" >> ${ALIGN_MLRUN_SCRIPT}
+      echo "  conda install https://anaconda.org/conda-forge/pip/22.0.4/download/noarch/pip-22.0.4-pyhd8ed1ab_0.tar.bz2;" >> ${ALIGN_MLRUN_SCRIPT}
+      echo "fi" >> ${ALIGN_MLRUN_SCRIPT}
       echo "CLIENT_MLRUN_VERSION=\`pip show mlrun | grep Version | awk '{print \$2}'\`" >> ${ALIGN_MLRUN_SCRIPT}
       echo "SERVER_MLRUN_VERSION=\`curl -s \${IGZ_MLRUN_API_ENDPOINT}/api/healthz | python3 -c \"import sys, json; print(json.load(sys.stdin)['version'])\"\`" >> ${ALIGN_MLRUN_SCRIPT}
       echo "if [ \"\${CLIENT_MLRUN_VERSION}\" = \"\${SERVER_MLRUN_VERSION}\" ] || [ \"\${CLIENT_MLRUN_VERSION}\" = \"\${SERVER_MLRUN_VERSION//-}\" ]; then" >> ${ALIGN_MLRUN_SCRIPT}
@@ -267,6 +272,12 @@ data:
     export IGZ_ORIG_PIP_PREFIX="${PIP_USER_PATH}"
     export IGZ_ORIG_PYTHONPATH="${PIP_USER_PATH}/lib/python3.7/site-packages:${PYTHONPATH}"
     export PATH="${PATH}:${PIP_USER_PATH}/bin"
+
+    # Prevent git from failing on fuse mount (not owned by iguazio user)
+    # https://stackoverflow.com/questions/72978485/ubuntu-20-04-git-submodule-update-failed-with-fatal-detected-dubious-ownershi
+    if [ "$(git config --global --get safe.directory)" != "*" ]; then
+      git config --global --add safe.directory '*'
+    fi
 
     if [ "$(grep --count 'JUPYTER TERMINAL PATH SUPPORT' ${HOME}/.bashrc)" == "0" ]; then
       echo "# ----- JUPYTER TERMINAL PATH SUPPORT -----" >> ${HOME}/.bashrc
