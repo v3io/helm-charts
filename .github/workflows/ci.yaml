@@ -105,10 +105,10 @@ jobs:
       with:
         version: "v3.9.1"
 
-    - uses: manusa/actions-setup-minikube@v2.4.2
+    - uses: manusa/actions-setup-minikube@v2.7.1
       if: steps.chart_changed.outputs.any_changed == 'true'
       with:
-        minikube version: "v1.26.0"
+        minikube version: "v1.26.1"
         kubernetes version: "v1.23.9"
         driver: docker
         github token: ${{ github.token }}
