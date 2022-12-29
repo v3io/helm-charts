@@ -53,8 +53,8 @@ data:
     ALIGN_MLRUN_SCRIPT="${HOME}/align_mlrun.sh"
     rm -f ${ALIGN_MLRUN_SCRIPT}
     touch ${ALIGN_MLRUN_SCRIPT}
-    echo "if [[ ! -z $PYTHONPATH ]]; then" >> ${ALIGN_MLRUN_SCRIPT}
-    echo "  echo \"PYTHONPATH is set and shouldn't be when working in conda environment. Use 'unset PYTHONPATH' and run the script again\"" >> ${ALIGN_MLRUN_SCRIPT}
+    echo "if [[ ! -z /"${PYTHONPATH}/" ]]; then" >> ${ALIGN_MLRUN_SCRIPT}
+    echo "  echo \"PYTHONPATH is set and shouldn't be when working in conda environment. Use 'unset PYTHONPATH' and run the script again.\"" >> ${ALIGN_MLRUN_SCRIPT}
     echo "  exit" >> ${ALIGN_MLRUN_SCRIPT}
     echo "fi" >> ${ALIGN_MLRUN_SCRIPT}
     echo "PIP_VERSION=\`pip --version | awk '{print \$2}'\`" >> ${ALIGN_MLRUN_SCRIPT}
