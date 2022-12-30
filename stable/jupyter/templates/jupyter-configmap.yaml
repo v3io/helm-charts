@@ -54,7 +54,10 @@ data:
 {{- end }}
 
     ALIGN_MLRUN_SCRIPT="${HOME}/align_mlrun.sh"
-    rm -f ${ALIGN_MLRUN_SCRIPT}
+    ALIGN_MLRUN_BACKUP_SCRIPT="${HOME}/align_mlrun_backup.sh"
+    if [ -e ${ALIGN_MLRUN_SCRIPT} ]; then
+       mv ${ALIGN_MLRUN_SCRIPT} ${ALIGN_MLRUN_BACKUP_SCRIPT}
+    fi
     touch ${ALIGN_MLRUN_SCRIPT}
     echo "PIP_VERSION=\`pip --version | awk '{print \$2}'\`" >> ${ALIGN_MLRUN_SCRIPT}
     echo "if [ \"\${PIP_VERSION}\" == \"\" ] || dpkg --compare-versions \"\${PIP_VERSION}\" \"lt\" \"22.0.4\" ; then" >> ${ALIGN_MLRUN_SCRIPT}
