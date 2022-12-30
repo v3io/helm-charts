@@ -59,6 +59,8 @@ data:
        mv --force ${ALIGN_MLRUN_SCRIPT} ${ALIGN_MLRUN_BACKUP_SCRIPT}
     fi
     touch ${ALIGN_MLRUN_SCRIPT}
+    echo "# This script is used to align the mlrun client and server versions." >> ${ALIGN_MLRUN_SCRIPT}
+    echo "# If any changes to the script are made, store them externally as this file may be overridden." >> ${ALIGN_MLRUN_SCRIPT}
     echo "PIP_VERSION=\`pip --version | awk '{print \$2}'\`" >> ${ALIGN_MLRUN_SCRIPT}
     echo "if [ \"\${PIP_VERSION}\" == \"\" ] || dpkg --compare-versions \"\${PIP_VERSION}\" \"lt\" \"22.0.4\" ; then" >> ${ALIGN_MLRUN_SCRIPT}
     echo "  echo \"Upgrading pip to 22.0.4 ...\"" >> ${ALIGN_MLRUN_SCRIPT}
