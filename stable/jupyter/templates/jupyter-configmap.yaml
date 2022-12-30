@@ -56,7 +56,7 @@ data:
     ALIGN_MLRUN_SCRIPT="${HOME}/align_mlrun.sh"
     ALIGN_MLRUN_BACKUP_SCRIPT="${HOME}/align_mlrun_backup.sh"
     if [ -e ${ALIGN_MLRUN_SCRIPT} ]; then
-       mv ${ALIGN_MLRUN_SCRIPT} ${ALIGN_MLRUN_BACKUP_SCRIPT}
+       mv --force ${ALIGN_MLRUN_SCRIPT} ${ALIGN_MLRUN_BACKUP_SCRIPT}
     fi
     touch ${ALIGN_MLRUN_SCRIPT}
     echo "PIP_VERSION=\`pip --version | awk '{print \$2}'\`" >> ${ALIGN_MLRUN_SCRIPT}
