@@ -56,13 +56,10 @@ data:
     ALIGN_MLRUN_SCRIPT="${HOME}/align_mlrun.sh"
     rm -f ${ALIGN_MLRUN_SCRIPT}
     touch ${ALIGN_MLRUN_SCRIPT}
-    echo "if [[ ! -z \"\${PYTHONPATH}\" ]]; then" >> ${ALIGN_MLRUN_SCRIPT}
-    echo "  echo \"PYTHONPATH is set and shouldn't be when working in conda environment. Use 'unset PYTHONPATH' and run the script again.\"" >> ${ALIGN_MLRUN_SCRIPT}
-    echo "  exit" >> ${ALIGN_MLRUN_SCRIPT}
-    echo "fi" >> ${ALIGN_MLRUN_SCRIPT}
     echo "PIP_VERSION=\`pip --version | awk '{print \$2}'\`" >> ${ALIGN_MLRUN_SCRIPT}
     echo "if [ \"\${PIP_VERSION}\" == \"\" ] || dpkg --compare-versions \"\${PIP_VERSION}\" \"lt\" \"22.0.4\" ; then" >> ${ALIGN_MLRUN_SCRIPT}
     echo "  echo \"Upgrading pip to 22.0.4 ...\"" >> ${ALIGN_MLRUN_SCRIPT}
+    echo "  pip uninstall -y pip" >> ${ALIGN_MLRUN_SCRIPT}
     echo "  conda install https://anaconda.org/conda-forge/pip/22.0.4/download/noarch/pip-22.0.4-pyhd8ed1ab_0.tar.bz2;" >> ${ALIGN_MLRUN_SCRIPT}
     echo "fi" >> ${ALIGN_MLRUN_SCRIPT}
     echo "CLIENT_MLRUN_VERSION=\`pip show mlrun | grep Version | awk '{print \$2}'\`" >> ${ALIGN_MLRUN_SCRIPT}
