@@ -54,17 +54,17 @@ data:
     if [ ! -e ${ALIGN_MLRUN_SCRIPT} ]; then
       touch ${ALIGN_MLRUN_SCRIPT}
       cat << EOF > ${ALIGN_MLRUN_SCRIPT}
-      CLIENT_MLRUN_VERSION=\`pip show mlrun | grep Version | awk '{print \$2}'\`
-      SERVER_MLRUN_VERSION=\`curl -s \${IGZ_MLRUN_API_ENDPOINT}/api/healthz | python3 -c "import sys, json; print(json.load(sys.stdin)['version'])"\`
-      if [ "\${CLIENT_MLRUN_VERSION}" = "\${SERVER_MLRUN_VERSION}" ] || [ "\${CLIENT_MLRUN_VERSION}" = "\${SERVER_MLRUN_VERSION//-}" ]; then
-        echo "Both server & client are aligned (\${CLIENT_MLRUN_VERSION})."
-      else
-        if [ \${CLIENT_MLRUN_VERSION} ]; then
-          pip uninstall -y mlrun
-        fi
-        pip install mlrun[complete]==\${SERVER_MLRUN_VERSION}
+    CLIENT_MLRUN_VERSION=\`pip show mlrun | grep Version | awk '{print \$2}'\`
+    SERVER_MLRUN_VERSION=\`curl -s \${IGZ_MLRUN_API_ENDPOINT}/api/healthz | python3 -c "import sys, json; print(json.load(sys.stdin)['version'])"\`
+    if [ "\${CLIENT_MLRUN_VERSION}" = "\${SERVER_MLRUN_VERSION}" ] || [ "\${CLIENT_MLRUN_VERSION}" = "\${SERVER_MLRUN_VERSION//-}" ]; then
+      echo "Both server & client are aligned (\${CLIENT_MLRUN_VERSION})."
+    else
+      if [ \${CLIENT_MLRUN_VERSION} ]; then
+        pip uninstall -y mlrun
       fi
-      EOF
+      pip install mlrun[complete]==\${SERVER_MLRUN_VERSION}
+    fi
+    EOF
       chmod a+x ${ALIGN_MLRUN_SCRIPT}
     fi
 
