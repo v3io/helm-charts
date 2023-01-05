@@ -54,32 +54,22 @@ data:
 {{- end }}
 
     ALIGN_MLRUN_SCRIPT="${HOME}/align_mlrun.sh"
-    ALIGN_MLRUN_BACKUP_SCRIPT="${HOME}/align_mlrun_backup.sh"
-    if [ -e ${ALIGN_MLRUN_SCRIPT} ]; then
-       mv --force ${ALIGN_MLRUN_SCRIPT} ${ALIGN_MLRUN_BACKUP_SCRIPT}
-    fi
-    touch ${ALIGN_MLRUN_SCRIPT}
-    cat << EOF > ${ALIGN_MLRUN_SCRIPT}
-    # This script is used to align the mlrun client and server versions.
-    # If any changes to the script are made, store them externally as this file may be overridden.
-    PIP_VERSION=\`pip --version | awk '{print \$2}'\`
-    if [ "\${PIP_VERSION}" == "" ] || dpkg --compare-versions "\${PIP_VERSION}" "lt" "22.0.4" ; then
-      echo "Upgrading pip to 22.0.4 ..."
-      pip uninstall -y pip
-      conda install https://anaconda.org/conda-forge/pip/22.0.4/download/noarch/pip-22.0.4-pyhd8ed1ab_0.tar.bz2;
-    fi
-    CLIENT_MLRUN_VERSION=\`pip show mlrun | grep Version | awk '{print \$2}'\`
-    SERVER_MLRUN_VERSION=\`curl -s \${IGZ_MLRUN_API_ENDPOINT}/api/healthz | python3 -c "import sys, json; print(json.load(sys.stdin)['version'])"\`
-    if [ "\${CLIENT_MLRUN_VERSION}" = "\${SERVER_MLRUN_VERSION}" ] || [ "\${CLIENT_MLRUN_VERSION}" = "\${SERVER_MLRUN_VERSION//-}" ]; then
-      echo "Both server & client are aligned (\${CLIENT_MLRUN_VERSION})."
-    else
-      if [ \${CLIENT_MLRUN_VERSION} ]; then
-        pip uninstall -y mlrun
+    if [ ! -e ${ALIGN_MLRUN_SCRIPT} ]; then
+      touch ${ALIGN_MLRUN_SCRIPT}
+      cat << EOF > ${ALIGN_MLRUN_SCRIPT}
+      CLIENT_MLRUN_VERSION=\`pip show mlrun | grep Version | awk '{print \$2}'\`
+      SERVER_MLRUN_VERSION=\`curl -s \${IGZ_MLRUN_API_ENDPOINT}/api/healthz | python3 -c "import sys, json; print(json.load(sys.stdin)['version'])"\`
+      if [ "\${CLIENT_MLRUN_VERSION}" = "\${SERVER_MLRUN_VERSION}" ] || [ "\${CLIENT_MLRUN_VERSION}" = "\${SERVER_MLRUN_VERSION//-}" ]; then
+        echo "Both server & client are aligned (\${CLIENT_MLRUN_VERSION})."
+      else
+        if [ \${CLIENT_MLRUN_VERSION} ]; then
+          pip uninstall -y mlrun
+        fi
+        pip install mlrun[complete]==\${SERVER_MLRUN_VERSION}
       fi
-      pip install mlrun[complete]==\${SERVER_MLRUN_VERSION}
+      EOF
+      chmod a+x ${ALIGN_MLRUN_SCRIPT}
     fi
-    EOF
-    chmod a+x ${ALIGN_MLRUN_SCRIPT}
 
     mkdir -p ${HOME}/.igz
     if [ ! -e "${HOME}/.igz/.getting-started" ] && [ ! -z ${IGZ_JUPYTER_TUTORIALS_URL} ] && [ ! -z ${IGZ_MLRUN_DEMOS_URL} ]; then
