@@ -105,7 +105,7 @@ spec:
             value: "true"
           - name: MLRUN_SIDECAR__LOG_COLLECTOR__ADDRESS
             value: {{ include "mlrun.api.sidecars.logCollector.internalAddress" . }}
-          {{ - end }}
+          {{- end }}
           {{- if .Values.api.extraEnv }}
           {{ toYaml .Values.api.extraEnv | nindent 10 }}
           {{- end }}
