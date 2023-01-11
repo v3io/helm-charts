@@ -240,6 +240,52 @@ api:
       periodSeconds: 15
       failureThreshold: 4
 
+  sidecars:
+    logCollector:
+      enabled: false
+      name: log-collector
+      fullnameOverride:
+
+      logLevel: debug
+      logFormat: text
+      listenPort: 8282
+
+      workdir: /var/mlrun/
+
+      image:
+        repository: mlrun/log-collector
+        tag: 1.3.0
+        pullPolicy: IfNotPresent
+        pullSecrets: []
+
+      extraEnv: []
+
+      extraEnvKeyValue: {}
+
+      envFrom:
+        - configMapRef:
+            name: mlrun-log-collector-config
+
+      securityContext: {}
+
+      resources:
+
+      readinessProbe:
+        exec:
+          command: ["/bin/grpc_health_probe", "-addr=:8080"]
+        initialDelaySeconds: 10
+        timeoutSeconds: 10
+        periodSeconds: 15
+        failureThreshold: 4
+
+      livenessProbe:
+        exec:
+          command: ["/bin/grpc_health_probe", "-addr=:8080"]
+        initialDelaySeconds: 10
+        timeoutSeconds: 10
+        periodSeconds: 15
+        failureThreshold: 4
+
 db:
   name: db
   fullnameOverride:

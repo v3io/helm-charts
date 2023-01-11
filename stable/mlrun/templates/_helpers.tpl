@@ -84,6 +84,32 @@ We truncate at 63 chars because some Kubernetes name fields are limited to this 
 {{- end -}}
 {{- end -}}
 
+
+{{/*
+Create a fully qualified api log-collector name.
+We truncate at 63 chars because some Kubernetes name fields are limited to this (by the DNS naming spec).
+*/}}
+{{- define "mlrun.api.sidecars.logCollector.fullname" -}}
+{{- if .Values.api.sidecars.logCollector.fullnameOverride -}}
+{{- .Values.api.sidecars.logCollector.fullnameOverride | trunc 63 | trimSuffix "-" -}}
+{{- else -}}
+{{- $name := default .Chart.Name .Values.nameOverride -}}
+{{- if contains $name .Release.Name -}}
+{{- printf "%s-%s-%s" .Release.Name .Values.api.name .Values.api.sidecars.logCollector.name | trunc 63 | trimSuffix "-" -}}
+{{- else -}}
+{{- printf "%s-%s-%s-%s" .Release.Name $name .Values.api.name .Values.api.sidecars.logCollector.name | trunc 63 | trimSuffix "-" -}}
+{{- end -}}
+{{- end -}}
+{{- end -}}
+
+{{/*
+Create log-collector internal address.
+*/}}
+{{- define "mlrun.api.sidecars.logCollector.internalAddress" -}}
+{{- printf "127.0.0.1:%d" .Values.api.sidecars.logCollector.listenPort -}}
+{{- end -}}
+
+
 {{/*
 Create a fully qualified db name.
 We truncate at 63 chars because some Kubernetes name fields are limited to this (by the DNS naming spec).
