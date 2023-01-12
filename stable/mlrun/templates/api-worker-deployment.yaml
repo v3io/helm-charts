@@ -165,7 +165,7 @@ spec:
               mountPath: /config
               name: config
         {{- end }}
-        {{- if .Values.api.sidecars.logCollector.enabled -}}
+        {{- if .Values.api.sidecars.logCollector.enabled }}
         - name: {{ template "mlrun.name" . }}-{{ .Values.api.sidecars.logCollector.name }}
           securityContext:
             {{- toYaml .Values.api.sidecars.logCollector.securityContext | nindent 12 }}
@@ -189,12 +189,18 @@ spec:
           {{- if .Values.api.sidecars.logCollector.envFrom }}
           envFrom:
           {{ toYaml .Values.api.sidecars.logCollector.envFrom | nindent 10 }}
+          {{- end }}
+          {{- if .Values.api.sidecars.logCollector.livenessProbe }}
           livenessProbe:
-              {{ toYaml .Values.api.sidecars.logCollector.livenessProbe | nindent 12 }}
+            exec:
+              command: [ "/grpc_health_probe", "-addr=:{{ .Values.api.sidecars.logCollector.listenPort }}" ]
+            {{ toYaml .Values.api.sidecars.logCollector.livenessProbe | nindent 12 }}
           {{- end }}
           {{- if .Values.api.sidecars.logCollector.readinessProbe }}
           readinessProbe:
-              {{ toYaml .Values.api.sidecars.logCollector.readinessProbe | nindent 12 }}
+            exec:
+              command: [ "/grpc_health_probe", "-addr=:{{ .Values.api.sidecars.logCollector.listenPort }}" ]
+            {{ toYaml .Values.api.sidecars.logCollector.readinessProbe | nindent 12 }}
           {{- end }}
           resources:
               {{- toYaml .Values.api.sidecars.logCollector.resources | nindent 12 }}

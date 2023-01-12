@@ -242,7 +242,7 @@ api:
 
   sidecars:
     logCollector:
-      enabled: false
+      enabled: true
       name: log-collector
       fullnameOverride:
 
@@ -250,7 +250,7 @@ api:
       logFormat: text
       listenPort: 8282
 
-      workdir: /var/mlrun/
+      workDir: /var/mlrun/
 
       image:
         repository: mlrun/log-collector
@@ -263,24 +263,20 @@ api:
       extraEnvKeyValue: {}
 
       envFrom:
-        - configMapRef:
-            name: mlrun-log-collector-config
+      - configMapRef:
+          name: mlrun-log-collector-config
 
       securityContext: {}
 
       resources:
 
       readinessProbe:
-        exec:
-          command: ["/bin/grpc_health_probe", "-addr=:8080"]
         initialDelaySeconds: 10
         timeoutSeconds: 10
         periodSeconds: 15
         failureThreshold: 4
 
       livenessProbe:
-        exec:
-          command: ["/bin/grpc_health_probe", "-addr=:8080"]
         initialDelaySeconds: 10
         timeoutSeconds: 10
         periodSeconds: 15
