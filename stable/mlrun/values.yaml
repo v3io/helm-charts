@@ -242,7 +242,7 @@ api:
 
   sidecars:
     logCollector:
-      enabled: true
+      enabled: false
       name: log-collector
       fullnameOverride:
 
