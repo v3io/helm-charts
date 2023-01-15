@@ -116,6 +116,10 @@ spec:
 {{- if .Values.config.jsonLogging }}
             - name: JUPYTER_ENABLE_JSON_LOGGING
               value: {{ .Values.config.jsonLogging | quote }}
+{{ - end }}
+{{ - if .Values.config.preferEnvPath }}
+            - name: JUPYTER_PREFER_ENV_PATH
+              value: {{ .Values.config.preferEnvPath | quote }}
 {{- end }}
             - name: SHELL
               value: /bin/bash
