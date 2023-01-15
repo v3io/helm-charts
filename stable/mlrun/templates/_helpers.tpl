@@ -106,7 +106,7 @@ We truncate at 63 chars because some Kubernetes name fields are limited to this 
 Create log-collector internal address.
 */}}
 {{- define "mlrun.api.sidecars.logCollector.internalAddress" -}}
-{{- printf "127.0.0.1:%d" .Values.api.sidecars.logCollector.listenPort -}}
+127.0.0.1:{{- .Values.api.sidecars.logCollector.listenPort -}}
 {{- end -}}
 
 
