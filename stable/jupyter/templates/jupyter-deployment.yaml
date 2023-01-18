@@ -71,14 +71,12 @@ spec:
           command: ["/bin/bash", "{{ .Values.image.command }}"]
           workingDir: "/User"
           args:
-            - --ip="0.0.0.0"
+            - --ip=0.0.0.0
             - --port={{ .Values.servicePort }}
-            - --NotebookApp.token=''
-            - --NotebookApp.password=''
-            - --notebook-dir="/User"
-            - --NotebookApp.default_url="/lab"
-            - --Application.log_level="WARN"
-            - --Application.log_datefmt="%Y-%m-%d_%H:%M:%S"
+            - --notebook-dir=/User
+            - --NotebookApp.default_url=/lab
+            - --Application.log_level=WARN
+            - --Application.log_datefmt=%Y-%m-%d_%H:%M:%S
 {{- if .Values.debug.enabled }}
             - --debug
 {{- end }}
@@ -116,10 +114,6 @@ spec:
 {{- if .Values.config.jsonLogging }}
             - name: JUPYTER_ENABLE_JSON_LOGGING
               value: {{ .Values.config.jsonLogging | quote }}
-{{- end }}
-{{- if .Values.config.preferEnvPath }}
-            - name: JUPYTER_PREFER_ENV_PATH
-              value: {{ .Values.config.preferEnvPath | quote }}
 {{- end }}
             - name: SHELL
               value: /bin/bash
