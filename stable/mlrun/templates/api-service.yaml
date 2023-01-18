@@ -34,5 +34,12 @@ spec:
 {{ if (and (eq .Values.api.service.type "NodePort") (not (empty .Values.api.service.nodePort))) }}
       nodePort: {{.Values.api.service.nodePort}}
 {{ end }}
+{{- if (and .Values.api.sidecars.logCollector.enabled .Values.api.sidecars.logCollector.testNodePortService.enabled) }}
+    - name: log-collector
+      port: {{ .Values.api.sidecars.logCollector.listenPort }}
+      protocol: TCP
+      targetPort: {{ .Values.api.sidecars.logCollector.listenPort }}
+      nodePort: {{ .Values.api.sidecars.logCollector.testNodePortService.nodePort }}
+{{ end }}
   selector:
     {{- include "mlrun.api.selectorLabels" . | nindent 4 }}

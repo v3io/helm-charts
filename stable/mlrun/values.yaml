@@ -262,6 +262,12 @@ api:
 
       extraEnvKeyValue: {}
 
+      testNodePortService:
+        # Add a nodePort to the API service for external access to the log-collector side-car.
+        # On a live system, the log-collector should be deployed with the nodePort disabled.
+        enabled: false
+        nodePort: 30150
+
       envFrom:
       - configMapRef:
           name: mlrun-log-collector-config
