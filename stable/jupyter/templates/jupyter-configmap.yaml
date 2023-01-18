@@ -38,7 +38,10 @@ data:
 
 {{ include "v3io-configs.script.lookupService" . | indent 4 }}
 
-    test -e ${HOME}/.bashrc || touch ${HOME}/.bashrc
+    # reset .bashrc on revision update
+    if ! $(grep -q IGZ_BASHRC_REV_1 ${HOME}/.bashrc); then
+      echo -e '#IGZ_BASHRC_REV_1\n' > ${HOME}/.bashrc
+    fi
 
 {{- if .Values.initCommands }}
     mkdir -p ${HOME}/.igz
@@ -53,18 +56,18 @@ data:
     ALIGN_MLRUN_SCRIPT="${HOME}/align_mlrun.sh"
     if [ ! -e ${ALIGN_MLRUN_SCRIPT} ]; then
       touch ${ALIGN_MLRUN_SCRIPT}
-      cat << EOF > ${ALIGN_MLRUN_SCRIPT}
-    CLIENT_MLRUN_VERSION=\`pip show mlrun | grep Version | awk '{print \$2}'\`
-    SERVER_MLRUN_VERSION=\`curl -s \${IGZ_MLRUN_API_ENDPOINT}/api/healthz | python3 -c "import sys, json; print(json.load(sys.stdin)['version'])"\`
-    if [ "\${CLIENT_MLRUN_VERSION}" = "\${SERVER_MLRUN_VERSION}" ] || [ "\${CLIENT_MLRUN_VERSION}" = "\${SERVER_MLRUN_VERSION//-}" ]; then
-      echo "Both server & client are aligned (\${CLIENT_MLRUN_VERSION})."
-    else
-      if [ \${CLIENT_MLRUN_VERSION} ]; then
-        pip uninstall -y mlrun
-      fi
-      pip install mlrun[complete]==\${SERVER_MLRUN_VERSION}
-    fi
-    EOF
+      echo "CLIENT_MLRUN_VERSION=\`pip show mlrun | grep Version | awk '{print \$2}'\`" >> ${ALIGN_MLRUN_SCRIPT}
+      echo "SERVER_MLRUN_VERSION=\`curl -s \${IGZ_MLRUN_API_ENDPOINT}/api/healthz | python3 -c \"import sys, json; print(json.load(sys.stdin)['version'])\"\`" >> ${ALIGN_MLRUN_SCRIPT}
+      echo "if [ \"\${CLIENT_MLRUN_VERSION}\" = \"\${SERVER_MLRUN_VERSION}\" ] || [ \"\${CLIENT_MLRUN_VERSION}\" = \"\${SERVER_MLRUN_VERSION//-}\" ]; then" >> ${ALIGN_MLRUN_SCRIPT}
+      echo "  echo \"Both server & client are aligned (\${CLIENT_MLRUN_VERSION}).\"" >> ${ALIGN_MLRUN_SCRIPT}
+      echo "else" >> ${ALIGN_MLRUN_SCRIPT}
+      echo "  if [ \${CLIENT_MLRUN_VERSION} ]; then" >> ${ALIGN_MLRUN_SCRIPT}
+      echo "    echo \"Server \${SERVER_MLRUN_VERSION} & client \${CLIENT_MLRUN_VERSION} are unaligned.\"" >> ${ALIGN_MLRUN_SCRIPT}
+      echo "    echo \"Updating client...\"" >> ${ALIGN_MLRUN_SCRIPT}
+      echo "    pip uninstall -y mlrun" >> ${ALIGN_MLRUN_SCRIPT}
+      echo "  fi" >> ${ALIGN_MLRUN_SCRIPT}
+      echo "  pip install mlrun[complete]==\${SERVER_MLRUN_VERSION}" >> ${ALIGN_MLRUN_SCRIPT}
+      echo "fi" >> ${ALIGN_MLRUN_SCRIPT}
       chmod a+x ${ALIGN_MLRUN_SCRIPT}
     fi
 
@@ -93,39 +96,52 @@ data:
       fi
       chmod a+x ${HOME}/igz-tutorials-get.sh ${HOME}/update-demos.sh
       rm -f  /tmp/igz-tutorials-get.sh /tmp/update-demos.sh /tmp/update-tutorials.ipynb
-
       touch ${HOME}/.igz/.getting-started
     fi
 
-
-    if [ ! -e "${HOME}/.jupyter/lab/user-settings/@jupyterlab/terminal-extension/plugin.jupyterlab-settings" ]; then
-        mkdir -p ${HOME}/.jupyter/lab/user-settings/@jupyterlab/terminal-extension
-        touch ${HOME}/.jupyter/lab/user-settings/@jupyterlab/terminal-extension/plugin.jupyterlab-settings
-        echo "{" >> ${HOME}/.jupyter/lab/user-settings/@jupyterlab/terminal-extension/plugin.jupyterlab-settings
-        echo "\"theme\": \"dark\"" >> ${HOME}/.jupyter/lab/user-settings/@jupyterlab/terminal-extension/plugin.jupyterlab-settings
-        echo "}" >> ${HOME}/.jupyter/lab/user-settings/@jupyterlab/terminal-extension/plugin.jupyterlab-settings
+    # Set jupyter directories to fuse (persistent)
+    # https://jupyterlab.readthedocs.io/en/stable/user/directories.html
+    # https://docs.jupyter.org/en/latest/use/jupyter-directories.html
+    export JUPYTERLAB_DIR=${HOME}/.{{ template "jupyter.fullname" . }}/lab
+    export JUPYTERLAB_SETTINGS_DIR=${JUPYTERLAB_DIR}/user-settings
+    export JUPYTERLAB_WORKSPACES_DIR=${JUPYTERLAB_DIR}/workspaces
+    export JUPYTER_DATA_DIR=${JUPYTERLAB_DIR}
+    export JUPYTER_CONFIG_DIR=${HOME}/.{{ template "jupyter.fullname" . }}
+    export JUPYTER_RUNTIME_DIR=/igz/.{{ template "jupyter.fullname" . }}
+    if [ ! -e "${JUPYTERLAB_DIR}/static" ]; then
+        mkdir -p ${JUPYTERLAB_DIR}
+        cp -R /conda/envs/jupyter/share/jupyter/lab/* ${JUPYTERLAB_DIR}
+    fi
+    if [ ! -e "${JUPYTER_RUNTIME_DIR}" ]; then
+        mkdir -p ${JUPYTER_RUNTIME_DIR}
     fi
 
-    if [ ! -e "${HOME}/.jupyter/jupyter_notebook_config.py" ]; then
-        mkdir -p ${HOME}/.jupyter
-        touch ${HOME}/.jupyter/jupyter_notebook_config.py
-        echo "c.NotebookApp.contents_manager_class = 'jupyfm.jupyfm.Jupyfm'" >> ${HOME}/.jupyter/jupyter_notebook_config.py
-        echo "c.FileContentsManager.delete_to_trash = False" >> ${HOME}/.jupyter/jupyter_notebook_config.py
+    if [ ! -e "${JUPYTERLAB_SETTINGS_DIR}/@jupyterlab/terminal-extension/plugin.jupyterlab-settings" ]; then
+        mkdir -p ${JUPYTERLAB_SETTINGS_DIR}/@jupyterlab/terminal-extension
+        touch ${JUPYTERLAB_SETTINGS_DIR}/@jupyterlab/terminal-extension/plugin.jupyterlab-settings
+        echo "{" >> ${JUPYTERLAB_SETTINGS_DIR}/@jupyterlab/terminal-extension/plugin.jupyterlab-settings
+        echo "\"theme\": \"dark\"" >> ${JUPYTERLAB_SETTINGS_DIR}/@jupyterlab/terminal-extension/plugin.jupyterlab-settings
+        echo "}" >> ${JUPYTERLAB_SETTINGS_DIR}/@jupyterlab/terminal-extension/plugin.jupyterlab-settings
     fi
 
-    if [ ! -e "${HOME}/.jupyter/custom/custom.css" ]; then
-        mkdir -p ${HOME}/.jupyter/custom
-        touch ${HOME}/.jupyter/custom/custom.css
-        echo ".notebook_app .container {" >> ${HOME}/.jupyter/custom/custom.css
-        echo "    width:98%; !important" >> ${HOME}/.jupyter/custom/custom.css
-        echo "}" >> ${HOME}/.jupyter/custom/custom.css
-        echo ".terminal-app .container {" >> ${HOME}/.jupyter/custom/custom.css
-        echo "    width:98%; !important" >> ${HOME}/.jupyter/custom/custom.css
-        echo "}" >> ${HOME}/.jupyter/custom/custom.css
+    if [ ! -e "${JUPYTER_CONFIG_DIR}/jupyter_config.json" ]; then
+        cp /conda/envs/jupyter/etc/jupyter/jupyter_config.json ${JUPYTER_CONFIG_DIR}
     fi
 
-    export JUPYTER_DATA_DIR=${HOME}/.local/share/jupyter/{{ template "jupyter.fullname" . }}
-    mkdir -p "${JUPYTER_DATA_DIR}"
+    if [ -e "${JUPYTER_CONFIG_DIR}/jupyter_notebook_config.py" ]; then
+        rm -f ${JUPYTER_CONFIG_DIR}/jupyter_notebook_config.py
+    fi
+
+    if [ ! -e "${JUPYTER_CONFIG_DIR}/custom/custom.css" ]; then
+        mkdir -p ${JUPYTER_CONFIG_DIR}/custom
+        touch ${JUPYTER_CONFIG_DIR}/custom/custom.css
+        echo ".notebook_app .container {" >> ${JUPYTER_CONFIG_DIR}/custom/custom.css
+        echo "    width:98%; !important" >> ${JUPYTER_CONFIG_DIR}/custom/custom.css
+        echo "}" >> ${JUPYTER_CONFIG_DIR}/custom/custom.css
+        echo ".terminal-app .container {" >> ${JUPYTER_CONFIG_DIR}/custom/custom.css
+        echo "    width:98%; !important" >> ${JUPYTER_CONFIG_DIR}/custom/custom.css
+        echo "}" >> ${JUPYTER_CONFIG_DIR}/custom/custom.css
+    fi
 
     # IG-9854
     if [ "$(grep --count Slf4jLogger /hadoop/etc/hadoop/log4j.properties)" == "0" ]; then
@@ -170,7 +186,6 @@ data:
 
 {{- if .Values.hive }}
     echo alias hive=\"JAVA_HOME=${IGUAZIO_HOME}/jdk-8u181 ${HIVE_HOME}/bin/hive -hiveconf hive.exec.scratchdir={{ .Values.hive.scratchDirPrefix }}/${V3IO_USERNAME}/hive -hiveconf hive.metastore.uris=thrift://{{ .Values.hive.metastore.hostname }}:{{ .Values.hive.metastore.port }} \$@\" >> ${IGUAZIO_HOME}/.hive_alias
-
     if [ "$(grep --count 'HIVE CONFIG' ${HOME}/.bashrc)" == "0" ]; then
       echo "# ----- HIVE CONFIG -----" >> ${HOME}/.bashrc
       echo "test -e ${IGUAZIO_HOME}/.hive_alias" && echo "source ${IGUAZIO_HOME}/.hive_alias" >> ${HOME}/.bashrc
@@ -210,11 +225,12 @@ data:
     fi
 {{- end }}
 
-    if [ "$(grep --count 'IGUAZIO CONFIG' ${HOME}/.bashrc)" == "0" ]; then
-      echo "# ----- IGUAZIO CONFIG -----" >> ${HOME}/.bashrc
+    if [ "$(grep --count 'IGUAZIO PROMPT CONFIG' ${HOME}/.bashrc)" == "0" ]; then
+      cp ${CONDA_HOME}/.bash_prompt.sh ${HOME}
+      echo "# ----- IGUAZIO PROMPT CONFIG -----" >> ${HOME}/.bashrc
       echo alias ll=\"ls -lah --color\" >> ${HOME}/.bashrc
-      echo "source ${IGUAZIO_HOME}/bash-it.sh" >> ${HOME}/.bashrc
-      echo "# --- END IGUAZIO CONFIG ---" >> ${HOME}/.bashrc
+      echo "source ${HOME}/.bash_prompt.sh" >> ${HOME}/.bashrc
+      echo "# --- END IGUAZIO PROMPT CONFIG ---" >> ${HOME}/.bashrc
     fi
 
     if [ "$(grep --count 'KUBECTL AUTOCOMPLETION' ${HOME}/.bashrc)" == "0" ]; then
@@ -238,34 +254,80 @@ data:
     /usr/sbin/sshd -f /etc/ssh/sshd_config
 {{- end }}
 
-    env | egrep -v "^HOME" | awk -F"=" '{printf("export %s=\"%s\"\n",$1,$2)}' > /User/.ssh_environment
-    echo "source /User/.ssh_environment" >> /igz/.profile
+    # fix ssh env (ssh default home is /igz)
+    env | awk -F"=" '{printf("export %s=\"%s\"\n",$1,$2)}' > /igz/.ssh_environment
+    echo "source /igz/.ssh_environment" > /igz/.profile
+    echo "cd ${HOME}" >> /igz/.profile
+    echo "source ${HOME}/.bashrc" >> /igz/.profile
 
+    # populate .condarc, create conda env dir (fuse) and init
     if [ ! -e "${HOME}/.condarc" ]; then
-      conda config --set always_softlink False
-      conda config --set always_copy True
-      conda config --add envs_dirs ${HOME}/.conda/envs
-      conda init bash 2>&1
+      cp /conda/.condarc ${HOME}/
+    fi
+    if [ ! -d "${HOME}/.conda/envs" ]; then 
       mkdir -p ${HOME}/.conda/envs
+    fi
+    if [ "$(grep --count '>>> conda initialize >>>' ${HOME}/.bashrc)" == "0" ]; then
+      conda init bash 2>&1
     fi
 
     echo "source ${HOME}/.bashrc" > ${HOME}/.bash_profile
 
     touch ${HOME}/.viminfo
     chmod a+w ${HOME}/.viminfo
-    echo ":set term=builtin_ansi" > ${HOME}/.vimrc
 
-    PIP_USER_PROFILE="{{ .Values.pip.profile }}"
+    # remove term= line from .vimrc - setting causes some keys (for ex. del) not to work
+    if [ -e "${HOME}/.vimrc" ]; then
+      sed -i '/:set term=builtin_ansi/d' ${HOME}/.vimrc
+    fi    
 
-    if [ "${PIP_USER_PROFILE}" == "" ]; then
-      PIP_USER_PATH="${HOME}/.pythonlibs"
-    else
-      PIP_USER_PATH="${HOME}/.pythonlibs/${PIP_USER_PROFILE}"
+    # disable pip user (local) installations
+    export PYTHONNOUSERSITE=False
+
+    # pip persistency on fuse mount for /conda (docker) envs
+    # jupyter (needs special handling for jupyter.fullname in case of multiple jupy envs per user):
+    if [ ! -e "$CONDA_HOME/envs/jupyter/etc/conda/activate.d/env_vars.sh" ]; then
+      # clean leftovers from previous env
+      echo 'if [ "$CONDA_DEFAULT_ENV" == "jupyter" ]; then' > $CONDA_HOME/envs/jupyter/etc/conda/activate.d/env_vars.sh
+      echo '  for env in {{ template "jupyter.fullname" . }} mlrun-base mlrun-extended; do' >> $CONDA_HOME/envs/jupyter/etc/conda/activate.d/env_vars.sh
+      echo '    export PATH=$(echo $PATH | sed '\''s@/User/.pythonlibs/${env}/bin:@@g'\'')' >> $CONDA_HOME/envs/jupyter/etc/conda/activate.d/env_vars.sh
+      echo '  done' >> $CONDA_HOME/envs/jupyter/etc/conda/activate.d/env_vars.sh
+      # update paths    
+      echo '  export PIP_PREFIX=/User/.pythonlibs/{{ template "jupyter.fullname" . }}' >> $CONDA_HOME/envs/jupyter/etc/conda/activate.d/env_vars.sh
+      echo '  export PYTHONPATH=/User/.pythonlibs/{{ template "jupyter.fullname" . }}/lib/python3.9/site-packages' >> $CONDA_HOME/envs/jupyter/etc/conda/activate.d/env_vars.sh
+      echo '  export PATH=/User/.pythonlibs/{{ template "jupyter.fullname" . }}/bin:$PATH' >> $CONDA_HOME/envs/jupyter/etc/conda/activate.d/env_vars.sh
+      echo 'fi' >> $CONDA_HOME/envs/jupyter/etc/conda/activate.d/env_vars.sh
     fi
-    mkdir -p ${PIP_USER_PATH}
-    export IGZ_ORIG_PIP_PREFIX="${PIP_USER_PATH}"
-    export IGZ_ORIG_PYTHONPATH="${PIP_USER_PATH}/lib/python3.7/site-packages:${PYTHONPATH}"
-    export PATH="${PATH}:${PIP_USER_PATH}/bin"
+    if [ ! -e "$CONDA_HOME/envs/jupyter/etc/conda/deactivate.d/env_vars.sh" ]; then
+      echo 'if [ "$CONDA_DEFAULT_ENV" == "jupyter" ]; then' > $CONDA_HOME/envs/jupyter/etc/conda/deactivate.d/env_vars.sh
+      echo '  unset PIP_PREFIX' >> $CONDA_HOME/envs/jupyter/etc/conda/deactivate.d/env_vars.sh
+      echo '  unset PYTHONPATH' >> $CONDA_HOME/envs/jupyter/etc/conda/deactivate.d/env_vars.sh
+      echo '  export PATH=$(echo $PATH | sed '\''s@/User/.pythonlibs/'{{ template "jupyter.fullname" . }}'/bin:@@g'\'')' >> $CONDA_HOME/envs/jupyter/etc/conda/deactivate.d/env_vars.sh
+      echo 'fi' >> $CONDA_HOME/envs/jupyter/etc/conda/deactivate.d/env_vars.sh
+    fi
+    # remaining local /conda/envs
+    for env in $(ls /conda/envs | grep -v jupyter); do
+      # overwrite file if intially created by shell (which does not know jupyter.fullname)
+      if [ ! -e "$CONDA_HOME/envs/${env}/etc/conda/activate.d/env_vars.sh" ] || ! $(grep -q {{ template "jupyter.fullname" . }} $CONDA_HOME/envs/${env}/etc/conda/activate.d/env_vars.sh); then
+        # clean leftovers from previous env
+        echo 'if [ "$CONDA_DEFAULT_ENV" == "'${env}'" ]; then' > $CONDA_HOME/envs/${env}/etc/conda/activate.d/env_vars.sh
+        echo '  for env in {{ template "jupyter.fullname" . }} mlrun-base mlrun-extended; do' >> $CONDA_HOME/envs/${env}/etc/conda/activate.d/env_vars.sh
+        echo '    export PATH=$(echo $PATH | sed '\''s@/User/.pythonlibs/${env}/bin:@@g'\'')' >> $CONDA_HOME/envs/${env}/etc/conda/activate.d/env_vars.sh
+        echo '  done' >> $CONDA_HOME/envs/${env}/etc/conda/activate.d/env_vars.sh 
+        # update paths 
+        echo '  export PIP_PREFIX=/User/.pythonlibs/'${env} >> $CONDA_HOME/envs/${env}/etc/conda/activate.d/env_vars.sh
+        echo '  export PYTHONPATH=/User/.pythonlibs/'${env}'/lib/python3.9/site-packages' >> $CONDA_HOME/envs/${env}/etc/conda/activate.d/env_vars.sh
+        echo '  export PATH=/User/.pythonlibs/'${env}'/bin:$PATH' >> $CONDA_HOME/envs/${env}/etc/conda/activate.d/env_vars.sh
+        echo 'fi' >> $CONDA_HOME/envs/${env}/etc/conda/activate.d/env_vars.sh
+      fi
+      if [ ! -e "$CONDA_HOME/envs/${env}/etc/conda/deactivate.d/env_vars.sh" ]; then
+        echo 'if [ "$CONDA_DEFAULT_ENV" == "'${env}'" ]; then' > $CONDA_HOME/envs/${env}/etc/conda/deactivate.d/env_vars.sh
+        echo '  unset PIP_PREFIX' >> $CONDA_HOME/envs/${env}/etc/conda/deactivate.d/env_vars.sh
+        echo '  unset PYTHONPATH' >> $CONDA_HOME/envs/${env}/etc/conda/deactivate.d/env_vars.sh
+        echo '  export PATH=$(echo $PATH | sed '\''s@/User/.pythonlibs/'${env}'/bin:@@g'\'')' >> $CONDA_HOME/envs/${env}/etc/conda/deactivate.d/env_vars.sh
+        echo 'fi' >> $CONDA_HOME/envs/${env}/etc/conda/deactivate.d/env_vars.sh
+      fi
+    done
 
     # Prevent git from failing on fuse mount (not owned by iguazio user)
     # https://stackoverflow.com/questions/72978485/ubuntu-20-04-git-submodule-update-failed-with-fatal-detected-dubious-ownershi
@@ -279,11 +341,35 @@ data:
       echo " export PATH=${PATH}" >> ${HOME}/.bashrc
       echo "fi" >> ${HOME}/.bashrc
       echo "# ----- END JUPYTER TERMINAL PATH SUPPORT -----" >> ${HOME}/.bashrc
+      echo "" >> ${HOME}/.bashrc
     fi
 
-    unset PYTHONPATH
-
-    source activate base
+    # https://github.com/conda/conda/issues/7791
+    if [ "$(grep --count 'BLOCK INSTALL ON CONDA BASE' ${HOME}/.bashrc)" == "0" ]; then
+      echo '# ----- BLOCK INSTALL ON CONDA BASE -----' >> ${HOME}/.bashrc
+      echo 'function pip(){' >> ${HOME}/.bashrc
+      echo '  if [ "${CONDA_DEFAULT_ENV-}" = "base" ] && [ "$1" = "install" ]; then' >> ${HOME}/.bashrc
+      echo '    echo "Not allowed in conda (base) environment where package updates are not persistent."' >> ${HOME}/.bashrc
+      echo '    echo "Please create or activate another conda environment."' >> ${HOME}/.bashrc
+      echo '  else' >> ${HOME}/.bashrc
+      echo '    command pip "$@"' >> ${HOME}/.bashrc
+      echo '  fi' >> ${HOME}/.bashrc
+      echo '}' >> ${HOME}/.bashrc
+      echo '' >> ${HOME}/.bashrc
+      echo 'function extended_conda(){' >> ${HOME}/.bashrc
+      echo '  if [ "${CONDA_DEFAULT_ENV-}" = "base" ] && [ "$1" = "install" ]; then' >> ${HOME}/.bashrc
+      echo '    echo "Not allowed in conda (base) environment where package updates are not persistent."' >> ${HOME}/.bashrc
+      echo '    echo "Please create or activate another conda environment."' >> ${HOME}/.bashrc
+      echo '  elif [[ ${CONDA_DEFAULT_ENV-} =~ jupyter|mlrun-base|mlrun-extended ]] && [ "$1" = "install" ]; then' >> ${HOME}/.bashrc
+      echo '    echo "Conda installs to (${CONDA_DEFAULT_ENV}) environment are not persistent."' >> ${HOME}/.bashrc
+      echo '    echo "Either use PIP which is persistent or create/activate another conda environment."' >> ${HOME}/.bashrc      
+      echo '  else' >> ${HOME}/.bashrc
+      echo '    conda "$@"' >> ${HOME}/.bashrc
+      echo '  fi' >> ${HOME}/.bashrc
+      echo '}' >> ${HOME}/.bashrc
+      echo 'alias conda=extended_conda' >> ${HOME}/.bashrc
+      echo '# ----- END BLOCK INSTALL ON CONDA BASE -----' >> ${HOME}/.bashrc
+    fi
 
     if [ -e "/igz/startup-hook.sh" ]; then
         /bin/bash /igz/startup-hook.sh || true
@@ -293,4 +379,5 @@ data:
         /bin/bash ${HOME}/.igz/startup-hook.sh || true
     fi
 
-    jupyter-notebook $@
+    source activate jupyter
+    jupyter lab --no-browser $@
