@@ -240,6 +240,48 @@ api:
       periodSeconds: 15
       failureThreshold: 4
 
+  sidecars:
+    logCollector:
+      enabled: false
+      name: log-collector
+      fullnameOverride:
+
+      logLevel: debug
+      logFormat: text
+      listenPort: 8282
+
+      workDir: /var/mlrun/
+
+      image:
+        repository: mlrun/log-collector
+        tag: 1.3.0
+        pullPolicy: IfNotPresent
+        pullSecrets: []
+
+      extraEnv: []
+
+      extraEnvKeyValue: {}
+
+      envFrom:
+      - configMapRef:
+          name: mlrun-log-collector-config
+
+      securityContext: {}
+
+      resources:
+
+      readinessProbe:
+        initialDelaySeconds: 10
+        timeoutSeconds: 10
+        periodSeconds: 15
+        failureThreshold: 4
+
+      livenessProbe:
+        initialDelaySeconds: 10
+        timeoutSeconds: 10
+        periodSeconds: 15
+        failureThreshold: 4
+
 db:
   name: db
   fullnameOverride:
