@@ -101,7 +101,7 @@ spec:
             value: {{ .Values.api.sidecars.logCollector.mode }}
           - name: MLRUN_LOG_COLLECTOR__ADDRESS
             value: {{ include "mlrun.api.sidecars.logCollector.internalAddress" . }}
-          - name: MLRUN_LOG_COLLECTOR_BUFFER_SIZE_BYTES
+          - name: MLRUN_LOG_COLLECTOR__BUFFER_SIZE_BYTES
             value: { { .Values.api.sidecars.logCollector.bufferSizeBytes | quote } }
           {{- end }}
           {{- if .Values.api.extraEnv }}

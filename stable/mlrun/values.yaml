@@ -252,14 +252,14 @@ api:
       name: log-collector
       fullnameOverride:
 
-      # chunk size in bytes
+      # 10MiB ( 10 * 1024 * 1024 = 10485760 )
       bufferSizeBytes: 10485760
       getLogsBufferPoolSize: 512
       logCollectionbufferPoolSize: 512
 
       readLogWaitTime: "3s"
       stateFileUpdateInterval: "10s"
-      monitoringInterval: "30s"
+      monitoringInterval: "10s"
 
 
       logLevel: debug
