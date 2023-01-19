@@ -243,8 +243,24 @@ api:
   sidecars:
     logCollector:
       enabled: false
+      # log collection modes:
+      #   - "sidecar" - use the sidecar container to collect logs
+      #   - "best-effort" - use the sidecar container to collect logs if fails fallback to legacy method
+      #   - "legacy" - use the legacy method to collect logs
+      mode: "sidecar"
+
       name: log-collector
       fullnameOverride:
+
+      # chunk size in bytes
+      bufferSizeBytes: 10485760
+      getLogsBufferPoolSize: 512
+      logCollectionbufferPoolSize: 512
+
+      readLogWaitTime: "3s"
+      stateFileUpdateInterval: "10s"
+      monitoringInterval: "30s"
+
 
       logLevel: debug
       logFormat: text

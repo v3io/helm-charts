@@ -9,4 +9,10 @@ data:
   MLRUN_LOG_COLLECTOR_LISTEN_PORT: "{{ .Values.api.sidecars.logCollector.listenPort }}"
   MLRUN_LOG_COLLECTOR_NAMESPACE: "{{ .Release.Namespace }}"
   MLRUN_LOG_COLLECTOR_BASE_DIR: "{{ .Values.api.sidecars.logCollector.workDir }}log-collector/pod-logs"
+  MLRUN_LOG_COLLECTOR_STATE_FILE_UPDATE_INTERVAL: "{{ .Values.api.sidecars.logCollector.stateFileUpdateInterval }}"
+  MLRUN_LOG_COLLECTOR_READ_LOG_WAIT_TIME: "{{ .Values.api.sidecars.logCollector.readLogWaitTime }}"
+  MLRUN_LOG_COLLECTOR_MONITORING_INTERVAL: "{{ .Values.api.sidecars.logCollector.monitoringInterval }}"
+  MLRUN_LOG_COLLECTOR_LOG_COLLECTION_BUFFER_POOL_SIZE: "{{ .Values.api.sidecars.logCollector.logCollectionBufferPoolSize }}"
+  MLRUN_LOG_COLLECTOR_GET_LOGS_BUFFER_POOL_SIZE: "{{ .Values.api.sidecars.logCollector.getLogsBufferPoolSize }}"
+  MLRUN_LOG_COLLECTOR_BUFFER_SIZE_BYTES: "{{ .Values.api.sidecars.logCollector.bufferSizeBytes }}"
 {{- end }}
