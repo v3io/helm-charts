@@ -108,8 +108,6 @@ spec:
           - name: MLRUN_LOG_COLLECTOR__BUFFER_SIZE_BYTES
             value: {{ .Values.api.sidecars.logCollector.bufferSizeBytes | quote }}
           {{- end }}
-          {{- if .Values.api.sidecars.metricsCollector.enabled }}
-          {{- end }}
           {{- if .Values.api.extraEnv }}
           {{ toYaml .Values.api.extraEnv | nindent 10 }}
           {{- end }}
