@@ -41,9 +41,10 @@ data:
 
 {{ include "v3io-configs.script.lookupService" . | indent 4 }}
 
+    BASHRC_REV=1
     # reset .bashrc on revision update
-    if ! $(grep -q IGZ_BASHRC_REV_1 ${HOME}/.bashrc); then
-      echo -e '#IGZ_BASHRC_REV_1\n' > ${HOME}/.bashrc
+    if ! $(grep -q IGZ_BASHRC_REV_${BASHRC_REV} ${HOME}/.bashrc); then
+      echo "#IGZ_BASHRC_REV_${BASHRC_REV}" > ${HOME}/.bashrc
     fi
 
 {{- if .Values.initCommands }}
@@ -57,20 +58,29 @@ data:
 {{- end }}
 
     ALIGN_MLRUN_SCRIPT="${HOME}/align_mlrun.sh"
-    if [ ! -e ${ALIGN_MLRUN_SCRIPT} ]; then
-      touch ${ALIGN_MLRUN_SCRIPT}
-      echo "CLIENT_MLRUN_VERSION=\`pip show mlrun | grep Version | awk '{print \$2}'\`" >> ${ALIGN_MLRUN_SCRIPT}
-      echo "SERVER_MLRUN_VERSION=\`curl -s \${IGZ_MLRUN_API_ENDPOINT}/api/healthz | python3 -c \"import sys, json; print(json.load(sys.stdin)['version'])\"\`" >> ${ALIGN_MLRUN_SCRIPT}
-      echo "if [ \"\${CLIENT_MLRUN_VERSION}\" = \"\${SERVER_MLRUN_VERSION}\" ] || [ \"\${CLIENT_MLRUN_VERSION}\" = \"\${SERVER_MLRUN_VERSION//-}\" ]; then" >> ${ALIGN_MLRUN_SCRIPT}
-      echo "  echo \"Both server & client are aligned (\${CLIENT_MLRUN_VERSION}).\"" >> ${ALIGN_MLRUN_SCRIPT}
-      echo "else" >> ${ALIGN_MLRUN_SCRIPT}
-      echo "  if [ \${CLIENT_MLRUN_VERSION} ]; then" >> ${ALIGN_MLRUN_SCRIPT}
-      echo "    echo \"Server \${SERVER_MLRUN_VERSION} & client \${CLIENT_MLRUN_VERSION} are unaligned.\"" >> ${ALIGN_MLRUN_SCRIPT}
-      echo "    echo \"Updating client...\"" >> ${ALIGN_MLRUN_SCRIPT}
-      echo "    pip uninstall -y mlrun" >> ${ALIGN_MLRUN_SCRIPT}
-      echo "  fi" >> ${ALIGN_MLRUN_SCRIPT}
-      echo "  pip install mlrun[complete]==\${SERVER_MLRUN_VERSION}" >> ${ALIGN_MLRUN_SCRIPT}
-      echo "fi" >> ${ALIGN_MLRUN_SCRIPT}
+    ALIGN_MLRUN_REV=1
+    # reset align_mlrun on revision update
+    if ! $(grep -q IGZ_ALIGN_MLRUN_REV_${ALIGN_MLRUN_REV} ${ALIGN_MLRUN_SCRIPT} 2>/dev/null); then
+      cat << EOF > ${ALIGN_MLRUN_SCRIPT}
+    #IGZ_ALIGN_MLRUN_REV_${ALIGN_MLRUN_REV}
+    if [ "\${CONDA_DEFAULT_ENV-}" = "base" ]; then
+      echo "Not allowed in conda (base) environment where package updates are not persistent."
+      echo "Please create or activate another conda environment."
+      exit 1
+    fi
+    CLIENT_MLRUN_VERSION=\$(pip show mlrun | grep Version | awk '{print \$2}')
+    SERVER_MLRUN_VERSION=\$(curl -s \${IGZ_MLRUN_API_ENDPOINT}/api/healthz | python3 -c "import sys, json; print(json.load(sys.stdin)['version'])")
+    if [ "\${CLIENT_MLRUN_VERSION}" = "\${SERVER_MLRUN_VERSION}" ] || [ "\${CLIENT_MLRUN_VERSION}" = "\${SERVER_MLRUN_VERSION//-}" ]; then
+      echo "Both server & client are aligned (\${CLIENT_MLRUN_VERSION})."
+    else
+      if [ \${CLIENT_MLRUN_VERSION} ]; then
+        echo "Server \${SERVER_MLRUN_VERSION} & client \${CLIENT_MLRUN_VERSION} are unaligned."
+        echo "Updating client..."
+        pip uninstall -y mlrun
+      fi
+      pip install mlrun[complete]==\${SERVER_MLRUN_VERSION}
+    fi
+    EOF
       chmod a+x ${ALIGN_MLRUN_SCRIPT}
     fi
 
