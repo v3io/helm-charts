@@ -37,9 +37,10 @@ data:
 
 {{ include "v3io-configs.script.lookupService" . | indent 4 }}
 
+    BASHRC_REV=1
     # reset .bashrc on revision update
-    if ! $(grep -q IGZ_BASHRC_REV_1 ${HOME}/.bashrc); then
-      echo -e '#IGZ_BASHRC_REV_1\n' > ${HOME}/.bashrc
+    if ! $(grep -q IGZ_BASHRC_REV_${BASHRC_REV} ${HOME}/.bashrc); then
+      echo "#IGZ_BASHRC_REV_${BASHRC_REV}" > ${HOME}/.bashrc
     fi
     
 {{- if and .Values.v3io.downloadBinaries }}
