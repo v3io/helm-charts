@@ -189,7 +189,7 @@ data:
     echo alias trino=\"presto \$@\" >> ${IGUAZIO_HOME}/.presto_alias
     if [ "$(grep --count 'PRESTO CONFIG' ${HOME}/.bashrc)" == "0" ]; then
       echo "# ----- PRESTO CONFIG -----" >> ${HOME}/.bashrc
-      echo "source ${IGUAZIO_HOME}/.presto_alias" >> ${HOME}/.bashrc
+      echo "[ -e ${IGUAZIO_HOME}/.presto_alias ] && source ${IGUAZIO_HOME}/.presto_alias" >> ${HOME}/.bashrc
       echo "# --- END PRESTO CONFIG ---" >> ${HOME}/.bashrc
     fi
 {{- end }}
@@ -270,10 +270,7 @@ data:
     echo "cd ${HOME}" >> /igz/.profile
     echo "source ${HOME}/.bashrc" >> /igz/.profile
 
-    # populate .condarc, create conda env dir (fuse) and init
-    if [ ! -e "${HOME}/.condarc" ]; then
-      cp /conda/.condarc ${HOME}/
-    fi
+    # create conda env dir (fuse) and init
     if [ ! -d "${HOME}/.conda/envs" ]; then 
       mkdir -p ${HOME}/.conda/envs
     fi
@@ -379,6 +376,23 @@ data:
       echo '}' >> ${HOME}/.bashrc
       echo 'alias conda=extended_conda' >> ${HOME}/.bashrc
       echo '# ----- END BLOCK INSTALL ON CONDA BASE -----' >> ${HOME}/.bashrc
+    fi
+
+    IPYTHON_CONFIG_SCRIPT="${HOME}/.ipython/profile_default/ipython_config.py"
+    IPYTHON_CONFIG_REV=1
+    if [ ! -e "${HOME}/.ipython/profile_default" ]; then
+        mkdir -p ${HOME}/.ipython/profile_default
+    fi    
+    # reset ipython_config.py on revision update
+    if ! $(grep -q IGZ_IPYTHON_CONFIG_REV_${IPYTHON_CONFIG_REV} ${IPYTHON_CONFIG_SCRIPT} 2>/dev/null); then
+      cat << EOF > ${IPYTHON_CONFIG_SCRIPT}
+    #IGZ_IPYTHON_CONFIG_REV_${IPYTHON_CONFIG_REV}
+    c = get_config()
+    c.Application.log_datefmt = '%Y-%m-%d %H:%M:%S'
+    c.InteractiveShellApp.extensions.append("sql")
+    c.InteractiveShellApp.extensions.append("nuclio")
+    c.SqlMagic.autocommit=False
+    EOF
     fi
 
     if [ -e "/igz/startup-hook.sh" ]; then
