@@ -180,9 +180,13 @@ spec:
           ports:
           - name: grpc
             containerPort: {{ .Values.api.sidecars.logCollector.listenPort }}
-          {{- if .Values.api.sidecars.logCollector.livenessProbe }}
           env:
-          {{- end }}
+          - name: MLRUN_NAMESPACE
+            valueFrom:
+              fieldRef:
+                fieldPath: metadata.namespace
+          - name: MLRUN_HTTPDB__CLUSTERIZATION__ROLE
+            value: "chief"
           {{- if .Values.api.sidecars.logCollector.extraEnv }}
           {{ toYaml .Values.api.sidecars.logCollector.extraEnv | nindent 10 }}
           {{- end }}
