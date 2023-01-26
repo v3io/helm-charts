@@ -181,11 +181,11 @@ spec:
           - name: grpc
             containerPort: {{ .Values.api.sidecars.logCollector.listenPort }}
           env:
-          - name: MLRUN_LOG_COLLECTOR__NAMESPACE
+          - name: MLRUN_NAMESPACE
             valueFrom:
               fieldRef:
                 fieldPath: metadata.namespace
-          - name: MLRUN_LOG_COLLECTOR__CLUSTERIZATION__ROLE
+          - name: MLRUN_HTTPDB__CLUSTERIZATION__ROLE
             value: "chief"
           {{- if .Values.api.sidecars.logCollector.extraEnv }}
           {{ toYaml .Values.api.sidecars.logCollector.extraEnv | nindent 10 }}
