@@ -299,6 +299,9 @@ data:
     # disable pip user (local) installations
     export PYTHONNOUSERSITE=False
 
+    # add iguazio spark pythonpath
+    export PYTHONPATH=$IGZ_SPARK_PYTHONPATH
+
     # pip persistency on fuse mount for /conda (docker) envs
     # jupyter (needs special handling for jupyter.fullname in case of multiple jupy envs per user):
     if [ ! -e "$CONDA_HOME/envs/jupyter/etc/conda/activate.d/env_vars.sh" ]; then
@@ -309,14 +312,14 @@ data:
       echo '  done' >> $CONDA_HOME/envs/jupyter/etc/conda/activate.d/env_vars.sh
       # update paths    
       echo '  export PIP_PREFIX=/User/.pythonlibs/{{ template "jupyter.fullname" . }}' >> $CONDA_HOME/envs/jupyter/etc/conda/activate.d/env_vars.sh
-      echo '  export PYTHONPATH=/User/.pythonlibs/{{ template "jupyter.fullname" . }}/lib/python3.9/site-packages' >> $CONDA_HOME/envs/jupyter/etc/conda/activate.d/env_vars.sh
+      echo '  export PYTHONPATH=/User/.pythonlibs/{{ template "jupyter.fullname" . }}/lib/python3.9/site-packages:$IGZ_SPARK_PYTHONPATH' >> $CONDA_HOME/envs/jupyter/etc/conda/activate.d/env_vars.sh
       echo '  export PATH=/User/.pythonlibs/{{ template "jupyter.fullname" . }}/bin:$PATH' >> $CONDA_HOME/envs/jupyter/etc/conda/activate.d/env_vars.sh
       echo 'fi' >> $CONDA_HOME/envs/jupyter/etc/conda/activate.d/env_vars.sh
     fi
     if [ ! -e "$CONDA_HOME/envs/jupyter/etc/conda/deactivate.d/env_vars.sh" ]; then
       echo 'if [ "$CONDA_DEFAULT_ENV" == "jupyter" ]; then' > $CONDA_HOME/envs/jupyter/etc/conda/deactivate.d/env_vars.sh
       echo '  unset PIP_PREFIX' >> $CONDA_HOME/envs/jupyter/etc/conda/deactivate.d/env_vars.sh
-      echo '  unset PYTHONPATH' >> $CONDA_HOME/envs/jupyter/etc/conda/deactivate.d/env_vars.sh
+      echo '  export PYTHONPATH=$IGZ_SPARK_PYTHONPATH' >> $CONDA_HOME/envs/jupyter/etc/conda/deactivate.d/env_vars.sh
       echo '  export PATH=$(echo $PATH | sed '\''s@/User/.pythonlibs/'{{ template "jupyter.fullname" . }}'/bin:@@g'\'')' >> $CONDA_HOME/envs/jupyter/etc/conda/deactivate.d/env_vars.sh
       echo 'fi' >> $CONDA_HOME/envs/jupyter/etc/conda/deactivate.d/env_vars.sh
     fi
@@ -331,14 +334,14 @@ data:
         echo '  done' >> $CONDA_HOME/envs/${env}/etc/conda/activate.d/env_vars.sh 
         # update paths 
         echo '  export PIP_PREFIX=/User/.pythonlibs/'${env} >> $CONDA_HOME/envs/${env}/etc/conda/activate.d/env_vars.sh
-        echo '  export PYTHONPATH=/User/.pythonlibs/'${env}'/lib/python3.9/site-packages' >> $CONDA_HOME/envs/${env}/etc/conda/activate.d/env_vars.sh
+        echo '  export PYTHONPATH=/User/.pythonlibs/'${env}'/lib/python3.9/site-packages:$IGZ_SPARK_PYTHONPATH' >> $CONDA_HOME/envs/${env}/etc/conda/activate.d/env_vars.sh
         echo '  export PATH=/User/.pythonlibs/'${env}'/bin:$PATH' >> $CONDA_HOME/envs/${env}/etc/conda/activate.d/env_vars.sh
         echo 'fi' >> $CONDA_HOME/envs/${env}/etc/conda/activate.d/env_vars.sh
       fi
       if [ ! -e "$CONDA_HOME/envs/${env}/etc/conda/deactivate.d/env_vars.sh" ]; then
         echo 'if [ "$CONDA_DEFAULT_ENV" == "'${env}'" ]; then' > $CONDA_HOME/envs/${env}/etc/conda/deactivate.d/env_vars.sh
         echo '  unset PIP_PREFIX' >> $CONDA_HOME/envs/${env}/etc/conda/deactivate.d/env_vars.sh
-        echo '  unset PYTHONPATH' >> $CONDA_HOME/envs/${env}/etc/conda/deactivate.d/env_vars.sh
+        echo '  export PYTHONPATH=$IGZ_SPARK_PYTHONPATH' >> $CONDA_HOME/envs/${env}/etc/conda/deactivate.d/env_vars.sh
         echo '  export PATH=$(echo $PATH | sed '\''s@/User/.pythonlibs/'${env}'/bin:@@g'\'')' >> $CONDA_HOME/envs/${env}/etc/conda/deactivate.d/env_vars.sh
         echo 'fi' >> $CONDA_HOME/envs/${env}/etc/conda/deactivate.d/env_vars.sh
       fi
@@ -386,6 +389,7 @@ data:
       echo '# ----- END BLOCK INSTALL ON CONDA BASE -----' >> ${HOME}/.bashrc
     fi
 
+    # ipython configuration for magic commands
     IPYTHON_CONFIG_SCRIPT="${HOME}/.ipython/profile_default/ipython_config.py"
     IPYTHON_CONFIG_REV=1
     if [ ! -e "${HOME}/.ipython/profile_default" ]; then
@@ -395,11 +399,27 @@ data:
     if ! $(grep -q IGZ_IPYTHON_CONFIG_REV_${IPYTHON_CONFIG_REV} ${IPYTHON_CONFIG_SCRIPT} 2>/dev/null); then
       cat << EOF > ${IPYTHON_CONFIG_SCRIPT}
     #IGZ_IPYTHON_CONFIG_REV_${IPYTHON_CONFIG_REV}
+    import importlib.util
     c = get_config()
     c.Application.log_datefmt = '%Y-%m-%d %H:%M:%S'
-    c.InteractiveShellApp.extensions.append("sql")
-    c.InteractiveShellApp.extensions.append("nuclio")
-    c.SqlMagic.autocommit=False
+    if importlib.util.find_spec('ipython-sql'):
+        c.InteractiveShellApp.extensions.append("sql")
+        c.SqlMagic.autocommit=False
+    if importlib.util.find_spec('nuclio-jupyter'):
+        c.InteractiveShellApp.extensions.append("nuclio")
+    EOF
+    fi
+
+    # create bashrc for non-interactive SSH logins (VSCode)
+    if [ ! -e "${HOME}/.bashrc-noninteractive" ]; then
+      cat << EOF > ${HOME}/.bashrc-noninteractive
+    #fix conda activate for non-interactive logins
+    function conda()
+      if [ "\$1" = "activate" ]; then
+        command source activate \${2}
+      else
+        command conda "\$@"
+      fi
     EOF
     fi
 
