@@ -45,10 +45,16 @@ data:
     fi
 
 
-    ## Create conda env dir (fuse) and init
+    ## Create conda env dir (fuse), populate .condarc and init
     if [ ! -d "${HOME}/.conda/envs" ]; then 
       mkdir -p ${HOME}/.conda/envs
     fi
+    if [ ! -e "${HOME}/.condarc" ]; then
+      cp /conda/.condarc ${HOME}/
+    fi
+    # prevent .condarc duplicates
+    rm -f /conda/.condarc
+    # conda init
     if [ "$(grep --count '>>> conda initialize >>>' ${HOME}/.bashrc)" == "0" ]; then
       conda init bash 2>&1
     fi
