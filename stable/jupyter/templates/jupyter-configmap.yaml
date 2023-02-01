@@ -38,12 +38,29 @@ data:
 
 {{ include "v3io-configs.script.lookupService" . | indent 4 }}
 
+    ## Reset .bashrc on revision update
     BASHRC_REV=1
-    # reset .bashrc on revision update
     if ! $(grep -q IGZ_BASHRC_REV_${BASHRC_REV} ${HOME}/.bashrc); then
       echo "#IGZ_BASHRC_REV_${BASHRC_REV}" > ${HOME}/.bashrc
     fi
 
+
+    ## Create conda env dir (fuse) and init
+    if [ ! -d "${HOME}/.conda/envs" ]; then 
+      mkdir -p ${HOME}/.conda/envs
+    fi
+    if [ "$(grep --count '>>> conda initialize >>>' ${HOME}/.bashrc)" == "0" ]; then
+      conda init bash 2>&1
+    fi
+
+
+    # IG-9854
+    if [ "$(grep --count Slf4jLogger /hadoop/etc/hadoop/log4j.properties)" == "0" ]; then
+      echo log4j.logger.vendor.akka.event.slf_4j.Slf4jLogger=WARN >> /hadoop/etc/hadoop/log4j.properties
+    fi
+
+
+    ## Init commands
 {{- if .Values.initCommands }}
     mkdir -p ${HOME}/.igz
 {{- range $index, $initCmd := .Values.initCommands }}
@@ -54,6 +71,369 @@ data:
 {{ end -}}
 {{- end }}
 
+
+    ## Spark
+{{- if .Values.spark }}
+    cat << EOF >> ${SPARK_HOME}/conf/spark-defaults.conf
+    spark.master=spark://{{ .Values.spark.hostname }}:{{ .Values.spark.port }}
+    spark.driver.host=$(hostname -i)
+    spark.executor.cores={{ .Values.spark.executorCores }}
+    spark.executor.memory={{ .Values.spark.executorMemory }}
+    spark.cores.max={{ .Values.spark.maxApplicationCores }}
+    spark.sql.catalogImplementation=in-memory
+    EOF
+    for arg in V3IO_USERNAME V3IO_PASSWORD V3IO_TENANT V3IO_ACCESS_KEY; do
+      if [ "${!arg}" != "" ]; then
+        echo "spark.executorEnv.${arg}=${!arg}" >> ${SPARK_HOME}/conf/spark-defaults.conf
+      fi
+    done
+{{- end }}
+    # add iguazio spark pythonpath
+    export PYTHONPATH=$IGZ_SPARK_PYTHONPATH
+
+
+    ## Presto
+{{- if .Values.presto }}
+    rm -rf ${IGUAZIO_HOME}/.presto_alias
+    touch ${IGUAZIO_HOME}/.trino_history
+{{- if .Values.presto.keystoreBinary }}
+      cat << EOF > ${IGUAZIO_HOME}/.presto_alias
+    alias prestojks="TRINO_PASSWORD=$V3IO_ACCESS_KEY presto-cli --truststore-path {{ .Values.presto.secretsMountPath }}/tls.jks --truststore-password {{ .Values.presto.passphrase }} --user \$V3IO_USERNAME --password \$@"
+    alias trinojks="prestojks \$@"
+    alias prestow="prestojks --server https://{{ .Values.presto.hostname }} \$@"
+    alias trinow="prestow \$@"
+    EOF
+{{- else  }}
+      cat << EOF > ${IGUAZIO_HOME}/.presto_alias
+    alias prestow="presto-cli --server http://{{ .Values.presto.hostname }}.{{ .Release.Namespace }}.svc:{{ .Values.presto.port }} \$@"
+    alias trinow="prestow \$@"
+    EOF
+{{- end }}
+    cat << EOF >> ${IGUAZIO_HOME}/.presto_alias
+    alias presto="prestow --catalog={{ .Values.presto.catalog }} \$@"
+    alias trino="presto \$@"
+    EOF
+    if [ "$(grep --count 'PRESTO CONFIG' ${HOME}/.bashrc)" == "0" ]; then
+      cat << EOF >> ${HOME}/.bashrc
+    # ----- PRESTO CONFIG -----
+    [ -e ${IGUAZIO_HOME}/.presto_alias ] && source ${IGUAZIO_HOME}/.presto_alias
+    # --- END PRESTO CONFIG ---
+
+    EOF
+    fi
+{{- end }}
+
+
+    ## Hive
+{{- if .Values.hive }}
+    echo alias hive=\"JAVA_HOME=${IGUAZIO_HOME}/jdk-8u181 ${HIVE_HOME}/bin/hive -hiveconf hive.exec.scratchdir={{ .Values.hive.scratchDirPrefix }}/${V3IO_USERNAME}/hive -hiveconf hive.metastore.uris=thrift://{{ .Values.hive.metastore.hostname }}:{{ .Values.hive.metastore.port }} \$@\" >> ${IGUAZIO_HOME}/.hive_alias
+    if [ "$(grep --count 'HIVE CONFIG' ${HOME}/.bashrc)" == "0" ]; then
+      cat << EOF >> ${HOME}/.bashrc
+    # ----- HIVE CONFIG -----
+    test -e ${IGUAZIO_HOME}/.hive_alias && source ${IGUAZIO_HOME}/.hive_alias
+    # --- END HIVE CONFIG ---
+
+    EOF
+    fi
+{{- end }}
+
+
+    ## Download extra binaries
+{{- if and .Values.v3io.downloadBinaries }}
+{{- range $binary, $url := .Values.v3io.downloadBinaries }}
+    curl --disable -sSL -o ${IGUAZIO_HOME}/bin/{{ $binary }} {{ $url }}
+    chmod +x ${IGUAZIO_HOME}/bin/{{ $binary }}
+{{ end -}}
+{{- end }}
+
+
+    ## TSDB
+{{- if and .Values.v3io.tsdbctl .Values.v3io.tsdbctl.download }}
+    curl --disable -sSL -o ${IGUAZIO_HOME}/bin/tsdbctl {{ .Values.v3io.tsdbctl.download }}
+    chmod +x ${IGUAZIO_HOME}/bin/tsdbctl
+    rm -f ${IGUAZIO_HOME}/.tsdb_alias
+    if [ "${V3IO_API}" -a "${V3IO_ACCESS_KEY}" ]; then
+      echo alias tsdbctl=\"tsdbctl --server ${V3IO_API} --access-key ${V3IO_ACCESS_KEY}\" >> ${IGUAZIO_HOME}/.tsdb_alias
+      if [ "$(grep --count 'TSDB CONFIG' ${HOME}/.bashrc)" == "0" ]; then
+        cat << EOF >> ${HOME}/.bashrc
+    # ----- TSDB CONFIG -----
+    test -e ${IGUAZIO_HOME}/.tsdb_alias && source ${IGUAZIO_HOME}/.tsdb_alias
+    # --- END TSDB CONFIG ---
+
+    EOF
+      fi
+    fi
+{{- end }}
+
+
+    ## Iguazio terminal logo
+{{- if .Values.config.logo }}
+    if [ "$(grep --count 'LOGO CONFIG' ${HOME}/.bashrc)" == "0" ]; then
+      echo "# ----- LOGO CONFIG -----" >> ${HOME}/.bashrc
+      echo "echo ''" >> ${HOME}/.bashrc
+      echo "printf '\033[?7l'" >> ${HOME}/.bashrc
+      echo "echo {{ .Values.config.logo }} | base64 --decode" >> ${HOME}/.bashrc
+      echo "printf '\033[?7h'" >> ${HOME}/.bashrc
+      echo "echo ''" >> ${HOME}/.bashrc
+      echo "# --- END LOGO CONFIG ---" >> ${HOME}/.bashrc
+      echo "" >> ${HOME}/.bashrc
+    fi
+{{- end }}
+
+
+    ## Prompt config
+    if [ "$(grep --count 'IGUAZIO PROMPT CONFIG' ${HOME}/.bashrc)" == "0" ]; then
+      cp ${CONDA_HOME}/.bash_prompt.sh ${HOME}
+      cat << EOF >> ${HOME}/.bashrc
+    # ----- IGUAZIO PROMPT CONFIG -----
+    alias ll="ls -lah --color"
+    source ${HOME}/.bash_prompt.sh
+    # --- END IGUAZIO PROMPT CONFIG ---
+
+    EOF
+    fi
+
+
+    ## Kubectl autocompletion
+    if [ "$(grep --count 'KUBECTL AUTOCOMPLETION' ${HOME}/.bashrc)" == "0" ]; then
+      cat << EOF >> ${HOME}/.bashrc
+    # ----- KUBECTL AUTOCOMPLETION -----
+    if [ -f /etc/bash_completion ]; then
+      . /etc/bash_completion
+    fi
+    if type -t _get_comp_words_by_ref > /dev/null 2>&1 && command -v kubectl > /dev/null 2>&1; then
+      source <(kubectl completion bash)
+    fi
+    # ----- END KUBECTL AUTOCOMPLETION -----
+
+    EOF
+    fi
+
+    ## SSH config
+{{- if .Values.sshServer.enabled }}
+    cp /var/run/iguazio/secrets/ssh/* ${IGUAZIO_HOME}/.ssh
+    cat << EOF >> /etc/ssh/sshd_config
+    PasswordAuthentication no
+    PermitRootLogin no
+    Ciphers chacha20-poly1305@openssh.com,aes128-ctr,aes192-ctr,aes256-ctr,aes128-gcm@openssh.com,aes256-gcm@openssh.com
+    EOF
+    /usr/sbin/sshd -f /etc/ssh/sshd_config
+    # fix ssh env (ssh default home is /igz)
+    env | awk -F"=" '{printf("export %s=\"%s\"\n",$1,$2)}' > /igz/.ssh_environment
+    cat << EOF > /igz/.profile
+    source /igz/.ssh_environment
+    cd ${HOME}
+    source ${HOME}/.bashrc
+    EOF
+{{- end }}
+
+    echo "source ${HOME}/.bashrc" > ${HOME}/.bash_profile
+
+    ## Vim config
+    touch ${HOME}/.viminfo
+    chmod a+w ${HOME}/.viminfo
+    # Remove term= line from .vimrc - setting causes some keys (for ex. del) not to work
+    if [ -e "${HOME}/.vimrc" ]; then
+      sed -i '/:set term=builtin_ansi/d' ${HOME}/.vimrc
+    fi
+
+
+    ## Prevent git from failing on fuse mount (not owned by iguazio user)
+    # https://stackoverflow.com/questions/72978485/ubuntu-20-04-git-submodule-update-failed-with-fatal-detected-dubious-ownershi
+    if [ "$(git config --global --get safe.directory)" != "*" ]; then
+      git config --global --add safe.directory '*'
+    fi
+
+
+    ## Block conda/pip installs on prebaked conda envs
+    # https://github.com/conda/conda/issues/7791
+    if [ "$(grep --count 'BLOCK INSTALL ON CONDA BASE' ${HOME}/.bashrc)" == "0" ]; then
+      cat << EOF >> ${HOME}/.bashrc
+    # ----- BLOCK INSTALL ON CONDA BASE -----
+    function pip(){
+      if [ "\${CONDA_DEFAULT_ENV-}" = "base" ] && [ "\$1" = "install" ]; then
+        echo "Not allowed in conda (base) environment where package updates are not persistent."
+        echo "Please create or activate another conda environment."
+      else
+        command pip "\$@"
+      fi
+    }
+    
+    function extended_conda(){
+      if [ "\${CONDA_DEFAULT_ENV-}" = "base" ] && [ "\$1" = "install" ]; then
+        echo "Not allowed in conda (base) environment where package updates are not persistent."
+        echo "Please create or activate another conda environment."
+      elif [[ \${CONDA_DEFAULT_ENV-} =~ jupyter|mlrun-base|mlrun-extended ]] && [ "\$1" = "install" ]; then
+        echo "Conda installs to (\${CONDA_DEFAULT_ENV}) environment are not persistent."
+        echo "Either use PIP which is persistent or create/activate another conda environment."
+      else
+        conda "\$@"
+      fi
+    }
+    alias conda=extended_conda
+    # ----- END BLOCK INSTALL ON CONDA BASE -----
+
+    EOF
+    fi
+
+
+    ## IPython configuration for magic commands
+    IPYTHON_CONFIG_SCRIPT="${HOME}/.ipython/profile_default/ipython_config.py"
+    IPYTHON_CONFIG_REV=1
+    if [ ! -e "${HOME}/.ipython/profile_default" ]; then
+        mkdir -p ${HOME}/.ipython/profile_default
+    fi    
+    # reset ipython_config.py on revision update
+    if ! $(grep -q IGZ_IPYTHON_CONFIG_REV_${IPYTHON_CONFIG_REV} ${IPYTHON_CONFIG_SCRIPT} 2>/dev/null); then
+      cat << EOF > ${IPYTHON_CONFIG_SCRIPT}
+    #IGZ_IPYTHON_CONFIG_REV_${IPYTHON_CONFIG_REV}
+    import importlib.util
+    c = get_config()
+    c.Application.log_datefmt = '%Y-%m-%d %H:%M:%S'
+    if importlib.util.find_spec('ipython-sql'):
+        c.InteractiveShellApp.extensions.append("sql")
+        c.SqlMagic.autocommit=False
+    if importlib.util.find_spec('nuclio-jupyter'):
+        c.InteractiveShellApp.extensions.append("nuclio")
+    EOF
+    fi
+
+
+    ## Create bashrc for non-interactive SSH logins (VSCode)
+    if [ ! -e "${HOME}/.bashrc-noninteractive" ]; then
+      cat << EOF > ${HOME}/.bashrc-noninteractive
+    #fix conda activate for non-interactive logins
+    function conda()
+      if [ "\$1" = "activate" ]; then
+        command source activate \${2}
+      else
+        command conda "\$@"
+      fi
+    EOF
+    fi
+
+
+    ## Disable pip user (local) installations
+    export PYTHONNOUSERSITE=False
+
+
+    # PIP persistency on fuse mount for /conda (docker) envs
+    # jupyter (needs special handling for jupyter.fullname in case of multiple jupy envs per user):
+    if [ ! -e "${CONDA_HOME}/envs/jupyter/etc/conda/activate.d/env_vars.sh" ]; then
+      cat << EOF > ${CONDA_HOME}/envs/jupyter/etc/conda/activate.d/env_vars.sh
+    # clean leftovers from previous env
+    if [ "\${CONDA_DEFAULT_ENV}" == "jupyter" ]; then
+      for env in {{ template "jupyter.fullname" . }} mlrun-base mlrun-extended; do
+        export PATH=\$(echo \${PATH} | sed 's@/User/.pythonlibs/\${env}/bin:@@g')
+      done
+    # update paths    
+      export PIP_PREFIX=/User/.pythonlibs/{{ template "jupyter.fullname" . }}
+      export PYTHONPATH=/User/.pythonlibs/{{ template "jupyter.fullname" . }}/lib/python3.9/site-packages:\${IGZ_SPARK_PYTHONPATH}
+      export PATH=/User/.pythonlibs/{{ template "jupyter.fullname" . }}/bin:\${PATH}
+    fi
+    EOF
+    fi
+    if [ ! -e "${CONDA_HOME}/envs/jupyter/etc/conda/deactivate.d/env_vars.sh" ]; then
+      cat << EOF > ${CONDA_HOME}/envs/jupyter/etc/conda/deactivate.d/env_vars.sh
+    if [ "\${CONDA_DEFAULT_ENV}" == "jupyter" ]; then
+      unset PIP_PREFIX
+      export PYTHONPATH=\${IGZ_SPARK_PYTHONPATH}
+      export PATH=\$(echo \${PATH} | sed 's@/User/.pythonlibs/{{ template "jupyter.fullname" . }}/bin:@@g')
+    fi
+    EOF
+    fi
+    # remaining local /conda/envs
+    for env in $(ls /conda/envs | grep -v jupyter); do
+      if [ ! -e "${CONDA_HOME}/envs/${env}/etc/conda/activate.d/env_vars.sh" ]; then
+        cat << EOF > ${CONDA_HOME}/envs/${env}/etc/conda/activate.d/env_vars.sh
+    # clean leftovers from previous env
+    if [ "\${CONDA_DEFAULT_ENV}" == "${env}" ]; then
+      for env in {{ template "jupyter.fullname" . }} mlrun-base mlrun-extended; do
+        export PATH=\$(echo \${PATH} | sed 's@/User/.pythonlibs/\${env}/bin:@@g')
+      done
+    # update paths 
+      export PIP_PREFIX=/User/.pythonlibs/${env}
+      export PYTHONPATH=/User/.pythonlibs/${env}/lib/python3.9/site-packages:\${IGZ_SPARK_PYTHONPATH}
+      export PATH=/User/.pythonlibs/${env}/bin:\${PATH}
+    fi
+    EOF
+      fi
+      if [ ! -e "${CONDA_HOME}/envs/${env}/etc/conda/deactivate.d/env_vars.sh" ]; then
+        cat << EOF > ${CONDA_HOME}/envs/${env}/etc/conda/deactivate.d/env_vars.sh
+    if [ "\${CONDA_DEFAULT_ENV}" == "${env}" ]; then
+      unset PIP_PREFIX
+      export PYTHONPATH=\${IGZ_SPARK_PYTHONPATH}
+      export PATH=\$(echo \${PATH} | sed 's@/User/.pythonlibs/${env}/bin:@@g')
+    fi
+    EOF
+      fi
+    done
+
+
+    # Set jupyter directories to fuse (persistent)
+    # https://jupyterlab.readthedocs.io/en/stable/user/directories.html
+    # https://docs.jupyter.org/en/latest/use/jupyter-directories.html
+    export JUPYTERLAB_DIR=${HOME}/.{{ template "jupyter.fullname" . }}/lab
+    export JUPYTERLAB_SETTINGS_DIR=${JUPYTERLAB_DIR}/user-settings
+    export JUPYTERLAB_WORKSPACES_DIR=${JUPYTERLAB_DIR}/workspaces
+    export JUPYTER_DATA_DIR=${JUPYTERLAB_DIR}
+    export JUPYTER_CONFIG_DIR=${HOME}/.{{ template "jupyter.fullname" . }}
+    export JUPYTER_RUNTIME_DIR=/igz/.{{ template "jupyter.fullname" . }}
+    if [ ! -e "${JUPYTERLAB_DIR}/static" ]; then
+        mkdir -p ${JUPYTERLAB_DIR}
+        cp -R /conda/envs/jupyter/share/jupyter/lab/* ${JUPYTERLAB_DIR}
+    fi
+    if [ ! -e "${JUPYTER_RUNTIME_DIR}" ]; then
+        mkdir -p ${JUPYTER_RUNTIME_DIR}
+    fi
+
+
+    ## Jupyter terminal configuration
+    if [ ! -e "${JUPYTERLAB_SETTINGS_DIR}/@jupyterlab/terminal-extension/plugin.jupyterlab-settings" ]; then
+        mkdir -p ${JUPYTERLAB_SETTINGS_DIR}/@jupyterlab/terminal-extension
+        cat << EOF > ${JUPYTERLAB_SETTINGS_DIR}/@jupyterlab/terminal-extension/plugin.jupyterlab-settings
+    {
+    "theme": "dark"
+    }
+    EOF
+    fi
+    
+    if [ "$(grep --count 'JUPYTER TERMINAL PATH SUPPORT' ${HOME}/.bashrc)" == "0" ]; then
+      cat << EOF >> ${HOME}/.bashrc
+    # ----- JUPYTER TERMINAL PATH SUPPORT -----
+    if [ ! -z $JUPYTER_SERVER_ROOT ]; then
+      export PATH=${PATH}
+    fi
+    # ----- END JUPYTER TERMINAL PATH SUPPORT -----
+
+    EOF
+    fi
+
+    if [ ! -e "${JUPYTER_CONFIG_DIR}/custom/custom.css" ]; then
+        mkdir -p ${JUPYTER_CONFIG_DIR}/custom
+        cat << EOF > ${JUPYTER_CONFIG_DIR}/custom/custom.css
+    .notebook_app .container {
+        width:98%; !important
+    }
+    .terminal-app .container {
+        width:98%; !important
+    }
+    EOF
+    fi
+
+
+    ## Jupyter config files
+    # remove old config file
+    if [ -e "${JUPYTER_CONFIG_DIR}/jupyter_notebook_config.py" ]; then
+        rm -f ${JUPYTER_CONFIG_DIR}/jupyter_notebook_config.py
+    fi
+
+    if [ ! -e "${JUPYTER_CONFIG_DIR}/jupyter_config.json" ]; then
+        cp /conda/envs/jupyter/etc/jupyter/jupyter_config.json ${JUPYTER_CONFIG_DIR}
+    fi
+
+
+    ## ALIGN_MLRUN script generation
     ALIGN_MLRUN_SCRIPT="${HOME}/align_mlrun.sh"
     ALIGN_MLRUN_REV=1
     # reset align_mlrun on revision update
@@ -86,6 +466,8 @@ data:
       chmod a+x ${ALIGN_MLRUN_SCRIPT}
     fi
 
+
+    ## Tutorials
     mkdir -p ${HOME}/.igz
     if [ ! -e "${HOME}/.igz/.getting-started" ] && [ ! -z ${IGZ_JUPYTER_TUTORIALS_URL} ] && [ ! -z ${IGZ_MLRUN_DEMOS_URL} ]; then
       curl -L ${IGZ_JUPYTER_TUTORIALS_URL} -o /tmp/jupyter-tutorials
@@ -114,312 +496,7 @@ data:
       touch ${HOME}/.igz/.getting-started
     fi
 
-    # Set jupyter directories to fuse (persistent)
-    # https://jupyterlab.readthedocs.io/en/stable/user/directories.html
-    # https://docs.jupyter.org/en/latest/use/jupyter-directories.html
-    export JUPYTERLAB_DIR=${HOME}/.{{ template "jupyter.fullname" . }}/lab
-    export JUPYTERLAB_SETTINGS_DIR=${JUPYTERLAB_DIR}/user-settings
-    export JUPYTERLAB_WORKSPACES_DIR=${JUPYTERLAB_DIR}/workspaces
-    export JUPYTER_DATA_DIR=${JUPYTERLAB_DIR}
-    export JUPYTER_CONFIG_DIR=${HOME}/.{{ template "jupyter.fullname" . }}
-    export JUPYTER_RUNTIME_DIR=/igz/.{{ template "jupyter.fullname" . }}
-    if [ ! -e "${JUPYTERLAB_DIR}/static" ]; then
-        mkdir -p ${JUPYTERLAB_DIR}
-        cp -R /conda/envs/jupyter/share/jupyter/lab/* ${JUPYTERLAB_DIR}
-    fi
-    if [ ! -e "${JUPYTER_RUNTIME_DIR}" ]; then
-        mkdir -p ${JUPYTER_RUNTIME_DIR}
-    fi
-
-    if [ ! -e "${JUPYTERLAB_SETTINGS_DIR}/@jupyterlab/terminal-extension/plugin.jupyterlab-settings" ]; then
-        mkdir -p ${JUPYTERLAB_SETTINGS_DIR}/@jupyterlab/terminal-extension
-        touch ${JUPYTERLAB_SETTINGS_DIR}/@jupyterlab/terminal-extension/plugin.jupyterlab-settings
-        echo "{" >> ${JUPYTERLAB_SETTINGS_DIR}/@jupyterlab/terminal-extension/plugin.jupyterlab-settings
-        echo "\"theme\": \"dark\"" >> ${JUPYTERLAB_SETTINGS_DIR}/@jupyterlab/terminal-extension/plugin.jupyterlab-settings
-        echo "}" >> ${JUPYTERLAB_SETTINGS_DIR}/@jupyterlab/terminal-extension/plugin.jupyterlab-settings
-    fi
-
-    if [ ! -e "${JUPYTER_CONFIG_DIR}/jupyter_config.json" ]; then
-        cp /conda/envs/jupyter/etc/jupyter/jupyter_config.json ${JUPYTER_CONFIG_DIR}
-    fi
-
-    if [ -e "${JUPYTER_CONFIG_DIR}/jupyter_notebook_config.py" ]; then
-        rm -f ${JUPYTER_CONFIG_DIR}/jupyter_notebook_config.py
-    fi
-
-    if [ ! -e "${JUPYTER_CONFIG_DIR}/custom/custom.css" ]; then
-        mkdir -p ${JUPYTER_CONFIG_DIR}/custom
-        touch ${JUPYTER_CONFIG_DIR}/custom/custom.css
-        echo ".notebook_app .container {" >> ${JUPYTER_CONFIG_DIR}/custom/custom.css
-        echo "    width:98%; !important" >> ${JUPYTER_CONFIG_DIR}/custom/custom.css
-        echo "}" >> ${JUPYTER_CONFIG_DIR}/custom/custom.css
-        echo ".terminal-app .container {" >> ${JUPYTER_CONFIG_DIR}/custom/custom.css
-        echo "    width:98%; !important" >> ${JUPYTER_CONFIG_DIR}/custom/custom.css
-        echo "}" >> ${JUPYTER_CONFIG_DIR}/custom/custom.css
-    fi
-
-    # IG-9854
-    if [ "$(grep --count Slf4jLogger /hadoop/etc/hadoop/log4j.properties)" == "0" ]; then
-        echo >> /hadoop/etc/hadoop/log4j.properties
-        echo log4j.logger.vendor.akka.event.slf_4j.Slf4jLogger=WARN >> /hadoop/etc/hadoop/log4j.properties
-    fi
-
-{{- if .Values.spark }}
-    echo "spark.master=spark://{{ .Values.spark.hostname }}:{{ .Values.spark.port }}" >> ${SPARK_HOME}/conf/spark-defaults.conf
-    echo spark.driver.host=$(hostname -i) >> ${SPARK_HOME}/conf/spark-defaults.conf
-    echo spark.executor.cores={{ .Values.spark.executorCores }} >> ${SPARK_HOME}/conf/spark-defaults.conf
-    echo spark.executor.memory={{ .Values.spark.executorMemory }} >> ${SPARK_HOME}/conf/spark-defaults.conf
-    echo spark.cores.max={{ .Values.spark.maxApplicationCores }} >> ${SPARK_HOME}/conf/spark-defaults.conf
-    echo spark.sql.catalogImplementation=in-memory >> ${SPARK_HOME}/conf/spark-defaults.conf
-    for arg in V3IO_USERNAME V3IO_PASSWORD V3IO_TENANT V3IO_ACCESS_KEY; do
-      if [ "${!arg}" != "" ]; then
-        echo spark.executorEnv.${arg}=${!arg} >> ${SPARK_HOME}/conf/spark-defaults.conf
-      fi
-    done
-{{- end }}
-
-{{- if .Values.presto }}
-    rm -rf ${IGUAZIO_HOME}/.presto_alias
-    touch ${IGUAZIO_HOME}/.trino_history
-{{- if .Values.presto.keystoreBinary }}
-    echo alias prestojks=\"TRINO_PASSWORD=$V3IO_ACCESS_KEY presto-cli --truststore-path {{ .Values.presto.secretsMountPath }}/tls.jks --truststore-password {{ .Values.presto.passphrase }} --user $V3IO_USERNAME --password \$@\" >> ${IGUAZIO_HOME}/.presto_alias
-    echo alias trinojks=\"prestojks \$@\" >> ${IGUAZIO_HOME}/.presto_alias
-    echo alias prestow=\"prestojks --server https://{{ .Values.presto.hostname }} \$@\" >> ${IGUAZIO_HOME}/.presto_alias
-    echo alias trinow=\"prestow \$@\" >> ${IGUAZIO_HOME}/.presto_alias
-{{- else  }}
-    echo alias prestow=\"presto-cli --server http://{{ .Values.presto.hostname }}.{{ .Release.Namespace }}.svc:{{ .Values.presto.port }} \$@\" >> ${IGUAZIO_HOME}/.presto_alias
-    echo alias trinow=\"prestow \$@\" >> ${IGUAZIO_HOME}/.presto_alias
-{{- end }}
-    echo alias presto=\"prestow --catalog={{ .Values.presto.catalog }} \$@\" >> ${IGUAZIO_HOME}/.presto_alias
-    echo alias trino=\"presto \$@\" >> ${IGUAZIO_HOME}/.presto_alias
-    if [ "$(grep --count 'PRESTO CONFIG' ${HOME}/.bashrc)" == "0" ]; then
-      echo "# ----- PRESTO CONFIG -----" >> ${HOME}/.bashrc
-      echo "[ -e ${IGUAZIO_HOME}/.presto_alias ] && source ${IGUAZIO_HOME}/.presto_alias" >> ${HOME}/.bashrc
-      echo "# --- END PRESTO CONFIG ---" >> ${HOME}/.bashrc
-    fi
-{{- end }}
-
-{{- if .Values.hive }}
-    echo alias hive=\"JAVA_HOME=${IGUAZIO_HOME}/jdk-8u181 ${HIVE_HOME}/bin/hive -hiveconf hive.exec.scratchdir={{ .Values.hive.scratchDirPrefix }}/${V3IO_USERNAME}/hive -hiveconf hive.metastore.uris=thrift://{{ .Values.hive.metastore.hostname }}:{{ .Values.hive.metastore.port }} \$@\" >> ${IGUAZIO_HOME}/.hive_alias
-    if [ "$(grep --count 'HIVE CONFIG' ${HOME}/.bashrc)" == "0" ]; then
-      echo "# ----- HIVE CONFIG -----" >> ${HOME}/.bashrc
-      echo "test -e ${IGUAZIO_HOME}/.hive_alias" && echo "source ${IGUAZIO_HOME}/.hive_alias" >> ${HOME}/.bashrc
-      echo "# --- END HIVE CONFIG ---" >> ${HOME}/.bashrc
-    fi
-{{- end }}
-
-{{- if and .Values.v3io.downloadBinaries }}
-{{- range $binary, $url := .Values.v3io.downloadBinaries }}
-    curl --disable -sSL -o ${IGUAZIO_HOME}/bin/{{ $binary }} {{ $url }}
-    chmod +x ${IGUAZIO_HOME}/bin/{{ $binary }}
-{{ end -}}
-{{- end }}
-{{- if and .Values.v3io.tsdbctl .Values.v3io.tsdbctl.download }}
-    curl --disable -sSL -o ${IGUAZIO_HOME}/bin/tsdbctl {{ .Values.v3io.tsdbctl.download }}
-    chmod +x ${IGUAZIO_HOME}/bin/tsdbctl
-    rm -f ${IGUAZIO_HOME}/.tsdb_alias
-    if [ "${V3IO_API}" -a "${V3IO_ACCESS_KEY}" ]; then
-      echo alias tsdbctl=\"tsdbctl --server ${V3IO_API} --access-key ${V3IO_ACCESS_KEY}\" >> ${IGUAZIO_HOME}/.tsdb_alias
-      if [ "$(grep --count 'TSDB CONFIG' ${HOME}/.bashrc)" == "0" ]; then
-        echo "# ----- TSDB CONFIG -----" >> ${HOME}/.bashrc
-        echo "test -e ${IGUAZIO_HOME}/.tsdb_alias && source ${IGUAZIO_HOME}/.tsdb_alias" >> ${HOME}/.bashrc
-        echo "# --- END TSDB CONFIG ---" >> ${HOME}/.bashrc
-      fi
-    fi
-{{- end }}
-
-{{- if .Values.config.logo }}
-    if [ "$(grep --count 'LOGO CONFIG' ${HOME}/.bashrc)" == "0" ]; then
-      echo "# ----- LOGO CONFIG -----" >> ${HOME}/.bashrc
-      echo "echo ''" >> ${HOME}/.bashrc
-      echo "printf '\033[?7l'" >> ${HOME}/.bashrc
-      echo "echo {{ .Values.config.logo }} | base64 --decode" >> ${HOME}/.bashrc
-      echo "printf '\033[?7h'" >> ${HOME}/.bashrc
-      echo "echo ''" >> ${HOME}/.bashrc
-      echo "# --- END LOGO CONFIG ---" >> ${HOME}/.bashrc
-    fi
-{{- end }}
-
-    if [ "$(grep --count 'IGUAZIO PROMPT CONFIG' ${HOME}/.bashrc)" == "0" ]; then
-      cp ${CONDA_HOME}/.bash_prompt.sh ${HOME}
-      echo "# ----- IGUAZIO PROMPT CONFIG -----" >> ${HOME}/.bashrc
-      echo alias ll=\"ls -lah --color\" >> ${HOME}/.bashrc
-      echo "source ${HOME}/.bash_prompt.sh" >> ${HOME}/.bashrc
-      echo "# --- END IGUAZIO PROMPT CONFIG ---" >> ${HOME}/.bashrc
-    fi
-
-    if [ "$(grep --count 'KUBECTL AUTOCOMPLETION' ${HOME}/.bashrc)" == "0" ]; then
-      echo "# ----- KUBECTL AUTOCOMPLETION -----" >> ${HOME}/.bashrc
-      echo "if [ -f /etc/bash_completion ]; then" >> ${HOME}/.bashrc
-      echo " . /etc/bash_completion" >> ${HOME}/.bashrc
-      echo "fi" >> ${HOME}/.bashrc
-      echo "if type -t _get_comp_words_by_ref > /dev/null 2>&1 && command -v kubectl > /dev/null 2>&1; then" >> ${HOME}/.bashrc
-      echo " source <(kubectl completion bash)" >> ${HOME}/.bashrc
-      echo "fi" >> ${HOME}/.bashrc
-      echo "# ----- END KUBECTL AUTOCOMPLETION -----" >> ${HOME}/.bashrc
-    fi
-
-{{- if .Values.sshServer.enabled }}
-    cp /var/run/iguazio/secrets/ssh/* ${IGUAZIO_HOME}/.ssh
-
-    echo -e "PasswordAuthentication no
-    PermitRootLogin no
-    Ciphers chacha20-poly1305@openssh.com,aes128-ctr,aes192-ctr,aes256-ctr,aes128-gcm@openssh.com,aes256-gcm@openssh.com" >> /etc/ssh/sshd_config
-
-    /usr/sbin/sshd -f /etc/ssh/sshd_config
-{{- end }}
-
-    # fix ssh env (ssh default home is /igz)
-    env | awk -F"=" '{printf("export %s=\"%s\"\n",$1,$2)}' > /igz/.ssh_environment
-    echo "source /igz/.ssh_environment" > /igz/.profile
-    echo "cd ${HOME}" >> /igz/.profile
-    echo "source ${HOME}/.bashrc" >> /igz/.profile
-
-    # create conda env dir (fuse) and init
-    if [ ! -d "${HOME}/.conda/envs" ]; then 
-      mkdir -p ${HOME}/.conda/envs
-    fi
-    if [ "$(grep --count '>>> conda initialize >>>' ${HOME}/.bashrc)" == "0" ]; then
-      conda init bash 2>&1
-    fi
-
-    echo "source ${HOME}/.bashrc" > ${HOME}/.bash_profile
-
-    touch ${HOME}/.viminfo
-    chmod a+w ${HOME}/.viminfo
-
-    # remove term= line from .vimrc - setting causes some keys (for ex. del) not to work
-    if [ -e "${HOME}/.vimrc" ]; then
-      sed -i '/:set term=builtin_ansi/d' ${HOME}/.vimrc
-    fi    
-
-    # disable pip user (local) installations
-    export PYTHONNOUSERSITE=False
-
-    # add iguazio spark pythonpath
-    export PYTHONPATH=$IGZ_SPARK_PYTHONPATH
-
-    # pip persistency on fuse mount for /conda (docker) envs
-    # jupyter (needs special handling for jupyter.fullname in case of multiple jupy envs per user):
-    if [ ! -e "$CONDA_HOME/envs/jupyter/etc/conda/activate.d/env_vars.sh" ]; then
-      # clean leftovers from previous env
-      echo 'if [ "$CONDA_DEFAULT_ENV" == "jupyter" ]; then' > $CONDA_HOME/envs/jupyter/etc/conda/activate.d/env_vars.sh
-      echo '  for env in {{ template "jupyter.fullname" . }} mlrun-base mlrun-extended; do' >> $CONDA_HOME/envs/jupyter/etc/conda/activate.d/env_vars.sh
-      echo '    export PATH=$(echo $PATH | sed '\''s@/User/.pythonlibs/${env}/bin:@@g'\'')' >> $CONDA_HOME/envs/jupyter/etc/conda/activate.d/env_vars.sh
-      echo '  done' >> $CONDA_HOME/envs/jupyter/etc/conda/activate.d/env_vars.sh
-      # update paths    
-      echo '  export PIP_PREFIX=/User/.pythonlibs/{{ template "jupyter.fullname" . }}' >> $CONDA_HOME/envs/jupyter/etc/conda/activate.d/env_vars.sh
-      echo '  export PYTHONPATH=/User/.pythonlibs/{{ template "jupyter.fullname" . }}/lib/python3.9/site-packages:$IGZ_SPARK_PYTHONPATH' >> $CONDA_HOME/envs/jupyter/etc/conda/activate.d/env_vars.sh
-      echo '  export PATH=/User/.pythonlibs/{{ template "jupyter.fullname" . }}/bin:$PATH' >> $CONDA_HOME/envs/jupyter/etc/conda/activate.d/env_vars.sh
-      echo 'fi' >> $CONDA_HOME/envs/jupyter/etc/conda/activate.d/env_vars.sh
-    fi
-    if [ ! -e "$CONDA_HOME/envs/jupyter/etc/conda/deactivate.d/env_vars.sh" ]; then
-      echo 'if [ "$CONDA_DEFAULT_ENV" == "jupyter" ]; then' > $CONDA_HOME/envs/jupyter/etc/conda/deactivate.d/env_vars.sh
-      echo '  unset PIP_PREFIX' >> $CONDA_HOME/envs/jupyter/etc/conda/deactivate.d/env_vars.sh
-      echo '  export PYTHONPATH=$IGZ_SPARK_PYTHONPATH' >> $CONDA_HOME/envs/jupyter/etc/conda/deactivate.d/env_vars.sh
-      echo '  export PATH=$(echo $PATH | sed '\''s@/User/.pythonlibs/'{{ template "jupyter.fullname" . }}'/bin:@@g'\'')' >> $CONDA_HOME/envs/jupyter/etc/conda/deactivate.d/env_vars.sh
-      echo 'fi' >> $CONDA_HOME/envs/jupyter/etc/conda/deactivate.d/env_vars.sh
-    fi
-    # remaining local /conda/envs
-    for env in $(ls /conda/envs | grep -v jupyter); do
-      # overwrite file if intially created by shell (which does not know jupyter.fullname)
-      if [ ! -e "$CONDA_HOME/envs/${env}/etc/conda/activate.d/env_vars.sh" ] || ! $(grep -q {{ template "jupyter.fullname" . }} $CONDA_HOME/envs/${env}/etc/conda/activate.d/env_vars.sh); then
-        # clean leftovers from previous env
-        echo 'if [ "$CONDA_DEFAULT_ENV" == "'${env}'" ]; then' > $CONDA_HOME/envs/${env}/etc/conda/activate.d/env_vars.sh
-        echo '  for env in {{ template "jupyter.fullname" . }} mlrun-base mlrun-extended; do' >> $CONDA_HOME/envs/${env}/etc/conda/activate.d/env_vars.sh
-        echo '    export PATH=$(echo $PATH | sed '\''s@/User/.pythonlibs/${env}/bin:@@g'\'')' >> $CONDA_HOME/envs/${env}/etc/conda/activate.d/env_vars.sh
-        echo '  done' >> $CONDA_HOME/envs/${env}/etc/conda/activate.d/env_vars.sh 
-        # update paths 
-        echo '  export PIP_PREFIX=/User/.pythonlibs/'${env} >> $CONDA_HOME/envs/${env}/etc/conda/activate.d/env_vars.sh
-        echo '  export PYTHONPATH=/User/.pythonlibs/'${env}'/lib/python3.9/site-packages:$IGZ_SPARK_PYTHONPATH' >> $CONDA_HOME/envs/${env}/etc/conda/activate.d/env_vars.sh
-        echo '  export PATH=/User/.pythonlibs/'${env}'/bin:$PATH' >> $CONDA_HOME/envs/${env}/etc/conda/activate.d/env_vars.sh
-        echo 'fi' >> $CONDA_HOME/envs/${env}/etc/conda/activate.d/env_vars.sh
-      fi
-      if [ ! -e "$CONDA_HOME/envs/${env}/etc/conda/deactivate.d/env_vars.sh" ]; then
-        echo 'if [ "$CONDA_DEFAULT_ENV" == "'${env}'" ]; then' > $CONDA_HOME/envs/${env}/etc/conda/deactivate.d/env_vars.sh
-        echo '  unset PIP_PREFIX' >> $CONDA_HOME/envs/${env}/etc/conda/deactivate.d/env_vars.sh
-        echo '  export PYTHONPATH=$IGZ_SPARK_PYTHONPATH' >> $CONDA_HOME/envs/${env}/etc/conda/deactivate.d/env_vars.sh
-        echo '  export PATH=$(echo $PATH | sed '\''s@/User/.pythonlibs/'${env}'/bin:@@g'\'')' >> $CONDA_HOME/envs/${env}/etc/conda/deactivate.d/env_vars.sh
-        echo 'fi' >> $CONDA_HOME/envs/${env}/etc/conda/deactivate.d/env_vars.sh
-      fi
-    done
-
-    # Prevent git from failing on fuse mount (not owned by iguazio user)
-    # https://stackoverflow.com/questions/72978485/ubuntu-20-04-git-submodule-update-failed-with-fatal-detected-dubious-ownershi
-    if [ "$(git config --global --get safe.directory)" != "*" ]; then
-      git config --global --add safe.directory '*'
-    fi
-
-    if [ "$(grep --count 'JUPYTER TERMINAL PATH SUPPORT' ${HOME}/.bashrc)" == "0" ]; then
-      echo "# ----- JUPYTER TERMINAL PATH SUPPORT -----" >> ${HOME}/.bashrc
-      echo 'if [ ! -z $JUPYTER_SERVER_ROOT ]; then' >> ${HOME}/.bashrc
-      echo " export PATH=${PATH}" >> ${HOME}/.bashrc
-      echo "fi" >> ${HOME}/.bashrc
-      echo "# ----- END JUPYTER TERMINAL PATH SUPPORT -----" >> ${HOME}/.bashrc
-      echo "" >> ${HOME}/.bashrc
-    fi
-
-    # https://github.com/conda/conda/issues/7791
-    if [ "$(grep --count 'BLOCK INSTALL ON CONDA BASE' ${HOME}/.bashrc)" == "0" ]; then
-      echo '# ----- BLOCK INSTALL ON CONDA BASE -----' >> ${HOME}/.bashrc
-      echo 'function pip(){' >> ${HOME}/.bashrc
-      echo '  if [ "${CONDA_DEFAULT_ENV-}" = "base" ] && [ "$1" = "install" ]; then' >> ${HOME}/.bashrc
-      echo '    echo "Not allowed in conda (base) environment where package updates are not persistent."' >> ${HOME}/.bashrc
-      echo '    echo "Please create or activate another conda environment."' >> ${HOME}/.bashrc
-      echo '  else' >> ${HOME}/.bashrc
-      echo '    command pip "$@"' >> ${HOME}/.bashrc
-      echo '  fi' >> ${HOME}/.bashrc
-      echo '}' >> ${HOME}/.bashrc
-      echo '' >> ${HOME}/.bashrc
-      echo 'function extended_conda(){' >> ${HOME}/.bashrc
-      echo '  if [ "${CONDA_DEFAULT_ENV-}" = "base" ] && [ "$1" = "install" ]; then' >> ${HOME}/.bashrc
-      echo '    echo "Not allowed in conda (base) environment where package updates are not persistent."' >> ${HOME}/.bashrc
-      echo '    echo "Please create or activate another conda environment."' >> ${HOME}/.bashrc
-      echo '  elif [[ ${CONDA_DEFAULT_ENV-} =~ jupyter|mlrun-base|mlrun-extended ]] && [ "$1" = "install" ]; then' >> ${HOME}/.bashrc
-      echo '    echo "Conda installs to (${CONDA_DEFAULT_ENV}) environment are not persistent."' >> ${HOME}/.bashrc
-      echo '    echo "Either use PIP which is persistent or create/activate another conda environment."' >> ${HOME}/.bashrc      
-      echo '  else' >> ${HOME}/.bashrc
-      echo '    conda "$@"' >> ${HOME}/.bashrc
-      echo '  fi' >> ${HOME}/.bashrc
-      echo '}' >> ${HOME}/.bashrc
-      echo 'alias conda=extended_conda' >> ${HOME}/.bashrc
-      echo '# ----- END BLOCK INSTALL ON CONDA BASE -----' >> ${HOME}/.bashrc
-    fi
-
-    # ipython configuration for magic commands
-    IPYTHON_CONFIG_SCRIPT="${HOME}/.ipython/profile_default/ipython_config.py"
-    IPYTHON_CONFIG_REV=1
-    if [ ! -e "${HOME}/.ipython/profile_default" ]; then
-        mkdir -p ${HOME}/.ipython/profile_default
-    fi    
-    # reset ipython_config.py on revision update
-    if ! $(grep -q IGZ_IPYTHON_CONFIG_REV_${IPYTHON_CONFIG_REV} ${IPYTHON_CONFIG_SCRIPT} 2>/dev/null); then
-      cat << EOF > ${IPYTHON_CONFIG_SCRIPT}
-    #IGZ_IPYTHON_CONFIG_REV_${IPYTHON_CONFIG_REV}
-    import importlib.util
-    c = get_config()
-    c.Application.log_datefmt = '%Y-%m-%d %H:%M:%S'
-    if importlib.util.find_spec('ipython-sql'):
-        c.InteractiveShellApp.extensions.append("sql")
-        c.SqlMagic.autocommit=False
-    if importlib.util.find_spec('nuclio-jupyter'):
-        c.InteractiveShellApp.extensions.append("nuclio")
-    EOF
-    fi
-
-    # create bashrc for non-interactive SSH logins (VSCode)
-    if [ ! -e "${HOME}/.bashrc-noninteractive" ]; then
-      cat << EOF > ${HOME}/.bashrc-noninteractive
-    #fix conda activate for non-interactive logins
-    function conda()
-      if [ "\$1" = "activate" ]; then
-        command source activate \${2}
-      else
-        command conda "\$@"
-      fi
-    EOF
-    fi
-
+    ## Startup hooks
     if [ -e "/igz/startup-hook.sh" ]; then
         /bin/bash /igz/startup-hook.sh || true
     fi
@@ -428,5 +505,6 @@ data:
         /bin/bash ${HOME}/.igz/startup-hook.sh || true
     fi
 
+    ## Start Jupyter
     source activate jupyter
     jupyter lab --no-browser $@
