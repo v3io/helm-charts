@@ -269,7 +269,7 @@ api:
       workDir: /var/mlrun/
 
       image:
-        repository: mlrun/log-collector
+        repository: quay.io/mlrun/log-collector
         tag: 1.3.0
         pullPolicy: IfNotPresent
         pullSecrets: []
