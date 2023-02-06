@@ -44,6 +44,22 @@ data:
     fi
 
 
+    ## Kubectl autocompletion
+    if [ "$(grep --count 'KUBECTL AUTOCOMPLETION' ${HOME}/.bashrc)" == "0" ]; then
+      cat << EOF >> ${HOME}/.bashrc
+    # ----- KUBECTL AUTOCOMPLETION -----
+    if [ -f /etc/bash_completion ]; then
+      . /etc/bash_completion
+    fi
+    if type -t _get_comp_words_by_ref > /dev/null 2>&1 && command -v kubectl > /dev/null 2>&1; then
+      source <(kubectl completion bash)
+    fi
+    # ----- END KUBECTL AUTOCOMPLETION -----
+
+    EOF
+    fi
+
+
     ## Create conda env dir (fuse), populate .condarc and init
     if [ ! -d "${HOME}/.conda/envs" ]; then 
       mkdir -p ${HOME}/.conda/envs
@@ -192,21 +208,6 @@ data:
     fi
 
 
-    ## Kubectl autocompletion
-    if [ "$(grep --count 'KUBECTL AUTOCOMPLETION' ${HOME}/.bashrc)" == "0" ]; then
-      cat << EOF >> ${HOME}/.bashrc
-    # ----- KUBECTL AUTOCOMPLETION -----
-    if [ -f /etc/bash_completion ]; then
-      . /etc/bash_completion
-    fi
-    if type -t _get_comp_words_by_ref > /dev/null 2>&1 && command -v kubectl > /dev/null 2>&1; then
-      source <(kubectl completion bash)
-    fi
-    # ----- END KUBECTL AUTOCOMPLETION -----
-
-    EOF
-    fi
-
     ## SSH config
 {{- if .Values.sshServer.enabled }}
     cp /var/run/iguazio/secrets/ssh/* ${IGUAZIO_HOME}/.ssh
@@ -285,28 +286,28 @@ data:
     if ! $(grep -q IGZ_IPYTHON_CONFIG_REV_${IPYTHON_CONFIG_REV} ${IPYTHON_CONFIG_SCRIPT} 2>/dev/null); then
       cat << EOF > ${IPYTHON_CONFIG_SCRIPT}
     #IGZ_IPYTHON_CONFIG_REV_${IPYTHON_CONFIG_REV}
-    import importlib.util
+    import pkg_resources
     c = get_config()
     c.Application.log_datefmt = '%Y-%m-%d %H:%M:%S'
-    if importlib.util.find_spec('ipython-sql'):
-        c.InteractiveShellApp.extensions.append("sql")
-        c.SqlMagic.autocommit=False
-    if importlib.util.find_spec('nuclio-jupyter'):
-        c.InteractiveShellApp.extensions.append("nuclio")
+    try:
+        if pkg_resources.get_distribution('ipython-sql'):
+            c.InteractiveShellApp.extensions.append("sql")
+            c.SqlMagic.autocommit=False
+    except pkg_resources.DistributionNotFound:
+        pass
+    try:            
+        if pkg_resources.get_distribution('nuclio-jupyter'):
+            c.InteractiveShellApp.extensions.append("nuclio")
+    except pkg_resources.DistributionNotFound:
+        pass
     EOF
     fi
 
 
-    ## Create bashrc for non-interactive SSH logins (VSCode)
+    ## Create bashrc for non-interactive SSH logins
     if [ ! -e "${HOME}/.bashrc-noninteractive" ]; then
       cat << EOF > ${HOME}/.bashrc-noninteractive
-    #fix conda activate for non-interactive logins
-    function conda()
-      if [ "\$1" = "activate" ]; then
-        command source activate \${2}
-      else
-        command conda "\$@"
-      fi
+    # bashrc for non-interactive SSH logins
     EOF
     fi
 
