@@ -234,10 +234,15 @@ data:
     fi
 
 
-    ## Prevent git from failing on fuse mount (not owned by iguazio user)
+    ## Git config
+    # Prevent git from failing on fuse mount (not owned by iguazio user)
     # https://stackoverflow.com/questions/72978485/ubuntu-20-04-git-submodule-update-failed-with-fatal-detected-dubious-ownershi
-    if [ "$(git config --global --get safe.directory)" != "*" ]; then
+    if [ "$(git config --global --get safe.directory)" == "" ]; then
       git config --global --add safe.directory '*'
+    fi
+    # Store credentials in cache for multi pushing
+    if [ "$(git config --global --get credential.helper)" == "" ]; then
+      git config --global --add credential.helper store
     fi
 
 
