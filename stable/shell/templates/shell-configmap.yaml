@@ -35,17 +35,25 @@ data:
     #!/usr/bin/env bash
     set -e
 
+    ## log + timer
+    start=${SECONDS}
+    log () {
+      echo [$(( SECONDS - start ))s] "$*"
+    }
+
 {{ include "v3io-configs.script.lookupService" . | indent 4 }}
 
     ## Reset .bashrc on revision update
     BASHRC_REV=1
-    if ! $(grep -q IGZ_BASHRC_REV_${BASHRC_REV} ${HOME}/.bashrc); then
+    if ! $(grep -q IGZ_BASHRC_REV_${BASHRC_REV} ${HOME}/.bashrc 2>/dev/null); then
+      log 'Reset .bashrc on revision update'
       echo "#IGZ_BASHRC_REV_${BASHRC_REV}" > ${HOME}/.bashrc
     fi
 
 
     ## Kubectl autocompletion
     if [ "$(grep --count 'KUBECTL AUTOCOMPLETION' ${HOME}/.bashrc)" == "0" ]; then
+      log 'Configure kubectl autocompletion'
       cat << EOF >> ${HOME}/.bashrc
     # ----- KUBECTL AUTOCOMPLETION -----
     if [ -f /etc/bash_completion ]; then
@@ -61,7 +69,8 @@ data:
 
 
     ## Create conda env dir (fuse), populate .condarc and init
-    if [ ! -d "${HOME}/.conda/envs" ]; then 
+    if [ ! -d "${HOME}/.conda/envs" ]; then
+      log 'Configure conda'
       mkdir -p ${HOME}/.conda/envs
     fi
     if [ ! -e "${HOME}/.condarc" ]; then
@@ -88,6 +97,7 @@ data:
 
     ## Spark
 {{- if .Values.spark }}
+    log 'Configure spark'
     cat << EOF >> ${SPARK_HOME}/conf/spark-defaults.conf
     spark.master=spark://{{ .Values.spark.hostname }}:{{ .Values.spark.port }}
     spark.driver.host=$(hostname -i)
@@ -108,6 +118,7 @@ data:
 
     ## Presto
 {{- if .Values.presto }}
+    log 'Configure presto'
     rm -rf ${IGUAZIO_HOME}/.presto_alias
     touch ${IGUAZIO_HOME}/.trino_history
 {{- if .Values.presto.keystoreBinary }}
@@ -140,6 +151,7 @@ data:
 
     ## Hive
 {{- if .Values.hive }}
+    log 'Configure hive'
     echo alias hive=\"JAVA_HOME=${IGUAZIO_HOME}/jdk-8u181 ${HIVE_HOME}/bin/hive -hiveconf hive.exec.scratchdir={{ .Values.hive.scratchDirPrefix }}/${V3IO_USERNAME}/hive -hiveconf hive.metastore.uris=thrift://{{ .Values.hive.metastore.hostname }}:{{ .Values.hive.metastore.port }} \$@\" >> ${IGUAZIO_HOME}/.hive_alias
     if [ "$(grep --count 'HIVE CONFIG' ${HOME}/.bashrc)" == "0" ]; then
       cat << EOF >> ${HOME}/.bashrc
@@ -154,6 +166,7 @@ data:
 
     ## Download extra binaries
 {{- if and .Values.v3io.downloadBinaries }}
+    log 'Download extra binaries'
 {{- range $binary, $url := .Values.v3io.downloadBinaries }}
     curl --disable -sSL -o ${IGUAZIO_HOME}/bin/{{ $binary }} {{ $url }}
     chmod +x ${IGUAZIO_HOME}/bin/{{ $binary }}
@@ -163,6 +176,7 @@ data:
 
     ## TSDB
 {{- if and .Values.v3io.tsdbctl .Values.v3io.tsdbctl.download }}
+    log 'Configure TSDB'
     curl --disable -sSL -o ${IGUAZIO_HOME}/bin/tsdbctl {{ .Values.v3io.tsdbctl.download }}
     chmod +x ${IGUAZIO_HOME}/bin/tsdbctl
     rm -f ${IGUAZIO_HOME}/.tsdb_alias
@@ -183,6 +197,7 @@ data:
     ## Iguazio terminal logo
 {{- if .Values.config.logo }}
     if [ "$(grep --count 'LOGO CONFIG' ${HOME}/.bashrc)" == "0" ]; then
+      log 'Configure iguazio logo'
       echo "# ----- LOGO CONFIG -----" >> ${HOME}/.bashrc
       echo "echo ''" >> ${HOME}/.bashrc
       echo "printf '\033[?7l'" >> ${HOME}/.bashrc
@@ -197,6 +212,7 @@ data:
 
     ## Prompt config
     if [ "$(grep --count 'IGUAZIO PROMPT CONFIG' ${HOME}/.bashrc)" == "0" ]; then
+      log 'Configure prompt'
       cp ${CONDA_HOME}/.bash_prompt.sh ${HOME}
       cat << EOF >> ${HOME}/.bashrc
     # ----- IGUAZIO PROMPT CONFIG -----
@@ -210,6 +226,7 @@ data:
 
     ## SSH config
 {{- if .Values.sshServer.enabled }}
+    log 'Configure SSH'
     cp /var/run/iguazio/secrets/ssh/* ${IGUAZIO_HOME}/.ssh
     cat << EOF >> /etc/ssh/sshd_config
     PasswordAuthentication no
@@ -225,10 +242,11 @@ data:
     source ${HOME}/.bashrc
     EOF
 {{- end }}
-
     echo "source ${HOME}/.bashrc" > ${HOME}/.bash_profile
 
+
     ## Vim config
+    log 'Configure vim'
     touch ${HOME}/.viminfo
     chmod a+w ${HOME}/.viminfo
     # Remove term= line from .vimrc - setting causes some keys (for ex. del) not to work
@@ -238,6 +256,7 @@ data:
 
 
     ## Git config
+    log 'Configure git'
     # Prevent git from failing on fuse mount (not owned by iguazio user)
     # https://stackoverflow.com/questions/72978485/ubuntu-20-04-git-submodule-update-failed-with-fatal-detected-dubious-ownershi
     if [ "$(git config --global --get safe.directory)" == "" ]; then
@@ -252,6 +271,7 @@ data:
     ## Block conda/pip installs on prebaked conda envs
     # https://github.com/conda/conda/issues/7791
     if [ "$(grep --count 'BLOCK INSTALL ON CONDA BASE' ${HOME}/.bashrc)" == "0" ]; then
+      log 'Block conda, pip on prebaked envs'
       cat << EOF >> ${HOME}/.bashrc
     # ----- BLOCK INSTALL ON CONDA BASE -----
     function pip(){
@@ -289,6 +309,7 @@ data:
     fi    
     # reset ipython_config.py on revision update
     if ! $(grep -q IGZ_IPYTHON_CONFIG_REV_${IPYTHON_CONFIG_REV} ${IPYTHON_CONFIG_SCRIPT} 2>/dev/null); then
+      log 'Configure ipython'
       cat << EOF > ${IPYTHON_CONFIG_SCRIPT}
     #IGZ_IPYTHON_CONFIG_REV_${IPYTHON_CONFIG_REV}
     import pkg_resources
@@ -311,6 +332,7 @@ data:
 
     ## Create bashrc for non-interactive SSH logins
     if [ ! -e "${HOME}/.bashrc-noninteractive" ]; then
+      log 'Configure non-interactive bashrc'
       cat << EOF > ${HOME}/.bashrc-noninteractive
     # bashrc for non-interactive SSH logins
     EOF
@@ -320,5 +342,6 @@ data:
     ## Disable pip user (local) installations
     export PYTHONNOUSERSITE=False
 
+    log 'Starting ttyd'
     source activate base
     ttyd bash
