@@ -12,6 +12,8 @@ spec:
   {{- else }}
   replicas: {{ .Values.api.chief.minReplicas }}
   {{- end }}
+  strategy:
+    type: Recreate
   selector:
     matchLabels:
       {{- include "mlrun.api.chief.selectorLabels" . | nindent 6 }}
