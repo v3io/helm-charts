@@ -427,8 +427,8 @@ data:
 
     ## Jupyter terminal configuration
     if [ ! -e "${JUPYTERLAB_SETTINGS_DIR}/@jupyterlab/terminal-extension/plugin.jupyterlab-settings" ]; then
-        mkdir -p ${JUPYTERLAB_SETTINGS_DIR}/@jupyterlab/terminal-extension
-        cat << EOF > ${JUPYTERLAB_SETTINGS_DIR}/@jupyterlab/terminal-extension/plugin.jupyterlab-settings
+      mkdir -p ${JUPYTERLAB_SETTINGS_DIR}/@jupyterlab/terminal-extension
+      cat << EOF > ${JUPYTERLAB_SETTINGS_DIR}/@jupyterlab/terminal-extension/plugin.jupyterlab-settings
     {
     "theme": "dark"
     }
@@ -447,8 +447,8 @@ data:
     fi
 
     if [ ! -e "${JUPYTER_CONFIG_DIR}/custom/custom.css" ]; then
-        mkdir -p ${JUPYTER_CONFIG_DIR}/custom
-        cat << EOF > ${JUPYTER_CONFIG_DIR}/custom/custom.css
+      mkdir -p ${JUPYTER_CONFIG_DIR}/custom
+      cat << EOF > ${JUPYTER_CONFIG_DIR}/custom/custom.css
     .notebook_app .container {
         width:98%; !important
     }
@@ -462,11 +462,11 @@ data:
     ## Jupyter config files
     # remove old config file
     if [ -e "${JUPYTER_CONFIG_DIR}/jupyter_notebook_config.py" ]; then
-        rm -f ${JUPYTER_CONFIG_DIR}/jupyter_notebook_config.py
+      rm -f ${JUPYTER_CONFIG_DIR}/jupyter_notebook_config.py
     fi
 
     if [ ! -e "${JUPYTER_CONFIG_DIR}/jupyter_config.json" ]; then
-        cp /conda/envs/jupyter/etc/jupyter/jupyter_config.json ${JUPYTER_CONFIG_DIR}
+      cp /conda/envs/jupyter/etc/jupyter/jupyter_config.json ${JUPYTER_CONFIG_DIR}
     fi
 
 
@@ -477,6 +477,7 @@ data:
     if ! $(grep -q IGZ_ALIGN_MLRUN_REV_${ALIGN_MLRUN_REV} ${ALIGN_MLRUN_SCRIPT} 2>/dev/null); then
       log 'Configure align_mlrun.sh script'
       cat << EOF > ${ALIGN_MLRUN_SCRIPT}
+    #!/bin/bash
     #IGZ_ALIGN_MLRUN_REV_${ALIGN_MLRUN_REV}
     if [ "\${CONDA_DEFAULT_ENV-}" = "base" ]; then
       echo "Not allowed in conda (base) environment where package updates are not persistent."
@@ -518,32 +519,114 @@ data:
       tar -C /tmp -xvf /tmp/jupyter-tutorials ${UPDATE_NOTEBOOK_FILE} --strip-components=1
       tar -C /tmp -xvf /tmp/jupyter-tutorials ${DEMOS_SCRIPT_FILE} --strip-components=1
       if ! /tmp/igz-tutorials-get.sh; then
-          tar -C ${HOME} -xvf /tmp/jupyter-tutorials  --strip-components=1
-          rm -f /tmp/jupyter-tutorials
+        tar -C ${HOME} -xvf /tmp/jupyter-tutorials  --strip-components=1
+        rm -f /tmp/jupyter-tutorials
       else
-          cp /tmp/igz-tutorials-get.sh ${HOME}
-          cp /tmp/update-tutorials.ipynb ${HOME}
-          cp /tmp/update-demos.sh ${HOME}
+        cp /tmp/igz-tutorials-get.sh ${HOME}
+        cp /tmp/update-tutorials.ipynb ${HOME}
+        cp /tmp/update-demos.sh ${HOME}
       fi
       if ! bash /tmp/update-demos.sh --mlrun-ver `curl -s ${IGZ_MLRUN_API_ENDPOINT}/api/healthz | python3 -c "import sys, json; print(json.load(sys.stdin)['version'])"`; then
-          mkdir -p ${HOME}/demos
-          tar -C ${HOME}/demos -xvf /tmp/mlrun-demos  --strip-components=1
-          rm -f /tmp/mlrun-demos
+        mkdir -p ${HOME}/demos
+        tar -C ${HOME}/demos -xvf /tmp/mlrun-demos  --strip-components=1
+        rm -f /tmp/mlrun-demos
       fi
       chmod a+x ${HOME}/igz-tutorials-get.sh ${HOME}/update-demos.sh
       rm -f  /tmp/igz-tutorials-get.sh /tmp/update-demos.sh /tmp/update-tutorials.ipynb
       touch ${HOME}/.igz/.getting-started
     fi
 
+
+    ## VSCode support
+    # create symlinks to /igz (vscode server/extensions try to mv directories - not supported by fuse)
+    log 'Configure VSCode support'
+    for dir in .vscode-server .vscode-server-insiders; do
+      [[ -e "${IGUAZIO_HOME}/$dir" ]] || mkdir -p ${IGUAZIO_HOME}/$dir
+      [[ -e "${HOME}/$dir" ]] || ln -s ${IGUAZIO_HOME}/${dir} ${HOME}/${link}
+    done
+    # hide unwanted kernels
+    [[ -e "${HOME}/.vscode" ]] || mkdir -p ${HOME}/.vscode
+    [[ -e "${HOME}/.vscode/settings.json" ]] || cat << EOF >> ${HOME}/.vscode/settings.json
+    {
+        "jupyter.kernels.filter": [
+            {
+                "path": "/conda/bin/python",
+                "type": "pythonEnvironment"
+            },
+            {
+                "path": "/conda/envs/jupyter/bin/python",
+                "type": "pythonEnvironment"
+            },
+            {
+                "path": "/usr/local/bin/python",
+                "type": "pythonEnvironment"
+            }
+        ]
+    }
+    EOF
+    # recommend python extension needed to work with jupyter/conda
+    [[ -e "${HOME}/.vscode/extensions.json" ]] || cat << EOF >> ${HOME}/.vscode/extensions.json
+    {
+            // See https://go.microsoft.com/fwlink/?LinkId=827846 to learn about workspace recommendations.
+            // Extension identifier format: ${publisher}.${name}. Example: vscode.csharp
+
+            // List of extensions which should be recommended for users of this workspace.
+            "recommendations": [
+                "ms-python.python"
+            ],
+            // List of extensions recommended by VS Code that should not be recommended for users of this workspace.
+            "unwantedRecommendations": [
+
+            ]
+    }
+    EOF
+
+
+    ## SSH Monitor script generation (signal sidecar-proxy to prevent scale to zero on active ssh connections)
+{{- if .Values.sshServer.enabled }}
+    SCRIPT_NAME=".ssh_monitor"
+    SSH_MONITOR_SCRIPT="${IGUAZIO_HOME}/${SCRIPT_NAME}"
+    cat << EOF > ${SSH_MONITOR_SCRIPT}
+    #!/bin/bash
+
+    file=\$1
+    interval=\$2
+    connected=0
+
+    while true; do
+      if netstat | grep -q ssh; then
+        if (( ! connected )); then
+          connected=1
+          echo 1 > "\$file"
+          [[ \$SSH_CONNECTION_DEBUG -eq 1 ]] && echo "[\$(date)] SSH_CONNECTION_DEBUG: Detected open ssh connections" >> /proc/1/fd/1
+        fi
+      else
+        if (( connected )); then
+          connected=0
+          echo 0 > "\$file"
+          [[ \$SSH_CONNECTION_DEBUG -eq 1 ]] && echo "[\$(date)] SSH_CONNECTION_DEBUG: No open ssh connections" >> /proc/1/fd/1
+        fi
+      fi
+      sleep "\$interval"
+    done
+    EOF
+    chmod +x ${SSH_MONITOR_SCRIPT}
+    
+    # run script in background
+    pgrep ${SCRIPT_NAME} 1>/dev/null || nohup ${SSH_MONITOR_SCRIPT} /intercontainer/opensshconnection 10 1>/dev/null &
+{{- end }}
+
+
     ## Startup hooks
     log 'Configure startup hooks'
     if [ -e "/igz/startup-hook.sh" ]; then
-        /bin/bash /igz/startup-hook.sh || true
+      /bin/bash /igz/startup-hook.sh || true
     fi
 
     if [ -e "${HOME}/.igz/startup-hook.sh" ]; then
-        /bin/bash ${HOME}/.igz/startup-hook.sh || true
+      /bin/bash ${HOME}/.igz/startup-hook.sh || true
     fi
+
 
     ## Start Jupyter
     log 'Starting jupyter'
