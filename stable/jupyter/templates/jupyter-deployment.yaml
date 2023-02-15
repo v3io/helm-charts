@@ -149,6 +149,8 @@ spec:
               readOnly: true
               name: ssh-authorized-keys
 {{- end }}
+            - mountPath: /intercontainer
+              name: inter-container
             - mountPath: /User/v3io
               name: v3io-fuse
             - mountPath: /etc/config/jupyter
@@ -185,6 +187,9 @@ spec:
           ports:
             - containerPort: {{ .Values.proxy.servicePort }}
               name: sidecar-proxy
+          volumeMounts:
+            - mountPath: /intercontainer
+              name: inter-container
       volumes:
 {{- if .Values.sshServer.enabled }}
         - name: ssh-authorized-keys
@@ -192,6 +197,8 @@ spec:
             defaultMode: 420
             secretName: {{ template "jupyter.fullname" . }}-ssh-key
 {{- end }}
+        - name: inter-container
+          emptyDir: {}
         - name: config-volume
           configMap:
             name: {{ template "jupyter.fullname" . }}
