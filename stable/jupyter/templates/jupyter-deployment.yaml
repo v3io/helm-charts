@@ -148,9 +148,9 @@ spec:
             - mountPath: /var/run/iguazio/secrets/ssh
               readOnly: true
               name: ssh-authorized-keys
-            - mountPath: /intercontainer/opensshconnection
-              name: inter-container-ssh
 {{- end }}
+            - mountPath: /intercontainer
+              name: inter-container
             - mountPath: /User/v3io
               name: v3io-fuse
             - mountPath: /etc/config/jupyter
@@ -187,20 +187,18 @@ spec:
           ports:
             - containerPort: {{ .Values.proxy.servicePort }}
               name: sidecar-proxy
-{{- if .Values.sshServer.enabled }}
           volumeMounts:
-            - mountPath: /intercontainer/opensshconnection
-              name: inter-container-ssh
-{{- end }}
+            - mountPath: /intercontainer
+              name: inter-container
       volumes:
 {{- if .Values.sshServer.enabled }}
         - name: ssh-authorized-keys
           secret:
             defaultMode: 420
             secretName: {{ template "jupyter.fullname" . }}-ssh-key
-        - name: inter-container-ssh
-          emptyDir: {}
 {{- end }}
+        - name: inter-container
+          emptyDir: {}
         - name: config-volume
           configMap:
             name: {{ template "jupyter.fullname" . }}
