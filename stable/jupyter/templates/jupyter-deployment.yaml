@@ -187,11 +187,11 @@ spec:
           ports:
             - containerPort: {{ .Values.proxy.servicePort }}
               name: sidecar-proxy
-{{ - if .Values.sshServer.enabled }}
+{{- if .Values.sshServer.enabled }}
           volumeMounts:
             - mountPath: /intercontainer/opensshconnection
               name: inter-container-ssh
-{{ - end }}
+{{- end }}
       volumes:
 {{- if .Values.sshServer.enabled }}
         - name: ssh-authorized-keys
