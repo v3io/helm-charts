@@ -351,7 +351,11 @@ Resolve the effective docker registry url and secret Name allowing for global va
 {{ default .Values.defaultDockerRegistryURL .Values.global.registry.url }}
 {{- end -}}
 
-{{- define "mlrun.defaultDockerRegistry.secretName" -}}
+{{- define "mlrun.defaultDockerRegistry.builderSecretName" -}}
+{{ default .Values.defaultDockerRegistrySecretName .Values.global.registry.secretName }}
+{{- end -}}
+
+{{- define "mlrun.defaultDockerRegistry.imagePullSecretName" -}}
 {{ default .Values.api.function.spec.image_pull_secret.default .Values.global.registry.secretName }}
 {{- end -}}
 
