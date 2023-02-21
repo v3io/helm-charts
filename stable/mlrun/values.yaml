@@ -591,6 +591,7 @@ global:
   externalHostAddress:
   registry:
     url:
+    # default image pull secret
     secretName:
   nuclio:
     dashboard:

@@ -60,20 +60,12 @@ spec:
             value: http://{{ include "mlrun.api.fullname" . }}:{{ .Values.api.service.port }}
           - name: MLRUN_HTTPDB__DIRPATH
             value: {{ .Values.httpDB.dirPath }}
-          # DEFAULT_DOCKER_REGISTRY & DEFAULT_DOCKER_SECRET are for BC to run 0.5.x chart with 0.5.x MLRun
-          # When mlrun-kit starts using 0.6.x MLRun this can be removed
-          - name: DEFAULT_DOCKER_REGISTRY
-            value: {{ template "mlrun.defaultDockerRegistry.url" . }}
-          - name: DEFAULT_DOCKER_SECRET
-            value: {{ template "mlrun.defaultDockerRegistry.secretName" . }}
           - name: MLRUN_HTTPDB__BUILDER__DOCKER_REGISTRY
             value: {{ template "mlrun.defaultDockerRegistry.url" . }}
           - name: MLRUN_HTTPDB__BUILDER__DOCKER_REGISTRY_SECRET
-            value: {{ template "mlrun.defaultDockerRegistry.secretName" . }}
-          {{- if .Values.api.function.spec.image_pull_secret.default }}
+            value: {{ .Values.defaultDockerRegistrySecretName | quote }}
           - name: MLRUN_FUNCTION__SPEC__IMAGE_PULL_SECRET__DEFAULT
-            value: {{ .Values.api.function.spec.image_pull_secret.default | quote }}
-          {{- end }}
+            value: {{ template "mlrun.defaultDockerRegistry.secretName" . }}
           - name: MLRUN_HTTPDB__DSN
             value: {{ .Values.httpDB.dsn }}
           - name: MLRUN_HTTPDB__OLD_DSN
