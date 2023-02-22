@@ -72,7 +72,7 @@ spec:
           - name: MLRUN_HTTPDB__BUILDER__DOCKER_REGISTRY_SECRET
             value: {{ template "mlrun.defaultDockerRegistry.builderSecretName" . }}
           {{- end }}
-          {{- if or .Values.defaultDockerRegistrySecretName .Values.global.registry.secretName }}
+          {{- if or .Values.api.function.spec.image_pull_secret.default .Values.global.registry.secretName }}
           - name: MLRUN_FUNCTION__SPEC__IMAGE_PULL_SECRET__DEFAULT
             value: {{ template "mlrun.defaultDockerRegistry.imagePullSecretName" . }}
           {{- end }}
