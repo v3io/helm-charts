@@ -348,15 +348,15 @@ Create the name of the service account to use
 Resolve the effective docker registry url and secret Name allowing for global values
 */}}
 {{- define "mlrun.defaultDockerRegistry.url" -}}
-{{ default .Values.defaultDockerRegistryURL .Values.global.registry.url }}
+{{ coalesce .Values.defaultDockerRegistryURL .Values.global.registry.url }}
 {{- end -}}
 
 {{- define "mlrun.defaultDockerRegistry.builderSecretName" -}}
-{{ default .Values.defaultDockerRegistrySecretName .Values.global.registry.secretName }}
+{{ coalesce .Values.defaultDockerRegistrySecretName .Values.global.registry.secretName }}
 {{- end -}}
 
 {{- define "mlrun.defaultDockerRegistry.imagePullSecretName" -}}
-{{ default .Values.api.function.spec.image_pull_secret.default .Values.global.registry.secretName }}
+{{ coalesce .Values.api.function.spec.image_pull_secret.default .Values.global.registry.secretName }}
 {{- end -}}
 
 {{/*

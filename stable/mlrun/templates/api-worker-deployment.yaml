@@ -62,10 +62,14 @@ spec:
             value: {{ .Values.httpDB.dirPath }}
           - name: MLRUN_HTTPDB__BUILDER__DOCKER_REGISTRY
             value: {{ template "mlrun.defaultDockerRegistry.url" . }}
+          {{- if or .Values.defaultDockerRegistrySecretName .Values.global.registry.secretName }}
           - name: MLRUN_HTTPDB__BUILDER__DOCKER_REGISTRY_SECRET
             value: {{ template "mlrun.defaultDockerRegistry.builderSecretName" . }}
+          {{- end }}
+          {{- if or .Values.defaultDockerRegistrySecretName .Values.global.registry.secretName }}
           - name: MLRUN_FUNCTION__SPEC__IMAGE_PULL_SECRET__DEFAULT
             value: {{ template "mlrun.defaultDockerRegistry.imagePullSecretName" . }}
+          {{- end }}
           - name: MLRUN_HTTPDB__DSN
             value: {{ .Values.httpDB.dsn }}
           - name: MLRUN_HTTPDB__OLD_DSN
