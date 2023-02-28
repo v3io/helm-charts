@@ -352,6 +352,7 @@ data:
     export PYTHONNOUSERSITE=False
 
 
+    export JUPYTER_FULLNAME={{ template "jupyter.fullname" . }}
     # PIP persistency on fuse mount for /conda (docker) envs
     log 'Configure PIP persistency for prebaked envs'
     # jupyter (needs special handling for jupyter.fullname in case of multiple jupy envs per user):
@@ -359,13 +360,13 @@ data:
       cat << EOF > ${CONDA_HOME}/envs/jupyter/etc/conda/activate.d/env_vars.sh
     # clean leftovers from previous env
     if [ "\${CONDA_DEFAULT_ENV}" == "jupyter" ]; then
-      for env in {{ template "jupyter.fullname" . }} mlrun-base mlrun-extended; do
+      for env in ${JUPYTER_FULLNAME} mlrun-base mlrun-extended; do
         export PATH=\$(echo \${PATH} | sed 's@/User/.pythonlibs/\${env}/bin:@@g')
       done
     # update paths    
-      export PIP_PREFIX=/User/.pythonlibs/{{ template "jupyter.fullname" . }}
-      export PYTHONPATH=/User/.pythonlibs/{{ template "jupyter.fullname" . }}/lib/python3.9/site-packages:\${IGZ_SPARK_PYTHONPATH}
-      export PATH=/User/.pythonlibs/{{ template "jupyter.fullname" . }}/bin:\${PATH}
+      export PIP_PREFIX=/User/.pythonlibs/${JUPYTER_FULLNAME}
+      export PYTHONPATH=/User/.pythonlibs/${JUPYTER_FULLNAME}/lib/python3.9/site-packages:\${IGZ_SPARK_PYTHONPATH}
+      export PATH=/User/.pythonlibs/${JUPYTER_FULLNAME}/bin:\${PATH}
     fi
     EOF
     fi
@@ -374,7 +375,7 @@ data:
     if [ "\${CONDA_DEFAULT_ENV}" == "jupyter" ]; then
       unset PIP_PREFIX
       export PYTHONPATH=\${IGZ_SPARK_PYTHONPATH}
-      export PATH=\$(echo \${PATH} | sed 's@/User/.pythonlibs/{{ template "jupyter.fullname" . }}/bin:@@g')
+      export PATH=\$(echo \${PATH} | sed 's@/User/.pythonlibs/${JUPYTER_FULLNAME}/bin:@@g')
     fi
     EOF
     fi
@@ -384,7 +385,7 @@ data:
         cat << EOF > ${CONDA_HOME}/envs/${env}/etc/conda/activate.d/env_vars.sh
     # clean leftovers from previous env
     if [ "\${CONDA_DEFAULT_ENV}" == "${env}" ]; then
-      for env in {{ template "jupyter.fullname" . }} mlrun-base mlrun-extended; do
+      for env in ${JUPYTER_FULLNAME} mlrun-base mlrun-extended; do
         export PATH=\$(echo \${PATH} | sed 's@/User/.pythonlibs/\${env}/bin:@@g')
       done
     # update paths 
@@ -410,12 +411,12 @@ data:
     log 'Configure jupyter'
     # https://jupyterlab.readthedocs.io/en/stable/user/directories.html
     # https://docs.jupyter.org/en/latest/use/jupyter-directories.html
-    export JUPYTERLAB_DIR=${HOME}/.{{ template "jupyter.fullname" . }}/lab
+    export JUPYTERLAB_DIR=${HOME}/.${JUPYTER_FULLNAME}/lab
     export JUPYTERLAB_SETTINGS_DIR=${JUPYTERLAB_DIR}/user-settings
     export JUPYTERLAB_WORKSPACES_DIR=${JUPYTERLAB_DIR}/workspaces
     export JUPYTER_DATA_DIR=${JUPYTERLAB_DIR}
-    export JUPYTER_CONFIG_DIR=${HOME}/.{{ template "jupyter.fullname" . }}
-    export JUPYTER_RUNTIME_DIR=/igz/.{{ template "jupyter.fullname" . }}
+    export JUPYTER_CONFIG_DIR=${HOME}/.${JUPYTER_FULLNAME}
+    export JUPYTER_RUNTIME_DIR=/igz/.${JUPYTER_FULLNAME}
     if [ ! -e "${JUPYTERLAB_DIR}/static" ]; then
         mkdir -p ${JUPYTERLAB_DIR}
         cp -R /conda/envs/jupyter/share/jupyter/lab/* ${JUPYTERLAB_DIR}
@@ -464,10 +465,12 @@ data:
     if [ -e "${JUPYTER_CONFIG_DIR}/jupyter_notebook_config.py" ]; then
       rm -f ${JUPYTER_CONFIG_DIR}/jupyter_notebook_config.py
     fi
-
+    # copy jupyter_config.json to persistent dir
     if [ ! -e "${JUPYTER_CONFIG_DIR}/jupyter_config.json" ]; then
       cp /conda/envs/jupyter/etc/jupyter/jupyter_config.json ${JUPYTER_CONFIG_DIR}
     fi
+    # prevent duplicates
+    rm -f /conda/envs/jupyter/etc/jupyter/jupyter_config.json
 
 
     ## ALIGN_MLRUN script generation
@@ -479,16 +482,14 @@ data:
       cat << EOF > ${ALIGN_MLRUN_SCRIPT}
     #!/bin/bash
     #IGZ_ALIGN_MLRUN_REV_${ALIGN_MLRUN_REV}
-    if [ "\${CONDA_DEFAULT_ENV-}" = "base" ]; then
-      echo "Not allowed in conda (base) environment where package updates are not persistent."
-      echo "Please create or activate another conda environment."
-      exit 1
-    fi
-    if [ "\${CONDA_DEFAULT_ENV-}" = "jupyter" ]; then
-      echo "Not allowed in conda (jupyter) environment."
-      echo "Please create or activate another conda environment."
-      exit 1
-    fi    
+    for env in base jupyter; do
+      if [ "\${CONDA_DEFAULT_ENV-}" = "\${env}" ]; then
+        echo "Not allowed in conda (\${env}) environment where package updates are not persistent."
+        echo "Please create a new conda environment or \"conda activate\" an existing environment first:"
+        conda env list | grep -v "^base \|^jupyter "
+        exit 1
+      fi
+    done
     CLIENT_MLRUN_VERSION=\$(pip show mlrun | grep Version | awk '{print \$2}')
     SERVER_MLRUN_VERSION=\$(curl -s \${IGZ_MLRUN_API_ENDPOINT}/api/healthz | python3 -c "import sys, json; print(json.load(sys.stdin)['version'])")
     if [ "\${CLIENT_MLRUN_VERSION}" = "\${SERVER_MLRUN_VERSION}" ] || [ "\${CLIENT_MLRUN_VERSION}" = "\${SERVER_MLRUN_VERSION//-}" ]; then
