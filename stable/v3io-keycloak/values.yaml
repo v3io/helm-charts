@@ -3,28 +3,33 @@ keycloak:
   postgresql:
     enabled: false
 
+  mysql:
+    host: v3io-keycloak-db
+    port: 3306
+
   extraEnv: |
     - name: DB_VENDOR
       value: mysql
     - name: DB_ADDR
-      value: v3io-keycloak-db
+      value: {{ .Values.mysql.host | quote }}
     - name: DB_PORT
-      value: "3306"
+      value: {{ .Values.mysql.port | quote }}
     - name: DB_DATABASE
       value: keycloak
 
   extraEnvFrom: |
     - secretRef:
-        name: 'v3io-keycloak-db-creds'
+        name: v3io-keycloak-db-creds
 
+  initContainerImage: alpine:3.17
   extraInitContainers: |
     - name: wait-for-mysql
-      image: alpine:3.17
+      image: {{ .Values.initContainerImage }}
       imagePullPolicy: IfNotPresent
       command: ['sh', '-c']
       args:
         - echo -e "Waiting MySQL Server deployment availability";
-          while ! nc -z v3io-keycloak-db 3306; do
+          while ! nc -z {{ .Values.mysql.host }} {{ .Values.mysql.port | quote }}; do
             sleep 1;
             echo "MySQL Server not available yet";
           done;
@@ -41,3 +46,6 @@ v3io-mysql:
   persistence:
     v3io:
       mountPath: /keycloak/mysql
+
+  service:
+    port: 3306
