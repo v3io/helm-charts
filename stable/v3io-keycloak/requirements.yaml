@@ -1,0 +1,8 @@
+dependencies:
+- name: v3io-mysql
+  version: 0.1.0
+#  repository: https://v3io.github.io/helm-charts/stable
+  repository: file:///Users/quaark/Iguazio/workspace_misc/helm-charts/stable/v3io-mysql
+- name: keycloak
+  version: 18.4.0
+  repository: https://codecentric.github.io/helm-charts
