@@ -23,7 +23,7 @@ If release name contains chart name it will be used as a full name.
 {{- if .Values.v3io.username -}}
 {{- printf "/%s/%s" .Values.v3io.username .Values.persistence.v3io.mountPath -}}
 {{- else -}}
-{{- printf "/%s/%s" ( include "v3io-mysql.v3io.username" . ) .Values.persistence.v3io.mountPath -}}
+{{ .Values.persistence.v3io.mountPath }}
 {{- end -}}
 {{- end -}}
 

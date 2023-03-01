@@ -1,0 +1,48 @@
+apiVersion: v1
+entries:
+  grafana:
+  - apiVersion: v1
+    appVersion: 6.5.2
+    created: "2023-02-26T10:23:09.81323+02:00"
+    dependencies:
+    - name: v3io-configs
+      repository: https://v3io.github.io/helm-charts/stable
+      version: 0.11.3
+    description: The leading tool for querying and visualizing time series and metrics.
+    digest: 78bbfe2659a3723e0fbfd1027aefe3c22cd6d8ca75f1e4bf7e4912b6a65e1ff6
+    home: https://grafana.net
+    icon: https://raw.githubusercontent.com/grafana/grafana/master/public/img/logo_transparent_400x.png
+    kubeVersion: ^1.8.0-0
+    maintainers:
+    - email: hedii@iguazio.com
+      name: hedingber
+    name: grafana
+    sources:
+    - https://github.com/grafana/grafana
+    urls:
+    - https://v3io.github.io/helm-charts/stable/grafana-5.0.1.tgz
+    version: 5.0.1
+  mlrun:
+  - apiVersion: v1
+    appVersion: 1.1.0
+    created: "2023-02-26T10:23:09.815123+02:00"
+    dependencies:
+    - name: v3io-configs
+      repository: https://v3io.github.io/helm-charts/stable
+      version: 0.11.3
+    - name: v3io-mysql
+      repository: file:///Users/quaark/Iguazio/workspace_misc/helm-charts/stable/v3io-mysql
+      version: 0.1.0
+    description: Machine Learning automation and tracking
+    digest: 195685d297a32614d4fa566029fee54b0062a4d8aa2c668e255e314054418d0b
+    icon: https://di5r923elu32w2e633ofbxj9-wpengine.netdna-ssl.com/wp-content/uploads/2019/10/Iguazio-Logo.png
+    maintainers:
+    - email: hedii@iguazio.com
+      name: hedingber
+    name: mlrun
+    sources:
+    - https://github.com/mlrun/mlrun
+    urls:
+    - https://v3io.github.io/helm-charts/stable/mlrun-0.8.22.tgz
+    version: 0.8.22
+generated: "2023-02-26T10:23:09.811064+02:00"
