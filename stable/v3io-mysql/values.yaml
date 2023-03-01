@@ -1,0 +1,128 @@
+fullnameOverride:
+createDatabase:
+allowEmptyPassword: false
+adminSecret:
+  create: true
+  name:
+  username:
+  password:
+
+image:
+  repository: mysql
+  tag: 8.0
+  pullPolicy: IfNotPresent
+  pullSecrets: []
+
+service:
+  type: ClusterIP
+  port: 3306
+
+# Extra env variables
+extraEnv: []
+
+# envFrom can be used to pass configmaps or secrets as environment
+envFrom: []
+
+resources: {}
+  # limits:
+  #   cpu: 100m
+  #   memory: 128Mi
+  # requests:
+#   cpu: 100m
+#   memory: 128Mi
+
+## Node labels for pod assignment
+## ref: https://kubernetes.io/docs/user-guide/node-selection/
+##
+nodeSelector: {}
+
+## Tolerations for pod assignment
+## ref: https://kubernetes.io/docs/concepts/configuration/taint-and-toleration/
+##
+tolerations: []
+
+## Affinity for pod assignment
+## ref: https://kubernetes.io/docs/concepts/configuration/assign-pod-node/#affinity-and-anti-affinity
+##
+affinity: {}
+
+priorityClassName: ""
+
+podSecurityContext:
+  runAsUser: 1001
+
+securityContext: {}
+  # capabilities:
+  #   drop:
+  #   - ALL
+  # readOnlyRootFilesystem: true
+# runAsNonRoot: true
+
+readinessProbe:
+  exec:
+    command: ["/bin/bash", "/etc/config/mysql/health_check.sh"]
+  initialDelaySeconds: 10
+  timeoutSeconds: 1
+  periodSeconds: 10
+  failureThreshold: 3
+
+livenessProbe:
+  exec:
+    command: ["/bin/bash", "/etc/config/mysql/health_check.sh"]
+  initialDelaySeconds: 30
+  timeoutSeconds: 5
+  periodSeconds: 10
+  failureThreshold: 3
+
+volumes:
+  storageOverride: {}
+
+v3io:
+  createSecret: true
+
+  # v3io secret name
+  # if createSecret is true, this value is ignored
+  # if createSecret is false, this value is used to get the v3io secret name
+  # if createSecret is false and this value is empty, the secret name is the release name with "-v3io-fuse" suffix
+  secretName: ""
+
+persistence:
+  mode: v3io # v3io, pvc
+  v3io:
+    # v3io-fuse mount path within user home directory
+    mountPath: v3io-mysql
+  pvc:
+    # Existing PersistentVolumeClaim to use
+    existingClaim: ""
+
+
+# Defines additional volume mounts from existing persistent volume claims.
+extraPersistentVolumeMounts: []
+  # - name: extra-volume
+  #   mountPath: /mnt/volume
+  #   subPath: /sub/path
+  #   readOnly: true
+  #   existingClaim: volume-claim
+
+# use this https://www.mysqlcalculator.com/ to evaluate the resource usage of the DB
+dbConfiguration:
+  # mysql default is 151, we raised the connection number to handle the scale of MLRun multi instance architecture
+  # ideally should be calculated by : <number-of-mlrun-instances> * <max-workers> + 1 ( for SUPER account )
+  # SUPER is a MySQL privilege that grants admin rights to the user.
+  maxConnections: 512
+
+  innodb:
+    # refer to https://github.com/v3io/helm-charts/pull/674
+    adaptiveHashIndex: 0
+    readIOThreads: 32
+    writeIOThreads: 32
+    purgeThreads: 16
+
+    # refer to https://github.com/v3io/helm-charts/pull/671
+    bufferPoolSize: "1073741824"
+    bufferPoolInstances: 8
+
+    # refer to https://github.com/v3io/helm-charts/pull/680
+    pageCleaners: 8
+    IOCapacity: 10000
+    flushNeighbors: 0

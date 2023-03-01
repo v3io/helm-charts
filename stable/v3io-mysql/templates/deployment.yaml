@@ -1,0 +1,140 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ include "v3io-mysql.fullname" . }}
+  labels:
+    {{- include "v3io-mysql.labels" . | nindent 4 }}
+spec:
+  # mysql does not support replicas
+  replicas: 1
+  strategy:
+    type: Recreate
+  selector:
+    matchLabels:
+      {{- include "v3io-mysql.selectorLabels" . | nindent 6 }}
+  template:
+    metadata:
+      labels:
+        {{- include "v3io-mysql.selectorLabels" . | nindent 8 }}
+    spec:
+      {{- with .Values.image.pullSecrets }}
+      imagePullSecrets:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      securityContext:
+        {{- toYaml .Values.podSecurityContext | nindent 8 }}
+      terminationGracePeriodSeconds: 120
+      initContainers:
+        - name: init-mysql
+          image: "{{ .Values.image.repository }}:{{ .Values.image.tag }}"
+          imagePullPolicy: {{ .Values.image.pullPolicy }}
+          resources:
+            {{- toYaml .Values.resources | nindent 12 }}
+          env:
+            {{- if .Values.allowEmptyPassword }}
+            - name: MYSQL_ALLOW_EMPTY_PASSWORD
+              value: "true"
+            {{- else }}
+            - name: MYSQL_ROOT_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: {{ include "v3io-mysql.adminSecretName" . }}
+                  key: DB_PASSWORD
+            {{- end }}
+          command: ["/bin/bash", "/etc/config/mysql/init-v3io-mysql.sh"]
+          securityContext:
+            {{- toYaml .Values.securityContext | nindent 12 }}
+          volumeMounts:
+            - name: mysql-persistence
+              mountPath: "/var/lib/mysql"
+            - name: mysql-config
+              mountPath: /etc/config/mysql
+      containers:
+        - name: v3io-mysql
+          securityContext:
+            {{- toYaml .Values.securityContext | nindent 12 }}
+          image: "{{ .Values.image.repository }}:{{ .Values.image.tag }}"
+          imagePullPolicy: {{ .Values.image.pullPolicy }}
+          command: ["/bin/bash", "/etc/config/mysql/v3io-mysql.sh"]
+          ports:
+          - name: mysql
+            containerPort: 3306
+            protocol: TCP
+          lifecycle:
+            preStop:
+              exec:
+                command: ["/bin/bash", "/etc/config/mysql/graceful_shutdown.sh"]
+          {{- if .Values.livenessProbe }}
+          livenessProbe:
+            {{ toYaml .Values.livenessProbe | nindent 12 }}
+          {{- end }}
+          {{- if .Values.readinessProbe }}
+          readinessProbe:
+            {{ toYaml .Values.readinessProbe | nindent 12 }}
+          {{- end }}
+          env:
+            {{- if .Values.allowEmptyPassword }}
+            - name: MYSQL_ALLOW_EMPTY_PASSWORD
+              value: "true"
+            {{- else }}
+            - name: MYSQL_ROOT_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: {{ include "v3io-mysql.adminSecretName" . }}
+                  key: DB_PASSWORD
+            {{- end }}
+          {{- if .Values.extraEnv }}
+          {{ toYaml .Values.extraEnv | nindent 10 }}
+          {{- end }}
+          envFrom:
+          {{- if or (.Values.adminSecret.create) (.Values.adminSecret.name) }}
+            - secretRef:
+                name: {{ include "v3io-mysql.adminSecretName" . }}
+          {{- end }}
+          {{- if .Values.envFrom }}
+          {{ toYaml .Values.envFrom | nindent 10 }}
+          {{- end }}
+          resources:
+            {{- toYaml .Values.resources | nindent 12 }}
+          volumeMounts:
+            - name: mysql-persistence
+              mountPath: "/var/lib/mysql"
+            - name: mysql-config
+              mountPath: /etc/config/mysql
+            - name: mysql-init-scripts
+              mountPath: /etc/config/mysql/init-scripts
+      volumes:
+        - name: mysql-init-scripts
+          configMap:
+            name: {{ include "v3io-mysql.initConfigMapName" . }}
+        - name: mysql-config
+          configMap:
+            name: {{ include "v3io-mysql.fullname" . }}
+        - name: mysql-persistence
+          {{- if eq .Values.persistence.mode "pvc" }}
+          persistentVolumeClaim:
+            claimName: {{ .Values.persistence.pvc.existingClaim | default (include "v3io-mysql.fullname" .) }}
+          {{- else }}
+          flexVolume:
+            driver: "v3io/fuse"
+            options:
+              container: users
+              subPath: {{ include "v3io-mysql.persistence.v3io.subPath" . }}
+            secretRef:
+              name: {{ include "v3io-mysql.v3io.fuse.secret" . }}
+          {{- end }}
+      {{- with .Values.nodeSelector }}
+      nodeSelector:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      {{- with .Values.affinity }}
+      affinity:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      {{- with .Values.tolerations }}
+      tolerations:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      {{- if .Values.priorityClassName }}
+      priorityClassName: {{ .Values.priorityClassName | quote }}
+      {{- end }}
