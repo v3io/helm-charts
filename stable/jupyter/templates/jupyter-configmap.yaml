@@ -324,17 +324,17 @@ data:
       log 'Configure ipython'
       cat << EOF > ${IPYTHON_CONFIG_SCRIPT}
     #IGZ_IPYTHON_CONFIG_REV_${IPYTHON_CONFIG_REV}
-    import pkg_resources
+    from pkg_resources import get_distribution
     c = get_config()
     c.Application.log_datefmt = '%Y-%m-%d %H:%M:%S'
     try:
-        if pkg_resources.get_distribution('ipython-sql'):
+        if get_distribution('jupysql'):
             c.InteractiveShellApp.extensions.append("sql")
             c.SqlMagic.autocommit=False
     except pkg_resources.DistributionNotFound:
         pass
     try:            
-        if pkg_resources.get_distribution('nuclio-jupyter'):
+        if get_distribution('nuclio-jupyter'):
             c.InteractiveShellApp.extensions.append("nuclio")
     except pkg_resources.DistributionNotFound:
         pass
