@@ -1,0 +1,24 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: {{ include "v3io-mysql.initConfigMapName" . }}
+  labels:
+    {{- include "v3io-mysql.labels" . | nindent 4 }}
+data:
+  mysql-init.sql: |
+    {{- if .Values.allowEmptyPassword }}
+    -- Allow passwordless (insecure) access to root user from anywhere    
+    CREATE USER IF NOT EXISTS 'root'@'%';
+    GRANT ALL PRIVILEGES ON *.* TO 'root'@'%';
+    {{- end }}
+    
+    {{- if or (.Values.adminSecret.create) (.Values.adminSecret.name) }}
+    -- custom template to later replace using sed 
+    CREATE USER '<DB_USER>'@'%' IDENTIFIED BY '<DB_PASSWORD>';
+    GRANT ALL PRIVILEGES ON *.* TO '<DB_USER>'@'%';
+    {{- end }}
+    
+    FLUSH PRIVILEGES;
+    {{- if .Values.createDatabase }}
+    CREATE DATABASE IF NOT EXISTS {{ .Values.createDatabase }};
+    {{- end }}
