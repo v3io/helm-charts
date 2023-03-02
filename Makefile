@@ -307,4 +307,4 @@ repo-add:
 	helm repo add nuclio https://nuclio.github.io/nuclio/charts
 	helm repo add v3io-stable https://v3io.github.io/helm-charts/stable
 	helm repo add minio https://charts.min.io/
-	helm repo add minio https://codecentric.github.io/helm-charts
+	helm repo add codecentric https://codecentric.github.io/helm-charts
