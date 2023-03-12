@@ -24,5 +24,16 @@ keycloak-admin
 {{- end -}}
 
 {{- define "v3io-keycloak.dbPassword" -}}
+{{- $secret := lookup "v1" "Secret" .Release.Namespace .Values.keycloak.externalDatabase.existingSecret -}}
+{{- if $secret -}}
+{{/*
+   Reusing existing password
+*/}}
+{{ $secret.data.DB_PASSWORD | b64dec }}
+{{- else -}}
+{{/*
+    Generate new password
+*/}}
 {{- randAlphaNum 24 | nospace -}}
+{{- end -}}
 {{- end -}}
