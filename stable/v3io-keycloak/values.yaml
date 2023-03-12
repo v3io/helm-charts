@@ -1,35 +1,38 @@
 keycloak:
   fullnameOverride: v3io-keycloak
+  image:
+    repository: gcr.io/iguazio/keycloak
+    tag: 20.0.5-debian-11-r6
+    pullPolicy: IfNotPresent
+
+  service:
+    type: ClusterIP
+
   postgresql:
     enabled: false
 
-  mysql:
+  externalDatabase:
     host: v3io-keycloak-db
     port: 3306
+    user: keycloak-admin
+    database: keycloak
 
-  extraEnv: |
-    - name: DB_VENDOR
+    # if you change this value, be sure to change the value in v3io-mysql.adminSecret.name as well
+    existingSecret: v3io-keycloak-db-creds
+
+  extraEnvVars:
+    - name: KEYCLOAK_DATABASE_VENDOR
       value: mysql
-    - name: DB_ADDR
-      value: {{ .Values.mysql.host | quote }}
-    - name: DB_PORT
-      value: {{ .Values.mysql.port | quote }}
-    - name: DB_DATABASE
-      value: keycloak
-
-  extraEnvFrom: |
-    - secretRef:
-        name: v3io-keycloak-db-creds
 
   initContainerImage: alpine:3.17
-  extraInitContainers: |
+  initContainers: |
     - name: wait-for-mysql
       image: {{ .Values.initContainerImage }}
       imagePullPolicy: IfNotPresent
       command: ['sh', '-c']
       args:
         - echo -e "Waiting MySQL Server deployment availability";
-          while ! nc -z {{ .Values.mysql.host }} {{ .Values.mysql.port | quote }}; do
+          while ! nc -z {{ .Values.externalDatabase.host }} {{ .Values.externalDatabase.port | quote }}; do
             sleep 1;
             echo "MySQL Server not available yet";
           done;
