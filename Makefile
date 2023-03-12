@@ -309,4 +309,4 @@ repo-add:
 	helm repo add minio https://charts.min.io/
 	helm repo add spark-operator https://googlecloudplatform.github.io/spark-on-k8s-operator
 	helm repo add prometheus-community https://prometheus-community.github.io/helm-charts
-	helm repo add codecentric https://codecentric.github.io/helm-charts
+	helm repo add bitnami https://charts.bitnami.com/bitnami
