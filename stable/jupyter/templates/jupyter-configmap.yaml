@@ -313,6 +313,19 @@ data:
     fi
 
 
+    ## Create bashrc for non-interactive SSH logins
+    if [ ! -e "${HOME}/.bashrc-noninteractive" ]; then
+      log 'Configure non-interactive bashrc'
+      cat << EOF > ${HOME}/.bashrc-noninteractive
+    # bashrc for non-interactive SSH logins
+    EOF
+    fi
+
+
+    ## Disable pip user (local) installations
+    export PYTHONNOUSERSITE=False
+
+
     ## IPython configuration for magic commands
     IPYTHON_CONFIG_SCRIPT="${HOME}/.ipython/profile_default/ipython_config.py"
     IPYTHON_CONFIG_REV=1
@@ -340,19 +353,6 @@ data:
         pass
     EOF
     fi
-
-
-    ## Create bashrc for non-interactive SSH logins
-    if [ ! -e "${HOME}/.bashrc-noninteractive" ]; then
-      log 'Configure non-interactive bashrc'
-      cat << EOF > ${HOME}/.bashrc-noninteractive
-    # bashrc for non-interactive SSH logins
-    EOF
-    fi
-
-
-    ## Disable pip user (local) installations
-    export PYTHONNOUSERSITE=False
 
 
     export JUPYTER_FULLNAME={{ template "jupyter.fullname" . }}
@@ -632,7 +632,7 @@ data:
     fi
 
 
-    ## Start Jupyter
+    ## Start jupyter
     log 'Starting jupyter'
     source activate jupyter
     jupyter lab --no-browser $@
