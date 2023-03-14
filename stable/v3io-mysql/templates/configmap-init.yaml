@@ -14,7 +14,9 @@ data:
     
     {{- if or (.Values.adminSecret.create) (.Values.adminSecret.name) }}
     -- custom template to later replace using sed 
-    CREATE USER '<DB_USER>'@'%' IDENTIFIED BY '<DB_PASSWORD>';
+    CREATE USER IF NOT EXISTS '<DB_USER>'@'%' IDENTIFIED BY '<DB_PASSWORD>';
+    -- in case the user already exists, we need to update the password
+    ALTER USER '<DB_USER>'@'%' IDENTIFIED BY '<DB_PASSWORD>';
     GRANT ALL PRIVILEGES ON *.* TO '<DB_USER>'@'%';
     {{- end }}
     
