@@ -13,7 +13,7 @@ keycloak:
     enabled: false
 
   externalDatabase:
-    host: keycloak-db
+    host: v3io-keycloak-db
     port: 3306
     user: keycloak-admin
     database: keycloak
