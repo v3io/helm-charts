@@ -1,7 +1,8 @@
 keycloak:
   fullnameOverride: v3io-keycloak
   image:
-    repository: gcr.io/iguazio/keycloak
+    registry: gcr.io
+    repository: iguazio/keycloak
     tag: 20.0.5-debian-11-r6
     pullPolicy: IfNotPresent
 
@@ -48,7 +49,7 @@ v3io-mysql:
 
   persistence:
     v3io:
-      mountPath: /keycloak/mysql
+      mountPath: keycloak/mysql
 
   service:
     port: 3306
