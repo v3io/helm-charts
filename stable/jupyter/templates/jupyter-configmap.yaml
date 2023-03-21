@@ -287,24 +287,36 @@ data:
       cat << EOF >> ${HOME}/.bashrc
     # ----- BLOCK INSTALL ON CONDA BASE -----
     function pip(){
-      if [ "\${CONDA_DEFAULT_ENV-}" = "base" ] && [ "\$1" = "install" ]; then
-        echo "Not allowed in conda (base) environment where package updates are not persistent."
-        echo "Please create or activate another conda environment."
-      else
-        command pip "\$@"
+      if [ "\$1" = "install" ]; then
+        if [ "\${CONDA_DEFAULT_ENV-}" = "base" ]; then
+          echo "Error: PIP installations to the conda (base) environment are not persistent."
+          echo "       Please activate a different conda environment or create a new one."
+          return 1
+        fi
+        for arg in "\$@"
+        do
+            if [[ "\$arg" == "--user" ]]; then
+                echo "Error: The --user flag cannot be used when installing packages inside a conda environment."
+                echo "       Please use 'pip install' without the --user flag instead."
+                return 1
+            fi
+        done        
       fi
+      command pip "\$@"
     }
     
     function extended_conda(){
       if [ "\${CONDA_DEFAULT_ENV-}" = "base" ] && [ "\$1" = "install" ]; then
-        echo "Not allowed in conda (base) environment where package updates are not persistent."
-        echo "Please create or activate another conda environment."
-      elif [[ \${CONDA_DEFAULT_ENV-} =~ jupyter|mlrun-base|mlrun-extended ]] && [ "\$1" = "install" ]; then
-        echo "Conda installs to (\${CONDA_DEFAULT_ENV}) environment are not persistent."
-        echo "Either use PIP which is persistent or create/activate another conda environment."
-      else
-        conda "\$@"
+        echo "Error: Conda installations to the (base) environment are not persistent."
+        echo "       Please activate a different conda environment or create a new one."
+        return 1
       fi
+      if [[ \${CONDA_DEFAULT_ENV-} =~ jupyter|mlrun-base|mlrun-extended ]] && [ "\$1" = "install" ]; then
+        echo "Error: Conda installations to the (\${CONDA_DEFAULT_ENV}) environment are not persistent."
+        echo "       Please use PIP for persistent installations or create/activate another conda environment."
+        return 1
+      fi
+      conda "\$@"
     }
     alias conda=extended_conda
     # ----- END BLOCK INSTALL ON CONDA BASE -----
@@ -323,7 +335,7 @@ data:
 
 
     ## Disable pip user (local) installations
-    export PYTHONNOUSERSITE=False
+    export PYTHONNOUSERSITE=1
 
 
     ## IPython configuration for magic commands
@@ -337,17 +349,17 @@ data:
       log 'Configure ipython'
       cat << EOF > ${IPYTHON_CONFIG_SCRIPT}
     #IGZ_IPYTHON_CONFIG_REV_${IPYTHON_CONFIG_REV}
-    from pkg_resources import get_distribution
+    import pkg_resources
     c = get_config()
     c.Application.log_datefmt = '%Y-%m-%d %H:%M:%S'
     try:
-        if get_distribution('jupysql'):
+        if pkg_resources.get_distribution('jupysql'):
             c.InteractiveShellApp.extensions.append("sql")
             c.SqlMagic.autocommit=False
     except pkg_resources.DistributionNotFound:
         pass
     try:            
-        if get_distribution('nuclio-jupyter'):
+        if pkg_resources.get_distribution('nuclio-jupyter'):
             c.InteractiveShellApp.extensions.append("nuclio")
     except pkg_resources.DistributionNotFound:
         pass
