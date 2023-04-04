@@ -8,6 +8,11 @@ keycloak:
   service:
     type: ClusterIP
 
+  auth:
+   adminUser: iguazio
+   existingSecret: v3io-keycloak-master-creds
+   passwordSecretKey: masterPassword
+
   postgresql:
     enabled: false
 
@@ -23,6 +28,19 @@ keycloak:
   extraEnvVars:
     - name: KEYCLOAK_DATABASE_VENDOR
       value: mysql
+    - name: KEYCLOAK_EXTRA_ARGS
+      value: "-Dkeycloak.migration.action=import -Dkeycloak.migration.provider=singleFile -Dkeycloak.migration.file=/realm_config/realms.json"
+
+  realmsConfigMap: v3io-keycloak-realms
+  extraVolumes: |
+    - name: realms
+      configMap:
+        name: {{ .Values.realmsConfigMap }}
+
+  extraVolumeMounts:
+    - name: realms
+      mountPath: /realm_config
+      readOnly: true
 
   initContainerImage: alpine:3.17
   initContainers: |
@@ -37,6 +55,28 @@ keycloak:
             echo "MySQL Server not available yet";
           done;
           echo -e "MySQL Server has started";
+
+  # This is the content of the realms.json file in the v3io-keycloak-realms configmap.
+  # The realms.json can contain a single json for a single realm or a list of jsons for multiple realms.
+  # Example for multiple realms:
+  # realmsConfig: |
+  #   [
+  #     {
+  #       "id": "realm1",
+  #       "realm": "realm1",
+  #       "enabled": true,
+  #       "displayName": "Realm 1",
+  #       "displayNameHtml": "First Realm"
+  #     },
+  #     {
+  #       "id": "realm2",
+  #       "realm": "realm2",
+  #       "enabled": true,
+  #       "displayName": "Realm 2",
+  #       "displayNameHtml": "Second Realm"
+  #     }
+  #   ]
+  realmsConfig: "{}"
 
 v3io-mysql:
   fullnameOverride: v3io-keycloak-db
