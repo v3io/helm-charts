@@ -1,1 +1,1 @@
-kc.sh start --http-relative-path=/auth --db=${KEYCLOAK_DATABASE_VENDOR}
+kc.sh start --db=${KEYCLOAK_DATABASE_VENDOR} ${KEYCLOAK_EXTRA_ARGS}

@@ -1,0 +1,8 @@
+apiVersion: v1
+kind: Secret
+metadata:
+  name: {{ .Values.keycloak.auth.existingSecret }}
+  labels:
+    {{ include "v3io-keycloak.labels" . | nindent 4 }}
+data:
+  masterPassword: {{ include "v3io-keycloak.masterPassword" . | b64enc }}
