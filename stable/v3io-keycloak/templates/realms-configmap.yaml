@@ -1,3 +1,4 @@
+{{- if .Values.keycloak.createRealmsConfigMap -}}
 apiVersion: v1
 kind: ConfigMap
 metadata:
@@ -6,3 +7,4 @@ metadata:
     {{ include "v3io-keycloak.labels" . | nindent 4 }}
 data:
   realms.json: {{ .Values.keycloak.realmsConfig | quote }}
+{{- end }}
