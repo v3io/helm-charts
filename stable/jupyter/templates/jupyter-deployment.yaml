@@ -151,8 +151,6 @@ spec:
 {{- end }}
             - mountPath: /intercontainer
               name: inter-container
-            - mountPath: /User/v3io
-              name: v3io-fuse
             - mountPath: /etc/config/jupyter
               name: config-volume
             - mountPath: /var/run/iguazio/daemon_health
