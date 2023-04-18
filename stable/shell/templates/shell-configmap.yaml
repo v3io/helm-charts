@@ -68,6 +68,12 @@ data:
     fi
 
 
+    ## Create v3io symlink
+    if [ ! -e "${HOME}/v3io" ]; then
+      ln -s /v3io ${HOME}
+    fi
+
+
     ## Create conda env dir (fuse), populate .condarc and init
     if [ ! -d "${HOME}/.conda/envs" ]; then
       log 'Configure conda'
