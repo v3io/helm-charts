@@ -1,39 +1,85 @@
 keycloak:
   fullnameOverride: v3io-keycloak
+  image:
+    registry: gcr.io
+    repository: iguazio/keycloak
+    tag: 20.0.5-debian-11-r6
+    pullPolicy: IfNotPresent
+
+  service:
+    type: ClusterIP
+
+  auth:
+   adminUser: iguazio
+   createSecret: false
+   existingSecret: v3io-keycloak-master-creds
+   passwordSecretKey: masterPassword
+
   postgresql:
     enabled: false
 
-  mysql:
+  externalDatabase:
     host: v3io-keycloak-db
     port: 3306
+    user: keycloak-admin
+    database: keycloak
 
-  extraEnv: |
-    - name: DB_VENDOR
+    # if you change this value, be sure to change the value in v3io-mysql.adminSecret.name as well
+    existingSecret: v3io-keycloak-db-creds
+
+  extraEnvVars:
+    - name: KEYCLOAK_DATABASE_VENDOR
       value: mysql
-    - name: DB_ADDR
-      value: {{ .Values.mysql.host | quote }}
-    - name: DB_PORT
-      value: {{ .Values.mysql.port | quote }}
-    - name: DB_DATABASE
-      value: keycloak
+    - name: KEYCLOAK_EXTRA_ARGS
+      value: "-Dkeycloak.migration.action=import -Dkeycloak.migration.provider=singleFile -Dkeycloak.migration.file=/realm_config/realms.json"
 
-  extraEnvFrom: |
-    - secretRef:
-        name: v3io-keycloak-db-creds
+  createRealmsConfigMap: true
+  realmsConfigMap: v3io-keycloak-realms
+  extraVolumes: |
+    - name: realms
+      configMap:
+        name: {{ .Values.realmsConfigMap }}
+
+  extraVolumeMounts:
+    - name: realms
+      mountPath: /realm_config
+      readOnly: true
 
   initContainerImage: alpine:3.17
-  extraInitContainers: |
+  initContainers: |
     - name: wait-for-mysql
       image: {{ .Values.initContainerImage }}
       imagePullPolicy: IfNotPresent
       command: ['sh', '-c']
       args:
         - echo -e "Waiting MySQL Server deployment availability";
-          while ! nc -z {{ .Values.mysql.host }} {{ .Values.mysql.port | quote }}; do
+          while ! nc -z {{ .Values.externalDatabase.host }} {{ .Values.externalDatabase.port | quote }}; do
             sleep 1;
             echo "MySQL Server not available yet";
           done;
           echo -e "MySQL Server has started";
+
+  # This is the content of the realms.json file in the v3io-keycloak-realms configmap.
+  # The realms.json can contain a single json for a single realm or a list of jsons for multiple realms.
+  # Example for multiple realms:
+  # realmsConfig: |
+  #   [
+  #     {
+  #       "id": "realm1",
+  #       "realm": "realm1",
+  #       "enabled": true,
+  #       "displayName": "Realm 1",
+  #       "displayNameHtml": "First Realm"
+  #     },
+  #     {
+  #       "id": "realm2",
+  #       "realm": "realm2",
+  #       "enabled": true,
+  #       "displayName": "Realm 2",
+  #       "displayNameHtml": "Second Realm"
+  #     }
+  #   ]
+  realmsConfig: "{}"
 
 v3io-mysql:
   fullnameOverride: v3io-keycloak-db
@@ -45,7 +91,7 @@ v3io-mysql:
 
   persistence:
     v3io:
-      mountPath: /keycloak/mysql
+      mountPath: keycloak/mysql
 
   service:
     port: 3306

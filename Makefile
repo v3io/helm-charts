@@ -24,32 +24,32 @@ PUBLISH_REPO := $(if $(PUBLISH_CREDS),https://$(PUBLISH_CREDS)@$(GITHUB_REPO).gi
 
 .PHONY: stable
 stable: WORKDIR = stable
-stable: check-helm repo-helm update-req package-all index
+stable: check-helm repo-helm build-req package-all index
 	@echo "Done"
 
 .PHONY: stable-specific
 stable-specific: WORKDIR = stable
-stable-specific: check-helm repo-helm update-req-specific package-specific index
+stable-specific: check-helm repo-helm build-req-specific package-specific index
 	@echo "Done"
 
 .PHONY: demo
 demo: WORKDIR = demo
-demo: check-helm repo-helm update-req package-all index
+demo: check-helm repo-helm build-req package-all index
 	@echo "Done"
 
 .PHONY: demo-specific
 demo-specific: WORKDIR = demo
-demo-specific: check-helm repo-helm update-req-specific package-specific index
+demo-specific: check-helm repo-helm build-req-specific package-specific index
 	@echo "Done"
 
 .PHONY: incubator
 incubator: WORKDIR = incubator
-incubator: check-helm repo-helm update-req package-all index
+incubator: check-helm repo-helm build-req package-all index
 	@echo "Done"
 
 .PHONY: incubator-specific
 incubator-specific: WORKDIR = incubator
-incubator-specific: check-helm repo-helm update-req-specific package-specific index
+incubator-specific: check-helm repo-helm build-req-specific package-specific index
 	@echo "Done"
 
 .PHONY: cleanup-tmp-workspace
@@ -196,9 +196,9 @@ print-versions:
 		fi \
 	done
 
-.PHONY: update-req
-update-req: check-helm
-	@echo "Updating all charts requirements"
+.PHONY: build-req
+build-req: check-helm
+	@echo "Building all charts requirements"
 	@cd $(WORKDIR) && for chart in $$(ls); do \
 		if [ -e "$$chart/requirements.yaml" ]; then \
 			echo "Updating '$$chart' requirements" ; \
@@ -210,13 +210,38 @@ update-req: check-helm
 		fi ; \
 	done
 
-.PHONY: update-req-specific
-update-req-specific: check-helm
-	@echo "Updating $(CHART_NAME) chart requirements"
+.PHONY: build-req-specific
+build-req-specific: check-helm
+	@echo "Building $(CHART_NAME) chart requirements"
 	@cd $(WORKDIR) && if [ -e "$(CHART_NAME)/requirements.yaml" ]; then \
 	    $(HELM) dependency build $(CHART_NAME) ; \
 	    if [ "$$?" != "0" ]; then \
             echo "Chart $(CHART_NAME) failed dependency build" ; \
+            exit 103 ; \
+        fi ; \
+    fi
+
+.PHONY: update-req
+update-req: check-helm
+	@echo "Updating all charts requirements"
+	@cd $(WORKDIR) && for chart in $$(ls); do \
+		if [ -e "$$chart/requirements.yaml" ]; then \
+			echo "Updating '$$chart' requirements" ; \
+			$(HELM) dependency update $$chart ; \
+			if [ "$$?" != "0" ]; then \
+				echo "Chart $$chart failed dependency update" ; \
+				exit 103 ; \
+			fi ; \
+		fi ; \
+	done
+
+.PHONY: update-req-specific
+update-req-specific: check-helm
+	@echo "Updating $(CHART_NAME) chart requirements"
+	@cd $(WORKDIR) && if [ -e "$(CHART_NAME)/requirements.yaml" ]; then \
+		$(HELM) dependency update $(CHART_NAME) ; \
+	    if [ "$$?" != "0" ]; then \
+            echo "Chart $(CHART_NAME) failed dependency update" ; \
             exit 103 ; \
         fi ; \
     fi
@@ -309,4 +334,4 @@ repo-add:
 	helm repo add minio https://charts.min.io/
 	helm repo add spark-operator https://googlecloudplatform.github.io/spark-on-k8s-operator
 	helm repo add prometheus-community https://prometheus-community.github.io/helm-charts
-	helm repo add codecentric https://codecentric.github.io/helm-charts
+	helm repo add bitnami https://charts.bitnami.com/bitnami
