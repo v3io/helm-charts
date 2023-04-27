@@ -509,7 +509,7 @@ data:
       fi
     done
     CLIENT_MLRUN_VERSION=\$(pip show mlrun | grep Version | awk '{print \$2}')
-    SERVER_MLRUN_VERSION=\$(curl -s \${IGZ_MLRUN_API_ENDPOINT}/api/healthz | python3 -c "import sys, json; print(json.load(sys.stdin)['version'])")
+    SERVER_MLRUN_VERSION=\$(curl -s \${IGZ_MLRUN_API_ENDPOINT}/api/v1/client-spec | python3 -c "import sys, json; print(json.load(sys.stdin)['version'])")
     if [ "\${CLIENT_MLRUN_VERSION}" = "\${SERVER_MLRUN_VERSION}" ] || [ "\${CLIENT_MLRUN_VERSION}" = "\${SERVER_MLRUN_VERSION//-}" ]; then
       echo "Both server & client are aligned (\${CLIENT_MLRUN_VERSION})."
     else
@@ -545,7 +545,7 @@ data:
         cp /tmp/update-tutorials.ipynb ${HOME}
         cp /tmp/update-demos.sh ${HOME}
       fi
-      if ! bash /tmp/update-demos.sh --mlrun-ver `curl -s ${IGZ_MLRUN_API_ENDPOINT}/api/healthz | python3 -c "import sys, json; print(json.load(sys.stdin)['version'])"`; then
+      if ! bash /tmp/update-demos.sh --mlrun-ver `curl -s ${IGZ_MLRUN_API_ENDPOINT}/api/v1/client-spec | python3 -c "import sys, json; print(json.load(sys.stdin)['version'])"`; then
         mkdir -p ${HOME}/demos
         tar -C ${HOME}/demos -xvf /tmp/mlrun-demos  --strip-components=1
         rm -f /tmp/mlrun-demos
