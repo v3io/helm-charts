@@ -72,6 +72,9 @@ data:
     ## Create v3io symlink
     if [ ! -e "${HOME}/v3io" ]; then
       ln -s /v3io ${HOME}
+    elif [ ! -L "${HOME}/v3io" ]; then
+      rmdir ${HOME}/v3io &&
+      ln -s /v3io ${HOME}
     fi
 
 
