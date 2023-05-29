@@ -71,8 +71,10 @@ data:
 
     ## Create v3io symlink
     if [ ! -e "${HOME}/v3io" ]; then
+      log 'Create v3io symlink'
       ln -s /v3io ${HOME}
     elif [ ! -L "${HOME}/v3io" ]; then
+      log 'Replace v3io dir with symlink'
       rmdir ${HOME}/v3io &&
       ln -s /v3io ${HOME}
     fi
@@ -426,6 +428,15 @@ data:
     EOF
       fi
     done
+
+
+    # Backup old binaries from jupyter path (upgrade)
+    if [ -d "/User/.pythonlibs/${JUPYTER_FULLNAME}/bin" ] && [ ! -d "/User/.pythonlibs/${JUPYTER_FULLNAME}/.bin/python3.7" ]; then
+      log "Backup old binaries in .pyhtonlibs/${JUPYTER_FULLNAME}/bin"
+      mkdir -p /User/.pythonlibs/${JUPYTER_FULLNAME}/.bin/python3.7
+      cp -r /User/.pythonlibs/${JUPYTER_FULLNAME}/bin/* /User/.pythonlibs/${JUPYTER_FULLNAME}/.bin/python3.7/
+      rm -rf /User/.pythonlibs/${JUPYTER_FULLNAME}/bin/*
+    fi
 
 
     # Set jupyter directories to fuse (persistent)
