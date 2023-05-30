@@ -376,66 +376,51 @@ data:
 
 
     export JUPYTER_FULLNAME={{ template "jupyter.fullname" . }}
-    # PIP persistency on fuse mount for /conda (docker) envs
-    log 'Configure PIP persistency for prebaked envs'
-    # jupyter (needs special handling for jupyter.fullname in case of multiple jupy envs per user):
-    if [ ! -e "${CONDA_HOME}/envs/jupyter/etc/conda/activate.d/env_vars.sh" ]; then
-      cat << EOF > ${CONDA_HOME}/envs/jupyter/etc/conda/activate.d/env_vars.sh
+    # PIP persistency on fuse mount for prebaked conda envs
+    # special handling for base env:
     # clean leftovers from previous env
-    if [ "\${CONDA_DEFAULT_ENV}" == "jupyter" ]; then
-      for env in ${JUPYTER_FULLNAME} mlrun-base mlrun-extended; do
-        export PATH=\$(echo \${PATH} | sed 's@/User/.pythonlibs/\${env}/bin:@@g')
-      done
-    # update paths    
-      export PIP_PREFIX=/User/.pythonlibs/${JUPYTER_FULLNAME}
-      export PYTHONPATH=/User/.pythonlibs/${JUPYTER_FULLNAME}/lib/python3.9/site-packages:\${IGZ_SPARK_PYTHONPATH}
-      export PATH=/User/.pythonlibs/${JUPYTER_FULLNAME}/bin:\${PATH}
-    fi
+    cat << EOF > ${CONDA_HOME}/etc/conda/activate.d/env_vars.sh
+    for env in ${JUPYTER_FULLNAME} mlrun-base mlrun-extended; do
+      export PATH=\$(echo \${PATH} | sed "s|/User/.pythonlibs/\${env}/bin:||g")
+    done
+    unset PIP_PREFIX
+    unset PYTHONPATH
     EOF
-    fi
-    if [ ! -e "${CONDA_HOME}/envs/jupyter/etc/conda/deactivate.d/env_vars.sh" ]; then
-      cat << EOF > ${CONDA_HOME}/envs/jupyter/etc/conda/deactivate.d/env_vars.sh
-    if [ "\${CONDA_DEFAULT_ENV}" == "jupyter" ]; then
-      unset PIP_PREFIX
-      export PYTHONPATH=\${IGZ_SPARK_PYTHONPATH}
-      export PATH=\$(echo \${PATH} | sed 's@/User/.pythonlibs/${JUPYTER_FULLNAME}/bin:@@g')
-    fi
-    EOF
-    fi
-    # remaining local /conda/envs
-    for env in $(ls /conda/envs | grep -v jupyter); do
-      if [ ! -e "${CONDA_HOME}/envs/${env}/etc/conda/activate.d/env_vars.sh" ]; then
-        cat << EOF > ${CONDA_HOME}/envs/${env}/etc/conda/activate.d/env_vars.sh
+    # remaining prebaked envs:
+    for env in $(ls /conda/envs); do
+      if [ "${env}" == 'jupyter' ]; then
+        env_name=${JUPYTER_FULLNAME}
+      else
+        env_name=${env}
+      fi
+      cat << EOF > ${CONDA_HOME}/envs/${env}/etc/conda/activate.d/env_vars.sh
     # clean leftovers from previous env
-    if [ "\${CONDA_DEFAULT_ENV}" == "${env}" ]; then
-      for env in ${JUPYTER_FULLNAME} mlrun-base mlrun-extended; do
-        export PATH=\$(echo \${PATH} | sed 's@/User/.pythonlibs/\${env}/bin:@@g')
-      done
-    # update paths 
-      export PIP_PREFIX=/User/.pythonlibs/${env}
-      export PYTHONPATH=/User/.pythonlibs/${env}/lib/python3.9/site-packages:\${IGZ_SPARK_PYTHONPATH}
-      export PATH=/User/.pythonlibs/${env}/bin:\${PATH}
-    fi
+    for env in ${JUPYTER_FULLNAME} mlrun-base mlrun-extended; do
+      export PATH=\$(echo \${PATH} | sed "s|/User/.pythonlibs/\${env}/bin:||g")
+    done
+    # update paths
+    export PIP_PREFIX=/User/.pythonlibs/${env_name}
+    export PYTHONPATH=/User/.pythonlibs/${env_name}/lib/python3.9/site-packages:\${IGZ_SPARK_PYTHONPATH}
+    export PATH=/User/.pythonlibs/${env_name}/bin:\${PATH}
     EOF
-      fi
-      if [ ! -e "${CONDA_HOME}/envs/${env}/etc/conda/deactivate.d/env_vars.sh" ]; then
-        cat << EOF > ${CONDA_HOME}/envs/${env}/etc/conda/deactivate.d/env_vars.sh
-    if [ "\${CONDA_DEFAULT_ENV}" == "${env}" ]; then
-      unset PIP_PREFIX
-      export PYTHONPATH=\${IGZ_SPARK_PYTHONPATH}
-      export PATH=\$(echo \${PATH} | sed 's@/User/.pythonlibs/${env}/bin:@@g')
-    fi
+      cat << EOF > ${CONDA_HOME}/envs/${env}/etc/conda/deactivate.d/env_vars.sh
+    unset PIP_PREFIX
+    export PYTHONPATH=\${IGZ_SPARK_PYTHONPATH}
+    export PATH=\$(echo \${PATH} | sed "s|/User/.pythonlibs/${env_name}/bin:||g")
     EOF
-      fi
     done
 
 
     # Backup old binaries from jupyter path (upgrade)
-    if [ -d "/User/.pythonlibs/${JUPYTER_FULLNAME}/bin" ] && [ ! -d "/User/.pythonlibs/${JUPYTER_FULLNAME}/.bin/python3.7" ]; then
-      log "Backup old binaries in .pyhtonlibs/${JUPYTER_FULLNAME}/bin"
-      mkdir -p /User/.pythonlibs/${JUPYTER_FULLNAME}/.bin/python3.7
-      cp -r /User/.pythonlibs/${JUPYTER_FULLNAME}/bin/* /User/.pythonlibs/${JUPYTER_FULLNAME}/.bin/python3.7/
-      rm -rf /User/.pythonlibs/${JUPYTER_FULLNAME}/bin/*
+    CLEANUP_FILE='.bin_cleanup_python3.7'
+    if ! $(grep -wq "^${JUPYTER_FULLNAME}$" ${HOME}/.igz/${CLEANUP_FILE} 2>/dev/null); then
+      echo ${JUPYTER_FULLNAME} >> ${HOME}/.igz/${CLEANUP_FILE}
+      if [ -d "/User/.pythonlibs/${JUPYTER_FULLNAME}/bin" ]; then
+        log "Backup old binaries in .pyhtonlibs/${JUPYTER_FULLNAME}/bin"
+        mkdir -p /User/.pythonlibs/${JUPYTER_FULLNAME}/.bin/python3.7
+        cp -r /User/.pythonlibs/${JUPYTER_FULLNAME}/bin/* /User/.pythonlibs/${JUPYTER_FULLNAME}/.bin/python3.7/
+        rm -rf /User/.pythonlibs/${JUPYTER_FULLNAME}/bin/*
+      fi
     fi
 
 
