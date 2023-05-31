@@ -412,6 +412,7 @@ data:
 
 
     # Backup old binaries from jupyter path (upgrade)
+    mkdir -p ${HOME}/.igz
     CLEANUP_FILE='.bin_cleanup_python3.7'
     if ! $(grep -wq "^${JUPYTER_FULLNAME}$" ${HOME}/.igz/${CLEANUP_FILE} 2>/dev/null); then
       echo ${JUPYTER_FULLNAME} >> ${HOME}/.igz/${CLEANUP_FILE}
@@ -525,7 +526,6 @@ data:
 
 
     ## Tutorials
-    mkdir -p ${HOME}/.igz
     if [ ! -e "${HOME}/.igz/.getting-started" ] && [ ! -z ${IGZ_JUPYTER_TUTORIALS_URL} ] && [ ! -z ${IGZ_MLRUN_DEMOS_URL} ]; then
       log 'Configure tutorials'
       curl -L ${IGZ_JUPYTER_TUTORIALS_URL} -o /tmp/jupyter-tutorials
