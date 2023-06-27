@@ -537,7 +537,7 @@ data:
       mkdir -p ${HOME}/demos
       tar -C ${HOME}/demos -xvf /tmp/mlrun-demos  --strip-components=1
       rm -f /tmp/mlrun-demos
-      chmod a+x ${HOME}/demos/update-demos.sh
+      chmod a+x ${HOME}/demos/update-demos.sh || chmod a+x ${HOME}/update-demos.sh || echo 'no update-demos.sh found'
       touch ${HOME}/.igz/.getting-started
     fi
 
