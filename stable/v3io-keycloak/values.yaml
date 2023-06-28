@@ -1,0 +1,97 @@
+keycloak:
+  fullnameOverride: v3io-keycloak
+  image:
+    registry: gcr.io
+    repository: iguazio/keycloak
+    tag: 20.0.5-debian-11-r6
+    pullPolicy: IfNotPresent
+
+  service:
+    type: ClusterIP
+
+  auth:
+   adminUser: iguazio
+   createSecret: false
+   existingSecret: v3io-keycloak-master-creds
+   passwordSecretKey: masterPassword
+
+  postgresql:
+    enabled: false
+
+  externalDatabase:
+    host: v3io-keycloak-db
+    port: 3306
+    user: keycloak-admin
+    database: keycloak
+
+    # if you change this value, be sure to change the value in v3io-mysql.adminSecret.name as well
+    existingSecret: v3io-keycloak-db-creds
+
+  extraEnvVars:
+    - name: KEYCLOAK_DATABASE_VENDOR
+      value: mysql
+    - name: KEYCLOAK_EXTRA_ARGS
+      value: "-Dkeycloak.migration.action=import -Dkeycloak.migration.provider=singleFile -Dkeycloak.migration.file=/realm_config/realms.json"
+
+  createRealmsConfigMap: true
+  realmsConfigMap: v3io-keycloak-realms
+  extraVolumes: |
+    - name: realms
+      configMap:
+        name: {{ .Values.realmsConfigMap }}
+
+  extraVolumeMounts:
+    - name: realms
+      mountPath: /realm_config
+      readOnly: true
+
+  initContainerImage: alpine:3.17
+  initContainers: |
+    - name: wait-for-mysql
+      image: {{ .Values.initContainerImage }}
+      imagePullPolicy: IfNotPresent
+      command: ['sh', '-c']
+      args:
+        - echo -e "Waiting MySQL Server deployment availability";
+          while ! nc -z {{ .Values.externalDatabase.host }} {{ .Values.externalDatabase.port | quote }}; do
+            sleep 1;
+            echo "MySQL Server not available yet";
+          done;
+          echo -e "MySQL Server has started";
+
+  # This is the content of the realms.json file in the v3io-keycloak-realms configmap.
+  # The realms.json can contain a single json for a single realm or a list of jsons for multiple realms.
+  # Example for multiple realms:
+  # realmsConfig: |
+  #   [
+  #     {
+  #       "id": "realm1",
+  #       "realm": "realm1",
+  #       "enabled": true,
+  #       "displayName": "Realm 1",
+  #       "displayNameHtml": "First Realm"
+  #     },
+  #     {
+  #       "id": "realm2",
+  #       "realm": "realm2",
+  #       "enabled": true,
+  #       "displayName": "Realm 2",
+  #       "displayNameHtml": "Second Realm"
+  #     }
+  #   ]
+  realmsConfig: "{}"
+
+v3io-mysql:
+  fullnameOverride: v3io-keycloak-db
+  createDatabase: keycloak
+
+  adminSecret:
+    create: false
+    name: v3io-keycloak-db-creds
+
+  persistence:
+    v3io:
+      mountPath: keycloak/mysql
+
+  service:
+    port: 3306

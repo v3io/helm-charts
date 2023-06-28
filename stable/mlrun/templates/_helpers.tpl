@@ -84,6 +84,32 @@ We truncate at 63 chars because some Kubernetes name fields are limited to this 
 {{- end -}}
 {{- end -}}
 
+
+{{/*
+Create a fully qualified api log-collector name.
+We truncate at 63 chars because some Kubernetes name fields are limited to this (by the DNS naming spec).
+*/}}
+{{- define "mlrun.api.sidecars.logCollector.fullname" -}}
+{{- if .Values.api.sidecars.logCollector.fullnameOverride -}}
+{{- .Values.api.sidecars.logCollector.fullnameOverride | trunc 63 | trimSuffix "-" -}}
+{{- else -}}
+{{- $name := default .Chart.Name .Values.nameOverride -}}
+{{- if contains $name .Release.Name -}}
+{{- printf "%s-%s-%s" .Release.Name .Values.api.name .Values.api.sidecars.logCollector.name | trunc 63 | trimSuffix "-" -}}
+{{- else -}}
+{{- printf "%s-%s-%s-%s" .Release.Name $name .Values.api.name .Values.api.sidecars.logCollector.name | trunc 63 | trimSuffix "-" -}}
+{{- end -}}
+{{- end -}}
+{{- end -}}
+
+{{/*
+Create log-collector internal address.
+*/}}
+{{- define "mlrun.api.sidecars.logCollector.internalAddress" -}}
+127.0.0.1:{{- .Values.api.sidecars.logCollector.listenPort -}}
+{{- end -}}
+
+
 {{/*
 Create a fully qualified db name.
 We truncate at 63 chars because some Kubernetes name fields are limited to this (by the DNS naming spec).
@@ -224,6 +250,7 @@ Common selector labels
 {{- define "mlrun.common.selectorLabels" -}}
 app.kubernetes.io/name: {{ include "mlrun.name" . }}
 app.kubernetes.io/instance: {{ .Release.Name }}
+release: {{ .Release.Name }}
 {{- end -}}
 
 {{/*
@@ -321,11 +348,15 @@ Create the name of the service account to use
 Resolve the effective docker registry url and secret Name allowing for global values
 */}}
 {{- define "mlrun.defaultDockerRegistry.url" -}}
-{{ default .Values.defaultDockerRegistryURL .Values.global.registry.url }}
+{{ coalesce .Values.defaultDockerRegistryURL .Values.global.registry.url }}
 {{- end -}}
 
-{{- define "mlrun.defaultDockerRegistry.secretName" -}}
-{{ default .Values.defaultDockerRegistrySecretName .Values.global.registry.secretName }}
+{{- define "mlrun.defaultDockerRegistry.builderSecretName" -}}
+{{ coalesce .Values.defaultDockerRegistrySecretName .Values.global.registry.secretName }}
+{{- end -}}
+
+{{- define "mlrun.defaultDockerRegistry.imagePullSecretName" -}}
+{{ coalesce .Values.api.function.spec.image_pull_secret.default .Values.global.registry.secretName }}
 {{- end -}}
 
 {{/*

@@ -1,0 +1,15 @@
+# setting password variable once, as each call to this function will generate a new random password
+{{ $password := include "v3io-keycloak.dbPassword" . }}
+apiVersion: v1
+kind: Secret
+metadata:
+  name: {{ .Values.keycloak.externalDatabase.existingSecret }}
+  labels:
+    {{ include "v3io-keycloak.labels" . | nindent 4 }}
+data:
+  # for mysql
+  DB_USER: {{ include "v3io-keycloak.dbUser" . | b64enc }}
+  DB_PASSWORD: {{ $password | b64enc }}
+
+  # for keycloak
+  db-password: {{ $password | b64enc }}

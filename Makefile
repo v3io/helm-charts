@@ -1,5 +1,6 @@
 GITHUB_BRANCH_DEFAULT := development
 GITHUB_BRANCH := $(if $(GITHUB_BRANCH_OVERRIDE),$(GITHUB_BRANCH_OVERRIDE),$(GITHUB_BRANCH_DEFAULT))
+GITHUB_REPO ?= github.com/v3io/helm-charts
 
 HELM ?= helm
 HELM_REPO_DEFAULT := https://v3io.github.io/helm-charts
@@ -10,7 +11,7 @@ INDEX_DIR ?=
 HELM_REPO := $(HELM_REPO_ROOT)/$(WORKDIR)
 CHART_NAME := $(if $(CHART_NAME),$(CHART_NAME),chart-name)
 CHART_VERSION_OVERRIDE := $(if $(CHART_VERSION_OVERRIDE),$(CHART_VERSION_OVERRIDE),none)
-PUBLISH_REPO := $(if $(PUBLISH_CREDS),https://$(PUBLISH_CREDS)@github.com/v3io/helm-charts.git,git@github.com:v3io/helm-charts)
+PUBLISH_REPO := $(if $(PUBLISH_CREDS),https://$(PUBLISH_CREDS)@$(GITHUB_REPO).git,git@$(GITHUB_REPO))
 
 
 #### Some examples:
@@ -23,32 +24,32 @@ PUBLISH_REPO := $(if $(PUBLISH_CREDS),https://$(PUBLISH_CREDS)@github.com/v3io/h
 
 .PHONY: stable
 stable: WORKDIR = stable
-stable: check-helm repo-helm update-req package-all index
+stable: check-helm repo-helm build-req package-all index
 	@echo "Done"
 
 .PHONY: stable-specific
 stable-specific: WORKDIR = stable
-stable-specific: check-helm repo-helm update-req-specific package-specific index
+stable-specific: check-helm repo-helm build-req-specific package-specific index
 	@echo "Done"
 
 .PHONY: demo
 demo: WORKDIR = demo
-demo: check-helm repo-helm update-req package-all index
+demo: check-helm repo-helm build-req package-all index
 	@echo "Done"
 
 .PHONY: demo-specific
 demo-specific: WORKDIR = demo
-demo-specific: check-helm repo-helm update-req-specific package-specific index
+demo-specific: check-helm repo-helm build-req-specific package-specific index
 	@echo "Done"
 
 .PHONY: incubator
 incubator: WORKDIR = incubator
-incubator: check-helm repo-helm update-req package-all index
+incubator: check-helm repo-helm build-req package-all index
 	@echo "Done"
 
 .PHONY: incubator-specific
 incubator-specific: WORKDIR = incubator
-incubator-specific: check-helm repo-helm update-req-specific package-specific index
+incubator-specific: check-helm repo-helm build-req-specific package-specific index
 	@echo "Done"
 
 .PHONY: cleanup-tmp-workspace
@@ -61,7 +62,7 @@ cleanup-tmp-workspace:
 helm-publish-all: check-helm cleanup-tmp-workspace
 helm-publish-all:
 	@echo "Preparing to release a new index from $(GITHUB_BRANCH)"
-	@git clone -b gh-pages --single-branch git@github.com:v3io/helm-charts /tmp/v3io-helm-charts
+	@git clone -b gh-pages --single-branch $(PUBLISH_REPO) /tmp/v3io-helm-charts
 	@INDEX_DIR=/tmp/v3io-helm-charts HELM_PACKAGE_ARGS="-d /tmp/v3io-helm-charts/stable" make stable
 	@INDEX_DIR=/tmp/v3io-helm-charts HELM_PACKAGE_ARGS="-d /tmp/v3io-helm-charts/demo" make demo
 	@INDEX_DIR=/tmp/v3io-helm-charts HELM_PACKAGE_ARGS="-d /tmp/v3io-helm-charts/incubator" make incubator
@@ -87,7 +88,7 @@ helm-publish-all: cleanup-tmp-workspace
 helm-publish: check-helm cleanup-tmp-workspace
 helm-publish:
 	@echo "Preparing to release a new index from $(GITHUB_BRANCH)"
-	@git clone git@github.com:v3io/helm-charts /tmp/v3io-helm-charts
+	@git clone $(PUBLISH_REPO) /tmp/v3io-helm-charts
 	@cd /tmp/v3io-helm-charts && \
 		git checkout $(GITHUB_BRANCH) && \
 		git checkout gh-pages && \
@@ -113,7 +114,7 @@ helm-publish: cleanup-tmp-workspace
 helm-publish-demo-specific: cleanup-tmp-workspace
 helm-publish-demo-specific:
 	@echo "Preparing to release a new demo index for $(CHART_NAME) from $(GITHUB_BRANCH)"
-	@git clone git@github.com:v3io/helm-charts /tmp/v3io-helm-charts
+	@git clone $(PUBLISH_REPO) /tmp/v3io-helm-charts
 	@cd /tmp/v3io-helm-charts && \
 		git checkout $(GITHUB_BRANCH) && \
 		git checkout gh-pages && \
@@ -133,7 +134,7 @@ helm-publish-incubator-specific: cleanup-tmp-workspace
 helm-publish-incubator-specific:
 	@echo "Preparing to release a new incubator index for $(CHART_NAME) from $(GITHUB_BRANCH)"
 	@rm -rf /tmp/v3io-helm-charts
-	@git clone git@github.com:v3io/helm-charts /tmp/v3io-helm-charts
+	@git clone $(PUBLISH_REPO) /tmp/v3io-helm-charts
 	@cd /tmp/v3io-helm-charts && \
 		git checkout $(GITHUB_BRANCH) && \
 		git checkout gh-pages && \
@@ -167,7 +168,7 @@ helm-publish-stable-specific-v2: cleanup-tmp-workspace
 helm-publish-stable-specific: cleanup-tmp-workspace
 helm-publish-stable-specific:
 	@echo "Preparing to release a new stable index for $(CHART_NAME) from $(GITHUB_BRANCH)"
-	@git clone git@github.com:v3io/helm-charts /tmp/v3io-helm-charts
+	@git clone $(PUBLISH_REPO) /tmp/v3io-helm-charts
 	@cp -r /tmp/v3io-helm-charts /tmp/v3io-helm-charts-2
 	@cd /tmp/v3io-helm-charts-2 && \
 		git checkout $(GITHUB_BRANCH) && \
@@ -195,9 +196,9 @@ print-versions:
 		fi \
 	done
 
-.PHONY: update-req
-update-req: check-helm
-	@echo "Updating all charts requirements"
+.PHONY: build-req
+build-req: check-helm
+	@echo "Building all charts requirements"
 	@cd $(WORKDIR) && for chart in $$(ls); do \
 		if [ -e "$$chart/requirements.yaml" ]; then \
 			echo "Updating '$$chart' requirements" ; \
@@ -209,13 +210,38 @@ update-req: check-helm
 		fi ; \
 	done
 
-.PHONY: update-req-specific
-update-req-specific: check-helm
-	@echo "Updating $(CHART_NAME) chart requirements"
+.PHONY: build-req-specific
+build-req-specific: check-helm
+	@echo "Building $(CHART_NAME) chart requirements"
 	@cd $(WORKDIR) && if [ -e "$(CHART_NAME)/requirements.yaml" ]; then \
 	    $(HELM) dependency build $(CHART_NAME) ; \
 	    if [ "$$?" != "0" ]; then \
             echo "Chart $(CHART_NAME) failed dependency build" ; \
+            exit 103 ; \
+        fi ; \
+    fi
+
+.PHONY: update-req
+update-req: check-helm
+	@echo "Updating all charts requirements"
+	@cd $(WORKDIR) && for chart in $$(ls); do \
+		if [ -e "$$chart/requirements.yaml" ]; then \
+			echo "Updating '$$chart' requirements" ; \
+			$(HELM) dependency update $$chart ; \
+			if [ "$$?" != "0" ]; then \
+				echo "Chart $$chart failed dependency update" ; \
+				exit 103 ; \
+			fi ; \
+		fi ; \
+	done
+
+.PHONY: update-req-specific
+update-req-specific: check-helm
+	@echo "Updating $(CHART_NAME) chart requirements"
+	@cd $(WORKDIR) && if [ -e "$(CHART_NAME)/requirements.yaml" ]; then \
+		$(HELM) dependency update $(CHART_NAME) ; \
+	    if [ "$$?" != "0" ]; then \
+            echo "Chart $(CHART_NAME) failed dependency update" ; \
             exit 103 ; \
         fi ; \
     fi
@@ -308,3 +334,4 @@ repo-add:
 	helm repo add minio https://charts.min.io/
 	helm repo add spark-operator https://googlecloudplatform.github.io/spark-on-k8s-operator
 	helm repo add prometheus-community https://prometheus-community.github.io/helm-charts
+	helm repo add bitnami https://charts.bitnami.com/bitnami

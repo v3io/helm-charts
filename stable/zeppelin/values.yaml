@@ -228,7 +228,7 @@ environment:
   template: v3io-configs.deployment-with-home.env
 
 volumes:
-  volumesTemplate: v3io-configs.deployment.mount-with-fuse
+  volumesTemplate: v3io-configs.deployment.mount-with-fuse-csi
   volumeMountsTemplate: v3io-configs.deployment.volumeMounts-with-fuse-and-home
 
 debug:

@@ -4,7 +4,7 @@ on:
   workflow_dispatch:
     inputs:
       chart_name:
-        description: 'The chart to publish'
+        description: 'The chart to publish (use * to publish all charts)'
         required: true
 
 jobs:
@@ -27,8 +27,15 @@ jobs:
         run: |
           make repo-add
 
-      - name: Build Helm Chart & Push to Github Pages
+      - name: Build ${{ github.event.inputs.chart_name }} Helm Chart & Push to Github Pages
+        if: github.event.inputs.chart_name != '*'
         run: |
           export CHART_NAME=${{ github.event.inputs.chart_name }}
           export PUBLISH_CREDS=${{ github.actor }}:${{ github.token }}
           make helm-publish-stable-specific-v2
+      
+      - name: Build All Helm Chart & Push to Github Pages
+        if: github.event.inputs.chart_name == '*'
+        run: |
+          export PUBLISH_CREDS=${{ github.actor }}:${{ github.token }}
+          make helm-publish-all	

@@ -53,6 +53,7 @@ image:
   tag: 0.9.2-2.3.1-2.9.0-1.9_cloud_b14_20180913153233
   pullPolicy: "IfNotPresent"
   command: /etc/config/jupyter/v3io-jupyter.sh
+  imagePullSecrets: []
 servicePort: 8081
 
 config:
@@ -83,7 +84,7 @@ environment:
   extra: {}
 
 volumes:
-  volumesTemplate: v3io-configs.deployment.mount-with-fuse
+  volumesTemplate: v3io-configs.deployment.mount-with-fuse-csi
   volumeMountsTemplate: v3io-configs.deployment.volumeMounts-with-fuse-and-home
 
 pvc:
@@ -112,3 +113,12 @@ daemon:
     repository: "iguazio/v3io_dayman_health_check"
     tag: "1.0.0"
     pullPolicy: "IfNotPresent"
+
+sshServer:
+  enabled: false
+
+  # can specifically set the port for the ssh service NodePort (optional. when empty, a random port will be assigned)
+  # nodePort:
+
+  # base64 encoded public keys (can be more than one)
+  authorizedKeys: ""

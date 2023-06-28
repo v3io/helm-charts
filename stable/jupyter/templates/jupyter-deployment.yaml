@@ -28,6 +28,7 @@ spec:
         cluster-autoscaler.kubernetes.io/safe-to-evict: "true"
         iguazio.com/prometheus-pull: "true"
         iguazio.com/prometheus-pull-port: "{{ .Values.proxy.servicePort }}"
+        checksum/secret: {{ include (print $.Template.BasePath "/jupyter-ssh-key-secret.yaml") . | sha256sum }}
     spec:
       serviceAccountName: {{ template "jupyter.jobexecutor" . }}
       {{- if .Values.securityContext }}
@@ -59,25 +60,32 @@ spec:
               name: java-cert
 {{- end }}
 {{- end }}
+      {{- with .Values.image.imagePullSecrets }}
+      imagePullSecrets:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
       containers:
         - name: jupyter
-          image: {{ .Values.image.repository }}:{{ .Values.image.tag }}
+          image: "{{ .Values.image.repository }}:{{ .Values.image.tag }}"
           imagePullPolicy: {{ .Values.image.pullPolicy | quote }}
           command: ["/bin/bash", "{{ .Values.image.command }}"]
           workingDir: "/User"
           args:
-            - --ip="0.0.0.0"
+            - --ip=0.0.0.0
             - --port={{ .Values.servicePort }}
-            - --NotebookApp.token=''
-            - --NotebookApp.password=''
-            - --notebook-dir="/User"
-            - --NotebookApp.default_url="/lab"
-            - --Application.log_level="WARN"
-            - --Application.log_datefmt="%Y-%m-%d_%H:%M:%S"
+            - --notebook-dir=/User
+            - --NotebookApp.default_url=/lab
+            - --Application.log_level=WARN
+            - --Application.log_datefmt=%Y-%m-%d_%H:%M:%S
 {{- if .Values.debug.enabled }}
             - --debug
 {{- end }}
           ports:
+{{- if .Values.sshServer.enabled }}
+            - name: sshd
+              containerPort: 22
+              protocol: TCP
+{{- end }}
             - containerPort: {{ .Values.servicePort }}
               name: jupyter
           resources:
@@ -136,8 +144,13 @@ spec:
 {{- end }}
 {{- end }}
           volumeMounts:
-            - mountPath: /User/v3io
-              name: v3io-fuse
+{{- if .Values.sshServer.enabled }}
+            - mountPath: /var/run/iguazio/secrets/ssh
+              readOnly: true
+              name: ssh-authorized-keys
+{{- end }}
+            - mountPath: /intercontainer
+              name: inter-container
             - mountPath: /etc/config/jupyter
               name: config-volume
             - mountPath: /var/run/iguazio/daemon_health
@@ -172,7 +185,18 @@ spec:
           ports:
             - containerPort: {{ .Values.proxy.servicePort }}
               name: sidecar-proxy
+          volumeMounts:
+            - mountPath: /intercontainer
+              name: inter-container
       volumes:
+{{- if .Values.sshServer.enabled }}
+        - name: ssh-authorized-keys
+          secret:
+            defaultMode: 420
+            secretName: {{ template "jupyter.fullname" . }}-ssh-key
+{{- end }}
+        - name: inter-container
+          emptyDir: {}
         - name: config-volume
           configMap:
             name: {{ template "jupyter.fullname" . }}

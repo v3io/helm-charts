@@ -1,5 +1,12 @@
 #/bin/bash
-for f in stable/*/Chart.yaml ; do
+
+if [ -z "$1" ]; then
+    chart_name="*"
+else
+    chart_name="$1"
+fi
+
+for f in stable/$chart_name/Chart.yaml ; do
   if [[ -f $f ]]; then
     current_version=$(cat $f | grep "version:" | sed 's/[^0-9\.]//g')
     if [[ ! -z $current_version ]]; then
