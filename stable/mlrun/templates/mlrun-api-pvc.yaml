@@ -1,4 +1,4 @@
-{{- if .Values.mlrun.api.persistence.enabled -}}
+{{- if .Values.api.persistence.enabled -}}
 kind: PersistentVolumeClaim
 apiVersion: v1
 metadata:
