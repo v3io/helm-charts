@@ -4,11 +4,7 @@ apiVersion: v1
 metadata:
   name: {{ .Values.api.volumes.storageOverride.persistentVolumeClaim.claimName }}
   labels:
-    app.kubernetes.io/name: mlrunapi
-    app.kubernetes.io/instance: {{ .Release.Name }}
-    app.kubernetes.io/managed-by: {{ .Release.Service }}
-    helm.sh/chart: {{ .Chart.Name }}-{{ .Chart.Version | replace "+" "_" }}
-
+    {{- include "mlrun.api.labels" . | nindent 4 }}
 {{- with .Values.api.persistence.annotations }}
 annotations: {{ toYaml . | nindent 4 }}
 {{- end }}
