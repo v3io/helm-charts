@@ -15,9 +15,9 @@ spec:
       storage: {{ .Values.api.persistence.size | quote }}
 {{- if .Values.api.persistence.storageClass }}
 {{- if (eq "-" .Values.api.persistence.storageClass) }}
-storageClassName: ""
+  storageClassName: ""
 {{- else }}
-storageClassName: "{{ .Values.api.persistence.storageClass }}"
+  storageClassName: "{{ .Values.api.persistence.storageClass }}"
 {{- end }}
 {{- end }}
 {{- end -}}
