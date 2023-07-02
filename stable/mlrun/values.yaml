@@ -6,6 +6,19 @@ api:
   name: api
   fullnameOverride:
 
+  persistence:
+    enabled: false
+    existingClaim:
+    storageClass: nfs-client
+    accessMode: "ReadWriteOnce"
+    size: "8Gi"
+    annotations: ~
+
+  volumes:
+    storageOverride:
+      persistentVolumeClaim:
+        claimName: mlrun-api-pvc
+
   logLevel: INFO
 
   chief:
@@ -303,6 +316,19 @@ api:
 db:
   name: db
   fullnameOverride:
+
+  persistence:
+    enabled: false
+    existingClaim:
+    storageClass: nfs-client
+    accessMode: "ReadWriteOnce"
+    size: "8Gi"
+    annotations: ~
+
+  volumes:
+    storageOverride:
+      persistentVolumeClaim:
+        claimName: mlrun-db-pvc
 
   replicaCount: 1
 

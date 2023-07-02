@@ -11,10 +11,6 @@ api:
       persistentVolumeClaim:
         claimName: mlrun-api-pvc
 db:
-  volumes:
-    storageOverride:
-      persistentVolumeClaim:
-        claimName: mlrun-db-pvc
   persistence:
     enabled: true
     existingClaim:
@@ -22,5 +18,11 @@ db:
     accessMode: "ReadWriteOnce"
     size: "8Gi"
     annotations: ~
+
+  volumes:
+    storageOverride:
+      persistentVolumeClaim:
+        claimName: mlrun-db-pvc
+
 v3io:
   enabled: false
