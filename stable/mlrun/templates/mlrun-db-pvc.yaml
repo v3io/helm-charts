@@ -1,9 +1,13 @@
-{{- if .Values.mlrun.api.persistence.enabled -}}
+{{- if .Values.db.persistence.enabled -}}
 kind: PersistentVolumeClaim
 apiVersion: v1
 metadata:
   name: {{ .Values.db.volumes.storageOverride.persistentVolumeClaim.claimName }}
   labels:
+    app.kubernetes.io/name: mlrundb
+    app.kubernetes.io/instance: {{ .Release.Name }}
+    app.kubernetes.io/managed-by: {{ .Release.Service }}
+    helm.sh/chart: {{ .Chart.Name }}-{{ .Chart.Version | replace "+" "_" }}
 {{- with .Values.db.persistence.annotations }}
 annotations: {{ toYaml . | nindent 4 }}
 {{- end }}
@@ -15,9 +19,9 @@ spec:
       storage: {{ .Values.db.persistence.size | quote }}
 {{- if .Values.db.persistence.storageClass }}
 {{- if (eq "-" .Values.db.persistence.storageClass) }}
-storageClassName: ""
+  storageClassName: ""
 {{- else }}
-storageClassName: "{{ .Values.db.persistence.storageClass }}"
+  storageClassName: "{{ .Values.db.persistence.storageClass }}"
 {{- end }}
 {{- end }}
 {{- end -}}
