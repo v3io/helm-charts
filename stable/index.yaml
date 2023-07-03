@@ -1,0 +1,46 @@
+apiVersion: v1
+entries:
+  grafana:
+  - apiVersion: v1
+    appVersion: 6.5.2
+    created: "2023-07-03T16:17:41.368989+03:00"
+    dependencies:
+    - name: v3io-configs
+      repository: https://v3io.github.io/helm-charts/stable
+      version: 0.11.3
+    description: The leading tool for querying and visualizing time series and metrics.
+    digest: 78bbfe2659a3723e0fbfd1027aefe3c22cd6d8ca75f1e4bf7e4912b6a65e1ff6
+    home: https://grafana.net
+    icon: https://raw.githubusercontent.com/grafana/grafana/master/public/img/logo_transparent_400x.png
+    kubeVersion: ^1.8.0-0
+    maintainers:
+    - email: hedii@iguazio.com
+      name: hedingber
+    name: grafana
+    sources:
+    - https://github.com/grafana/grafana
+    urls:
+    - https://v3io.github.io/helm-charts/stable/grafana-5.0.1.tgz
+    version: 5.0.1
+  v3io-keycloak:
+  - apiVersion: v1
+    appVersion: 20.0.5
+    created: "2023-07-03T16:17:41.373796+03:00"
+    dependencies:
+    - name: v3io-mysql
+      repository: https://v3io.github.io/helm-charts/stable
+      version: 0.1.1
+    - name: keycloak
+      repository: https://charts.bitnami.com/bitnami
+      version: 13.2.0
+    description: Keycloak With V3IO MySQL Database
+    digest: ef2aae38b5bd4f6a0257debf40e9c70cc9ff3f1d0d4f906708e127ca9002b76d
+    icon: https://di5r923elu32w2e633ofbxj9-wpengine.netdna-ssl.com/wp-content/uploads/2019/10/Iguazio-Logo.png
+    maintainers:
+    - email: adamm@iguazio.com
+      name: Adam Melnick
+    name: v3io-keycloak
+    urls:
+    - https://v3io.github.io/helm-charts/stable/v3io-keycloak-0.1.3.tgz
+    version: 0.1.3
+generated: "2023-07-03T16:17:41.363949+03:00"

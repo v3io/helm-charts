@@ -1,8 +1,8 @@
-{{- if .Values.keycloak.createRealmsConfigMap -}}
+{{- if .Values.keycloak.createRealmsSecret -}}
 apiVersion: v1
-kind: ConfigMap
+kind: Secret
 metadata:
-  name: {{ .Values.keycloak.realmsConfigMap }}
+  name: {{ .Values.keycloak.realmsSecret }}
   labels:
     {{ include "v3io-keycloak.labels" . | nindent 4 }}
 data:
