@@ -14,11 +14,6 @@ api:
     size: "8Gi"
     annotations: ~
 
-  volumes:
-    storageOverride:
-      persistentVolumeClaim:
-        claimName: mlrun-api-pvc
-
   logLevel: INFO
 
   chief:
@@ -168,6 +163,12 @@ api:
 
   volumes:
     storageOverride: {}
+  # define volume for nfs uc.
+  #volumes:
+  #  storageOverride:
+  #    persistentVolumeClaim:
+  #      claimName: mlrun-api-pvc
+
 
   # Defines additional volume mounts from existing persistent volume claims.
   extraPersistentVolumeMounts: []
@@ -325,11 +326,6 @@ db:
     size: "8Gi"
     annotations: ~
 
-  volumes:
-    storageOverride:
-      persistentVolumeClaim:
-        claimName: mlrun-db-pvc
-
   replicaCount: 1
 
   image:
@@ -401,6 +397,11 @@ db:
 
   volumes:
     storageOverride: {}
+  # define volumes for nfs uc.
+  #volumes:
+  #  storageOverride:
+  #    persistentVolumeClaim:
+  #      claimName: mlrun-db-pvc
 
   # Defines additional volume mounts from existing persistent volume claims.
   extraPersistentVolumeMounts: []
@@ -582,6 +583,8 @@ serviceAccounts:
 
 v3io:
   enabled: true
+  # in case of using nfs storage
+  #enabled: false
 
 httpDB:
   dbType: "sqlite"
