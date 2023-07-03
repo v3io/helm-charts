@@ -1,0 +1,24 @@
+{{- if .Values.storage.metadata.persistence.enabled -}}
+kind: PersistentVolumeClaim
+apiVersion: v1
+metadata:
+  name: {{ .Values.storage.metadata.volumes.storageOverride.persistentVolumeClaim.claimName }}
+  labels:
+    {{ include "pipelines.commonLabels" . | indent 4 }}
+{{- with .Values.storage.metadata.persistence.annotations }}
+annotations: {{ toYaml . | nindent 4 }}
+{{- end }}
+spec:
+  accessModes:
+    - {{ .Values.storage.metadata.persistence.accessMode | quote }}
+  resources:
+    requests:
+      storage: {{ .Values.storage.metadata.persistence.size | quote }}
+{{- if .Values.storage.metadata.persistence.storageClass }}
+{{- if (eq "-" .Values.storage.metadata.persistence.storageClass) }}
+  storageClassName: ""
+{{- else }}
+  storageClassName: "{{ .Values.storage.metadata.persistence.storageClass }}"
+{{- end }}
+{{- end }}
+{{- end -}}
