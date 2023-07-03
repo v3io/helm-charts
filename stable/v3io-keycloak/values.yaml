@@ -31,14 +31,14 @@ keycloak:
     - name: KEYCLOAK_DATABASE_VENDOR
       value: mysql
     - name: KEYCLOAK_EXTRA_ARGS
-      value: "-Dkeycloak.migration.action=import -Dkeycloak.migration.provider=singleFile -Dkeycloak.migration.file=/realm_config/realms.json"
+      value: "-Dkeycloak.migration.action=import -Dkeycloak.migration.provider=singleFile -Dkeycloak.migration.strategy=IGNORE_EXISTING -Dkeycloak.migration.file=/realm_config/realms.json"
 
-  createRealmsConfigMap: true
-  realmsConfigMap: v3io-keycloak-realms
+  createRealmsSecret: true
+  realmsSecret: v3io-keycloak-realms
   extraVolumes: |
     - name: realms
-      configMap:
-        name: {{ .Values.realmsConfigMap }}
+      secret:
+        secretName: {{ .Values.realmsSecret }}
 
   extraVolumeMounts:
     - name: realms
