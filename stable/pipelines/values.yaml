@@ -161,6 +161,8 @@ storageMode:
   kind:
     v3io:
       enabled: true
+      # in case of nfs storage
+      #enabled: false
     minio:
       enabled: false
 
