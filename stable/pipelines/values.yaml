@@ -12,9 +12,22 @@ storage:
   artifacts:
     containerName: users
   metadata:
+    persistence:
+      enabled: false
+      existingClaim:
+      storageClass: nfs-client
+      accessMode: "ReadWriteOnce"
+      size: "8Gi"
+      annotations: ~
     containerName: users
     subPath: /mlpipeline/mysql-kf
-
+    volumes:
+      storageOverride: {}
+    # define volume for nfs uc.
+    #volumes:
+    #  storageOverride:
+    #    persistentVolumeClaim:
+    #      claimName: pipeline-mysql-pvc
 configurations:
   credentials:
     accessKey: overrideMe
@@ -143,3 +156,23 @@ tolerations: []
 affinity: {}
 
 priorityClassName: ""
+
+storageMode:
+  kind:
+    v3io:
+      enabled: true
+      # in case of nfs storage
+      #enabled: false
+    minio:
+      enabled: false
+
+db:
+  podSecurityContext:
+    runAsUser: 1001
+
+  securityContext: {}
+    # capabilities:
+    #   drop:
+    #   - ALL
+    # readOnlyRootFilesystem: true
+  # runAsNonRoot: true
