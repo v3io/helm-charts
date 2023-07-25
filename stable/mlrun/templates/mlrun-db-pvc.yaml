@@ -1,4 +1,4 @@
-{{- if .Values.db.persistence.enabled -}}
+{{- if and (.Values.db.persistence.enabled) (eq "mysql" .Values.httpDB.dbType) }}
 kind: PersistentVolumeClaim
 apiVersion: v1
 metadata:

@@ -9,7 +9,7 @@ api:
   persistence:
     enabled: false
     existingClaim:
-    storageClass: nfs-client
+    storageClass:
     accessMode: "ReadWriteOnce"
     size: "8Gi"
     annotations: ~
@@ -321,7 +321,7 @@ db:
   persistence:
     enabled: false
     existingClaim:
-    storageClass: nfs-client
+    storageClass:
     accessMode: "ReadWriteOnce"
     size: "8Gi"
     annotations: ~
