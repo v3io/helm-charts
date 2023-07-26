@@ -15,7 +15,7 @@ storage:
     persistence:
       enabled: false
       existingClaim:
-      storageClass: nfs-client
+      storageClass:
       accessMode: "ReadWriteOnce"
       size: "8Gi"
       annotations: ~
