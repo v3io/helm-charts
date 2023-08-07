@@ -1,7 +1,6 @@
 {{- if .Values.ui.ingress.enabled -}}
 {{- $fullName := include "mlrun.ui.fullname" . -}}
 {{- $svcPort := .Values.ui.service.port -}}
-{{- $ingressPath := .Values.dashboard.ingress.path }}
 apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:
@@ -25,15 +24,17 @@ spec:
 {{- end }}
   rules:
   {{- range .Values.ui.ingress.hosts }}
-    - host: {{ . | quote }}
+    - host: {{ .host | quote }}
       http:
         paths:
-          - pathType: ImplementationSpecific
-            path: {{ $ingressPath }}
+          {{- range .paths }}
+          - pathType: {{ .pathType }}
+            path: {{ .path }}
             backend:
               service:
                 name: {{ $fullName }}
                 port: 
                   number: {{ $svcPort }}
+          {{- end }}
   {{- end }}
 {{- end }}
