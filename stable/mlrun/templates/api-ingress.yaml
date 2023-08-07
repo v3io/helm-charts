@@ -26,6 +26,7 @@ spec:
   {{- range .Values.api.ingress.hosts }}
     - host: {{ .host | quote }}
       http:
+        paths:
           {{- range .paths }}
           - pathType: {{ .pathType }}
             path: {{ .path }}
