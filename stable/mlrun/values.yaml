@@ -33,7 +33,9 @@ api:
       # kubernetes.io/tls-acme: "true"
       hosts:
         - host: chart-example.local
-          paths: [ ]
+          paths: 
+            - pathType: ImplementationSpecific
+              path: /
       tls: [ ]
       #  - secretName: chart-example-tls
       #    hosts:
@@ -78,7 +80,9 @@ api:
     # kubernetes.io/tls-acme: "true"
     hosts:
       - host: chart-example.local
-        paths: []
+        paths: 
+          - pathType: ImplementationSpecific
+            path: /
     tls: []
     #  - secretName: chart-example-tls
     #    hosts:
@@ -518,7 +522,9 @@ ui:
     # kubernetes.io/tls-acme: "true"
     hosts:
       - host: chart-example.local
-        paths: []
+        paths: 
+          - pathType: ImplementationSpecific
+            path: /
     tls: []
     #  - secretName: chart-example-tls
     #    hosts:
