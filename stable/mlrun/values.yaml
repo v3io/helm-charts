@@ -606,7 +606,7 @@ httpDB:
   # oldDsn: "sqlite:////mlrun/db/mlrun.db?check_same_thread=false"
 
 modelMonitoring:
-  enabled: disabled
+  enabled: false
   # If enabled and no dsn has been provided, will initiate monitoring database under mlrun-db service:
   # mysql+pymysql://root@mlrun-db:3306/monitoring
   dsn:
