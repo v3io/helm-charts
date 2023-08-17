@@ -608,7 +608,7 @@ httpDB:
 modelMonitoring:
   provisionDB: false
   # If provisionDB is true and no dsn has been provided, will initiate monitoring database under mlrun-db service:
-  # mysql+pymysql://root@mlrun-db:3306/mlrun-monitoring
+  # mysql+pymysql://root@mlrun-db:3306/mlrun_monitoring
   dsn:
 
 defaultDockerRegistryURL: ""
