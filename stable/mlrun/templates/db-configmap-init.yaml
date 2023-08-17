@@ -12,7 +12,7 @@ data:
     GRANT ALL PRIVILEGES ON *.* TO 'root'@'%';
     FLUSH PRIVILEGES;
     CREATE DATABASE IF NOT EXISTS mlrun;
-    {{- if and .Values.modelMonitoring.provisionDB (not .Values.modelMonitoring.dsn)}}
+    {{- if not .Values.modelMonitoring.dsn }}
     CREATE DATABASE IF NOT EXISTS mlrun_monitoring;
     {{- end }}
 {{- end }}
