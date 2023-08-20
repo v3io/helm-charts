@@ -13,6 +13,6 @@ data:
     FLUSH PRIVILEGES;
     CREATE DATABASE IF NOT EXISTS mlrun;
     {{- if not .Values.modelMonitoring.dsn }}
-    CREATE DATABASE IF NOT EXISTS mlrun_monitoring;
+    CREATE DATABASE IF NOT EXISTS mlrun_model_monitoring;
     {{- end }}
 {{- end }}
