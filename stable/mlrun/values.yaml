@@ -6,6 +6,14 @@ api:
   name: api
   fullnameOverride:
 
+  persistence:
+    enabled: false
+    existingClaim:
+    storageClass:
+    accessMode: "ReadWriteOnce"
+    size: "8Gi"
+    annotations: ~
+
   logLevel: INFO
 
   chief:
@@ -25,7 +33,9 @@ api:
       # kubernetes.io/tls-acme: "true"
       hosts:
         - host: chart-example.local
-          paths: [ ]
+          paths: 
+            - pathType: ImplementationSpecific
+              path: /
       tls: [ ]
       #  - secretName: chart-example-tls
       #    hosts:
@@ -54,7 +64,7 @@ api:
 
   image:
     repository: mlrun/mlrun-api
-    tag: 1.0.4
+    tag: 1.4.0
     pullPolicy: IfNotPresent
     pullSecrets: []
 
@@ -70,7 +80,9 @@ api:
     # kubernetes.io/tls-acme: "true"
     hosts:
       - host: chart-example.local
-        paths: []
+        paths: 
+          - pathType: ImplementationSpecific
+            path: /
     tls: []
     #  - secretName: chart-example-tls
     #    hosts:
@@ -155,6 +167,12 @@ api:
 
   volumes:
     storageOverride: {}
+  # define volume for nfs uc.
+  #volumes:
+  #  storageOverride:
+  #    persistentVolumeClaim:
+  #      claimName: mlrun-api-pvc
+
 
   # Defines additional volume mounts from existing persistent volume claims.
   extraPersistentVolumeMounts: []
@@ -272,7 +290,7 @@ api:
 
       image:
         repository: mlrun/log-collector
-        tag: 1.3.0
+        tag: 1.4.0
         pullPolicy: IfNotPresent
         pullSecrets: []
 
@@ -303,6 +321,14 @@ api:
 db:
   name: db
   fullnameOverride:
+
+  persistence:
+    enabled: false
+    existingClaim:
+    storageClass:
+    accessMode: "ReadWriteOnce"
+    size: "8Gi"
+    annotations: ~
 
   replicaCount: 1
 
@@ -375,6 +401,11 @@ db:
 
   volumes:
     storageOverride: {}
+  # define volumes for nfs uc.
+  #volumes:
+  #  storageOverride:
+  #    persistentVolumeClaim:
+  #      claimName: mlrun-db-pvc
 
   # Defines additional volume mounts from existing persistent volume claims.
   extraPersistentVolumeMounts: []
@@ -475,7 +506,7 @@ ui:
 
   image:
     repository: mlrun/mlrun-ui
-    tag: 1.0.4
+    tag: 1.4.0
     pullPolicy: IfNotPresent
     pullSecrets: []
 
@@ -491,7 +522,9 @@ ui:
     # kubernetes.io/tls-acme: "true"
     hosts:
       - host: chart-example.local
-        paths: []
+        paths: 
+          - pathType: ImplementationSpecific
+            path: /
     tls: []
     #  - secretName: chart-example-tls
     #    hosts:
@@ -556,6 +589,8 @@ serviceAccounts:
 
 v3io:
   enabled: true
+  # in case of using nfs storage
+  #enabled: false
 
 httpDB:
   dbType: "sqlite"
@@ -569,6 +604,11 @@ httpDB:
   # Values to insert if mysql database is needed
   # dsn: "mysql+pymysql://root@mlrun-db:3306/mlrun"
   # oldDsn: "sqlite:////mlrun/db/mlrun.db?check_same_thread=false"
+
+modelMonitoring:
+  # If no dsn has been provided, will initiate monitoring database under mlrun-db service:
+  # mysql+pymysql://root@mlrun-db:3306/mlrun_model_monitoring
+  dsn:
 
 defaultDockerRegistryURL: ""
 defaultDockerRegistrySecretName: ""

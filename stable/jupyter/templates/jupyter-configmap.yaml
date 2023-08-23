@@ -71,6 +71,11 @@ data:
 
     ## Create v3io symlink
     if [ ! -e "${HOME}/v3io" ]; then
+      log 'Create v3io symlink'
+      ln -s /v3io ${HOME}
+    elif [ ! -L "${HOME}/v3io" ]; then
+      log 'Replace v3io dir with symlink'
+      rmdir ${HOME}/v3io &&
       ln -s /v3io ${HOME}
     fi
 
@@ -371,58 +376,53 @@ data:
 
 
     export JUPYTER_FULLNAME={{ template "jupyter.fullname" . }}
-    # PIP persistency on fuse mount for /conda (docker) envs
-    log 'Configure PIP persistency for prebaked envs'
-    # jupyter (needs special handling for jupyter.fullname in case of multiple jupy envs per user):
-    if [ ! -e "${CONDA_HOME}/envs/jupyter/etc/conda/activate.d/env_vars.sh" ]; then
-      cat << EOF > ${CONDA_HOME}/envs/jupyter/etc/conda/activate.d/env_vars.sh
+    # PIP persistency on fuse mount for prebaked conda envs
+    # special handling for base env:
     # clean leftovers from previous env
-    if [ "\${CONDA_DEFAULT_ENV}" == "jupyter" ]; then
-      for env in ${JUPYTER_FULLNAME} mlrun-base mlrun-extended; do
-        export PATH=\$(echo \${PATH} | sed 's@/User/.pythonlibs/\${env}/bin:@@g')
-      done
-    # update paths    
-      export PIP_PREFIX=/User/.pythonlibs/${JUPYTER_FULLNAME}
-      export PYTHONPATH=/User/.pythonlibs/${JUPYTER_FULLNAME}/lib/python3.9/site-packages:\${IGZ_SPARK_PYTHONPATH}
-      export PATH=/User/.pythonlibs/${JUPYTER_FULLNAME}/bin:\${PATH}
-    fi
-    EOF
-    fi
-    if [ ! -e "${CONDA_HOME}/envs/jupyter/etc/conda/deactivate.d/env_vars.sh" ]; then
-      cat << EOF > ${CONDA_HOME}/envs/jupyter/etc/conda/deactivate.d/env_vars.sh
-    if [ "\${CONDA_DEFAULT_ENV}" == "jupyter" ]; then
-      unset PIP_PREFIX
-      export PYTHONPATH=\${IGZ_SPARK_PYTHONPATH}
-      export PATH=\$(echo \${PATH} | sed 's@/User/.pythonlibs/${JUPYTER_FULLNAME}/bin:@@g')
-    fi
-    EOF
-    fi
-    # remaining local /conda/envs
-    for env in $(ls /conda/envs | grep -v jupyter); do
-      if [ ! -e "${CONDA_HOME}/envs/${env}/etc/conda/activate.d/env_vars.sh" ]; then
-        cat << EOF > ${CONDA_HOME}/envs/${env}/etc/conda/activate.d/env_vars.sh
-    # clean leftovers from previous env
-    if [ "\${CONDA_DEFAULT_ENV}" == "${env}" ]; then
-      for env in ${JUPYTER_FULLNAME} mlrun-base mlrun-extended; do
-        export PATH=\$(echo \${PATH} | sed 's@/User/.pythonlibs/\${env}/bin:@@g')
-      done
-    # update paths 
-      export PIP_PREFIX=/User/.pythonlibs/${env}
-      export PYTHONPATH=/User/.pythonlibs/${env}/lib/python3.9/site-packages:\${IGZ_SPARK_PYTHONPATH}
-      export PATH=/User/.pythonlibs/${env}/bin:\${PATH}
-    fi
-    EOF
-      fi
-      if [ ! -e "${CONDA_HOME}/envs/${env}/etc/conda/deactivate.d/env_vars.sh" ]; then
-        cat << EOF > ${CONDA_HOME}/envs/${env}/etc/conda/deactivate.d/env_vars.sh
-    if [ "\${CONDA_DEFAULT_ENV}" == "${env}" ]; then
-      unset PIP_PREFIX
-      export PYTHONPATH=\${IGZ_SPARK_PYTHONPATH}
-      export PATH=\$(echo \${PATH} | sed 's@/User/.pythonlibs/${env}/bin:@@g')
-    fi
-    EOF
-      fi
+    cat << EOF > ${CONDA_HOME}/etc/conda/activate.d/env_vars.sh
+    for env in ${JUPYTER_FULLNAME} mlrun-base mlrun-extended; do
+      export PATH=\$(echo \${PATH} | sed "s|/User/.pythonlibs/\${env}/bin:||g")
     done
+    unset PIP_PREFIX
+    unset PYTHONPATH
+    EOF
+    # remaining prebaked envs:
+    for env in $(ls /conda/envs); do
+      if [ "${env}" == 'jupyter' ]; then
+        env_name=${JUPYTER_FULLNAME}
+      else
+        env_name=${env}
+      fi
+      cat << EOF > ${CONDA_HOME}/envs/${env}/etc/conda/activate.d/env_vars.sh
+    # clean leftovers from previous env
+    for env in ${JUPYTER_FULLNAME} mlrun-base mlrun-extended; do
+      export PATH=\$(echo \${PATH} | sed "s|/User/.pythonlibs/\${env}/bin:||g")
+    done
+    # update paths
+    export PIP_PREFIX=/User/.pythonlibs/${env_name}
+    export PYTHONPATH=/User/.pythonlibs/${env_name}/lib/python3.9/site-packages:\${IGZ_SPARK_PYTHONPATH}
+    export PATH=/User/.pythonlibs/${env_name}/bin:\${PATH}
+    EOF
+      cat << EOF > ${CONDA_HOME}/envs/${env}/etc/conda/deactivate.d/env_vars.sh
+    unset PIP_PREFIX
+    export PYTHONPATH=\${IGZ_SPARK_PYTHONPATH}
+    export PATH=\$(echo \${PATH} | sed "s|/User/.pythonlibs/${env_name}/bin:||g")
+    EOF
+    done
+
+
+    # Backup old binaries from jupyter path (upgrade)
+    mkdir -p ${HOME}/.igz
+    CLEANUP_FILE='.bin_cleanup_python3.7'
+    if ! $(grep -wq "^${JUPYTER_FULLNAME}$" ${HOME}/.igz/${CLEANUP_FILE} 2>/dev/null); then
+      echo ${JUPYTER_FULLNAME} >> ${HOME}/.igz/${CLEANUP_FILE}
+      if [ -d "/User/.pythonlibs/${JUPYTER_FULLNAME}/bin" ]; then
+        log "Backup old binaries in .pyhtonlibs/${JUPYTER_FULLNAME}/bin"
+        mkdir -p /User/.pythonlibs/${JUPYTER_FULLNAME}/.bin/python3.7
+        cp -r /User/.pythonlibs/${JUPYTER_FULLNAME}/bin/* /User/.pythonlibs/${JUPYTER_FULLNAME}/.bin/python3.7/
+        rm -rf /User/.pythonlibs/${JUPYTER_FULLNAME}/bin/*
+      fi
+    fi
 
 
     # Set jupyter directories to fuse (persistent)
@@ -509,7 +509,7 @@ data:
       fi
     done
     CLIENT_MLRUN_VERSION=\$(pip show mlrun | grep Version | awk '{print \$2}')
-    SERVER_MLRUN_VERSION=\$(curl -s \${IGZ_MLRUN_API_ENDPOINT}/api/healthz | python3 -c "import sys, json; print(json.load(sys.stdin)['version'])")
+    SERVER_MLRUN_VERSION=\$(curl -s \${IGZ_MLRUN_API_ENDPOINT}/api/v1/client-spec | python3 -c "import sys, json; print(json.load(sys.stdin)['version'])")
     if [ "\${CLIENT_MLRUN_VERSION}" = "\${SERVER_MLRUN_VERSION}" ] || [ "\${CLIENT_MLRUN_VERSION}" = "\${SERVER_MLRUN_VERSION//-}" ]; then
       echo "Both server & client are aligned (\${CLIENT_MLRUN_VERSION})."
     else
@@ -526,7 +526,6 @@ data:
 
 
     ## Tutorials
-    mkdir -p ${HOME}/.igz
     if [ ! -e "${HOME}/.igz/.getting-started" ] && [ ! -z ${IGZ_JUPYTER_TUTORIALS_URL} ] && [ ! -z ${IGZ_MLRUN_DEMOS_URL} ]; then
       log 'Configure tutorials'
       curl -L ${IGZ_JUPYTER_TUTORIALS_URL} -o /tmp/jupyter-tutorials
@@ -545,7 +544,7 @@ data:
         cp /tmp/update-tutorials.ipynb ${HOME}
         cp /tmp/update-demos.sh ${HOME}
       fi
-      if ! bash /tmp/update-demos.sh --mlrun-ver `curl -s ${IGZ_MLRUN_API_ENDPOINT}/api/healthz | python3 -c "import sys, json; print(json.load(sys.stdin)['version'])"`; then
+      if ! bash /tmp/update-demos.sh --mlrun-ver `curl -s ${IGZ_MLRUN_API_ENDPOINT}/api/v1/client-spec | python3 -c "import sys, json; print(json.load(sys.stdin)['version'])"`; then
         mkdir -p ${HOME}/demos
         tar -C ${HOME}/demos -xvf /tmp/mlrun-demos  --strip-components=1
         rm -f /tmp/mlrun-demos
