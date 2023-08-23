@@ -107,7 +107,12 @@ spec:
             value: {{ .Values.api.sidecars.logCollector.getLogsBufferSizeBytes | quote }}
           {{- end }}
           {{- if .Values.api.extraEnv }}
-          {{ toYaml .Values.api.extraEnv | nindent 10 }}
+          {{- range .Values.api.extraEnv }}
+          {{- if not (hasKey $.Values.api.extraEnvKeyValue .name) }}
+          - name: {{ .name }}
+            value: {{ .value }}
+          {{- end }}
+          {{- end }}
           {{- end }}
           {{- if .Values.api.extraEnvKeyValue }}
           {{- range $name, $value := .Values.api.extraEnvKeyValue }}
