@@ -15,4 +15,5 @@ data:
   MLRUN_LOG_COLLECTOR__GET_LOGS_BUFFER_POOL_SIZE: "{{ .Values.api.sidecars.logCollector.getLogsBufferPoolSize }}"
   MLRUN_LOG_COLLECTOR__LOG_COLLECTION_BUFFER_SIZE_BYTES: "{{ .Values.api.sidecars.logCollector.logCollectionBufferSizeBytes }}"
   MLRUN_LOG_COLLECTOR__GET_LOGS_BUFFER_SIZE_BYTES: "{{ .Values.api.sidecars.logCollector.getLogsBufferSizeBytes }}"
+  MLRUN_LOG_COLLECTOR__LOG_TIME_UPDATE_BYTES_INTERVAL: "{{ .Values.api.sidecars.logCollector.logTimeUpdateBytesInterval }}"
 {{- end }}
