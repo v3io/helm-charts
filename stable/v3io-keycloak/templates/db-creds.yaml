@@ -9,7 +9,7 @@ metadata:
 data:
   # for mysql
   DB_USER: {{ include "v3io-keycloak.dbUser" . | b64enc }}
-  DB_PASSWORD: {{ $password | b64enc }}
+  DB_PASSWORD: {{ $password | trim | b64enc }}
 
   # for keycloak
-  db-password: {{ $password | b64enc }}
+  db-password: {{ $password | trim | b64enc }}
