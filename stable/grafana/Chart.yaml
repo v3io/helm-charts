@@ -1,6 +1,6 @@
 apiVersion: v1
 name: grafana
-version: 5.1.0
+version: 5.1.1
 appVersion: 6.5.2
 kubeVersion: "^1.8.0-0"
 description: The leading tool for querying and visualizing time series and metrics.
@@ -9,5 +9,5 @@ icon: https://raw.githubusercontent.com/grafana/grafana/master/public/img/logo_t
 sources:
   - https://github.com/grafana/grafana
 maintainers:
-  - name: hedingber
-    email: hedii@iguazio.com
+  - name: liranb
+    email: liranb@iguazio.com
