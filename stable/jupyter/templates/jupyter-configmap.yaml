@@ -121,6 +121,7 @@ data:
     cat << EOF >> ${SPARK_HOME}/conf/spark-defaults.conf
     spark.master=spark://{{ .Values.spark.hostname }}:{{ .Values.spark.port }}
     spark.driver.host=$(hostname -i)
+    spark.driver.memory={{ .Values.spark.driverMemory }}
     spark.executor.cores={{ .Values.spark.executorCores }}
     spark.executor.memory={{ .Values.spark.executorMemory }}
     spark.cores.max={{ .Values.spark.maxApplicationCores }}
