@@ -39,7 +39,7 @@ data:
     ## log + timer
     start=${SECONDS}
     log () {
-      echo [$(( SECONDS - start ))s] "$*"
+      echo [$(date)] "$*"
     }
 
 {{ include "v3io-configs.script.lookupService" . | indent 4 }}
@@ -633,6 +633,10 @@ data:
 
 
     ## Start jupyter
-    log 'Starting jupyter'
+    log "Starting jupyter lab --no-browser $@"
     source activate jupyter
-    jupyter lab --no-browser $@
+    jupyter lab --no-browser "$@"
+
+    ## Log jupyter exit
+    exit_code=$?
+    log "Jupyter Lab exited with code $exit_code"
