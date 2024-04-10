@@ -1,6 +1,7 @@
 spark:
   hostname: spark-master
   port: 7077
+  driverMemory: 2G
   executorCores: 1
   executorMemory: 2G
   maxApplicationCores: 4
