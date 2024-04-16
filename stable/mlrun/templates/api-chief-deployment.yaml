@@ -207,14 +207,24 @@ spec:
           {{- end }}
           {{- if .Values.api.sidecars.logCollector.livenessProbe }}
           livenessProbe:
+          {{- if semverCompare ">=1.24-0" .Capabilities.KubeVersion.GitVersion }}
+            grpc:
+              port: {{ .Values.api.sidecars.logCollector.listenPort }}
+          {{- else }}
             exec:
               command: [ "/grpc_health_probe", "-addr=:{{ .Values.api.sidecars.logCollector.listenPort }}" ]
+          {{- end }}
             {{ toYaml .Values.api.sidecars.logCollector.livenessProbe | nindent 12 }}
           {{- end }}
           {{- if .Values.api.sidecars.logCollector.readinessProbe }}
           readinessProbe:
+          {{- if semverCompare ">=1.24-0" .Capabilities.KubeVersion.GitVersion }}
+            grpc:
+              port: {{ .Values.api.sidecars.logCollector.listenPort }}
+          {{- else }}
             exec:
               command: [ "/grpc_health_probe", "-addr=:{{ .Values.api.sidecars.logCollector.listenPort }}" ]
+          {{- end }}
             {{ toYaml .Values.api.sidecars.logCollector.readinessProbe | nindent 12 }}
           {{- end }}
           resources:
