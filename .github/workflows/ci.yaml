@@ -9,14 +9,14 @@ jobs:
     runs-on: ubuntu-latest
     steps:
 
-    - uses: azure/setup-helm@v1
+    - uses: azure/setup-helm@v4
       with:
-        version: '3.8.2'
+        version: '3.9.1'
 
     - name: helm version
       run: helm version
 
-    - uses: actions/checkout@v2
+    - uses: actions/checkout@v4
 
     - name: Add Helm repos
       run: make repo-add update-req
@@ -52,7 +52,6 @@ jobs:
           - pvc
           - scaler
           - spark-operator
-          - sparkoperator
           - tenant
           - tenant-creator
           - tensorboard
@@ -65,7 +64,6 @@ jobs:
           # - hive
           # - jupyter
           # - jupyterhub
-          # - label-studio
           # - mariadb
           # - metrics-server-exporter
           # - mlrun
@@ -76,15 +74,13 @@ jobs:
           # - spark
           # - spark-history-server
           # - v3io-framesd
-          # - zeppelin
 
           # Other Problematic Charts
           # - k8s-pod-headless-service-operator # requires manual setting image tag
-          # - tsdb-functions # requires nuclio CRDs to be installed
           # - mlrun-kit # mysql pod not starting in minikube in github workflows
 
     steps:
-    - uses: actions/checkout@v2
+    - uses: actions/checkout@v4
 
     - name: Check if chart changed
       id: chart_changed
@@ -99,16 +95,16 @@ jobs:
         chmod +x "${GITHUB_WORKSPACE}/hack/scripts/ci/free_space.sh"
         "${GITHUB_WORKSPACE}/hack/scripts/ci/free_space.sh"
 
-    - uses: azure/setup-helm@v1
+    - uses: azure/setup-helm@v4
       if: steps.chart_changed.outputs.any_changed == 'true'
       with:
         version: "v3.9.1"
 
-    - uses: manusa/actions-setup-minikube@v2.7.1
+    - uses: manusa/actions-setup-minikube@v2.10.0
       if: steps.chart_changed.outputs.any_changed == 'true'
       with:
-        minikube version: "v1.26.1"
-        kubernetes version: "v1.23.9"
+        minikube version: "v1.32.0"
+        kubernetes version: "v1.29.0"
         driver: docker
         github token: ${{ github.token }}
 
