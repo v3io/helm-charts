@@ -64,7 +64,7 @@ api:
 
   image:
     repository: mlrun/mlrun-api
-    tag: 1.4.0
+    tag: 1.5.2
     pullPolicy: IfNotPresent
     pullSecrets: []
 
@@ -285,6 +285,7 @@ api:
 
 
       logLevel: debug
+      advancedLogLevel: 0
       logFormat: text
       listenPort: 8282
 
@@ -292,7 +293,7 @@ api:
 
       image:
         repository: mlrun/log-collector
-        tag: 1.4.0
+        tag: 1.5.2
         pullPolicy: IfNotPresent
         pullSecrets: []
 
@@ -309,16 +310,14 @@ api:
       resources:
 
       readinessProbe:
-        initialDelaySeconds: 10
-        timeoutSeconds: 10
-        periodSeconds: 15
-        failureThreshold: 4
+        timeoutSeconds: 3
+        periodSeconds: 10
+        failureThreshold: 3
 
       livenessProbe:
-        initialDelaySeconds: 10
-        timeoutSeconds: 10
-        periodSeconds: 15
-        failureThreshold: 4
+        timeoutSeconds: 3
+        periodSeconds: 10
+        failureThreshold: 3
 
 db:
   name: db
@@ -508,7 +507,7 @@ ui:
 
   image:
     repository: mlrun/mlrun-ui
-    tag: 1.4.0
+    tag: 1.5.2
     pullPolicy: IfNotPresent
     pullSecrets: []
 

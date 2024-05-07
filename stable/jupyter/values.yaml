@@ -1,6 +1,7 @@
 spark:
   hostname: spark-master
   port: 7077
+  driverMemory: 2G
   executorCores: 1
   executorMemory: 2G
   maxApplicationCores: 4
@@ -84,7 +85,7 @@ environment:
   extra: {}
 
 volumes:
-  volumesTemplate: v3io-configs.deployment.mount-with-fuse-csi
+  volumesTemplate: v3io-configs.deployment.mount-with-fuse
   volumeMountsTemplate: v3io-configs.deployment.volumeMounts-with-fuse-and-home
 
 pvc:

@@ -6,5 +6,5 @@ metadata:
   labels:
     {{ include "v3io-keycloak.labels" . | nindent 4 }}
 data:
-  masterPassword: {{ include "v3io-keycloak.masterPassword" . | b64enc }}
+  masterPassword: {{ include "v3io-keycloak.masterPassword" . | trim | b64enc }}
 {{- end }}
