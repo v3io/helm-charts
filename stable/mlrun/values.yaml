@@ -73,6 +73,10 @@ api:
     port: 8080
     targetPort: 8080
 
+    # Additional labels for the service as addition to the default api-pods label selectors
+    # Can be used to direct traffic to mlrun workers
+    selectorLabels: {}
+
   ingress:
     enabled: false
     annotations: {}
@@ -161,7 +165,7 @@ api:
       path: /api/healthz
       port: http
     initialDelaySeconds: 1000
-    timeoutSeconds: 10
+    timeoutSeconds: 60
     periodSeconds: 15
     failureThreshold: 4
 
@@ -254,7 +258,7 @@ api:
       httpGet:
         port: http
       initialDelaySeconds: 15
-      timeoutSeconds: 10
+      timeoutSeconds: 30
       periodSeconds: 15
       failureThreshold: 4
 
@@ -315,8 +319,8 @@ api:
         failureThreshold: 3
 
       livenessProbe:
-        timeoutSeconds: 3
-        periodSeconds: 10
+        timeoutSeconds: 10
+        periodSeconds: 30
         failureThreshold: 3
 
 db:
@@ -396,7 +400,7 @@ db:
     exec:
       command: ["/bin/bash", "/etc/config/mysql/health_check.sh"]
     initialDelaySeconds: 30
-    timeoutSeconds: 5
+    timeoutSeconds: 15
     periodSeconds: 10
     failureThreshold: 3
 

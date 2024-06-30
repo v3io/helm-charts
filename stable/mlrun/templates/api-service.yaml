@@ -36,3 +36,4 @@ spec:
 {{ end }}
   selector:
     {{- include "mlrun.api.selectorLabels" . | nindent 4 }}
+    {{- include "mlrun.api.service.selectorLabels" . | nindent 4 }}
