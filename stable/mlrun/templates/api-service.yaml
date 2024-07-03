@@ -31,8 +31,11 @@ spec:
       port: {{ .Values.api.service.port }}
       protocol: TCP
       targetPort: http
-{{ if (and (eq .Values.api.service.type "NodePort") (not (empty .Values.api.service.nodePort))) }}
+{{- if (and (eq .Values.api.service.type "NodePort") (not (empty .Values.api.service.nodePort))) }}
       nodePort: {{.Values.api.service.nodePort}}
 {{ end }}
   selector:
     {{- include "mlrun.api.selectorLabels" . | nindent 4 }}
+    {{- with .Values.api.service.selectorLabels }}
+      {{- toYaml . | nindent 4 }}
+    {{- end }}
