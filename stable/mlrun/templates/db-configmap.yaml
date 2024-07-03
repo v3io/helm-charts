@@ -11,7 +11,7 @@ data:
     mysql -u root -S /var/run/mysqld/mysql.sock -e 'SELECT 1'
 
   graceful_shutdown.sh: |
-    mysql -u root -S /var/run/mysqld/mysql.sock -e 'SET GLOBAL innodb_fast_shutdown = 0; FLUSH TABLES WITH READ LOCK;'
+    mysql -u root -S /var/run/mysqld/mysql.sock -e 'SET GLOBAL innodb_fast_shutdown = 0;'
     mysqladmin -u root -S /var/run/mysqld/mysql.sock shutdown
 
   init-v3io-mysql.sh: |
