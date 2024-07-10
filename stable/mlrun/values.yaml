@@ -64,7 +64,7 @@ api:
 
   image:
     repository: mlrun/mlrun-api
-    tag: 1.5.2
+    tag: 1.6.4
     pullPolicy: IfNotPresent
     pullSecrets: []
 
@@ -297,7 +297,7 @@ api:
 
       image:
         repository: mlrun/log-collector
-        tag: 1.5.2
+        tag: 1.6.4
         pullPolicy: IfNotPresent
         pullSecrets: []
 
@@ -511,7 +511,7 @@ ui:
 
   image:
     repository: mlrun/mlrun-ui
-    tag: 1.5.2
+    tag: 1.6.4
     pullPolicy: IfNotPresent
     pullSecrets: []
 
