@@ -33,7 +33,7 @@ api:
       # kubernetes.io/tls-acme: "true"
       hosts:
         - host: chart-example.local
-          paths: 
+          paths:
             - pathType: ImplementationSpecific
               path: /
       tls: [ ]
@@ -84,7 +84,7 @@ api:
     # kubernetes.io/tls-acme: "true"
     hosts:
       - host: chart-example.local
-        paths: 
+        paths:
           - pathType: ImplementationSpecific
             path: /
     tls: []
@@ -151,23 +151,31 @@ api:
   # runAsNonRoot: true
   # runAsUser: 1000
 
+  startupProbe:
+    httpGet:
+      path: /api/healthz
+      port: http
+
+    timeoutSeconds: 10
+    periodSeconds: 15
+    failureThreshold: 40
+
   readinessProbe:
     httpGet:
       path: /api/healthz
       port: http
-    initialDelaySeconds: 10
-    timeoutSeconds: 10
-    periodSeconds: 15
-    failureThreshold: 4
+    timeoutSeconds: 30
+    periodSeconds: 45
+    failureThreshold: 3
 
   livenessProbe:
     httpGet:
       path: /api/healthz
       port: http
-    initialDelaySeconds: 1000
+
     timeoutSeconds: 60
-    periodSeconds: 15
-    failureThreshold: 4
+    periodSeconds: 30
+    failureThreshold: 30
 
   volumes:
     storageOverride: {}
@@ -286,7 +294,6 @@ api:
       readLogWaitTime: "3s"
       stateFileUpdateInterval: "10s"
       monitoringInterval: "10s"
-
 
       logLevel: debug
       advancedLogLevel: 0
@@ -527,7 +534,7 @@ ui:
     # kubernetes.io/tls-acme: "true"
     hosts:
       - host: chart-example.local
-        paths: 
+        paths:
           - pathType: ImplementationSpecific
             path: /
     tls: []
