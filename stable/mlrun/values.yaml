@@ -494,6 +494,12 @@ db:
     # SUPER is a MySQL privilege that grants admin rights to the user.
     maxConnections: 512
 
+    # set to 1 day
+    # https://dev.mysql.com/doc/refman/8.4/en/replication-options-binary-log.html#sysvar_binlog_expire_logs_seconds
+    # binlogs are useful for replication, backup, and point-in-time recovery
+    # we dont use mysql replication, so we can set it to 1 day
+    binlogExpireLogsSeconds: 86400
+
     innodb:
       # refer to https://github.com/v3io/helm-charts/pull/674
       adaptiveHashIndex: 0

@@ -43,12 +43,13 @@ data:
     INIT_SCRIPT="/etc/config/mysql/init-scripts/enable-root-remote-access.sql"
 
     echo "Starting MySQL ..."
-    
+
     # TODO: review the innodb flags, they might not be needed anymore
     mysqld \
       --user={{- include "mlrun.db.DBRunUser" . }} \
       --sql_mode="" \
       --init-file=$INIT_SCRIPT \
+      --binlog-expire-logs-seconds={{- .Values.db.dbConfiguration.binlogExpireLogsSeconds }} \
       --max-connections={{- .Values.db.dbConfiguration.maxConnections }} \
       --innodb-adaptive-hash-index={{- .Values.db.dbConfiguration.innodb.adaptiveHashIndex }} \
       --innodb-read-io-threads={{- .Values.db.dbConfiguration.innodb.readIOThreads }} \
