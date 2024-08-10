@@ -63,7 +63,7 @@ api:
     affinity: { }
 
   image:
-    repository: mlrun/mlrun-api
+    repository: quay.io/mlrun/mlrun-api
     tag: 1.6.4
     pullPolicy: IfNotPresent
     pullSecrets: []
@@ -233,7 +233,7 @@ api:
 
     image:
       repository: openpolicyagent/opa
-      tag: 0.28.0
+      tag: 0.56.0
       pullPolicy: IfNotPresent
       pullSecrets: []
 
@@ -303,7 +303,7 @@ api:
       workDir: /var/mlrun/
 
       image:
-        repository: mlrun/log-collector
+        repository: quay.io/mlrun/log-collector
         tag: 1.6.4
         pullPolicy: IfNotPresent
         pullSecrets: []
@@ -523,7 +523,7 @@ ui:
   replicaCount: 1
 
   image:
-    repository: mlrun/mlrun-ui
+    repository: quay.io/mlrun/mlrun-ui
     tag: 1.6.4
     pullPolicy: IfNotPresent
     pullSecrets: []
