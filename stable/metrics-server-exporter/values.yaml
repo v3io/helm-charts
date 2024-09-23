@@ -1,6 +1,6 @@
 image:
-  repository: iguaziodocker/metrics-server-exporter
-  tag: 0.1.3
+  repository: gcr.io/iguazio/metrics-server-exporter
+  tag: unstable
   pullPolicy: IfNotPresent
 
 container:
@@ -8,6 +8,7 @@ container:
   protocol: TCP
   scheme: HTTP
   path: /metrics
+  healthzPath: /healthz
 
   logLevel: info
 
@@ -18,30 +19,36 @@ service:
   protocol: TCP
 
 livenessProbe:
-  failureThreshold: 3
-  initialDelaySeconds: 30
-  periodSeconds: 10
+  failureThreshold: 30
+  periodSeconds: 30
   successThreshold: 1
-  timeoutSeconds: 30
+  timeoutSeconds: 60
 
 readinessProbe:
   failureThreshold: 3
-  initialDelaySeconds: 5
-  periodSeconds: 10
+  periodSeconds: 45
+  successThreshold: 1
+  timeoutSeconds: 30
+
+startupProbe:
+  failureThreshold: 10
+  periodSeconds: 15
   successThreshold: 1
   timeoutSeconds: 10
 
+## Deployment resources
 resources: {}
-  # We usually recommend not to specify default resources and to leave this as a conscious
-  # choice for the user. This also increases chances charts run on environments with little
-  # resources, such as Minikube. If you do want to specify resources, uncomment the following
-  # lines, adjust them as necessary, and remove the curly braces after 'resources:'.
-  # limits:
-  #  cpu: 100m
-  #  memory: 150Mi
-  # requests:
-  #  cpu: 100m
-  #  memory: 150Mi
+
+# We usually recommend not to specify default resources and to leave this as a conscious
+# choice for the user. This also increases chances charts run on environments with little
+# resources, such as Minikube. If you do want to specify resources, uncomment the following
+# lines, adjust them as necessary, and remove the curly braces after 'resources:'.
+# limits:
+#  cpu: 100m
+#  memory: 150Mi
+# requests:
+#  cpu: 100m
+#  memory: 150Mi
 
 ## Node labels for pod assignment
 ## Ref: https://kubernetes.io/docs/user-guide/node-selection/

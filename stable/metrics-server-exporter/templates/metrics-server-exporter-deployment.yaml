@@ -31,14 +31,24 @@ spec:
         image: "{{ .Values.image.repository }}:{{ .Values.image.tag }}"
         imagePullPolicy: {{ .Values.image.pullPolicy }}
         command: ["metricsserverexporter"]
-        args: 
+        args:
         - --log-level={{ .Values.container.logLevel }}
         - --namespace={{ .Release.Namespace }}
         - --listen-addr=:{{ .Values.container.port }}
         - --handle-gpu-metrics={{ .Values.container.handleGPUMetrics }}
         ports:
-        - containerPort: {{ .Values.container.port }} 
+        - containerPort: {{ .Values.container.port }}
           protocol: {{ .Values.container.protocol }}
+        startupProbe:
+          failureThreshold: {{ .Values.startupProbe.failureThreshold }}
+          httpGet:
+            path: {{ .Values.container.healthzPath }}
+            port: {{ .Values.container.port }}
+            scheme: {{ .Values.container.scheme }}
+          initialDelaySeconds: {{ .Values.startupProbe.initialDelaySeconds }}
+          periodSeconds: {{ .Values.startupProbe.periodSeconds }}
+          successThreshold: {{ .Values.startupProbe.successThreshold }}
+          timeoutSeconds: {{ .Values.startupProbe.timeoutSeconds }}
         livenessProbe:
           failureThreshold: {{ .Values.livenessProbe.failureThreshold }}
           httpGet:
