@@ -13,6 +13,8 @@ container:
   logLevel: info
 
   handleGPUMetrics: false
+  statusFieldSelector: status.phase=Running
+  podListLimit: 100
 
 service:
   port: 9104

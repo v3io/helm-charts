@@ -36,6 +36,8 @@ spec:
         - --namespace={{ .Release.Namespace }}
         - --listen-addr=:{{ .Values.container.port }}
         - --handle-gpu-metrics={{ .Values.container.handleGPUMetrics }}
+        - --status-field-selector={{ .Values.container.statusFieldSelector }}
+        - --pod-list-limit={{ .Values.container.podListLimit }}
         ports:
         - containerPort: {{ .Values.container.port }}
           protocol: {{ .Values.container.protocol }}
