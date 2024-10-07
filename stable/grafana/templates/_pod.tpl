@@ -178,8 +178,8 @@ containers:
 {{- range $key, $value := $dashboards }}
 {{- if (or (hasKey $value "json") (hasKey $value "file")) }}
       - name: dashboards-{{ $provider }}
-        mountPath: "/var/lib/grafana/dashboards/{{ $provider }}/{{ $key }}.json"
-        subPath: "{{ $key }}.json"
+        mountPath: "/var/lib/grafana/dashboards/{{ $provider }}"
+{{- break -}}
 {{- end }}
 {{- end }}
 {{- end }}
