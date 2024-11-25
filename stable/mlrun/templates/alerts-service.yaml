@@ -1,0 +1,40 @@
+{{ if .Values.api.microservices.enabled}}
+{{- if semverCompare ">=1.8.0-X" .Values.api.image.tag -}}
+apiVersion: v1
+kind: Service
+metadata:
+  name: {{ include "mlrun.api.microservices.alerts.fullname" . }}
+spec:
+{{- if (or (eq .Values.api.microservices.alerts.service.type "ClusterIP") (empty .Values.api.microservices.alerts.service.type)) }}
+  type: ClusterIP
+  {{- if .Values.api.microservices.alerts.service.clusterIP }}
+  clusterIP: {{ .Values.api.microservices.alerts.service.clusterIP }}
+  {{end}}
+{{- else if eq .Values.api.microservices.alerts.service.type "LoadBalancer" }}
+  type: {{ .Values.api.microservices.alerts.service.type }}
+  {{- if .Values.api.microservices.alerts.service.loadBalancerIP }}
+  loadBalancerIP: {{ .Values.api.microservices.alerts.service.loadBalancerIP }}
+  {{- end }}
+  {{- if .Values.api.microservices.alerts.service.loadBalancerSourceRanges }}
+  loadBalancerSourceRanges:
+{{ toYaml .Values.api.microservices.alerts.service.loadBalancerSourceRanges | indent 4 }}
+  {{- end -}}
+{{- else }}
+  type: {{ .Values.api.microservices.alerts.service.type }}
+{{- end }}
+{{- if .Values.api.microservices.alerts.service.externalIPs }}
+  externalIPs:
+{{ toYaml .Values.api.microservices.alerts.service.externalIPs | indent 4 }}
+{{- end }}
+  ports:
+    - name: http
+      port: {{ .Values.api.microservices.alerts.service.port }}
+      protocol: TCP
+      targetPort: http
+{{ if (and (eq .Values.api.microservices.alerts.service.type "NodePort") (not (empty .Values.api.microservices.alerts.service.nodePort))) }}
+      nodePort: {{.Values.api.microservices.alerts.service.nodePort}}
+{{ end }}
+  selector:
+    {{- include "mlrun.api.microservices.alerts.selectorLabels" . | nindent 4 }}
+{{- end -}}
+{{- end -}}

@@ -48,6 +48,12 @@ spec:
             valueFrom:
               fieldRef:
                 fieldPath: metadata.namespace
+          - name: MLRUN_SERVICES__SERVICE_NAME
+            value: api
+          {{- if .Values.api.microservices.enabled}}
+          - name: MLRUN_SERVICES__HYDRA__SERVICES
+            value: ""
+          {{- else}}
           - name: MLRUN_HTTPDB__CLUSTERIZATION__ROLE
             value: "worker"
           - name: MLRUN_LOG_LEVEL

@@ -66,6 +66,18 @@ We truncate at 63 chars because some Kubernetes name fields are limited to this 
 {{- end -}}
 {{- end -}}
 
+{{/*
+Create a fully qualified alerts service name.
+We truncate at 63 chars because some Kubernetes name fields are limited to this (by the DNS naming spec).
+*/}}
+{{- define "mlrun.api.microservices.alerts.fullname" -}}
+{{- if .Values.api.microservices.alerts.fullnameOverride -}}
+{{- .Values.api.microservices.alerts.fullnameOverride | trunc 63 | trimSuffix "-" -}}
+{{- else -}}
+{{- printf "%s-alerts" (include "mlrun.fullname" .) | trunc 63 | trimSuffix "-" -}}
+{{- end -}}
+{{- end -}}
+
 
 {{/*
 Create a fully qualified api opa name.
@@ -278,6 +290,14 @@ API worker labels
 {{- end -}}
 
 {{/*
+Alerts service labels
+*/}}
+{{- define "mlrun.api.microservices.alerts.labels" -}}
+{{ include "mlrun.common.labels" . }}
+{{ include "mlrun.api.microservices.alerts.selectorLabels" . }}
+{{- end -}}
+
+{{/*
 API selector labels
 */}}
 {{- define "mlrun.api.selectorLabels" -}}
@@ -299,6 +319,14 @@ API worker selector labels
 {{- define "mlrun.api.worker.selectorLabels" -}}
 {{ include "mlrun.api.selectorLabels" . }}
 app.kubernetes.io/sub-component: "worker"
+{{- end -}}
+
+{{/*
+Alerts service selector labels
+*/}}
+{{- define "mlrun.api.microservices.alerts.selectorLabels" -}}
+{{ include "mlrun.api.selectorLabels" . }}
+app.kubernetes.io/sub-component: "alerts"
 {{- end -}}
 
 {{/*
