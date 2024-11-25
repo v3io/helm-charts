@@ -56,10 +56,10 @@ spec:
                 fieldPath: metadata.namespace
           - name: MLRUN_SERVICES__SERVICE_NAME
             value: api
-          {{- if .Values.api.microservices.enabled}}
+          {{- if .Values.api.microservices.enabled }}
           - name: MLRUN_SERVICES__HYDRA__SERVICES
             value: ""
-          {{- else}}
+          {{- end }}
           - name: MLRUN_HTTPDB__CLUSTERIZATION__ROLE
             value: "chief"
           - name: MLRUN_LOG_LEVEL
