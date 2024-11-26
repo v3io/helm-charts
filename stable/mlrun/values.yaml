@@ -23,7 +23,33 @@ api:
       # Setting the affinity here has precedence over api.affinity
       # Note that by default we're assigning affinity to make the services pods to run on different nodes, if you're
       # overriding the affinity it's your responsibility to keep applying this behavior
-      affinity: { }
+      affinity: {}
+
+      startupProbe:
+        httpGet:
+          path: /alerts/v1/healthz
+          port: http
+
+        timeoutSeconds: 10
+        periodSeconds: 15
+        failureThreshold: 40
+
+      readinessProbe:
+        httpGet:
+          path: /alerts/v1/healthz
+          port: http
+        timeoutSeconds: 30
+        periodSeconds: 45
+        failureThreshold: 3
+
+      livenessProbe:
+        httpGet:
+          path: /alerts/v1/healthz
+          port: http
+
+        timeoutSeconds: 60
+        periodSeconds: 30
+        failureThreshold: 30
 
   persistence:
     enabled: false
