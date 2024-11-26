@@ -330,6 +330,17 @@ app.kubernetes.io/sub-component: "alerts"
 {{- end -}}
 
 {{/*
+Worker replicas
+*/}}
+{{- define "mlrun.api.worker.minReplicas" -}}
+{{- if .Values.api.microservices.enabled -}}
+{{ coalesce .Values.api.worker.minReplicas 1 }}
+{{- else -}}
+{{- .Values.api.worker.minReplicas -}}
+{{- end -}}
+{{- end -}}
+
+{{/*
 DB labels
 */}}
 {{- define "mlrun.db.labels" -}}

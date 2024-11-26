@@ -1,4 +1,4 @@
-{{- if .Values.api.worker.minReplicas -}}
+{{- if "mlrun.api.worker.minReplicas" -}}
 {{- if semverCompare ">=1.1.0-X" .Values.api.image.tag -}}
 apiVersion: v1
 kind: Service

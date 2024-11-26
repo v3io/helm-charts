@@ -35,7 +35,11 @@ spec:
       nodePort: {{.Values.api.service.nodePort}}
 {{ end }}
   selector:
-    {{- include "mlrun.api.selectorLabels" . | nindent 4 }}
+    {{- if .Values.api.microservices.enabled}}
+      {{- include "mlrun.api.worker.selectorLabels" . | nindent 4 }}
+    {{- else }}
+      {{- include "mlrun.api.selectorLabels" . | nindent 4 }}
+    {{- end }}
     {{- with .Values.api.service.selectorLabels }}
       {{- toYaml . | nindent 4 }}
     {{- end }}
