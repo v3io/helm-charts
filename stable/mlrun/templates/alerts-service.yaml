@@ -1,5 +1,4 @@
 {{ if .Values.api.microservices.enabled}}
-{{- if semverCompare ">=1.8.0-X" .Values.api.image.tag -}}
 apiVersion: v1
 kind: Service
 metadata:
@@ -36,5 +35,4 @@ spec:
 {{ end }}
   selector:
     {{- include "mlrun.api.microservices.alerts.selectorLabels" . | nindent 4 }}
-{{- end -}}
 {{- end -}}
