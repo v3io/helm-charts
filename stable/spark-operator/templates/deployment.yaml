@@ -58,36 +58,23 @@ spec:
             containerPort: {{ .Values.metrics.port }}
         {{ end }}
         args:
-        - -v={{ .Values.logLevel }}
-        - -logtostderr
-        - -namespace={{ .Values.sparkJobNamespace }}
-        - -enable-ui-service={{ .Values.uiService.enable}}
-        - -ingress-url-format={{ .Values.ingressUrlFormat }}
-        - -controller-threads={{ .Values.controllerThreads }}
-        - -resync-interval={{ .Values.resyncInterval }}
-        - -enable-batch-scheduler={{ .Values.batchScheduler.enable }}
-        - -label-selector-filter={{ .Values.labelSelectorFilter }}
+        - controller
+        - start
+        - --namespaces={{ .Values.sparkJobNamespace }}
+        - --enable-ui-service={{ .Values.uiService.enable}}
+        - --ingress-url-format={{ .Values.ingressUrlFormat }}
+        - --controller-threads={{ .Values.controllerThreads }}
+        - --enable-batch-scheduler={{ .Values.batchScheduler.enable }}
         {{- if .Values.metrics.enable }}
-        - -enable-metrics=true
-        - -metrics-labels=app_type
-        - -metrics-port={{ .Values.metrics.port }}
-        - -metrics-endpoint={{ .Values.metrics.endpoint }}
-        - -metrics-prefix={{ .Values.metrics.prefix }}
+        - --enable-metrics=true
+        - --metrics-labels=app_type
+        - --metrics-bind-address=:{{ .Values.metrics.port }}
+        - --metrics-endpoint={{ .Values.metrics.endpoint }}
         {{- end }}
-        {{- if .Values.webhook.enable }}
-        - -enable-webhook=true
-        - -webhook-svc-namespace={{ .Release.Namespace }}
-        - -webhook-port={{ .Values.webhook.port }}
-        - -webhook-svc-name={{ include "spark-operator.fullname" . }}-webhook
-        - -webhook-config-name={{ .Release.Namespace }}-{{ include "spark-operator.fullname" . }}-webhook-config
-        - -webhook-namespace-selector={{ .Values.webhook.namespaceSelector }}
-        - -webhook-timeout={{ .Values.webhook.timeout }}
-        {{- end }}
-        - -enable-resource-quota-enforcement={{ .Values.resourceQuotaEnforcement.enable }}
         {{- if gt (int .Values.replicaCount) 1 }}
-        - -leader-election=true
-        - -leader-election-lock-namespace={{ default .Release.Namespace .Values.leaderElection.lockNamespace }}
-        - -leader-election-lock-name={{ .Values.leaderElection.lockName }}
+        - --leader-election=true
+        - --leader-election-lock-namespace={{ default .Release.Namespace .Values.leaderElection.lockNamespace }}
+        - --leader-election-lock-name={{ .Values.leaderElection.lockName }}
         {{- end }}
         env:
         - name: SPARK_USER
