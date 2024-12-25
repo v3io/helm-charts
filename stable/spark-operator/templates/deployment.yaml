@@ -1,11 +1,5 @@
 {{- if .Values.deployment.create }}
 
-# If the admission webhook is enabled, then a post-install step is required
-# to generate and install the secret in the operator namespace.
-
-# In the post-install hook, the token corresponding to the operator service account
-# is used to authenticate with the Kubernetes API server to install the secret bundle.
-
 apiVersion: apps/v1
 kind: Deployment
 metadata:
@@ -81,24 +75,15 @@ spec:
           value: iguazio
         resources:
           {{- toYaml .Values.resources | nindent 10 }}
-        {{- if or .Values.webhook.enable (ne (len .Values.volumeMounts) 0 ) }}
+        {{- if ne (len .Values.volumeMounts) 0 }}
         volumeMounts:
         {{- end }}
-          {{- if .Values.webhook.enable }}
-          - name: webhook-certs
-            mountPath: /etc/webhook-certs
-          {{- end }}
         {{- with .Values.volumeMounts }}
         {{- toYaml . | nindent 10 }}
         {{- end }}
-      {{- if or .Values.webhook.enable (ne (len .Values.volumes) 0 ) }}
+      {{- if ne (len .Values.volumes) 0 }}
       volumes:
       {{- end }}
-        {{- if .Values.webhook.enable }}
-        - name: webhook-certs
-          secret:
-            secretName: {{ include "spark-operator.fullname" . }}-webhook-certs
-        {{- end }}
         {{- with .Values.volumes }}
         {{- toYaml . | nindent 8 }}
         {{- end }}
