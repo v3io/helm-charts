@@ -110,7 +110,8 @@ webhook:
 
 metrics:
   # -- Enable prometheus metric scraping
-  enable: true
+  # TODO: IG-23248
+  enable: false
   # -- Metrics port
   port: 10254
   # -- Metrics port name

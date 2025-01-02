@@ -61,9 +61,10 @@ spec:
         - --enable-batch-scheduler={{ .Values.batchScheduler.enable }}
         {{- if .Values.metrics.enable }}
         - --enable-metrics=true
-        - --metrics-labels=app_type
         - --metrics-bind-address=:{{ .Values.metrics.port }}
         - --metrics-endpoint={{ .Values.metrics.endpoint }}
+        - --metrics-labels=app_type
+        - --metrics-prefix={{ .Values.prometheus.metrics.prefix }}
         {{- end }}
         {{- if gt (int .Values.replicaCount) 1 }}
         - --leader-election=true
