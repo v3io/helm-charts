@@ -79,9 +79,15 @@ spec:
             value: {{ template "mlrun.defaultDockerRegistry.imagePullSecretName" . }}
           {{- end }}
           - name: MLRUN_HTTPDB__DSN
-            value: {{ .Values.httpDB.dsn }}
+            valueFrom:
+              secretKeyRef:
+                name: {{ include "mlrun.db.fullname" . }}
+                key: dsn
           - name: MLRUN_HTTPDB__OLD_DSN
-            value: {{ .Values.httpDB.oldDsn }}
+            valueFrom:
+              secretKeyRef:
+                name: {{ include "mlrun.db.fullname" . }}
+                key: oldDsn
           {{- if .Values.v3io.enabled }}
           - name: V3IO_ACCESS_KEY
             valueFrom:
