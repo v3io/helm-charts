@@ -1,148 +1,372 @@
+#
+# Copyright 2024 The Kubeflow authors.
+#
+# Licensed under the Apache License, Version 2.0 (the "License");
+# you may not use this file except in compliance with the License.
+# You may obtain a copy of the License at
+#
+#     https://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
+#
+
 # Default values for spark-operator.
 # This is a YAML-formatted file.
 # Declare variables to be passed into your templates.
 
-# replicaCount -- Desired number of pods, leaderElection will be enabled
-# if this is greater than 1
-replicaCount: 1
-
-image:
-  # -- Image repository
-  repository: ghcr.io/googlecloudplatform/spark-operator
-  # -- Image pull policy
-  pullPolicy: IfNotPresent
-  # -- if set, override the image tag whose default is the chart appVersion.
-  tag: ""
-
-# -- Image pull secrets
-imagePullSecrets: []
-
-# -- String to partially override `spark-operator.fullname` template (will maintain the release name)
+# -- String to partially override release name.
 nameOverride: ""
 
-# -- String to override release name
+# -- String to fully override release name.
 fullnameOverride: ""
 
-hostNetwork:
-  enabled: false
+# -- Common labels to add to the resources.
+commonLabels: {}
 
-deployment:
-  create: false
+sparkJobNamespace: "default-tenant"
 
-crd:
-  create: false
+image:
+  # -- Image registry.
+  registry: docker.io
+  # -- Image repository.
+  repository: kubeflow/spark-operator
+  # -- Image tag.
+  # @default -- If not set, the chart appVersion will be used.
+  tag: ""
+  # -- Image pull policy.
+  pullPolicy: IfNotPresent
+  # -- Image pull secrets for private image registry.
+  pullSecrets: []
+  # - name: <secret-name>
 
-rbac:
-  clusterResources:
-    create: false
-  clusterNamespaceResources:
-    create: false
-  namespaced:
-    create: false
+controller:
+  # -- Number of replicas of controller.
+  replicas: 1
 
-serviceAccounts:
-  spark:
-    # -- Create a service account for spark apps
-    create: false
-    # -- Optional name for the spark service account
+  # -- Reconcile concurrency, higher values might increase memory usage.
+  workers: 10
+
+  # -- Configure the verbosity of logging, can be one of `debug`, `info`, `error`.
+  logLevel: info
+
+  uiService:
+    # -- Specifies whether to create service for Spark web UI.
+    enable: true
+
+  uiIngress:
+    # -- Specifies whether to create ingress for Spark web UI.
+    # `controller.uiService.enable` must be `true` to enable ingress.
+    enable: false
+    # -- Ingress URL format.
+    # Required if `controller.uiIngress.enable` is true.
+    urlFormat: ""
+
+  batchScheduler:
+    # -- Specifies whether to enable batch scheduler for spark jobs scheduling.
+    # If enabled, users can specify batch scheduler name in spark application.
+    enable: false
+    # -- Specifies a list of kube-scheduler names for scheduling Spark pods.
+    kubeSchedulerNames: []
+    # - default-scheduler
+    # -- Default batch scheduler to be used if not specified by the user.
+    # If specified, this value must be either "volcano" or "yunikorn". Specifying any other
+    # value will cause the controller to error on startup.
+    default: ""
+
+  serviceAccount:
+    # -- Specifies whether to create a service account for the controller.
+    create: true
+    # -- Optional name for the controller service account.
     name: ""
-    # -- Optional annotations for the spark service account
-    annotations: {}
-  sparkoperator:
-    # -- Create a service account for the operator
-    create: false
-    # -- Optional name for the operator service account
-    name: ""
-    # -- Optional annotations for the operator service account
+    # -- Extra annotations for the controller service account.
     annotations: {}
 
-# -- Set this if running spark jobs in a different namespace than the operator
-sparkJobNamespace: ""
+  rbac:
+    clusterResources:
+      create: false
+    clusterNamespaceResources:
+      create: false
+    namespaced:
+      create: false
+    # -- Specifies whether to create RBAC resources for the controller.
+    create: true
+    # -- Extra annotations for the controller RBAC resources.
+    annotations: {}
 
-# -- Operator concurrency, higher values might increase memory usage
-controllerThreads: 10
+  # -- Extra labels for controller pods.
+  labels: {}
+    # key1: value1
+    # key2: value2
 
-# -- Operator resync interval. Note that the operator will respond to events (e.g. create, update)
-# unrelated to this setting
-resyncInterval: 30
+  # -- Extra annotations for controller pods.
+  annotations: {}
+    # key1: value1
+    # key2: value2
 
-uiService:
-  # -- Enable UI service creation for Spark application
-  enable: true
+  # -- Volumes for controller pods.
+  volumes: []
 
-# -- Ingress URL format.
-# Requires the UI service to be enabled by setting `uiService.enable` to true.
-ingressUrlFormat: ""
+  # -- Node selector for controller pods.
+  nodeSelector: {}
 
-# -- Set higher levels for more verbose logging
-logLevel: 2
+  # -- Affinity for controller pods.
+  affinity: {}
 
-# podSecurityContext -- Pod security context
-podSecurityContext: {}
+  # -- List of node taints to tolerate for controller pods.
+  tolerations: []
 
-# securityContext -- Operator container security context
-securityContext: {}
+  # -- Priority class for controller pods.
+  priorityClassName: ""
 
-# volumes - Operator volumes
-volumes: []
+  # -- Security context for controller pods.
+  podSecurityContext: {}
+    # runAsUser: 1000
+    # runAsGroup: 2000
+    # fsGroup: 3000
 
-# volumeMounts - Operator volumeMounts
-volumeMounts: []
+  # -- Topology spread constraints rely on node labels to identify the topology domain(s) that each Node is in.
+  # Ref: [Pod Topology Spread Constraints](https://kubernetes.io/docs/concepts/workloads/pods/pod-topology-spread-constraints/).
+  # The labelSelector field in topology spread constraint will be set to the selector labels for controller pods if not specified.
+  topologySpreadConstraints: []
+  # - maxSkew: 1
+  #   topologyKey: topology.kubernetes.io/zone
+  #   whenUnsatisfiable: ScheduleAnyway
+  # - maxSkew: 1
+  #   topologyKey: kubernetes.io/hostname
+  #   whenUnsatisfiable: DoNotSchedule
+
+  # -- Environment variables for controller containers.
+  env: []
+
+  # -- Environment variable sources for controller containers.
+  envFrom: []
+
+  # -- Volume mounts for controller containers.
+  volumeMounts: []
+
+  # -- Pod resource requests and limits for controller containers.
+  # Note, that each job submission will spawn a JVM within the controller pods using "/usr/local/openjdk-11/bin/java -Xmx128m".
+  # Kubernetes may kill these Java processes at will to enforce resource limits. When that happens, you will see the following error:
+  # 'failed to run spark-submit for SparkApplication [...]: signal: killed' - when this happens, you may want to increase memory limits.
+  resources: {}
+    # limits:
+    #   cpu: 100m
+    #   memory: 300Mi
+    # requests:
+    #   cpu: 100m
+    #   memory: 300Mi
+
+  # -- Security context for controller containers.
+  securityContext: {}
+    # runAsUser: 1000
+    # runAsGroup: 2000
+    # fsGroup: 3000
+
+  # -- Sidecar containers for controller pods.
+  sidecars: []
+
+  # Pod disruption budget for controller to avoid service degradation.
+  podDisruptionBudget:
+    # -- Specifies whether to create pod disruption budget for controller.
+    # Ref: [Specifying a Disruption Budget for your Application](https://kubernetes.io/docs/tasks/run-application/configure-pdb/)
+    enable: false
+    # -- The number of pods that must be available.
+    # Require `controller.replicas` to be greater than 1
+    minAvailable: 1
+
+  pprof:
+    # -- Specifies whether to enable pprof.
+    enable: false
+    # -- Specifies pprof port.
+    port: 6060
+    # -- Specifies pprof service port name.
+    portName: pprof
+
+  # Workqueue rate limiter configuration forwarded to the controller-runtime Reconciler.
+  workqueueRateLimiter:
+    # -- Specifies the average rate of items process by the workqueue rate limiter.
+    bucketQPS: 50
+    # -- Specifies the maximum number of items that can be in the workqueue at any given time.
+    bucketSize: 500
+    maxDelay:
+      # -- Specifies whether to enable max delay for the workqueue rate limiter.
+      # This is useful to avoid losing events when the workqueue is full.
+      enable: true
+      # -- Specifies the maximum delay duration for the workqueue rate limiter.
+      duration: 6h
 
 webhook:
-  # -- Enable webhook server
-  enable: false
-  # -- Webhook service port
-  port: 8080
-  # -- The webhook server will only operate on namespaces with this label, specified in the form key1=value1,key2=value2.
-  # Empty string (default) will operate on all namespaces
-  namespaceSelector: ""
-  # -- The annotations applied to init job, required to restore certs deleted by the cleanup job during upgrade
-  initAnnotations:
-    "helm.sh/hook": pre-install, pre-upgrade
-    "helm.sh/hook-weight": "50"
-  # -- The annotations applied to the cleanup job, required for helm lifecycle hooks
-  cleanupAnnotations:
-    "helm.sh/hook": pre-delete, pre-upgrade
-    "helm.sh/hook-delete-policy": hook-succeeded
-  # -- Webhook Timeout in seconds
-  timeout: 30
-
-metrics:
-  # -- Enable prometheus metric scraping
+  # -- Specifies whether to enable webhook.
   enable: true
-  # -- Metrics port
-  port: 10254
-  # -- Metrics port name
-  portName: metrics
-  # -- Metrics serving endpoint
-  endpoint: /metrics
-  # -- Metric prefix, will be added to all exported metrics
-  prefix: ""
 
-# -- Prometheus pod monitor for operator's pod.
-podMonitor:
-  # -- If enabled, a pod monitor for operator's pod will be submitted. Note that prometheus metrics should be enabled as well.
-  enable: false
-  # -- Pod monitor labels
+  name: "spark-webhook"
+
+  # -- Number of replicas of webhook server.
+  replicas: 1
+
+  # -- Configure the verbosity of logging, can be one of `debug`, `info`, `error`.
+  logLevel: info
+
+  # -- Specifies webhook port.
+  port: 9443
+
+  # -- Specifies webhook service port name.
+  portName: webhook
+
+  # -- Specifies how unrecognized errors are handled.
+  # Available options are `Ignore` or `Fail`.
+  failurePolicy: Fail
+
+  # -- Specifies the timeout seconds of the webhook, the value must be between 1 and 30.
+  timeoutSeconds: 10
+
+  resourceQuotaEnforcement:
+    # -- Specifies whether to enable the ResourceQuota enforcement for SparkApplication resources.
+    enable: false
+
+  serviceAccount:
+    # -- Specifies whether to create a service account for the webhook.
+    create: true
+    # -- Optional name for the webhook service account.
+    name: ""
+    # -- Extra annotations for the webhook service account.
+    annotations: {}
+
+  rbac:
+    # -- Specifies whether to create RBAC resources for the webhook.
+    create: false
+    # -- Extra annotations for the webhook RBAC resources.
+    annotations: {}
+
+  # -- Extra labels for webhook pods.
   labels: {}
-  # -- The label to use to retrieve the job name from
-  jobLabel: spark-operator-podmonitor
-  # -- Prometheus metrics endpoint properties. `metrics.portName` will be used as a port
-  podMetricsEndpoint:
-    scheme: http
-    interval: 5s
+    # key1: value1
+    # key2: value2
 
-# nodeSelector -- Node labels for pod assignment
-nodeSelector: {}
+  # -- Extra annotations for webhook pods.
+  annotations: {}
+    # key1: value1
+    # key2: value2
 
-# tolerations -- List of node taints to tolerate
-tolerations: []
+  # -- Sidecar containers for webhook pods.
+  sidecars: []
 
-# affinity -- Affinity for pod assignment
-affinity: {}
+  # -- Volumes for webhook pods.
+  volumes: []
 
-priorityClassName: ""
+  # -- Node selector for webhook pods.
+  nodeSelector: {}
+
+  # -- Affinity for webhook pods.
+  affinity: {}
+
+  # -- List of node taints to tolerate for webhook pods.
+  tolerations: []
+
+  # -- Priority class for webhook pods.
+  priorityClassName: ""
+
+  # -- Security context for webhook pods.
+  podSecurityContext: {}
+    # runAsUser: 1000
+    # runAsGroup: 2000
+    # fsGroup: 3000
+
+  # -- Topology spread constraints rely on node labels to identify the topology domain(s) that each Node is in.
+  # Ref: [Pod Topology Spread Constraints](https://kubernetes.io/docs/concepts/workloads/pods/pod-topology-spread-constraints/).
+  # The labelSelector field in topology spread constraint will be set to the selector labels for webhook pods if not specified.
+  topologySpreadConstraints: []
+  # - maxSkew: 1
+  #   topologyKey: topology.kubernetes.io/zone
+  #   whenUnsatisfiable: ScheduleAnyway
+  # - maxSkew: 1
+  #   topologyKey: kubernetes.io/hostname
+  #   whenUnsatisfiable: DoNotSchedule
+
+  # -- Environment variables for webhook containers.
+  env: []
+
+  # -- Environment variable sources for webhook containers.
+  envFrom: []
+
+  # -- Volume mounts for webhook containers.
+  volumeMounts: []
+
+  # -- Pod resource requests and limits for webhook pods.
+  resources: {}
+    # limits:
+    #   cpu: 100m
+    #   memory: 300Mi
+    # requests:
+    #   cpu: 100m
+    #   memory: 300Mi
+
+  # -- Security context for webhook containers.
+  securityContext: {}
+    # runAsUser: 1000
+    # runAsGroup: 2000
+    # fsGroup: 3000
+
+  # Pod disruption budget for webhook to avoid service degradation.
+  podDisruptionBudget:
+    # -- Specifies whether to create pod disruption budget for webhook.
+    # Ref: [Specifying a Disruption Budget for your Application](https://kubernetes.io/docs/tasks/run-application/configure-pdb/)
+    enable: false
+    # -- The number of pods that must be available.
+    # Require `webhook.replicas` to be greater than 1
+    minAvailable: 1
+
+spark:
+  # -- List of namespaces where to run spark jobs.
+  # If empty string is included, all namespaces will be allowed.
+  # Make sure the namespaces have already existed.
+  jobNamespaces:
+  - default-tenant
+
+  serviceAccount:
+    # -- Specifies whether to create a service account for spark applications.
+    create: true
+    # -- Optional name for the spark service account.
+    name: ""
+    # -- Optional annotations for the spark service account.
+    annotations: {}
+
+  rbac:
+    # -- Specifies whether to create RBAC resources for spark applications.
+    create: false
+    # -- Optional annotations for the spark application RBAC resources.
+    annotations: {}
+
+prometheus:
+  metrics:
+    # -- Specifies whether to enable prometheus metrics scraping.
+    enable: true
+    # -- Metrics port.
+    port: 8080
+    # -- Metrics port name.
+    portName: metrics
+    # -- Metrics serving endpoint.
+    endpoint: /metrics
+    # -- Metrics prefix, will be added to all exported metrics.
+    prefix: ""
+
+  # Prometheus pod monitor for controller pods
+  podMonitor:
+    # -- Specifies whether to create pod monitor.
+    # Note that prometheus metrics should be enabled as well.
+    create: false
+    # -- Pod monitor labels
+    labels: {}
+    # -- The label to use to retrieve the job name from
+    jobLabel: spark-operator-podmonitor
+    # -- Prometheus metrics endpoint properties. `metrics.portName` will be used as a port
+    podMetricsEndpoint:
+      scheme: http
+      interval: 5s
 
 # podAnnotations -- Additional annotations to add to the pod
 podAnnotations: {}
@@ -162,15 +386,8 @@ resources: {}
   #   cpu: 100m
   #   memory: 300Mi
 
-batchScheduler:
-  # -- Enable batch scheduler for spark jobs scheduling. If enabled, users can specify batch scheduler name in spark application
-  enable: false
-
-resourceQuotaEnforcement:
-  # -- Whether to enable the ResourceQuota enforcement for SparkApplication resources.
-  # Requires the webhook to be enabled by setting `webhook.enable` to true.
-  # Ref: https://github.com/GoogleCloudPlatform/spark-on-k8s-operator/blob/master/docs/user-guide.md#enabling-resource-quota-enforcement.
-  enable: false
+# -- Operator concurrency, higher values might increase memory usage
+controllerThreads: 10
 
 leaderElection:
   # -- Leader election lock name.
