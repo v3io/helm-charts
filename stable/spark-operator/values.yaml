@@ -31,7 +31,7 @@ sparkJobNamespace: "default-tenant"
 
 image:
   # -- Image registry.
-  registry: docker.io
+  registry: ""
   # -- Image repository.
   repository: kubeflow/spark-operator
   # -- Image tag.
@@ -86,12 +86,6 @@ controller:
     annotations: {}
 
   rbac:
-    clusterResources:
-      create: false
-    clusterNamespaceResources:
-      create: false
-    namespaced:
-      create: false
     # -- Specifies whether to create RBAC resources for the controller.
     create: true
     # -- Extra annotations for the controller RBAC resources.
@@ -200,6 +194,7 @@ controller:
       duration: 6h
 
 webhook:
+
   # -- Specifies whether to enable webhook.
   enable: true
 
@@ -238,7 +233,7 @@ webhook:
 
   rbac:
     # -- Specifies whether to create RBAC resources for the webhook.
-    create: false
+    create: true
     # -- Extra annotations for the webhook RBAC resources.
     annotations: {}
 
