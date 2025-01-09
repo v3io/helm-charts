@@ -24,6 +24,9 @@ nameOverride: ""
 # -- String to fully override release name.
 fullnameOverride: ""
 
+deployment:
+  create: false
+
 # -- Common labels to add to the resources.
 commonLabels: {}
 
