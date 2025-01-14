@@ -33,6 +33,25 @@ rules:
   resources: ["*"]
   verbs: ["*"]
 
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRole
+metadata:
+  name: {{ template "provazio.controller.name" . }}-admission-admin
+  labels:
+    app: {{ template "provazio.name" . }}
+    chart: {{ template "provazio.chart" . }}
+    release: {{ .Release.Name }}
+    heritage: {{ .Release.Service }}
+    component: controller
+rules:
+- apiGroups:
+  - admissionregistration.k8s.io
+  resources:
+  - mutatingwebhookconfigurations
+  - validatingwebhookconfigurations
+  verbs:
+  - '*'
 
 {{- end }}
 
@@ -121,6 +140,31 @@ roleRef:
   kind: ClusterRole
   name: {{ template "provazio.controller.name" $ }}-namespace-admin
   apiGroup: rbac.authorization.k8s.io
+
+---
+
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRoleBinding
+metadata:
+  name: {{ template "provazio.controller.name" $ }}-admission-admin
+  namespace: {{ . }}
+  labels:
+    app: {{ template "provazio.name" $ }}
+    chart: {{ template "provazio.chart" $ }}
+    release: {{ $.Release.Name }}
+    heritage: {{ $.Release.Service }}
+    component: controller
+roleRef:
+  kind: ClusterRole
+  name: {{ template "provazio.controller.name" $ }}-admission-admin
+  apiGroup: rbac.authorization.k8s.io
+subjects:
+- kind: ServiceAccount
+  name: {{ template "provazio.controller.name" $ }}
+  namespace: {{ $.Release.Namespace }}
+- kind: ServiceAccount
+  name: spark-operator-webhook
+  namespace: {{ $.Release.Namespace }}
 {{- end }}
 
 {{- end }}
