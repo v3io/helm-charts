@@ -408,3 +408,16 @@ Resolve the nuclio api address (for mlrun-kit)
 {{- printf "http://%s:8070" (include "mlrun.nuclio.dashboardName" .) | trunc 63 | trimSuffix "-" -}}
 {{- end -}}
 {{- end -}}
+
+{{/*
+Resolve the MLRun DB DSN
+- If overrideDsn is set, use the external DB (overrideDsn).
+- If overrideDsn is not set, use the internal DB (dsn).
+*/}}
+{{- define "mlrun.dsn" -}}
+  {{- if .Values.httpDB.overrideDsn -}}
+    {{- printf .Values.httpDB.overrideDsn -}}
+  {{- else -}}
+    {{- printf .Values.httpDB.dsn -}}
+  {{- end -}}
+{{- end -}}
