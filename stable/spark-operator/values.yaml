@@ -335,7 +335,7 @@ spark:
 
   rbac:
     # -- Specifies whether to create RBAC resources for spark applications.
-    create: false
+    create: true
     # -- Optional annotations for the spark application RBAC resources.
     annotations: {}
 
