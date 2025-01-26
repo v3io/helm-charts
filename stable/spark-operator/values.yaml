@@ -329,7 +329,7 @@ spark:
     # -- Specifies whether to create a service account for spark applications.
     create: true
     # -- Optional name for the spark service account.
-    name: ""
+    name: sparkapp
     # -- Optional annotations for the spark service account.
     annotations: {}
 
