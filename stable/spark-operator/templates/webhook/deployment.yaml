@@ -15,6 +15,7 @@ limitations under the License.
 */}}
 
 {{- if .Values.webhook.enable }}
+{{- if .Values.deployment.create }}
 apiVersion: apps/v1
 kind: Deployment
 metadata:
@@ -156,4 +157,5 @@ spec:
       - {{ mergeOverwrite . $labelSelectorDict | toYaml | nindent 8 | trim }}
       {{- end }}
       {{- end }}
+{{- end }}
 {{- end }}

@@ -1,4 +1,5 @@
 {{- if .Values.controller.enabled }}
+{{- if .Values.deployment.create }}
 
 apiVersion: apps/v1
 kind: Deployment
@@ -101,4 +102,5 @@ spec:
 {{ toYaml . | indent 8 }}
 {{- end }}
       priorityClassName: {{ .Values.controller.priorityClassName | quote }}
+{{- end }}
 {{- end }}

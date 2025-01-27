@@ -14,6 +14,7 @@ See the License for the specific language governing permissions and
 limitations under the License.
 */}}
 
+{{- if .Values.deployment.create }}
 apiVersion: apps/v1
 kind: Deployment
 metadata:
@@ -44,6 +45,7 @@ spec:
       {{- end }}
       {{- end }}
     spec:
+      hostNetwork: {{ .Values.hostNetwork.enabled }}
       containers:
       - name: spark-operator-controller
         image: {{ include "spark-operator.image" . }}
@@ -182,3 +184,4 @@ spec:
       - {{ mergeOverwrite . $labelSelectorDict | toYaml | nindent 8 | trim }}
       {{- end }}
       {{- end }}
+{{- end }}
