@@ -27,6 +27,9 @@ fullnameOverride: ""
 deployment:
   create: false
 
+crd:
+  create: false
+
 # -- Common labels to add to the resources.
 commonLabels: {}
 
