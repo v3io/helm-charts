@@ -325,19 +325,15 @@ app.kubernetes.io/sub-component: "worker"
 Alerts service selector labels
 */}}
 {{- define "mlrun.api.microservices.alerts.selectorLabels" -}}
-{{ include "mlrun.api.selectorLabels" . }}
-app.kubernetes.io/sub-component: "alerts"
+{{ include "mlrun.common.selectorLabels" . }}
+app.kubernetes.io/component: "alerts"
 {{- end -}}
 
 {{/*
 Worker replicas
 */}}
 {{- define "mlrun.api.worker.minReplicas" -}}
-{{- if .Values.api.microservices.enabled -}}
-{{ coalesce .Values.api.worker.minReplicas 1 }}
-{{- else -}}
 {{- .Values.api.worker.minReplicas -}}
-{{- end -}}
 {{- end -}}
 
 {{/*
