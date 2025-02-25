@@ -14,6 +14,7 @@ See the License for the specific language governing permissions and
 limitations under the License.
 */}}
 
+{{- if .Values.deployment.create }}
 {{- if .Values.controller.podDisruptionBudget.enable }}
 {{- if le (int .Values.controller.replicas) 1 }}
 {{- fail "controller.replicas must be greater than 1 to enable pod disruption budget for controller" }}
@@ -31,4 +32,5 @@ spec:
   {{- with .Values.controller.podDisruptionBudget.minAvailable }}
   minAvailable: {{ . }}
   {{- end }}
+{{- end }}
 {{- end }}

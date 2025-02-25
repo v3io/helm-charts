@@ -14,6 +14,7 @@ See the License for the specific language governing permissions and
 limitations under the License.
 */}}
 
+{{- if .Values.deployment.create }}
 {{- if .Values.webhook.enable }}
 {{- if .Values.webhook.rbac.create }}
 apiVersion: rbac.authorization.k8s.io/v1
@@ -122,6 +123,7 @@ roleRef:
   apiGroup: rbac.authorization.k8s.io
   kind: Role
   name: {{ include "spark-operator.webhook.roleName" $ }}
+{{- end }}
 {{- end }}
 {{- end }}
 {{- end }}

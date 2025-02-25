@@ -14,6 +14,7 @@ See the License for the specific language governing permissions and
 limitations under the License.
 */}}
 
+{{- if .Values.deployment.create }}
 {{- if .Values.webhook.enable }}
 {{- if .Values.webhook.podDisruptionBudget.enable }}
 {{- if le (int .Values.webhook.replicas) 1 }}
@@ -32,5 +33,6 @@ spec:
   {{- with .Values.webhook.podDisruptionBudget.minAvailable }}
   minAvailable: {{ . }}
   {{- end }}
+{{- end }}
 {{- end }}
 {{- end }}
