@@ -66,7 +66,7 @@ controller:
   uiIngress:
     # -- Specifies whether to create ingress for Spark web UI.
     # `controller.uiService.enable` must be `true` to enable ingress.
-    enable: false
+    enable: true
     # -- Ingress URL format.
     # Required if `controller.uiIngress.enable` is true.
     urlFormat: ""
