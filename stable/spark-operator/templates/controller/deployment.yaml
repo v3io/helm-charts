@@ -70,7 +70,7 @@ spec:
         - --enable-ui-service=true
         {{- end }}
         {{- if .Values.controller.uiIngress.enable }}
-        {{- with .Values.ingressUrlFormat }}
+        {{- with .Values.controller.uiIngress.urlFormat }}
         - --ingress-url-format={{ . }}
         {{- end }}
         {{- end }}

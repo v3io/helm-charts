@@ -49,8 +49,6 @@ image:
   pullSecrets: []
   # - name: <secret-name>
 
-ingressUrlFormat: ""
-
 controller:
   # -- Number of replicas of controller.
   replicas: 1
@@ -71,7 +69,6 @@ controller:
     enable: true
     # -- Ingress URL format.
     # Required if `controller.uiIngress.enable` is true.
-    # Use ingressUrlFormat instead for provazio backward compatibility
     urlFormat: ""
 
   batchScheduler:
