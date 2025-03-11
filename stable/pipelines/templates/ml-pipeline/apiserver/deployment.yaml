@@ -17,10 +17,26 @@ spec:
       labels:
         component: ml-pipeline
 {{ include "pipelines.commonLabels" . | indent 8 }}
+      annotations:
+        cluster-autoscaler.kubernetes.io/safe-to-evict: "true"
     spec:
       containers:
       - name: ml-pipeline-api-server
         env:
+        - name: LOG_LEVEL
+          value: "info"
+        # Driver / launcher log level during pipeline execution
+        - name: PIPELINE_LOG_LEVEL
+          value: "1"
+{{/*        - name: AUTO_UPDATE_PIPELINE_DEFAULT_VERSION*/}}
+{{/*          valueFrom:*/}}
+{{/*            configMapKeyRef:*/}}
+{{/*              name: pipeline-install-config*/}}
+{{/*              key: autoUpdatePipelineDefaultVersion*/}}
+        - name: POD_NAMESPACE
+          valueFrom:
+            fieldRef:
+              fieldPath: metadata.namespace
         - name: OBJECTSTORECONFIG_SECURE
           value: "false"
         {{- if .Values.storageMode.kind.v3io.enabled }}
@@ -30,11 +46,75 @@ spec:
           value: minio123
         - name: OBJECTSTORECONFIG_BUCKETNAME
           value: "{{ .Values.storage.artifacts.containerName }}"
+{{/*        # relic variables*/}}
+{{/*        - name: DBCONFIG_USER*/}}
+{{/*          valueFrom:*/}}
+{{/*            secretKeyRef:*/}}
+{{/*              name: mysql-secret*/}}
+{{/*              key: username*/}}
+{{/*        - name: DBCONFIG_PASSWORD*/}}
+{{/*          valueFrom:*/}}
+{{/*            secretKeyRef:*/}}
+{{/*              name: mysql-secret*/}}
+{{/*              key: password*/}}
+{{/*        - name: DBCONFIG_DBNAME*/}}
+{{/*          valueFrom:*/}}
+{{/*            configMapKeyRef:*/}}
+{{/*              name: pipeline-install-config*/}}
+{{/*              key: pipelineDb*/}}
+{{/*        - name: DBCONFIG_HOST*/}}
+{{/*          valueFrom:*/}}
+{{/*            configMapKeyRef:*/}}
+{{/*              name: pipeline-install-config*/}}
+{{/*              key: dbHost*/}}
+{{/*        - name: DBCONFIG_PORT*/}}
+{{/*          valueFrom:*/}}
+{{/*            configMapKeyRef:*/}}
+{{/*              name: pipeline-install-config*/}}
+{{/*              key: dbPort*/}}
+{{/*        # end of relic variables*/}}
+{{/*        - name: DBCONFIG_CONMAXLIFETIME*/}}
+{{/*          valueFrom:*/}}
+{{/*            configMapKeyRef:*/}}
+{{/*              name: pipeline-install-config*/}}
+{{/*              key: ConMaxLifeTime*/}}
+{{/*        - name: DB_DRIVER_NAME*/}}
+{{/*          valueFrom:*/}}
+{{/*            configMapKeyRef:*/}}
+{{/*              name: pipeline-install-config*/}}
+{{/*              key: dbType*/}}
+{{/*        # MySQL Config*/}}
+{{/*        - name: DBCONFIG_MYSQLCONFIG_USER*/}}
+{{/*          valueFrom:*/}}
+{{/*            secretKeyRef:*/}}
+{{/*              name: mysql-secret*/}}
+{{/*              key: username*/}}
+{{/*        - name: DBCONFIG_MYSQLCONFIG_PASSWORD*/}}
+{{/*          valueFrom:*/}}
+{{/*            secretKeyRef:*/}}
+{{/*              name: mysql-secret*/}}
+{{/*              key: password*/}}
+{{/*        - name: DBCONFIG_MYSQLCONFIG_DBNAME*/}}
+{{/*          valueFrom:*/}}
+{{/*            configMapKeyRef:*/}}
+{{/*              name: pipeline-install-config*/}}
+{{/*              key: pipelineDb*/}}
+{{/*        - name: DBCONFIG_MYSQLCONFIG_HOST*/}}
+{{/*          valueFrom:*/}}
+{{/*            configMapKeyRef:*/}}
+{{/*              name: pipeline-install-config*/}}
+{{/*              key: mysqlHost*/}}
+{{/*        - name: DBCONFIG_MYSQLCONFIG_PORT*/}}
+{{/*          valueFrom:*/}}
+{{/*            configMapKeyRef:*/}}
+{{/*              name: pipeline-install-config*/}}
+{{/*              key: mysqlPort*/}}
+{{/*        # end of MySQL Config*/}}
         - name: OBJECTSTORECONFIG_PORT
           value: "{{ .Values.configurations.ports.nginxPort }}"
         - name: OBJECTSTORECONFIG_HOST
           value: v3io-webapi
-        {{- end  }}
+        {{- end }}
         {{- if .Values.storageMode.kind.minio.enabled }}
         - name: OBJECTSTORECONFIG_ACCESSKEY
           valueFrom:
@@ -103,22 +183,55 @@ spec:
           initialDelaySeconds: 3
           periodSeconds: 5
           timeoutSeconds: 2
-        resources:
-{{ toYaml .Values.resources.apiServer | indent 10 }}
+        # This startup probe provides up to a 60 second grace window before the
+        # liveness probe takes over to accomodate the occasional database
+        # migration.
+        startupProbe:
+          exec:
+            command:
+              - wget
+              - -q # quiet
+              - -S # show server response
+              - -O
+              - "-" # Redirect output to stdout
+              - http://localhost:8888/apis/v1beta1/healthz
+          failureThreshold: 12
+          periodSeconds: 5
+          timeoutSeconds: 2
+        securityContext:
+          allowPrivilegeEscalation: false
+          seccompProfile:
+            type: RuntimeDefault
+          runAsNonRoot: true
+          runAsUser: 1000
+          runAsGroup: 0
+          capabilities:
+            drop:
+            - ALL
+      {{- if .Values.resources.apiServer }}
+      resources:
+{{ toYaml .Values.resources.apiServer | indent 8 }}
+      {{- end }}
       serviceAccountName: ml-pipeline
-{{- with .Values.nodeSelector }}
+      {{- if .Values.nodeSelector }}
       nodeSelector:
-{{ toYaml . | indent 8 }}
-{{- end }}
-{{- with .Values.tolerations }}
+{{ toYaml .Values.nodeSelector | indent 8 }}
+      {{- else }}
+      nodeSelector: {}
+      {{- end }}
+      {{- if .Values.tolerations }}
       tolerations:
-{{ toYaml . | indent 8 }}
-{{- end }}
-{{- with .Values.affinity }}
+{{ toYaml .Values.tolerations | indent 8 }}
+      {{- else }}
+      tolerations: []
+      {{- end }}
+      {{- if .Values.affinity }}
       affinity:
-{{ toYaml . | indent 8 }}
-{{- end }}
-{{- if .Values.priorityClassName }}
+{{ toYaml .Values.affinity | indent 8 }}
+      {{- else }}
+      affinity: {}
+      {{- end }}
+      {{- if .Values.priorityClassName }}
       priorityClassName: {{ .Values.priorityClassName | quote }}
-{{- end }}
+      {{- end }}
 {{- end }}

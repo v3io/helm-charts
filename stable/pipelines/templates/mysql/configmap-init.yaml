@@ -8,9 +8,8 @@ metadata:
     component: mysql-kf
 {{ include "pipelines.commonLabels" . | indent 4 }}
 data:
-  enable-root-remote-access.sql: |
-    -- Allow passwordless (insecure) access to root user from anywhere
-    GRANT ALL PRIVILEGES ON *.* TO 'root'@'%' WITH GRANT OPTION;
-    GRANT PROXY ON ''@'' TO 'root'@'%' WITH GRANT OPTION;
+  create_user.sql: |
+    CREATE USER IF NOT EXISTS '${DB_USER}'@'%' IDENTIFIED BY '${DB_PASSWORD}';
+    GRANT ALL PRIVILEGES ON *.* TO '${DB_USER}'@'%';
     FLUSH PRIVILEGES;
 {{- end }}

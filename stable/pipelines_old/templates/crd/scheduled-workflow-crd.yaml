@@ -1,0 +1,44 @@
+{{- if .Values.crd.create }}
+apiVersion: apiextensions.k8s.io/v1
+kind: CustomResourceDefinition
+metadata:
+  name: scheduledworkflows.kubeflow.org
+  labels:
+    component: crd
+{{ include "pipelines.commonLabels" . | indent 4 }}
+spec:
+  scope: Namespaced
+  group: kubeflow.org
+  names:
+    kind: ScheduledWorkflow
+    listKind: ScheduledWorkflowList
+    plural: scheduledworkflows
+    shortNames:
+    - swf
+    singular: scheduledworkflow
+  versions:
+  - name: v1beta1
+    served: true
+    storage: true
+    schema:
+      openAPIV3Schema:
+        type: object
+        properties:
+          apiVersion:
+            type: string
+          kind:
+            type: string
+          metadata:
+            type: object
+          spec:
+            type: object
+            x-kubernetes-preserve-unknown-fields: true
+            x-kubernetes-map-type: atomic
+          status:
+            type: object
+            x-kubernetes-preserve-unknown-fields: true
+            x-kubernetes-map-type: atomic
+        required:
+          - spec
+          - status
+{{- end }}

@@ -23,27 +23,29 @@ data:
       echo "MySQL has already been initialized. Skipping..."
     else
       echo "Initializing MySQL..."
+      rm /var/lib/mysql/ib_logfile*
 
-      mysql_install_db --user=mysql --basedir=/usr --datadir=/tmp/mysql
+      mysqld --initialize --user=mysql --datadir=/tmp/mysql
       # and then copy the init files into real working directory (on Fuse mount)
       cp -R /tmp/mysql /var/lib/
-
       touch $LOCK_FILE
     fi
 
 
-  v3io-mysql.sh: |
+  start-mysql.sh: |
     #!/usr/bin/env bash
     set -e
 
     echo "Current user -> $(whoami)"
 
-    INIT_SCRIPT="/etc/config/mysql/init-scripts/enable-root-remote-access.sql"
+    INIT_SCRIPT="/etc/config/mysql/init-scripts/create_user.sql"
 
     echo "Starting MySQL ..."
 
     mysqld \
       --user={{- include "pipelines.db.DBRunUser" . }} \
-      --init-file=$INIT_SCRIPT 
+      --default-authentication-plugin=mysql_native_password \
+      --disable-log-bin \
+      --init-file=$INIT_SCRIPT
 
 {{- end }}

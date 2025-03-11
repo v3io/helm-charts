@@ -1,0 +1,64 @@
+apiVersion: v1
+entries:
+  jupyter:
+  - apiVersion: v1
+    appVersion: 3.4.9
+    created: "2025-03-11T21:14:21.649909+02:00"
+    dependencies:
+    - name: v3io-configs
+      repository: https://v3io.github.io/helm-charts/stable
+      version: 0.13.1
+    - name: pvc
+      repository: https://v3io.github.io/helm-charts/stable
+      version: 0.2.0
+    description: Jupyter
+    digest: dca47ee7a4a25869062b74d9dbaf2ede897c6984c03657a62ed8d1419d858190
+    home: https://jupyter.org/
+    icon: https://jupyter.org/assets/nav_logo.svg
+    maintainers:
+    - email: eliranb@iguazio.com
+      name: bivas
+    name: jupyter
+    sources:
+    - https://github.com/jupyter
+    urls:
+    - https://v3io.github.io/helm-charts/stable/jupyter/jupyter-0.14.40.tgz
+    version: 0.14.40
+  pipelines:
+  - apiVersion: v1
+    appVersion: '>=1.8.1'
+    created: "2025-03-11T21:14:21.649192+02:00"
+    description: Kubeflow pipelines framework for machine learning
+    digest: 701c9cb9c35016988ab866a4d5fe1e75002071e3b63298a4841e341563c4c3a9
+    home: https://www.kubeflow.org/
+    icon: https://github.com/kubeflow/marketing-materials/blob/master/logos/Raster/Kubeflow-Logo-RGB.png
+    maintainers:
+    - email: tomers@iguazio.com
+      name: Tomer Shor
+    - email: adamm@iguazio.com
+      name: Adam Melnick
+    name: pipelines
+    sources:
+    - https://github.com/kubeflow/pipelines
+    urls:
+    - https://v3io.github.io/helm-charts/stable/pipelines-0.10.4.tgz
+    version: 0.10.4
+  - apiVersion: v1
+    appVersion: '>=1.8.1'
+    created: "2025-03-11T21:14:21.650625+02:00"
+    description: Kubeflow pipelines framework for machine learning
+    digest: e6aa8e033513735504fefd2cb6429f9a56aac8d972ba3be3bed4ec6017a2dd11
+    home: https://www.kubeflow.org/
+    icon: https://github.com/kubeflow/marketing-materials/blob/master/logos/Raster/Kubeflow-Logo-RGB.png
+    maintainers:
+    - email: tomers@iguazio.com
+      name: Tomer Shor
+    - email: adamm@iguazio.com
+      name: Adam Melnick
+    name: pipelines
+    sources:
+    - https://github.com/kubeflow/pipelines
+    urls:
+    - https://v3io.github.io/helm-charts/stable/pipelines/pipelines-0.10.4.tgz
+    version: 0.10.4
+generated: "2025-03-11T21:14:21.647956+02:00"

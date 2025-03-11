@@ -22,6 +22,16 @@ spec:
       initContainers:
       - name: metadata-init
         env:
+        - name: DBCONFIG_USER
+          valueFrom:
+            secretKeyRef:
+              name: mysql-kf-secret
+              key: username
+        - name: DBCONFIG_PASSWORD
+          valueFrom:
+            secretKeyRef:
+              name: mysql-kf-secret
+              key: password
         - name: MYSQL_DATABASE
           valueFrom:
             configMapKeyRef:
@@ -45,22 +55,22 @@ spec:
           '--wait=10',
         ]
         image: {{ .Values.images.metadata.init.repository }}:{{ .Values.images.metadata.init.tag }}
+        securityContext:
+          allowPrivilegeEscalation: false
+          seccompProfile:
+            type: RuntimeDefault
+          runAsNonRoot: true
+          runAsUser: 1000
+          runAsGroup: 0
+          capabilities:
+            drop:
+              - ALL
         imagePullPolicy: {{ .Values.images.imagePullPolicy }}
       containers:
       - name: metadata-container
         image: {{ .Values.images.metadata.container.repository }}:{{ .Values.images.metadata.container.tag }}
         imagePullPolicy: {{ .Values.images.imagePullPolicy }}
         env:
-#        - name: DBCONFIG_USER
-#          valueFrom:
-#            secretKeyRef:
-#              name: mysql-secret
-#              key: username
-#        - name: DBCONFIG_PASSWORD
-#          valueFrom:
-#            secretKeyRef:
-#              name: mysql-secret
-#              key: password
         - name: MYSQL_DATABASE
           valueFrom:
             configMapKeyRef:
@@ -77,15 +87,12 @@ spec:
               name: metadata-mysql-configmap
               key: MYSQL_PORT
         command: ["/bin/metadata_store_server"]
-        args: [
-          "--enable_database_upgrade=true",
-          "--grpc_port=8080",
-          "--mysql_config_database=$(MYSQL_DATABASE)",
-          "--mysql_config_host=$(MYSQL_HOST)",
-          "--mysql_config_port=$(MYSQL_PORT)",
-#          "--mysql_config_user=$(DBCONFIG_USER)",
-#          "--mysql_config_password=$(DBCONFIG_PASSWORD)"
-        ]
+        args: ["--grpc_port=8080",
+               "--mysql_config_database=$(MYSQL_DATABASE)",
+               "--mysql_config_host=$(MYSQL_HOST)",
+               "--mysql_config_port=$(MYSQL_PORT)",
+               "--enable_database_upgrade=true"
+               ]
         ports:
         - name: grpc-api
           containerPort: 8080

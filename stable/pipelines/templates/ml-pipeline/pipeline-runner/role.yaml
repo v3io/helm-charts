@@ -85,9 +85,34 @@ rules:
   - '*'
 - apiGroups:
   - sparkoperator.k8s.io
+  - tekton.dev
+  resources:
+  - pipelineruns
+  - taskruns
+  - conditions
+  - runs
+  - tasks
+  - customruns
+  verbs:
+  - create
+  - get
+  - list
+  - watch
+  - update
+  - patch
+  - delete
+- apiGroups:
+  - custom.tekton.dev
   resources:
   - sparkapplications
   - scheduledsparkapplications
+  - pipelineloops
   verbs:
-  - '*'
+  - create
+  - get
+  - list
+  - watch
+  - update
+  - patch
+  - delete
 {{- end }}
