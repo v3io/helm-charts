@@ -42,7 +42,7 @@ spec:
               accessKey: {{ .Values.configurations.credentials.accessKey }}
           {{- end }}
       initContainers:
-        - name: init-mysql
+        - name: init
           image: {{ .Values.images.mysql.repository }}:{{ .Values.images.mysql.tag }}
           imagePullPolicy: {{ .Values.images.imagePullPolicy }}
           resources:
@@ -58,8 +58,13 @@ spec:
                 secretKeyRef:
                   name: mysql-kf-secret
                   key: password
+            - name: MYSQL_PWD
+              valueFrom:
+                secretKeyRef:
+                  name: mysql-kf-secret
+                  key: password
 
-          command: [ "/bin/bash", "/etc/config/mysql/init-v3io-mysql.sh" ]
+          command: [ "/bin/bash", "/etc/config/mysql/init-mysql.sh" ]
           securityContext:
             {{- toYaml .Values.db.securityContext | nindent 12 }}
           volumeMounts:
@@ -92,8 +97,16 @@ spec:
           failureThreshold: {{ .Values.configurations.mysql.spec.template.spec.containers.readinessProbe.failureThreshold }}
           periodSeconds: {{ .Values.configurations.mysql.spec.template.spec.containers.readinessProbe.periodSeconds }}
         env:
-          - name: MYSQL_ALLOW_EMPTY_PASSWORD
-            value: "true"
+            - name: DB_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: mysql-kf-secret
+                  key: password
+            - name: MYSQL_PWD
+              valueFrom:
+                secretKeyRef:
+                  name: mysql-kf-secret
+                  key: password
         volumeMounts:
           - name: mysql-fuse
             mountPath: "/var/lib/mysql"

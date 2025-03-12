@@ -27,7 +27,7 @@ spec:
             secretKeyRef:
               name: mysql-kf-secret
               key: username
-        - name: DBCONFIG_PASSWORD
+        - name: MYSQL_PWD
           valueFrom:
             secretKeyRef:
               name: mysql-kf-secret
@@ -50,6 +50,7 @@ spec:
         command: [
           'mysqladmin',
           'status',
+          '--user=$(DBCONFIG_USER)',
           '--host=$(MYSQL_HOST)',
           '--port=$(MYSQL_PORT)',
           '--wait=10',
@@ -86,11 +87,24 @@ spec:
             configMapKeyRef:
               name: metadata-mysql-configmap
               key: MYSQL_PORT
+
+        - name: DBCONFIG_USER
+          valueFrom:
+            secretKeyRef:
+              name: mysql-kf-secret
+              key: username
+        - name: DB_PASSWORD
+          valueFrom:
+            secretKeyRef:
+              name: mysql-kf-secret
+              key: password
+
         command: ["/bin/metadata_store_server"]
         args: ["--grpc_port=8080",
                "--mysql_config_database=$(MYSQL_DATABASE)",
                "--mysql_config_host=$(MYSQL_HOST)",
-               "--mysql_config_port=$(MYSQL_PORT)",
+               "--mysql_config_password=$(DB_PASSWORD)",
+               "--mysql_config_user=$(DBCONFIG_USER)",
                "--enable_database_upgrade=true"
                ]
         ports:

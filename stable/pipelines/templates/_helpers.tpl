@@ -20,14 +20,3 @@ chart: {{ include "pipelines.chart" . }}
 release: {{ .Release.Name }}
 heritage: {{ .Release.Service }}
 {{- end -}}
-
-{{/*
-DB run user
-*/}}
-{{- define "pipelines.db.DBRunUser" -}}
-{{- if .Values.db.podSecurityContext.runAsUser }}
-{{- .Values.db.podSecurityContext.runAsUser -}}
-{{- else -}}
-{{- print "root" -}}
-{{- end -}}
-{{- end -}}

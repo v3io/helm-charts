@@ -8,44 +8,39 @@ metadata:
     component: mysql-kf
 {{ include "pipelines.commonLabels" . | indent 4 }}
 data:
-
   health_check.sh: |
     mysqladmin status
 
-  init-v3io-mysql.sh: |
+  init-mysql.sh: |
     #!/usr/bin/env bash
-    set -e
+    set -euo pipefail
 
-    echo "Current user -> $(whoami)"
-    LOCK_FILE=/var/lib/mysql/.init-complete
-    if [ -f $LOCK_FILE ]
-    then
+    readonly INIT_SCRIPT="/etc/config/mysql/init-scripts/create_user.sql"
+    readonly LOCK_FILE="/var/lib/mysql/.init_mysql_8.0.26"
+
+    if [[ -f "${LOCK_FILE}" ]]; then
       echo "MySQL has already been initialized. Skipping..."
-    else
-      echo "Initializing MySQL..."
-      rm /var/lib/mysql/ib_logfile*
-
-      mysqld --initialize --user=mysql --datadir=/tmp/mysql
-      # and then copy the init files into real working directory (on Fuse mount)
-      cp -R /tmp/mysql /var/lib/
-      touch $LOCK_FILE
+      exit 0
     fi
 
+    if [[ -d "/var/lib/mysql" ]]; then
+      echo "Cleaning up conflicting files..."
+      rm -f /var/lib/mysql/ib_logfile* || echo "No old redo log files found"
+      rm -rf /var/lib/mysql/sys || echo "/var/log/mysql/sys does not exist"
+      rm -rf /var/lib/mysql/mysql/innodb_table_stats.ibd || echo "/var/log/mysql/mysql/innodb_table_stats.ibd does not exist"
+    fi
+
+    touch "${LOCK_FILE}"
 
   start-mysql.sh: |
     #!/usr/bin/env bash
-    set -e
+    set -euo pipefail
 
-    echo "Current user -> $(whoami)"
-
-    INIT_SCRIPT="/etc/config/mysql/init-scripts/create_user.sql"
+    readonly INIT_SCRIPT="/etc/config/mysql/init-scripts/create_user.sql"
 
     echo "Starting MySQL ..."
-
     mysqld \
-      --user={{- include "pipelines.db.DBRunUser" . }} \
       --default-authentication-plugin=mysql_native_password \
       --disable-log-bin \
-      --init-file=$INIT_SCRIPT
-
+      --init-file="${INIT_SCRIPT}"
 {{- end }}
