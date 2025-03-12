@@ -44,23 +44,22 @@ spec:
         - name: DBCONFIG_USER
           valueFrom:
             secretKeyRef:
-              name: mysql-secret
+              name: mysql-kf-secret
               key: username
         - name: DBCONFIG_PASSWORD
           valueFrom:
             secretKeyRef:
-              name: mysql-secret
+              name: mysql-kf-secret
               key: password
-              key: dbPort
         - name: DBCONFIG_MYSQLCONFIG_USER
           valueFrom:
             secretKeyRef:
-              name: mysql-secret
+              name: mysql-kf-secret
               key: username
         - name: DBCONFIG_MYSQLCONFIG_PASSWORD
           valueFrom:
             secretKeyRef:
-              name: mysql-secret
+              name: mysql-kf-secret
               key: password
         - name: DBCONFIG_MYSQLCONFIG_HOST
           value: mysql-kf

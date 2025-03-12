@@ -47,14 +47,8 @@ spec:
                 configMapKeyRef:
                   name: metadata-mysql-configmap
                   key: MYSQL_PORT
-          command: [
-            'mysqladmin',
-            'status',
-            '--user=$(DBCONFIG_USER)',
-            '--host=$(MYSQL_HOST)',
-            '--port=$(MYSQL_PORT)',
-            '--wait=10'
-          ]
+          command: [ "/bin/sh", "-c" ]
+          args: [ "mysqladmin status --user=${DBCONFIG_USER} --host=${MYSQL_HOST} --port=${MYSQL_PORT} --wait=10" ]
           image: {{ .Values.images.metadata.init.repository }}:{{ .Values.images.metadata.init.tag }}
           securityContext:
             allowPrivilegeEscalation: false

@@ -53,12 +53,7 @@ spec:
               valueFrom:
                 secretKeyRef:
                   name: mysql-kf-secret
-                  key: username
-            - name: DB_PASSWORD
-              valueFrom:
-                secretKeyRef:
-                  name: mysql-kf-secret
-                  key: password
+                  key: usernamesecret
             - name: MYSQL_PWD
               valueFrom:
                 secretKeyRef:
@@ -99,6 +94,11 @@ spec:
             failureThreshold: {{ .Values.configurations.mysql.spec.template.spec.containers.readinessProbe.failureThreshold }}
             periodSeconds: {{ .Values.configurations.mysql.spec.template.spec.containers.readinessProbe.periodSeconds }}
           env:
+            - name: DB_USER
+              valueFrom:
+                secretKeyRef:
+                  name: mysql-kf-secret
+                  key: username
             - name: MYSQL_PWD
               valueFrom:
                 secretKeyRef:
