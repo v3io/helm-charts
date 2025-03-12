@@ -3,7 +3,7 @@ entries:
   jupyter:
   - apiVersion: v1
     appVersion: 3.4.9
-    created: "2025-03-13T00:39:04.337+02:00"
+    created: "2025-03-13T00:40:44.876288+02:00"
     dependencies:
     - name: v3io-configs
       repository: https://v3io.github.io/helm-charts/stable
@@ -27,9 +27,9 @@ entries:
   pipelines:
   - apiVersion: v1
     appVersion: '>=1.8.1'
-    created: "2025-03-13T00:39:04.336196+02:00"
+    created: "2025-03-13T00:40:44.875526+02:00"
     description: Kubeflow pipelines framework for machine learning
-    digest: 6bfe865483fa829764e0caffbfa4abd740b1e7c41bca257d4da4283643880f42
+    digest: 7f8e0a382a9529d0870fafea0363e2d1c18558d5f90733b3d335a6e1cd75744c
     home: https://www.kubeflow.org/
     icon: https://github.com/kubeflow/marketing-materials/blob/master/logos/Raster/Kubeflow-Logo-RGB.png
     maintainers:
@@ -45,7 +45,7 @@ entries:
     version: 0.10.4
   - apiVersion: v1
     appVersion: '>=1.8.1'
-    created: "2025-03-13T00:39:04.337654+02:00"
+    created: "2025-03-13T00:40:44.877584+02:00"
     description: Kubeflow pipelines framework for machine learning
     digest: e6aa8e033513735504fefd2cb6429f9a56aac8d972ba3be3bed4ec6017a2dd11
     home: https://www.kubeflow.org/
@@ -61,4 +61,4 @@ entries:
     urls:
     - https://v3io.github.io/helm-charts/stable/pipelines/pipelines-0.10.4.tgz
     version: 0.10.4
-generated: "2025-03-13T00:39:04.333729+02:00"
+generated: "2025-03-13T00:40:44.873988+02:00"

@@ -53,7 +53,7 @@ spec:
               valueFrom:
                 secretKeyRef:
                   name: mysql-kf-secret
-                  key: usernamesecret
+                  key: username
             - name: MYSQL_PWD
               valueFrom:
                 secretKeyRef:
