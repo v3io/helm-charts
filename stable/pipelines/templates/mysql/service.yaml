@@ -3,15 +3,15 @@ apiVersion: v1
 kind: Service
 metadata:
   namespace: {{ .Release.Namespace }}
-  name: mysql
+  name: mysql-kf
   labels:
     component: mysql-kf
 {{ include "pipelines.commonLabels" . | indent 4 }}
 spec:
   ports:
-    - name: mysql
+    - name: mysql-kf
       port: 3306
-      targetPort: mysql
+      targetPort: mysql-kf
       protocol: TCP
   selector:
     component: mysql-kf

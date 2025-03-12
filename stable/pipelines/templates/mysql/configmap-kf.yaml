@@ -11,12 +11,14 @@ data:
   health_check.sh: |
     mysqladmin status
 
-  init-mysql.sh: |
+  upgrade_mysql_8.0.26.sh: |
     #!/usr/bin/env bash
     set -euo pipefail
 
     readonly INIT_SCRIPT="/etc/config/mysql/init-scripts/create_user.sql"
-    readonly LOCK_FILE="/var/lib/mysql/.init_mysql_8.0.26"
+    readonly LOCK_FILE="/var/lib/mysql/.init_upgrade_to_mysql_8.0.26"
+    readonly DUMP_FILE="/tmp/pre_upgrade_dump.sql"
+    readonly LOG_FILE="/tmp/mysql_log"
 
     if [[ -f "${LOCK_FILE}" ]]; then
       echo "MySQL has already been initialized. Skipping..."
@@ -28,9 +30,63 @@ data:
       rm -f /var/lib/mysql/ib_logfile* || echo "No old redo log files found"
       rm -rf /var/lib/mysql/sys || echo "/var/log/mysql/sys does not exist"
       rm -rf /var/lib/mysql/mysql/innodb_table_stats.ibd || echo "/var/log/mysql/mysql/innodb_table_stats.ibd does not exist"
+      echo "Starting old MySQL instance for data dump (using innodb_force_recovery=1)..."
+      mysqld --log-error-verbosity=3 --innodb_force_recovery=1 --log-error="${LOG_FILE}" --init-file="${INIT_SCRIPT}" &>> "${LOG_FILE}" &
+      PID=$!
+
+      echo "Waiting for MySQL to start (checking PID and response)..."
+      while true; do
+        if ! kill -0 "${PID}" 2>/dev/null; then
+          echo "MySQL process (PID ${PID}) is no longer running. Check ${LOG_FILE}.* for errors."
+          cat "${LOG_FILE}.*" 2>/dev/null || true
+          exit 1
+        fi
+
+        if mysqladmin ping --silent 2>/dev/null; then
+          echo "MySQL started successfully."
+          break
+        fi
+
+        sleep 1
+        cat "${LOG_FILE}" 2>/dev/null || true
+      done
+
+      echo "Dumping existing data to ${DUMP_FILE}..."
+      mysqldump -u "${DB_USER}" --all-databases > "${DUMP_FILE}"
+
+      echo "Shutting down old MySQL..."
+      mysqladmin shutdown
+      wait "${PID}"
+
+      echo "Existing data dumped to ${DUMP_FILE}"
+    else
+      echo "No existing MySQL directory found. Initializing new MySQL data directory..."
+      mysqld --initialize --log-error="${LOG_FILE}" --init-file="${INIT_SCRIPT}" &>> "${LOG_FILE}"
     fi
 
+    echo "Copying any MySQL seed files from /tmp/mysql/ to /var/lib/mysql/..."
+    cp -R /tmp/mysql/* /var/lib/mysql/ 2>/dev/null || true
+
+    echo "Starting new MySQL instance (8.0.26)..."
+    mysqld --datadir="/var/lib/mysql" --log-error="${LOG_FILE}" --init-file="${INIT_SCRIPT}" &>> "${LOG_FILE}" &
+    NEW_PID=$!
+
+    echo "Waiting for the new MySQL instance to start..."
+    until mysqladmin ping --silent 2>/dev/null; do
+      sleep 1
+    done
+
+    if [[ -f "${DUMP_FILE}" ]]; then
+      echo "Importing old data from ${DUMP_FILE}..."
+      mysql < "${DUMP_FILE}"
+    fi
+
+    mysqladmin shutdown
+    wait "${NEW_PID}"
+
     touch "${LOCK_FILE}"
+    echo "MySQL has been re-initialized and existing data (if any) has been imported."
+    rm -f "${LOG_FILE}" || true
 
   start-mysql.sh: |
     #!/usr/bin/env bash

@@ -8,6 +8,6 @@ metadata:
 {{ include "pipelines.commonLabels" . | indent 4 }}
 data:
   MYSQL_DATABASE: "metadb"
-  MYSQL_HOST: "mysql"
+  MYSQL_HOST: "mysql-kf"
   MYSQL_PORT: "3306"
 {{- end }}
