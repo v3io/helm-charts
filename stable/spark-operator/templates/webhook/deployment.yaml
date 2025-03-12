@@ -138,7 +138,7 @@ spec:
       tolerations:
         {{- toYaml . | nindent 8 }}
       {{- end }}
-      {{- with .Values.webhook.priorityClassName }}
+      {{- with (.Values.webhook.priorityClassName | default .Values.priorityClassName) }}
       priorityClassName: {{ . }}
       {{- end }}
       serviceAccountName: {{ include "spark-operator.webhook.serviceAccountName" . }}

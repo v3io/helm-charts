@@ -165,7 +165,7 @@ spec:
       tolerations:
       {{- toYaml . | nindent 6 }}
       {{- end }}
-      {{- with .Values.controller.priorityClassName }}
+      {{- with (.Values.controller.priorityClassName | default .Values.priorityClassName) }}
       priorityClassName: {{ . }}
       {{- end }}
       serviceAccountName: {{ include "spark-operator.controller.serviceAccountName" . }}
