@@ -9,6 +9,7 @@ metadata:
 {{ include "pipelines.commonLabels" . | indent 4 }}
 data:
   create_user.sql: |
+    DROP USER IF EXISTS '${DB_USER}'@'%';
     CREATE USER IF NOT EXISTS '${DB_USER}'@'%' IDENTIFIED BY '${MYSQL_PWD}';
     GRANT ALL PRIVILEGES ON *.* TO '${DB_USER}'@'%';
     FLUSH PRIVILEGES;
