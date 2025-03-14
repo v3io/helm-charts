@@ -9,7 +9,7 @@ metadata:
 {{ include "pipelines.commonLabels" . | indent 4 }}
 data:
   health_check.sh: |
-    mysqladmin status
+    mysqladmin status --user=${DB_USER} --password=${MYSQL_PWD} --host=127.0.0.1
 
   upgrade_mysql_8.0.26.sh: |
     #!/usr/bin/env bash
@@ -22,7 +22,7 @@ data:
 
     if [[ -f "${LOCK_FILE}" ]]; then
       echo "MySQL has already been initialized. Skipping..."
-    #  exit 0
+      exit 0
     fi
 
     if [[ -d "/var/lib/mysql" ]]; then
