@@ -50,12 +50,12 @@ spec:
           - -c
           - |
             echo "[client]" > /mysql-config.cnf
-            echo "user=$(cat /etc/mysql-secret/username)" >> /mysql.cnf
-            echo "password=$(cat /etc/mysql-secret/password)" >> /mysql.cnf
+            echo "user=$(cat /etc/mysql-kf-secret/username)" >> /mysql.cnf
+            echo "password=$(cat /etc/mysql-kf-secret/password)" >> /mysql.cnf
             echo "host=mysql-kf" >> /mysql.cnf
         volumeMounts:
-          - name: mysql-secret
-            mountPath: /mysql-secret
+          - name: mysql-kf-secret
+            mountPath: /mysql-kf-secret
             readOnly: true
           - name: mysql-cnf
             mountPath: /mysql.cnf
