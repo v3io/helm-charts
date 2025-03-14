@@ -49,7 +49,7 @@ spec:
                   key: MYSQL_PORT
           command: [ "/bin/sh", "-xec" ]
           args:
-            - "mysqladmin status --debug --user=${DBCONFIG_USER} --host=${MYSQL_HOST} --port=${MYSQL_PORT} --wait=10"
+            - "mysqladmin status --user=${DBCONFIG_USER} --password=${MYSQL_PWD} --host=${MYSQL_HOST} --port=${MYSQL_PORT} --wait=10"
           image: {{ .Values.images.metadata.init.repository }}:{{ .Values.images.metadata.init.tag }}
           securityContext:
             allowPrivilegeEscalation: false

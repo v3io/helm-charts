@@ -8,8 +8,13 @@ metadata:
     component: mysql-kf
 {{ include "pipelines.commonLabels" . | indent 4 }}
 data:
+  mysql-config.cnf: |
+    [client]
+    user={{ .Values.db.user }}
+    password={{ .Values.db.password }}
+    host=mysql-kf
   health_check.sh: |
-    mysqladmin status --user=${DB_USER} --password=${MYSQL_PWD} --host=127.0.0.1
+    mysqladmin status --defaults-extra-file=/mysql.cnf
 
   upgrade_mysql_8.0.26.sh: |
     #!/usr/bin/env bash
