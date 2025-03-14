@@ -33,6 +33,8 @@ spec:
       - name: mysql-kf-secret
         secret:
           secretName: mysql-kf-secret
+      - name: mysql-cnf
+        emptyDir: {}
       - name: mysql-fuse
 {{- if .Values.storage.metadata.volumes.storageOverride }}
 {{ toYaml .Values.storage.metadata.volumes.storageOverride | nindent 10 }}
@@ -51,16 +53,16 @@ spec:
           - /bin/sh
           - -c
           - |
-            echo "[client]" > /mysql.cnf
-            echo "user=$(cat /mysql-kf-secret/username)" >> /mysql.cnf
-            echo "password=$(cat /mysql-kf-secret/password)" >> /mysql.cnf
-            echo "host=mysql-kf" >> /mysql.cnf
+            echo "[client]" > /config/mysql.cnf
+            echo "user=$(cat /mysql-kf-secret/username)" >> /config/mysql.cnf
+            echo "password=$(cat /mysql-kf-secret/password)" >> /config/mysql.cnf
+            echo "host=mysql-kf" >> /config/mysql.cnf
         volumeMounts:
           - name: mysql-kf-secret
             mountPath: /mysql-kf-secret
             readOnly: true
           - name: mysql-cnf
-            mountPath: /mysql.cnf
+            mountPath: /config
       - name: init
         image: {{ .Values.images.mysql.repository }}:{{ .Values.images.mysql.tag }}
         imagePullPolicy: {{ .Values.images.imagePullPolicy }}
@@ -88,6 +90,7 @@ spec:
             mountPath: /etc/config/mysql
           - name: mysql-cnf
             mountPath: /mysql.cnf
+            subPath: mysql.cnf
             readOnly: true
           - name: mysql-init-scripts
             mountPath: /etc/config/mysql/init-scripts
@@ -134,6 +137,7 @@ spec:
               mountPath: /etc/config/mysql/init-scripts
             - name: mysql-cnf
               mountPath: /mysql.cnf
+              subPath: mysql.cnf
           resources:
 {{ toYaml .Values.resources.mysql | indent 14 }}
 {{- with .Values.nodeSelector }}
