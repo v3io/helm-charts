@@ -8,11 +8,6 @@ metadata:
     component: mysql-kf
 {{ include "pipelines.commonLabels" . | indent 4 }}
 data:
-  mysql-config.cnf: |
-    [client]
-    user={{ .Values.db.user }}
-    password={{ .Values.db.password }}
-    host=mysql-kf
   health_check.sh: |
     mysqladmin status --defaults-extra-file=/mysql.cnf
 

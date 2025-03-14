@@ -24,23 +24,25 @@ spec:
         {{- toYaml .Values.db.podSecurityContext | nindent 8 }}
       serviceAccountName: mysql-kf
       volumes:
-        - name: mysql-init-scripts
-          configMap:
-            name: mysql-init-scripts
-        - name: mysql-config
-          configMap:
-            name: mysql-kf
-        # Add MySQL data mount (Fuse)
-        - name: mysql-fuse
+      - name: mysql-init-scripts
+        configMap:
+          name: mysql-init-scripts
+      - name: mysql-config
+        configMap:
+          name: mysql-kf
+      - name: mysql-kf-secret
+        secret:
+          secretName: mysql-kf-secret
+      - name: mysql-fuse
 {{- if .Values.storage.metadata.volumes.storageOverride }}
 {{ toYaml .Values.storage.metadata.volumes.storageOverride | nindent 10 }}
 {{- else }}
-          flexVolume:
-            driver: "v3io/fuse"
-            options:
-              container: {{ .Values.storage.metadata.containerName }}
-              subPath: {{ .Values.storage.metadata.subPath }}
-              accessKey: {{ .Values.configurations.credentials.accessKey }}
+        flexVolume:
+          driver: "v3io/fuse"
+          options:
+            container: {{ .Values.storage.metadata.containerName }}
+            subPath: {{ .Values.storage.metadata.subPath }}
+            accessKey: {{ .Values.configurations.credentials.accessKey }}
 {{- end }}
       initContainers:
       - name: init-mysql-cnf
@@ -49,9 +51,9 @@ spec:
           - /bin/sh
           - -c
           - |
-            echo "[client]" > /mysql-config.cnf
-            echo "user=$(cat /etc/mysql-kf-secret/username)" >> /mysql.cnf
-            echo "password=$(cat /etc/mysql-kf-secret/password)" >> /mysql.cnf
+            echo "[client]" > /mysql.cnf
+            echo "user=$(cat /mysql-kf-secret/username)" >> /mysql.cnf
+            echo "password=$(cat /mysql-kf-secret/password)" >> /mysql.cnf
             echo "host=mysql-kf" >> /mysql.cnf
         volumeMounts:
           - name: mysql-kf-secret
@@ -130,6 +132,8 @@ spec:
               mountPath: /etc/config/mysql
             - name: mysql-init-scripts
               mountPath: /etc/config/mysql/init-scripts
+            - name: mysql-cnf
+              mountPath: /mysql.cnf
           resources:
 {{ toYaml .Values.resources.mysql | indent 14 }}
 {{- with .Values.nodeSelector }}
