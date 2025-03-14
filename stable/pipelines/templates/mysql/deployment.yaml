@@ -107,13 +107,13 @@ spec:
               protocol: TCP
           livenessProbe:
             exec:
-              command: [ "/bin/bash", "/etc/config/mysql/health_check.sh" ]
+              command: ["mysqladmin", "--defaults-extra-file=/mysql.cnf", "ping", "-h", "127.0.0.1"]
             initialDelaySeconds: {{ .Values.configurations.mysql.spec.template.spec.containers.livenessProbe.initialDelaySeconds }}
             failureThreshold: {{ .Values.configurations.mysql.spec.template.spec.containers.livenessProbe.failureThreshold }}
             periodSeconds: {{ .Values.configurations.mysql.spec.template.spec.containers.livenessProbe.periodSeconds }}
           readinessProbe:
             exec:
-              command: [ "/bin/bash", "/etc/config/mysql/health_check.sh" ]
+              command: [ "mysqladmin", "--defaults-extra-file=/mysql.cnf", "ping", "-h", "127.0.0.1" ]
             initialDelaySeconds: {{ .Values.configurations.mysql.spec.template.spec.containers.readinessProbe.initialDelaySeconds }}
             failureThreshold: {{ .Values.configurations.mysql.spec.template.spec.containers.readinessProbe.failureThreshold }}
             periodSeconds: {{ .Values.configurations.mysql.spec.template.spec.containers.readinessProbe.periodSeconds }}
