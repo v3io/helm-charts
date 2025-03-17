@@ -19,6 +19,9 @@ spec:
         component: metadata-grpc-server
 {{ include "pipelines.commonLabels" . | indent 8 }}
     spec:
+      volumes:
+        - name: mysql-cnf
+          emptyDir: {}
       initContainers:
         - name: metadata-init
           env:
@@ -27,11 +30,6 @@ spec:
                 secretKeyRef:
                   name: mysql-kf-secret
                   key: username
-            - name: MYSQL_PWD
-              valueFrom:
-                secretKeyRef:
-                  name: mysql-kf-secret
-                  key: password
             - name: MYSQL_DATABASE
               valueFrom:
                 configMapKeyRef:
@@ -49,7 +47,7 @@ spec:
                   key: MYSQL_PORT
           command: [ "/bin/sh", "-xec" ]
           args:
-            - "mysqladmin status --user=${DBCONFIG_USER} --password=${MYSQL_PWD} --host=${MYSQL_HOST} --port=${MYSQL_PORT} --wait=10"
+            - "mysqladmin status --defaults-extra-file=/mysql.cnf --wait=10"
           image: {{ .Values.images.metadata.init.repository }}:{{ .Values.images.metadata.init.tag }}
           securityContext:
             allowPrivilegeEscalation: false
@@ -61,6 +59,11 @@ spec:
             capabilities:
               drop:
                 - ALL
+          volumeMounts:
+            - name: mysql-cnf
+              mountPath: /mysql.cnf
+              subPath: mysql.cnf
+              readOnly: true
           imagePullPolicy: {{ .Values.images.imagePullPolicy }}
       containers:
         - name: metadata-container

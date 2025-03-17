@@ -24,19 +24,30 @@ data:
 
     if [[ -f "${LOCK_FILE}" ]]; then
       echo "MySQL has already been initialized. Skipping..."
-      exit 0
+    #  exit 0
+    fi
+
+    if [[ -z "${DB_USER:-}" ]]; then
+      echo "Error: DB_USER environment variable is not set."
+      exit 1
+    fi
+
+    if [[ -z "${MYSQL_PWD:-}" ]]; then
+      echo "Error: MYSQL_PWD environment variable is not set."
+      exit 1
     fi
 
     if [[ -d "/var/lib/mysql" ]]; then
-      echo "Cleaning up conflicting files..."
+      echo "Old MySQL data found, cleaning up conflicting files..."
       rm -f /var/lib/mysql/ib_logfile* || echo "No old redo log files found"
       rm -rf /var/lib/mysql/sys || echo "/var/log/mysql/sys does not exist"
       rm -rf /var/lib/mysql/mysql/innodb_table_stats.ibd || echo "/var/log/mysql/mysql/innodb_table_stats.ibd does not exist"
-      echo "Starting old MySQL instance for data dump (using innodb_force_recovery=1)..."
-      mysqld --log-error-verbosity=3 --skip-grant-tables --innodb_force_recovery=1 --log-error="${LOG_FILE}" &>> "${LOG_FILE}" &
+
+      echo "Starting old MySQL instance for data dump..."
+      mysqld --log-error-verbosity=3 --skip-grant-tables --innodb_force_recovery=1 --datadir="/var/lib/mysql" --log-error="${LOG_FILE}" &>> "${LOG_FILE}" &
       PID=$!
 
-      echo "Waiting for MySQL to start..."
+      echo "Waiting for MySQL for data dump to start..."
       while true; do
         if ! kill -0 "${PID}" 2>/dev/null; then
           echo "MySQL process (PID ${PID}) is no longer running. Check ${LOG_FILE}.* for errors."
@@ -44,7 +55,7 @@ data:
         fi
 
         if mysqladmin ping --silent 2>/dev/null; then
-          echo "MySQL started successfully."
+          echo "MySQL for data dump started successfully."
           break
         fi
 
@@ -53,34 +64,40 @@ data:
       done
 
       echo "Dumping existing data to ${DUMP_FILE}..."
-      mysqldump -u "${DB_USER}" --all-databases > "${DUMP_FILE}" || echo "Failed to dump existing data" && cat "${LOG_FILE}".* 2>/dev/null
+      mysqldump -u "${DB_USER}" --all-databases > "${DUMP_FILE}" || echo "Failed to dump existing data" && cat "${LOG_FILE}".* 2>/dev/null && exit 1
+      echo "Existing data dumped to ${DUMP_FILE}"
 
       echo "Shutting down old MySQL..."
       mysqladmin shutdown
       wait "${PID}"
 
-      echo "Existing data dumped to ${DUMP_FILE}"
+      echo "Cleaning up old data..."
+      rm -rf /var/lib/mysql/*
+
     else
       echo "No existing MySQL directory found. Initializing new MySQL data directory..."
-      mysqld --initialize --log-error="${LOG_FILE}" --skip-grant-tables --init-file="${INIT_SCRIPT}" &>> "${LOG_FILE}"
+      mysqld --initialize --datadir="/var/lib/mysql" --log-error="${LOG_FILE}" --init-file="${INIT_SCRIPT}" &>> "${LOG_FILE}"
     fi
-
-    echo "Starting new MySQL instance..."
-    mysqld --datadir="/var/lib/mysql" --log-error="${LOG_FILE}" --skip-grant-tables --init-file="${INIT_SCRIPT}" &>> "${LOG_FILE}" &
-    NEW_PID=$!
-
-    echo "Waiting for the new MySQL instance to start..."
-    until mysqladmin ping --silent 2>/dev/null; do
-      sleep 1
-    done
 
     if [[ -f "${DUMP_FILE}" ]]; then
-      echo "Importing old data from ${DUMP_FILE}..."
-      mysql -u "${DB_USER}" < "${DUMP_FILE}"
-    fi
+      echo "Starting MySQL instance for importing old data..."
+      mysqld --initialize --datadir="/var/lib/mysql" --log-error="${LOG_FILE}" --init-file="${INIT_SCRIPT}" &>> "${LOG_FILE}" &
+      NEW_PID=$!
 
-    mysqladmin shutdown
-    wait "${NEW_PID}"
+      echo "Waiting for the new MySQL instance to start..."
+      until mysqladmin ping --silent 2>/dev/null; do
+        sleep 1
+      done
+
+        echo "Importing old data from ${DUMP_FILE}..."
+        mysql -u "${DB_USER}" < "${DUMP_FILE}"
+
+        echo "Dropping the mysql database to remove users and passwords..."
+        mysql -u "${DB_USER}" -e "DROP DATABASE mysql;"
+
+      mysqladmin shutdown
+      wait "${NEW_PID}"
+      fi
 
     touch "${LOCK_FILE}"
     echo "MySQL has been re-initialized and existing data (if any) has been imported."
@@ -93,5 +110,5 @@ data:
     echo "Starting MySQL ..."
     mysqld \
       --default-authentication-plugin=mysql_native_password \
-      --disable-log-bin \
+      --disable-log-bin
 {{- end }}
