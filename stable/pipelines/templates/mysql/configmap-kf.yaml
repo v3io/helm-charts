@@ -24,7 +24,7 @@ data:
 
     if [[ -f "${LOCK_FILE}" ]]; then
       echo "MySQL has already been initialized. Skipping..."
-    #  exit 0
+      exit 0
     fi
 
     if [[ -z "${DB_USER:-}" ]]; then

@@ -47,7 +47,7 @@ spec:
                   key: MYSQL_PORT
           command: [ "/bin/sh", "-xec" ]
           args:
-            - "mysqladmin status --defaults-extra-file=/mysql.cnf --wait=10"
+            - "mysqladmin --defaults-extra-file=/mysql.cnf status --wait=10"
           image: {{ .Values.images.metadata.init.repository }}:{{ .Values.images.metadata.init.tag }}
           securityContext:
             allowPrivilegeEscalation: false
