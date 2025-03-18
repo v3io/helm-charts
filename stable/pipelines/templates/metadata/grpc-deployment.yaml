@@ -22,7 +22,26 @@ spec:
       volumes:
         - name: mysql-cnf
           emptyDir: {}
+        - name: mysql-kf-secret
+          secret:
+            secretName: mysql-kf-secret
       initContainers:
+        - name: init-mysql-cnf
+          image: busybox
+          command:
+            - /bin/sh
+            - -c
+            - |
+              echo "[client]" > /config/mysql.cnf
+              echo "user=$(cat /mysql-kf-secret/username)" >> /config/mysql.cnf
+              echo "password=$(cat /mysql-kf-secret/password)" >> /config/mysql.cnf
+              echo "host=mysql-kf" >> /config/mysql.cnf
+          volumeMounts:
+            - name: mysql-cnf
+              mountPath: /config
+            - name: mysql-kf-secret
+              mountPath: /mysql-kf-secret
+              readOnly: true
         - name: metadata-init
           env:
             - name: DBCONFIG_USER
