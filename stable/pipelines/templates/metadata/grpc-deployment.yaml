@@ -122,6 +122,7 @@ spec:
                   "--mysql_config_host=$(MYSQL_HOST)",
                   "--mysql_config_password=$(DB_PASSWORD)",
                   "--mysql_config_user=$(DBCONFIG_USER)",
+                  "--mysql_config_port=$(MYSQL_PORT)",
                   "--enable_database_upgrade=true"
           ]
           ports:
