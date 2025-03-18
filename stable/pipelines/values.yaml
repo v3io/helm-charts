@@ -80,23 +80,23 @@ images:
     repository: gcr.io/ml-pipeline/workflow-controller
     tag: v3.4.17-license-compliance
   apiServer:
-    repository: gcr.io/ml-pipeline/api-server
-    tag: 2.3.0
+    repository: ghcr.io/kubeflow/kfp-api-server
+    tag: 2.4.1
   persistenceagent:
-    repository: gcr.io/ml-pipeline/persistenceagent
-    tag: 2.3.0
+    repository: ghcr.io/kubeflow/kfp-persistence-agent
+    tag: 2.4.1
   scheduledworkflow:
-    repository: gcr.io/ml-pipeline/scheduledworkflow
-    tag: 2.3.0
+    repository: ghcr.io/kubeflow/kfp-scheduled-workflow-controller
+    tag: 2.4.1
   ui:
-    repository: gcr.io/ml-pipeline/frontend
-    tag: 2.3.0
+    repository: ghcr.io/kubeflow/kfp-frontend
+    tag: 2.4.1
   viewerCrdController:
-    repository: gcr.io/ml-pipeline/viewer-crd-controller
-    tag: 2.3.0
+    repository: ghcr.io/kubeflow/kfp-viewer-crd-controller
+    tag: 2.4.1
   visualizationServer:
-    repository: gcr.io/ml-pipeline/visualization-server
-    tag: 2.3.0
+    repository: ghcr.io/kubeflow/kfp-visualization-server
+    tag: 2.4.1
   metadata:
     container:
       repository: gcr.io/tfx-oss-public/ml_metadata_store_server
