@@ -144,7 +144,11 @@ spec:
     {{- else }}
       affinity:
         podAffinity:
+          {{- if eq .Values.db.defaultAffinityType "preferred" }}
+          preferredDuringSchedulingIgnoredDuringExecution:
+          {{- else }}
           requiredDuringSchedulingIgnoredDuringExecution:
+          {{- end }}
             - labelSelector:
                 matchLabels:
                   {{- include "mlrun.api.selectorLabels" . | nindent 18 }}

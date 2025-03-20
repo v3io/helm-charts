@@ -430,6 +430,10 @@ db:
   ##
   affinity: {}
 
+  # When using the default affinity (run db pod on the api pod's node) and not overriding the above affinity value,
+  # choose whether the affinity is required or preferred
+  defaultAffinityType: "preferred"
+
   priorityClassName: ""
 
   podSecurityContext:
