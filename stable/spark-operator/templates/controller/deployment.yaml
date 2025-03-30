@@ -45,6 +45,7 @@ spec:
       {{- end }}
       {{- end }}
     spec:
+      hostNetwork: {{ .Values.controller.hostNetwork.enabled }}
       containers:
       - name: spark-operator-controller
         image: {{ include "spark-operator.image" . }}
