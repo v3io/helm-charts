@@ -150,13 +150,13 @@ spec:
               podAffinityTerm:
                 labelSelector:
                   matchLabels:
-                    {{- include "mlrun.api.selectorLabels" . | nindent 18 }}
+                    {{- include "mlrun.api.chief.selectorLabels" . | nindent 20 }}
                 topologyKey: "kubernetes.io/hostname"
           {{- else }}
           requiredDuringSchedulingIgnoredDuringExecution:
             - labelSelector:
                 matchLabels:
-                  {{- include "mlrun.api.selectorLabels" . | nindent 16 }}
+                  {{- include "mlrun.api.chief.selectorLabels" . | nindent 18 }}
               topologyKey: "kubernetes.io/hostname"
           {{- end }}
     {{- end }}
