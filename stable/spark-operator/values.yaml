@@ -204,9 +204,6 @@ controller:
       # -- Specifies the maximum delay duration for the workqueue rate limiter.
       duration: 6h
 
-  hostNetwork:
-    enabled: true
-
 webhook:
 
   # -- Specifies whether to enable webhook.
