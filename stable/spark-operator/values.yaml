@@ -49,6 +49,10 @@ image:
   pullSecrets: []
   # - name: <secret-name>
 
+ingressUrlFormat: ""
+
+priorityClassName: ""
+
 controller:
   # -- Number of replicas of controller.
   replicas: 1
@@ -69,6 +73,7 @@ controller:
     enable: true
     # -- Ingress URL format.
     # Required if `controller.uiIngress.enable` is true.
+    # Use ingressUrlFormat instead for provazio backward compatibility
     urlFormat: ""
 
   batchScheduler:
@@ -320,6 +325,9 @@ webhook:
     # -- The number of pods that must be available.
     # Require `webhook.replicas` to be greater than 1
     minAvailable: 1
+
+  hostNetwork:
+    enabled: true
 
 spark:
   # -- List of namespaces where to run spark jobs.

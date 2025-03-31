@@ -39,6 +39,7 @@ spec:
         {{- toYaml . | nindent 8 }}
       {{- end }}
     spec:
+      hostNetwork: {{ .Values.webhook.hostNetwork.enabled }}
       containers:
       - name: spark-operator-webhook
         image: {{ include "spark-operator.image" . }}
@@ -138,7 +139,7 @@ spec:
       tolerations:
         {{- toYaml . | nindent 8 }}
       {{- end }}
-      {{- with .Values.webhook.priorityClassName }}
+      {{- with (.Values.webhook.priorityClassName | default .Values.priorityClassName) }}
       priorityClassName: {{ . }}
       {{- end }}
       serviceAccountName: {{ include "spark-operator.webhook.serviceAccountName" . }}
