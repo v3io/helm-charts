@@ -144,11 +144,21 @@ spec:
     {{- else }}
       affinity:
         podAffinity:
+          {{- if eq .Values.db.defaultAffinityType "preferred" }}
+          preferredDuringSchedulingIgnoredDuringExecution:
+            - weight: 100
+              podAffinityTerm:
+                labelSelector:
+                  matchLabels:
+                    {{- include "mlrun.api.chief.selectorLabels" . | nindent 20 }}
+                topologyKey: "kubernetes.io/hostname"
+          {{- else }}
           requiredDuringSchedulingIgnoredDuringExecution:
             - labelSelector:
                 matchLabels:
-                  {{- include "mlrun.api.selectorLabels" . | nindent 18 }}
+                  {{- include "mlrun.api.chief.selectorLabels" . | nindent 18 }}
               topologyKey: "kubernetes.io/hostname"
+          {{- end }}
     {{- end }}
     {{- with .Values.db.tolerations }}
       tolerations:

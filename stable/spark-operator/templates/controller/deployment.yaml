@@ -45,7 +45,6 @@ spec:
       {{- end }}
       {{- end }}
     spec:
-      hostNetwork: {{ .Values.hostNetwork.enabled }}
       containers:
       - name: spark-operator-controller
         image: {{ include "spark-operator.image" . }}
@@ -70,7 +69,7 @@ spec:
         - --enable-ui-service=true
         {{- end }}
         {{- if .Values.controller.uiIngress.enable }}
-        {{- with .Values.controller.uiIngress.urlFormat }}
+        {{- with .Values.ingressUrlFormat }}
         - --ingress-url-format={{ . }}
         {{- end }}
         {{- end }}
@@ -165,7 +164,7 @@ spec:
       tolerations:
       {{- toYaml . | nindent 6 }}
       {{- end }}
-      {{- with .Values.controller.priorityClassName }}
+      {{- with (.Values.controller.priorityClassName | default .Values.priorityClassName) }}
       priorityClassName: {{ . }}
       {{- end }}
       serviceAccountName: {{ include "spark-operator.controller.serviceAccountName" . }}
