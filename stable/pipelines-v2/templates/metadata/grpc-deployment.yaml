@@ -1,0 +1,159 @@
+{{- if .Values.deployment.create }}
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: metadata-grpc-deployment
+  namespace: {{ .Release.Namespace }}
+  labels:
+    component: metadata-grpc-server
+{{ include "pipelines.commonLabels" . | indent 4 }}
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      component: metadata-grpc-server
+{{ include "pipelines.commonLabels" . | indent 6 }}
+  template:
+    metadata:
+      labels:
+        component: metadata-grpc-server
+{{ include "pipelines.commonLabels" . | indent 8 }}
+    spec:
+      volumes:
+        - name: mysql-cnf
+          emptyDir: {}
+        - name: mysql-kf-secret
+          secret:
+            secretName: mysql-kf-secret
+      initContainers:
+        - name: init-mysql-cnf
+          image: busybox
+          command:
+            - /bin/sh
+            - -c
+            - |
+              echo "[client]" > /config/mysql.cnf
+              echo "user=$(cat /mysql-kf-secret/username)" >> /config/mysql.cnf
+              echo "password=$(cat /mysql-kf-secret/password)" >> /config/mysql.cnf
+              echo "host=mysql-kf" >> /config/mysql.cnf
+          volumeMounts:
+            - name: mysql-cnf
+              mountPath: /config
+            - name: mysql-kf-secret
+              mountPath: /mysql-kf-secret
+              readOnly: true
+        - name: metadata-init
+          env:
+            - name: DBCONFIG_USER
+              valueFrom:
+                secretKeyRef:
+                  name: mysql-kf-secret
+                  key: username
+            - name: MYSQL_DATABASE
+              valueFrom:
+                configMapKeyRef:
+                  name: metadata-mysql-configmap
+                  key: MYSQL_DATABASE
+            - name: MYSQL_HOST
+              valueFrom:
+                configMapKeyRef:
+                  name: metadata-mysql-configmap
+                  key: MYSQL_HOST
+            - name: MYSQL_PORT
+              valueFrom:
+                configMapKeyRef:
+                  name: metadata-mysql-configmap
+                  key: MYSQL_PORT
+          command: [ "/bin/sh", "-xec" ]
+          args:
+            - "mysqladmin --defaults-extra-file=/mysql.cnf status --wait=10"
+          image: {{ .Values.images.metadata.init.repository }}:{{ .Values.images.metadata.init.tag }}
+          securityContext:
+            allowPrivilegeEscalation: false
+            seccompProfile:
+              type: RuntimeDefault
+            runAsNonRoot: true
+            runAsUser: 1000
+            runAsGroup: 0
+            capabilities:
+              drop:
+                - ALL
+          volumeMounts:
+            - name: mysql-cnf
+              mountPath: /mysql.cnf
+              subPath: mysql.cnf
+              readOnly: true
+          imagePullPolicy: {{ .Values.images.imagePullPolicy }}
+      containers:
+        - name: metadata-container
+          image: {{ .Values.images.metadata.container.repository }}:{{ .Values.images.metadata.container.tag }}
+          imagePullPolicy: {{ .Values.images.imagePullPolicy }}
+          env:
+            - name: MYSQL_DATABASE
+              valueFrom:
+                configMapKeyRef:
+                  name: metadata-mysql-configmap
+                  key: MYSQL_DATABASE
+            - name: MYSQL_HOST
+              valueFrom:
+                configMapKeyRef:
+                  name: metadata-mysql-configmap
+                  key: MYSQL_HOST
+            - name: MYSQL_PORT
+              valueFrom:
+                configMapKeyRef:
+                  name: metadata-mysql-configmap
+                  key: MYSQL_PORT
+
+            - name: DBCONFIG_USER
+              valueFrom:
+                secretKeyRef:
+                  name: mysql-kf-secret
+                  key: username
+            - name: DB_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: mysql-kf-secret
+                  key: password
+
+          command: [ "/bin/metadata_store_server" ]
+          args: [ "--grpc_port=8080",
+                  "--mysql_config_database=$(MYSQL_DATABASE)",
+                  "--mysql_config_host=$(MYSQL_HOST)",
+                  "--mysql_config_password=$(DB_PASSWORD)",
+                  "--mysql_config_user=$(DBCONFIG_USER)",
+                  "--mysql_config_port=$(MYSQL_PORT)",
+                  "--enable_database_upgrade=true"
+          ]
+          ports:
+            - name: grpc-api
+              containerPort: 8080
+          livenessProbe:
+            tcpSocket:
+              port: grpc-api
+            initialDelaySeconds: 3
+            periodSeconds: 5
+            timeoutSeconds: 2
+          readinessProbe:
+            tcpSocket:
+              port: grpc-api
+            initialDelaySeconds: 3
+            periodSeconds: 5
+            timeoutSeconds: 2
+      serviceAccountName: metadata-grpc-server
+{{- with .Values.nodeSelector }}
+      nodeSelector:
+{{ toYaml . | indent 8 }}
+{{- end }}
+{{- with .Values.tolerations }}
+      tolerations:
+{{ toYaml . | indent 8 }}
+{{- end }}
+{{- with .Values.affinity }}
+      affinity:
+{{ toYaml . | indent 8 }}
+{{- end }}
+{{- if .Values.priorityClassName }}
+      priorityClassName: {{ .Values.priorityClassName | quote }}
+{{- end }}
+{{- end }}

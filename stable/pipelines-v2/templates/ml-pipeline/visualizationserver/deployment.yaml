@@ -1,0 +1,82 @@
+{{- if .Values.deployment.create }}
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: ml-pipeline-visualizationserver
+  namespace: {{ .Release.Namespace }}
+  labels:
+    component: ml-pipeline-visualizationserver
+{{ include "pipelines.commonLabels" . | indent 4 }}
+spec:
+  selector:
+    matchLabels:
+      component: ml-pipeline-visualizationserver
+{{ include "pipelines.commonLabels" . | indent 6 }}
+  template:
+    metadata:
+      labels:
+        component: ml-pipeline-visualizationserver
+{{ include "pipelines.commonLabels" . | indent 8 }}
+
+      annotations:
+        cluster-autoscaler.kubernetes.io/safe-to-evict: "true"
+    spec:
+      containers:
+      - image: {{ .Values.images.visualizationServer.repository }}:{{ .Values.images.visualizationServer.tag }}
+        imagePullPolicy: {{ .Values.images.imagePullPolicy }}
+        name: ml-pipeline-visualizationserver
+        ports:
+        - containerPort: 8888
+        readinessProbe:
+          exec:
+            command:
+              - wget
+              - -q # quiet
+              - -S # show server response
+              - -O
+              - "-" # Redirect output to stdout
+              - http://localhost:8888/
+          initialDelaySeconds: 3
+          periodSeconds: 5
+          timeoutSeconds: 2
+        livenessProbe:
+          exec:
+            command:
+              - wget
+              - -q # quiet
+              - -S # show server response
+              - -O
+              - "-" # Redirect output to stdout
+              - http://localhost:8888/
+          initialDelaySeconds: 3
+          periodSeconds: 5
+          timeoutSeconds: 2
+        securityContext:
+          allowPrivilegeEscalation: false
+          seccompProfile:
+            type: RuntimeDefault
+          runAsNonRoot: true
+          runAsUser: 1000
+          runAsGroup: 0
+          capabilities:
+            drop:
+            - ALL
+        resources:
+{{ toYaml .Values.resources.visualizationServer | indent 10 }}
+      serviceAccountName: ml-pipeline-visualizationserver
+{{- with .Values.nodeSelector }}
+      nodeSelector:
+{{ toYaml . | indent 8 }}
+{{- end }}
+{{- with .Values.tolerations }}
+      tolerations:
+{{ toYaml . | indent 8 }}
+{{- end }}
+{{- with .Values.affinity }}
+      affinity:
+{{ toYaml . | indent 8 }}
+{{- end }}
+{{- if .Values.priorityClassName }}
+      priorityClassName: {{ .Values.priorityClassName | quote }}
+{{- end }}
+{{- end }}
