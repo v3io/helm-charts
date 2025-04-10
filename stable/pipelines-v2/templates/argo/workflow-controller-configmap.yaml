@@ -30,7 +30,6 @@ data:
   config: |
     {
       namespace: {{ .Release.Namespace }},
-      containerRuntimeExecutor: {{ .Values.configurations.argo.kfpContainerRuntimeExecutor }},
       artifactRepository:
       {
           s3: {
