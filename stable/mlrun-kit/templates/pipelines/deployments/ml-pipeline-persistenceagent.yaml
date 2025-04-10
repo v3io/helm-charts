@@ -4,6 +4,7 @@ kind: Deployment
 metadata:
   annotations:
     deployment.kubernetes.io/revision: "1"
+  generation: 1
   labels:
     app: ml-pipeline-persistenceagent
     application-crd-id: kubeflow-pipelines
@@ -25,6 +26,7 @@ spec:
     metadata:
       annotations:
         cluster-autoscaler.kubernetes.io/safe-to-evict: "true"
+      creationTimestamp: null
       labels:
         app: ml-pipeline-persistenceagent
         application-crd-id: kubeflow-pipelines
@@ -53,6 +55,7 @@ spec:
       restartPolicy: Always
       schedulerName: default-scheduler
       securityContext: {}
+      serviceAccount: ml-pipeline-persistenceagent
       serviceAccountName: ml-pipeline-persistenceagent
       terminationGracePeriodSeconds: 30
 {{- end -}}

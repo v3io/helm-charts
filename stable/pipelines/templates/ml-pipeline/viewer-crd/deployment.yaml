@@ -1,0 +1,56 @@
+{{- if .Values.deployment.create }}
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: ml-pipeline-viewer-crd
+  namespace: {{ .Release.Namespace }}
+  labels:
+    component: ml-pipeline-viewer-crd
+{{ include "pipelines.commonLabels" . | indent 4 }}
+spec:
+  selector:
+    matchLabels:
+      component: ml-pipeline-viewer-crd
+{{ include "pipelines.commonLabels" . | indent 6 }}
+  template:
+    metadata:
+      labels:
+        component: ml-pipeline-viewer-crd
+{{ include "pipelines.commonLabels" . | indent 8 }}
+    spec:
+      containers:
+      - image: {{ .Values.images.viewerCrdController.repository }}:{{ .Values.images.viewerCrdController.tag }}
+        imagePullPolicy: {{ .Values.images.imagePullPolicy }}
+        name: ml-pipeline-viewer-crd
+        env:
+        - name: MAX_NUM_VIEWERS
+          value: "50"
+{{- if .Values.storageMode.kind.v3io.enabled }}
+        - name: MINIO_NAMESPACE
+          valueFrom:
+            fieldRef:
+              fieldPath: metadata.namespace
+{{- end }}
+        - name: NAMESPACE
+          valueFrom:
+            fieldRef:
+              fieldPath: metadata.namespace
+        resources:
+{{ toYaml .Values.resources.viewerCRD | indent 10 }}
+      serviceAccountName: ml-pipeline-viewer-crd-service-account
+{{- with .Values.nodeSelector }}
+      nodeSelector:
+{{ toYaml . | indent 8 }}
+{{- end }}
+{{- with .Values.tolerations }}
+      tolerations:
+{{ toYaml . | indent 8 }}
+{{- end }}
+{{- with .Values.affinity }}
+      affinity:
+{{ toYaml . | indent 8 }}
+{{- end }}
+{{- if .Values.priorityClassName }}
+      priorityClassName: {{ .Values.priorityClassName | quote }}
+{{- end }}
+{{- end }}
