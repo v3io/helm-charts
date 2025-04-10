@@ -1,0 +1,17 @@
+{{- if .Values.deployment.create }}
+kind: Service
+apiVersion: v1
+metadata:
+  name: metadata-envoy-service
+  labels:
+    component: metadata-envoy
+{{ include "pipelines.commonLabels" . | indent 4 }}
+spec:
+  selector:
+    component: metadata-envoy
+  type: ClusterIP
+  ports:
+  - port: 9090
+    protocol: TCP
+    name: md-envoy
+{{- end }}

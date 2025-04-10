@@ -1,0 +1,16 @@
+{{- if .Values.rbac.create }}
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  namespace: {{ .Release.Namespace }}
+  name: mysql-init-scripts
+  labels:
+    component: mysql-kf
+{{ include "pipelines.commonLabels" . | indent 4 }}
+data:
+  create_user.sql: |
+    DROP USER IF EXISTS '${DB_USER}'@'%';
+    CREATE USER IF NOT EXISTS '${DB_USER}'@'%' IDENTIFIED WITH mysql_native_password BY '${MYSQL_PWD}';
+    GRANT ALL PRIVILEGES ON *.* TO '${DB_USER}'@'%';
+    FLUSH PRIVILEGES;
+{{- end }}
