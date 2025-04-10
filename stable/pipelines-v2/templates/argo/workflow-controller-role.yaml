@@ -46,6 +46,7 @@ rules:
   - workflowtemplates/finalizers
   - cronworkflows
   - workflowtasksets
+  - workflowtaskresults
   verbs:
   - get
   - list

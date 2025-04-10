@@ -30,8 +30,6 @@ data:
   config: |
     {
       namespace: {{ .Release.Namespace }},
-      executorImage: {{ .Values.images.argoexec.repository }}:{{ .Values.images.argoexec.tag }},
-      containerRuntimeExecutor: {{ .Values.configurations.argo.kfpContainerRuntimeExecutor }},
       artifactRepository:
       {
           s3: {
