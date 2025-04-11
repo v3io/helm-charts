@@ -33,8 +33,8 @@ data:
       done
     }
 
-    : "${DB_USER:?DB_USER must be set}"
-    : "${MYSQL_PWD:?MYSQL_PWD must be set}"
+    #: "${DB_USER:?DB_USER must be set}"
+    #: "${MYSQL_PWD:?MYSQL_PWD must be set}"
 
     readonly RAW_INIT_SCRIPT="/etc/config/mysql/init-scripts/create_user.sql"
     readonly INIT_SCRIPT="/tmp/create_user.sql"
@@ -44,67 +44,67 @@ data:
     readonly LOG_FILE="/tmp/mysql_log"
 
     if [[ -f "${LOCK_FILE}" ]]; then
-      echo "MySQL has already been upgraded. Exiting..."
+    #  echo "MySQL has already been upgraded. Exiting..."
       exit 0
     fi
 
-    sed -e "s|\${DB_USER}|${DB_USER}|g" \
-        -e "s|\${MYSQL_PWD}|${MYSQL_PWD}|g" \
-        "${RAW_INIT_SCRIPT}" > "${INIT_SCRIPT}"
+{{/*    sed -e "s|\${DB_USER}|${DB_USER}|g" \*/}}
+{{/*        -e "s|\${MYSQL_PWD}|${MYSQL_PWD}|g" \*/}}
+{{/*        "${RAW_INIT_SCRIPT}" > "${INIT_SCRIPT}"*/}}
 
-    if [[ ! -d "${DATA_DIR}/mysql" ]]; then
-      echo "No existing MySQL data found. Upgrade not required; initialization will occur on startup."
-      exit 0
-    fi
+{{/*    if [[ ! -d "${DATA_DIR}/mysql" ]]; then*/}}
+{{/*      echo "No existing MySQL data found. Upgrade not required; initialization will occur on startup."*/}}
+{{/*      exit 0*/}}
+{{/*    fi*/}}
 
-    echo "Old MySQL data detected. Cleaning up..."
-    rm -f "${DATA_DIR}/ib_logfile"* || echo "No old redo logs found"
-    rm -rf "${DATA_DIR}/sys" || echo "No sys directory found"
-    rm -rf "${DATA_DIR}/mysql/innodb_table_stats.ibd" || echo "innodb_table_stats.ibd not found"
+{{/*    echo "Old MySQL data detected. Cleaning up..."*/}}
+{{/*    rm -f "${DATA_DIR}/ib_logfile"* || echo "No old redo logs found"*/}}
+{{/*    rm -rf "${DATA_DIR}/sys" || echo "No sys directory found"*/}}
+{{/*    rm -rf "${DATA_DIR}/mysql/innodb_table_stats.ibd" || echo "innodb_table_stats.ibd not found"*/}}
 
-    echo "Starting temporary MySQL for data dump..."
-    mysqld --log-error-verbosity=3 --skip-grant-tables --innodb_force_recovery=1 \
-           --datadir="${DATA_DIR}" --log-error="${LOG_FILE}" &>> "${LOG_FILE}" &
-    OLD_MYSQL_PID=$!
+{{/*    echo "Starting temporary MySQL for data dump..."*/}}
+{{/*    mysqld --log-error-verbosity=3 --skip-grant-tables --innodb_force_recovery=1 \*/}}
+{{/*           --datadir="${DATA_DIR}" --log-error="${LOG_FILE}" &>> "${LOG_FILE}" &*/}}
+{{/*    OLD_MYSQL_PID=$!*/}}
 
-    echo "Waiting for MySQL to be ready for dump..."
-    wait_for_mysql "${OLD_MYSQL_PID}" "${LOG_FILE}"
+{{/*    echo "Waiting for MySQL to be ready for dump..."*/}}
+{{/*    wait_for_mysql "${OLD_MYSQL_PID}" "${LOG_FILE}"*/}}
 
-    echo "Dumping databases..."
-    if ! mysqldump -u "${DB_USER}" --all-databases > "${DUMP_FILE}"; then
-      echo "Data dump failed. Logs:"
-      cat "${LOG_FILE}.*" 2>/dev/null
-      mysqladmin shutdown
-      wait "${OLD_MYSQL_PID}"
-      exit 1
-    fi
-    echo "Data dumped to ${DUMP_FILE}"
+{{/*    echo "Dumping databases..."*/}}
+{{/*    if ! mysqldump -u "${DB_USER}" --all-databases > "${DUMP_FILE}"; then*/}}
+{{/*      echo "Data dump failed. Logs:"*/}}
+{{/*      cat "${LOG_FILE}.*" 2>/dev/null*/}}
+{{/*      mysqladmin shutdown*/}}
+{{/*      wait "${OLD_MYSQL_PID}"*/}}
+{{/*      exit 1*/}}
+{{/*    fi*/}}
+{{/*    echo "Data dumped to ${DUMP_FILE}"*/}}
 
-    echo "Shutting down temporary MySQL..."
-    mysqladmin shutdown
-    wait "${OLD_MYSQL_PID}"
+{{/*    echo "Shutting down temporary MySQL..."*/}}
+{{/*    mysqladmin shutdown*/}}
+{{/*    wait "${OLD_MYSQL_PID}"*/}}
 
     echo "Removing old data..."
     rm -rf "${DATA_DIR}"/*
 
-    echo "Starting MySQL for data import..."
-    mysqld --initialize --datadir="${DATA_DIR}" --log-error="${LOG_FILE}" --init-file="${INIT_SCRIPT}" &>> "${LOG_FILE}" &
-    NEW_MYSQL_PID=$!
-    echo "Waiting for MySQL to be ready for import..."
-    wait_for_mysql "${NEW_MYSQL_PID}" "${LOG_FILE}"
+{{/*    echo "Starting MySQL for data import..."*/}}
+{{/*    mysqld --initialize --datadir="${DATA_DIR}" --log-error="${LOG_FILE}" --init-file="${INIT_SCRIPT}" &>> "${LOG_FILE}" &*/}}
+{{/*    NEW_MYSQL_PID=$!*/}}
+{{/*    echo "Waiting for MySQL to be ready for import..."*/}}
+{{/*    wait_for_mysql "${NEW_MYSQL_PID}" "${LOG_FILE}"*/}}
 
-    echo "Importing data..."
-    mysql -u "${DB_USER}" < "${DUMP_FILE}"
-    echo "Dropping mysql database..."
-    mysql -u "${DB_USER}" -e "DROP DATABASE mysql;"
+{{/*    echo "Importing data..."*/}}
+{{/*    mysql -u "${DB_USER}" < "${DUMP_FILE}"*/}}
+{{/*    echo "Dropping mysql database..."*/}}
+{{/*    mysql -u "${DB_USER}" -e "DROP DATABASE mysql;"*/}}
 
-    echo "Shutting down MySQL after import..."
-    mysqladmin shutdown
-    wait "${NEW_MYSQL_PID}"
+{{/*    echo "Shutting down MySQL after import..."*/}}
+{{/*    mysqladmin shutdown*/}}
+{{/*    wait "${NEW_MYSQL_PID}"*/}}
 
     touch "${LOCK_FILE}"
-    echo "MySQL upgrade completed. Data imported."
-    rm -f "${LOG_FILE}" || true
+    #echo "MySQL upgrade completed. Data imported."
+    #rm -f "${LOG_FILE}" || true
 
   start-mysql.sh: |
     #!/usr/bin/env bash
