@@ -9,6 +9,14 @@ metadata:
 {{ include "pipelines.commonLabels" . | indent 4 }}
 rules:
 - apiGroups:
+  - coordination.k8s.io
+  resources:
+  - leases
+  verbs:
+  - create
+  - get
+  - update
+- apiGroups:
   - ""
   resources:
   - pods
@@ -47,6 +55,7 @@ rules:
   - cronworkflows
   - workflowtasksets
   - workflowtaskresults
+  - workflowartifactgctasks
   verbs:
   - get
   - list

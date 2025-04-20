@@ -1,5 +1,5 @@
 crd:
-  create: false
+  create: true
 deployment:
   create: true
 rbac:
@@ -176,3 +176,7 @@ db:
     #   - ALL
     # readOnlyRootFilesystem: true
   # runAsNonRoot: true
+
+managedstorage:
+  enabled: false
+  gcsBucketName: ""
