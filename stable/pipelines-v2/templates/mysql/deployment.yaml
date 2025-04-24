@@ -18,8 +18,6 @@ spec:
         component: mysql-kf
 {{ include "pipelines.commonLabels" . | indent 8 }}
     spec:
-      serviceAccountName: mysql-kf
-
       securityContext:
         {{- toYaml .Values.db.podSecurityContext | nindent 8 }}
       serviceAccountName: mysql-kf
