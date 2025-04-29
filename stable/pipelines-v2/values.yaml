@@ -110,6 +110,9 @@ images:
   metadataWriter:
       repository: ghcr.io/kubeflow/kfp-metadata-writer
       tag: 2.4.1
+  mysql_legacy:
+    repository: mysql
+    tag: 5.6
   mysql:
     repository: gcr.io/ml-pipeline/mysql
     tag: 8.0.26

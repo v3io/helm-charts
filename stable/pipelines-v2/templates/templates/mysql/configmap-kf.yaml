@@ -114,7 +114,7 @@ data:
       --disable-log-bin
     )
 
-    if [[ ! -d "${DATA_DIR}" ]]; then
+    if [[ ! -d "${DATA_DIR}/mysql" ]]; then
       echo "Data directory not found. Initializing MySQL..."
       MYSQLD_OPTS=(--initialize "${MYSQLD_OPTS[@]}")
     else
