@@ -88,7 +88,7 @@ Create the name of the secret to be used by webhook
 Create the name of the service to be used by webhook
 */}}
 {{- define "spark-operator.webhook.serviceName" -}}
-{{ include "spark-operator.webhook.name" . }}-svc
+{{ include "spark-operator.webhook.name" . }}
 {{- end -}}
 
 {{/*
