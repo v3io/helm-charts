@@ -49,7 +49,7 @@ spec:
 
       initContainers:
       - name: init-mysql-cnf
-        image: busybox
+        image: {{ .Values.images.busybox.repository }}:{{ .Values.images.busybox.tag }}
         imagePullPolicy: IfNotPresent
         command:
           - /bin/sh

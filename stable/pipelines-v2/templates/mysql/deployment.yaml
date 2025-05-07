@@ -49,7 +49,7 @@ spec:
 
       initContainers:
       - name: init-mysql-cnf
-        image: busybox
+        image: {{ .Values.images.busybox.repository }}:{{ .Values.images.busybox.tag }}
         imagePullPolicy: IfNotPresent
         command:
           - /bin/sh
@@ -67,7 +67,7 @@ spec:
             mountPath: /config
 
       - name: dump-old-mysql
-        image: {{ .Values.images.mysql_legacy.repository }}:{{ .Values.images.mysql_legacy.tag }}
+        image: {{ .Values.images.mysqlLegacy.repository }}:{{ .Values.images.mysqlLegacy.tag }}
         imagePullPolicy: IfNotPresent
         resources:
 {{ toYaml .Values.resources.mysql | indent 12 }}
