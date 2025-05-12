@@ -73,6 +73,9 @@ configurations:
 # updated versions can be taken from here: https://github.com/kubeflow/pipelines/blob/master/manifests/kustomize/base/kustomization.yaml
 images:
   imagePullPolicy: IfNotPresent
+  busybox:
+    repository: busybox
+    tag: 1.37.0
   argoexec:
     repository: gcr.io/ml-pipeline/argoexec
     tag: v3.4.17-license-compliance
