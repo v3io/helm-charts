@@ -24,7 +24,7 @@ spec:
       volumes:
       - name: mysql-init-scripts
         configMap:
-          name: mysql-kf
+          name: mysql-init-scripts
       - name: mysql-config
         configMap:
           name: mysql-kf
@@ -44,13 +44,9 @@ spec:
             subPath: {{ .Values.storage.metadata.subPath }}
             accessKey: {{ .Values.configurations.credentials.accessKey }}
 {{- end }}
-      - name: dump-volume
-        emptyDir: {}
-
       initContainers:
       - name: init-mysql-cnf
-        image: {{ .Values.images.busybox.repository }}:{{ .Values.images.busybox.tag }}
-        imagePullPolicy: IfNotPresent
+        image: busybox
         command:
           - /bin/sh
           - -c
@@ -65,114 +61,82 @@ spec:
             readOnly: true
           - name: mysql-cnf
             mountPath: /config
-
-      - name: dump-old-mysql
-        image: {{ .Values.images.mysqlLegacy.repository }}:{{ .Values.images.mysqlLegacy.tag }}
-        imagePullPolicy: IfNotPresent
+      - name: init
+        image: {{ .Values.images.mysql.repository }}:{{ .Values.images.mysql.tag }}
+        imagePullPolicy: {{ .Values.images.imagePullPolicy }}
         resources:
 {{ toYaml .Values.resources.mysql | indent 12 }}
-        command:
-          - /bin/bash
-          - /etc/config/mysql/init-scripts/dump-or-skip.sh
         env:
-          - name: DB_USER
-            valueFrom:
-              secretKeyRef:
-                name: mysql-kf-secret
-                key: username
-          - name: MYSQL_PWD
-            valueFrom:
-              secretKeyRef:
-                name: mysql-kf-secret
-                key: password
+            - name: DB_USER
+              valueFrom:
+                secretKeyRef:
+                  name: mysql-kf-secret
+                  key: username
+            - name: MYSQL_PWD
+              valueFrom:
+                secretKeyRef:
+                  name: mysql-kf-secret
+                  key: password
+
+        command: [ "/bin/bash", "/etc/config/mysql/upgrade_mysql_8.0.26.sh" ]
         securityContext:
 {{ toYaml .Values.db.securityContext | indent 14 }}
-        volumeMounts:
-          - name: mysql-fuse
-            mountPath: "/var/lib/mysql"
-          - name: mysql-init-scripts
-            mountPath: /etc/config/mysql/init-scripts
-          - name: dump-volume
-            mountPath: /dump
-          - name: mysql-cnf
-            mountPath: /mysql.cnf
-            subPath: mysql.cnf
-            readOnly: true
-
-      - name: import-into-new-mysql
-        image: {{ .Values.images.mysql.repository }}:{{ .Values.images.mysql.tag }}
-        imagePullPolicy: {{ .Values.images.imagePullPolicy }}
-        command:
-          - /bin/bash
-          - /etc/config/mysql/init-scripts/import-if-dump-done.sh
-        env:
-          - name: DB_USER
-            valueFrom:
-              secretKeyRef:
-                name: mysql-kf-secret
-                key: username
-          - name: MYSQL_PWD
-            valueFrom:
-              secretKeyRef:
-                name: mysql-kf-secret
-                key: password
-        volumeMounts:
-          - name: mysql-fuse
-            mountPath: "/var/lib/mysql"
-          - name: mysql-init-scripts
-            mountPath: /etc/config/mysql/init-scripts
-          - name: dump-volume
-            mountPath: /dump
-          - name: mysql-cnf
-            mountPath: /mysql.cnf
-            subPath: mysql.cnf
-            readOnly: true
-
-      containers:
-      - name: {{ .Values.configurations.mysql.spec.template.spec.containers.name }}
-        securityContext:
-{{ toYaml .Values.db.securityContext | indent 14 }}
-        image: {{ .Values.images.mysql.repository }}:{{ .Values.images.mysql.tag }}
-        imagePullPolicy: {{ .Values.images.imagePullPolicy }}
-        command: [ "/bin/bash", "/etc/config/mysql/start-mysql.sh" ]
-        ports:
-          - name: mysql-kf
-            containerPort: 3306
-            protocol: TCP
-        livenessProbe:
-          exec:
-            command: ["mysqladmin","--defaults-extra-file=/mysql.cnf","ping","-h","127.0.0.1"]
-          initialDelaySeconds: {{ .Values.configurations.mysql.spec.template.spec.containers.livenessProbe.initialDelaySeconds }}
-          failureThreshold: {{ .Values.configurations.mysql.spec.template.spec.containers.livenessProbe.failureThreshold }}
-          periodSeconds: {{ .Values.configurations.mysql.spec.template.spec.containers.livenessProbe.periodSeconds }}
-        readinessProbe:
-          exec:
-            command: ["mysqladmin","--defaults-extra-file=/mysql.cnf","ping","-h","127.0.0.1"]
-          initialDelaySeconds: {{ .Values.configurations.mysql.spec.template.spec.containers.readinessProbe.initialDelaySeconds }}
-          failureThreshold: {{ .Values.configurations.mysql.spec.template.spec.containers.readinessProbe.failureThreshold }}
-          periodSeconds: {{ .Values.configurations.mysql.spec.template.spec.containers.readinessProbe.periodSeconds }}
-        env:
-          - name: DB_USER
-            valueFrom:
-              secretKeyRef:
-                name: mysql-kf-secret
-                key: username
-          - name: MYSQL_PWD
-            valueFrom:
-              secretKeyRef:
-                name: mysql-kf-secret
-                key: password
         volumeMounts:
           - name: mysql-fuse
             mountPath: "/var/lib/mysql"
           - name: mysql-config
             mountPath: /etc/config/mysql
-          - name: mysql-init-scripts
-            mountPath: /etc/config/mysql/init-scripts
           - name: mysql-cnf
             mountPath: /mysql.cnf
             subPath: mysql.cnf
-        resources:
+            readOnly: true
+          - name: mysql-init-scripts
+            mountPath: /etc/config/mysql/init-scripts
+      containers:
+        - name: {{ .Values.configurations.mysql.spec.template.spec.containers.name }}
+          securityContext:
+{{ toYaml .Values.db.securityContext | indent 14 }}
+          image: {{ .Values.images.mysql.repository }}:{{ .Values.images.mysql.tag }}
+          imagePullPolicy: {{ .Values.images.imagePullPolicy }}
+          command: [ "/bin/bash", "/etc/config/mysql/start-mysql.sh" ]
+          ports:
+            - name: mysql-kf
+              containerPort: 3306
+              protocol: TCP
+          livenessProbe:
+            exec:
+              command: ["mysqladmin", "--defaults-extra-file=/mysql.cnf", "ping", "-h", "127.0.0.1"]
+            initialDelaySeconds: {{ .Values.configurations.mysql.spec.template.spec.containers.livenessProbe.initialDelaySeconds }}
+            failureThreshold: {{ .Values.configurations.mysql.spec.template.spec.containers.livenessProbe.failureThreshold }}
+            periodSeconds: {{ .Values.configurations.mysql.spec.template.spec.containers.livenessProbe.periodSeconds }}
+          readinessProbe:
+            exec:
+              command: [ "mysqladmin", "--defaults-extra-file=/mysql.cnf", "ping", "-h", "127.0.0.1" ]
+            initialDelaySeconds: {{ .Values.configurations.mysql.spec.template.spec.containers.readinessProbe.initialDelaySeconds }}
+            failureThreshold: {{ .Values.configurations.mysql.spec.template.spec.containers.readinessProbe.failureThreshold }}
+            periodSeconds: {{ .Values.configurations.mysql.spec.template.spec.containers.readinessProbe.periodSeconds }}
+          env:
+            - name: DB_USER
+              valueFrom:
+                secretKeyRef:
+                  name: mysql-kf-secret
+                  key: username
+            - name: MYSQL_PWD
+              valueFrom:
+                secretKeyRef:
+                  name: mysql-kf-secret
+                  key: password
+          volumeMounts:
+            - name: mysql-fuse
+              mountPath: "/var/lib/mysql"
+            - name: mysql-config
+              mountPath: /etc/config/mysql
+            - name: mysql-init-scripts
+              mountPath: /etc/config/mysql/init-scripts
+            - name: mysql-cnf
+              mountPath: /mysql.cnf
+              subPath: mysql.cnf
+          resources:
 {{ toYaml .Values.resources.mysql | indent 14 }}
 {{- with .Values.nodeSelector }}
       nodeSelector:
