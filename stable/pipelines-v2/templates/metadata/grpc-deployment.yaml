@@ -27,7 +27,7 @@ spec:
             secretName: mysql-kf-secret
       initContainers:
         - name: init-mysql-cnf
-          image: busybox
+          image: {{ .Values.images.busybox.repository }}:{{ .Values.images.busybox.tag }}
           command:
             - /bin/sh
             - -c
