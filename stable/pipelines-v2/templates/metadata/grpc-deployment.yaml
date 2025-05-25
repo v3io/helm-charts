@@ -140,7 +140,10 @@ spec:
             initialDelaySeconds: 3
             periodSeconds: 5
             timeoutSeconds: 2
+          resources:
+{{ toYaml .Values.resources.metadata | indent 12 }}
       serviceAccountName: metadata-grpc-server
+
 {{- with .Values.nodeSelector }}
       nodeSelector:
 {{ toYaml . | indent 8 }}
