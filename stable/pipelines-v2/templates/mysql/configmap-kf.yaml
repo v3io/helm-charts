@@ -16,7 +16,7 @@ data:
 
   dump-or-skip.sh: |
     #!/usr/bin/env bash
-    set -xeuo pipefail
+    set -euo pipefail
 
     : "${DB_USER:?DB_USER must be set}"
     : "${MYSQL_PWD:?MYSQL_PWD must be set}"
@@ -57,7 +57,7 @@ data:
 
   import-if-dump-done.sh: |
     #!/usr/bin/env bash
-    set -xeuo pipefail
+    set -euo pipefail
 
     : "${DB_USER:?DB_USER must be set}"
     : "${MYSQL_PWD:?MYSQL_PWD must be set}"
@@ -127,7 +127,9 @@ data:
         "${RAW_INIT_SCRIPT}" > "${INIT_SCRIPT}"
 
     MYSQLD_OPTS=(
-      --default-authentication-plugin=mysql_native_password
+      --authentication-policy=mysql_native_password
+      --mysql-native-password=ON
+      --disable-log-bin
       --datadir="${DATA_DIR}"
       --socket="${SOCKET}"
       --init-file="${INIT_SCRIPT}"
