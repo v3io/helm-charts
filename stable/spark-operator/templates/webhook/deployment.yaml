@@ -104,12 +104,12 @@ spec:
         {{- end }}
         livenessProbe:
           httpGet:
-            port: 8081
+            port: 48081
             scheme: HTTP
             path: /healthz
         readinessProbe:
           httpGet:
-            port: 8081
+            port: 48081
             scheme: HTTP
             path: /readyz
         {{- with .Values.webhook.securityContext }}
