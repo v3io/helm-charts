@@ -326,6 +326,7 @@ webhook:
     # Require `webhook.replicas` to be greater than 1
     minAvailable: 1
 
+  # IG-23489
   hostNetwork:
     enabled: true
 
