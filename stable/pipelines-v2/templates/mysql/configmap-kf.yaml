@@ -85,9 +85,17 @@ data:
 
     rm -rf "${DATA_DIR}"
     mkdir -p "${DATA_DIR}"
-    mysqld --initialize-insecure \
-           --datadir="${DATA_DIR}" \
-           --init-file="${INIT_SCRIPT}"
+
+    MYSQLD_OPTS=(
+      --authentication-policy=mysql_native_password
+      --mysql-native-password=ON
+      --disable-log-bin
+      --datadir="${DATA_DIR}"
+      --socket="${SOCKET}"
+      --init-file="${INIT_SCRIPT}"
+      --initialize
+    )
+    mysqld "${MYSQLD_OPTS[@]}"
     echo "Initialized MySQL data directory."
 
     mysqld --datadir="${DATA_DIR}" \
@@ -137,7 +145,7 @@ data:
 
     if [[ ! -d "${DATA_DIR}/mysql" ]]; then
       mkdir -p "${DATA_DIR}"
-      mysqld --initialize-insecure --datadir="${DATA_DIR}"
+      mysqld --initialize --datadir="${DATA_DIR}"
       exec mysqld "${MYSQLD_OPTS[@]}"
     fi
 
