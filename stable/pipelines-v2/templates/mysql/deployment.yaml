@@ -14,6 +14,8 @@ spec:
 {{ include "pipelines.commonLabels" . | indent 6 }}
   template:
     metadata:
+      annotations:
+        checksum/mysql-kf-secret: {{ (lookup "v1" "Secret" .Release.Namespace "mysql-kf-secret").data | default dict | toJson | sha256sum }}
       labels:
         component: mysql-kf
 {{ include "pipelines.commonLabels" . | indent 8 }}
@@ -25,14 +27,12 @@ spec:
       - name: mysql-init-scripts
         configMap:
           name: mysql-kf
-      - name: mysql-config
-        configMap:
-          name: mysql-kf
       - name: mysql-kf-secret
         secret:
           secretName: mysql-kf-secret
-      - name: mysql-cnf
-        emptyDir: {}
+          items:
+            - key: mysql.cnf
+              path: mysql.cnf
       - name: mysql-fuse
 {{- if .Values.storage.metadata.volumes.storageOverride }}
 {{ toYaml .Values.storage.metadata.volumes.storageOverride | nindent 10 }}
@@ -48,24 +48,6 @@ spec:
         emptyDir: {}
 
       initContainers:
-      - name: init-mysql-cnf
-        image: {{ .Values.images.busybox.repository }}:{{ .Values.images.busybox.tag }}
-        imagePullPolicy: IfNotPresent
-        command:
-          - /bin/sh
-          - -c
-          - |
-            echo "[client]" > /config/mysql.cnf
-            echo "user=$(cat /mysql-kf-secret/username)" >> /config/mysql.cnf
-            echo "password=$(cat /mysql-kf-secret/password)" >> /config/mysql.cnf
-            echo "host=mysql-kf" >> /config/mysql.cnf
-        volumeMounts:
-          - name: mysql-kf-secret
-            mountPath: /mysql-kf-secret
-            readOnly: true
-          - name: mysql-cnf
-            mountPath: /config
-
       - name: dump-old-mysql
         image: {{ .Values.images.mysqlLegacy.repository }}:{{ .Values.images.mysqlLegacy.tag }}
         imagePullPolicy: IfNotPresent
@@ -74,17 +56,6 @@ spec:
         command:
           - /bin/bash
           - /etc/config/mysql/init-scripts/dump-or-skip.sh
-        env:
-          - name: DB_USER
-            valueFrom:
-              secretKeyRef:
-                name: mysql-kf-secret
-                key: username
-          - name: MYSQL_PWD
-            valueFrom:
-              secretKeyRef:
-                name: mysql-kf-secret
-                key: password
         securityContext:
 {{ toYaml .Values.db.securityContext | indent 14 }}
         volumeMounts:
@@ -94,9 +65,8 @@ spec:
             mountPath: /etc/config/mysql/init-scripts
           - name: dump-volume
             mountPath: /dump
-          - name: mysql-cnf
-            mountPath: /mysql.cnf
-            subPath: mysql.cnf
+          - name: mysql-kf-secret
+            mountPath: /run/secrets/mysql
             readOnly: true
 
       - name: import-into-new-mysql
@@ -123,9 +93,8 @@ spec:
             mountPath: /etc/config/mysql/init-scripts
           - name: dump-volume
             mountPath: /dump
-          - name: mysql-cnf
-            mountPath: /mysql.cnf
-            subPath: mysql.cnf
+          - name: mysql-kf-secret
+            mountPath: /run/secrets/mysql
             readOnly: true
 
       containers:
@@ -134,20 +103,22 @@ spec:
 {{ toYaml .Values.db.securityContext | indent 14 }}
         image: {{ .Values.images.mysql.repository }}:{{ .Values.images.mysql.tag }}
         imagePullPolicy: {{ .Values.images.imagePullPolicy }}
-        command: [ "/bin/bash", "/etc/config/mysql/start-mysql.sh" ]
+        command:
+          - /bin/bash
+          - /etc/config/mysql/init-scripts/start-mysql.sh
         ports:
           - name: mysql-kf
             containerPort: 3306
             protocol: TCP
         livenessProbe:
           exec:
-            command: ["mysqladmin","--defaults-extra-file=/mysql.cnf","ping","-h","127.0.0.1"]
+            command: ["mysqladmin","--defaults-extra-file=/run/secrets/mysql/mysql.cnf","ping","-h","127.0.0.1"]
           initialDelaySeconds: {{ .Values.configurations.mysql.spec.template.spec.containers.livenessProbe.initialDelaySeconds }}
           failureThreshold: {{ .Values.configurations.mysql.spec.template.spec.containers.livenessProbe.failureThreshold }}
           periodSeconds: {{ .Values.configurations.mysql.spec.template.spec.containers.livenessProbe.periodSeconds }}
         readinessProbe:
           exec:
-            command: ["mysqladmin","--defaults-extra-file=/mysql.cnf","ping","-h","127.0.0.1"]
+            command: ["mysqladmin","--defaults-extra-file=/run/secrets/mysql/mysql.cnf","ping","-h","127.0.0.1"]
           initialDelaySeconds: {{ .Values.configurations.mysql.spec.template.spec.containers.readinessProbe.initialDelaySeconds }}
           failureThreshold: {{ .Values.configurations.mysql.spec.template.spec.containers.readinessProbe.failureThreshold }}
           periodSeconds: {{ .Values.configurations.mysql.spec.template.spec.containers.readinessProbe.periodSeconds }}
@@ -165,13 +136,11 @@ spec:
         volumeMounts:
           - name: mysql-fuse
             mountPath: "/var/lib/mysql"
-          - name: mysql-config
-            mountPath: /etc/config/mysql
           - name: mysql-init-scripts
             mountPath: /etc/config/mysql/init-scripts
-          - name: mysql-cnf
-            mountPath: /mysql.cnf
-            subPath: mysql.cnf
+          - name: mysql-kf-secret
+            mountPath: /run/secrets/mysql
+            readOnly: true
         resources:
 {{ toYaml .Values.resources.mysql | indent 14 }}
 {{- with .Values.nodeSelector }}

@@ -18,9 +18,6 @@ data:
     #!/usr/bin/env bash
     set -euo pipefail
 
-    : "${DB_USER:?DB_USER must be set}"
-    : "${MYSQL_PWD:?MYSQL_PWD must be set}"
-
     readonly BASE_DIR="/var/lib/mysql"
     readonly DATA_DIR="${BASE_DIR}/data"
     readonly DUMP_FILE="${BASE_DIR}/dump/pre_upgrade_dump.sql"
@@ -65,10 +62,11 @@ data:
     readonly BASE_DIR="/var/lib/mysql"
     readonly DATA_DIR="${BASE_DIR}/data"
     readonly DUMP_FILE="${BASE_DIR}/dump/pre_upgrade_dump.sql"
-    readonly LOCK_FILE="${BASE_DIR}/.lock_restore_mysql_5.6_to_8.0.26"
+    readonly LOCK_FILE="${BASE_DIR}/.lock_restore_mysql_5.6_to_8.4"
+    readonly SOCKET="/var/run/mysqld/mysqld.sock"
+    readonly SECRET_FILE="/run/secrets/mysql/mysql.cnf"
     readonly RAW_INIT_SCRIPT="/etc/config/mysql/init-scripts/create_user.sql"
     readonly INIT_SCRIPT="/tmp/create_user.sql"
-    readonly SOCKET="/var/run/mysqld/mysqld.sock"
 
     if [[ -f "${LOCK_FILE}" ]]; then
       echo "Already imported; skipping."
@@ -88,34 +86,31 @@ data:
     mkdir -p "${DATA_DIR}"
 
     MYSQLD_OPTS=(
-      --authentication-policy=mysql_native_password
       --mysql-native-password=ON
-      --disable-log-bin
+      --skip-log-bin
       --datadir="${DATA_DIR}"
       --socket="${SOCKET}"
       --init-file="${INIT_SCRIPT}"
-      --initialize
+
     )
-    mysqld "${MYSQLD_OPTS[@]}"
+    mysqld "${MYSQLD_OPTS[@]}" --initialize-insecure
     echo "Initialized MySQL data directory."
 
-    mysqld --datadir="${DATA_DIR}" \
-           --init-file="${INIT_SCRIPT}" \
-           --socket /var/run/mysqld/mysqld.sock &
-
+    mysqld "${MYSQLD_OPTS[@]}" &
     NEW_PID=$!
 
-    until mysqladmin -u ${DB_USER} -p"${MYSQL_PWD}" --socket /var/run/mysqld/mysqld.sock ping; do
+    until mysqladmin --defaults-extra-file="${SECRET_FILE}" --socket "${SOCKET}" ping; do
       sleep 1
     done
     mysql \
-      -u "${DB_USER}" -p"${MYSQL_PWD}" \
-      --socket /var/run/mysqld/mysqld.sock \
+      --defaults-extra-file="${SECRET_FILE}" \
+      --socket "${SOCKET}" \
       --execute="CREATE DATABASE IF NOT EXISTS mlpipeline;"
 
-    mysql -u ${DB_USER} -p"${MYSQL_PWD}" --socket /var/run/mysqld/mysqld.sock mlpipeline < "${DUMP_FILE}"
-    mysqladmin -u ${DB_USER} -p"${MYSQL_PWD}" --socket /var/run/mysqld/mysqld.sock shutdown
+    mysql --defaults-extra-file="${SECRET_FILE}" --socket "${SOCKET}" mlpipeline < "${DUMP_FILE}"
+    mysqladmin --defaults-extra-file="${SECRET_FILE}" --socket "${SOCKET}" shutdown
     wait "${NEW_PID}"
+    touch ${LOCK_FILE}
     echo "Import complete."
 
   start-mysql.sh: |
@@ -136,9 +131,8 @@ data:
         "${RAW_INIT_SCRIPT}" > "${INIT_SCRIPT}"
 
     MYSQLD_OPTS=(
-      --authentication-policy=mysql_native_password
       --mysql-native-password=ON
-      --disable-log-bin
+      --skip-log-bin
       --datadir="${DATA_DIR}"
       --socket="${SOCKET}"
       --init-file="${INIT_SCRIPT}"
@@ -146,8 +140,7 @@ data:
 
     if [[ ! -d "${DATA_DIR}/mysql" ]]; then
       mkdir -p "${DATA_DIR}"
-      mysqld --initialize --datadir="${DATA_DIR}"
-      exec mysqld "${MYSQLD_OPTS[@]}"
+      mysqld --initialize-insecure --datadir="${DATA_DIR}"
     fi
 
     exec mysqld "${MYSQLD_OPTS[@]}"
