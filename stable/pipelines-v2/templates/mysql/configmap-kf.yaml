@@ -68,6 +68,7 @@ data:
     readonly LOCK_FILE="${BASE_DIR}/.lock_restore_mysql_5.6_to_8.0.26"
     readonly RAW_INIT_SCRIPT="/etc/config/mysql/init-scripts/create_user.sql"
     readonly INIT_SCRIPT="/tmp/create_user.sql"
+    readonly SOCKET="/var/run/mysqld/mysqld.sock"
 
     if [[ -f "${LOCK_FILE}" ]]; then
       echo "Already imported; skipping."
