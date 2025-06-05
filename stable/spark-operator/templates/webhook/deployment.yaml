@@ -59,6 +59,7 @@ spec:
         - --namespaces={{ . | join "," }}
         {{- end }}
         {{- end }}
+        - --health-probe-bind-address=:48081
         - --webhook-secret-name={{ include "spark-operator.webhook.secretName" . }}
         - --webhook-secret-namespace={{ .Release.Namespace }}
         - --webhook-svc-name={{ include "spark-operator.webhook.serviceName" . }}
@@ -104,12 +105,12 @@ spec:
         {{- end }}
         livenessProbe:
           httpGet:
-            port: 8081
+            port: 48081
             scheme: HTTP
             path: /healthz
         readinessProbe:
           httpGet:
-            port: 8081
+            port: 48081
             scheme: HTTP
             path: /readyz
         {{- with .Values.webhook.securityContext }}
