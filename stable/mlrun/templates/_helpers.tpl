@@ -67,17 +67,19 @@ We truncate at 63 chars because some Kubernetes name fields are limited to this 
 {{- end -}}
 
 {{/*
-Create a fully qualified alerts service name.
-We truncate at 63 chars because some Kubernetes name fields are limited to this (by the DNS naming spec).
+Create a fully qualified microservice name from current microservice context.
+This should be used within a microservice loop where the current microservice is available as $.
+Usage within range loop: {{ include "mlrun.api.microservices.current.fullname" (dict "root" $ "microservice" .) }}
 */}}
-{{- define "mlrun.api.microservices.alerts.fullname" -}}
-{{- if .Values.api.microservices.alerts.fullnameOverride -}}
-{{- .Values.api.microservices.alerts.fullnameOverride | trunc 63 | trimSuffix "-" -}}
+{{- define "mlrun.api.microservices.current.fullname" -}}
+{{- $microservice := .microservice -}}
+{{- $root := .root -}}
+{{- if $microservice.fullnameOverride -}}
+{{- $microservice.fullnameOverride | trunc 63 | trimSuffix "-" -}}
 {{- else -}}
-{{- printf "%s-alerts" (include "mlrun.fullname" .) | trunc 63 | trimSuffix "-" -}}
+{{- printf "%s-%s" (include "mlrun.fullname" $root) $microservice.name | trunc 63 | trimSuffix "-" -}}
 {{- end -}}
 {{- end -}}
-
 
 {{/*
 Create a fully qualified api opa name.
@@ -290,11 +292,12 @@ API worker labels
 {{- end -}}
 
 {{/*
-Alerts service labels
+Microservice labels from current microservice context.
+Usage within range loop: {{ include "mlrun.api.microservices.current.labels" (dict "root" $ "microservice" .) }}
 */}}
-{{- define "mlrun.api.microservices.alerts.labels" -}}
-{{ include "mlrun.common.labels" . }}
-{{ include "mlrun.api.microservices.alerts.selectorLabels" . }}
+{{- define "mlrun.api.microservices.current.labels" -}}
+{{ include "mlrun.common.labels" .root }}
+{{ include "mlrun.api.microservices.current.selectorLabels" . }}
 {{- end -}}
 
 {{/*
@@ -322,11 +325,12 @@ app.kubernetes.io/sub-component: "worker"
 {{- end -}}
 
 {{/*
-Alerts service selector labels
+Microservice selector labels from current microservice context.
+Usage within range loop: {{ include "mlrun.api.microservices.current.selectorLabels" (dict "root" $ "microservice" .) }}
 */}}
-{{- define "mlrun.api.microservices.alerts.selectorLabels" -}}
-{{ include "mlrun.common.selectorLabels" . }}
-app.kubernetes.io/component: "alerts"
+{{- define "mlrun.api.microservices.current.selectorLabels" -}}
+{{ include "mlrun.common.selectorLabels" .root }}
+app.kubernetes.io/component: {{ .microservice.name | quote }}
 {{- end -}}
 
 {{/*

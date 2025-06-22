@@ -1,0 +1,41 @@
+{{- if .Values.api.microservices.enabled }}
+{{- range .Values.api.microservices.services }}
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: {{ include "mlrun.api.microservices.current.fullname" (dict "root" $ "microservice" .) }}
+spec:
+{{- if (or (eq .service.type "ClusterIP") (empty .service.type)) }}
+  type: ClusterIP
+  {{- if .service.clusterIP }}
+  clusterIP: {{ .service.clusterIP }}
+  {{- end }}
+{{- else if eq .service.type "LoadBalancer" }}
+  type: {{ .service.type }}
+  {{- if .service.loadBalancerIP }}
+  loadBalancerIP: {{ .service.loadBalancerIP }}
+  {{- end }}
+  {{- if .service.loadBalancerSourceRanges }}
+  loadBalancerSourceRanges:
+{{- toYaml .service.loadBalancerSourceRanges | nindent 4 }}
+  {{- end }}
+{{- else }}
+  type: {{ .service.type }}
+{{- end }}
+{{- if .service.externalIPs }}
+  externalIPs:
+{{- toYaml .service.externalIPs | nindent 4 }}
+{{- end }}
+  ports:
+    - name: http
+      port: {{ .service.port }}
+      protocol: TCP
+      targetPort: http
+{{- if (and (eq .service.type "NodePort") (not (empty .service.nodePort))) }}
+      nodePort: {{ .service.nodePort }}
+{{- end }}
+  selector:
+    {{- include "mlrun.api.microservices.current.selectorLabels" (dict "root" $ "microservice" .) | nindent 4 }}
+{{- end }}
+{{- end }}
