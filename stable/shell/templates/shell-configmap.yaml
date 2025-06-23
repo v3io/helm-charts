@@ -41,7 +41,7 @@ data:
 {{ include "v3io-configs.script.lookupService" . | indent 4 }}
 
     ## Reset .bashrc on revision update
-    BASHRC_REV=2
+    BASHRC_REV=3
     if ! $(grep -q IGZ_BASHRC_REV_${BASHRC_REV} ${HOME}/.bashrc 2>/dev/null); then
       log 'Reset .bashrc on revision update'
       echo "#IGZ_BASHRC_REV_${BASHRC_REV}" > ${HOME}/.bashrc
@@ -297,7 +297,7 @@ data:
     }
     
     function extended_conda(){
-      if [[ \${CONDA_DEFAULT_ENV-} = "base" || \${CONDA_DEFAULT_ENV-} = "jupyter" || \${CONDA_DEFAULT_ENV-} = "mlrun-base" || \${CONDA_DEFAULT_ENV-} = "mlrun-extended" ]] && [ "\$1" = "install" ]; then
+      if [[ \${CONDA_DEFAULT_ENV-} = "base" || \${CONDA_DEFAULT_ENV-} = "jupyter" || \${CONDA_DEFAULT_ENV-} = "mlrun-base" || \${CONDA_DEFAULT_ENV-} = "mlrun-base-py311" ]] && [ "\$1" = "install" ]; then
         echo "Error: Conda installations to the (\${CONDA_DEFAULT_ENV}) environment are not persistent."
         if [ "\${CONDA_DEFAULT_ENV-}" = "base" ]; then
           echo "       Please activate a different conda environment or create a new one."
