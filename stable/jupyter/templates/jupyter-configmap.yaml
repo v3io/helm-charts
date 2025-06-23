@@ -45,7 +45,7 @@ data:
 {{ include "v3io-configs.script.lookupService" . | indent 4 }}
 
     ## Reset .bashrc on revision update
-    BASHRC_REV=2
+    BASHRC_REV=3
     if ! $(grep -q IGZ_BASHRC_REV_${BASHRC_REV} ${HOME}/.bashrc 2>/dev/null); then
       log 'Reset .bashrc on revision update'
       echo "#IGZ_BASHRC_REV_${BASHRC_REV}" > ${HOME}/.bashrc
@@ -315,7 +315,7 @@ data:
     }
     
     function extended_conda(){
-      if [[ \${CONDA_DEFAULT_ENV-} = "base" || \${CONDA_DEFAULT_ENV-} = "jupyter" || \${CONDA_DEFAULT_ENV-} = "mlrun-base" || \${CONDA_DEFAULT_ENV-} = "mlrun-extended" ]] && [ "\$1" = "install" ]; then
+      if [[ \${CONDA_DEFAULT_ENV-} = "base" || \${CONDA_DEFAULT_ENV-} = "jupyter" || \${CONDA_DEFAULT_ENV-} = "mlrun-base" || \${CONDA_DEFAULT_ENV-} = "mlrun-base-py311" ]] && [ "\$1" = "install" ]; then
         echo "Error: Conda installations to the (\${CONDA_DEFAULT_ENV}) environment are not persistent."
         if [ "\${CONDA_DEFAULT_ENV-}" = "base" ]; then
           echo "       Please activate a different conda environment or create a new one."
@@ -380,7 +380,7 @@ data:
     # special handling for base env:
     # clean leftovers from previous env
     cat << EOF > ${CONDA_HOME}/etc/conda/activate.d/env_vars.sh
-    for env in ${JUPYTER_FULLNAME} mlrun-base mlrun-extended; do
+    for env in ${JUPYTER_FULLNAME} mlrun-base mlrun-base-py311; do
       export PATH=\$(echo \${PATH} | sed "s|/User/.pythonlibs/\${env}/bin:||g")
     done
     unset PIP_PREFIX
@@ -395,12 +395,14 @@ data:
       fi
       cat << EOF > ${CONDA_HOME}/envs/${env}/etc/conda/activate.d/env_vars.sh
     # clean leftovers from previous env
-    for env in ${JUPYTER_FULLNAME} mlrun-base mlrun-extended; do
+    for env in ${JUPYTER_FULLNAME} mlrun-base mlrun-base-py311; do
       export PATH=\$(echo \${PATH} | sed "s|/User/.pythonlibs/\${env}/bin:||g")
     done
+    # Get the current Python version for this specific environment
+    PYTHON_VERSION=\$(python -c 'import sys; print(f"{sys.version_info.major}.{sys.version_info.minor}")')
     # update paths
     export PIP_PREFIX=/User/.pythonlibs/${env_name}
-    export PYTHONPATH=/User/.pythonlibs/${env_name}/lib/python3.9/site-packages:\${IGZ_SPARK_PYTHONPATH}
+    export PYTHONPATH=/User/.pythonlibs/${env_name}/lib/python\${PYTHON_VERSION}/site-packages:\${IGZ_SPARK_PYTHONPATH}
     export PATH=/User/.pythonlibs/${env_name}/bin:\${PATH}
     EOF
       cat << EOF > ${CONDA_HOME}/envs/${env}/etc/conda/deactivate.d/env_vars.sh
@@ -413,13 +415,13 @@ data:
 
     # Backup old binaries from jupyter path (upgrade)
     mkdir -p ${HOME}/.igz
-    CLEANUP_FILE='.bin_cleanup_python3.7'
+    CLEANUP_FILE='.bin_cleanup_python3.9'
     if ! $(grep -wq "^${JUPYTER_FULLNAME}$" ${HOME}/.igz/${CLEANUP_FILE} 2>/dev/null); then
       echo ${JUPYTER_FULLNAME} >> ${HOME}/.igz/${CLEANUP_FILE}
       if [ -d "/User/.pythonlibs/${JUPYTER_FULLNAME}/bin" ]; then
-        log "Backup old binaries in .pyhtonlibs/${JUPYTER_FULLNAME}/bin"
-        mkdir -p /User/.pythonlibs/${JUPYTER_FULLNAME}/.bin/python3.7
-        cp -r /User/.pythonlibs/${JUPYTER_FULLNAME}/bin/* /User/.pythonlibs/${JUPYTER_FULLNAME}/.bin/python3.7/
+        log "Backup old binaries in .pythonlibs/${JUPYTER_FULLNAME}/bin"
+        mkdir -p /User/.pythonlibs/${JUPYTER_FULLNAME}/.bin/python3.9
+        cp -r /User/.pythonlibs/${JUPYTER_FULLNAME}/bin/* /User/.pythonlibs/${JUPYTER_FULLNAME}/.bin/python3.9/
         rm -rf /User/.pythonlibs/${JUPYTER_FULLNAME}/bin/*
       fi
     fi
