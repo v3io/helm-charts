@@ -173,10 +173,12 @@ spec:
           args:
             - "run"
             - "--server"
+            - "--addr=0.0.0.0:8181"
             - "--config-file=/config/config.yaml"
             - "--log-level={{ .Values.api.opa.logLevel }}"
             - "--log-format={{ .Values.api.opa.logFormat }}"
             - "--ignore=.*"
+            - "--disable-telemetry"
           volumeMounts:
             - readOnly: true
               mountPath: /config
