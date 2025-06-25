@@ -148,7 +148,7 @@ spec:
           imagePullPolicy: {{ $.Values.api.opa.image.pullPolicy }}
           ports:
             - name: http
-              containerPort: 8181
+              containerPort: {{ .Values.api.opa.port }}
           {{- if $.Values.api.opa.livenessProbe }}
           livenessProbe:
             {{ toYaml $.Values.api.opa.livenessProbe | nindent 12 }}
@@ -162,10 +162,12 @@ spec:
           args:
             - "run"
             - "--server"
+            - "--addr=0.0.0.0:{{ .Values.dashboard.opa.port }}"
             - "--config-file=/config/config.yaml"
             - "--log-level={{ $.Values.api.opa.logLevel }}"
             - "--log-format={{ $.Values.api.opa.logFormat }}"
             - "--ignore=.*"
+            - "--disable-telemetry"
           volumeMounts:
             - readOnly: true
               mountPath: /config
