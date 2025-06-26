@@ -148,7 +148,7 @@ spec:
           imagePullPolicy: {{ $.Values.api.opa.image.pullPolicy }}
           ports:
             - name: http
-              containerPort: {{ .Values.api.opa.port }}
+              containerPort: {{ $.Values.api.opa.port }}
           {{- if $.Values.api.opa.livenessProbe }}
           livenessProbe:
             {{ toYaml $.Values.api.opa.livenessProbe | nindent 12 }}
