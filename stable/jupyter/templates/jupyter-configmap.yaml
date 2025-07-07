@@ -348,7 +348,7 @@ data:
 
     ## IPython configuration for magic commands
     IPYTHON_CONFIG_SCRIPT="${HOME}/.ipython/profile_default/ipython_config.py"
-    IPYTHON_CONFIG_REV=1
+    IPYTHON_CONFIG_REV=2
     if [ ! -e "${HOME}/.ipython/profile_default" ]; then
       mkdir -p ${HOME}/.ipython/profile_default
     fi    
@@ -357,7 +357,12 @@ data:
       log 'Configure ipython'
       cat << EOF > ${IPYTHON_CONFIG_SCRIPT}
     #IGZ_IPYTHON_CONFIG_REV_${IPYTHON_CONFIG_REV}
+    import os
     import pkg_resources
+
+    # Disable jupysql->ploomber-core telemetry (PostHog)
+    os.environ["PLOOMBER_STATS_ENABLED"] = "false"
+
     c = get_config()
     c.Application.log_datefmt = '%Y-%m-%d %H:%M:%S'
     try:
