@@ -111,7 +111,7 @@ api:
 
   image:
     repository: quay.io/mlrun/mlrun-api
-    tag: 1.9.1
+    tag: 1.9.2
     pullPolicy: IfNotPresent
     pullSecrets: []
 
@@ -282,7 +282,7 @@ api:
 
     image:
       repository: openpolicyagent/opa
-      tag: 1.5.1
+      tag: 1.6.0
       pullPolicy: IfNotPresent
       pullSecrets: []
 
@@ -353,7 +353,7 @@ api:
 
       image:
         repository: quay.io/mlrun/log-collector
-        tag: 1.9.1
+        tag: 1.9.2
         pullPolicy: IfNotPresent
         pullSecrets: []
 
@@ -577,7 +577,7 @@ ui:
 
   image:
     repository: quay.io/mlrun/mlrun-ui
-    tag: 1.9.1
+    tag: 1.9.2
     pullPolicy: IfNotPresent
     pullSecrets: []
 
