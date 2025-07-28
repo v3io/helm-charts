@@ -8,7 +8,7 @@ metadata:
 data:
 
   health_check.sh: |
-    mysql -u root -S /var/run/mysqld/mysql.sock -e 'SELECT 1'
+    mysqladmin --protocol=TCP -h {{ .Values.db.dbConfiguration.adminAddress }} -P {{ .Values.db.dbConfiguration.adminPort }} -uroot ping
 
   graceful_shutdown.sh: |
     mysql -u root -S /var/run/mysqld/mysql.sock -e 'SET GLOBAL innodb_fast_shutdown = 0; FLUSH TABLES WITH READ LOCK;'
@@ -60,5 +60,7 @@ data:
       --innodb-page-cleaners={{- .Values.db.dbConfiguration.innodb.pageCleaners }} \
       --innodb-io-capacity={{- .Values.db.dbConfiguration.innodb.IOCapacity }} \
       --innodb-flush-neighbors={{- .Values.db.dbConfiguration.innodb.flushNeighbors }} \
-      --socket=$MYSQL_SOCKET_FILE
+      --socket=$MYSQL_SOCKET_FILE \
+      --admin-address={{- .Values.db.dbConfiguration.adminAddress }} \
+      --admin-port={{- .Values.db.dbConfiguration.adminPort }}
 {{- end }}

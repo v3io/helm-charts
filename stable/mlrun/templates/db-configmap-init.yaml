@@ -10,6 +10,7 @@ data:
     -- Allow passwordless (insecure) access to root user from anywhere
     CREATE USER IF NOT EXISTS 'root'@'%';
     GRANT ALL PRIVILEGES ON *.* TO 'root'@'%';
+    GRANT SERVICE_CONNECTION_ADMIN ON *.* TO 'root'@'localhost';
     FLUSH PRIVILEGES;
     CREATE DATABASE IF NOT EXISTS mlrun;
     {{- if not .Values.modelMonitoring.dsn }}
