@@ -52,9 +52,6 @@ spec:
           - name: mysql
             containerPort: 3306
             protocol: TCP
-          - name: mysql-admin
-            containerPort: {{ .Values.db.dbConfiguration.adminPort }}
-            protocol: TCP
           lifecycle:
             preStop:
               exec:
