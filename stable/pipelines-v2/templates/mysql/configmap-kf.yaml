@@ -20,11 +20,13 @@ data:
 
     readonly BASE_DIR="/var/lib/mysql"
     readonly DATA_DIR="${BASE_DIR}/data"
-    readonly DUMP_FILE="${BASE_DIR}/dump/pre_upgrade_dump.sql"
+    readonly DUMP_FILE_BASE_NAME="${BASE_DIR}/dump/pre_upgrade_dump"
+    readonly META_DUMP_FILE="${DUMP_FILE_BASE_NAME}_meta_db.sql"
+    readonly PIPELINE_DUMP_FILE="${DUMP_FILE_BASE_NAME}_mlpipeline.sql"
     readonly LOG_FILE="/tmp/mysql_log"
     readonly LOCK_FILE="${BASE_DIR}/.lock_dump_mysql_5.6"
 
-    if [[ -f "${LOCK_FILE}" || -f ${DUMP_FILE} ]]; then
+    if [[ -f "${LOCK_FILE}" || -f ${PIPELINE_DUMP_FILE} ]]; then
       echo "Already dumped; skipping."
       exit 0
     fi
@@ -44,13 +46,14 @@ data:
       sleep 1
     done
     mkdir -p "${BASE_DIR}/dump"
-    mysqldump -u root mlpipeline > "${DUMP_FILE}"
+    mysqldump -u root metadb > "${META_DUMP_FILE}"
+    mysqldump -u root mlpipeline > "${PIPELINE_DUMP_FILE}"
 
     mysqladmin -u root shutdown
     wait "${OLD_PID}"
 
     touch "${LOCK_FILE}"
-    echo "Dump complete; file at ${DUMP_FILE}."
+    echo "Dump complete; files at ${META_DUMP_FILE}, ${PIPELINE_DUMP_FILE}."
 
   import-if-dump-done.sh: |
     #!/usr/bin/env bash
@@ -61,7 +64,9 @@ data:
 
     readonly BASE_DIR="/var/lib/mysql"
     readonly DATA_DIR="${BASE_DIR}/data"
-    readonly DUMP_FILE="${BASE_DIR}/dump/pre_upgrade_dump.sql"
+    readonly DUMP_FILE_BASE_NAME="${BASE_DIR}/dump/pre_upgrade_dump"
+    readonly META_DUMP_FILE="${DUMP_FILE_BASE_NAME}_metadb.sql"
+    readonly PIPELINE_DUMP_FILE="${DUMP_FILE_BASE_NAME}_mlpipeline.sql"
     readonly LOCK_FILE="${BASE_DIR}/.lock_restore_mysql_5.6_to_8.4"
     readonly SOCKET="/var/run/mysqld/mysqld.sock"
     readonly SECRET_FILE="/run/secrets/mysql/mysql.cnf"
@@ -73,8 +78,8 @@ data:
       exit 0
     fi
 
-    if [[ ! -f "${DUMP_FILE}" ]]; then
-      echo "Dump file not found at ${DUMP_FILE}; skipping import."
+    if [[ ! -f "${META_DUMP_FILE}" ]]; then
+      echo "Dump file not found at ${META_DUMP_FILE}; skipping import."
       exit 0
     fi
 
@@ -105,9 +110,14 @@ data:
     mysql \
       --defaults-extra-file="${SECRET_FILE}" \
       --socket "${SOCKET}" \
+      --execute="CREATE DATABASE IF NOT EXISTS metadb;"
+    mysql \
+      --defaults-extra-file="${SECRET_FILE}" \
+      --socket "${SOCKET}" \
       --execute="CREATE DATABASE IF NOT EXISTS mlpipeline;"
 
-    mysql --defaults-extra-file="${SECRET_FILE}" --socket "${SOCKET}" mlpipeline < "${DUMP_FILE}"
+    mysql --defaults-extra-file="${SECRET_FILE}" --socket "${SOCKET}" metadb < ${META_DUMP_FILE}
+    mysql --defaults-extra-file="${SECRET_FILE}" --socket "${SOCKET}" mlpipeline < ${PIPELINE_DUMP_FILE}
     mysqladmin --defaults-extra-file="${SECRET_FILE}" --socket "${SOCKET}" shutdown
     wait "${NEW_PID}"
     touch ${LOCK_FILE}
