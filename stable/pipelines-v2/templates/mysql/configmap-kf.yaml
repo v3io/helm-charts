@@ -79,7 +79,7 @@ data:
     fi
 
     if [[ ! -f "${META_DUMP_FILE}" ]]; then
-      echo "Dump file not found at ${META_DUMP_FILE}; skipping import."
+      echo "Dump file not found at ${PIPELINE_DUMP_FILE}; skipping import."
       exit 0
     fi
 
