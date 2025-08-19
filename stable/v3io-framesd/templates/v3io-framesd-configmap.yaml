@@ -18,9 +18,6 @@ data:
     backends:
 {{- range $index, $backend := .Values.config.backends }}
       - type: {{ $backend }}
-{{- if eq $backend "csv" }}
-        rootdir: ""
-{{- end }}
 {{- end }}
 
   v3io-framesd.sh: |
