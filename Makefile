@@ -314,11 +314,15 @@ check-helm:
 		echo "Missing helm command" ; \
 		exit 2 ; \
 	fi
-	@HELM_VERSION=$$($(HELM) version --short --client) && \
-	if [ "$$HELM_VERSION" != *"v3"* ]; then \
-		echo "Helm version must be 3" ; \
-		exit 2 ; \
-	fi
+	@HELM_VERSION=$$($(HELM) version --short --client 2>/dev/null || echo "unknown") ; \
+	case "$$HELM_VERSION" in \
+		v3*) \
+			;; \
+		*) \
+			echo "Helm version must be 3 (got: $$HELM_VERSION)" ; \
+			exit 2 ; \
+			;; \
+	esac
 	@echo "Helm command exists"
 
 .PHONY: lint
