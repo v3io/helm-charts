@@ -12,11 +12,11 @@ jobs:
     name: Publish ${{ github.event.inputs.chart_name }}
     runs-on: ubuntu-latest
     steps:
-      - uses: azure/setup-helm@v4
+      - uses: azure/setup-helm@9d84ec575468d12b960f742294b0dbfa60823014  #v4
         with:
           version: "v3.13.3"
 
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v5
 
       - name: Configure Git Author as Workflow Actor
         run: |
