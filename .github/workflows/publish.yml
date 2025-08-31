@@ -15,7 +15,7 @@ jobs:
     name: Publish ${{ github.event.inputs.chart_name }}
     runs-on: ubuntu-latest
     steps:
-      - uses: azure/setup-helm@9d84ec575468d12b960f742294b0dbfa60823014  #v4
+      - uses: azure/setup-helm@1a275c3b69536ee54be43f2070a358922e12c8d4  #v4.3.1
         with:
           version: "v3.13.3"
 
