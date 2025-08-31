@@ -227,7 +227,7 @@ update-req: check-helm
 	@cd $(WORKDIR) && for chart in $$(ls); do \
 		if [ -e "$$chart/requirements.yaml" ]; then \
 			echo "Updating '$$chart' requirements" ; \
-			$(HELM) dependency update $$chart ; \
+			$(HELM) dependency update $$chart --skip-refresh ; \
 			if [ "$$?" != "0" ]; then \
 				echo "Chart $$chart failed dependency update" ; \
 				exit 103 ; \
@@ -239,7 +239,7 @@ update-req: check-helm
 update-req-specific: check-helm
 	@echo "Updating $(CHART_NAME) chart requirements"
 	@cd $(WORKDIR) && if [ -e "$(CHART_NAME)/requirements.yaml" ]; then \
-		$(HELM) dependency update $(CHART_NAME) ; \
+		$(HELM) dependency update $(CHART_NAME) --skip-refresh ; \
 	    if [ "$$?" != "0" ]; then \
             echo "Chart $(CHART_NAME) failed dependency update" ; \
             exit 103 ; \
@@ -314,11 +314,15 @@ check-helm:
 		echo "Missing helm command" ; \
 		exit 2 ; \
 	fi
-	@HELM_VERSION=$$($(HELM) version --short --client) && \
-	if [[ "$$HELM_VERSION" != *"v3"* ]]; then \
-		echo "Helm version must be 3" ; \
-		exit 2 ; \
-	fi
+	@HELM_VERSION=$$($(HELM) version --short --client 2>/dev/null || echo "unknown") ; \
+	case "$$HELM_VERSION" in \
+		v3*) \
+			;; \
+		*) \
+			echo "Helm version must be 3 (got: $$HELM_VERSION)" ; \
+			exit 2 ; \
+			;; \
+	esac
 	@echo "Helm command exists"
 
 .PHONY: lint
