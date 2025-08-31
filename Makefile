@@ -315,7 +315,7 @@ check-helm:
 		exit 2 ; \
 	fi
 	@HELM_VERSION=$$($(HELM) version --short --client) && \
-	if [[ "$$HELM_VERSION" != *"v3"* ]]; then \
+	if [ "$$HELM_VERSION" != *"v3"* ]; then \
 		echo "Helm version must be 3" ; \
 		exit 2 ; \
 	fi
