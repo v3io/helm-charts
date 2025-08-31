@@ -227,7 +227,7 @@ update-req: check-helm
 	@cd $(WORKDIR) && for chart in $$(ls); do \
 		if [ -e "$$chart/requirements.yaml" ]; then \
 			echo "Updating '$$chart' requirements" ; \
-			$(HELM) dependency update $$chart ; \
+			$(HELM) dependency update $$chart --skip-refresh ; \
 			if [ "$$?" != "0" ]; then \
 				echo "Chart $$chart failed dependency update" ; \
 				exit 103 ; \
@@ -239,7 +239,7 @@ update-req: check-helm
 update-req-specific: check-helm
 	@echo "Updating $(CHART_NAME) chart requirements"
 	@cd $(WORKDIR) && if [ -e "$(CHART_NAME)/requirements.yaml" ]; then \
-		$(HELM) dependency update $(CHART_NAME) ; \
+		$(HELM) dependency update $(CHART_NAME) --skip-refresh ; \
 	    if [ "$$?" != "0" ]; then \
             echo "Chart $(CHART_NAME) failed dependency update" ; \
             exit 103 ; \
