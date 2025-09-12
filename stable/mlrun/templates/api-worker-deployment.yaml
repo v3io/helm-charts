@@ -215,14 +215,14 @@ spec:
           {{- end }}
           {{- if .Values.api.sidecars.logCollector.livenessProbe }}
           livenessProbe:
-            exec:
-              command: [ "/grpc_health_probe", "-addr=:{{ .Values.api.sidecars.logCollector.listenPort }}" ]
+            grpc:
+              port: {{ .Values.api.sidecars.logCollector.listenPort }}
             {{ toYaml .Values.api.sidecars.logCollector.livenessProbe | nindent 12 }}
           {{- end }}
           {{- if .Values.api.sidecars.logCollector.readinessProbe }}
           readinessProbe:
-            exec:
-              command: [ "/grpc_health_probe", "-addr=:{{ .Values.api.sidecars.logCollector.listenPort }}" ]
+            grpc:
+              port: {{ .Values.api.sidecars.logCollector.listenPort }}
             {{ toYaml .Values.api.sidecars.logCollector.readinessProbe | nindent 12 }}
           {{- end }}
           resources:
