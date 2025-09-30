@@ -130,6 +130,12 @@ spec:
           ports:
             - name: grpc-api
               containerPort: 8080
+          startupProbe:
+            tcpSocket:
+              port: grpc-api
+            periodSeconds: 10
+            timeoutSeconds: 2
+            failureThreshold: 360
           livenessProbe:
             tcpSocket:
               port: grpc-api
