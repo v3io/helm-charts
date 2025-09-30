@@ -129,7 +129,8 @@ data:
     echo "Importing mlpipeline database from ${PIPELINE_DUMP_FILE}..."
     mysql --defaults-extra-file="${SECRET_FILE}" --socket "${SOCKET}" mlpipeline < ${PIPELINE_DUMP_FILE}
     mysql_exec "ALTER INSTANCE ENABLE INNODB REDO_LOG;"
-
+    mysql_exec "SET PERSIST innodb_stats_auto_recalc = DEFAULT;"
+    mysql_exec "SET PERSIST innodb_lock_wait_timeout = DEFAULT;"
     mysqladmin --defaults-extra-file="${SECRET_FILE}" --socket "${SOCKET}" shutdown
     wait "${NEW_PID}"
     touch ${LOCK_FILE}
