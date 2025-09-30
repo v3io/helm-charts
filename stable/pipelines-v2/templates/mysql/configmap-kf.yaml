@@ -111,20 +111,25 @@ data:
     mysqld "${MYSQLD_OPTS[@]}" &
     NEW_PID=$!
 
+    mysql_exec() {
+      mysql --defaults-extra-file="${SECRET_FILE}" --socket "${SOCKET}" --execute="$1"
+    }
+
     until mysqladmin --defaults-extra-file="${SECRET_FILE}" --socket "${SOCKET}" ping; do
       sleep 1
     done
-    mysql \
-      --defaults-extra-file="${SECRET_FILE}" \
-      --socket "${SOCKET}" \
-      --execute="CREATE DATABASE IF NOT EXISTS metadb;"
-    mysql \
-      --defaults-extra-file="${SECRET_FILE}" \
-      --socket "${SOCKET}" \
-      --execute="CREATE DATABASE IF NOT EXISTS mlpipeline;"
+    mysql_exec "CREATE DATABASE IF NOT EXISTS metadb;"
+    mysql_exec "CREATE DATABASE IF NOT EXISTS mlpipeline;"
 
+    mysql_exec "SET PERSIST innodb_stats_auto_recalc = 0;"
+    mysql_exec "SET PERSIST innodb_lock_wait_timeout = 120;"
+    mysql_exec "ALTER INSTANCE DISABLE INNODB REDO_LOG;"
+    echo "Importing metadb database from ${META_DUMP_FILE}..."
     mysql --defaults-extra-file="${SECRET_FILE}" --socket "${SOCKET}" metadb < ${META_DUMP_FILE}
-    mysql --defaults-extra-file="${SECRET_FILE}" --socket "${SOCKET}" mlpipeline < ${PIPELINE_DUMP_FILE}
+    echo "Importing mlpipeline database from ${PIPELINE_DUMP_FILE}..."
+    zmysql --defaults-extra-file="${SECRET_FILE}" --socket "${SOCKET}" mlpipeline < ${PIPELINE_DUMP_FILE}
+    mysql_exec "ALTER INSTANCE ENABLE INNODB REDO_LOG;"
+
     mysqladmin --defaults-extra-file="${SECRET_FILE}" --socket "${SOCKET}" shutdown
     wait "${NEW_PID}"
     touch ${LOCK_FILE}
