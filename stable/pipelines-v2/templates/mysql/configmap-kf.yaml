@@ -127,7 +127,7 @@ data:
     echo "Importing metadb database from ${META_DUMP_FILE}..."
     mysql --defaults-extra-file="${SECRET_FILE}" --socket "${SOCKET}" metadb < ${META_DUMP_FILE}
     echo "Importing mlpipeline database from ${PIPELINE_DUMP_FILE}..."
-    zmysql --defaults-extra-file="${SECRET_FILE}" --socket "${SOCKET}" mlpipeline < ${PIPELINE_DUMP_FILE}
+    mysql --defaults-extra-file="${SECRET_FILE}" --socket "${SOCKET}" mlpipeline < ${PIPELINE_DUMP_FILE}
     mysql_exec "ALTER INSTANCE ENABLE INNODB REDO_LOG;"
 
     mysqladmin --defaults-extra-file="${SECRET_FILE}" --socket "${SOCKET}" shutdown
