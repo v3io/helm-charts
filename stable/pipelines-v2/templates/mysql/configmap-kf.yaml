@@ -139,6 +139,7 @@ data:
     -- This script adds missing indexes and makes some existing indexes invisible to
     -- improve performance of common queries in Kubeflow Pipelines 2.5 on MySQL 8.4.
     -- Run details index
+    USE mlpipeline;
     SET @idx_exists = (
     SELECT COUNT(*) FROM INFORMATION_SCHEMA.STATISTICS
     WHERE TABLE_SCHEMA = DATABASE()
