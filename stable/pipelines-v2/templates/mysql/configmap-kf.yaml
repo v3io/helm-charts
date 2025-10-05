@@ -139,6 +139,7 @@ data:
     -- This script adds missing indexes and makes some existing indexes invisible to
     -- improve performance of common queries in Kubeflow Pipelines 2.5 on MySQL 8.4.
     -- Run details index
+    USE mlpipeline;
     SET @idx_exists = (
     SELECT COUNT(*) FROM INFORMATION_SCHEMA.STATISTICS
     WHERE TABLE_SCHEMA = DATABASE()
@@ -149,7 +150,9 @@ data:
     'CREATE INDEX run_details_experiment_created_uuid_desc ON run_details (ExperimentUUID, CreatedAtInSec DESC, UUID DESC);',
     'SELECT "Index run_details_experiment_created_uuid_desc already exists";'
     );
-    PREPARE stmt FROM @sql; EXECUTE stmt; DEALLOCATE PREPARE stmt;
+    PREPARE stmt FROM @sql;
+    EXECUTE stmt;
+    DEALLOCATE PREPARE stmt;
 
     -- resource_references index
     SET @idx_exists = (
@@ -162,7 +165,9 @@ data:
     'CREATE INDEX rr_type_uuid_payload ON resource_references (ResourceType, ResourceUUID, Payload(255));',
     'SELECT "Index rr_type_uuid_payload already exists";'
     );
-    PREPARE stmt FROM @sql; EXECUTE stmt; DEALLOCATE PREPARE stmt;
+    PREPARE stmt FROM @sql;
+    EXECUTE stmt;
+    DEALLOCATE PREPARE stmt;
 
     -- tasks index
     SET @idx_exists = (
@@ -175,7 +180,9 @@ data:
     'CREATE INDEX tasks_runuuid_payload ON tasks (RunUUID, Payload(255));',
     'SELECT "Index tasks_runuuid_payload already exists";'
     );
-    PREPARE stmt FROM @sql; EXECUTE stmt; DEALLOCATE PREPARE stmt;
+    PREPARE stmt FROM @sql;
+    EXECUTE stmt;
+    DEALLOCATE PREPARE stmt;
 
     -- run_metrics index
     SET @idx_exists = (
@@ -188,17 +195,15 @@ data:
     'CREATE INDEX run_metrics_runuuid_payload ON run_metrics (RunUUID, Payload(255));',
     'SELECT "Index run_metrics_runuuid_payload already exists";'
     );
-    PREPARE stmt FROM @sql; EXECUTE stmt; DEALLOCATE PREPARE stmt;
+    PREPARE stmt FROM @sql;
+    EXECUTE stmt;
+    DEALLOCATE PREPARE stmt;
 
     -- Make specific indexes invisible (no error if they don't exist)
     ALTER TABLE run_details ALTER INDEX experimentuuid_createatinsec INVISIBLE;
-    ALTER TABLE run_details ALTER INDEX idx_created_desc INVISIBLE;
-    ALTER TABLE run_details ALTER INDEX idx_run_details_created_uuid_asc INVISIBLE;
 
     -- Refresh statistics
-    ANALYZE TABLE run_details;
-
-
+    ANALYZE TABLE `run_details`, `resource_references`, `tasks`, `run_metrics`;
   start-mysql.sh: |
     #!/usr/bin/env bash
     set -euo pipefail
