@@ -48,6 +48,13 @@ rules:
   - update
   - patch
 - apiGroups:
+  - argoproj.io
+  resources:
+  - workflowtaskresults
+  verbs:
+  - create
+  - patch
+- apiGroups:
   - ""
   resources:
   - pods
