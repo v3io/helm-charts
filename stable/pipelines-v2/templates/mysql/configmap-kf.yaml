@@ -138,7 +138,7 @@ data:
   fix-kfp-indices.sql: |
     -- This script adds missing indexes and makes some existing indexes invisible to
     -- improve performance of common queries in Kubeflow Pipelines 2.5 on MySQL 8.4.
-    -- Run details index
+    -- Run details index for MLRun 1.10
     USE mlpipeline;
     SET @idx_exists = (
     SELECT COUNT(*) FROM INFORMATION_SCHEMA.STATISTICS
@@ -149,6 +149,21 @@ data:
     SET @sql = IF(@idx_exists = 0,
     'CREATE INDEX run_details_experiment_created_uuid_desc ON run_details (ExperimentUUID, CreatedAtInSec DESC, UUID DESC);',
     'SELECT "Index run_details_experiment_created_uuid_desc already exists";'
+    );
+    PREPARE stmt FROM @sql;
+    EXECUTE stmt;
+    DEALLOCATE PREPARE stmt;
+
+    -- Run details index for MLRun 1.9
+    SET @idx_exists = (
+    SELECT COUNT(*) FROM INFORMATION_SCHEMA.STATISTICS
+    WHERE TABLE_SCHEMA = DATABASE()
+    AND TABLE_NAME = 'run_details'
+    AND INDEX_NAME = 'idx_run_details_created_uuid'
+    );
+    SET @sql = IF(@idx_exists = 0,
+    'CREATE INDEX idx_run_details_created_uuid ON run_details (CreatedAtInSec, UUID);',
+    'SELECT "Index idx_run_details_created_uuid already exists";'
     );
     PREPARE stmt FROM @sql;
     EXECUTE stmt;
