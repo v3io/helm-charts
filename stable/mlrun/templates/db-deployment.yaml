@@ -16,6 +16,8 @@ spec:
     metadata:
       labels:
         {{- include "mlrun.db.selectorLabels" . | nindent 8 }}
+      annotations:
+        checksum/config: {{ include (print $.Template.BasePath "/db-configmap.yaml") . | sha256sum }}
     spec:
     {{- with .Values.db.image.pullSecrets }}
       imagePullSecrets:
