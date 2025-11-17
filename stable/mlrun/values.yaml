@@ -570,8 +570,11 @@ db:
       IOCapacity: 10000
       flushNeighbors: 0
 
-      # extra flags to pass to the mysql server start command
-      extraFlags: ""
+      # extraFlags: {} # extra flags to pass to the mysql server start command, example:
+      # extraFlags:
+      #   innodb_use_native_aio: 0
+      # will be passed as --innodb_use_native_aio=0
+
 
 ui:
   name: ui

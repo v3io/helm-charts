@@ -60,7 +60,16 @@ data:
       --innodb-page-cleaners={{- .Values.db.dbConfiguration.innodb.pageCleaners }} \
       --innodb-io-capacity={{- .Values.db.dbConfiguration.innodb.IOCapacity }} \
       --innodb-flush-neighbors={{- .Values.db.dbConfiguration.innodb.flushNeighbors }} \
-      {{ .Values.db.dbConfiguration.innodb.extraFlags | default "" }} \
+      {{- $extra := .Values.db.dbConfiguration.innodb.extraFlags -}}
+      {{- if $extra }}
+      {{- if kindIs "map" $extra }}
+      {{- range $k, $v := $extra }}
+      --{{ $k }}={{ $v }} \
+      {{- end }}
+      {{- else }}
+      {{ $extra }} \
+      {{- end }}
+      {{- end }}
       --socket=$MYSQL_SOCKET_FILE \
       --admin-address={{- .Values.db.dbConfiguration.adminAddress }} \
       --admin-port={{- .Values.db.dbConfiguration.adminPort }}
