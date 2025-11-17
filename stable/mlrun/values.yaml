@@ -570,6 +570,9 @@ db:
       IOCapacity: 10000
       flushNeighbors: 0
 
+      # extra flags to pass to the mysql server start command
+      extraFlags: ""
+
 ui:
   name: ui
   fullnameOverride:
