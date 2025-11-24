@@ -34,16 +34,33 @@ spec:
             - key: mysql.cnf
               path: mysql.cnf
       - name: mysql-fuse
-{{- if .Values.storage.metadata.volumes.storageOverride }}
-{{ toYaml .Values.storage.metadata.volumes.storageOverride | nindent 10 }}
-{{- else }}
+        {{- /* PVC mode */}}
+        {{- if eq .Values.storage.metadata.mode "pvc" }}
+        persistentVolumeClaim:
+          {{- if .Values.storage.metadata.persistence.existingClaim }}
+          claimName: {{ .Values.storage.metadata.persistence.existingClaim }}
+          {{- else }}
+          claimName: {{ .Values.storage.metadata.persistence.claimName }}
+          {{- end }}
+
+        {{- /* no persistence mode */}}
+        {{- else if eq .Values.storage.metadata.mode "none" }}
+        emptyDir: {}
+
+        {{- /* v3io override */}}
+        {{- else if .Values.storage.metadata.volumes.storageOverride }}
+{{ toYaml .Values.storage.metadata.volumes.storageOverride | nindent 8 }}
+
+        {{- /* default: v3io flex volume */}}
+        {{- else }}
         flexVolume:
           driver: "v3io/fuse"
           options:
             container: {{ .Values.storage.metadata.containerName }}
             subPath: {{ .Values.storage.metadata.subPath }}
             accessKey: {{ .Values.configurations.credentials.accessKey }}
-{{- end }}
+        {{- end }}
+
       - name: dump-volume
         emptyDir: {}
 

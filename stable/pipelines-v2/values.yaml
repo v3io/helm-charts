@@ -12,9 +12,16 @@ storage:
   artifacts:
     containerName: users
   metadata:
+    # mode controls how the MySQL data directory is stored:
+    #   v3io - use v3io flexVolume (or volumes.storageOverride if provided)
+    #   pvc  - use a Kubernetes PVC (created or existing)
+    #   none - use an ephemeral emptyDir (no persistence at all)
+    mode: "v3io"
     persistence:
       enabled: false
       existingClaim:
+      # Name of PVC to use/create when mode=pvc and existingClaim is empty
+      claimName: mysql-kf-pvc
       storageClass:
       accessMode: "ReadWriteOnce"
       size: "8Gi"
@@ -28,6 +35,7 @@ storage:
     #  storageOverride:
     #    persistentVolumeClaim:
     #      claimName: pipeline-mysql-pvc
+
 configurations:
   credentials:
     accessKey: overrideMe
@@ -111,8 +119,8 @@ images:
     repository: ghcr.io/kubeflow/kfp-metadata-envoy
     tag: 2.14.3
   metadataWriter:
-      repository: ghcr.io/kubeflow/kfp-metadata-writer
-      tag: 2.14.3
+    repository: ghcr.io/kubeflow/kfp-metadata-writer
+    tag: 2.14.3
   mysqlLegacy:
     repository: mysql
     tag: 5.6
