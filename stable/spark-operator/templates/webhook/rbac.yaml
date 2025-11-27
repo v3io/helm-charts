@@ -51,6 +51,7 @@ rules:
   verbs:
   - create
 - apiGroups:
+{{- if .Values.webhook.leaderElection.enable }}
   - coordination.k8s.io
   resources:
   - leases
@@ -59,6 +60,7 @@ rules:
   verbs:
   - get
   - update
+{{- end }}
 {{- if has .Release.Namespace .Values.spark.jobNamespaces }}
 {{ include "spark-operator.webhook.policyRules" . }}
 {{- end }}

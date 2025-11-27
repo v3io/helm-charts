@@ -39,7 +39,7 @@ image:
   # -- Image registry.
   registry: ""
   # -- Image repository.
-  repository: kubeflow/spark-operator
+  repository: kubeflow/spark-operator/controller
   # -- Image tag.
   # @default -- If not set, the chart appVersion will be used.
   tag: ""
@@ -57,11 +57,21 @@ controller:
   # -- Number of replicas of controller.
   replicas: 1
 
+  leaderElection:
+    # -- Specifies whether to enable leader election for controller.
+    enable: true
+
   # -- Reconcile concurrency, higher values might increase memory usage.
   workers: 10
 
   # -- Configure the verbosity of logging, can be one of `debug`, `info`, `error`.
   logLevel: info
+
+  # -- Grace period after a successful spark-submit when driver pod not found errors will be retried. Useful if the driver pod can take some time to be created.
+  driverPodCreationGracePeriod: 10s
+
+  # -- Specifies the maximum number of Executor pods that can be tracked by the controller per SparkApplication.
+  maxTrackedExecutorPerApp: 1000
 
   uiService:
     # -- Specifies whether to create service for Spark web UI.
@@ -75,6 +85,17 @@ controller:
     # Required if `controller.uiIngress.enable` is true.
     # Use ingressUrlFormat instead for provazio backward compatibility
     urlFormat: ""
+    # -- Optionally set the ingressClassName.
+    ingressClassName: ""
+    # -- Optionally set default TLS configuration for the Spark UI's ingress. `ingressTLS` in the SparkApplication spec overrides this.
+    tls: [ ]
+    # - hosts:
+    #   - "*.example.com"
+    #   secretName: "example-secret"
+    # -- Optionally set default ingress annotations for the Spark UI's ingress. `ingressAnnotations` in the SparkApplication spec overrides this.
+    annotations: { }
+    # key1: value1
+    # key2: value2
 
   batchScheduler:
     # -- Specifies whether to enable batch scheduler for spark jobs scheduling.
@@ -95,6 +116,8 @@ controller:
     name: ""
     # -- Extra annotations for the controller service account.
     annotations: {}
+    # -- Auto-mount service account token to the controller pods.
+    automountServiceAccountToken: true
 
   rbac:
     # -- Specifies whether to create RBAC resources for the controller.
@@ -113,7 +136,11 @@ controller:
     # key2: value2
 
   # -- Volumes for controller pods.
-  volumes: []
+  volumes:
+    # Create a tmp directory to write Spark artifacts to for deployed Spark apps.
+    - name: tmp
+      emptyDir:
+        sizeLimit: 1Gi
 
   # -- Node selector for controller pods.
   nodeSelector: {}
@@ -128,10 +155,8 @@ controller:
   priorityClassName: ""
 
   # -- Security context for controller pods.
-  podSecurityContext: {}
-    # runAsUser: 1000
-    # runAsGroup: 2000
-    # fsGroup: 3000
+  podSecurityContext:
+    fsGroup: 185
 
   # -- Topology spread constraints rely on node labels to identify the topology domain(s) that each Node is in.
   # Ref: [Pod Topology Spread Constraints](https://kubernetes.io/docs/concepts/workloads/pods/pod-topology-spread-constraints/).
@@ -151,7 +176,11 @@ controller:
   envFrom: []
 
   # -- Volume mounts for controller containers.
-  volumeMounts: []
+  volumeMounts:
+    # Mount a tmp directory to write Spark artifacts to for deployed Spark apps.
+    - name: tmp
+      mountPath: "/tmp"
+      readOnly: false
 
   # -- Pod resource requests and limits for controller containers.
   # Note, that each job submission will spawn a JVM within the controller pods using "/usr/local/openjdk-11/bin/java -Xmx128m".
@@ -166,10 +195,16 @@ controller:
     #   memory: 300Mi
 
   # -- Security context for controller containers.
-  securityContext: {}
-    # runAsUser: 1000
-    # runAsGroup: 2000
-    # fsGroup: 3000
+  securityContext:
+    readOnlyRootFilesystem: true
+    privileged: false
+    allowPrivilegeEscalation: false
+    runAsNonRoot: true
+    capabilities:
+      drop:
+        - ALL
+    seccompProfile:
+      type: RuntimeDefault
 
   # -- Sidecar containers for controller pods.
   sidecars: []
@@ -214,6 +249,10 @@ webhook:
   # -- Number of replicas of webhook server.
   replicas: 1
 
+  leaderElection:
+    # -- Specifies whether to enable leader election for webhook.
+    enable: true
+
   # -- Configure the verbosity of logging, can be one of `debug`, `info`, `error`.
   logLevel: info
 
@@ -241,6 +280,8 @@ webhook:
     name: ""
     # -- Extra annotations for the webhook service account.
     annotations: {}
+    # -- Auto-mount service account token to the webhook pods.
+    automountServiceAccountToken: true
 
   rbac:
     # -- Specifies whether to create RBAC resources for the webhook.
@@ -262,7 +303,11 @@ webhook:
   sidecars: []
 
   # -- Volumes for webhook pods.
-  volumes: []
+  volumes:
+    # Create a dir for the webhook to generate its certificates in.
+    - name: serving-certs
+      emptyDir:
+        sizeLimit: 500Mi
 
   # -- Node selector for webhook pods.
   nodeSelector: {}
@@ -277,10 +322,8 @@ webhook:
   priorityClassName: ""
 
   # -- Security context for webhook pods.
-  podSecurityContext: {}
-    # runAsUser: 1000
-    # runAsGroup: 2000
-    # fsGroup: 3000
+  podSecurityContext:
+    fsGroup: 185
 
   # -- Topology spread constraints rely on node labels to identify the topology domain(s) that each Node is in.
   # Ref: [Pod Topology Spread Constraints](https://kubernetes.io/docs/concepts/workloads/pods/pod-topology-spread-constraints/).
@@ -300,7 +343,12 @@ webhook:
   envFrom: []
 
   # -- Volume mounts for webhook containers.
-  volumeMounts: []
+  volumeMounts:
+    # Mount a dir for the webhook to generate its certificates in.
+    - name: serving-certs
+      mountPath: /etc/k8s-webhook-server/serving-certs
+      subPath: serving-certs
+      readOnly: false
 
   # -- Pod resource requests and limits for webhook pods.
   resources: {}
@@ -312,10 +360,16 @@ webhook:
     #   memory: 300Mi
 
   # -- Security context for webhook containers.
-  securityContext: {}
-    # runAsUser: 1000
-    # runAsGroup: 2000
-    # fsGroup: 3000
+  securityContext:
+    readOnlyRootFilesystem: true
+    privileged: false
+    allowPrivilegeEscalation: false
+    runAsNonRoot: true
+    capabilities:
+      drop:
+        - ALL
+    seccompProfile:
+      type: RuntimeDefault
 
   # Pod disruption budget for webhook to avoid service degradation.
   podDisruptionBudget:
@@ -344,6 +398,8 @@ spark:
     name: sparkapp
     # -- Optional annotations for the spark service account.
     annotations: {}
+    # -- Auto-mount service account token to the spark applications pods.
+    automountServiceAccountToken: true
 
   rbac:
     # -- Specifies whether to create RBAC resources for spark applications.
@@ -363,6 +419,8 @@ prometheus:
     endpoint: /metrics
     # -- Metrics prefix, will be added to all exported metrics.
     prefix: ""
+    # -- Job Start Latency histogram buckets. Specified in seconds.
+    jobStartLatencyBuckets: "30,60,90,120,150,180,210,240,270,300"
 
   # Prometheus pod monitor for controller pods
   podMonitor:
@@ -416,3 +474,22 @@ labelSelectorFilter: ""
 global:
   v3io:
     configMountPath: /etc/config/v3io
+
+certManager:
+  # -- Specifies whether to use [cert-manager](https://cert-manager.io) to generate certificate for webhook.
+  # `webhook.enable` must be set to `true` to enable cert-manager.
+  enable: false
+  # -- The reference to the issuer.
+  # @default -- A self-signed issuer will be created and used if not specified.
+  issuerRef: {}
+    # group: cert-manager.io
+    # kind: ClusterIssuer
+    # name: selfsigned
+  # -- The duration of the certificate validity (e.g. `2160h`).
+  # See [cert-manager.io/v1.Certificate](https://cert-manager.io/docs/reference/api-docs/#cert-manager.io/v1.Certificate).
+  # @default -- `2160h` (90 days) will be used if not specified.
+  duration: ""
+  # -- The duration before the certificate expiration to renew the certificate (e.g. `720h`).
+  # See [cert-manager.io/v1.Certificate](https://cert-manager.io/docs/reference/api-docs/#cert-manager.io/v1.Certificate).
+  # @default -- 1/3 of issued certificate’s lifetime.
+  renewBefore: ""

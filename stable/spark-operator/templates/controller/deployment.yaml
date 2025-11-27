@@ -65,12 +65,19 @@ spec:
         {{- end }}
         {{- end }}
         - --controller-threads={{ .Values.controller.workers }}
-        {{- with .Values.controller.uiService.enable }}
-        - --enable-ui-service=true
-        {{- end }}
+        - --enable-ui-service={{ .Values.controller.uiService.enable }}
         {{- if .Values.controller.uiIngress.enable }}
         {{- with .Values.ingressUrlFormat }}
         - --ingress-url-format={{ . }}
+        {{- end }}
+        {{- with .Values.controller.uiIngress.ingressClassName }}
+        - --ingress-class-name={{ . }}
+        {{- end }}
+        {{- with .Values.controller.uiIngress.tls }}
+        - --ingress-tls={{ . | toJson }}
+        {{- end }}
+        {{- with .Values.controller.uiIngress.annotations }}
+        - --ingress-annotations={{ . | toJson }}
         {{- end }}
         {{- end }}
         {{- if .Values.controller.batchScheduler.enable }}
@@ -88,10 +95,15 @@ spec:
         - --metrics-endpoint={{ .Values.prometheus.metrics.endpoint }}
         - --metrics-prefix={{ .Values.prometheus.metrics.prefix }}
         - --metrics-labels=app_type
+        - --metrics-job-start-latency-buckets={{ .Values.prometheus.metrics.jobStartLatencyBuckets }}
         {{- end }}
+        {{ if .Values.controller.leaderElection.enable }}
         - --leader-election=true
         - --leader-election-lock-name={{ include "spark-operator.controller.leaderElectionName" . }}
         - --leader-election-lock-namespace={{ .Release.Namespace }}
+        {{- else -}}
+        - --leader-election=false
+        {{- end }}
         {{- if .Values.controller.pprof.enable }}
         - --pprof-bind-address=:{{ .Values.controller.pprof.port }}
         {{- end }}
@@ -99,6 +111,12 @@ spec:
         - --workqueue-ratelimiter-bucket-size={{ .Values.controller.workqueueRateLimiter.bucketSize }}
         {{- if .Values.controller.workqueueRateLimiter.maxDelay.enable }}
         - --workqueue-ratelimiter-max-delay={{ .Values.controller.workqueueRateLimiter.maxDelay.duration }}
+        {{- end }}
+        {{- if .Values.controller.driverPodCreationGracePeriod }}
+        - --driver-pod-creation-grace-period={{ .Values.controller.driverPodCreationGracePeriod }}
+        {{- end }}
+        {{- if .Values.controller.maxTrackedExecutorPerApp }}
+        - --max-tracked-executor-per-app={{ .Values.controller.maxTrackedExecutorPerApp }}
         {{- end }}
         {{- if or .Values.prometheus.metrics.enable .Values.controller.pprof.enable }}
         ports:
@@ -168,6 +186,7 @@ spec:
       priorityClassName: {{ . }}
       {{- end }}
       serviceAccountName: {{ include "spark-operator.controller.serviceAccountName" . }}
+      automountServiceAccountToken: {{ .Values.controller.serviceAccount.automountServiceAccountToken }}
       {{- with .Values.controller.podSecurityContext }}
       securityContext:
         {{- toYaml . | nindent 8 }}
