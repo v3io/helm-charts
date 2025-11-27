@@ -6,26 +6,25 @@ metadata:
   labels:
     component: workflow-controller
 {{ include "pipelines.commonLabels" . | indent 4 }}
-{{- if .Values.storageMode.kind.minio.enabled }}
+{{- if eq .Values.storageMode.kind "minio" }}
 data:                      # "config: |" key is optional in 2.7+!
   instanceID: my-ci-controller
   artifactRepository: |    # However, all nested maps must be strings
-   archiveLogs: true
-   s3:
-     endpoint: {{ .Values.storageMode.kind.minio.ServiceHost }}:{{ .Values.storageMode.kind.minio.ServicePort }}
-     bucket: {{ .Values.storageMode.kind.minio.DefaultBucket }}
-     insecure: true
-     accessKeySecret:
-       name: mlpipeline-minio-artifact
-       key: accesskey
-     secretKeySecret:
-       name: mlpipeline-minio-artifact
-       key: secretkey
-{{- end -}}
-{{- if .Values.storageMode.kind.v3io.enabled }}
+    archiveLogs: true
+    s3:
+      endpoint: {{ .Values.storageMode.minio.serviceHost }}:{{ .Values.storageMode.minio.servicePort }}
+      bucket: {{ .Values.storageMode.minio.defaultBucket }}
+      insecure: true
+      accessKeySecret:
+        name: mlpipeline-minio-artifact
+        key: accesskey
+      secretKeySecret:
+        name: mlpipeline-minio-artifact
+        key: secretkey
+{{- else if eq .Values.storageMode.kind "v3io" }}
 data:
   # emissary executor is a more portable default, see https://github.com/kubeflow/pipelines/issues/1654.
-#  containerRuntimeExecutor: emissary
+  #  containerRuntimeExecutor: emissary
 
   config: |
     {

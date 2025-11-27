@@ -19,105 +19,104 @@ spec:
 {{ include "pipelines.commonLabels" . | indent 8 }}
     spec:
       volumes:
-      - name: config-volume
-        configMap:
-          name: ml-pipeline-ui-configmap
-      containers:
-      - image: {{ .Values.images.ui.repository }}:{{ .Values.images.ui.tag }}
-        imagePullPolicy: {{ .Values.images.imagePullPolicy }}
-        name: ml-pipeline-ui
-        ports:
-        - containerPort: 3000
-        volumeMounts:
         - name: config-volume
-          mountPath: /etc/config
-          readOnly: true
-        securityContext:
-          allowPrivilegeEscalation: false
-          seccompProfile:
-            type: RuntimeDefault
-          runAsNonRoot: true
-          runAsUser: 1000
-          runAsGroup: 0
-          capabilities:
-            drop:
-            - ALL
-        env:
-          - name: VIEWER_TENSORBOARD_POD_TEMPLATE_SPEC_PATH
-            value: /etc/config/viewer-pod-template.json
-        {{- if .Values.storageMode.kind.v3io.enabled }}
-          - name: MINIO_V3IO
-            value: "1"
-          - name: MINIO_PORT
-            value: "{{ .Values.configurations.ports.nginxPort }}"
-          - name: MINIO_HOST
-            value: v3io-webapi
-          - name: MINIO_ACCESS_KEY
-            value: minio
-          - name: HTTP_AUTHORIZATION_KEY
-            value: X-v3io-session-key
-          - name: HTTP_AUTHORIZATION_DEFAULT_VALUE
-            value: "{{ .Values.configurations.credentials.accessKey }}"
-          - name: MINIO_NAMESPACE
-            value: ""
-        {{- end  }}
-        {{- if .Values.storageMode.kind.minio.enabled }}
-          - name: MINIO_PORT
-            valueFrom:
-              configMapKeyRef:
-                name: pipeline-install-config
-                key: minioDefaultBucket
-          - name: MINIO_HOST
-            valueFrom:
-              configMapKeyRef:
-                name: pipeline-install-config
-                key: minioServiceHost
-          - name: AWS_ACCESS_KEY_ID
-            valueFrom:
-              secretKeyRef:
-                name: mlpipeline-minio-artifact
-                key: accesskey
-          - name: AWS_SECRET_ACCESS_KEY
-            valueFrom:
-              secretKeyRef:
-                name: mlpipeline-minio-artifact
-                key: secretkey
+          configMap:
+            name: ml-pipeline-ui-configmap
+      containers:
+        - image: {{ .Values.images.ui.repository }}:{{ .Values.images.ui.tag }}
+          imagePullPolicy: {{ .Values.images.imagePullPolicy }}
+          name: ml-pipeline-ui
+          ports:
+            - containerPort: 3000
+          volumeMounts:
+            - name: config-volume
+              mountPath: /etc/config
+              readOnly: true
+          securityContext:
+            allowPrivilegeEscalation: false
+            seccompProfile:
+              type: RuntimeDefault
+            runAsNonRoot: true
+            runAsUser: 1000
+            runAsGroup: 0
+            capabilities:
+              drop:
+                - ALL
+          env:
+            - name: VIEWER_TENSORBOARD_POD_TEMPLATE_SPEC_PATH
+              value: /etc/config/viewer-pod-template.json
+        {{- if eq .Values.storageMode.kind "v3io" }}
+            - name: MINIO_V3IO
+              value: "1"
+            - name: MINIO_PORT
+              value: "{{ .Values.configurations.ports.nginxPort }}"
+            - name: MINIO_HOST
+              value: v3io-webapi
+            - name: MINIO_ACCESS_KEY
+              value: minio
+            - name: HTTP_AUTHORIZATION_KEY
+              value: X-v3io-session-key
+            - name: HTTP_AUTHORIZATION_DEFAULT_VALUE
+              value: "{{ .Values.configurations.credentials.accessKey }}"
+            - name: MINIO_NAMESPACE
+              value: ""
+        {{- else if eq .Values.storageMode.kind "minio" }}
+            - name: MINIO_PORT
+              valueFrom:
+                configMapKeyRef:
+                  name: pipeline-install-config
+                  key: minioServicePort
+            - name: MINIO_HOST
+              valueFrom:
+                configMapKeyRef:
+                  name: pipeline-install-config
+                  key: minioServiceHost
+            - name: AWS_ACCESS_KEY_ID
+              valueFrom:
+                secretKeyRef:
+                  name: mlpipeline-minio-artifact
+                  key: accesskey
+            - name: AWS_SECRET_ACCESS_KEY
+              valueFrom:
+                secretKeyRef:
+                  name: mlpipeline-minio-artifact
+                  key: secretkey
         {{- end }}
-          - name: DISABLE_GKE_METADATA
-            value: "true"
-          - name: ALLOW_CUSTOM_VISUALIZATIONS
-            value: "true"
-          - name: FRONTEND_SERVER_NAMESPACE
-            valueFrom:
-              fieldRef:
-                fieldPath: metadata.namespace
-          - name: ARGO_ARCHIVE_LOGS
-            value: "true"
-        readinessProbe:
-          exec:
-            command:
-              - wget
-              - -q # quiet
-              - -S # show server response
-              - -O
-              - "-" # Redirect output to stdout
-              - http://localhost:3000/apis/v1beta1/healthz
-          initialDelaySeconds: 3
-          periodSeconds: 5
-          timeoutSeconds: 2
-        livenessProbe:
-          exec:
-            command:
-              - wget
-              - -q # quiet
-              - -S # show server response
-              - -O
-              - "-" # Redirect output to stdout
-              - http://localhost:3000/apis/v1beta1/healthz
-          initialDelaySeconds: 3
-          periodSeconds: 5
-          timeoutSeconds: 2
-        resources:
+            - name: DISABLE_GKE_METADATA
+              value: "true"
+            - name: ALLOW_CUSTOM_VISUALIZATIONS
+              value: "true"
+            - name: FRONTEND_SERVER_NAMESPACE
+              valueFrom:
+                fieldRef:
+                  fieldPath: metadata.namespace
+            - name: ARGO_ARCHIVE_LOGS
+              value: "true"
+          readinessProbe:
+            exec:
+              command:
+                - wget
+                - -q
+                - -S
+                - -O
+                - "-"
+                - http://localhost:3000/apis/v1beta1/healthz
+            initialDelaySeconds: 3
+            periodSeconds: 5
+            timeoutSeconds: 2
+          livenessProbe:
+            exec:
+              command:
+                - wget
+                - -q
+                - -S
+                - -O
+                - "-"
+                - http://localhost:3000/apis/v1beta1/healthz
+            initialDelaySeconds: 3
+            periodSeconds: 5
+            timeoutSeconds: 2
+          resources:
 {{ toYaml .Values.resources.ui | indent 10 }}
       serviceAccountName: ml-pipeline-ui
 {{- with .Values.nodeSelector }}
