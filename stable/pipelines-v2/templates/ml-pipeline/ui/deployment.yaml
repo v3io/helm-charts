@@ -60,7 +60,7 @@ spec:
               value: mysql-kf
             # ------ end of MySQL Config ------
 
-        {{- if .Values.storageMode.kind.minio.enabled }}
+            {{- if eq .Values.storageMode.kind "minio" }}
             # -------- MinIO object store config --------
             - name: OBJECTSTORECONFIG_ACCESSKEY
               valueFrom:
@@ -87,7 +87,8 @@ spec:
                 configMapKeyRef:
                   name: pipeline-install-config
                   key: minioServiceHost
-        {{- else if .Values.storageMode.kind.v3io.enabled }}
+
+            {{- else if eq .Values.storageMode.kind "v3io" }}
             # -------- v3io object store config --------
             - name: OBJECTSTORECONFIG_ACCESSKEY
               value: "{{ .Values.configurations.credentials.accessKey }}"
@@ -99,7 +100,7 @@ spec:
               value: "{{ .Values.configurations.ports.nginxPort }}"
             - name: OBJECTSTORECONFIG_HOST
               value: v3io-webapi
-        {{- end }}
+            {{- end }}
 
             - name: OBJECTSTORECONFIG_MULTIPART_DISABLE
               value: "true"

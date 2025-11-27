@@ -1,11 +1,11 @@
-{{- if .Values.storageMode.kind.minio.enabled }}
+{{- if eq .Values.storageMode.kind "minio" }}
 apiVersion: v1
 kind: ConfigMap
 metadata:
   name: pipeline-install-config
   labels: {}
 data:
-  minioServiceHost: "{{ .Values.storageMode.kind.minio.ServiceHost }}"
-  minioServicePort: "{{ .Values.storageMode.kind.minio.ServicePort }}"
-  minioDefaultBucket: "{{ .Values.storageMode.kind.minio.DefaultBucket }}"
+  minioServiceHost: "{{ .Values.storageMode.minio.serviceHost }}"
+  minioServicePort: "{{ .Values.storageMode.minio.servicePort }}"
+  minioDefaultBucket: "{{ .Values.storageMode.minio.defaultBucket }}"
 {{- end -}}
