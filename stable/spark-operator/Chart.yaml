@@ -1,16 +1,12 @@
 apiVersion: v2
 name: spark-operator
 description: A Helm chart for Spark on Kubernetes operator.
-version: 2.0.17
-appVersion: 2.0.2
+version: 2.0.18
+appVersion: 2.2.1
 keywords:
 - apache spark
 - big data
 home: https://github.com/kubeflow/spark-operator
 maintainers:
-- name: yuchaoran2011
-  email: yuchaoran2011@gmail.com
-  url: https://github.com/yuchaoran2011
-- name: ChenYi015
-  email: github@chenyicn.net
-  url: https://github.com/ChenYi015
+- name: Gal Topper
+  email: Gal_Topper-BNKK@mckinsey.com
