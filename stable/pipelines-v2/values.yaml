@@ -171,7 +171,7 @@ storageMode:
   kind: v3io        # default; set to "minio" to switch
 
   minio:
-    serviceHost: minio
+    serviceHost: mlrun-minio.{{ .Release.Namespace }}.svc
     servicePort: 9000
     defaultBucket: mlrun
     accessKey: minio
