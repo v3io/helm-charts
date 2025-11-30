@@ -5,7 +5,7 @@ metadata:
   name: pipeline-install-config
   labels: {}
 data:
-  minioServiceHost: "{{ .Values.storageMode.minio.serviceHost }}"
+  minioServiceHost: "{{ tpl .Values.storageMode.minio.serviceHost . }}"
   minioServicePort: "{{ .Values.storageMode.minio.servicePort }}"
   minioDefaultBucket: "{{ .Values.storageMode.minio.defaultBucket }}"
 {{- end -}}

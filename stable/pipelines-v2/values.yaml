@@ -174,8 +174,8 @@ storageMode:
     serviceHost: mlrun-minio.{{ .Release.Namespace }}.svc
     servicePort: 9000
     defaultBucket: mlrun
-    accessKey: minio
-    secretKey: minio123
+    accessKey: console
+    secretKey: console123
 
 # -------------------------------------------------------------------
 # MySQL pod security
