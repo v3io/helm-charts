@@ -187,7 +187,7 @@ db:
   securityContext: {}
 
   dumpRestore:
-    enabled: true   # you control dump/restore logic with this flag
+    enabled: true   # enable to dump data from KFP 1.8 MySQL 5.6 to KFP 2.X MySQL version 8.4
 
 managedstorage:
   enabled: false
