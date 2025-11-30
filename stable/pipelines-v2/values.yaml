@@ -82,6 +82,7 @@ configurations:
 # -------------------------------------------------------------------
 # IMAGES
 # -------------------------------------------------------------------
+# updated versions can be taken from here: https://github.com/kubeflow/pipelines/blob/master/manifests/kustomize/base/kustomization.yaml
 images:
   imagePullPolicy: IfNotPresent
 
@@ -185,6 +186,11 @@ db:
     runAsUser: 1001
 
   securityContext: {}
+    # capabilities:
+    #   drop:
+    #   - ALL
+    # readOnlyRootFilesystem: true
+  # runAsNonRoot: true
 
   dumpRestore:
     enabled: true   # enable to dump data from KFP 1.8 MySQL 5.6 to KFP 2.X MySQL version 8.4
