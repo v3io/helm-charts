@@ -1,20 +1,28 @@
 crd:
   create: false
+
 deployment:
   create: true
+
 rbac:
   create: true
 
-# kubeflow pipelines uses two kinds of storage:
-# Metadata -  mostly used for purposes of sorting and filtering uses mysql
-# Artifacts - heavier data (packages, views, etc. Also large-scale metrics) we use iguazio storage for this
+# -------------------------------------------------------------------
+# STORAGE (Pipeline Artifacts + Metadata DB Backend)
+# -------------------------------------------------------------------
 storage:
   artifacts:
     containerName: users
   metadata:
+    # mode controls how the MySQL data directory is stored:
+    #   v3io - use v3io flexVolume (or volumes.storageOverride if provided)
+    #   pvc  - use a Kubernetes PVC (created or existing)
+    #   none - use an ephemeral emptyDir (no persistence at all)
+    mode: "v3io"
     persistence:
       enabled: false
       existingClaim:
+      claimName: mysql-kf-pvc
       storageClass:
       accessMode: "ReadWriteOnce"
       size: "8Gi"
@@ -23,16 +31,14 @@ storage:
     subPath: /mlpipeline/mysql-kf
     volumes:
       storageOverride: {}
-    # define volume for nfs uc.
-    #volumes:
-    #  storageOverride:
-    #    persistentVolumeClaim:
-    #      claimName: pipeline-mysql-pvc
+
 configurations:
   credentials:
     accessKey: overrideMe
+
   ports:
     nginxPort: 8081
+
   argo:
     kfpContainerRuntimeExecutor: emissary
     progressDeadlineSeconds: 600
@@ -45,6 +51,7 @@ configurations:
     template:
       spec:
         terminationGracePeriodSeconds: 30
+
   mysql:
     spec:
       template:
@@ -59,6 +66,7 @@ configurations:
               initialDelaySeconds: 20
               failureThreshold: 3
               periodSeconds: 10
+
   kfpDefaultPipelineRoot:
     objref:
       kind: ConfigMap
@@ -66,40 +74,54 @@ configurations:
       apiVersion: v1
       fieldref:
         fieldpath: data.defaultPipelineRoot
+
   persistenceagent:
     ttlSecondsAfterWorkflowFinish: 86400
     numWorkers: 2
 
+# -------------------------------------------------------------------
+# IMAGES
+# -------------------------------------------------------------------
 # updated versions can be taken from here: https://github.com/kubeflow/pipelines/blob/master/manifests/kustomize/base/kustomization.yaml
 images:
   imagePullPolicy: IfNotPresent
+
   busybox:
     repository: busybox
     tag: 1.37.0
+
   argoexec:
     repository: gcr.io/ml-pipeline/argoexec
     tag: v3.4.17-license-compliance
+
   workflowController:
     repository: gcr.io/ml-pipeline/workflow-controller
     tag: v3.4.17-license-compliance
+
   apiServer:
     repository: ghcr.io/kubeflow/kfp-api-server
     tag: 2.14.3
+
   persistenceagent:
     repository: ghcr.io/kubeflow/kfp-persistence-agent
     tag: 2.14.3
+
   scheduledworkflow:
     repository: ghcr.io/kubeflow/kfp-scheduled-workflow-controller
     tag: 2.14.3
+
   ui:
     repository: ghcr.io/kubeflow/kfp-frontend
     tag: 2.14.3
+
   viewerCrdController:
     repository: ghcr.io/kubeflow/kfp-viewer-crd-controller
     tag: 2.14.3
+
   visualizationServer:
     repository: ghcr.io/kubeflow/kfp-visualization-server
     tag: 2.14.3
+
   metadata:
     container:
       repository: gcr.io/tfx-oss-public/ml_metadata_store_server
@@ -107,32 +129,24 @@ images:
     init:
       repository: imega/mysql-client
       tag: 10.6.4
+
   metadataEnvoy:
     repository: ghcr.io/kubeflow/kfp-metadata-envoy
     tag: 2.14.3
+
   metadataWriter:
-      repository: ghcr.io/kubeflow/kfp-metadata-writer
-      tag: 2.14.3
+    repository: ghcr.io/kubeflow/kfp-metadata-writer
+    tag: 2.14.3
+
   mysqlLegacy:
-    repository: mysql
+    repository: gcr.io/iguazio/mysql-legacy
     tag: 5.6
+
   mysql:
-    repository: gcr.io/ml-pipeline/mysql
+    repository: gcr.io/iguazio/mysql
     tag: 8.4
 
 resources:
-  # We usually recommend not to specify default resources and to leave this as a conscious
-  # choice for the user. This also increases chances charts run on environments with little
-  # resources, such as Minikube. If you do want to specify resources, use the following
-  # format in any of the below subelements, adjust them as necessary, and remove the curly
-  # braces after the block name, e.g. 'workflowController:'
-  # limits:
-  #  cpu: 100m
-  #  memory: 128Mi
-  # requests:
-  #  cpu: 100m
-  #  memory: 128Mi
-
   workflowController: {}
   metadata: {}
   metadataWriter: {}
@@ -145,33 +159,28 @@ resources:
   visualizationServer: {}
   mysql: {}
 
-## Node labels for pod assignment
-## Ref: https://kubernetes.io/docs/user-guide/node-selection/
-##
 nodeSelector: {}
-
-## List of node taints to tolerate (requires Kubernetes >= 1.6)
 tolerations: []
-#  - key: "key"
-#    operator: "Equal|Exists"
-#    value: "value"
-#    effect: "NoSchedule|PreferNoSchedule|NoExecute"
-
-## Affinity
-## ref: https://kubernetes.io/docs/concepts/configuration/assign-pod-node/#affinity-and-anti-affinity
 affinity: {}
-
 priorityClassName: ""
 
+# -------------------------------------------------------------------
+# Artifact store backend selector:
+#   kind: v3io | minio
+# -------------------------------------------------------------------
 storageMode:
-  kind:
-    v3io:
-      enabled: true
-      # in case of nfs storage
-      #enabled: false
-    minio:
-      enabled: false
+  kind: v3io        # default; set to "minio" to switch
 
+  minio:
+    serviceHost: minio.{{ .Release.Namespace }}.svc
+    servicePort: 9000
+    defaultBucket: mlrun
+    accessKey: console
+    secretKey: console123
+
+# -------------------------------------------------------------------
+# MySQL pod security
+# -------------------------------------------------------------------
 db:
   podSecurityContext:
     runAsUser: 1001
@@ -182,6 +191,9 @@ db:
     #   - ALL
     # readOnlyRootFilesystem: true
   # runAsNonRoot: true
+
+  dumpRestore:
+    enabled: true   # enable to dump data from KFP 1.8 MySQL 5.6 to KFP 2.X MySQL version 8.4
 
 managedstorage:
   enabled: false

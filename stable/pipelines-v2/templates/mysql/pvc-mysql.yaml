@@ -1,8 +1,13 @@
-{{- if .Values.storage.metadata.persistence.enabled -}}
-kind: PersistentVolumeClaim
+{{- /*
+This PVC is created only when:
+  - storage.metadata.mode == "pvc"
+  - no existingClaim is provided
+*/ -}}
+{{- if and (eq .Values.storage.metadata.mode "pvc") (not .Values.storage.metadata.persistence.existingClaim) -}}
 apiVersion: v1
+kind: PersistentVolumeClaim
 metadata:
-  name: {{ .Values.storage.metadata.volumes.storageOverride.persistentVolumeClaim.claimName }}
+  name: {{ .Values.storage.metadata.persistence.claimName | quote }}
   labels:
 {{ include "pipelines.commonLabels" . | indent 4 }}
 {{- with .Values.storage.metadata.persistence.annotations }}
@@ -15,6 +20,7 @@ spec:
   resources:
     requests:
       storage: {{ .Values.storage.metadata.persistence.size | quote }}
+
 {{- if .Values.storage.metadata.persistence.storageClass }}
 {{- if (eq "-" .Values.storage.metadata.persistence.storageClass) }}
   storageClassName: ""

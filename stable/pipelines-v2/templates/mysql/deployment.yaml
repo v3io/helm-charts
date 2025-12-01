@@ -8,6 +8,8 @@ metadata:
     component: mysql-kf
 {{ include "pipelines.commonLabels" . | indent 4 }}
 spec:
+  strategy:
+    type: Recreate
   selector:
     matchLabels:
       component: mysql-kf
@@ -24,124 +26,145 @@ spec:
         {{- toYaml .Values.db.podSecurityContext | nindent 8 }}
       serviceAccountName: mysql-kf
       volumes:
-      - name: mysql-init-scripts
-        configMap:
-          name: mysql-kf
-      - name: mysql-kf-secret
-        secret:
-          secretName: mysql-kf-secret
-          items:
-            - key: mysql.cnf
-              path: mysql.cnf
-      - name: mysql-fuse
-{{- if .Values.storage.metadata.volumes.storageOverride }}
-{{ toYaml .Values.storage.metadata.volumes.storageOverride | nindent 10 }}
-{{- else }}
-        flexVolume:
-          driver: "v3io/fuse"
-          options:
-            container: {{ .Values.storage.metadata.containerName }}
-            subPath: {{ .Values.storage.metadata.subPath }}
-            accessKey: {{ .Values.configurations.credentials.accessKey }}
-{{- end }}
-      - name: dump-volume
-        emptyDir: {}
+        - name: mysql-init-scripts
+          configMap:
+            name: mysql-kf
+        - name: mysql-kf-secret
+          secret:
+            secretName: mysql-kf-secret
+            items:
+              - key: mysql.cnf
+                path: mysql.cnf
+        - name: mysql-fuse
+        {{- /* PVC mode */}}
+        {{- if eq .Values.storage.metadata.mode "pvc" }}
+          persistentVolumeClaim:
+          {{- if .Values.storage.metadata.persistence.existingClaim }}
+            claimName: {{ .Values.storage.metadata.persistence.existingClaim }}
+          {{- else }}
+            claimName: {{ .Values.storage.metadata.persistence.claimName }}
+          {{- end }}
 
+        {{- /* no persistence mode */}}
+        {{- else if eq .Values.storage.metadata.mode "none" }}
+          emptyDir: {}
+
+        {{- /* v3io override */}}
+        {{- else if .Values.storage.metadata.volumes.storageOverride }}
+{{ toYaml .Values.storage.metadata.volumes.storageOverride | nindent 8 }}
+
+        {{- /* default: v3io flex volume */}}
+        {{- else }}
+          flexVolume:
+            driver: "v3io/fuse"
+            options:
+              container: {{ .Values.storage.metadata.containerName }}
+              subPath: {{ .Values.storage.metadata.subPath }}
+              accessKey: {{ .Values.configurations.credentials.accessKey }}
+        {{- end }}
+
+      {{- if .Values.db.dumpRestore.enabled }}
+        - name: dump-volume
+          emptyDir: {}
+      {{- end }}
+
+      {{- if .Values.db.dumpRestore.enabled }}
       initContainers:
-      - name: dump-old-mysql
-        image: {{ .Values.images.mysqlLegacy.repository }}:{{ .Values.images.mysqlLegacy.tag }}
-        imagePullPolicy: IfNotPresent
-        resources:
+        - name: dump-old-mysql
+          image: {{ .Values.images.mysqlLegacy.repository }}:{{ .Values.images.mysqlLegacy.tag }}
+          imagePullPolicy: IfNotPresent
+          resources:
 {{ toYaml .Values.resources.mysql | indent 12 }}
-        command:
-          - /bin/bash
-          - /etc/config/mysql/init-scripts/dump-or-skip.sh
-        securityContext:
+          command:
+            - /bin/bash
+            - /etc/config/mysql/init-scripts/dump-or-skip.sh
+          securityContext:
 {{ toYaml .Values.db.securityContext | indent 14 }}
-        volumeMounts:
-          - name: mysql-fuse
-            mountPath: "/var/lib/mysql"
-          - name: mysql-init-scripts
-            mountPath: /etc/config/mysql/init-scripts
-          - name: dump-volume
-            mountPath: /dump
-          - name: mysql-kf-secret
-            mountPath: /run/secrets/mysql
-            readOnly: true
+          volumeMounts:
+            - name: mysql-fuse
+              mountPath: "/var/lib/mysql"
+            - name: mysql-init-scripts
+              mountPath: /etc/config/mysql/init-scripts
+            - name: dump-volume
+              mountPath: /dump
+            - name: mysql-kf-secret
+              mountPath: /run/secrets/mysql
+              readOnly: true
 
-      - name: import-into-new-mysql
-        image: {{ .Values.images.mysql.repository }}:{{ .Values.images.mysql.tag }}
-        imagePullPolicy: {{ .Values.images.imagePullPolicy }}
-        command:
-          - /bin/bash
-          - /etc/config/mysql/init-scripts/import-if-dump-done.sh
-        env:
-          - name: DB_USER
-            valueFrom:
-              secretKeyRef:
-                name: mysql-kf-secret
-                key: username
-          - name: MYSQL_PWD
-            valueFrom:
-              secretKeyRef:
-                name: mysql-kf-secret
-                key: password
-        volumeMounts:
-          - name: mysql-fuse
-            mountPath: "/var/lib/mysql"
-          - name: mysql-init-scripts
-            mountPath: /etc/config/mysql/init-scripts
-          - name: dump-volume
-            mountPath: /dump
-          - name: mysql-kf-secret
-            mountPath: /run/secrets/mysql
-            readOnly: true
+        - name: import-into-new-mysql
+          image: {{ .Values.images.mysql.repository }}:{{ .Values.images.mysql.tag }}
+          imagePullPolicy: {{ .Values.images.imagePullPolicy }}
+          command:
+            - /bin/bash
+            - /etc/config/mysql/init-scripts/import-if-dump-done.sh
+          env:
+            - name: DB_USER
+              valueFrom:
+                secretKeyRef:
+                  name: mysql-kf-secret
+                  key: username
+            - name: MYSQL_PWD
+              valueFrom:
+                secretKeyRef:
+                  name: mysql-kf-secret
+                  key: password
+          volumeMounts:
+            - name: mysql-fuse
+              mountPath: "/var/lib/mysql"
+            - name: mysql-init-scripts
+              mountPath: /etc/config/mysql/init-scripts
+            - name: dump-volume
+              mountPath: /dump
+            - name: mysql-kf-secret
+              mountPath: /run/secrets/mysql
+              readOnly: true
+      {{- end }}
 
       containers:
-      - name: {{ .Values.configurations.mysql.spec.template.spec.containers.name }}
-        securityContext:
+        - name: {{ .Values.configurations.mysql.spec.template.spec.containers.name }}
+          securityContext:
 {{ toYaml .Values.db.securityContext | indent 14 }}
-        image: {{ .Values.images.mysql.repository }}:{{ .Values.images.mysql.tag }}
-        imagePullPolicy: {{ .Values.images.imagePullPolicy }}
-        command:
-          - /bin/bash
-          - /etc/config/mysql/init-scripts/start-mysql.sh
-        ports:
-          - name: mysql-kf
-            containerPort: 3306
-            protocol: TCP
-        livenessProbe:
-          exec:
-            command: ["mysqladmin","--defaults-extra-file=/run/secrets/mysql/mysql.cnf","ping","-h","127.0.0.1"]
-          initialDelaySeconds: {{ .Values.configurations.mysql.spec.template.spec.containers.livenessProbe.initialDelaySeconds }}
-          failureThreshold: {{ .Values.configurations.mysql.spec.template.spec.containers.livenessProbe.failureThreshold }}
-          periodSeconds: {{ .Values.configurations.mysql.spec.template.spec.containers.livenessProbe.periodSeconds }}
-        readinessProbe:
-          exec:
-            command: ["mysqladmin","--defaults-extra-file=/run/secrets/mysql/mysql.cnf","ping","-h","127.0.0.1"]
-          initialDelaySeconds: {{ .Values.configurations.mysql.spec.template.spec.containers.readinessProbe.initialDelaySeconds }}
-          failureThreshold: {{ .Values.configurations.mysql.spec.template.spec.containers.readinessProbe.failureThreshold }}
-          periodSeconds: {{ .Values.configurations.mysql.spec.template.spec.containers.readinessProbe.periodSeconds }}
-        env:
-          - name: DB_USER
-            valueFrom:
-              secretKeyRef:
-                name: mysql-kf-secret
-                key: username
-          - name: MYSQL_PWD
-            valueFrom:
-              secretKeyRef:
-                name: mysql-kf-secret
-                key: password
-        volumeMounts:
-          - name: mysql-fuse
-            mountPath: "/var/lib/mysql"
-          - name: mysql-init-scripts
-            mountPath: /etc/config/mysql/init-scripts
-          - name: mysql-kf-secret
-            mountPath: /run/secrets/mysql
-            readOnly: true
-        resources:
+          image: {{ .Values.images.mysql.repository }}:{{ .Values.images.mysql.tag }}
+          imagePullPolicy: {{ .Values.images.imagePullPolicy }}
+          command:
+            - /bin/bash
+            - /etc/config/mysql/init-scripts/start-mysql.sh
+          ports:
+            - name: mysql-kf
+              containerPort: 3306
+              protocol: TCP
+          livenessProbe:
+            exec:
+              command: ["mysqladmin","--defaults-extra-file=/run/secrets/mysql/mysql.cnf","ping","-h","127.0.0.1"]
+            initialDelaySeconds: {{ .Values.configurations.mysql.spec.template.spec.containers.livenessProbe.initialDelaySeconds }}
+            failureThreshold: {{ .Values.configurations.mysql.spec.template.spec.containers.livenessProbe.failureThreshold }}
+            periodSeconds: {{ .Values.configurations.mysql.spec.template.spec.containers.livenessProbe.periodSeconds }}
+          readinessProbe:
+            exec:
+              command: ["mysqladmin","--defaults-extra-file=/run/secrets/mysql/mysql.cnf","ping","-h","127.0.0.1"]
+            initialDelaySeconds: {{ .Values.configurations.mysql.spec.template.spec.containers.readinessProbe.initialDelaySeconds }}
+            failureThreshold: {{ .Values.configurations.mysql.spec.template.spec.containers.readinessProbe.failureThreshold }}
+            periodSeconds: {{ .Values.configurations.mysql.spec.template.spec.containers.readinessProbe.periodSeconds }}
+          env:
+            - name: DB_USER
+              valueFrom:
+                secretKeyRef:
+                  name: mysql-kf-secret
+                  key: username
+            - name: MYSQL_PWD
+              valueFrom:
+                secretKeyRef:
+                  name: mysql-kf-secret
+                  key: password
+          volumeMounts:
+            - name: mysql-fuse
+              mountPath: "/var/lib/mysql"
+            - name: mysql-init-scripts
+              mountPath: /etc/config/mysql/init-scripts
+            - name: mysql-kf-secret
+              mountPath: /run/secrets/mysql
+              readOnly: true
+          resources:
 {{ toYaml .Values.resources.mysql | indent 14 }}
 {{- with .Values.nodeSelector }}
       nodeSelector:
