@@ -169,14 +169,23 @@ priorityClassName: ""
 #   kind: v3io | minio
 # -------------------------------------------------------------------
 storageMode:
-  kind: v3io        # default; set to "minio" to switch
-
+  # default; set to "minio" to switch
+  kind: v3io
+  useTLS: false
   minio:
     serviceHost: minio.{{ .Release.Namespace }}.svc
     servicePort: 9000
     defaultBucket: mlrun
     accessKey: console
     secretKey: console123
+
+
+    # uncomment to use an existing secret
+    # existingSecretName: ""
+
+    # field names for the secret
+    accessKeyName: accesskey
+    secretKeyName: secretkey
 
 # -------------------------------------------------------------------
 # MySQL pod

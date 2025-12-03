@@ -33,7 +33,7 @@ spec:
                 fieldRef:
                   fieldPath: metadata.namespace
             - name: OBJECTSTORECONFIG_SECURE
-              value: "false"
+              value: {{ .Values.storageMode.useTLS | default false | quote }}
 
             # -------- DB config (shared for v3io / minio) --------
             - name: DBCONFIG_USER
@@ -65,13 +65,13 @@ spec:
             - name: OBJECTSTORECONFIG_ACCESSKEY
               valueFrom:
                 secretKeyRef:
-                  name: mlpipeline-minio-artifact
-                  key: accesskey
+                  name: {{ include "pipelines.minioStorageSecretName" . }}
+                  key: {{ include "pipelines.minioAccessKeyName" . }}
             - name: OBJECTSTORECONFIG_SECRETACCESSKEY
               valueFrom:
                 secretKeyRef:
-                  name: mlpipeline-minio-artifact
-                  key: secretkey
+                  name: {{ include "pipelines.minioStorageSecretName" . }}
+                  key: {{ include "pipelines.minioSecretKeyName" . }}
             - name: OBJECTSTORECONFIG_BUCKETNAME
               valueFrom:
                 configMapKeyRef:

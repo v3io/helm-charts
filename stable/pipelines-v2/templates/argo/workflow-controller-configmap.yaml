@@ -21,11 +21,11 @@ data:                      # "config: |" key is optional in 2.7+!
       bucket: {{ .Values.storageMode.minio.defaultBucket }}
       insecure: true
       accessKeySecret:
-        name: mlpipeline-minio-artifact
-        key: accesskey
+        name: {{ include "pipelines.minioStorageSecretName" . }}
+        key: {{ include "pipelines.minioAccessKeyName" . }}
       secretKeySecret:
-        name: mlpipeline-minio-artifact
-        key: secretkey
+        name: {{ include "pipelines.minioStorageSecretName" . }}
+        key: {{ include "pipelines.minioSecretKeyName" . }}
 
 {{- else if eq .Values.storageMode.kind "v3io" }}
 data:
