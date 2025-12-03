@@ -17,7 +17,7 @@ spec:
   template:
     metadata:
       annotations:
-        checksum/mysql-kf-secret: {{ (lookup "v1" "Secret" .Release.Namespace "mysql-kf-secret").data | default dict | toJson | sha256sum }}
+        checksum/{{ include "pipelines.dbSecretName" . }}: {{ (lookup "v1" "Secret" .Release.Namespace (include "pipelines.dbSecretName" .)).data | default dict | toJson | sha256sum }}
       labels:
         component: mysql-kf
 {{ include "pipelines.commonLabels" . | indent 8 }}
@@ -29,9 +29,9 @@ spec:
         - name: mysql-init-scripts
           configMap:
             name: mysql-kf
-        - name: mysql-kf-secret
+        - name: {{ include "pipelines.dbSecretName" . }}
           secret:
-            secretName: mysql-kf-secret
+            secretName: {{ include "pipelines.dbSecretName" . }}
             items:
               - key: mysql.cnf
                 path: mysql.cnf
@@ -87,7 +87,7 @@ spec:
               mountPath: /etc/config/mysql/init-scripts
             - name: dump-volume
               mountPath: /dump
-            - name: mysql-kf-secret
+            - name: {{ include "pipelines.dbSecretName" . }}
               mountPath: /run/secrets/mysql
               readOnly: true
 
@@ -101,12 +101,12 @@ spec:
             - name: DB_USER
               valueFrom:
                 secretKeyRef:
-                  name: mysql-kf-secret
+                  name: {{ include "pipelines.dbSecretName" . }}
                   key: username
             - name: MYSQL_PWD
               valueFrom:
                 secretKeyRef:
-                  name: mysql-kf-secret
+                  name: {{ include "pipelines.dbSecretName" . }}
                   key: password
           volumeMounts:
             - name: mysql-fuse
@@ -115,7 +115,7 @@ spec:
               mountPath: /etc/config/mysql/init-scripts
             - name: dump-volume
               mountPath: /dump
-            - name: mysql-kf-secret
+            - name: {{ include "pipelines.dbSecretName" . }}
               mountPath: /run/secrets/mysql
               readOnly: true
       {{- end }}
@@ -149,19 +149,19 @@ spec:
             - name: DB_USER
               valueFrom:
                 secretKeyRef:
-                  name: mysql-kf-secret
+                  name: {{ include "pipelines.dbSecretName" . }}
                   key: username
             - name: MYSQL_PWD
               valueFrom:
                 secretKeyRef:
-                  name: mysql-kf-secret
+                  name: {{ include "pipelines.dbSecretName" . }}
                   key: password
           volumeMounts:
             - name: mysql-fuse
               mountPath: "/var/lib/mysql"
             - name: mysql-init-scripts
               mountPath: /etc/config/mysql/init-scripts
-            - name: mysql-kf-secret
+            - name: {{ include "pipelines.dbSecretName" . }}
               mountPath: /run/secrets/mysql
               readOnly: true
           resources:

@@ -16,7 +16,7 @@ spec:
   template:
     metadata:
       annotations:
-        checksum/mysql-kf-secret: {{ (lookup "v1" "Secret" .Release.Namespace "mysql-kf-secret").data | default dict | toJson | sha256sum }}
+        checksum/{{ include "pipelines.dbSecretName" . }}: {{ (lookup "v1" "Secret" .Release.Namespace (include "pipelines.dbSecretName" .)).data | default dict | toJson | sha256sum }}
       labels:
         component: metadata-grpc-server
 {{ include "pipelines.commonLabels" . | indent 8 }}
@@ -24,9 +24,9 @@ spec:
       volumes:
         - name: mysql-cnf
           emptyDir: {}
-        - name: mysql-kf-secret
+        - name: {{ include "pipelines.dbSecretName" . }}
           secret:
-            secretName: mysql-kf-secret
+            secretName: {{ include "pipelines.dbSecretName" . }}
       initContainers:
         - name: init-mysql-cnf
           image: {{ .Values.images.busybox.repository }}:{{ .Values.images.busybox.tag }}
@@ -35,21 +35,21 @@ spec:
             - -c
             - |
               echo "[client]" > /config/mysql.cnf
-              echo "user=$(cat /mysql-kf-secret/username)" >> /config/mysql.cnf
-              echo "password=$(cat /mysql-kf-secret/password)" >> /config/mysql.cnf
+              echo "user=$(cat /mysql-secret/username)" >> /config/mysql.cnf
+              echo "password=$(cat /mysql-secret/password)" >> /config/mysql.cnf
               echo "host=mysql-kf" >> /config/mysql.cnf
           volumeMounts:
             - name: mysql-cnf
               mountPath: /config
-            - name: mysql-kf-secret
-              mountPath: /mysql-kf-secret
+            - name: {{ include "pipelines.dbSecretName" . }}
+              mountPath: /mysql-secret
               readOnly: true
         - name: metadata-init
           env:
             - name: DBCONFIG_USER
               valueFrom:
                 secretKeyRef:
-                  name: mysql-kf-secret
+                  name: {{ include "pipelines.dbSecretName" . }}
                   key: username
             - name: MYSQL_DATABASE
               valueFrom:
@@ -110,12 +110,12 @@ spec:
             - name: DBCONFIG_USER
               valueFrom:
                 secretKeyRef:
-                  name: mysql-kf-secret
+                  name: {{ include "pipelines.dbSecretName" . }}
                   key: username
             - name: DB_PASSWORD
               valueFrom:
                 secretKeyRef:
-                  name: mysql-kf-secret
+                  name: {{ include "pipelines.dbSecretName" . }}
                   key: password
 
           command: [ "/bin/metadata_store_server" ]

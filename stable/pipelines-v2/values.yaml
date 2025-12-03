@@ -179,9 +179,20 @@ storageMode:
     secretKey: console123
 
 # -------------------------------------------------------------------
-# MySQL pod security
+# MySQL pod
 # -------------------------------------------------------------------
 db:
+
+  # contains the secret name for the mysql credentials in a format of
+  # stringData:
+  #    username: "kubeflow"
+  #    password: "{{ $password }}"
+  #    mysql.cnf: |
+  #      [client]
+  #      user=kubeflow
+  #      password={{ $password }}
+  existingSecretName: ""
+
   podSecurityContext:
     runAsUser: 1001
 
