@@ -1,13 +1,13 @@
-{{- if eq .Values.storageMode.kind "minio" }}
+{{- if and (not .Values.storageMode.minio.existingSecretName) (eq .Values.storageMode.kind "minio") }}
 apiVersion: v1
 kind: Secret
 type: Opaque
 metadata:
   labels:
     app: pipelines
-  name: mlpipeline-minio-artifact
+  name: {{ include "pipelines.minioStorageSecretName" . }}
   namespace: {{ .Release.Namespace }}
 data:
-  accesskey: {{ .Values.storageMode.minio.accessKey | b64enc }}
-  secretkey: {{ .Values.storageMode.minio.secretKey | b64enc }}
+  {{ include "pipelines.minioAccessKeyName" . }}: {{ .Values.storageMode.minio.accessKey | b64enc }}
+  {{ include "pipelines.minioSecretKeyName" . }}: {{ .Values.storageMode.minio.secretKey | b64enc }}
 {{- end -}}

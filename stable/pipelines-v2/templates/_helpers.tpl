@@ -20,3 +20,47 @@ chart: {{ include "pipelines.chart" . }}
 release: {{ .Release.Name }}
 heritage: {{ .Release.Service }}
 {{- end -}}
+
+{{/*
+Define mino storage secret name
+*/}}
+{{- define "pipelines.minioStorageSecretName" -}}
+{{- if .Values.storageMode.minio.existingSecretName -}}
+{{- .Values.storageMode.minio.existingSecretName -}}
+{{- else -}}
+{{- "mlpipeline-minio-artifact" -}}
+{{- end -}}
+{{- end -}}
+
+
+{{/*
+Define access key name for the minio secret
+*/}}
+{{- define "pipelines.minioAccessKeyName" -}}
+{{- if .Values.storageMode.minio.accessKeyName -}}
+{{- .Values.storageMode.minio.accessKeyName -}}
+{{- else -}}
+{{- "accesskey" -}}
+{{- end -}}
+{{- end -}}
+
+{{/*
+Define secret key name for the minio secret
+*/}}
+{{- define "pipelines.minioSecretKeyName" -}}
+{{- if .Values.storageMode.minio.secretKeyName -}}
+{{- .Values.storageMode.minio.secretKeyName -}}
+{{- else -}}
+{{- "secretkey" -}}
+{{- end -}}
+{{- end -}}
+
+
+# define mysql secret name or use existing secret
+{{- define "pipelines.dbSecretName" -}}
+{{- if .Values.db.existingSecretName -}}
+{{- .Values.db.existingSecretName -}}
+{{- else -}}
+{{- "mysql-kf-secret" -}}
+{{- end -}}
+{{- end -}}

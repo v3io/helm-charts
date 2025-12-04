@@ -19,7 +19,7 @@ spec:
 {{ include "pipelines.commonLabels" . | indent 8 }}
       annotations:
         cluster-autoscaler.kubernetes.io/safe-to-evict: "true"
-        checksum/mysql-kf-secret: {{ (lookup "v1" "Secret" .Release.Namespace "mysql-kf-secret").data | default dict | toJson | sha256sum }}
+        checksum/{{ include "pipelines.dbSecretName" . }}: {{ (lookup "v1" "Secret" .Release.Namespace (include "pipelines.dbSecretName" .)).data | default dict | toJson | sha256sum }}
     spec:
       containers:
         - name: ml-pipeline-api-server
@@ -33,28 +33,28 @@ spec:
                 fieldRef:
                   fieldPath: metadata.namespace
             - name: OBJECTSTORECONFIG_SECURE
-              value: "false"
+              value: {{ .Values.storageMode.useTLS | default false | quote }}
 
             # -------- DB config (shared for v3io / minio) --------
             - name: DBCONFIG_USER
               valueFrom:
                 secretKeyRef:
-                  name: mysql-kf-secret
+                  name: {{ include "pipelines.dbSecretName" . }}
                   key: username
             - name: DBCONFIG_PASSWORD
               valueFrom:
                 secretKeyRef:
-                  name: mysql-kf-secret
+                  name: {{ include "pipelines.dbSecretName" . }}
                   key: password
             - name: DBCONFIG_MYSQLCONFIG_USER
               valueFrom:
                 secretKeyRef:
-                  name: mysql-kf-secret
+                  name: {{ include "pipelines.dbSecretName" . }}
                   key: username
             - name: DBCONFIG_MYSQLCONFIG_PASSWORD
               valueFrom:
                 secretKeyRef:
-                  name: mysql-kf-secret
+                  name: {{ include "pipelines.dbSecretName" . }}
                   key: password
             - name: DBCONFIG_MYSQLCONFIG_HOST
               value: mysql-kf
@@ -65,13 +65,13 @@ spec:
             - name: OBJECTSTORECONFIG_ACCESSKEY
               valueFrom:
                 secretKeyRef:
-                  name: mlpipeline-minio-artifact
-                  key: accesskey
+                  name: {{ include "pipelines.minioStorageSecretName" . }}
+                  key: {{ include "pipelines.minioAccessKeyName" . }}
             - name: OBJECTSTORECONFIG_SECRETACCESSKEY
               valueFrom:
                 secretKeyRef:
-                  name: mlpipeline-minio-artifact
-                  key: secretkey
+                  name: {{ include "pipelines.minioStorageSecretName" . }}
+                  key: {{ include "pipelines.minioSecretKeyName" . }}
             - name: OBJECTSTORECONFIG_BUCKETNAME
               valueFrom:
                 configMapKeyRef:

@@ -75,13 +75,13 @@ spec:
             - name: AWS_ACCESS_KEY_ID
               valueFrom:
                 secretKeyRef:
-                  name: mlpipeline-minio-artifact
-                  key: accesskey
+                  name: {{ include "pipelines.minioStorageSecretName" . }}
+                  key: {{ include "pipelines.minioAccessKeyName" . }}
             - name: AWS_SECRET_ACCESS_KEY
               valueFrom:
                 secretKeyRef:
-                  name: mlpipeline-minio-artifact
-                  key: secretkey
+                  name: {{ include "pipelines.minioStorageSecretName" . }}
+                  key: {{ include "pipelines.minioSecretKeyName" . }}
             {{- end }}
 
             - name: DISABLE_GKE_METADATA
