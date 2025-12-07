@@ -28,7 +28,7 @@ spec:
       terminationGracePeriodSeconds: 120
       initContainers:
         - name: init-mysql
-          image: "{{ .Values.db.image.repository }}:{{ .Values.db.image.tag }}"
+          image: "{{ .Values.db.image.repository }}:{{ include "mlrun.db.mysqlTag" . }}"
           imagePullPolicy: {{ .Values.db.image.pullPolicy }}
           resources:
             {{- toYaml .Values.db.resources | nindent 12 }}
@@ -47,7 +47,7 @@ spec:
         - name: {{ template "mlrun.name" . }}-{{ .Values.db.name }}
           securityContext:
             {{- toYaml .Values.db.securityContext | nindent 12 }}
-          image: "{{ .Values.db.image.repository }}:{{ .Values.db.image.tag }}"
+          image: "{{ .Values.db.image.repository }}:{{ include "mlrun.db.mysqlTag" . }}"
           imagePullPolicy: {{ .Values.db.image.pullPolicy }}
           command: ["/bin/bash", "/etc/config/mysql/v3io-mysql.sh"]
           ports:

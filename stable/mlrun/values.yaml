@@ -395,7 +395,11 @@ db:
 
   image:
     repository: mysql
-    tag: "8.4"
+    # MySQL tag is automatically determined based on MLRun appVersion:
+    # - MySQL 8.0 for appVersion < 1.11.0
+    # - MySQL 8.4 for appVersion >= 1.11.0
+    # Set this value explicitly to override the automatic selection
+    tag: ""
     pullPolicy: IfNotPresent
     pullSecrets: []
 

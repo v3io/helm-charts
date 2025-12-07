@@ -183,6 +183,23 @@ We truncate at 63 chars because some Kubernetes name fields are limited to this 
 {{- printf "%s-init" (include "mlrun.db.fullname" .) | trunc 63 | trimSuffix "-" -}}
 {{- end -}}
 
+{{/*
+Determine MySQL image tag based on MLRun appVersion.
+- If db.image.tag is explicitly set in values, use that (allows override)
+- Otherwise, use MySQL 8.0 for appVersion < 1.11.0, and MySQL 8.4 for appVersion >= 1.11.0
+*/}}
+{{- define "mlrun.db.mysqlTag" -}}
+{{- if .Values.db.image.tag -}}
+{{- .Values.db.image.tag -}}
+{{- else -}}
+{{- if semverCompare "<1.11.0" .Chart.AppVersion -}}
+{{- print "8.0" -}}
+{{- else -}}
+{{- print "8.4" -}}
+{{- end -}}
+{{- end -}}
+{{- end -}}
+
 
 {{/*
 This is to couple nuclio and mlrun charts, and comes to workaround the fact that the same
