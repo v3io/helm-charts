@@ -154,6 +154,92 @@ run_test() {
         test_fail
     fi
     
+    # Test 4: Non-semver API tag with appVersion 1.10.0 should yield MySQL 8.0
+    test_start "Non-semver API tag 'latest' with appVersion 1.10.0 -> MySQL 8.0"
+    output_dir=$(render_chart "$helm" "$chart_dir" \
+        --set httpDB.dbType=mysql \
+        --set api.image.tag="latest" \
+        --set db.image.tag="")
+    
+    if [ $? -ne 0 ] || [ -z "$output_dir" ]; then
+        echo -e "  ${RED}Failed to render chart${NC}"
+        test_fail
+        return
+    fi
+    
+    mysql_tag=$(extract_mysql_tag "$output_dir")
+    extract_exit=$?
+    
+    # Clean up output directory
+    rm -rf "$output_dir"
+    
+    if [ $extract_exit -ne 0 ] || [ -z "$mysql_tag" ]; then
+        echo -e "  ${RED}Could not extract MySQL tag${NC}"
+        test_fail
+        return
+    fi
+    
+    # Non-semver tag should fallback to appVersion (1.10.0) which should yield MySQL 8.0
+    if assert_equal "$mysql_tag" "8.0" "MySQL tag should be 8.0 for non-semver API tag when appVersion is 1.10.0"; then
+        test_pass
+    else
+        test_fail
+    fi
+    
+    # Test 5: Non-semver API tag with appVersion 1.11.0 should yield MySQL 8.4
+    test_start "Non-semver API tag 'dev' with appVersion 1.11.0 -> MySQL 8.4"
+    
+    # Temporarily modify Chart.yaml to set appVersion to 1.11.0
+    local chart_yaml="$chart_dir/Chart.yaml"
+    local chart_yaml_backup
+    chart_yaml_backup=$(mktemp)
+    cp "$chart_yaml" "$chart_yaml_backup"
+    
+    # Update appVersion to 1.11.0
+    if sed -i.bak 's/^appVersion:.*/appVersion: 1.11.0/' "$chart_yaml"; then
+        output_dir=$(render_chart "$helm" "$chart_dir" \
+            --set httpDB.dbType=mysql \
+            --set api.image.tag="dev" \
+            --set db.image.tag="")
+        
+        local render_exit=$?
+        
+        # Restore Chart.yaml
+        mv "$chart_yaml_backup" "$chart_yaml"
+        rm -f "${chart_yaml}.bak"
+        
+        if [ $render_exit -ne 0 ] || [ -z "$output_dir" ]; then
+            echo -e "  ${RED}Failed to render chart${NC}"
+            test_fail
+            return
+        fi
+        
+        mysql_tag=$(extract_mysql_tag "$output_dir")
+        extract_exit=$?
+        
+        # Clean up output directory
+        rm -rf "$output_dir"
+        
+        if [ $extract_exit -ne 0 ] || [ -z "$mysql_tag" ]; then
+            echo -e "  ${RED}Could not extract MySQL tag${NC}"
+            test_fail
+            return
+        fi
+        
+        # Non-semver tag should fallback to appVersion (1.11.0) which should yield MySQL 8.4
+        if assert_equal "$mysql_tag" "8.4" "MySQL tag should be 8.4 for non-semver API tag when appVersion is 1.11.0"; then
+            test_pass
+        else
+            test_fail
+        fi
+    else
+        # Restore Chart.yaml on error
+        mv "$chart_yaml_backup" "$chart_yaml"
+        rm -f "${chart_yaml}.bak"
+        echo -e "  ${RED}Failed to modify Chart.yaml${NC}"
+        test_fail
+    fi
+    
     # Summary is handled by the test runner, no need to print here
 }
 
