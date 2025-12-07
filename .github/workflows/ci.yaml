@@ -13,13 +13,11 @@ jobs:
     steps:
 
     - uses: azure/setup-helm@1a275c3b69536ee54be43f2070a358922e12c8d4  # v4.3.1
-      with:
-        version: '3.13.3'
 
     - name: helm version
       run: helm version
 
-    - uses: actions/checkout@v5
+    - uses: actions/checkout@v6
 
     - name: Add Helm repos
       run: make repo-add update-req
@@ -83,7 +81,7 @@ jobs:
           # - mlrun-kit # mysql pod not starting in minikube in github workflows
 
     steps:
-    - uses: actions/checkout@v5
+    - uses: actions/checkout@v6
       with:
         fetch-depth: 2 # Fetch 2 commits to compare changes
 
@@ -102,14 +100,12 @@ jobs:
         "${GITHUB_WORKSPACE}/hack/scripts/ci/free_space.sh"
     - uses: azure/setup-helm@1a275c3b69536ee54be43f2070a358922e12c8d4  # v4.3.1
       if: steps.chart_changed.outputs.any_changed == 'true'
-      with:
-        version: "v3.13.3"
 
     - uses: manusa/actions-setup-minikube@b589f2d61bf96695c546929c72b38563e856059d  #v2.14.0
       if: steps.chart_changed.outputs.any_changed == 'true'
       with:
-        minikube version: "v1.32.0"
-        kubernetes version: "v1.29.0"
+        minikube version: "v1.37.0"
+        kubernetes version: "v1.24.0"
         driver: docker
         github token: ${{ github.token }}
 
