@@ -184,15 +184,15 @@ We truncate at 63 chars because some Kubernetes name fields are limited to this 
 {{- end -}}
 
 {{/*
-Determine MySQL image tag based on MLRun appVersion.
+Determine MySQL image tag based on MLRun API image tag.
 - If db.image.tag is explicitly set in values, use that (allows override)
-- Otherwise, use MySQL 8.0 for appVersion < 1.11.0, and MySQL 8.4 for appVersion >= 1.11.0
+- Otherwise, use MySQL 8.0 for api.image.tag < 1.11.0, and MySQL 8.4 for api.image.tag >= 1.11.0
 */}}
 {{- define "mlrun.db.mysqlTag" -}}
 {{- if .Values.db.image.tag -}}
 {{- .Values.db.image.tag -}}
 {{- else -}}
-{{- if semverCompare "<1.11.0" .Chart.AppVersion -}}
+{{- if semverCompare "<1.11.0" .Values.api.image.tag -}}
 {{- print "8.0" -}}
 {{- else -}}
 {{- print "8.4" -}}
