@@ -314,8 +314,10 @@ check-helm:
 		echo "Missing helm command" ; \
 		exit 2 ; \
 	fi
-	@HELM_VERSION=$$($(HELM) version --short --client 2>/dev/null || echo "unknown") ; \
+	@HELM_VERSION=$$($(HELM) version --short 2>/dev/null) ; \
 	case "$$HELM_VERSION" in \
+		v4*) \
+			;; \
 		v3*) \
 			;; \
 		*) \

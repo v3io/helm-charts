@@ -14,9 +14,6 @@ jobs:
 
     - uses: azure/setup-helm@1a275c3b69536ee54be43f2070a358922e12c8d4  # v4.3.1
 
-    - name: helm version
-      run: helm version
-
     - uses: actions/checkout@v6
 
     - name: Add Helm repos
@@ -105,7 +102,7 @@ jobs:
       if: steps.chart_changed.outputs.any_changed == 'true'
       with:
         minikube version: "v1.37.0"
-        kubernetes version: "v1.24.0"
+        kubernetes version: "v1.34.0"
         driver: docker
         github token: ${{ github.token }}
 
