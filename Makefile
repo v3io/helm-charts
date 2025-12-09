@@ -316,6 +316,8 @@ check-helm:
 	fi
 	@HELM_VERSION=$$($(HELM) version --short 2>/dev/null) ; \
 	case "$$HELM_VERSION" in \
+		v4*) \
+			;; \
 		v3*) \
 			;; \
 		*) \
