@@ -1,9 +1,13 @@
+global:
+  security:
+    allowInsecureImages: true
+
 keycloak:
   fullnameOverride: v3io-keycloak
   image:
     registry: gcr.io
     repository: iguazio/keycloak
-    tag: 20.0.5-debian-11-r6
+    tag: 26.3.3-debian-11-r6
     pullPolicy: IfNotPresent
 
   service:
@@ -23,15 +27,12 @@ keycloak:
     port: 3306
     user: keycloak-admin
     database: keycloak
+    schema: keycloak
 
     # if you change this value, be sure to change the value in v3io-mysql.adminSecret.name as well
     existingSecret: v3io-keycloak-db-creds
 
-  extraEnvVars:
-    - name: KEYCLOAK_DATABASE_VENDOR
-      value: mysql
-    - name: KEYCLOAK_EXTRA_ARGS
-      value: "-Dkeycloak.migration.action=import -Dkeycloak.migration.provider=singleFile -Dkeycloak.migration.strategy=IGNORE_EXISTING -Dkeycloak.migration.file=/realm_config/realms.json"
+  extraEnvVarsCM: v3io-keycloak-extra-env-vars
 
   createRealmsSecret: true
   realmsSecret: v3io-keycloak-realms

@@ -1,1 +1,1 @@
-kc.sh start --db=${KEYCLOAK_DATABASE_VENDOR} ${KEYCLOAK_EXTRA_ARGS}
+kc.sh start --db=${KC_DB} ${KEYCLOAK_EXTRA_ARGS}
