@@ -13,6 +13,10 @@ api:
         # auto-scaling is currently not supported and the min value is treated as the fixed value
         minReplicas: 1
 
+        # We cannot have more than a single alerts instance running at a time
+        strategy:
+          type: Recreate
+
         service:
           type: ClusterIP
           port: 8080
