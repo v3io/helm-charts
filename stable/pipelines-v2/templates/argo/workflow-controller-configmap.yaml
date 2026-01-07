@@ -13,12 +13,12 @@ data:
     path: /metrics
     port: 9090
     ignoreErrors: false
-  artifactRepository: |    # However, all nested maps must be strings
+  artifactRepository: |
     archiveLogs: true
     s3:
       endpoint: {{ .Values.storageMode.minio.serviceHost }}:{{ .Values.storageMode.minio.servicePort }}
       bucket: {{ .Values.storageMode.minio.defaultBucket }}
-      insecure: true
+      insecure: {{ .Values.storageMode.minio.insecure }}
       accessKeySecret:
         name: {{ include "pipelines.minioStorageSecretName" . }}
         key: {{ include "pipelines.minioAccessKeyName" . }}
@@ -37,7 +37,7 @@ data:
               bucket: {{ .Values.storage.artifacts.containerName }},
               keyPrefix: mlpipeline,
               endpoint: v3io-webapi.{{ .Release.Namespace }}:{{ .Values.configurations.ports.nginxPort }},
-              insecure: true,
+              insecure: {{ .Values.storageMode.minio.insecure }},
               accessKeySecret: {
                   name: v3io-webapi-secret,
                   key: accesskey
