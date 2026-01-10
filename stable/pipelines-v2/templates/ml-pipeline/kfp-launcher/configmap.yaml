@@ -6,5 +6,19 @@ metadata:
   labels:
 {{ include "pipelines.commonLabels" . | indent 4 }}
 data:
-   defaultPipelineRoot: "{{ .Values.configurations.kfpDefaultPipelineRoot }}"
+   # https://www.kubeflow.org/docs/components/pipelines/operator-guides/configure-object-store/#kfp-launcher-object-store-configuration
+  defaultPipelineRoot: "{{ .Values.configurations.kfpDefaultPipelineRoot }}"
+
+  {{- if .Values.configurations.providers }}
+  # providers: |-
+  #   s3:
+  #     default:
+  #       endpoint: s3.amazonaws.com
+  #       disableSSL: false
+  #       region: us-east-2
+  #       forcePathStyle: true
+  #       credentials:
+  #         fromEnv: true  
+  providers: {{ .Values.configurations.providers }}
+  {{- end -}}
 {{- end }}
