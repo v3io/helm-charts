@@ -75,6 +75,17 @@ configurations:
       fieldref:
         fieldpath: data.defaultPipelineRoot
 
+  # KFP Launcher object store provider configuration
+  # https://www.kubeflow.org/docs/components/pipelines/operator-guides/configure-object-store/#kfp-launcher-object-store-configuration
+  # providers:
+  #   s3:
+  #     default:
+  #       endpoint: s3.amazonaws.com
+  #       disableSSL: false
+  #       region: us-east-2
+  #       forcePathStyle: true
+  #       credentials:
+  #         fromEnv: true
   persistenceagent:
     ttlSecondsAfterWorkflowFinish: 86400
     numWorkers: 2
@@ -179,7 +190,7 @@ storageMode:
     accessKey: console
     secretKey: console123
     insecure: "true"
-
+    keyPrefix: mlpipeline
 
     # uncomment to use an existing secret
     # existingSecretName: ""

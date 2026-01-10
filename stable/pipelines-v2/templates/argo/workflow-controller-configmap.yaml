@@ -13,11 +13,14 @@ data:
     path: /metrics
     port: 9090
     ignoreErrors: false
+
+  # https://github.com/argoproj/argo-workflows/blob/v3.7.7/docs/workflow-controller-configmap.yaml
   artifactRepository: |
     archiveLogs: true
     s3:
       endpoint: {{ .Values.storageMode.minio.serviceHost }}:{{ .Values.storageMode.minio.servicePort }}
       bucket: {{ .Values.storageMode.minio.defaultBucket }}
+      keyPrefix: {{ .Values.storageMode.minio.keyPrefix }}
       insecure: {{ .Values.storageMode.minio.insecure }}
       accessKeySecret:
         name: {{ include "pipelines.minioStorageSecretName" . }}
