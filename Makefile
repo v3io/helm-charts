@@ -332,6 +332,11 @@ lint:
 	@echo "Linting all charts"
 	@HELM=$(HELM) ./hack/scripts/lint.sh
 
+.PHONY: test-charts
+test-charts: check-helm
+	@echo "Running chart tests"
+	@bash tests/test_runner.sh
+
 .PHONY: repo-add
 repo-add:
 	helm repo add stable https://charts.helm.sh/stable

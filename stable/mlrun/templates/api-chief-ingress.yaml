@@ -1,5 +1,4 @@
 {{- if "mlrun.api.worker.minReplicas" -}}
-{{- if semverCompare ">=1.1.0-X" .Values.api.image.tag -}}
 {{- if .Values.api.chief.ingress.enabled -}}
 {{- $fullName := include "mlrun.api.chief.fullname" . -}}
 {{- $svcPort := .Values.api.chief.service.port -}}
@@ -40,6 +39,5 @@ spec:
                   number: {{ $svcPort }}
         {{- end }}
   {{- end }}
-{{- end }}
 {{- end }}
 {{- end }}

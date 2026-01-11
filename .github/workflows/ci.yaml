@@ -20,7 +20,7 @@ jobs:
       run: make repo-add update-req
 
     - name: Lint
-      run: make lint
+      run: make lint test-charts
 
     - name: Test stable
       run: make stable

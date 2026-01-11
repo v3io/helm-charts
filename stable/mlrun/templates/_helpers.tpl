@@ -187,17 +187,32 @@ We truncate at 63 chars because some Kubernetes name fields are limited to this 
 Determine MySQL image tag based on MLRun API image tag.
 - If db.image.tag is explicitly set in values, use that (allows override)
 - Otherwise, use MySQL 8.0 for api.image.tag < 1.11.0, and MySQL 8.4 for api.image.tag >= 1.11.0
+- If api.image.tag is not semver-compatible, fall back to appVersion:
+  - appVersion 1.10.x -> MySQL 8.0
+  - appVersion 1.11.x -> MySQL 8.4
 */}}
 {{- define "mlrun.db.mysqlTag" -}}
 {{- if .Values.db.image.tag -}}
-{{- .Values.db.image.tag -}}
+  {{- .Values.db.image.tag -}}
 {{- else -}}
-{{- if semverCompare "<1.11.0" .Values.api.image.tag -}}
-{{- print "8.0" -}}
-{{- else -}}
-{{- print "8.4" -}}
-{{- end -}}
-{{- end -}}
+  {{- $apiTag := .Values.api.image.tag -}}
+  {{- $isSemver := regexMatch "^v?[0-9]+\\.[0-9]+\\.[0-9]+(-rc[0-9]+\\.*)?" $apiTag -}}
+  {{- if not $isSemver -}}
+  {{- /* Non-semver tag, use appVersion */ -}}
+    {{- if semverCompare "<1.11.0" .Chart.AppVersion -}}
+    {{- print "8.0" -}}
+    {{- else -}}
+    {{- print "8.4" -}}
+    {{- end -}}
+  {{- else -}}
+    {{- /* Valid semver tag, use API tag */ -}}
+      {{- if semverCompare "<1.11.0" $apiTag -}}
+      {{- print "8.0" -}}
+      {{- else -}}
+      {{- print "8.4" -}}
+      {{- end -}}
+    {{- end -}}
+  {{- end -}}
 {{- end -}}
 
 
