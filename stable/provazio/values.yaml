@@ -102,6 +102,14 @@ dashboard:
 
   podAnnotations: {}
 
+  ## Service account configuration
+  ## Used for IRSA (IAM Roles for Service Accounts) on EKS
+  serviceAccount:
+    annotations: {}
+    # Example for IRSA:
+    # annotations:
+    #   eks.amazonaws.com/role-arn: arn:aws:iam::123456789012:role/my-irsa-role
+
   ## List of node taints to tolerate (requires Kubernetes >= 1.6)
   tolerations: []
   #  - key: "key"
@@ -211,6 +219,14 @@ vault:
   nodeSelector: {}
 
   podAnnotations: {}
+
+  ## Service account configuration
+  ## Used for IRSA (IAM Roles for Service Accounts) on EKS
+  serviceAccount:
+    annotations: {}
+    # Example for IRSA:
+    # annotations:
+    #   eks.amazonaws.com/role-arn: arn:aws:iam::123456789012:role/my-irsa-role
 
   ## List of node taints to tolerate (requires Kubernetes >= 1.6)
   tolerations: []
