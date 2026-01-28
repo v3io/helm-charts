@@ -115,7 +115,7 @@ api:
 
   image:
     repository: quay.io/mlrun/mlrun-api
-    tag: 1.10.0
+    tag: 1.10.1
     pullPolicy: IfNotPresent
     pullSecrets: []
 
@@ -357,7 +357,7 @@ api:
 
       image:
         repository: quay.io/mlrun/log-collector
-        tag: 1.10.0
+        tag: 1.10.1
         pullPolicy: IfNotPresent
         pullSecrets: []
 
@@ -592,7 +592,7 @@ ui:
 
   image:
     repository: quay.io/mlrun/mlrun-ui
-    tag: 1.10.0
+    tag: 1.10.1
     pullPolicy: IfNotPresent
     pullSecrets: []
 
