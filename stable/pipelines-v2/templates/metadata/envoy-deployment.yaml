@@ -23,6 +23,7 @@ spec:
       - name: container
         image: {{ .Values.images.metadataEnvoy.repository }}:{{ .Values.images.metadataEnvoy.tag }}
         imagePullPolicy: {{ .Values.images.imagePullPolicy }}
+        args: ["/etc/envoy/envoy-config.yaml"]
         ports:
         - name: md-envoy
           containerPort: 9090
@@ -38,8 +39,15 @@ spec:
           capabilities:
             drop:
             - ALL
+        volumeMounts:
+        - name: envoy-config
+          mountPath: /etc/envoy
         resources:
 {{ toYaml .Values.resources.metadataEnvoy | indent 10 }}
+      volumes:
+      - name: envoy-config
+        configMap:
+          name: metadata-envoy-configmap
 {{- with .Values.nodeSelector }}
       nodeSelector:
 {{ toYaml . | indent 8 }}
