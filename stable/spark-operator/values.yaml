@@ -411,8 +411,9 @@ prometheus:
   metrics:
     # -- Specifies whether to enable prometheus metrics scraping.
     enable: true
-    # -- Metrics port.
-    port: 8080
+    # -- Metrics port. Use a high port to avoid collisions
+    # -- e.g. GKE reserves 8080 for node-local-dns when hostNetwork is used (IG-25049)
+    port: 28282
     # -- Metrics port name.
     portName: metrics
     # -- Metrics serving endpoint.
