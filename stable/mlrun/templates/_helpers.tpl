@@ -438,3 +438,20 @@ Resolve the MLRun DB DSN
     {{- printf .Values.httpDB.dsn -}}
   {{- end -}}
 {{- end -}}
+
+{{/*
+Resolve the API persistence access mode
+- If accessMode is explicitly set, use it
+- Otherwise, infer from worker replicas:
+  - ReadWriteMany when worker replicas > 0 (multiple pods need shared volume)
+  - ReadWriteOnce when worker replicas == 0 (single pod)
+*/}}
+{{- define "mlrun.api.persistence.accessMode" -}}
+  {{- if .Values.api.persistence.accessMode -}}
+    {{- printf .Values.api.persistence.accessMode -}}
+  {{- else if gt (int .Values.api.worker.minReplicas) 0 -}}
+    {{- print "ReadWriteMany" -}}
+  {{- else -}}
+    {{- print "ReadWriteOnce" -}}
+  {{- end -}}
+{{- end -}}

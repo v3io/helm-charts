@@ -60,7 +60,11 @@ api:
     enabled: false
     existingClaim:
     storageClass:
-    accessMode: "ReadWriteOnce"
+    # Access mode for the PVC. If empty, automatically inferred:
+    # - ReadWriteMany when worker.minReplicas > 0 (multiple pods need shared volume)
+    # - ReadWriteOnce when worker.minReplicas == 0 (single pod)
+    # If explicitly set, the provided value is used regardless of worker count.
+    accessMode: ""
     size: "8Gi"
     annotations: ~
 
