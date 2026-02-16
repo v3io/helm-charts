@@ -11,7 +11,7 @@ metadata:
 {{- end }}
 spec:
   accessModes:
-    - {{ .Values.api.persistence.accessMode | quote }}
+    - {{ include "mlrun.api.persistence.accessMode" . | quote }}
   resources:
     requests:
       storage: {{ .Values.api.persistence.size | quote }}
