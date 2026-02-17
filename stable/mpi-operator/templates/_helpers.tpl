@@ -52,3 +52,23 @@ Return the appropriate apiVersion for CRD APIs.
 {{- print "apiextensions.k8s.io/v1beta1" }}
 {{- end -}}
 {{- end -}}
+
+{{/*
+Render imagePullSecrets for ServiceAccounts from global values.
+*/}}
+{{- define "mpi-operator.imagePullSecrets" -}}
+{{- $pullSecrets := list -}}
+{{- range .Values.global.imagePullSecrets -}}
+  {{- if kindIs "map" . -}}
+    {{- $pullSecrets = append $pullSecrets .name -}}
+  {{- else -}}
+    {{- $pullSecrets = append $pullSecrets . -}}
+  {{- end -}}
+{{- end -}}
+{{- if (not (empty $pullSecrets)) -}}
+imagePullSecrets:
+{{- range $pullSecrets | uniq }}
+  - name: {{ . }}
+{{- end -}}
+{{- end -}}
+{{- end -}}

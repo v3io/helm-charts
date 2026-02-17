@@ -16,6 +16,9 @@ rbac:
 deployment:
   create: true
 
+global:
+  imagePullSecrets: []
+
 image:
   deployment:
     replicas: 1
