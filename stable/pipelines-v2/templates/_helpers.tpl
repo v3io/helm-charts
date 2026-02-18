@@ -64,3 +64,23 @@ Define secret key name for the minio secret
 {{- "mysql-kf-secret" -}}
 {{- end -}}
 {{- end -}}
+
+{{/*
+Render imagePullSecrets for ServiceAccounts from global values.
+*/}}
+{{- define "pipelines.imagePullSecrets" -}}
+{{- $pullSecrets := list -}}
+{{- range .Values.global.imagePullSecrets -}}
+  {{- if kindIs "map" . -}}
+    {{- $pullSecrets = append $pullSecrets .name -}}
+  {{- else -}}
+    {{- $pullSecrets = append $pullSecrets . -}}
+  {{- end -}}
+{{- end -}}
+{{- if (not (empty $pullSecrets)) -}}
+imagePullSecrets:
+{{- range $pullSecrets | uniq }}
+  - name: {{ . }}
+{{- end -}}
+{{- end -}}
+{{- end -}}
