@@ -233,3 +233,21 @@ db:
 managedstorage:
   enabled: false
   gcsBucketName: ""
+
+# -------------------------------------------------------------------
+# SECURITY CONTEXTS
+# -------------------------------------------------------------------
+securityContext:
+  # -- Standard container-level context shared by most containers
+  defaultContainer:
+    allowPrivilegeEscalation: false
+    seccompProfile:
+      type: RuntimeDefault
+    runAsNonRoot: true
+    runAsUser: 1000
+    runAsGroup: 0
+    capabilities:
+      drop:
+        - ALL
+
+  # -- Argo workflow controller
