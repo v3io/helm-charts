@@ -238,6 +238,12 @@ managedstorage:
 # SECURITY CONTEXTS
 # -------------------------------------------------------------------
 securityContext:
+  # -- Standard pod-level context shared by most deployments
+  defaultPod:
+    runAsNonRoot: true
+    seccompProfile:
+      type: RuntimeDefault
+
   # -- Standard container-level context shared by most containers
   defaultContainer:
     allowPrivilegeEscalation: false

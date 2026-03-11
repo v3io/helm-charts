@@ -19,6 +19,8 @@ spec:
       annotations:
         sidecar.istio.io/inject: "false"
     spec:
+      securityContext:
+        {{- toYaml .Values.securityContext.defaultPod | nindent 8 }}
       containers:
       - name: container
         image: {{ .Values.images.metadataEnvoy.repository }}:{{ .Values.images.metadataEnvoy.tag }}
