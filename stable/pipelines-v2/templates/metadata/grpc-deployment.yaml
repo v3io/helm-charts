@@ -40,6 +40,8 @@ spec:
               echo "user=$(cat /mysql-secret/username)" >> /config/mysql.cnf
               echo "password=$(cat /mysql-secret/password)" >> /config/mysql.cnf
               echo "host=mysql-kf" >> /config/mysql.cnf
+          securityContext:
+            {{- toYaml .Values.securityContext.metadataGrpc.initMysqlCnf | nindent 12 }}
           volumeMounts:
             - name: mysql-cnf
               mountPath: /config
@@ -73,15 +75,7 @@ spec:
             - "mysqladmin --defaults-extra-file=/mysql.cnf status --wait=10"
           image: {{ .Values.images.metadata.init.repository }}:{{ .Values.images.metadata.init.tag }}
           securityContext:
-            allowPrivilegeEscalation: false
-            seccompProfile:
-              type: RuntimeDefault
-            runAsNonRoot: true
-            runAsUser: 1000
-            runAsGroup: 0
-            capabilities:
-              drop:
-                - ALL
+            {{- toYaml .Values.securityContext.metadataGrpc.metadataInit | nindent 12 }}
           volumeMounts:
             - name: mysql-cnf
               mountPath: /mysql.cnf
@@ -150,6 +144,8 @@ spec:
             initialDelaySeconds: 3
             periodSeconds: 5
             timeoutSeconds: 2
+          securityContext:
+            {{- toYaml .Values.securityContext.metadataGrpc.metadataContainer | nindent 12 }}
           resources:
 {{ toYaml .Values.resources.metadata | indent 12 }}
       serviceAccountName: metadata-grpc-server

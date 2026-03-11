@@ -34,6 +34,8 @@ spec:
           valueFrom:
             fieldRef:
               fieldPath: metadata.namespace
+        securityContext:
+          {{- toYaml .Values.securityContext.metadataWriter.container | nindent 10 }}
         resources:
 {{ toYaml .Values.resources.metadataWriter | indent 10 }}
       serviceAccountName: kubeflow-pipelines-metadata-writer

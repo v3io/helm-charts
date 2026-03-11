@@ -29,6 +29,11 @@ data:
         name: {{ include "pipelines.minioStorageSecretName" . }}
         key: {{ include "pipelines.minioSecretKeyName" . }}
 
+  executor: |
+    imagePullPolicy: IfNotPresent
+    securityContext:
+{{ toYaml .Values.securityContext.workflowController.executor | indent 6 }}
+
 {{- else if eq .Values.storageMode.kind "v3io" }}
 data:
   config: |
@@ -53,5 +58,9 @@ data:
           archiveLogs: true
       }
     }
+  executor: |
+    imagePullPolicy: IfNotPresent
+    securityContext:
+{{ toYaml .Values.securityContext.workflowController.executor | indent 6 }}
 {{- end }}
 {{- end }}

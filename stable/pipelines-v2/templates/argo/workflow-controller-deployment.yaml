@@ -68,10 +68,13 @@ spec:
           initialDelaySeconds: 90
           periodSeconds: 60
           timeoutSeconds: 30
+        securityContext:
+          {{- toYaml .Values.securityContext.workflowController.container | nindent 10 }}
       dnsPolicy: ClusterFirst
       restartPolicy: Always
       schedulerName: default-scheduler
-      securityContext: {}
+      securityContext:
+        {{- toYaml .Values.securityContext.workflowController.pod | nindent 8 }}
       serviceAccount: argo
       serviceAccountName: argo
       terminationGracePeriodSeconds: {{ .Values.configurations.argo.template.spec.terminationGracePeriodSeconds }}
