@@ -21,6 +21,8 @@ spec:
       annotations:
         cluster-autoscaler.kubernetes.io/safe-to-evict: "true"
     spec:
+      securityContext:
+        {{- toYaml .Values.securityContext.defaultPod | nindent 8 }}
       containers:
       - image: {{ .Values.images.visualizationServer.repository }}:{{ .Values.images.visualizationServer.tag }}
         imagePullPolicy: {{ .Values.images.imagePullPolicy }}
@@ -52,15 +54,7 @@ spec:
           periodSeconds: 5
           timeoutSeconds: 2
         securityContext:
-          allowPrivilegeEscalation: false
-          seccompProfile:
-            type: RuntimeDefault
-          runAsNonRoot: true
-          runAsUser: 1000
-          runAsGroup: 0
-          capabilities:
-            drop:
-            - ALL
+          {{- toYaml .Values.securityContext.defaultContainer | nindent 10 }}
         resources:
 {{ toYaml .Values.resources.visualizationServer | indent 10 }}
       serviceAccountName: ml-pipeline-visualizationserver

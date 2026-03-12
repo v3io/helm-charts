@@ -20,6 +20,8 @@ spec:
       annotations:
         cluster-autoscaler.kubernetes.io/safe-to-evict: "true"
     spec:
+      securityContext:
+        {{- toYaml .Values.securityContext.defaultPod | nindent 8 }}
       containers:
       - name: ml-pipeline-persistenceagent
         image: {{ .Values.images.persistenceagent.repository }}:{{ .Values.images.persistenceagent.tag }}
@@ -43,15 +45,7 @@ spec:
           - mountPath: /var/run/secrets/kubeflow/tokens
             name: persistenceagent-sa-token
         securityContext:
-          allowPrivilegeEscalation: false
-          seccompProfile:
-            type: RuntimeDefault
-          runAsNonRoot: true
-          runAsUser: 1000
-          runAsGroup: 0
-          capabilities:
-            drop:
-            - ALL
+          {{- toYaml .Values.securityContext.defaultContainer | nindent 10 }}
       serviceAccountName: ml-pipeline-persistenceagent
       volumes:
         - name: persistenceagent-sa-token

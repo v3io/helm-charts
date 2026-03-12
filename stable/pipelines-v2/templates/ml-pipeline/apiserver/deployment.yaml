@@ -21,6 +21,8 @@ spec:
         cluster-autoscaler.kubernetes.io/safe-to-evict: "true"
         checksum/{{ include "pipelines.dbSecretName" . }}: {{ (lookup "v1" "Secret" .Release.Namespace (include "pipelines.dbSecretName" .)).data | default dict | toJson | sha256sum }}
     spec:
+      securityContext:
+        {{- toYaml .Values.securityContext.defaultPod | nindent 8 }}
       containers:
         - name: ml-pipeline-api-server
           env:
@@ -152,15 +154,7 @@ spec:
             periodSeconds: 5
             timeoutSeconds: 2
           securityContext:
-            allowPrivilegeEscalation: false
-            seccompProfile:
-              type: RuntimeDefault
-            runAsNonRoot: true
-            runAsUser: 1000
-            runAsGroup: 0
-            capabilities:
-              drop:
-                - ALL
+            {{- toYaml .Values.securityContext.defaultContainer | nindent 12 }}
           resources:
 {{ toYaml .Values.resources.apiServer | indent 12 }}
       serviceAccountName: ml-pipeline

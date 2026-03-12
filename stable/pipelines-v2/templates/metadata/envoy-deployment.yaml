@@ -19,6 +19,8 @@ spec:
       annotations:
         sidecar.istio.io/inject: "false"
     spec:
+      securityContext:
+        {{- toYaml .Values.securityContext.defaultPod | nindent 8 }}
       containers:
       - name: container
         image: {{ .Values.images.metadataEnvoy.repository }}:{{ .Values.images.metadataEnvoy.tag }}
@@ -30,15 +32,7 @@ spec:
         - name: envoy-admin
           containerPort: 9901
         securityContext:
-          allowPrivilegeEscalation: false
-          seccompProfile:
-            type: RuntimeDefault
-          runAsNonRoot: true
-          runAsUser: 1000
-          runAsGroup: 0
-          capabilities:
-            drop:
-            - ALL
+          {{- toYaml .Values.securityContext.defaultContainer | nindent 10 }}
         volumeMounts:
         - name: envoy-config
           mountPath: /etc/envoy

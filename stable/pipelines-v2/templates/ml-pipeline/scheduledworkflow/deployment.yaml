@@ -18,6 +18,8 @@ spec:
         component: ml-pipeline-scheduledworkflow
 {{ include "pipelines.commonLabels" . | indent 8 }}
     spec:
+      securityContext:
+        {{- toYaml .Values.securityContext.defaultPod | nindent 8 }}
       containers:
       - image: {{ .Values.images.scheduledworkflow.repository }}:{{ .Values.images.scheduledworkflow.tag }}
         imagePullPolicy: {{ .Values.images.imagePullPolicy }}
@@ -37,15 +39,7 @@ spec:
         resources:
 {{ toYaml .Values.resources.scheduledWorkflow | indent 10 }}
         securityContext:
-          allowPrivilegeEscalation: false
-          seccompProfile:
-            type: RuntimeDefault
-          runAsNonRoot: true
-          runAsUser: 1000
-          runAsGroup: 0
-          capabilities:
-            drop:
-            - ALL
+          {{- toYaml .Values.securityContext.defaultContainer | nindent 10 }}
         volumeMounts:
           - mountPath: /var/run/secrets/kubeflow/tokens
             name: scheduledworkflow-sa-token
