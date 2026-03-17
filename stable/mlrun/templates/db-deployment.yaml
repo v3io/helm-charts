@@ -33,8 +33,16 @@ spec:
           resources:
             {{- toYaml .Values.db.resources | nindent 12 }}
           env:
+            {{- if .Values.db.existingSecretName }}
+            - name: MYSQL_ROOT_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: {{ include "mlrun.db.secretName" . }}
+                  key: password
+            {{- else }}
             - name: MYSQL_ALLOW_EMPTY_PASSWORD
               value: "true"
+            {{- end }}
           command: ["/bin/bash", "/etc/config/mysql/init-v3io-mysql.sh"]
           securityContext:
             {{- toYaml .Values.db.securityContext | nindent 12 }}
@@ -55,6 +63,9 @@ spec:
             containerPort: 3306
             protocol: TCP
           lifecycle:
+            postStart:
+              exec:
+                command: ["/bin/bash", "/etc/config/mysql/init-scripts/set-root-password.sh"]
             preStop:
               exec:
                 command: ["/bin/bash", "/etc/config/mysql/graceful_shutdown.sh"]
@@ -67,8 +78,16 @@ spec:
             {{ toYaml .Values.db.readinessProbe | nindent 12 }}
           {{- end }}
           env:
+          {{- if .Values.db.existingSecretName }}
+          - name: MYSQL_ROOT_PASSWORD
+            valueFrom:
+              secretKeyRef:
+                name: {{ include "mlrun.db.secretName" . }}
+                key: password
+          {{- else }}
           - name: MYSQL_ALLOW_EMPTY_PASSWORD
             value: "true"
+          {{- end }}
           {{- if .Values.db.extraEnv }}
           {{ toYaml .Values.db.extraEnv | nindent 10 }}
           {{- end }}
@@ -104,7 +123,7 @@ spec:
           {{- end }}
           env:
             - name: DATA_SOURCE_NAME
-              value: {{ .Values.db.exporter.dataSource }}
+              value: {{ .Values.db.exporter.dataSource | quote }}
           ports:
             - containerPort: {{ .Values.db.exporter.service.internalPort }}
           livenessProbe:

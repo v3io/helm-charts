@@ -8,11 +8,15 @@ metadata:
 data:
 
   health_check.sh: |
-    mysqladmin --protocol=TCP -h {{ .Values.db.dbConfiguration.adminAddress }} -P {{ .Values.db.dbConfiguration.adminPort }} -uroot ping
+    PASS_FLAG=""
+    if [ -n "$MYSQL_ROOT_PASSWORD" ]; then PASS_FLAG="-p${MYSQL_ROOT_PASSWORD}"; fi
+    mysqladmin --protocol=TCP -h {{ .Values.db.dbConfiguration.adminAddress }} -P {{ .Values.db.dbConfiguration.adminPort }} -uroot $PASS_FLAG ping
 
   graceful_shutdown.sh: |
-    mysql -u root -S /var/run/mysqld/mysql.sock -e 'SET GLOBAL innodb_fast_shutdown = 0; FLUSH TABLES WITH READ LOCK;'
-    mysqladmin -u root -S /var/run/mysqld/mysql.sock shutdown
+    PASS_FLAG=""
+    if [ -n "$MYSQL_ROOT_PASSWORD" ]; then PASS_FLAG="-p${MYSQL_ROOT_PASSWORD}"; fi
+    mysql -u root $PASS_FLAG -S /var/run/mysqld/mysql.sock -e 'SET GLOBAL innodb_fast_shutdown = 0; FLUSH TABLES WITH READ LOCK;'
+    mysqladmin -u root $PASS_FLAG -S /var/run/mysqld/mysql.sock shutdown
 
   init-v3io-mysql.sh: |
     #!/usr/bin/env bash
