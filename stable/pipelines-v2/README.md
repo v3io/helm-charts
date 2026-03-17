@@ -30,6 +30,10 @@ Alternatively, a YAML file that specifies the values for the parameters can be p
 $ helm install --name my-release -f values.yaml v3io-stable/pipelines
 ```
 
+### Common overrides
+
+- **`configurations.ui.replicas`**: Number of `ml-pipeline-ui` replicas to run. Default: `1`.
+
 ## TODOS:
 There are some unresolved issues in this project
 * we are using two non upstream images:

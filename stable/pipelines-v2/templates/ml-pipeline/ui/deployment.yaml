@@ -8,6 +8,7 @@ metadata:
     component: ml-pipeline-ui
 {{ include "pipelines.commonLabels" . | indent 4 }}
 spec:
+  replicas: {{ .Values.configurations.ui.replicas | default 1 | int }}
   selector:
     matchLabels:
       component: ml-pipeline-ui
