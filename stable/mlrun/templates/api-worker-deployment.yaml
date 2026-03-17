@@ -86,13 +86,8 @@ spec:
           - name: MLRUN_HTTPDB__DSN
             valueFrom:
               secretKeyRef:
-                name: {{ include "mlrun.db.fullname" . }}
+                name: {{ include "mlrun.db.secretName" . }}
                 key: dsn
-          - name: MLRUN_HTTPDB__OLD_DSN
-            valueFrom:
-              secretKeyRef:
-                name: {{ include "mlrun.db.fullname" . }}
-                key: oldDsn
           {{- if .Values.v3io.enabled }}
           - name: V3IO_ACCESS_KEY
             valueFrom:

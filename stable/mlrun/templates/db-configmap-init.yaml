@@ -7,7 +7,7 @@ metadata:
     {{- include "mlrun.db.labels" . | nindent 4 }}
 data:
   enable-root-remote-access.sql: |
-    -- Allow passwordless (insecure) access to root user from anywhere
+    -- Create root user for remote access and set privileges
     CREATE USER IF NOT EXISTS 'root'@'%';
     GRANT ALL PRIVILEGES ON *.* TO 'root'@'%';
     GRANT SERVICE_CONNECTION_ADMIN ON *.* TO 'root'@'localhost';
@@ -16,4 +16,30 @@ data:
     {{- if not .Values.modelMonitoring.dsn }}
     CREATE DATABASE IF NOT EXISTS mlrun_model_monitoring;
     {{- end }}
+
+  set-root-password.sh: |
+    #!/usr/bin/env bash
+    # Idempotent script to set root password on upgrade from passwordless to password-protected.
+    # Runs as a post-start lifecycle hook.
+    # Only acts if MYSQL_ROOT_PASSWORD is set and the current root has no password.
+    set -e
+    if [ -z "$MYSQL_ROOT_PASSWORD" ]; then
+      echo "MYSQL_ROOT_PASSWORD not set, skipping password enforcement"
+      exit 0
+    fi
+    # Wait for MySQL to be ready
+    for i in $(seq 1 90); do
+      if mysqladmin -u root -S /var/run/mysqld/mysql.sock ping 2>/dev/null; then
+        break
+      fi
+      sleep 1
+    done
+    # Try passwordless connection first (upgrade case)
+    if mysql -u root -S /var/run/mysqld/mysql.sock -e "SELECT 1" 2>/dev/null; then
+      echo "Setting root password..."
+      mysql -u root -S /var/run/mysqld/mysql.sock -e "ALTER USER 'root'@'localhost' IDENTIFIED BY '${MYSQL_ROOT_PASSWORD}'; ALTER USER 'root'@'%' IDENTIFIED BY '${MYSQL_ROOT_PASSWORD}'; FLUSH PRIVILEGES;"
+      echo "Root password set successfully"
+    else
+      echo "Root already has a password or is not accessible without one -- skipping"
+    fi
 {{- end }}

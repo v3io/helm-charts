@@ -142,6 +142,19 @@ We truncate at 63 chars because some Kubernetes name fields are limited to this 
 {{- end -}}
 
 {{/*
+Resolve the DB secret name.
+If db.existingSecretName is set (by mlefi), use it.
+Otherwise, fall back to the default fullname (Helm-generated secret).
+*/}}
+{{- define "mlrun.db.secretName" -}}
+{{- if .Values.db.existingSecretName -}}
+{{- .Values.db.existingSecretName -}}
+{{- else -}}
+{{- include "mlrun.db.fullname" . -}}
+{{- end -}}
+{{- end -}}
+
+{{/*
 Create a fully qualified db exporter name.
 We truncate at 63 chars because some Kubernetes name fields are limited to this (by the DNS naming spec).
 */}}
