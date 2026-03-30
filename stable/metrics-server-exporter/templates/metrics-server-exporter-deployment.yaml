@@ -26,6 +26,10 @@ spec:
         release: {{ .Release.Name }}
     spec:
       serviceAccountName: metrics-server-exporter
+      {{- if .Values.imagePullSecrets }}
+      imagePullSecrets:
+      {{ toYaml .Values.imagePullSecrets | indent 2 }}
+      {{- end }}
       containers:
       - name: metrics-server-exporter
         image: "{{ .Values.image.repository }}:{{ .Values.image.tag }}"

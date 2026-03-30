@@ -69,3 +69,6 @@ tolerations: []
 affinity: {}
 
 priorityClassName: ""
+
+# Image pull secrets for private registries
+imagePullSecrets: []
