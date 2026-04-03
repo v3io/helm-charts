@@ -2,6 +2,19 @@
 {{/*
 Expand the name of the chart.
 */}}
+{{- define "mlrun.gatewayName" -}}
+{{- printf "%s-gateway" (include "mlrun.name" .) | trunc 63 | trimSuffix "-" -}}
+{{- end -}}
+
+{{/*
+Fail-fast when Gateway API CRDs are not installed on the cluster.
+*/}}
+{{- define "mlrun.requireGatewayAPICRDs" -}}
+{{- if not (.Capabilities.APIVersions.Has "gateway.networking.k8s.io/v1") -}}
+{{- fail "Gateway API CRDs are not installed. See https://gateway-api.sigs.k8s.io/guides/getting-started" -}}
+{{- end -}}
+{{- end -}}
+
 {{- define "mlrun.name" -}}
 {{- default .Chart.Name .Values.nameOverride | trunc 63 | trimSuffix "-" -}}
 {{- end -}}
