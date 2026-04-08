@@ -24,8 +24,8 @@ spec:
         certificateRefs:
           - kind: Secret
             name: {{ .secretName }}
-      {{- with .hosts }}
-      hostname: {{ first . | quote }}
+      {{- with .host }}
+      hostname: {{ . | quote }}
       {{- end }}
       allowedRoutes:
         namespaces:

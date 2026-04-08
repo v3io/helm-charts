@@ -751,8 +751,7 @@ gateway:
   tls: []
   #  - secretName: mlrun-tls
   #    port: 443
-  #    hosts:
-  #      - mlrun.local
+  #    host: mlrun.local
 
 # global is a stanza that is used if this is used as a subchart. Ignore otherwise
 global:
