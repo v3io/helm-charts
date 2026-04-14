@@ -1,0 +1,34 @@
+{{- if .Values.gateway.enabled }}
+{{- include "mlrun.requireGatewayAPICRDs" . }}
+apiVersion: gateway.networking.k8s.io/v1
+kind: Gateway
+metadata:
+  name: {{ include "mlrun.gatewayName" . }}
+  labels:
+    {{- include "mlrun.common.labels" . | nindent 4 }}
+spec:
+  gatewayClassName: {{ .Values.gateway.gatewayClassName | quote }}
+  listeners:
+    - name: http
+      port: {{ .Values.gateway.listenerPort }}
+      protocol: HTTP
+      allowedRoutes:
+        namespaces:
+          from: Same
+    {{- range .Values.gateway.tls }}
+    - name: https-{{ .secretName }}
+      port: {{ .port }}
+      protocol: HTTPS
+      tls:
+        mode: Terminate
+        certificateRefs:
+          - kind: Secret
+            name: {{ .secretName }}
+      {{- with .host }}
+      hostname: {{ . | quote }}
+      {{- end }}
+      allowedRoutes:
+        namespaces:
+          from: Same
+    {{- end }}
+{{- end }}
