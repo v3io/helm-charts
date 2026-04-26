@@ -204,6 +204,21 @@ data:
     EXECUTE stmt;
     DEALLOCATE PREPARE stmt;
 
+    -- tasks PodName index
+    SET @idx_exists = (
+    SELECT COUNT(*) FROM INFORMATION_SCHEMA.STATISTICS
+    WHERE TABLE_SCHEMA = DATABASE()
+    AND TABLE_NAME = 'tasks'
+    AND INDEX_NAME = 'tasks_podname'
+    );
+    SET @sql = IF(@idx_exists = 0,
+    'CREATE INDEX tasks_podname ON tasks (PodName);',
+    'SELECT "Index tasks_podname already exists";'
+    );
+    PREPARE stmt FROM @sql;
+    EXECUTE stmt;
+    DEALLOCATE PREPARE stmt;
+
     -- run_metrics index
     SET @idx_exists = (
     SELECT COUNT(*) FROM INFORMATION_SCHEMA.STATISTICS
@@ -232,7 +247,6 @@ data:
     : "${MYSQL_PWD:?Environment variable MYSQL_PWD must be set.}"
 
     readonly RAW_INIT_SCRIPT="/etc/config/mysql/init-scripts/create_user.sql"
-    readonly FIX_INDICES_SCRIPT="/etc/config/mysql/init-scripts/fix-kfp-indices.sql"
     readonly INIT_SCRIPT="/tmp/create_user.sql"
     readonly BASE_DIR="/var/lib/mysql"
     readonly DATA_DIR="${BASE_DIR}/data"
@@ -241,8 +255,6 @@ data:
     sed -e "s|\${DB_USER}|${DB_USER}|g" \
         -e "s|\${MYSQL_PWD}|${MYSQL_PWD}|g" \
         "${RAW_INIT_SCRIPT}" > "${INIT_SCRIPT}"
-
-    cat "${FIX_INDICES_SCRIPT}" >> "${INIT_SCRIPT}"
 
     MYSQLD_OPTS=(
       --mysql-native-password=ON

@@ -16,7 +16,6 @@ Common labels
 */}}
 {{- define "pipelines.commonLabels" -}}
 app: {{ include "pipelines.name" . }}
-chart: {{ include "pipelines.chart" . }}
 release: {{ .Release.Name }}
 heritage: {{ .Release.Service }}
 {{- end -}}
