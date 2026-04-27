@@ -1,0 +1,85 @@
+{{- if .Values.deployment.create }}
+apiVersion: batch/v1
+kind: Job
+metadata:
+  namespace: {{ .Release.Namespace }}
+  name: mysql-kf-fix-indices-r{{ .Release.Revision }}
+  labels:
+    component: mysql-kf-fix-indices
+{{ include "pipelines.commonLabels" . | indent 4 }}
+spec:
+  ttlSecondsAfterFinished: 86400
+  template:
+    metadata:
+      labels:
+        component: mysql-kf-fix-indices
+{{ include "pipelines.commonLabels" . | indent 8 }}
+    spec:
+      securityContext:
+        {{- toYaml .Values.db.podSecurityContext | nindent 8 }}
+      serviceAccountName: mysql-kf
+      restartPolicy: OnFailure
+      containers:
+        - name: fix-indices
+          image: {{ .Values.images.mysql.repository }}:{{ .Values.images.mysql.tag }}
+          imagePullPolicy: {{ .Values.images.imagePullPolicy }}
+          securityContext:
+{{ toYaml .Values.db.securityContext | indent 12 }}
+          env:
+            - name: DB_USER
+              valueFrom:
+                secretKeyRef:
+                  name: {{ include "pipelines.dbSecretName" . }}
+                  key: username
+            - name: MYSQL_PWD
+              valueFrom:
+                secretKeyRef:
+                  name: {{ include "pipelines.dbSecretName" . }}
+                  key: password
+          command:
+            - /bin/bash
+            - -c
+            - |
+              set -euo pipefail
+
+              MYSQL=( mysql -h mysql-kf -P 3306 -u"${DB_USER}" )
+
+              echo "Waiting for mysql-kf to accept connections..."
+              until "${MYSQL[@]}" -e "SELECT 1" >/dev/null 2>&1; do sleep 3; done
+
+              echo "Waiting for KFP tables in mlpipeline..."
+              until [[ "$("${MYSQL[@]}" -N -B -e "
+                SELECT COUNT(DISTINCT TABLE_NAME)
+                  FROM INFORMATION_SCHEMA.TABLES
+                 WHERE TABLE_SCHEMA = 'mlpipeline'
+                   AND TABLE_NAME IN ('run_details','tasks','resource_references','run_metrics');")" -eq 4 ]]; do
+                sleep 5
+              done
+
+              echo "Applying fix-kfp-indices.sql..."
+              "${MYSQL[@]}" mlpipeline < /etc/config/mysql/init-scripts/fix-kfp-indices.sql
+
+              echo "Done."
+          volumeMounts:
+            - name: mysql-init-scripts
+              mountPath: /etc/config/mysql/init-scripts
+      volumes:
+        - name: mysql-init-scripts
+          configMap:
+            name: mysql-kf
+{{- with .Values.nodeSelector }}
+      nodeSelector:
+{{ toYaml . | indent 8 }}
+{{- end }}
+{{- with .Values.tolerations }}
+      tolerations:
+{{ toYaml . | indent 8 }}
+{{- end }}
+{{- with .Values.affinity }}
+      affinity:
+{{ toYaml . | indent 8 }}
+{{- end }}
+{{- if .Values.priorityClassName }}
+      priorityClassName: {{ .Values.priorityClassName | quote }}
+{{- end }}
+{{- end }}
