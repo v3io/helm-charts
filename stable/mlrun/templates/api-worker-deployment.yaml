@@ -19,7 +19,13 @@ spec:
   template:
     metadata:
       labels:
+        {{- $podLabels := default dict .Values.api.podLabels }}
+        {{- if $podLabels }}
+        {{- $selector := include "mlrun.api.worker.selectorLabels" . | fromYaml }}
+        {{- toYaml (mergeOverwrite $selector $podLabels) | nindent 8 }}
+        {{- else }}
         {{- include "mlrun.api.worker.selectorLabels" . | nindent 8 }}
+        {{- end }}
       annotations:
         kubectl.kubernetes.io/default-container: {{ template "mlrun.name" . }}-{{ .Values.api.name }}
     spec:
