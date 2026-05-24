@@ -124,8 +124,7 @@ spec:
           {{- if .Values.api.extraEnv }}
           {{- range .Values.api.extraEnv }}
           {{- if not (hasKey $.Values.api.extraEnvKeyValue .name) }}
-          - name: {{ .name }}
-            value: {{ .value }}
+          - {{ toYaml . | nindent 12 | trim }}
           {{- end }}
           {{- end }}
           {{- end }}
