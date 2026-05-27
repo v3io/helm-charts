@@ -1,0 +1,143 @@
+name: Bump MLRun
+
+on:
+  workflow_dispatch:
+    inputs:
+      mlrun_version:
+        description: "Desired MLRun version (e.g. 1.10.3)"
+        required: true
+        type: string
+      chart_bump:
+        description: "Chart version bump"
+        required: true
+        type: choice
+        default: patch
+        options:
+          - patch
+          - minor
+          - major
+
+permissions:
+  contents: write
+  pull-requests: write
+
+jobs:
+  bump:
+    name: Bump mlrun to ${{ inputs.mlrun_version }}
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v5
+        with:
+          ref: development
+
+      - name: Install yq
+        run: |
+          sudo wget -qO /usr/local/bin/yq \
+            https://github.com/mikefarah/yq/releases/download/v4.45.1/yq_linux_amd64
+          sudo chmod +x /usr/local/bin/yq
+          yq --version
+
+      - name: Validate inputs
+        env:
+          MLRUN_VERSION: ${{ inputs.mlrun_version }}
+        run: |
+          if ! [[ "$MLRUN_VERSION" =~ ^[0-9]+\.[0-9]+\.[0-9]+$ ]]; then
+            echo "::error::mlrun_version must be a semver string like 1.10.3 (got: $MLRUN_VERSION)"
+            exit 1
+          fi
+
+      - name: Compute new chart version
+        id: chart
+        env:
+          BUMP: ${{ inputs.chart_bump }}
+        run: |
+          current=$(yq '.version' stable/mlrun/Chart.yaml)
+          echo "current chart version: $current"
+          IFS='.' read -r major minor patch <<< "$current"
+          case "$BUMP" in
+            major) major=$((major + 1)); minor=0; patch=0 ;;
+            minor) minor=$((minor + 1)); patch=0 ;;
+            patch) patch=$((patch + 1)) ;;
+            *) echo "::error::unknown bump: $BUMP"; exit 1 ;;
+          esac
+          new="${major}.${minor}.${patch}"
+          echo "new chart version: $new"
+          echo "current=$current" >> "$GITHUB_OUTPUT"
+          echo "new=$new" >> "$GITHUB_OUTPUT"
+
+      - name: Read current mlrun appVersion
+        id: app
+        run: |
+          current=$(yq '.appVersion' stable/mlrun/Chart.yaml)
+          echo "current appVersion: $current"
+          echo "current=$current" >> "$GITHUB_OUTPUT"
+
+      - name: Update Chart.yaml
+        env:
+          MLRUN_VERSION: ${{ inputs.mlrun_version }}
+          CHART_VERSION: ${{ steps.chart.outputs.new }}
+        run: |
+          yq -i '.version = strenv(CHART_VERSION) | .appVersion = strenv(MLRUN_VERSION)' \
+            stable/mlrun/Chart.yaml
+
+      - name: Update image tags in values.yaml
+        # Targeted sed replacement (rather than yq) preserves blank lines,
+        # comment indentation, and bracket spacing — yields a minimal diff
+        # matching the manual PRs (#1118, #1130, #1134).
+        env:
+          MLRUN_VERSION: ${{ inputs.mlrun_version }}
+        run: |
+          sed -i -E "
+            /repository: quay.io\/mlrun\/mlrun-api$/{n;s/(^[[:space:]]*tag:[[:space:]]*).*/\1${MLRUN_VERSION}/;}
+            /repository: quay.io\/mlrun\/log-collector$/{n;s/(^[[:space:]]*tag:[[:space:]]*).*/\1${MLRUN_VERSION}/;}
+            /repository: quay.io\/mlrun\/mlrun-ui$/{n;s/(^[[:space:]]*tag:[[:space:]]*).*/\1${MLRUN_VERSION}/;}
+          " stable/mlrun/values.yaml
+
+      - name: Show diff
+        run: git --no-pager diff -- stable/mlrun/Chart.yaml stable/mlrun/values.yaml
+
+      - name: Bail out if nothing changed
+        run: |
+          if git diff --quiet -- stable/mlrun/Chart.yaml stable/mlrun/values.yaml; then
+            echo "::error::No changes produced — mlrun is already at ${{ inputs.mlrun_version }} and chart bump produced no diff."
+            exit 1
+          fi
+
+      - name: Commit and push branch
+        id: branch
+        env:
+          MLRUN_VERSION: ${{ inputs.mlrun_version }}
+        run: |
+          branch="bump-mlrun-${MLRUN_VERSION}"
+          git config user.name  "${{ github.actor }}"
+          git config user.email "${{ github.actor }}@users.noreply.github.com"
+          git checkout -b "$branch"
+          git add stable/mlrun/Chart.yaml stable/mlrun/values.yaml
+          git commit -m "[mlrun] bump mlrun to ${MLRUN_VERSION}"
+          git push --force origin "$branch"
+          echo "name=$branch" >> "$GITHUB_OUTPUT"
+
+      - name: Create or update pull request
+        env:
+          GH_TOKEN: ${{ github.token }}
+          MLRUN_VERSION: ${{ inputs.mlrun_version }}
+          APP_FROM:   ${{ steps.app.outputs.current }}
+          CHART_FROM: ${{ steps.chart.outputs.current }}
+          CHART_TO:   ${{ steps.chart.outputs.new }}
+          CHART_BUMP: ${{ inputs.chart_bump }}
+          BRANCH:     ${{ steps.branch.outputs.name }}
+        run: |
+          printf '### Checklist\n\n- [x] Chart Version bumped\n- [x] Title of the PR starts with chart name (e.g. `[mychartname]`)\n\n### Description\n\nBump `mlrun` chart app/images to `%s` (from `%s`).\nChart version: `%s` → `%s` (%s).\n' \
+            "$MLRUN_VERSION" "$APP_FROM" "$CHART_FROM" "$CHART_TO" "$CHART_BUMP" > /tmp/pr-body.md
+
+          existing=$(gh pr list --head "$BRANCH" --base development --state open --json number -q '.[0].number')
+          if [ -n "$existing" ]; then
+            echo "PR #$existing already open for $BRANCH — pushed new commit, skipping create."
+            exit 0
+          fi
+
+          gh pr create \
+            --base development \
+            --head "$BRANCH" \
+            --title "[mlrun] bump mlrun to ${MLRUN_VERSION}" \
+            --body-file /tmp/pr-body.md
