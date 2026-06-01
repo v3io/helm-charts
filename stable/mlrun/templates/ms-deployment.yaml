@@ -149,7 +149,7 @@ spec:
           image: "{{ $.Values.api.opa.image.repository }}:{{ $.Values.api.opa.image.tag }}"
           imagePullPolicy: {{ $.Values.api.opa.image.pullPolicy }}
           ports:
-            - name: http
+            - name: opa-http
               containerPort: {{ $.Values.api.opa.port }}
           {{- if $.Values.api.opa.livenessProbe }}
           livenessProbe:
