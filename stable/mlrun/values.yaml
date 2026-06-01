@@ -334,7 +334,7 @@ api:
     readinessProbe:
       httpGet:
         path: /health?bundle=true
-        port: http
+        port: opa-http
       initialDelaySeconds: 10
       timeoutSeconds: 10
       periodSeconds: 15
@@ -342,7 +342,7 @@ api:
 
     livenessProbe:
       httpGet:
-        port: http
+        port: opa-http
       initialDelaySeconds: 15
       timeoutSeconds: 30
       periodSeconds: 15
