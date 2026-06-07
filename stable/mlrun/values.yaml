@@ -309,9 +309,12 @@ api:
     logLevel: info
     logFormat: json
 
+    extraArgs:
+      - "--skip-version-check"
+
     image:
       repository: openpolicyagent/opa
-      tag: 1.6.0
+      tag: 1.17.0
       pullPolicy: IfNotPresent
       pullSecrets: []
 
