@@ -488,7 +488,7 @@ db:
     exec:
       command: ["/bin/bash", "/etc/config/mysql/health_check.sh"]
     initialDelaySeconds: 10
-    timeoutSeconds: 1
+    timeoutSeconds: 10
     periodSeconds: 10
     failureThreshold: 3
 
