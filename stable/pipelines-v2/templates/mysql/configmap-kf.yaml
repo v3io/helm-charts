@@ -262,6 +262,16 @@ data:
       --datadir="${DATA_DIR}"
       --socket="${SOCKET}"
       --init-file="${INIT_SCRIPT}"
+      {{- $extra := .Values.db.dbConfiguration.innodb.extraFlags -}}
+      {{- if $extra }}
+      {{- if kindIs "map" $extra }}
+      {{- range $flag, $value := $extra }}
+      --{{ $flag }}={{ $value }}
+      {{- end }}
+      {{- else }}
+      {{ $extra }}
+      {{- end }}
+      {{- end }}
     )
 
     if [[ ! -d "${DATA_DIR}/mysql" ]]; then

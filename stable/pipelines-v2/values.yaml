@@ -237,6 +237,13 @@ db:
   dumpRestore:
     enabled: true   # enable to dump data from KFP 1.8 MySQL 5.6 to KFP 2.X MySQL version 8.4
 
+  dbConfiguration:
+    innodb:
+      extraFlags: {} # extra flags to pass to the mysql server start command, example:
+      # extraFlags:
+      #   innodb-use-native-aio: 0
+      # will be passed as --innodb-use-native-aio=0
+
 managedstorage:
   enabled: false
   gcsBucketName: ""
