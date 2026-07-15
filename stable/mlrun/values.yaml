@@ -687,6 +687,11 @@ ui:
 
   priorityClassName: ""
 
+  # The UI is a static frontend and does not talk to the Kubernetes API, so it
+  # has no need for a mounted ServiceAccount token. Set to null to omit the field
+  # (falling back to the ServiceAccount / cluster default).
+  automountServiceAccountToken: false
+
   podSecurityContext: {}
   # default UID & GID of unprivileged nginx image
   # https://github.com/nginxinc/docker-nginx-unprivileged/blob/main/Dockerfile-alpine.template
