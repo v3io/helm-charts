@@ -156,6 +156,9 @@ spec:
               subPath: {{ .subPath | default "" }}
               readOnly: {{ .readOnly }}
             {{- end }}
+            {{- with .Values.api.extraVolumeMounts }}
+            {{- toYaml . | nindent 12 }}
+            {{- end }}
         {{- if .Values.api.opa.enabled }}
         - name: {{ template "mlrun.name" . }}-{{ .Values.api.opa.name }}
           securityContext:
@@ -260,6 +263,9 @@ spec:
         - name: config
           secret:
             secretName: {{ template "mlrun.api.opa.fullname" . }}
+        {{- end }}
+        {{- with .Values.api.extraVolumes }}
+        {{- toYaml . | nindent 8 }}
         {{- end }}
       {{- with .Values.api.nodeSelector }}
       nodeSelector:
