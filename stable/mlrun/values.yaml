@@ -271,6 +271,15 @@ api:
     #   readOnly: true
     #   existingClaim: volume-claim
 
+  # Generic extra volumes/volumeMounts for the api container (chief + worker), e.g. an
+  # emptyDir scratch dir when readOnlyRootFilesystem leaves no writable tmp path.
+  extraVolumes: []
+    # - name: tmp
+    #   emptyDir: {}
+  extraVolumeMounts: []
+    # - name: tmp
+    #   mountPath: /tmp
+
   # Define extra initContainers for the api deployment
   extraInitContainers: []
 
