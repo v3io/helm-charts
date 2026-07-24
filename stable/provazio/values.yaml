@@ -1,6 +1,7 @@
 # list of namespaces that the api will also get resources access to
 additionalManagedNamespaces: []
 
+
 dashboard:
   enabled: false
 
@@ -84,16 +85,15 @@ dashboard:
     #   username: 
 
     # provisioning:
-
     #   permitted_ingresses:
     #   - from_port: 0
     #     to_port: 0
     #     protocol: "-1"
     #     source_cidr_block: 10.0.0.1/32
-
     #   terraform:
     #     bin_path: /usr/bin/terraform
-    #     config_path: /etc/terraform/configs    
+    #     config_path: /etc/terraform/configs
+    #   (Job pod SA: see provctl.useProvctlServiceAccount / provctl.serviceAccountName)
 
   ## Node labels for pod assignment
   ## Ref: https://kubernetes.io/docs/user-guide/node-selection/
@@ -246,3 +246,25 @@ vault:
 
   priorityClassName: ""
 
+provctl:
+  # Create the dedicated provctl ServiceAccount (set IRSA annotations when on EKS).
+  # Required when useProvctlServiceAccount is true.
+  enabled: false
+
+  serviceAccount:
+    annotations: {}
+    # Example for IRSA:
+    # annotations:
+    #   eks.amazonaws.com/role-arn: arn:aws:iam::123456789012:role/provazio-provisioning-role-shared
+  useProvctlServiceAccount: false
+  # Which ServiceAccount provctl Job pods run as (written to dashboard env spec by chart):
+  #
+  # useProvctlServiceAccount: true
+  #   -> Job pods use {{ release }}-provctl (e.g. provazio-provctl). Requires enabled: true.
+  #
+  # useProvctlServiceAccount: false (default) and serviceAccountName unset
+  #   -> Job pods use the namespace default ServiceAccount
+  #
+  # useProvctlServiceAccount: false and serviceAccountName: "my-sa"
+  #   -> Job pods use your custom SA (must exist in the namespace).
+  serviceAccountName: ""

@@ -1,4 +1,13 @@
 {{- if and .Values.dashboard.enabled }}
+{{- $envSpec := deepCopy .Values.dashboard.envSpec | default dict }}
+{{- $provisioning := dig "provisioning" dict $envSpec }}
+{{- $jobServiceAccountName := include "provazio.provctl.jobServiceAccountName" . | trim }}
+{{- if $jobServiceAccountName }}
+{{- $_ := set $provisioning "service_account_name" $jobServiceAccountName }}
+{{- else }}
+{{- $_ := unset $provisioning "service_account_name" }}
+{{- end }}
+{{- $_ := set $envSpec "provisioning" $provisioning }}
 apiVersion: v1
 kind: ConfigMap
 metadata:
@@ -11,5 +20,5 @@ metadata:
     component: dashboard
 data:
   env.yaml: |
-{{ toYaml .Values.dashboard.envSpec | indent 4 }}
+{{ toYaml $envSpec | indent 4 }}
 {{- end }}
