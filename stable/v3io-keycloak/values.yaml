@@ -22,6 +22,27 @@ keycloak:
   postgresql:
     enabled: false
 
+  # A first-time install must run Keycloak's entire historical Liquibase changelog
+  # from scratch, which can take longer than livenessProbe's default 120s window on a
+  # loaded system - if that probe kills the container mid-migration, MySQL's
+  # non-transactional DDL leaves the schema permanently wedged (see IG-25046).
+  # A startupProbe defers liveness/readiness checks until Keycloak's HTTP port is
+  # actually up, so a slow first migration is never mistaken for a hung container.
+  startupProbe:
+    enabled: true
+    periodSeconds: 10
+    timeoutSeconds: 5
+    failureThreshold: 60 # ~10 minutes for the first-time migration to complete
+    successThreshold: 1
+
+  # Per Bitnami's own guidance: once startupProbe is enabled, liveness/readiness
+  # should not add their own extra initial delay on top of it.
+  livenessProbe:
+    initialDelaySeconds: 0
+
+  readinessProbe:
+    initialDelaySeconds: 0
+
   externalDatabase:
     host: v3io-keycloak-db
     port: 3306
