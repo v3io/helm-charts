@@ -23,10 +23,6 @@
 {{- printf "%s-provctl" .Release.Name | trunc 63 | trimSuffix "-" -}}
 {{- end -}}
 
-{{/*
-  SA name for provctl Job pods (dashboard env spec provisioning.service_account_name).
-  When provctl.enabled, use {{ release }}-provctl; otherwise omit (namespace default SA).
-*/}}
 {{- define "provazio.provctl.jobServiceAccountName" -}}
 {{- if .Values.provctl.enabled -}}
 {{- include "provazio.provctl.name" . -}}
