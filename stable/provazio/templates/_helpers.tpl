@@ -18,3 +18,13 @@
 {{- define "provazio.vault.name" -}}
 {{- printf "%s-vault" .Release.Name | trunc 63 | trimSuffix "-" -}}
 {{- end -}}
+
+{{- define "provazio.provctl.name" -}}
+{{- printf "%s-provctl" .Release.Name | trunc 63 | trimSuffix "-" -}}
+{{- end -}}
+
+{{- define "provazio.provctl.jobServiceAccountName" -}}
+{{- if .Values.provctl.enabled -}}
+{{- include "provazio.provctl.name" . -}}
+{{- end -}}
+{{- end -}}
