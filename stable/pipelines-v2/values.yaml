@@ -189,6 +189,12 @@ storageMode:
   # default; set to "minio" to switch
   kind: v3io
   useTLS: false
+  # Whether Argo additionally archives each workflow step's own container logs
+  # into the artifact repository, separate from whatever the step itself writes
+  # there. MLRun already has its own job-log mechanism, so this is normally
+  # redundant, and archiving very large step logs has caused workflow failures.
+  # Default false; set true to restore the legacy Argo/KFP log-archiving behavior.
+  archiveLogs: false
   minio:
     serviceHost: minio.{{ .Release.Namespace }}.svc
     servicePort: 9000
