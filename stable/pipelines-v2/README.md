@@ -33,6 +33,9 @@ $ helm install --name my-release -f values.yaml v3io-stable/pipelines
 ### Common overrides
 
 - **`configurations.ui.replicas`**: Number of `ml-pipeline-ui` replicas to run. Default: `1`.
+- **`storageMode.archiveLogs`**: Whether Argo additionally archives each workflow
+  step's own container logs into the artifact repository (separate from whatever
+  the step itself writes there). Default: `true`, for backward compatibility.
 
 ## TODOS:
 There are some unresolved issues in this project

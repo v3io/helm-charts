@@ -189,6 +189,13 @@ storageMode:
   # default; set to "minio" to switch
   kind: v3io
   useTLS: false
+  # Whether Argo additionally archives each workflow step's own container logs
+  # into the artifact repository, separate from whatever the step itself writes
+  # there. Default true, for backward compatibility with the chart's legacy
+  # behavior. This can be redundant when the pipeline step already persists its
+  # own logs elsewhere, and archiving very large step logs has caused workflow
+  # failures — set false to disable it.
+  archiveLogs: true
   minio:
     serviceHost: minio.{{ .Release.Namespace }}.svc
     servicePort: 9000
