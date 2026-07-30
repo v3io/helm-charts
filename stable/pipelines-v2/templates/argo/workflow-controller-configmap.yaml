@@ -16,7 +16,7 @@ data:
 
   # https://github.com/argoproj/argo-workflows/blob/v3.7.7/docs/workflow-controller-configmap.yaml
   artifactRepository: |
-    archiveLogs: {{ .Values.storageMode.archiveLogs | default false }}
+    archiveLogs: {{ if hasKey .Values.storageMode "archiveLogs" }}{{ .Values.storageMode.archiveLogs }}{{ else }}true{{ end }}
     s3:
       endpoint: {{ .Values.storageMode.minio.serviceHost }}:{{ .Values.storageMode.minio.servicePort }}
       bucket: {{ .Values.storageMode.minio.defaultBucket }}
@@ -55,7 +55,7 @@ data:
                   key: secretkey
               }
           },
-          archiveLogs: {{ .Values.storageMode.archiveLogs | default false }}
+          archiveLogs: {{ if hasKey .Values.storageMode "archiveLogs" }}{{ .Values.storageMode.archiveLogs }}{{ else }}true{{ end }}
       }
     }
   executor: |

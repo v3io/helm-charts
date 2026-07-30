@@ -191,10 +191,11 @@ storageMode:
   useTLS: false
   # Whether Argo additionally archives each workflow step's own container logs
   # into the artifact repository, separate from whatever the step itself writes
-  # there. MLRun already has its own job-log mechanism, so this is normally
-  # redundant, and archiving very large step logs has caused workflow failures.
-  # Default false; set true to restore the legacy Argo/KFP log-archiving behavior.
-  archiveLogs: false
+  # there. Default true, for backward compatibility with the chart's legacy
+  # behavior. This can be redundant when the pipeline step already persists its
+  # own logs elsewhere, and archiving very large step logs has caused workflow
+  # failures — set false to disable it.
+  archiveLogs: true
   minio:
     serviceHost: minio.{{ .Release.Namespace }}.svc
     servicePort: 9000
