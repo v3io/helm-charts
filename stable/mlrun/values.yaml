@@ -217,6 +217,11 @@ api:
 
   priorityClassName: ""
 
+  # The API and its log-collector sidecar talk to the Kubernetes API, so they need a mounted ServiceAccount token.
+  # Applies to the chief, worker and microservices deployments.
+  # Set to null to omit the field, falling back to the ServiceAccount / cluster default.
+  automountServiceAccountToken: true
+
   podSecurityContext: {}
   # runAsUser: 1000
 
