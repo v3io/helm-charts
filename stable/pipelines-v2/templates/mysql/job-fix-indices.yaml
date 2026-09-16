@@ -3,7 +3,7 @@ apiVersion: batch/v1
 kind: Job
 metadata:
   namespace: {{ .Release.Namespace }}
-  generateName: mysql-kf-fix-indices-
+  name: mysql-kf-fix-indices-{{ include "pipelines.mysqlFixIndicesJobHash" . }}
   labels:
     component: mysql-kf-fix-indices
 {{ include "pipelines.commonLabels" . | indent 4 }}

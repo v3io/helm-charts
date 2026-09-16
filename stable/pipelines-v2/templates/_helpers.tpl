@@ -12,6 +12,30 @@ Expand the name of the chart.
 {{- end -}}
 
 {{/*
+Deterministic suffix for the mysql-kf-fix-indices Job name, derived from every
+input that shapes its pod template. Job pod templates are immutable, so a
+back-to-back upgrade that reuses the same name with a changed pod template is
+rejected with 409; hashing those inputs into the name means the name only
+changes when the pod template would, avoiding both the conflict and the
+generateName/blank-name issues that break kustomize and helm's own upgrade
+diffing.
+*/}}
+{{- define "pipelines.mysqlFixIndicesJobHash" -}}
+{{- $hashInput := dict
+      "chartVersion" .Chart.Version
+      "image" (printf "%s:%s" .Values.images.mysql.repository .Values.images.mysql.tag)
+      "imagePullPolicy" .Values.images.imagePullPolicy
+      "podSecurityContext" .Values.db.podSecurityContext
+      "securityContext" .Values.db.securityContext
+      "nodeSelector" .Values.nodeSelector
+      "tolerations" .Values.tolerations
+      "affinity" .Values.affinity
+      "priorityClassName" .Values.priorityClassName
+-}}
+{{- toYaml $hashInput | sha256sum | trunc 8 -}}
+{{- end -}}
+
+{{/*
 Common labels
 */}}
 {{- define "pipelines.commonLabels" -}}
