@@ -32,7 +32,8 @@ $ helm install --name my-release -f values.yaml v3io-stable/pipelines
 
 ### Common overrides
 
-- **`configurations.ui.replicas`**: Number of `ml-pipeline-ui` replicas to run. Default: `1`.
+- **`configurations.ui.enabled`**: Whether to create the `ml-pipeline-ui` Deployment at all (the Service/ServiceAccount/ConfigMap still render regardless). Default: `true`.
+- **`configurations.ui.replicas`**: Number of `ml-pipeline-ui` replicas to run when enabled. Can be set to `0`. Default: `1`.
 - **`storageMode.archiveLogs`**: Whether Argo additionally archives each workflow
   step's own container logs into the artifact repository (separate from whatever
   the step itself writes there). Default: `true`, for backward compatibility.

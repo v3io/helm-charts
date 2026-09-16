@@ -149,6 +149,7 @@ spec:
           resources:
 {{ toYaml .Values.resources.metadata | indent 12 }}
       serviceAccountName: metadata-grpc-server
+      automountServiceAccountToken: false
 
 {{- with .Values.nodeSelector }}
       nodeSelector:

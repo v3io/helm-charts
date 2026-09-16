@@ -25,6 +25,7 @@ spec:
       securityContext:
         {{- toYaml .Values.db.podSecurityContext | nindent 8 }}
       serviceAccountName: mysql-kf
+      automountServiceAccountToken: false
       volumes:
         - name: mysql-init-scripts
           configMap:

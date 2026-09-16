@@ -1,4 +1,5 @@
 {{- if .Values.deployment.create }}
+{{- if .Values.configurations.ui.enabled }}
 apiVersion: apps/v1
 kind: Deployment
 metadata:
@@ -8,7 +9,7 @@ metadata:
     component: ml-pipeline-ui
 {{ include "pipelines.commonLabels" . | indent 4 }}
 spec:
-  replicas: {{ .Values.configurations.ui.replicas | default 1 | int }}
+  replicas: {{ .Values.configurations.ui.replicas | int }}
   selector:
     matchLabels:
       component: ml-pipeline-ui
@@ -117,6 +118,7 @@ spec:
           resources:
 {{ toYaml .Values.resources.ui | indent 12 }}
       serviceAccountName: ml-pipeline-ui
+      automountServiceAccountToken: false
 {{- with .Values.nodeSelector }}
       nodeSelector:
 {{ toYaml . | indent 8 }}
@@ -131,5 +133,6 @@ spec:
 {{- end }}
 {{- if .Values.priorityClassName }}
       priorityClassName: {{ .Values.priorityClassName | quote }}
+{{- end }}
 {{- end }}
 {{- end }}
