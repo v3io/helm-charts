@@ -18,6 +18,7 @@ spec:
       securityContext:
         {{- toYaml .Values.db.podSecurityContext | nindent 8 }}
       serviceAccountName: mysql-kf
+      automountServiceAccountToken: false
       restartPolicy: OnFailure
       containers:
         - name: fix-indices

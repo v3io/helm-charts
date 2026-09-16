@@ -58,6 +58,7 @@ spec:
         resources:
 {{ toYaml .Values.resources.visualizationServer | indent 10 }}
       serviceAccountName: ml-pipeline-visualizationserver
+      automountServiceAccountToken: false
 {{- with .Values.nodeSelector }}
       nodeSelector:
 {{ toYaml . | indent 8 }}

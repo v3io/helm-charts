@@ -44,6 +44,7 @@ configurations:
 
   ui:
     replicas: 1
+    enabled: true
 
   argo:
     kfpContainerRuntimeExecutor: emissary
