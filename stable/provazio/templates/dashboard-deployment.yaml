@@ -32,6 +32,10 @@ spec:
 {{- end }}
     spec:
       serviceAccountName: {{ template "provazio.dashboard.name" . }}
+{{- with .Values.dashboard.imagePullSecrets }}
+      imagePullSecrets:
+{{ toYaml . | nindent 8 }}
+{{- end }}
       containers:
       - env:
         - name: PROVAZIO_ENV_SPEC_PATH

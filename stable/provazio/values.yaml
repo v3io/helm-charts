@@ -5,6 +5,9 @@ additionalManagedNamespaces: []
 dashboard:
   enabled: false
 
+  # Optional list of imagePullSecret names in the release namespace (private registries).
+  imagePullSecrets: []
+
   image:
     repository: gcr.io/iguazio/provazio-dashboard
     tag: 0.24.90
@@ -189,6 +192,8 @@ controller:
 
 vault:
   enabled: false
+
+  imagePullSecrets: []
 
   image:
     repository: gcr.io/iguazio/provazio-vault

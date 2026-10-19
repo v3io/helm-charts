@@ -31,6 +31,10 @@ spec:
 {{- end }}
     spec:
       serviceAccountName: {{ template "provazio.vault.name" . }}
+{{- with .Values.vault.imagePullSecrets }}
+      imagePullSecrets:
+{{ toYaml . | nindent 8 }}
+{{- end }}
       containers:
       - env:
         - name: PROVAZIO_ENV_SPEC_PATH
