@@ -110,35 +110,35 @@ images:
 
   argoexec:
     repository: quay.io/argoproj/argoexec
-    tag: v3.7.11
+    tag: v3.7.18
 
   workflowController:
     repository: quay.io/argoproj/workflow-controller
-    tag: v3.7.11
+    tag: v3.7.18
 
   apiServer:
     repository: ghcr.io/kubeflow/kfp-api-server
-    tag: 2.16.0
+    tag: 2.18.0
 
   persistenceagent:
     repository: ghcr.io/kubeflow/kfp-persistence-agent
-    tag: 2.16.0
+    tag: 2.18.0
 
   scheduledworkflow:
     repository: ghcr.io/kubeflow/kfp-scheduled-workflow-controller
-    tag: 2.16.0
+    tag: 2.18.0
 
   ui:
     repository: ghcr.io/kubeflow/kfp-frontend
-    tag: 2.16.0
+    tag: 2.18.0
 
   viewerCrdController:
     repository: ghcr.io/kubeflow/kfp-viewer-crd-controller
-    tag: 2.16.0
+    tag: 2.18.0
 
   visualizationServer:
     repository: ghcr.io/kubeflow/kfp-visualization-server
-    tag: 2.16.0
+    tag: 2.18.0
 
   metadata:
     container:
@@ -150,11 +150,11 @@ images:
 
   metadataEnvoy:
     repository: ghcr.io/kubeflow/kfp-metadata-envoy
-    tag: 2.16.0
+    tag: 2.18.0
 
   metadataWriter:
     repository: ghcr.io/kubeflow/kfp-metadata-writer
-    tag: 2.16.0
+    tag: 2.18.0
 
   mysqlLegacy:
     repository: gcr.io/iguazio/mysql-legacy

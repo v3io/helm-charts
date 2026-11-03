@@ -36,28 +36,22 @@ data:
 
 {{- else if eq .Values.storageMode.kind "v3io" }}
 data:
-  config: |
-    {
-      namespace: {{ .Release.Namespace }},
-      artifactRepository:
-      {
-          s3: {
-              bucket: {{ .Values.storage.artifacts.containerName }},
-              keyPrefix: mlpipeline,
-              endpoint: v3io-webapi.{{ .Release.Namespace }}:{{ .Values.configurations.ports.nginxPort }},
-              insecure: {{ .Values.storageMode.minio.insecure }},
-              accessKeySecret: {
-                  name: v3io-webapi-secret,
-                  key: accesskey
-              },
-              secretKeySecret: {
-                  name: v3io-webapi-secret,
-                  key: secretkey
-              }
-          },
-          archiveLogs: {{ if hasKey .Values.storageMode "archiveLogs" }}{{ .Values.storageMode.archiveLogs }}{{ else }}true{{ end }}
-      }
-    }
+  # Argo accepts either a single "config" item or separate top-level items, never both.
+  # Keep these as separate items so that "executor" can be set alongside them.
+  namespace: {{ .Release.Namespace }}
+  artifactRepository: |
+    archiveLogs: {{ if hasKey .Values.storageMode "archiveLogs" }}{{ .Values.storageMode.archiveLogs }}{{ else }}true{{ end }}
+    s3:
+      bucket: {{ .Values.storage.artifacts.containerName }}
+      keyPrefix: mlpipeline
+      endpoint: v3io-webapi.{{ .Release.Namespace }}:{{ .Values.configurations.ports.nginxPort }}
+      insecure: {{ .Values.storageMode.minio.insecure }}
+      accessKeySecret:
+        name: v3io-webapi-secret
+        key: accesskey
+      secretKeySecret:
+        name: v3io-webapi-secret
+        key: secretkey
   executor: |
     imagePullPolicy: IfNotPresent
     securityContext:
